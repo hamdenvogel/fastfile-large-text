@@ -1,0 +1,587 @@
+"  Filter (Ctrl+L) .... View over index; Yes=prefix / No=contains / OK=VBScript regex"	JA	EN="  Filter (Ctrl+L) .... Docked FilterBar: type/select pattern (MRU 20), Apply/Continue/Clear/Hide); match via Options (prefix/contains/regex)"
+"  Filter is view-only (no disk rewrite). Regex uses Windows VBScript.RegExp on each line preview."	JA	EN="  Filter is view-only (no disk rewrite). Docked FilterBar (Ctrl+L)); match mode in Options; regex = VBScript.RegExp per line."
+" (DEFAULT view)"	PTPT
+" Attributes "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+" Size "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"%d line(s) inserted starting at line %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"%d line(s) pasted starting at line %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"%d marked lines were copied to the clipboard."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"&About FastFile"	PTPT
+"&Clear"	PTPT
+"&Delete line"	PTPT
+"&Edit"	PTPT
+"&Edit line"	PTPT
+"&File"	PTPT
+"&Find..."	PTPT
+"&Go to line..."	PTPT
+"&Help"	PTPT
+"&Help / Shortcuts"	PTPT
+"&Merge lines"	PTPT
+"&More info / Splash..."	PTPT
+"&Next bookmark"	PTPT
+"&Open file..."	PTPT
+"&Options"	PTPT
+"&Toggle bookmark"	PTPT
+"&Word wrap"	PTPT
+"(Processed %d of %d selected/visible lines.)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"1 marked line was copied to the clipboard."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"AI (RAG) workspace panel."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"About"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"About FastFile"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Accessed"	PTPT
+"Active"	PTPT
+"Add-ons"	PTPT
+"Advanced Text Editor"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"After Date:"	PTPT
+"After Time:"	PTPT
+"All"	PL,PTPT,RO,HU,CZ,JA
+"All files (*.*)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"All files (*.*)|*.*"	PL,PTPT,RO,HU,CZ,JA
+"All visible lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Allow"	PTPT
+"Allow animation"	PTPT
+"Already running..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Appearance"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Application language"	PTPT
+"Apply to:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Archive"	PTPT
+"Ask AI"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"At Least:"	PTPT
+"At Most:"	PTPT
+"Attributes"	PTPT
+"Auto scaling"	PL,PTPT,RO,HU,CZ,JA
+"Batch delete: %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Batch insert: %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Batch paste %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Before Date:"	PTPT
+"Before Time:"	PTPT
+"Bookmark limit reached (10,000)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Broad matcher - narrow with surrounding delimiter context if you see false positives."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Broad pattern that may touch multiple numeric columns - prefer anchoring with column-specific prefixes when possible."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Broken pipe while sending lines."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"By comparing sample lines, the first column where characters differ is around position %d. Digit tokens observed there include: %s. Sorting the file by the field that should drive splitting usually gives meaningful parts."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Byte position in file (1-based; $ prefix for hex):"	JA	EN="Byte position in file (1-based); $ prefix for hex):"
+"Byte position is out of range for this file."	JA
+"Bytes"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"C&lose"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"CANCEL = abort."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"CSV mode disabled."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"CSV mode enabled."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Calculator"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Captures the first long run of digits at the line start. Tune the minimum length {10,} after measuring columns in your layout."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Case Sensitive"	PTPT
+"Case sensitive"	PL,PTPT,RO,HU,CZ,JA
+"Change scaling"	PTPT
+"Check to enable this option."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Choose an option from the list."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Choose output file name for split by lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Clear\r\nCtrl+Shift+X"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Clear a&ll bookmarks"	PTPT
+"Clear editor"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Clear output"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Click to execute this action."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Close\r\nCtrl+Shift+W"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Close the current tab and return to main view."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Close this window"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Column \"%s\" in the sample suggests a 1/0 style flag after an ISO-like timestamp; adjust literals if your timestamp differs."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Column 1 in the sampled rows appears numeric-only - pattern grabs leading digits."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Column 1 mixes token shapes - pattern captures the first non-whitespace field."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Combine multiple tests if one rule is insufficient."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Combine with item 5 if you need both shape and business-rule checks."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Community: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Compare / Merge + History"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Compare / merge\r\nCtrl+Shift+H"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Compile error"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Compiled OK - processing lines..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Compiling..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Compressed"	PTPT
+"Confirm AI processing"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Confirmation"	PTPT
+"Confirms the line has exactly the expected number of delimiter-separated fields for this layout."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Contact the author right now !"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Content exported to memo."	PTPT
+"Contents copied to the clipboard. Just paste (CTRL+V)."	PTPT
+"Continue with split now?"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Copy all"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Copy preview line"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Copy selection to clipboard (same as Ctrl+C)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Could not compute split boundaries: file too small for the requested number of parts."	JA
+"Could not detect CSV format in this file."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Could not finalize save (rename). Error %d: %s"	PTPT,JA
+"Could not finalize script processing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Could not initialize COM for the regex filter."	JA
+"Could not open output file for large-file mode."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Could not open source file: "	PL,PTPT,RO,HU,CZ,JA
+"Could not resolve insertion position. Read destination file again and retry."	PL,PTPT,RO,HU,CZ,JA
+"Could not resolve line for that byte position."	JA
+"Could not send script to engine."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Could not start fast file processing in script engine."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Could not start fast tail processing in script engine."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Count character positions with a fixed font or specification sheet, then edit each (. {n} ) length. This example splits into four segments and inserts semicolons."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Created"	PTPT
+"Creation Date:"	PTPT
+"Ctrl+ shortcuts are shown to the right of each menu command."	JA
+"Custom"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Custom PPI: "	PTPT
+"Custom PixelsPerInch value"	PL,PTPT,RO,HU,CZ,JA
+"Cut"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Date && Time"	PTPT
+"Delete"	PTPT
+"Delete %d selected line(s) from the file?"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Delete Lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Delete confirmation"	PTPT
+"Delete lines\r\nCtrl+Shift+D"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Delete selected lines from the file."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Delimiters: \"-\" for ranges, \",\" or \";\" for specific lines.\rSpaces are ignored."	PL,PTPT,RO,HU,CZ,JA	EN="Delimiters: \"-\" for ranges, \",\" or \");\" for specific lines.\rSpaces are ignored."
+"Destination file is in use by another process: "	PL,PTPT,RO,HU,CZ,JA
+"Destination file must have at least 2 lines for insertion by line."	PL,PTPT,RO,HU,CZ,JA
+"Destination file not found."	PL,PTPT,RO,HU,CZ,JA
+"Detailed Info"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Detected host/path style domain sample from column data: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Detected on file: "	PTPT
+"Device"	PTPT
+"Directory"	PTPT
+"Disabled"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Does not re-read file. DEFAULT = BOM/heuristics."	PTPT
+"Does not re-read file. Pick UTF-8 / ANSI / UTF-16 / UTF-32 to force."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"E&xit"	PTPT
+"Each block explains the goal, then shows Regex:, then Logic:. FastFile uses VBScript.RegExp (no (?<=...) lookbehind)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Each block has a short explanation, then a line starting with Regex:, then Logic:. FastFile uses VBScript.RegExp - lookbehind (?<=...) is not supported; lookahead (?=...) is supported."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Edit\r\nCtrl+Shift+I"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Edit / index"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Edit line replacements (.delta) and merge into the current file (ReadFileThread). Saves a .delta next to the app and runs merge in background."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Edit selected lines in the file."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Edit the lines to replace in the file, then click Merge. Select a row to edit it."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Elapsed time: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Encrypted"	PTPT
+"English"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Enter a word to search in the file"	PL,PTPT,RO,HU,CZ,JA	EN="Enter a word to find in the file"
+"Enter search text."	PL,RO,HU,CZ,JA	EN="Enter text to find."
+"Enter the lines to export (e.g. 1-4 or 1,4,10):"	PL,PTPT,RO,HU,CZ,JA
+"Equal parts\r\nCtrl+Shift+P"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Equal-length splits without Regex"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Error: "	PL,PTPT,RO,HU,CZ,JA
+"Estimated output files (approx., based on sample): %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Example targets \",1,\" style markers - edit spacing and commas for your delimiter style."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Exclude files that match the entered text."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Excluded"	PTPT
+"Executable not found"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Executable not found: "	PL,PTPT,RO,HU,CZ,JA
+"Execute"	PTPT
+"Exit"	PTPT
+"Exp&ort"	PTPT
+"Export\r\nCtrl+Shift+O"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Export Lines"	PL,PTPT,RO,HU,CZ,JA
+"Export finished! File saved to: %s"	JA
+"Export finished! Lines copied to clipboard."	JA
+"Export to ClipBoard"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Export..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Exported Lines"	PTPT
+"Exporting"	PTPT
+"Extended\r\nborders"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Extract parts\r\nCtrl+Shift+Q"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Extracts digit sequences that do not start with zero and have length four or more - helps ignore long padding fields."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Failed to delete lines: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"FastFile - Help & Feature Reference"	PTPT
+"FastFile - Huge text file processor"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"FastFile auto-generated regex examples (dynamic — from file content):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"FastFile is a powerful tool designed specially to read and edit huge text files from Windows O.S. It is suitable not only for very large files, but can be files of any size.\r\n\t\r\nWith this software you can perform CRUD (Create, read, update and delete) line operations for large files.     \r\n\r\nFreeware. You can use it freely without restrictions.\r\nThis software is distributed under the Mozilla Public License 1.0 (MPL-1.0)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Fil&ter / Grep"	PTPT
+"File Info"	PTPT
+"File Name (Separate multiple names with semicolon):"	PTPT
+"File changed on disk since load"	JA,ZHCN,ZHTW	EN="The file was modified on disk since it was loaded here.\r\n\r\nYes = Reload from disk and cancel this action.\r\nNo = Ignore and continue (overwrite the file on disk).\r\nCancel = Abort."
+"File name:"	PTPT
+"File not found."	PL,RO,HU,CZ,JA
+"File not loaded"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"File path:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"File toolbar"	PTPT
+"FileFormat.Encoding.HintRightClick"	EN,PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Files"	PTPT
+"Files:"	PTPT
+"Filter keeps matching lines only - tune digit counts for %s after profiling real values."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Filter keeps only lines where the regex matches - combine with positional ^.{n} if you must anchor to a column."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Filter: line count too large for filter memory (32-bit limit)."	JA
+"Filtering (stream)..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Find"	PTPT
+"Find Files"	PTPT
+"Find and &Replace..."	PTPT
+"Find and Replace"	PL,PTPT,RO,HU,CZ,JA
+"Find what:"	PL,PTPT,RO,HU,CZ,JA
+"First line number to export."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Fixed layouts often encode record type in the first positions. First characters of line 1 (sample): %s."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Folders"	PTPT
+"Folders exclude"	PTPT
+"Footer (optional):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Footer to inject in every split file (optional, split mode only):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Force line-segmented mode (heavy ops)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Found at byte %s (~line %d)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"From line must be >= 1."	PL,PTPT,RO,HU,CZ,JA
+"From:"	PTPT
+"Full Version - Registered\r\n\r\nWindows XP .. Windows 11\r\nWin32 and Win64"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Generate a file using the selected line range."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Generating new file by source and target lines"	PTPT
+"Generating splitted files - max 100"	PTPT
+"Go to bottom (Ctrl+End)"	PL,PTPT,RO,HU,CZ,JA
+"Go to line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Go to line %d (byte %s)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Go to top (Ctrl+Home)"	PL,PTPT,RO,HU,CZ,JA
+"Header (optional):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Header to inject in every split file (optional, split mode only):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Help\r\nF1"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Hidden"	PTPT
+"Hide"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Hide the watermark?"	PTPT
+"Hints showing"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"History file preview (colors from journal; line numbers are as at edit time)."	JA	EN="History file preview (colors from journal); line numbers are as at edit time)."
+"Home page: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"How to interpret file bytes in the list (like Notepad++). Does not re-read the file.\r\nDEFAULT = use detected encoding (BOM / heuristics).\r\nEnabled after Read. Pick another option to see a change; same encoding may look identical."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Import"	PTPT
+"Import file extensions"	PTPT
+"In Split mode, each matching line starts a new output file (that line is the first line of the new part). Pick a pattern that matches only boundaries you want."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Include subfolders"	PTPT
+"Include subfolders in file search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Information"	PTPT
+"Information label."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Information panel."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Insert from prompt"	PTPT
+"Insert source at beginning (first line)."	PL,PTPT,RO,HU,CZ,JA
+"Insert source at end of destination file."	PL,PTPT,RO,HU,CZ,JA
+"Instant open: edits need a line map for correct file positions."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Instant open: no line index yet."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Invalid Regex:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Ir para linha"	PTPT	EN="Go to line"
+"It is under development."	PTPT
+"It will be removed from the list. Confirm ?"	PTPT
+"Journal colors:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Jump to a specific line number."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Keeps lines where eight consecutive digits appear just before the end."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Last line number to export."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"License"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Line"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Line #"	PTPT
+"Line Hints (ON)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Line number must be greater than 0."	PL,PTPT,RO,HU,CZ,JA
+"Line parameters are required."	PL,PTPT,RO,HU,CZ,JA
+"Line-segmented force:"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Line-segmented mode is ON: Replace All runs on line-aligned parts; matches that span a part boundary may be missed."	JA	EN="Line-segmented mode is ON: Replace All runs on line-aligned parts); matches that span a part boundary may be missed."
+"Line-segmented policy:"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Line:"	PL,PTPT,RO,HU,CZ,JA
+"Line: %d  Col: %d"	PTPT
+"Line: 0  Col: 0"	PTPT
+"Lines/Time:"	PL,PTPT,RO,HU,CZ,JA
+"Lines: %d"	PTPT
+"Links"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"List of files found by the current search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"List of generated files and ranges."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"List of items."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"List of lines and results."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"List view uses: "	PTPT
+"ListView zoom (Ctrl + mouse wheel)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Location"	PTPT
+"Location (Separate multiple directories with semicolon):"	PTPT
+"Logic:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Magnifier"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Managing"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Match mode emits captured text per occurrence; parentheses define what is extracted."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Match only whole words."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Match pulls captures per line - extend pattern for %s or other columns as needed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Match uppercase and lowercase exactly."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Matches lines whose first two characters are digits (example: record type). Widen to ^(\\d{3}) if your layout uses three type digits."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Maximum: 100,000 lines (file) / 500 lines (clipboard)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Memory Airbag activated! The file has more than 2 billion lines, exceeding the 32-bit Windows safe limit. Reading was automatically aborted to protect the system from crashing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Menu bar: Underlined letter = Alt+letter (example: Alt+F, E, V, T, S, O for File, Edit, View, Tools, Session, Options)."	JA
+"Merge Error: "	PL,PTPT,RO,HU,CZ,JA
+"Merge Files"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Merge Lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Merge completed in: %s millisecs."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Merge files\r\nCtrl+Shift+J"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Merge lines\r\nCtrl+Shift+M"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Merge mode"	PL,PTPT,RO,HU,CZ,JA
+"Merge multiple edited lines into the source file."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"NO = edit using physical line count from file start (slow on huge files)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"NO = search by bytes now (estimated line in status bar)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Name"	PTPT
+"Name && Location"	PTPT
+"Narrow the surrounding context once you identify which column must exceed a threshold."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Navigate quickly through loaded lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"No active filter. Press Ctrl+L first."	PL,RO,HU,CZ,JA
+"No bookmarks found in current filter results."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"No bookmarks set."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"No file selected."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"No line index is available for search (dense index and checkpoint file are missing). Please read the file again."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"No lines entered. Operation cancelled."	PL,RO,HU,CZ,JA
+"No match found among the current filter lines."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"No match on current line."	PTPT
+"No match selected. Use Find Next first."	PTPT
+"No stable 8-digit trailer was inferred - generic pattern."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Not Content Indexed"	PTPT
+"Not connected"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Not enough lines in the file for this many parts (lines: %d, parts: %d)."	JA
+"Not enough stable variation was detected between lines - try counting fixed positions manually, then refine this pattern."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Not found"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Not found in filter"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Note about the disclaimer: I do not accept any responsibility about the usability or in case of any damage caused by the use of my programs or files. Use them at your own risk. If they don’t work properly, you have the sources."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Note: file is very large, preview was truncated for responsiveness."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Numero da linha (1.."	PTPT	EN="Line number (from 1 to "
+"Ok, I will not show it again."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Open"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Open File Location"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Open and edit multi-gigabyte text files instantly - where other editors can't keep up. Exclusive features like Python macros, AI to extract/analyze files, and much more."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Open split file tools."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Open the Find Files tab."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Open the Read File tab."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Operation cancelled."	PTPT
+"Operation failed or cancelled."	PL,PTPT,RO,HU,CZ,JA
+"Output FileName:"	PTPT
+"Output:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Outputs true/false per line - ideal after CSV imports or conversions."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Parts are sized evenly by bytes; each part ends only after a complete line (LF). Part sizes may differ slightly."	JA	EN="Parts are sized evenly by bytes); each part ends only after a complete line (LF). Part sizes may differ slightly."
+"Paste clipboard lines into file at selected line"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Pattern/Regex\r\nCtrl+Alt+P"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Pattern/Regex is evaluated line-by-line. In Split mode: a new part starts when a line matches. In Regex modes: a single output file is produced. JS-style /pattern/gi syntax is accepted."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Pattern/Regex:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Please enter a Python script in the editor."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Please enter a valid file list, one per line, example"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Please enter a valid line number."	PL,PTPT,RO,HU,CZ,JA
+"Please read a file first."	PL,RO,HU,CZ,JA
+"Please read the file first."	PL,RO,HU,CZ,JA
+"Please select a file first."	PL,RO,HU,CZ,JA
+"Please select a file."	PL,RO,HU,CZ,JA
+"Please select a line first."	PL,PTPT,RO,HU,CZ,JA
+"Please select or check one or more lines first."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Please select/read the destination file first."	PL,PTPT,RO,HU,CZ,JA
+"Please specify an output filename."	PL,PTPT,RO,HU,CZ,JA
+"Portuguese (Brazil)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Pr&evious bookmark"	PTPT
+"Preparing editing"	PTPT
+"Preview summary (sampled): %d matching lines in first %d lines scanned."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Preview summary: file is too large to auto-validate. Click Preview to sample matches (fast), or Confirm to run full processing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Prices: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Processing ..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Processing diff..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Protection Activated (FastFile)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Python Macro Integration"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Random Skin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Read\r\nCtrl+1"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Read\r\nF5"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Read / &Load"	PTPT
+"Read / Load (F5)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Read File"	PTPT
+"Read the selected file and load its lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Read-only session is enabled. Turn it off in Options to edit or save the file."	JA
+"Read-only session is enabled. Turn it off to modify the file."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Readonly"	PTPT
+"Recent"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Redo"	PTPT
+"Redo: paste %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex %s completed. %d line(s) processed in %s.\r\nOutput: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex %s completed. %d line(s) processed in %s. Output: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex Test: Write \"true\"/\"false\""	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex filter - keep only lines where regex matches         (like JS filter)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex filter requires a line index. Choose YES to index first, or use plain text."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex match - extract all occurrences from each line  (like JS match)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex replace - replace matches in every line              (like JS replace)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Regex test - write \"true\"/\"false\" for every line        (like JS test)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Remove selected file from recent list?"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Removes trailing -2 / -3 style duplicates while keeping the canonical slug."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Rename reported success but target file is missing."	JA
+"Reparse Point"	PTPT
+"Replace All"	PTPT
+"Replace All completed. %d replacement(s). Time: %s ms."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Replace all occurrences of \""	PTPT
+"Replace runs on each line; $1..$4 refer to the captured groups from left to right."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Replace substitutes only capture group 2 while keeping the honorific in group 1."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Replace with:"	PL,PTPT,RO,HU,CZ,JA
+"Replace-all stopped at the safety limit of %d matches. The file was not modified."	JA
+"Replaced on line "	PTPT
+"Replacement text (used by \"Regex replace\" mode only):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Return"	PTPT
+"Run"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Run error"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Run script"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Run search in background threads."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"S&elect (checkbox list)"	PTPT
+"Same 8-digit trailer on all scanned lines - this pattern matches every line or none; narrow using column-specific substring tests if needed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Sample lines (raw, from current file):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Sample lines from file (dynamic — changes when you pick another file):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Sample tokens inferred from your columns - primary (region-like): \"%s\". Alternate token useful when categories drive file boundaries: \"%s\". Sort by the active key before splitting so each part stays coherent."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Save file"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Save output..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Save to text file instead of clipboard"	PL,PTPT,RO,HU,CZ,JA
+"Script (define transform(line, ctx) -> str | None):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Script engine is not running."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Search (Enter in search box)"	PL,PTPT,RO,HU,CZ,JA	EN="Find (Enter in search box)"
+"Search / index"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Search error"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Search error: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Search for the typed text in the loaded lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Find the typed text in the loaded lines."
+"Secondary pattern (same mode): Regex: ^.*,%s,.*$"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Segmented ops: &automatic (recommended)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Segmented ops: automatic (recommended)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Segmented replace: invalid line index in temp.txt."	JA
+"Select\r\nCtrl+Shift+S"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Select\r\nskin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Select Skin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Select lines to merge into one (current line stays as target)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Select skin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Select the source file to read."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"SelectSkin dialog"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Selected / checked lines only"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Sending lines..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Server returned HTTP status %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Session loaded."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Session saved."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Set how many files should be generated."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Short Overview"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Shortcut: "	PTPT
+"Show CheckBoxes"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Show Hints"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Show help and shortcuts."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Show hover hints on lines and on all controls"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Show/hide app icon"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Size && Attributes"	PTPT
+"Skin name:"	PTPT
+"Skinned"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Source file (type path or use picker):"	PL,PTPT,RO,HU,CZ,JA
+"Source file is required."	PL,PTPT,RO,HU,CZ,JA
+"Source file not found."	PL,PTPT,RO,HU,CZ,JA
+"Sparse File"	PTPT
+"Specifications"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Spl&it Files"	PTPT
+"Split"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split - start a new file when a delimiter-separated token appears"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split By Files"	PTPT
+"Split By Lines"	PTPT
+"Split Error: "	PL,PTPT,RO,HU,CZ,JA
+"Split File"	PTPT
+"Split Files\r\nCtrl+Shift+K"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split by Pattern/Regex"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split into Equal Parts"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split mode opens a new output file at every line where Test(regex) is true - tighten the wildcards so only real boundaries match."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split source file into multiple files."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Split: equal parts (N parts, preserving complete lines)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Split: start a new file when a line matches (pattern/regex)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"SplitEqualParts.CancelledOrIncomplete"	JA	EN="The split operation did not finish. No success confirmation is available (for example, the task was interrupted or stopped early)."
+"SplitEqualParts.FailureFormat"	JA	EN="The split operation could not be completed.\r\n\r\nDetails:\r\n%s"
+"SplitEqualParts.SuccessFormat"	JA	EN="The split operation finished successfully.\r\n\r\nParts written: %d\r\n\r\nOutput folder:\r\n%s\r\n\r\nFirst output file:\r\n%s\r\n\r\nLast output file:\r\n%s\r\n\r\nElapsed time: %s"
+"SplitFileFraction.CancelledOrIncomplete"	JA	EN="The parts export did not finish. No success confirmation is available (for example, the task was interrupted)."
+"SplitFileFraction.FailureFormat"	JA	EN="The parts export could not be completed.\r\n\r\nDetails:\r\n%s"
+"SplitFileFraction.FromPartLabel"	JA	EN="First part to export (1 = first part):"
+"SplitFileFraction.Hint"	JA	EN="Uses the same LF-safe boundaries as \"equal parts\": lines are never cut in the middle. Output files: basename.part_1_of_8.ext (keywords translated in the filename)."
+"SplitFileFraction.InvalidRange"	JA	EN="Invalid parts range: total parts must be at least 2 and the part interval must be valid."
+"SplitFileFraction.LogSummary"	JA	EN="Extract file parts: %d file(s) -> %s"
+"SplitFileFraction.NoPartsExported"	JA	EN="No part files were written (check the part range and try again)."
+"SplitFileFraction.PartsRangeError"	JA	EN="Part range must be between 1 and %d, with the first part less than or equal to the last."
+"SplitFileFraction.PreviewInvalid"	JA	EN="Invalid range: first part must be less than or equal to last part."
+"SplitFileFraction.PreviewRange"	JA	EN="Will export parts %d to %d of %d (e.g. %d/%d through %d/%d)."
+"SplitFileFraction.PreviewSingle"	JA	EN="Will export only part %d of %d (%d/%d)."
+"SplitFileFraction.SuccessFormat"	JA	EN="Export finished successfully.\r\nFiles written: %d (parts %d to %d of %d)\r\nOutput folder: %s\r\nFirst file: %s\r\nLast file: %s\r\nElapsed time: %s"
+"SplitFileFraction.ToPartLabel"	JA	EN="Last part to export (same as first for a single part):"
+"SplitFileFraction.TotalPartsLabel"	JA	EN="Total equal parts (denominator, 2..1000):"
+"Stable Version:\r\n\r\nCompatible Windows versions:\r\nSupported platforms:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Standard"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Start searching files with current filters."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Start finding files with current filters."
+"Stop"	PTPT
+"Stop\r\nanimation"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Stop the current file search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Streaming replace writes a temp file, then swaps it over the original when possible. Free disk space is checked first. A safety limit on match count applies. This cannot be undone."	JA
+"Switch to checkbox selection mode."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"System"	PTPT
+"Tab content."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Table with results."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Tail / &Follow mode"	PTPT
+"Tail OFF"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail ON"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail PAUSED"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail PAUSED +%d new lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail captured 0 line(s)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail is OFF - press Ctrl+T to follow the file again."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail is ON - new lines at end of file are followed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail macro: chunk done, %d OK - next chunk..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Tail macro: index file temp.txt not found - read the file (F5) first."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Targets Dr./Dra. patterns together with the following name field (%s). VBScript-safe (no lookbehind)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Temporary"	PTPT
+"Test writes true or false per input line - ideal for quickly validating row types."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Text"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Text files (*.txt)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Text not found."	PT,ES,FR,DE,IT,PL,RO,HU,CZ,JA,ZHCN,ZHTW
+"The last eight digits of the final digit island on the first line look like %s (often a DDMMYYYY-style date)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"This file is very large. The app will skip the full pre-scan (counting matches) to keep the UI responsive."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"This line is not in the current filter results."	JA
+"Threaded Search"	PTPT
+"Tip: press ESC to cancel."	PL,PTPT,RO,HU,CZ,JA
+"To line must be >= From line."	PL,PTPT,RO,HU,CZ,JA
+"To split into N equal parts by line count or size, use FastFile's equal-parts workflow instead of Regex - Regex cannot count lines across the whole file in one Test call."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"To:"	PTPT
+"Toggle Word Wrap (Ctrl+W)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Toolbar hint: Compare / merge (Ctrl+Shift+H)"	JA	EN="Compare / merge + history (Ctrl+Shift+H)"
+"Toolbar hint: Filter / Grep (Ctrl+L)"	JA	EN="Filter / Grep (Ctrl+L)"
+"Toolbar hint: Find (Ctrl+F)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Find text (Ctrl+F)"
+"Toolbar hint: Find and replace (Ctrl+H)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Find and replace (Ctrl+H)"
+"Toolbar hint: Line hover hints (ListView and Select mode)"	JA	EN="Show hover hints on lines and on all controls (assistant, filter, toolbar)"
+"Toolbar hint: Show marks (Ctrl+Alt+M)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Show tab/space/CR/LF marks (Ctrl+Alt+M)"
+"Toolbar hint: Word wrap (Ctrl+W)"	JA	EN="Word wrap (Ctrl+W)"
+"Toolbar hint: Zoom in (Ctrl+Plus)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Zoom in on list font (Ctrl+Plus)"
+"Toolbar hint: Zoom out (Ctrl+Minus)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Zoom out on list font (Ctrl+Minus)"
+"Tools"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Top toolbar"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Total characters:"	PTPT
+"Tutorials: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Type a value here."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Type file name patterns to search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Type file name patterns to find."
+"Type folders where files should be searched."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Type or choose the file path."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Type text content to find inside files."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA
+"Type text to search within loaded lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	EN="Type text to find within loaded lines."
+"Typed text:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Undo"	PTPT
+"Useful links:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Useful to sample IDs and amounts embedded between runs of zeros."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Useful when a column stores URLs; anchors may need quotes or extra delimiters for your file."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"VBScript.RegExp is not available (invalid pattern or missing component)."	JA
+"View encoding: default (list follows detected BOM/heuristics)."	JA
+"View encoding: forced (list decode only; file on disk unchanged)."	JA
+"View: ANSI (raw / system)"	PTPT
+"View: DEFAULT (detected)"	PTPT
+"View: UTF-16 BE"	PTPT
+"View: UTF-16 LE"	PTPT
+"View: UTF-32 BE"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"View: UTF-32 LE"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"View: UTF-8"	PTPT
+"Waiting engine output..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Whole Word"	PTPT
+"Whole word"	PL,PTPT,RO,HU,CZ,JA
+"Word Wrap (ON)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Write"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Writing"	PTPT
+"YES = build line index now (full disk pass, exact line numbers)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"YES = build line index now (recommended)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"You can use the Preview button in the dialog to sample matches quickly."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"Your first line begins with sixteen consecutive digits. They are grouped here as two blocks of eight (common for dates or IDs). Adjust grouping if your specification names different field widths."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"ZeroScan.DiscoveringLastLine"	JA	EN="Discovering last line (counting line breaks in the file, please wait)..."
+"ZeroScan.LastLineApprox"	JA	EN="End of file (~line %d, byte %s); proportional estimate)"
+"ZeroScan.LastLineCached"	JA	EN="End of file (line ~%d, byte %s); cached)"
+"[Line preview limited to %s bytes for performance; file line total %s bytes.]"	JA
+"[ReplaceAll] Segmented output missing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"[ReplaceAll] Segmented part failed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"[Save note] DEFAULT follows detection; a forced view only changes list decoding until an operation rewrites the file on disk."	JA
+"[Scan] Based on the first %d non-empty lines (maximum %d). Detected delimiter [%s], fields: %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"[Scan] Based on the first %d non-empty lines read from this file (maximum %d). Layout: fixed-width / positional (few delimiter characters on line 1)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"animation"	PTPT
+"filter"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"match"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"more technical info ..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"regex"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"replace"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"resp: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"saved"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW
+"FastFile AI connected"	PL,PTPT,RO,HU,CZ,JA
+"Initializing FastFile AI..."	PL,PTPT,RO,HU,CZ,JA
+"FastFile AI - Version "	PL,PTPT,RO,HU,CZ,JA
+"loading IA support ..."	PL,PTPT,RO,HU,CZ,JA
+"French"	PL,PTPT,RO,HU,CZ
+"German"	PL,PTPT,RO,HU,CZ
+"Italian"	PL,PTPT,RO,HU,CZ
+"Spanish"	PL,PTPT,RO,HU,CZ
+"Export to Clipboard"	JA
+"System Ready"	JA

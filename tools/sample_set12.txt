@@ -1,0 +1,2 @@
+Set12(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA: string)

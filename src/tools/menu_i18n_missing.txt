@@ -1,0 +1,32 @@
+&Load session now
+&Save session now
+About
+About FastFile
+C&SV / Column mode
+CSV: show header row as &data
+Calculator
+Compare / merge + &history tab
+Compare / merge + session history
+Delete Lines
+E&xport tail / filtered lines
+Export to ClipBoard
+File size
+Filename
+ID
+Insert &multiple lines...
+Magnifier
+Random Skin
+Recent files startup screen
+Select Skin
+SelectSkin dialog
+Show &marks (tab/space/CR/LF, etc.)
+Show CheckBoxes
+Show Hints
+Source line
+Split file by Pattern/Regex
+Tail macro - reprocess new lines
+Target line
+Tools
+Top toolbar
+Word Wrap (ON)
+Write

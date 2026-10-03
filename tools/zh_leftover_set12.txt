@@ -1,0 +1,23 @@
+implified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+begin
+  Set12(
+    'MergeFiles.Progress.Backup',
+    'Creating safety backup...',
+    'Criando copia de seguranca...',
+    'Creando copia de seguridad...',
+    'Cr'#233'ation de la sauvegarde...',
+    'Sicherungskopie wird erstellt...',
+    'Creazione backup di sicurezza...',
+    'Tworzenie kopii zapasowej...',
+    'A criar copia de seguranca...',
+    'Se creeaza copia de siguranta...',
+    'Biztonsagi mentes keszitese...',
+    'Vytvareni zalozni kopie...',
+    '安全バックアップを作成しています...');
+  Set12(
+    'MergeFiles.Progress.Appending',
+    'Appending source to end of destination...',
+    'Anexando origem 

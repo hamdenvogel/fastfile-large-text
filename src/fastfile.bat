@@ -1,0 +1,1 @@
+upx Build\FastFile.exe

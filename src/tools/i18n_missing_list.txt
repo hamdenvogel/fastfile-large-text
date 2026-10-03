@@ -1,0 +1,612 @@
+"FileFormat.Encoding.HintRightClick"	EN,PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:31970;MainUnit.pas:31976
+"www.alphaskins.com/forum"	EN,PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3145
+"www.alphaskins.com/pchase.php"	EN,PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3105
+"www.alphaskins.com/showdoc.php"	EN,PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3085
+" Attributes "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5352
+" Size "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5508
+"%d line(s) inserted starting at line %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:45283
+"%d line(s) pasted starting at line %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:45286
+"(Processed %d of %d selected/visible lines.)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15186
+"1 linha marcada foi copiada para a área de transferência."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:37287
+"AI (RAG) workspace panel."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:8155
+"About"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:249;MainUnit.dfm:358
+"About FastFile"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnFormAboutFF.dfm:6
+"Advanced Text Editor"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSplash.dfm:137431
+"All files (*.*)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:14135;MainUnit.pas:14411
+"All visible lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11010
+"Already running..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13837
+"Appearance"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnitPopupToolGallery.dfm:209
+"Apply to:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10999
+"Ask AI"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uLineEditor.dfm:126
+"Batch delete: %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.pas:1252
+"Batch insert: %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.pas:1238
+"Batch paste %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:45332;MainUnit.pas:45335
+"Bookmark limit reached (10,000)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:48428;MainUnit.pas:48464
+"Broad matcher - narrow with surrounding delimiter context if you see false positives."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5424
+"Broad pattern that may touch multiple numeric columns - prefer anchoring with column-specific prefixes when possible."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5480
+"Broken pipe while sending lines."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13765;MainUnit.pas:13772
+"By comparing sample lines, the first column where characters differ is around position %d. Digit tokens observed there include: %s. Sorting the file by the field that should drive splitting usually gives meaningful parts."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4974
+"Bytes"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:items
+"C&lose"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6094
+"CANCEL = abort."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39983;MainUnit.pas:40778
+"CSV mode disabled."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:36457
+"CSV mode enabled."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:36466
+"Calculator"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:8538
+"Cancelar"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.dfm:88
+"Captures the first long run of digits at the line start. Tune the minimum length {10,} after measuring columns in your layout."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4956
+"Clear\r\nCtrl+Shift+X"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3861
+"Clear editor"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11214
+"Clear output"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11160
+"Close\r\nCtrl+Shift+W"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:4000
+"Close this window"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:665
+"Column \"%s\" in the sample suggests a 1/0 style flag after an ISO-like timestamp; adjust literals if your timestamp differs."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5436
+"Column 1 in the sampled rows appears numeric-only - pattern grabs leading digits."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5408
+"Column 1 mixes token shapes - pattern captures the first non-whitespace field."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5413
+"Combine multiple tests if one rule is insufficient."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5444
+"Combine with item 5 if you need both shape and business-rule checks."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5438
+"Community: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3076
+"Compare / Merge + History"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5815
+"Compare / merge\r\nCtrl+Shift+H"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:495
+"Compile error"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15228;MainUnit.pas:6773
+"Compiled OK - processing lines..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15166
+"Compiling..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13937
+"Confirms the line has exactly the expected number of delimiter-separated fields for this layout."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5428
+"Contact the author right now !"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unMoreInfo.dfm:182646
+"Continue with split now?"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:26102
+"Copy all"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11106;MainUnit.pas:11628
+"Copy preview line"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.dfm:460
+"Copy selection to clipboard (same as Ctrl+C)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:50689
+"Could not detect CSV format in this file."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:36469
+"Could not finalize script processing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:6798;MainUnit.pas:6886
+"Could not open output file for large-file mode."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:14106
+"Could not send script to engine."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13740;MainUnit.pas:6761
+"Could not start fast file processing in script engine."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:6872
+"Could not start fast tail processing in script engine."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uTailMacro.pas:297
+"Count character positions with a fixed font or specification sheet, then edit each (. {n} ) length. This example splits into four segments and inserts semicolons."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5015
+"Custom"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6113
+"Cut"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uFastFileAssistant.pas:6175
+"Delete %d selected line(s) from the file?"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:29342
+"Delete Lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:39151
+"Delete lines\r\nCtrl+Shift+D"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3879
+"Detailed Info"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unMoreInfo.dfm:982
+"Detected host/path style domain sample from column data: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5464
+"Disabled"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6104
+"Does not re-read file. Pick UTF-8 / ANSI / UTF-16 / UTF-32 to force."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15949
+"Each block explains the goal, then shows Regex:, then Logic:. FastFile uses VBScript.RegExp (no (?<=...) lookbehind)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5390
+"Each block has a short explanation, then a line starting with Regex:, then Logic:. FastFile uses VBScript.RegExp - lookbehind (?<=...) is not supported; lookahead (?=...) is supported."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4898
+"Edit\r\nCtrl+Shift+I"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3943
+"Edit / index"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39984
+"Edit line replacements (.delta) and merge into the current file (ReadFileThread). Saves a .delta next to the app and runs merge in background."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3915
+"Edit the lines to replace in the file, then click Merge. Select a row to edit it."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uDeltaEditor.dfm:38
+"Elapsed time: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15180;MainUnit.pas:15226
+"English"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:items
+"Equal parts\r\nCtrl+Shift+P"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:423
+"Equal-length splits without Regex"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5401
+"Estimated output files (approx., based on sample): %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4043
+"Example targets \",1,\" style markers - edit spacing and commas for your delimiter style."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5442
+"Executable not found"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10604;MainUnit.pas:13854
+"Export\r\nCtrl+Shift+O"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3981
+"Export finished! File saved to: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading_utf8.pas:1374
+"Export to ClipBoard"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:39171
+"Export..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10866;MainUnit.pas:11062
+"Extended\r\nborders"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:286
+"Extract parts\r\nCtrl+Shift+Q"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:531
+"Extracts digit sequences that do not start with zero and have length four or more - helps ignore long padding fields."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5041
+"Failed to delete lines: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:29427
+"FastFile  â€”  Start"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uWelcomeScreen.dfm:6
+"FastFile - Huge text file processor"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unSplitView.dfm:1084
+"FastFile auto-generated regex examples (dynamic — from file content):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uFastFileAIScreenHelp.pas:492
+"FastFile is a powerful tool designed specially to read and edit huge text files from Windows O.S. It is suitable not only for very large files, but can be files of any size.\r\n\t\r\nWith this software you can perform CRUD (Create, read, update and delete) line operations for large files.     \r\n\r\nFreeware. You can use it freely without restrictions.\r\nThis software is distributed under the Mozilla Public License 1.0 (MPL-1.0)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unSplitView.dfm:65
+"Features"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSearch.dfm:13
+"File not loaded"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13974;MainUnit.pas:13982
+"Filter keeps matching lines only - tune digit counts for %s after profiling real values."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5476
+"Filter keeps only lines where the regex matches - combine with positional ^.{n} if you must anchor to a column."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5030
+"Filtering (stream)..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:47432;MainUnit.pas:47491
+"Fixed layouts often encode record type in the first positions. First characters of line 1 (sample): %s."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5007
+"Footer (optional):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:24821;MainUnit.pas:25135
+"Footer to inject in every split file (optional, split mode only):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:18092
+"Found at byte %s (~line %d)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:40893
+"Found words below:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSearch.dfm:27
+"Full Version - Registered\r\n\r\nWindows XP .. Windows 11\r\nWin32 and Win64"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSplash.dfm:137498;unSplitView.dfm:1049
+"GNU General Public Licence"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnFormAboutFF.dfm:97662
+"Go to line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:21663;MainUnit.pas:41082
+"Go to line %d (byte %s)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39918
+"Header (optional):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:24804;MainUnit.pas:25118
+"Header to inject in every split file (optional, split mode only):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:18071
+"Help\r\nF1"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:4037
+"Hide"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:15181
+"Hints showing"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5912
+"Home page: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3166
+"How to interpret file bytes in the list (like Notepad++). Does not re-read the file.\r\nDEFAULT = use detected encoding (BOM / heuristics).\r\nEnabled after Read. Pick another option to see a change; same encoding may look identical."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:94
+"In Split mode, each matching line starts a new output file (that line is the first line of the new part). Pick a pattern that matches only boundaries you want."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4981
+"Instant open: edits need a line map for correct file positions."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39980
+"Instant open: no line index yet."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:40775
+"Invalid Regex:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:3907;MainUnit.pas:3996
+"Journal colors:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.pas:3000;uCompareMergeUI.pas:3001
+"Keeps lines where eight consecutive digits appear just before the end."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5037
+"License"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unMoreInfo.dfm:51;unMoreInfo.dfm:65
+"Line"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.dfm:107;uCompareMergeUI.dfm:321
+"Line Hints (ON)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:4123
+"Links"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:707
+"ListView zoom (Ctrl + mouse wheel)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:138
+"Logic:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4830;MainUnit.pas:5213
+"Magnifier"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:8534;MainUnit.dfm:8998
+"Managing"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5906
+"Match mode emits captured text per occurrence; parentheses define what is extracted."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4993
+"Match pulls captures per line - extend pattern for %s or other columns as needed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5418
+"Matches lines whose first two characters are digits (example: record type). Widen to ^(\\d{3}) if your layout uses three type digits."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4988
+"Maximum: 100,000 lines (file) / 500 lines (clipboard)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uExportDialog.dfm:55
+"Memory Airbag activated! The file has more than 2 billion lines, exceeding the 32-bit Windows safe limit. Reading was automatically aborted to protect the system from crashing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:1045
+"Merge Files"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5822
+"Merge Lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5818
+"Merge completed in: %s millisecs."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:2443
+"Merge files\r\nCtrl+Shift+J"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:441
+"Merge lines\r\nCtrl+Shift+M"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3922;MainUnit.dfm:477
+"NO = edit using physical line count from file start (slow on huge files)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39982
+"NO = search by bytes now (estimated line in status bar)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:40777
+"Narrow the surrounding context once you identify which column must exceed a threshold."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5482
+"No bookmarks found in current filter results."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:48529;MainUnit.pas:48641
+"No bookmarks set."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:48495;MainUnit.pas:48607
+"No file selected."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41233
+"No line index is available for search (dense index and checkpoint file are missing). Please read the file again."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39453;MainUnit.pas:41287
+"No match found among the current filter lines."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41343
+"No stable 8-digit trailer was inferred - generic pattern."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5035
+"Not connected"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10986
+"Not enough stable variation was detected between lines - try counting fixed positions manually, then refine this pattern."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4986
+"Not found"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41326
+"Not found in filter"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41345
+"Note about the disclaimer: I do not accept any responsibility about the usability or in case of any damage caused by the use of my programs or files. Use them at your own risk. If they don’t work properly, you have the sources."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unMoreInfo.dfm:182598
+"Note: file is very large, preview was truncated for responsiveness."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4042
+"Ok, I will not show it again."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:28333
+"Open"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:39201
+"Open File Location"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:39206
+"Open and edit multi-gigabyte text files instantly - where other editors can't keep up. Exclusive features like Python macros, AI to extract/analyze files, and much more."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5627;MainUnit.pas:49277
+"Output:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11120
+"Outputs true/false per line - ideal after CSV imports or conversions."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5431
+"Paste clipboard lines into file at selected line"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:50691
+"Pattern/Regex\r\nCtrl+Alt+P"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:513
+"Pattern/Regex is evaluated line-by-line. In Split mode: a new part starts when a line matches. In Regex modes: a single output file is produced. JS-style /pattern/gi syntax is accepted."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:18054
+"Pattern/Regex:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:18017;MainUnit.pas:25506
+"Please enter a Python script in the editor."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13845
+"Please select or check one or more lines first."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:29311;MainUnit.pas:29337
+"Portuguese (Brazil"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:items
+"Preview summary (sampled): %d matching lines in first %d lines scanned."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4041
+"Preview summary: file is too large to auto-validate. Click Preview to sample matches (fast), or Confirm to run full processing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4583
+"Prices: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3126
+"Processing ..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.dfm:46
+"Processing diff..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.pas:2060
+"Protection Activated (FastFile)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:1045
+"Python Macro Integration"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10897
+"Random Skin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6049;MainUnit.dfm:6137
+"Read\r\nCtrl+1"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:406
+"Read\r\nF5"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3843
+"Read / Load (F5)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3361
+"Read-only session is enabled. Turn it off to modify the file."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:18541
+"Recent"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnitPopupMruList.dfm:68
+"Redo: paste %d line(s) at line %d"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:45674
+"Regex %s completed. %d line(s) processed in %s.\r\nOutput: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:5793
+"Regex %s completed. %d line(s) processed in %s. Output: %s"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:5791
+"Regex Test: Write \"true\"/\"false\""	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4406
+"Regex filter - keep only lines where regex matches         (like JS filter)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:17981
+"Regex filter requires a line index. Choose YES to index first, or use plain text."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:38881
+"Regex match - extract all occurrences from each line  (like JS match)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:17978
+"Regex replace - replace matches in every line              (like JS replace)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:17980
+"Regex test - write \"true\"/\"false\" for every line        (like JS test)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:17979
+"Remove selected file from recent list?"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:49870;MainUnit.pas:49997
+"Removes trailing -2 / -3 style duplicates while keeping the canonical slug."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5466
+"Replace All completed. %d replacement(s). Time: %s ms."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:4249
+"Replace runs on each line; $1..$4 refer to the captured groups from left to right."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5017
+"Replace substitutes only capture group 2 while keeping the honorific in group 1."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5450
+"Replacement text (used by \"Regex replace\" mode only):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:18036
+"Run error"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:6593
+"Run script"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10943;MainUnit.pas:12252
+"SPLIT_PATTERN_AI_PROMPT_BODY"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:25805
+"Same 8-digit trailer on all scanned lines - this pattern matches every line or none; narrow using column-specific substring tests if needed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5024
+"Sample lines (raw, from current file):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uFastFileAIScreenHelp.pas:541
+"Sample lines from file (dynamic — changes when you pick another file):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uFastFileAIScreenHelp.pas:485
+"Sample tokens inferred from your columns - primary (region-like): \"%s\". Alternate token useful when categories drive file boundaries: \"%s\". Sort by the active key before splitting so each part stays coherent."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5394
+"Save file"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3655
+"Save output..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:10932;MainUnit.pas:12247
+"Script (define transform(line, ctx) -> str | None):"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11172
+"Script engine is not running."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:6755;uTailMacro.pas:285
+"Search / index"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:40779
+"Search error"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41313
+"Search error: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41312
+"Secondary pattern (same mode): Regex: ^.*,%s,.*$"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5396
+"Segmented ops: &automatic (recommended)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:22144
+"Select\r\nCtrl+Shift+S"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3962
+"Select\r\nskin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:215
+"Select Skin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6043;MainUnit.dfm:6132
+"Select lines to merge into one (current line stays as target)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uLineEditor.dfm:162
+"Select skin"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnitPopupToolGallery.dfm:227
+"SelectSkin dialog"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:8526
+"Selected / checked lines only"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11017
+"Sending lines..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:6572
+"Server returned HTTP status %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:9045
+"Session loaded."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:36433
+"Session saved."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:36425
+"Short Overview"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5959
+"Show CheckBoxes"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:39141
+"Show Hints"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6058;MainUnit.dfm:6141
+"Show hover hints on lines and on all controls"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:4122
+"Show/hide app icon"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:8620
+"Skinned"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6083;MainUnit.dfm:6108
+"Specifications"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSplash.dfm:137479;unSplitView.dfm:1031
+"Split"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnitPopupToolGallery.dfm:68
+"Split - start a new file when a delimiter-separated token appears"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5393
+"Split Files\r\nCtrl+Shift+K"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3899;MainUnit.dfm:459
+"Split by Pattern/Regex"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5826
+"Split into Equal Parts"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:5830
+"Split mode opens a new output file at every line where Test(regex) is true - tighten the wildcards so only real boundaries match."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5398
+"Split: equal parts (N parts, preserving complete lines)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:17977;MainUnit.pas:25423
+"Split: start a new file when a line matches (pattern/regex)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:17976;MainUnit.pas:25424
+"Stable Version:\r\n\r\nCompatible Windows versions:\r\nSupported platforms:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSplash.dfm:137487;unSplitView.dfm:1039
+"Standard"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:6117
+"Stop\r\nanimation"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:267
+"Tail OFF"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:45720
+"Tail ON"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:45763;MainUnit.pas:46014
+"Tail PAUSED"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:46037
+"Tail PAUSED +%d new lines"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:46012
+"Tail captured 0 line(s)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uTailExportDialog.dfm:36
+"Tail is OFF - press Ctrl+T to follow the file again."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:12751
+"Tail is ON - new lines at end of file are followed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:11415;MainUnit.pas:12749
+"Tail macro: chunk done, %d OK - next chunk..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13305
+"Tail macro: index file temp.txt not found - read the file (F5) first."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:13992;MainUnit.pas:14001
+"Targets Dr./Dra. patterns together with the following name field (%s). VBScript-safe (no lookbehind)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5448
+"Test 3"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:698
+"Test messagebox with checkbox"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:645
+"Test read file"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:689
+"Test writes true or false per input line - ideal for quickly validating row types."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5010
+"Text"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uCompareMergeUI.dfm:111;uCompareMergeUI.dfm:324
+"Text files (*.txt)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:14135;MainUnit.pas:14411
+"Texto digitado: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:31690
+"The last eight digits of the final digit island on the first line look like %s (often a DDMMYYYY-style date)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5028
+"This file is very large. The app will skip the full pre-scan (counting matches) to keep the UI responsive."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:26100
+"To split into N equal parts by line count or size, use FastFile's equal-parts workflow instead of Regex - Regex cannot count lines across the whole file in one Test call."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5402
+"Toggle Word Wrap (Ctrl+W)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:4103
+"Tools"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:8566
+"Top toolbar"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:181
+"Tutorials: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3136
+"Useful links:"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	unSplitView.dfm:80
+"Useful to sample IDs and amounts embedded between runs of zeros."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5043
+"Useful when a column stores URLs; anchors may need quotes or extra delimiters for your file."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5422
+"View: DEFAULT (detected"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:items
+"View: UTF-32 BE"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15987
+"View: UTF-32 LE"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:15986
+"Waiting engine output..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:6607
+"Watermark may be configured in the<br><b>MainForm.sFloatSample</b> component."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:15154
+"Word Wrap (ON)"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:4104
+"Write"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:39147
+"YES = build line index now (full disk pass, exact line numbers)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:40776
+"YES = build line index now (recommended)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:39981
+"You can use the Preview button in the dialog to sample matches quickly."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:26101
+"Your first line begins with sixteen consecutive digits. They are grouped here as two blocks of eight (common for dates or IDs). Adjust grouping if your specification names different field widths."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4951
+"[ReplaceAll] Segmented output missing."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:4828
+"[ReplaceAll] Segmented part failed."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:4814
+"[Scan] Based on the first %d non-empty lines (maximum %d). Detected delimiter [%s], fields: %d."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:5388
+"[Scan] Based on the first %d non-empty lines read from this file (maximum %d). Layout: fixed-width / positional (few delimiter characters on line 1)."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:4896
+"filter"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:5788
+"getLineFromOffSet(1) test"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:626
+"hvogel"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:3174
+"item 1"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:items
+"match"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:5785
+"more technical info ..."	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	UnSplash.dfm:139546
+"regex"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:5789
+"replace"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	uSmoothLoading.pas:5787
+"resp: "	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:28345
+"saved"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:49690
+"test"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:679;uSmoothLoading.pas:5786
+"test read file 2"	PT,ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.dfm:655
+"Text not found."	PT,ES,FR,DE,IT,PL,RO,HU,CZ,JA,ZHCN,ZHTW	MainUnit.pas:41318
+"Check to enable this option."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22860
+"Choose an option from the list."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22858
+"Choose output file name for split by lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22838
+"Click to execute this action."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22872
+"Close the current tab and return to main view."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22804
+"Delete selected lines from the file."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22796;MainUnit.pas:29378
+"Edit selected lines in the file."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22794
+"Exclude files that match the entered text."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22826
+"File created successfully: %s"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	Biblioteca.pas:7869
+"First line number to export."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22834
+"Force line-segmented mode (heavy ops)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:15893;MainUnit.pas:22141
+"Generate a file using the selected line range."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22840
+"Include subfolders in file search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22820
+"Information label."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22870
+"Information panel."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22874
+"Jump to a specific line number."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22788
+"Last line number to export."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22836
+"Line-segmented force:"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:33362
+"Line-segmented policy:"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:33361
+"List of files found by the current search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22830
+"List of generated files and ranges."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22846
+"List of items."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22864
+"List of lines and results."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22862
+"Match only whole words."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22824
+"Match uppercase and lowercase exactly."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22822
+"Merge multiple edited lines into the source file."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22802
+"Navigate quickly through loaded lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22790
+"Open split file tools."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22800
+"Open the Find Files tab."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22808
+"Open the Read File tab."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22778
+"Read the selected file and load its lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22782
+"Run search in background threads."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22828
+"Search for the typed text in the loaded lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22786
+"Segmented ops: automatic (recommended)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:3135
+"Select the source file to read."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22780
+"Set how many files should be generated."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22842
+"Show help and shortcuts."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22850
+"Split source file into multiple files."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22844
+"Start searching files with current filters."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22816
+"Stop the current file search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22818
+"Switch to checkbox selection mode."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22792
+"Tab content."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22868
+"Table with results."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22866
+"Toolbar hint: Find (Ctrl+F)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:3472
+"Toolbar hint: Find and replace (Ctrl+H)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:3474
+"Toolbar hint: Show marks (Ctrl+Alt+M)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:3476
+"Toolbar hint: Zoom in (Ctrl+Plus)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:3468
+"Toolbar hint: Zoom out (Ctrl+Minus)"	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:3470
+"Type a value here."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22856
+"Type file name patterns to search."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22810
+"Type folders where files should be searched."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22812
+"Type or choose the file path."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22854
+"Type text content to find inside files."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22814
+"Type text to search within loaded lines."	ES,FR,DE,IT,PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:22784
+"(Yes = Case Sensitive / No = Ignorar)"	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1778
+"All"	PL,PTPT,RO,HU,CZ,JA	MainUnit.dfm:3413
+"All files (*.*)|*.*"	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:17225;MainUnit.pas:17241
+"Arquivo de índice não encontrado (temp.txt). Releia o arquivo primeiro."	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1890
+"Auto scaling"	PL,PTPT,RO,HU,CZ,JA	UnitPopupScaling.dfm:47;UnitPopupScaling.pas:66
+"Case sensitive"	PL,PTPT,RO,HU,CZ,JA	uFindReplace.dfm:77
+"Could not open source file: "	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24630;MainUnit.pas:24896
+"Could not resolve insertion position. Read destination file again and retry."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24671
+"Custom PixelsPerInch value"	PL,PTPT,RO,HU,CZ,JA	UnitPopupScaling.dfm:70;UnitPopupScaling.pas:67
+"Delimiters: \"-\" for ranges, \",\" or \";\" for specific lines.\rSpaces are ignored."	PL,PTPT,RO,HU,CZ,JA	uExportDialog.dfm:38
+"Destination file is in use by another process: "	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24644
+"Destination file must have at least 2 lines for insertion by line."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24660
+"Destination file not found."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24611
+"Diferenciar maiúsculas/minúsculas?"	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1776
+"Digite o texto para procurar:"	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1764
+"Enter a word to search in the file"	PL,PTPT,RO,HU,CZ,JA	MainUnit.dfm:3524
+"Enter the lines to export (e.g. 1-4 or 1,4,10):"	PL,PTPT,RO,HU,CZ,JA	uExportDialog.dfm:24
+"Error: "	PL,PTPT,RO,HU,CZ,JA	UnConsumerAI.pas:83;uSmoothLoading.pas:1690
+"Executable not found: "	PL,PTPT,RO,HU,CZ,JA	UnConsumerAI.pas:96
+"Export Lines"	PL,PTPT,RO,HU,CZ,JA	uExportDialog.dfm:5
+"FastFile AI - Version "	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:10226
+"FastFile AI connected"	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:10300
+"Find and Replace"	PL,PTPT,RO,HU,CZ,JA	uFindReplace.dfm:5
+"Find what:"	PL,PTPT,RO,HU,CZ,JA	uFindReplace.dfm:25
+"From line must be >= 1."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:31272
+"Go to bottom (Ctrl+End)"	PL,PTPT,RO,HU,CZ,JA	MainUnit.dfm:3514
+"Go to top (Ctrl+Home)"	PL,PTPT,RO,HU,CZ,JA	MainUnit.dfm:3504
+"Initializing FastFile AI..."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:10219;MainUnit.pas:10221
+"Insert source at beginning (first line)."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:17293;MainUnit.pas:24351
+"Insert source at end of destination file."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:17295;MainUnit.pas:24353
+"Line number must be greater than 0."	PL,PTPT,RO,HU,CZ,JA	uDeltaEditor.pas:249
+"Line parameters are required."	PL,PTPT,RO,HU,CZ,JA	uExportDialog.pas:178
+"Line:"	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:15942;MainUnit.pas:22944
+"Lines/Time:"	PL,PTPT,RO,HU,CZ,JA	MainUnit.dfm:3274
+"Merge Delta Error: "	PL,PTPT,RO,HU,CZ,JA	uSmoothLoading_utf8.pas:1057
+"Merge Error: "	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:45490;uSmoothLoading.pas:2430
+"Merge mode"	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:17292;MainUnit.pas:24350
+"Número da linha (1.."	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1815
+"Operation failed or cancelled."	PL,PTPT,RO,HU,CZ,JA	uSmoothLoading.pas:1783;uSmoothLoading_utf8.pas:761
+"Please enter a valid line number."	PL,PTPT,RO,HU,CZ,JA	uDeltaEditor.pas:241
+"Please select a line first."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:50832;uDeltaEditor.pas:282
+"Please select/read the destination file first."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24431;MainUnit.pas:24555
+"Please specify an output filename."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:31274;uSmoothLoading.pas:5570
+"Procurar"	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1764
+"Replace with:"	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:4435;MainUnit.pas:4442
+"Save to text file instead of clipboard"	PL,PTPT,RO,HU,CZ,JA	uExportDialog.dfm:82
+"Search (Enter in search box)"	PL,PTPT,RO,HU,CZ,JA	MainUnit.dfm:3494
+"Source file (type path or use picker):"	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:17233;MainUnit.pas:24280
+"Source file is required."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24413;MainUnit.pas:24874
+"Source file not found."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:24617;MainUnit.pas:24879
+"Split Error: "	PL,PTPT,RO,HU,CZ,JA	uSmoothLoading.pas:5367;uSmoothLoading.pas:5767
+"Texto não encontrado."	PL,PTPT,RO,HU,CZ,JA	UnReadFileThread_utf8.pas:1920
+"Tip: press ESC to cancel."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:17318;MainUnit.pas:24377
+"To line must be >= From line."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:31273
+"Whole word"	PL,PTPT,RO,HU,CZ,JA	uFindReplace.dfm:85
+"loading IA support ..."	PL,PTPT,RO,HU,CZ,JA	MainUnit.pas:10612
+"Enter search text."	PL,RO,HU,CZ,JA	MainUnit.pas:20745;MainUnit.pas:47948
+"File not found."	PL,RO,HU,CZ,JA	MainUnit.pas:13983;MainUnit.pas:24082
+"French"	PL,PTPT,RO,HU,CZ	MainUnit.pas:16121;MainUnit.pas:16170
+"German"	PL,PTPT,RO,HU,CZ	MainUnit.pas:16122;MainUnit.pas:16171
+"Italian"	PL,PTPT,RO,HU,CZ	MainUnit.pas:16123;MainUnit.pas:16172
+"No active filter. Press Ctrl+L first."	PL,RO,HU,CZ,JA	MainUnit.pas:21073;MainUnit.pas:47452
+"No lines entered. Operation cancelled."	PL,RO,HU,CZ,JA	MainUnit.pas:24178
+"Please read a file first."	PL,RO,HU,CZ,JA	MainUnit.pas:47408;MainUnit.pas:47504
+"Please read the file first."	PL,RO,HU,CZ,JA	MainUnit.pas:40913;MainUnit.pas:40948
+"Please select a file first."	PL,RO,HU,CZ,JA	MainUnit.pas:13975;MainUnit.pas:24076
+"Please select a file."	PL,RO,HU,CZ,JA	MainUnit.pas:31189;MainUnit.pas:31264
+"Portuguese (Brazil)"	PL,PTPT,RO,HU,CZ	MainUnit.pas:16119;MainUnit.pas:16168
+"Spanish"	PL,PTPT,RO,HU,CZ	MainUnit.pas:16120;MainUnit.pas:16169
+"File changed on disk since load"	JA,ZHCN,ZHTW	MainUnit.pas:37784
+"Could not finalize save (rename). Error %d: %s"	PTPT,JA	UnUtils.pas:1818
+"  Filter (Ctrl+L) .... View over index; Yes=prefix / No=contains / OK=VBScript regex"	JA	MainUnit.pas:50683
+"  Filter is view-only (no disk rewrite). Regex uses Windows VBScript.RegExp on each line preview."	JA	MainUnit.pas:50685
+" (DEFAULT view)"	PTPT	MainUnit.pas:15950
+"&About FastFile"	PTPT	MainUnit.pas:22191
+"&Clear"	PTPT	MainUnit.pas:15834;MainUnit.pas:22121
+"&Delete line"	PTPT	MainUnit.pas:15829;MainUnit.pas:22097
+"&Edit"	PTPT	MainUnit.pas:21969
+"&Edit line"	PTPT	MainUnit.pas:15827;MainUnit.pas:22095
+"&File"	PTPT	MainUnit.pas:21959
+"&Find..."	PTPT	MainUnit.pas:15839;MainUnit.pas:21970
+"&Go to line..."	PTPT	MainUnit.pas:15841;MainUnit.pas:21987
+"&Help"	PTPT	MainUnit.pas:22185
+"&Help / Shortcuts"	PTPT	MainUnit.pas:22186
+"&Merge lines"	PTPT	MainUnit.pas:22073
+"&More info / Splash..."	PTPT	MainUnit.pas:22190
+"&Next bookmark"	PTPT	MainUnit.pas:15873;MainUnit.pas:22032
+"&Open file..."	PTPT	MainUnit.pas:21961
+"&Options"	PTPT	MainUnit.pas:22134
+"&Toggle bookmark"	PTPT	MainUnit.pas:15872;MainUnit.pas:22030
+"&Word wrap"	PTPT	MainUnit.pas:15852;MainUnit.pas:22007
+"Accessed"	PTPT	MainUnit.dfm:5256;MainUnit.pas:7082
+"Active"	PTPT	MainUnit.dfm:5983;MainUnit.pas:7015
+"Add-ons"	PTPT	MainUnit.dfm:3791;MainUnit.pas:6999
+"After Date:"	PTPT	MainUnit.dfm:5159;MainUnit.dfm:5241
+"After Time:"	PTPT	MainUnit.dfm:5168;MainUnit.dfm:5250
+"Allow"	PTPT	MainUnit.pas:22413
+"Allow animation"	PTPT	MainUnit.dfm:6099;MainUnit.pas:7016
+"Application language"	PTPT	MainUnit.dfm:120
+"Archive"	PTPT	MainUnit.dfm:5388;MainUnit.pas:7106
+"At Least:"	PTPT	MainUnit.dfm:5523;MainUnit.pas:7100
+"At Most:"	PTPT	MainUnit.dfm:5515;MainUnit.pas:7099
+"Attributes"	PTPT	MainUnit.pas:7102
+"Before Date:"	PTPT	MainUnit.dfm:5141;MainUnit.dfm:5223
+"Before Time:"	PTPT	MainUnit.dfm:5150;MainUnit.dfm:5232
+"Byte position in file (1-based; $ prefix for hex):"	JA	MainUnit.pas:41144
+"Byte position is out of range for this file."	JA	MainUnit.pas:41172
+"Case Sensitive"	PTPT	MainUnit.dfm:4829;MainUnit.pas:7030
+"Change scaling"	PTPT	MainUnit.dfm:5853;MainUnit.pas:6974
+"Clear a&ll bookmarks"	PTPT	MainUnit.pas:15875;MainUnit.pas:22034
+"Compressed"	PTPT	MainUnit.dfm:5407;MainUnit.pas:7108
+"Confirmation"	PTPT	MainUnit.pas:30823;MainUnit.pas:37569
+"Content exported to memo."	PTPT	MainUnit.pas:28268
+"Contents copied to the clipboard. Just paste (CTRL+V)."	PTPT	MainUnit.pas:29165;MainUnit.pas:33485
+"Could not compute split boundaries: file too small for the requested number of parts."	JA	uSmoothLoading.pas:7063
+"Could not initialize COM for the regex filter."	JA	MainUnit.pas:39418
+"Could not resolve line for that byte position."	JA	MainUnit.pas:41179
+"Created"	PTPT	MainUnit.dfm:5093;MainUnit.pas:7080
+"Creation Date:"	PTPT	MainUnit.dfm:4458;MainUnit.pas:33346
+"Ctrl+ shortcuts are shown to the right of each menu command."	JA	MainUnit.pas:50695
+"Custom PPI: "	PTPT	MainUnit.pas:22733;MainUnit.pas:33157
+"Date && Time"	PTPT	MainUnit.dfm:5078;MainUnit.pas:7079
+"Delete"	PTPT	MainUnit.dfm:4949;MainUnit.dfm:4987
+"Delete confirmation"	PTPT	MainUnit.pas:31745;MainUnit.pas:31794
+"Detected on file: "	PTPT	MainUnit.pas:15946
+"Device"	PTPT	MainUnit.dfm:5467;MainUnit.pas:7114
+"Directory"	PTPT	MainUnit.dfm:5398;MainUnit.pas:7107
+"Does not re-read file. DEFAULT = BOM/heuristics."	PTPT	MainUnit.pas:15948
+"E&xit"	PTPT	MainUnit.pas:21967
+"Encrypted"	PTPT	MainUnit.dfm:5417;MainUnit.pas:7109
+"Excluded"	PTPT	MainUnit.dfm:4847;MainUnit.pas:7032
+"Execute"	PTPT	MainUnit.dfm:4193;MainUnit.dfm:4408
+"Exit"	PTPT	MainUnit.dfm:6121;MainUnit.pas:7017
+"Exp&ort"	PTPT	MainUnit.pas:15832;MainUnit.pas:22119
+"Export finished! File saved to: %s"	JA	uSmoothLoading.pas:2544;uSmoothLoading.pas:2546
+"Export finished! Lines copied to clipboard."	JA	uSmoothLoading.pas:2550;uSmoothLoading.pas:2552
+"Export to Clipboard"	JA	MainUnit.pas:7013
+"Exported Lines"	PTPT	MainUnit.dfm:4499;MainUnit.pas:23757
+"Exporting"	PTPT	MainUnit.pas:28218
+"FastFile - Help & Feature Reference"	PTPT	MainUnit.pas:50656
+"Fil&ter / Grep"	PTPT	MainUnit.pas:15896;MainUnit.pas:22061
+"File Info"	PTPT	MainUnit.dfm:4437;MainUnit.pas:7070
+"File Name (Separate multiple names with semicolon):"	PTPT	MainUnit.dfm:4768;MainUnit.pas:7026
+"File name:"	PTPT	MainUnit.dfm:4444;MainUnit.pas:33344
+"File toolbar"	PTPT	MainUnit.dfm:3798;MainUnit.pas:7000
+"Files"	PTPT	MainUnit.dfm:5028;MainUnit.pas:7124
+"Files:"	PTPT	MainUnit.dfm:4382;MainUnit.pas:7060
+"Filter: line count too large for filter memory (32-bit limit)."	JA	MainUnit.pas:39023;MainUnit.pas:39445
+"Find"	PTPT	MainUnit.dfm:4669;MainUnit.pas:7034
+"Find Files"	PTPT	MainUnit.dfm:232;MainUnit.dfm:4580
+"Find and &Replace..."	PTPT	MainUnit.pas:15840;MainUnit.pas:21972
+"Folders"	PTPT	MainUnit.dfm:4903;MainUnit.pas:7120
+"Folders exclude"	PTPT	MainUnit.dfm:4852;MainUnit.pas:7005
+"From:"	PTPT	MainUnit.dfm:4177;MainUnit.pas:7038
+"Generating new file by source and target lines"	PTPT	MainUnit.dfm:4170;MainUnit.pas:7037
+"Generating splitted files - max 100"	PTPT	MainUnit.dfm:4267;MainUnit.pas:7058
+"Hidden"	PTPT	MainUnit.dfm:5369;MainUnit.pas:7104
+"Hide the watermark?"	PTPT	MainUnit.pas:22239
+"History file preview (colors from journal; line numbers are as at edit time)."	JA	uCompareMergeUI.pas:1994;uCompareMergeUI.pas:3061
+"Import"	PTPT	MainUnit.dfm:4968;MainUnit.pas:7128
+"Import file extensions"	PTPT	MainUnit.dfm:4958;MainUnit.pas:7127
+"Include subfolders"	PTPT	MainUnit.dfm:4810;MainUnit.pas:7029
+"Information"	PTPT	MainUnit.pas:28188;MainUnit.pas:28268
+"Insert from prompt"	PTPT	MainUnit.dfm:4940;MainUnit.dfm:4978
+"Ir para linha"	PTPT	MainUnit.pas:28410;MainUnit.pas:41072
+"It is under development."	PTPT	MainUnit.pas:28303
+"It will be removed from the list. Confirm ?"	PTPT	MainUnit.pas:31744;MainUnit.pas:31793
+"Line #"	PTPT	MainUnit.dfm:3716;MainUnit.pas:36009
+"Line-segmented mode is ON: Replace All runs on line-aligned parts; matches that span a part boundary may be missed."	JA	MainUnit.pas:21593;MainUnit.pas:41035
+"Line: %d  Col: %d"	PTPT	MainUnit.pas:15943
+"Line: 0  Col: 0"	PTPT	MainUnit.pas:15944
+"Lines: %d"	PTPT	MainUnit.pas:15945
+"List view uses: "	PTPT	MainUnit.pas:15947
+"Location"	PTPT	MainUnit.dfm:4627;MainUnit.pas:6983
+"Location (Separate multiple directories with semicolon):"	PTPT	MainUnit.dfm:4776;MainUnit.pas:7027
+"Menu bar: Underlined letter = Alt+letter (example: Alt+F, E, V, T, S, O for File, Edit, View, Tools, Session, Options)."	JA	MainUnit.pas:50693
+"Name"	PTPT	MainUnit.dfm:4623;MainUnit.pas:6982
+"Name && Location"	PTPT	MainUnit.dfm:4759;MainUnit.pas:7004
+"No match on current line."	PTPT	MainUnit.pas:41018
+"No match selected. Use Find Next first."	PTPT	MainUnit.pas:41021
+"Not Content Indexed"	PTPT	MainUnit.dfm:5487;MainUnit.pas:7116
+"Not enough lines in the file for this many parts (lines: %d, parts: %d)."	JA	uSmoothLoading.pas:7081;uSmoothLoading.pas:7454
+"Numero da linha (1.."	PTPT	MainUnit.pas:41072;uCompareMergeUI.pas:4152
+"Operation cancelled."	PTPT	MainUnit.pas:31692;uEmEditorFeatures.pas:2024
+"Output FileName:"	PTPT	MainUnit.pas:7044
+"Parts are sized evenly by bytes; each part ends only after a complete line (LF). Part sizes may differ slightly."	JA	MainUnit.pas:17549
+"Pr&evious bookmark"	PTPT	MainUnit.pas:15874;MainUnit.pas:22033
+"Preparing editing"	PTPT	MainUnit.pas:30498
+"Read / &Load"	PTPT	MainUnit.pas:21964
+"Read File"	PTPT	MainUnit.dfm:3231;MainUnit.dfm:6127
+"Read-only session is enabled. Turn it off in Options to edit or save the file."	JA	MainUnit.pas:21583;MainUnit.pas:37815
+"Readonly"	PTPT	MainUnit.dfm:5378;MainUnit.pas:7105
+"Redo"	PTPT	MainUnit.pas:15847;MainUnit.pas:21991
+"Rename reported success but target file is missing."	JA	UnUtils.pas:1802
+"Reparse Point"	PTPT	MainUnit.dfm:5447;MainUnit.pas:7112
+"Replace All"	PTPT	MainUnit.pas:21596;MainUnit.pas:41038
+"Replace all occurrences of \""	PTPT	MainUnit.pas:21590;MainUnit.pas:41032
+"Replace-all stopped at the safety limit of %d matches. The file was not modified."	JA	uSmoothLoading.pas:4821;uSmoothLoading.pas:5265
+"Replaced on line "	PTPT	MainUnit.pas:41013
+"Return"	PTPT	MainUnit.dfm:4522;MainUnit.pas:7076
+"S&elect (checkbox list)"	PTPT	MainUnit.pas:15858;MainUnit.pas:22008
+"Segmented replace: invalid line index in temp.txt."	JA	uSmoothLoading.pas:4401;uSmoothLoading.pas:4411
+"Shortcut: "	PTPT	MainUnit.pas:16816;MainUnit.pas:6918
+"Size && Attributes"	PTPT	MainUnit.dfm:5340;MainUnit.pas:7083
+"Skin name:"	PTPT	MainUnit.pas:6975
+"Sparse File"	PTPT	MainUnit.dfm:5437;MainUnit.pas:7111
+"Spl&it Files"	PTPT	MainUnit.pas:22071
+"Split By Files"	PTPT	MainUnit.dfm:4253;MainUnit.pas:7003
+"Split By Lines"	PTPT	MainUnit.dfm:4156;MainUnit.pas:7002
+"Split File"	PTPT	MainUnit.dfm:4143;MainUnit.pas:23755
+"SplitEqualParts.CancelledOrIncomplete"	JA	uSmoothLoading.pas:6900
+"SplitEqualParts.FailureFormat"	JA	uSmoothLoading.pas:6898
+"SplitEqualParts.SuccessFormat"	JA	uSmoothLoading.pas:6886
+"SplitFileFraction.CancelledOrIncomplete"	JA	uSmoothLoading.pas:7260
+"SplitFileFraction.FailureFormat"	JA	uSmoothLoading.pas:7258
+"SplitFileFraction.FromPartLabel"	JA	MainUnit.pas:25072
+"SplitFileFraction.Hint"	JA	MainUnit.pas:25154
+"SplitFileFraction.InvalidRange"	JA	uSmoothLoading.pas:7436
+"SplitFileFraction.LogSummary"	JA	uSmoothLoading.pas:7251
+"SplitFileFraction.NoPartsExported"	JA	uSmoothLoading.pas:7498
+"SplitFileFraction.PartsRangeError"	JA	MainUnit.pas:25238
+"SplitFileFraction.PreviewInvalid"	JA	MainUnit.pas:24941
+"SplitFileFraction.PreviewRange"	JA	MainUnit.pas:24946
+"SplitFileFraction.PreviewSingle"	JA	MainUnit.pas:24943
+"SplitFileFraction.SuccessFormat"	JA	uSmoothLoading.pas:7245
+"SplitFileFraction.ToPartLabel"	JA	MainUnit.pas:25090
+"SplitFileFraction.TotalPartsLabel"	JA	MainUnit.pas:25054
+"Stop"	PTPT	MainUnit.dfm:4692;MainUnit.pas:22409
+"Streaming replace writes a temp file, then swaps it over the original when possible. Free disk space is checked first. A safety limit on match count applies. This cannot be undone."	JA	MainUnit.pas:21591;MainUnit.pas:41033
+"System"	PTPT	MainUnit.dfm:5360;MainUnit.pas:7103
+"System Ready"	JA	MainUnit.pas:16240;MainUnit.pas:16261
+"Tail / &Follow mode"	PTPT	MainUnit.pas:15895;MainUnit.pas:22101
+"Temporary"	PTPT	MainUnit.dfm:5457;MainUnit.pas:7113
+"This line is not in the current filter results."	JA	MainUnit.pas:28409
+"Threaded Search"	PTPT	MainUnit.dfm:4714;MainUnit.pas:7033
+"To:"	PTPT	MainUnit.dfm:4184;MainUnit.pas:7039
+"Toolbar hint: Compare / merge (Ctrl+Shift+H)"	JA	MainUnit.pas:3482
+"Toolbar hint: Filter / Grep (Ctrl+L)"	JA	MainUnit.pas:3480
+"Toolbar hint: Line hover hints (ListView and Select mode)"	JA	MainUnit.pas:6946
+"Toolbar hint: Word wrap (Ctrl+W)"	JA	MainUnit.pas:3478;MainUnit.pas:3484
+"Total characters:"	PTPT	MainUnit.dfm:4472;MainUnit.pas:33350
+"Undo"	PTPT	MainUnit.pas:15846;MainUnit.pas:21990
+"VBScript.RegExp is not available (invalid pattern or missing component)."	JA	MainUnit.pas:39436
+"View encoding: default (list follows detected BOM/heuristics)."	JA	MainUnit.pas:31975
+"View encoding: forced (list decode only; file on disk unchanged)."	JA	MainUnit.pas:31969
+"View: ANSI (raw / system)"	PTPT	MainUnit.pas:15983
+"View: DEFAULT (detected)"	PTPT	MainUnit.pas:15981
+"View: UTF-16 BE"	PTPT	MainUnit.pas:15985
+"View: UTF-16 LE"	PTPT	MainUnit.pas:15984
+"View: UTF-8"	PTPT	MainUnit.pas:15982
+"Whole Word"	PTPT	MainUnit.dfm:4838;MainUnit.pas:7031
+"Writing"	PTPT	MainUnit.pas:30251
+"ZeroScan.DiscoveringLastLine"	JA	uSmoothLoading.pas:7538
+"ZeroScan.LastLineApprox"	JA	MainUnit.pas:39893
+"ZeroScan.LastLineCached"	JA	MainUnit.pas:39876
+"[Line preview limited to %s bytes for performance; file line total %s bytes.]"	JA	MainUnit.pas:34007;MainUnit.pas:40532
+"[Save note] DEFAULT follows detection; a forced view only changes list decoding until an operation rewrites the file on disk."	JA	MainUnit.pas:31977
+"animation"	PTPT	MainUnit.pas:22409;MainUnit.pas:22413

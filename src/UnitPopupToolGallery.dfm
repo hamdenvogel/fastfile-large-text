@@ -1,0 +1,372 @@
+object FormPopupToolGallery: TFormPopupToolGallery
+  Left = 0
+  Top = 0
+  BorderIcons = []
+  BorderStyle = bsNone
+  ClientHeight = 440
+  ClientWidth = 360
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  KeyPreview = True
+  OldCreateOrder = False
+  Scaled = False
+  OnKeyDown = FormKeyDown
+  PixelsPerInch = 96
+  TextHeight = 14
+  object sPanel1: TsPanel
+    Left = 0
+    Top = 0
+    Width = 360
+    Height = 440
+    Align = alClient
+    DoubleBuffered = True
+    ParentDoubleBuffered = False
+    TabOrder = 0
+    object pnlAccent: TsPanel
+      Left = 1
+      Top = 1
+      Width = 5
+      Height = 438
+      SkinData.CustomColor = True
+      Align = alLeft
+      BevelOuter = bvNone
+      Color = clHighlight
+      ParentBackground = False
+      TabOrder = 0
+    end
+    object pnlBody: TsPanel
+      Left = 6
+      Top = 1
+      Width = 353
+      Height = 438
+      Align = alClient
+      BevelOuter = bvNone
+      BorderWidth = 12
+      TabOrder = 1
+      object sBevelHeader: TsBevel
+        Left = 12
+        Top = 92
+        Width = 329
+        Height = 8
+        Align = alTop
+        Shape = bsBottomLine
+        ExplicitLeft = 10
+        ExplicitTop = 56
+        ExplicitWidth = 336
+      end
+      object lblGroupSplit: TsLabel
+        Left = 12
+        Top = 100
+        Width = 329
+        Height = 24
+        Align = alTop
+        AutoSize = False
+        Caption = 'Split'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 6710886
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ExplicitLeft = 10
+        ExplicitTop = 64
+        ExplicitWidth = 336
+      end
+      object btnGallerySplitPattern: TsSpeedButton
+        Left = 12
+        Top = 124
+        Width = 329
+        Height = 68
+        Align = alTop
+        Caption = 'Pattern/Regex'
+        Flat = True
+        Margin = 14
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = 14
+        AnimatEvents = []
+        SkinData.SkinSection = 'MENUITEM'
+        Alignment = taLeftJustify
+        TextAlignment = taLeftJustify
+        ExplicitLeft = 10
+        ExplicitTop = 84
+        ExplicitWidth = 336
+      end
+      object btnGallerySplitEqual: TsSpeedButton
+        Tag = 1
+        Left = 12
+        Top = 192
+        Width = 329
+        Height = 68
+        Align = alTop
+        Caption = 'Equal parts'
+        Flat = True
+        Margin = 12
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = 14
+        AnimatEvents = []
+        SkinData.SkinSection = 'MENUITEM'
+        Alignment = taLeftJustify
+        TextAlignment = taLeftJustify
+        ExplicitLeft = 10
+        ExplicitTop = 140
+        ExplicitWidth = 336
+      end
+      object btnGalleryExtractParts: TsSpeedButton
+        Tag = 2
+        Left = 12
+        Top = 260
+        Width = 329
+        Height = 68
+        Align = alTop
+        Caption = 'Extract parts'
+        Flat = True
+        Margin = 12
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = 14
+        AnimatEvents = []
+        SkinData.SkinSection = 'MENUITEM'
+        Alignment = taLeftJustify
+        TextAlignment = taLeftJustify
+        ExplicitLeft = 10
+        ExplicitTop = 196
+        ExplicitWidth = 336
+      end
+      object sBevel1: TsBevel
+        Left = 12
+        Top = 328
+        Width = 329
+        Height = 12
+        Align = alTop
+        Shape = bsTopLine
+        ExplicitLeft = 10
+        ExplicitTop = 252
+        ExplicitWidth = 336
+      end
+      object lblGroupFind: TsLabel
+        Left = 12
+        Top = 340
+        Width = 329
+        Height = 24
+        Align = alTop
+        AutoSize = False
+        Caption = 'Find'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 6710886
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ExplicitLeft = 10
+        ExplicitTop = 264
+        ExplicitWidth = 336
+      end
+      object btnGalleryFindFiles: TsSpeedButton
+        Tag = 3
+        Left = 12
+        Top = 364
+        Width = 329
+        Height = 68
+        Align = alTop
+        Caption = 'Find Files'
+        Flat = True
+        Margin = 12
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = 14
+        AnimatEvents = []
+        SkinData.SkinSection = 'MENUITEM'
+        Alignment = taLeftJustify
+        TextAlignment = taLeftJustify
+        ExplicitLeft = 10
+        ExplicitTop = 288
+        ExplicitWidth = 336
+      end
+      object sBevel2: TsBevel
+        Left = 12
+        Top = 432
+        Width = 329
+        Height = 12
+        Align = alTop
+        Shape = bsTopLine
+        ExplicitLeft = 10
+        ExplicitTop = 352
+        ExplicitWidth = 336
+      end
+      object lblGroupAppearance: TsLabel
+        Left = 12
+        Top = 444
+        Width = 329
+        Height = 24
+        Align = alTop
+        AutoSize = False
+        Caption = 'Appearance'
+        ParentFont = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = 6710886
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ExplicitLeft = 10
+        ExplicitTop = 364
+        ExplicitWidth = 336
+      end
+      object btnGallerySelectSkin: TsSpeedButton
+        Tag = 4
+        Left = 12
+        Top = 468
+        Width = 329
+        Height = 68
+        Align = alTop
+        Caption = 'Select skin'
+        Flat = True
+        Margin = 12
+        ParentShowHint = False
+        ShowHint = True
+        Spacing = 14
+        AnimatEvents = []
+        SkinData.SkinSection = 'MENUITEM'
+        Alignment = taLeftJustify
+        TextAlignment = taLeftJustify
+        ExplicitLeft = 10
+        ExplicitTop = 388
+        ExplicitWidth = 336
+      end
+      object pnlGalleryHeader: TsPanel
+        Left = 12
+        Top = 12
+        Width = 329
+        Height = 58
+        SkinData.SkinSection = 'TRANSPARENT'
+        Align = alTop
+        BevelOuter = bvNone
+        BorderWidth = 2
+        TabOrder = 0
+        object lblGalleryHeader: TsLabel
+          Left = 2
+          Top = 2
+          Width = 325
+          Height = 26
+          Align = alTop
+          AutoSize = False
+          Caption = 'More tools'
+          ParentFont = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -15
+          Font.Name = 'Segoe UI'
+          Font.Style = [fsBold]
+          ExplicitWidth = 327
+        end
+        object pnlSearchRow: TsPanel
+          Left = 2
+          Top = 28
+          Width = 325
+          Height = 28
+          SkinData.CustomColor = True
+          SkinData.SkinSection = 'TRANSPARENT'
+          Align = alTop
+          BevelOuter = bvNone
+          BorderWidth = 3
+          Color = clWindow
+          ParentBackground = False
+          TabOrder = 0
+          object btnSearchGlyph: TsSpeedButton
+            Left = 3
+            Top = 3
+            Width = 22
+            Height = 22
+            Align = alLeft
+            ImageIndex = 0
+            Images = imgSearchGlyphs
+            Flat = True
+            Margin = 0
+            ParentShowHint = False
+            ShowHint = True
+            Spacing = 0
+            OnClick = btnSearchGlyphClick
+            SkinData.SkinSection = 'TRANSPARENT'
+          end
+          object btnClearSearch: TsSpeedButton
+            Left = 300
+            Top = 3
+            Width = 22
+            Height = 22
+            Align = alRight
+            ImageIndex = 1
+            Images = imgSearchGlyphs
+            Flat = True
+            Margin = 0
+            ParentShowHint = False
+            ShowHint = True
+            Spacing = 0
+            Visible = False
+            OnClick = btnClearSearchClick
+            SkinData.SkinSection = 'TRANSPARENT'
+            ExplicitLeft = 297
+          end
+          object edtGallerySearch: TsEdit
+            Left = 25
+            Top = 3
+            Width = 275
+            Height = 22
+            Align = alClient
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Segoe UI'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnChange = edtGallerySearchChange
+            OnKeyDown = edtGallerySearchKeyDown
+            SkinData.SkinSection = 'TRANSPARENT'
+            BoundLabel.Active = False
+            BoundLabel.Caption = 'Search'
+            ExplicitHeight = 22
+          end
+        end
+      end
+    end
+  end
+  object sSkinProvider1: TsSkinProvider
+    AddedTitle.Font.Charset = DEFAULT_CHARSET
+    AddedTitle.Font.Color = clNone
+    AddedTitle.Font.Height = -13
+    AddedTitle.Font.Name = 'Tahoma'
+    AddedTitle.Font.Style = []
+    SkinData.SkinSection = 'FORM'
+    TitleButtons = <>
+    Left = 300
+    Top = 20
+  end
+  object imgSearchGlyphs: TsCharImageList
+    Height = 16
+    Width = 16
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        ScalingFactor = 0.900000000000000000
+        Char = 61442
+        Color = 6908265
+      end
+      item
+        ScalingFactor = 0.850000000000000000
+        Char = 61453
+        Color = 6908265
+      end>
+    Left = 268
+    Top = 20
+    Bitmap = {}
+  end
+end

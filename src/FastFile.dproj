@@ -1,0 +1,165 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9E812751-C38A-43CC-9535-EF29B7CD6192}</ProjectGuid>
+        <MainSource>FastFile.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Base</Config>
+        <TargetedPlatforms>3</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>19.2</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_DcuOutput>Dcu\$(Platform)\</DCC_DcuOutput>
+        <DCC_ExeOutput>Build\$(Platform)\</DCC_ExeOutput>
+        <DCC_PreBuildEvent>if not exist &quot;$(PROJECTDIR)Build\$(Platform)&quot; mkdir &quot;$(PROJECTDIR)Build\$(Platform)&quot;if not exist &quot;$(PROJECTDIR)Dcu\$(Platform)&quot; mkdir &quot;$(PROJECTDIR)Dcu\$(Platform)&quot;</DCC_PreBuildEvent>
+        <DCC_PostBuildEvent>if not exist &quot;$(PROJECTDIR)Build\$(Platform)\Skins&quot; mkdir &quot;$(PROJECTDIR)Build\$(Platform)\Skins&quot;if exist &quot;$(PROJECTDIR)Skins&quot; xcopy /E /I /Y /Q &quot;$(PROJECTDIR)Skins\*.*&quot; &quot;$(PROJECTDIR)Build\$(Platform)\Skins\&quot;if exist &quot;$(PROJECTDIR)Build\ConsumerAI.exe&quot; copy /y &quot;$(PROJECTDIR)Build\ConsumerAI.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;if exist &quot;$(PROJECTDIR)Build\ConsumerRAG.exe&quot; copy /y &quot;$(PROJECTDIR)Build\ConsumerRAG.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;if exist &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerAI.exe&quot; copy /y &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerAI.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;if exist &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerRAG.exe&quot; copy /y &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerRAG.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;</DCC_PostBuildEvent>
+        <DCC_UnitSearchPath>FastMM4-master;FastCode.Libraries-0.6.4;..\..\acnt_reg;..\..\Findfile;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <SanitizedProjectName>FastFile</SanitizedProjectName>
+        <UsePackages>false</UsePackages>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile;FileVersion=3.0.2.0;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile;ProductVersion=3.0.2.0;Comments=High-performance text file editor</VerInfo_Keys>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Icon_MainIcon>FastFile.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <BT_BuildType>Debug</BT_BuildType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <DCC_RemoteDebug>false</DCC_RemoteDebug>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <BT_BuildType>Debug</BT_BuildType>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="FastMM4-master\FastMM4.pas"/>
+        <DCCReference Include="FastCode.Libraries-0.6.4\FastCode.pas"/>
+        <DCCReference Include="uFastFileAIClient.pas"/>
+        <DCCReference Include="uVBScriptRegex.pas"/>
+        <DCCReference Include="uFastFileAIScreenHelp.pas"/>
+        <DCCReference Include="uFastFileAIPythonMacroHelp.pas"/>
+        <DCCReference Include="UnUtils.pas"/>
+        <DCCReference Include="uDiskSpaceCheck.pas"/>
+        <DCCReference Include="UnDM.pas">
+            <Form>DataModule1</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="UnitPopupScaling.pas">
+            <Form>FormPopupScaling</Form>
+        </DCCReference>
+        <DCCReference Include="UnSplash.pas">
+            <Form>frmSplash</Form>
+        </DCCReference>
+        <DCCReference Include="UnFormAboutFF.pas">
+            <Form>frmAboutFF</Form>
+        </DCCReference>
+        <DCCReference Include="unHardwareInformation.pas"/>
+        <DCCReference Include="unSplitView.pas">
+            <Form>frmSplitView</Form>
+        </DCCReference>
+        <DCCReference Include="MruHelper.pas"/>
+        <DCCReference Include="UnConsts.pas"/>
+        <DCCReference Include="uFileOpenPolicy.pas"/>
+        <DCCReference Include="uPosBMH.pas"/>
+        <DCCReference Include="UnConsumerAI.pas"/>
+        <DCCReference Include="UnConsumerDialog.pas"/>
+        <DCCReference Include="uTemporaryFileStream.pas"/>
+        <DCCReference Include="uZeroScanBlockIndex.pas"/>
+        <DCCReference Include="uLineIndexScan.pas"/>
+        <DCCReference Include="uSmoothLoading.pas">
+            <Form>frmSmoothLoadingForm</Form>
+        </DCCReference>
+        <DCCReference Include="uDeltaEditor.pas">
+            <Form>frmDeltaEditor</Form>
+        </DCCReference>
+        <DCCReference Include="uFileSessionHistory.pas"/>
+        <DCCReference Include="uLineDiffCore.pas"/>
+        <DCCReference Include="uHistPagedPreview.pas"/>
+        <DCCReference Include="uHistChangedIndex.pas"/>
+        <DCCReference Include="uMergeApply.pas"/>
+        <DCCReference Include="uCompareMergeUI.pas">
+            <Form>frmCompareMerge</Form>
+        </DCCReference>
+        <DCCReference Include="uTailMacro.pas"/>
+        <DCCReference Include="uTailExportDialog.pas">
+            <Form>frmTailExportDialog</Form>
+        </DCCReference>
+        <DCCReference Include="uEmEditorFeatures.pas"/>
+        <DCCReference Include="uFastFileAssistantHost.pas"/>
+        <DCCReference Include="uFastFileAssistantMap.pas"/>
+        <DCCReference Include="uFastFileAssistantRAG.pas"/>
+        <DCCReference Include="uFastFileAssistantCatalog.pas"/>
+        <DCCReference Include="uFastFileAssistantIntent.pas"/>
+        <DCCReference Include="uFastFileComposeExport.pas"/>
+        <DCCReference Include="uFastFileNotice.pas"/>
+        <DCCReference Include="uFastFileMsgDlg.pas"/>
+        <DCCReference Include="uFastFileScale.pas"/>
+        <DCCReference Include="uFastFileFloatHost.pas"/>
+        <DCCReference Include="uFastFileAssistant.pas"/>
+        <DCCReference Include="uAssistantPipelineStore.pas"/>
+        <DCCReference Include="uAssistantPostAction.pas"/>
+        <DCCReference Include="uFastFileExternalExe.pas"/>
+        <DCCReference Include="uFileFormatConvert.pas"/>
+        <DCCReference Include="uEolPolicy.pas"/>
+        <DCCReference Include="uFilterBar.pas"/>
+        <DCCReference Include="uFindOccurrencesBar.pas"/>
+        <DCCReference Include="uBookmarkBar.pas"/>
+        <DCCReference Include="uMruFind.pas"/>
+        <DCCReference Include="uUserPrefs.pas"/>
+        <DCCReference Include="uPrefsDialog.pas"/>
+        <DCCReference Include="uFastFileAppGuard.pas"/>
+        <DCCReference Include="uFastFileWatchdog.pas"/>
+        <DCCReference Include="UnitPopupMruList.pas">
+            <Form>FormPopupMruList</Form>
+        </DCCReference>
+        <DCCReference Include="MainUnit.pas">
+            <Form>frmMain</Form>
+        </DCCReference>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">FastFile.dpr</Source>
+                </Source>
+                <Excluded_Packages/>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">True</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>

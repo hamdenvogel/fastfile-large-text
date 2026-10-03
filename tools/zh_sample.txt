@@ -1,0 +1,2 @@
+Yes CN: '是'
+Yes TW: '是'

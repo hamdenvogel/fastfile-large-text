@@ -1,0 +1,22 @@
+Strings needed (TrText/ShowAppMessage/DFM): 1940
+  missing in >=1 language: 0
+  per language: EN=0, PT=0, ES=0, FR=0, DE=0, IT=0, PL=0, PTPT=0, RO=0, HU=0, CZ=0, JA=0, ZHCN=0, ZHTW=0
+Symbolic Tr keys: 44  missing in >=1 language: 0
+  per language: PT=0, ES=0, FR=0, DE=0, IT=0, PL=0, PTPT=0, RO=0, HU=0, CZ=0, JA=0, ZHCN=0, ZHTW=0
+Hardcoded literals bypassing translation: 10
+
+[RAW literals]
+  MainUnit.pas:22609 .Hint 'UTF-8 (no BOM)'
+  MainUnit.pas:22614 .Hint 'UTF-8 (BOM)'
+  uBookmarkBar.pas:280 .Caption 'Bookmarks'
+  uFastFileAssistant.pas:10087 .Caption 'Cancel'
+  uFilterBar.pas:304 .Caption 'Filter / Grep'
+  uFindOccurrencesBar.pas:310 .Caption 'Occurrences'
+  UnUtils.pas:1449 .Hint 'Digite algo (opcional)'
+  UnUtils.pas:1454 .Caption '1 - Incluir'
+  UnUtils.pas:1461 .Caption '2 - Editar'
+  UnUtils.pas:1468 .Caption '3 - Cancelar'
+
+[Missing TrText/DFM]
+
+[Missing Tr keys]

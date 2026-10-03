@@ -1,0 +1,17 @@
+﻿# Generated / backups — do not index (keeps Cursor RAM down)
+**/__history/
+**/__recovery/
+**/Build/
+**/Win32/
+**/Win64/
+**/*.exe
+**/*.dcu
+**/*.local
+**/*.identcache
+**/*.~*
+
+# Third-party trees not edited in normal FastFile work
+**/FastMM4-master/
+**/FastCode.Libraries-0.6.4/
+**/data-lake-duckdb-main/
+src/Prd/

@@ -1,0 +1,66 @@
+{
+ "text": {},
+ "keys": {},
+ "raw": [
+  [
+   "MainUnit.pas",
+   22609,
+   ".Hint",
+   "UTF-8 (no BOM)"
+  ],
+  [
+   "MainUnit.pas",
+   22614,
+   ".Hint",
+   "UTF-8 (BOM)"
+  ],
+  [
+   "uBookmarkBar.pas",
+   280,
+   ".Caption",
+   "Bookmarks"
+  ],
+  [
+   "uFastFileAssistant.pas",
+   10087,
+   ".Caption",
+   "Cancel"
+  ],
+  [
+   "uFilterBar.pas",
+   304,
+   ".Caption",
+   "Filter / Grep"
+  ],
+  [
+   "uFindOccurrencesBar.pas",
+   310,
+   ".Caption",
+   "Occurrences"
+  ],
+  [
+   "UnUtils.pas",
+   1449,
+   ".Hint",
+   "Digite algo (opcional)"
+  ],
+  [
+   "UnUtils.pas",
+   1454,
+   ".Caption",
+   "1 - Incluir"
+  ],
+  [
+   "UnUtils.pas",
+   1461,
+   ".Caption",
+   "2 - Editar"
+  ],
+  [
+   "UnUtils.pas",
+   1468,
+   ".Caption",
+   "3 - Cancelar"
+  ]
+ ]
+}

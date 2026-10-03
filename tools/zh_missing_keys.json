@@ -1,0 +1,30 @@
+[
+  {
+    "key": "File changed on disk since load",
+    "en": "The file was modified on disk since it was loaded here."
+  },
+  {
+    "key": "SplitEqualParts.FailureFormat",
+    "en": "The split operation could not be completed."
+  },
+  {
+    "key": "SplitEqualParts.SuccessFormat",
+    "en": "The split operation finished successfully."
+  },
+  {
+    "key": "SplitFileFraction.FailureFormat",
+    "en": "The parts export could not be completed."
+  },
+  {
+    "key": "SplitFileFraction.Hint",
+    "en": "Uses the same LF-safe boundaries as \"equal parts\": lines are never cut in the middle. "
+  },
+  {
+    "key": "SplitFileFraction.SuccessFormat",
+    "en": "Export finished successfully."
+  },
+  {
+    "key": "When enabled, Replace All and batch delete of checked lines may process the file in line-aligned segments (temporary parts), then merge. Can reduce peak memory on very large files. Replace All: search text that spans a segment boundary may not match.",
+    "en": "When enabled, Replace All and batch delete of checked lines may process the file "
+  }
+]
