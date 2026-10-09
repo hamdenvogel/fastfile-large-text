@@ -6,9 +6,12 @@ uses
   Graphics;
 
 const
+  { Also the [FastFile] section name in ASkin.ini: do not change. }
   APPLICATION_NAME = 'FastFile';
+  APPLICATION_EDITION = 'Professional';
+  APPLICATION_DISPLAY_NAME = APPLICATION_NAME + ' ' + APPLICATION_EDITION;
   APPLICATION_VERSION = '3.0.5.232';
-  APPLICATION_FULLNAME = 'FastFile editor';
+  APPLICATION_FULLNAME = 'Professional editor for huge text files';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
   INI_OPEN_TABS_SAVED = 'OpenTabsSaved';
@@ -35,7 +38,7 @@ const
   SCRIPTENGINE_DOWNLOAD_URL = FASTFILE_EXECUTABLES_BASE_URL + SCRIPTENGINE;
   CODECHECK_DOWNLOAD_URL = FASTFILE_EXECUTABLES_BASE_URL + CODECHECK;
   FASTFILE_DOWNLOAD_LOG = 'FastFile_Download.log';
-  HISTORY_TITLE = 'FastFile - Version History';
+  HISTORY_TITLE = 'FastFile Professional - Version History';
   HISTORY_TITLE_LINE = '  ' + HISTORY_TITLE;
   HISTORY_RULE = '=======================================================';
   HISTORY_EXPORT_FILENAME = 'FastFile_VersionHistory.txt';

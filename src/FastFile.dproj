@@ -33,7 +33,7 @@
         <SanitizedProjectName>FastFile</SanitizedProjectName>
         <UsePackages>false</UsePackages>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile;FileVersion=3.0.2.0;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile;ProductVersion=3.0.2.0;Comments=High-performance text file editor</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.2.0;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.2.0;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Icon_MainIcon>FastFile.ico</Icon_MainIcon>
     </PropertyGroup>

@@ -1,8 +1,9 @@
-# FastFile
+# FastFile Professional
 
-**High-performance text file editor for large files — Delphi 7 / Win32**
+**Professional high-performance text file editor for large files — Delphi 7 / Win32**
 
-> Version: **`3.0.5.232`** — **FastFile 3.0.5** (14 UI languages; AI agent on files with SQL / natural language and reviewed proposals; anonymize data; session-history event details; custom PPI)  
+> Edition: **Professional** — FastFile is a professional-grade product for production-size data.  
+> Version: **`3.0.5.232`** — **FastFile Professional 3.0.5** (14 UI languages; AI agent on files with SQL / natural language and reviewed proposals; anonymize data; session-history event details; custom PPI)  
 > Developer: Hamden Vogel  
 > Copyright © 2025–2026. All rights reserved.
 
@@ -34,7 +35,7 @@
 
 ## Overview
 
-FastFile is a **viewer and line editor** designed for very large plain-text files (tested above 14 GB on 32-bit Windows). It never loads the full file into memory: instead it builds a compact **line-offset index** (`temp.txt`) on first open and uses **Memory-Mapped File** windows for all subsequent reads. All heavy operations run in background threads and write atomically to a temporary file before replacing the original. Optional Python companions add **SQL AI chat** (DuckDB) and **semantic RAG Q&A** (local embeddings + LanceDB + Groq) over the open file.
+FastFile Professional is a **professional viewer and line editor** designed for very large plain-text files (tested above 14 GB on 32-bit Windows). It never loads the full file into memory: instead it builds a compact **line-offset index** (`temp.txt`) on first open and uses **Memory-Mapped File** windows for all subsequent reads. All heavy operations run in background threads and write atomically to a temporary file before replacing the original. Optional Python companions add **SQL AI chat** (DuckDB) and **semantic RAG Q&A** (local embeddings + LanceDB + Groq) over the open file.
 
 Product overview (PT-BR marketing): [`apresentacao_fastfile.md`](apresentacao_fastfile.md).
 
@@ -606,7 +607,9 @@ Requires `GROQ_API_KEY` (and optional `GROQ_MODEL`, `EMBEDDING_MODEL`) via `.env
 ## Global constants (UnConsts)
 
 ```pascal
-APPLICATION_NAME              = 'FastFile'
+APPLICATION_NAME              = 'FastFile'                 // also the [FastFile] INI section
+APPLICATION_EDITION           = 'Professional'
+APPLICATION_DISPLAY_NAME      = 'FastFile Professional'    // window title, About, idle logo
 APPLICATION_VERSION           = '3.0.5.232'
 ASKIN_INI                     = 'ASkin.ini'
 XMLFOLDERS                    = 'folders.xml'

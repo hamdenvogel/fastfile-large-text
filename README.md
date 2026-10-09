@@ -1,15 +1,19 @@
-# FastFile
+# FastFile Professional
 
-**Open, search and edit multi-gigabyte text files instantly on Windows.**
+**The professional tool to open, search and edit multi-gigabyte text files instantly on Windows.**
 
-FastFile is a native Windows desktop tool written in Delphi for working with very large text files
-(logs, CSV/TSV exports, SQL dumps, data extracts) that make ordinary editors freeze or run out of memory.
-Files are indexed by line and read through memory-mapped I/O, so a 10 GB file opens and scrolls as
-smoothly as a 10 KB one.
+**FastFile Professional** is a native, professional-grade Windows desktop tool written in Delphi for working
+with very large text files (logs, CSV/TSV exports, SQL dumps, data extracts) that make ordinary editors freeze
+or run out of memory. Files are indexed by line and read through memory-mapped I/O, so a 10 GB file opens and
+scrolls as smoothly as a 10 KB one.
 
-![FastFile main window](Docs/screenshot-main.png)
+> **Edition: Professional.** FastFile is not a hobby viewer: it is a professional product built for analysts,
+> DBAs, developers and support teams who handle production-size data every day — with safe atomic writes,
+> a full change journal, an AI agent with reviewed proposals, data anonymization and 14 UI languages.
 
-## Features
+![FastFile Professional main window](Docs/screenshot-main.png)
+
+## Professional features
 
 - **Huge files, instantly** – line index + memory-mapped files (MMF); *Zero Scan* mode opens giant files without a full pre-scan.
 - **Search and replace** – fast find, filters, Replace All in segmented mode for files larger than RAM.
@@ -22,7 +26,7 @@ smoothly as a 10 KB one.
 - **Anonymize data** (Ctrl+Alt+D) – replace private values with fake ones of the same type and length, with preview and undo.
 - **Session history details** – before/after of every change, field-by-field compare, export to TXT/CSV/JSON.
 
-Current version: **3.0.5.232** — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
+Current version: **FastFile Professional 3.0.5.232** — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
 - **14 languages** – English, Português (BR/PT), Español, Français, Deutsch, Italiano, Polski, Română, Magyar, Čeština, 日本語, 简体中文, 繁體中文.
 - **Skinnable UI** – AlphaSkins themes and adjustable UI scaling (PPI) for high-DPI monitors.
 
@@ -51,7 +55,7 @@ cd src
 msbuild FastFile.dproj /t:Build /p:Config=Release /p:Platform=Win64
 ```
 
-On first run FastFile extracts its default configuration (`ASkin.ini`), skins and assets from embedded
+On first run FastFile Professional extracts its default configuration (`ASkin.ini`), skins and assets from embedded
 resources into the executable folder.
 
 ## Repository layout

@@ -104,6 +104,8 @@ begin
   lvRecentFiles.DoubleBuffered   := True;
   lvRecentFolders.DoubleBuffered := True;
   lblVersion.Caption := APPLICATION_VERSION;
+  lblTitle.Caption := APPLICATION_DISPLAY_NAME;
+  Caption := APPLICATION_DISPLAY_NAME + ' - Start';
   lblTagline.Caption := TrText('Open and edit multi-gigabyte text files instantly - where other editors can''t keep up. ' +
     'Exclusive features like Python macros, AI to extract/analyze files, and much more.');
   lblTagline.WordWrap := True;

@@ -1,4 +1,6 @@
-# FastFile — Roadmap Comercial e Melhorias de Produto
+# FastFile Professional — Roadmap Comercial e Melhorias de Produto
+
+> **Posicionamento:** o produto chama-se **FastFile Professional** (edição *Professional* / Profissional). Em materiais, site, instalador e janelas da aplicação use sempre o nome completo, para reforçar que é uma ferramenta profissional e não um simples visualizador.
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 

@@ -61,7 +61,7 @@ var
 begin
   { TsSkinProvider picks up the active skin automatically from TsSkinManager in DataModule1. }
   Caption := Tr('toolbar.about_fastfile', 'About FastFile');
-  lblAppName.Caption  := APPLICATION_NAME;
+  lblAppName.Caption  := APPLICATION_DISPLAY_NAME;
   lblVersion.Caption  := UnUtils.GetDisplayVersion(True);
   lblBuildTime.Caption := TrText('Build time: ') + FormatDateTime('dd/mm/yyyy - hh:nn:ss', Now);
   lblDevelopedBy.Caption := TrText('Developed by: ') + 'Hamden Vogel';

@@ -16797,7 +16797,7 @@ var
   iPage: Integer;
 begin
   StartupMark('FormCreate: enter');
-  Self.Caption := Format('%s %s', [APPLICATION_NAME, UnUtils.GetDisplayVersion(False)]);
+  Self.Caption := Format('%s %s', [APPLICATION_DISPLAY_NAME, UnUtils.GetDisplayVersion(False)]);
   { Garantir icone na barra de tarefas (MainFormOnTaskBar) e no titulo }
   if (not Application.Icon.Empty) and Icon.Empty then
     Icon.Assign(Application.Icon);
@@ -16899,7 +16899,7 @@ begin
   pgMain.Visible := False;
   if sTitleBar1.Items.Count > 7 then
   begin
-    sTitleBar1.Items[6].Caption := APPLICATION_NAME;
+    sTitleBar1.Items[6].Caption := APPLICATION_DISPLAY_NAME;
     sTitleBar1.Items[7].Caption := UnUtils.GetDisplayVersion(False);
   end;
   WindowState := wsNormal;
@@ -45266,7 +45266,7 @@ begin
     TmpBmp.Canvas.Font.Name := TitleName;
     TmpBmp.Canvas.Font.Height := -TitleFontH;
     TmpBmp.Canvas.Font.Style := [];
-    TitleW := TmpBmp.Canvas.TextWidth(APPLICATION_NAME);
+    TitleW := TmpBmp.Canvas.TextWidth(APPLICATION_DISPLAY_NAME);
     TitleH := TitleFontH + 6;
 
     TmpBmp.Canvas.Font.Height := -FullFontH;
@@ -45770,7 +45770,7 @@ begin
   Bmp.Canvas.Font.Style := [];
   TR := Rect(0, TextTop, BlockW, TextTop + TitleH);
   Flags := DT_CENTER or DT_VCENTER or DT_SINGLELINE;
-  WriteColor(Bmp, PChar(APPLICATION_NAME), True, TR, Flags, IDLE_LOGO_TITLE_COLOR);
+  WriteColor(Bmp, PChar(APPLICATION_DISPLAY_NAME), True, TR, Flags, IDLE_LOGO_TITLE_COLOR);
 
   Bmp.Canvas.Font.Name := SubName;
   Bmp.Canvas.Font.Height := -FullFontH;

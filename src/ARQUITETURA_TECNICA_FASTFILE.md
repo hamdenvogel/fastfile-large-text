@@ -725,9 +725,11 @@ Os recursos são compilados dentro do `.exe` via arquivos `.rc` (`files.rc`, `fo
 ## 20. Constantes globais (UnConsts)
 
 ```pascal
-APPLICATION_NAME    = 'FastFile'
-APPLICATION_VERSION = '3.0.5.225'
-APPLICATION_FULLNAME = 'FastFile editor'
+APPLICATION_NAME    = 'FastFile'                 // também a secção [FastFile] do ASkin.ini
+APPLICATION_EDITION = 'Professional'
+APPLICATION_DISPLAY_NAME = 'FastFile Professional' // título, Sobre, logótipo
+APPLICATION_VERSION = '3.0.5.232'
+APPLICATION_FULLNAME = 'Professional editor for huge text files'
 ASKIN_INI           = 'ASkin.ini'
 XMLFOLDERS          = 'folders.xml'
 XMLFILES            = 'files.xml'

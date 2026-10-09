@@ -132,7 +132,7 @@ begin
     Application.MainFormOnTaskBar := True;
   {$ENDIF}
     //  acAllowLatestCommonDialogs := True;
-    Application.Title := 'FastFile';
+    Application.Title := 'FastFile Professional';
     DataModule1 := TDataModule1.Create(Application);
     (*frmSplash := TfrmSplash.Create(Application);
     //frmSplash.lblInfo.Caption := UnUtils.LoadConfig(showDeveloperInfo);

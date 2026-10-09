@@ -7,6 +7,10 @@
 
 ---
 
+## ★ FastFile Professional — nome do produto (outubro/2026)
+
+- **Marca:** o produto passa a apresentar-se como **FastFile Professional** (edição Professional / Profissional). Novas constantes **`UnConsts.APPLICATION_EDITION`** (`'Professional'`) e **`APPLICATION_DISPLAY_NAME`** (`'FastFile Professional'`), usadas no título da janela principal, barra de título, logótipo do ecrã vazio, **Sobre**, ecrã de boas-vindas e `Application.Title`. `APPLICATION_FULLNAME` = `'Professional editor for huge text files'`. Metadados do executável (`FileDescription` / `ProductName`) = **FastFile Professional**. **`APPLICATION_NAME`** continua `'FastFile'` porque é também a secção `[FastFile]` do `ASkin.ini` (configurações existentes preservadas). README, README técnico, apresentação e roadmap actualizados.
+
 ## ★ FastFile 3.0.5.232 — Agente de IA: prazo para decidir e respostas mais seguras (outubro/2026)
 
 - **v3.0.5.232 (Current / Atual):** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.232`**. As edições propostas pelo agente aguardam **20 s** por **Aceitar / Rejeitar / Aceitar todas** (configurável em **Opções → Preferências**, 5..600 s; valor vazio/inválido é recusado e volta ao padrão). Distintivo de tempo com ícone (normal / urgente / expirado); a contagem pausa enquanto há uma confirmação aberta; ao expirar, as propostas são descartadas e o pedido tem de ser refeito.
