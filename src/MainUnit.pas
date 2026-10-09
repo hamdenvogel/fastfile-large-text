@@ -21,7 +21,8 @@ uses
   UntFields, FindFile, MruHelper, UnConsts, uFileOpenPolicy, uUserPrefs, uPrefsDialog, UnConsumerDialog, uSmoothLoading, uDeltaEditor, uLineEditor, uExportDialog,
   uTailExportDialog,
   uFindReplace, sListView, RichEdit, uFastFilePaths, uFileFormatConvert, uEolPolicy,
-  uFastFileAssistantHost, uFilterBar, uFindOccurrencesBar, uBookmarkBar, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost, uFastFileAppGuard, uFastFileWatchdog, System.ImageList, System.Actions;
+  uFastFileAssistantHost, uFilterBar, uFindOccurrencesBar, uBookmarkBar, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost, uFastFileAppGuard, uFastFileWatchdog, System.ImageList, System.Actions,
+  uAnonymize, uAnonymizeDialog;
 
 type
   PAnsiCharMap = ^TAnsiCharMap;
@@ -71,7 +72,9 @@ type
     Line: Int64;
     OldContent: String; // conteudo antes da operacao
     NewContent: String; // Op=3: X linhas serializadas (TStringList.Text) para undo/redo do bloco
-    { Op=3: 0=colar, 1=autofill coluna Linha #, 2=inserir multiplas linhas (dialogo). }
+    { Op=3: 0=colar, 1=autofill coluna Linha #, 2=inserir multiplas linhas (dialogo),
+      4=merge delta, 5=merge ficheiros, 6=descaracterizacao (OldContent=jornal .ffanon,
+      NewContent=descricao). }
     BatchKind: Integer;
   end;
 
@@ -369,6 +372,7 @@ type
     btnMainSplitByPattern: TsSpeedButton;
     btnMainSplitEqualParts: TsSpeedButton;
     btnMainExtractParts: TsSpeedButton;
+    btnMainAskFiles: TsSpeedButton;
     ActionReadFile: TAction;
     N2: TMenuItem;
     mnSelectSkin: TMenuItem;
@@ -969,6 +973,8 @@ type
     FZeroScanDiscoverLastLineBusy: Boolean;
     { Estado guardado ao fechar o ficheiro aberto para exportar partes (reload apos thread). }
     FSplitClosedSourcePath: String;
+    { Split source shown in the file box but never read: read it when the split ends. }
+    FSplitReadAfterPath: String;
     FSplitRestoreTotalLines: Int64;
     FSplitRestoreZeroScan: Boolean;
     FSplitRestoreZeroScanEstimated: Boolean;
@@ -1167,6 +1173,8 @@ type
     FOldStatusBarWndProcForCombo: TWndMethod;
     FHookedStatusBarForViewEncoding: Boolean;
     FCompareMergeHosted: TObject;
+    FAgentTab: TsTabSheet;
+    FAgentHosted: TObject;
     FDeltaEditorHosted: TObject;
     FMergeFilesHosted: TObject;
     FSplitByPatternHosted: TObject;
@@ -1198,6 +1206,15 @@ type
     FPendingUndoRedoPartner: PUndoRecord;
     FPendingUndoRedoRestore: PUndoRecord;
     FPendingUndoRedoStatusMsg: String;
+    { Descaracterizacao (uAnonymize): job em curso e contexto para o fim do job. }
+    FAnonBusy: Boolean;
+    FAnonPendingDesc: String;
+    FAnonPendingHist: TStringList;
+    FAnonHistLines: TArray<Int64>;
+    FAnonHistBefore: TArray<string>;
+    FAnonPendingPath: String;
+    FAnonSwapRecord: PUndoRecord;
+    FAnonKeepUndo: Boolean;
     FFileReloadInProgress: Boolean;
     FIndexReadThread: TThread;
 
@@ -2315,6 +2332,22 @@ type
     procedure DoUndo;
     procedure DoRedo;
     procedure ClearUndoRedo;
+    procedure DisposeUndoRecord(P: PUndoRecord);
+    { Descaracterizacao }
+    procedure DoAnonymize(AScope: TAnonScope);
+    function AnonProvideSamples(AScope: TAnonScope; AFromLine, AToLine: Int64;
+      out ASamples: TAnonSamples; out AScopeBytes: Int64): Boolean;
+    function AnonBuildRanges(AScope: TAnonScope; AFromLine, AToLine: Int64;
+      out ARanges: TAnonRanges; out AFirstLine: Int64): Boolean;
+    procedure AnonJobDone(const AResult: TAnonJobResult);
+    procedure AnonBuildHistoryOps(AScope: TAnonScope; AFromLine, AToLine: Int64;
+      const ADesc: string);
+    procedure AnonWriteHistory;
+    procedure AnonSwapDone(const AResult: TAnonJobResult);
+    procedure AnonRefreshViewAfterInPlaceWrite;
+    procedure StartAnonUndoRedo(P: PUndoRecord; AKind: TAnonJobKind);
+    procedure miAnonymizeSelectedClick(Sender: TObject);
+    procedure miAnonymizeFileClick(Sender: TObject);
     procedure RecordForUndo(const AOp: TOperationType; const ALine: Int64;
       const AOldContent: String; const ANewContent: String = '');
     procedure RecordBatchInsertForUndo(const AStartLine: Int64; ALines: TStringList);
@@ -2546,6 +2579,7 @@ type
     procedure miFilterClick(Sender: TObject);
     procedure miFilterContinueClick(Sender: TObject);
     procedure miExportFilteredClick(Sender: TObject);
+    procedure miShowLastGeneratedFileClick(Sender: TObject);
     procedure miToggleBookmarkClick(Sender: TObject);
     procedure miNextBookmarkClick(Sender: TObject);
     procedure miPrevBookmarkClick(Sender: TObject);
@@ -2567,6 +2601,19 @@ type
       AAfterLine: Integer);
     procedure miMergeFilesClick(Sender: TObject);
     procedure miCompareMergeHistoryClick(Sender: TObject);
+    procedure miAskFilesClick(Sender: TObject);
+    procedure EnsureAskFilesTab;
+    function EnsureAgentWorkspace: TObject;
+    function AgentBridgeRunImpl(const APrompt, APath: string; out AWhy: string): Boolean;
+    procedure AgentBridgeAcceptAllImpl;
+    procedure AgentBridgeRejectAllImpl;
+    procedure AgentBridgeReviewImpl;
+    procedure AgentBridgeStopImpl;
+    function AgentCbGetOpenFile: string;
+    procedure AgentCbReleaseFile(const APath: string);
+    procedure AgentCbRefreshFile(const APath: string);
+    function AgentCbBeforeWrite(const APath: string): Boolean;
+    procedure AgentCbRunExtraAction(const AActionId, APath: string);
     procedure miFindInFilesClick(Sender: TObject);
     procedure miInsertLineClick(Sender: TObject);
     procedure miInsertLineAfterClick(Sender: TObject);
@@ -2667,6 +2714,7 @@ type
     procedure StartInstantOpen(const AFileName: string);
     function GetLineContent(LineIndex: Integer): String; overload;
     function GetLineContent(LineIndex: Integer; out ATrailingLineBreaks: AnsiString): String; overload;
+    function ResolveLineByteBounds(LineIndex: Integer; out AStart1, AEndEx1: Int64): Boolean;
     function BuildLineTextForMarksDisplay(const LineIdx: Integer): string;
     function StripTrailingLineBreaks(const S: string): string;
     function ExtractTrailingLineBreaks(const S: string): string;
@@ -2924,10 +2972,10 @@ uses
   acAnimation, UnUtils, StrUtils, UnDM, UnSplash, UnFormAboutFF, uTextEncoding, uI18n,
   ComObj, ActiveX, uCompareMergeUI, uFileSessionHistory, uFastFileAIScreenHelp,
   uFastFileAIClient, uFastFileAIPythonMacroHelp, uVBScriptRegex, uTailMacro, uMMF,
-  uZeroScanBlockIndex, uDiskSpaceCheck, uEmEditorFeatures,
+  uZeroScanBlockIndex, uDiskSpaceCheck, uEmEditorFeatures, uExportDoneDlg,
   uFastFileAssistant, uFastFileAssistantCatalog, uAssistantPostAction, uAssistantPipelineStore,
   uFastFileExternalExe, UnBufferedTextWriter,
-  uMruFind, UnitPopupMruList, uFastFileScale; 
+  uMruFind, UnitPopupMruList, uFastFileScale, uAgentWorkspace, uAgentLoop, uAgentBridge; 
 
 {$R *.DFM}
 
@@ -7085,6 +7133,9 @@ begin
   if Assigned(tabExportedLines) then tabExportedLines.Caption := TrText('Exported Lines');
   if Assigned(tabFindFiles)     then tabFindFiles.Caption     := TrText('Find Files');
   if Assigned(tabMerge)         then tabMerge.Caption         := TrText('Compare / merge + session history');
+  if Assigned(FAgentTab) then FAgentTab.Caption := TrText('AI agent');
+  if Assigned(FAgentHosted) and (FAgentHosted is TfrmAgentWorkspace) then
+    TfrmAgentWorkspace(FAgentHosted).ApplyLanguage;
   if Assigned(tabMergeLines)         then tabMergeLines.Caption         := TrText('Merge lines');
   if Assigned(tabMergeFiles)         then tabMergeFiles.Caption         := TrText('Merge files');
   if Assigned(tabSplitByPatternTab)  then tabSplitByPatternTab.Caption  := TrText('Split file by Pattern/Regex');
@@ -7553,6 +7604,27 @@ var
     ABtn.OnClick := AOnClick;
   end;
 begin
+  if Assigned(PanelToolButtons) and (not Assigned(btnMainAskFiles)) then
+  begin
+    btnMainAskFiles := TsSpeedButton.Create(Self);
+    btnMainAskFiles.Name := 'btnMainAskFiles';
+    btnMainAskFiles.Parent := PanelToolButtons;
+    btnMainAskFiles.Align := alLeft;
+    btnMainAskFiles.Left := 4800;
+    btnMainAskFiles.Top := 0;
+    btnMainAskFiles.Width := BTN_W;
+    btnMainAskFiles.Height := 71;
+    btnMainAskFiles.AllowAllUp := True;
+    btnMainAskFiles.Flat := True;
+    btnMainAskFiles.Spacing := 8;
+    btnMainAskFiles.Images := ImageList32;
+    btnMainAskFiles.ImageIndex := -1;
+    btnMainAskFiles.ShowHint := True;
+    btnMainAskFiles.SkinData.SkinSection := 'TOOLBUTTON';
+    btnMainAskFiles.Blend := 20;
+    btnMainAskFiles.Reflected := True;
+    btnMainAskFiles.OnClick := miAskFilesClick;
+  end;
   if not Assigned(PanelToolButtons) or not Assigned(btnShowTabReadFile) then Exit;
 
   { DFM already has the 7 buttons: only wire OnClick (mi* handlers are private). }
@@ -7752,6 +7824,8 @@ begin
     btnMainSplitEqualParts.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_SPLIT_EQUAL, 19);
   if Assigned(btnMainExtractParts) then
     btnMainExtractParts.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_EXTRACT_PARTS, 19);
+  if Assigned(btnMainAskFiles) then
+    btnMainAskFiles.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_FILE_AGENT, -1);
   { ImageIndex 20 e o X de Fechar — o botao Ajuda nao pode partilhar esse glifo. }
   if Assigned(btnHelp) then
   begin
@@ -15963,6 +16037,8 @@ begin
     ShortCut(Ord('O'), [ssCtrl, ssShift]), MenuIconIndex('save as.bmp', 11));
   AddItem(TrText('&Clear'), miClearClick,
     ShortCut(Ord('X'), [ssCtrl, ssShift]), MenuIconIndex('clear.bmp', 12));
+  AddItem(TrText('Anon.Menu.Selected'), miAnonymizeSelectedClick,
+    ShortCut(Ord('D'), [ssCtrl, ssAlt]), MenuIconIndex('edit.bmp', 12));
 
   { --- Edit group --- }
   AddSep;
@@ -16028,6 +16104,8 @@ begin
   AddSep;
   AddItem(TrText('Compare / merge + &history tab'), miCompareMergeHistoryClick,
     ShortCut(Ord('H'), [ssCtrl, ssShift]), MenuIconIndex('grid merge cells.bmp', 22));
+  AddItem(TrText('AI &agent on files'), miAskFilesClick,
+    ShortCut(Ord('G'), [ssCtrl, ssAlt]), MenuIconIndex('wizard.bmp', 32));
 end;
 
 procedure TfrmMain.popupmenuListViewPopup(Sender: TObject);
@@ -16880,6 +16958,7 @@ begin
   ProgressImages.GetBitmap(0, ProgressImage.Picture.Bitmap);
   for iPage := 0 to pgMain.PageCount - 1 do
       pgMain.Pages[iPage].TabVisible := False;
+  EnsureAskFilesTab;
 
   if Assigned(sFloatSample) and (sFloatSample.Items.Count > 0) then
     sFloatSample.Items[0].Visible := False;
@@ -17014,6 +17093,7 @@ begin
   StartupMark('FormCreate: ListView setup');
   { Remover ff_*.tmp orfaos de execucao anterior (crash / kill). }
   CleanupFastFileTempWorkFiles;
+  AnonCleanupJournalDir;
   StartupMark('FormCreate: CleanupFastFileTempWorkFiles');
 
   // === New features init ===
@@ -17228,6 +17308,7 @@ begin
   SetBtn(btnMainSplitFiles, 'Split Files', 'Ctrl+Shift+K');
   SetBtn(btnMainMergeLines, 'Merge lines', 'Ctrl+Shift+M');
   SetBtn(btnMainCompareMerge, 'Compare / merge', 'Ctrl+Shift+H');
+  SetBtn(btnMainAskFiles, 'AI agent', 'Ctrl+Alt+G');
   SetBtn(btnMainSplitByPattern, 'Pattern/Regex', 'Ctrl+Alt+P');
   SetBtn(btnMainExtractParts, 'Extract parts', 'Ctrl+Shift+Q');
   SetBtn(btnRead, 'Read', 'F5');
@@ -17432,6 +17513,11 @@ procedure TfrmMain.miExportFilteredClick(Sender: TObject);
 begin
   EnsureReadTabVisible;
   ExportFilteredResults;
+end;
+
+procedure TfrmMain.miShowLastGeneratedFileClick(Sender: TObject);
+begin
+  ShowLastGeneratedFileDialog;
 end;
 
 procedure TfrmMain.miToggleBookmarkClick(Sender: TObject);
@@ -18768,6 +18854,150 @@ begin
   MergeFrm.OnEscapeEmbedded := HostedTabCancel;
 end;
 
+procedure TfrmMain.EnsureAskFilesTab;
+begin
+  if Assigned(FAgentTab) or (not Assigned(pgMain)) then Exit;
+  FAgentTab := TsTabSheet.Create(Self);
+  FAgentTab.PageControl := pgMain;
+  FAgentTab.Name := 'tabAskFiles';
+  FAgentTab.Caption := TrText('AI agent');
+  FAgentTab.TabVisible := False;
+end;
+
+function TfrmMain.AgentCbGetOpenFile: string;
+begin
+  Result := AssistantCbGetOpenFilePath;
+end;
+
+procedure TfrmMain.AgentCbReleaseFile(const APath: string);
+var
+  Cur: string;
+begin
+  Cur := Trim(AssistantCbGetOpenFilePath);
+  if (Cur = '') or (Trim(APath) = '') then Exit;
+  if SameText(ExpandFileName(Cur), ExpandFileName(Trim(APath))) then
+    CloseFileStreams;
+end;
+
+procedure TfrmMain.AgentCbRefreshFile(const APath: string);
+var
+  Cur: string;
+begin
+  Cur := Trim(AssistantCbGetOpenFilePath);
+  if (Cur = '') or (Trim(APath) = '') then Exit;
+  if SameText(ExpandFileName(Cur), ExpandFileName(Trim(APath))) then
+    RequestPostEditRefresh;
+end;
+
+function TfrmMain.AgentCbBeforeWrite(const APath: string): Boolean;
+var
+  Cur: string;
+begin
+  Result := True;
+  Cur := Trim(CurrentEffectiveFilePath);
+  if (Cur = '') or (Trim(APath) = '') then Exit;
+  if not AnsiSameText(ExpandFileName(Cur), ExpandFileName(Trim(APath))) then Exit;
+  if UndoRedoBusy or AnonJobRunning then
+  begin
+    MessageBoxTrInfo(TrText('Another edit or undo is still in progress. Please wait.'), TrText('AI agent'));
+    Exit(False);
+  end;
+  Result := EnsureWritableSession and EnsureOpenFileNotStaleForMutate;
+end;
+
+{ Agent actions that are not Assistant catalog ids (see uAgentActions.EXTRA_IDS). }
+procedure TfrmMain.AgentCbRunExtraAction(const AActionId, APath: string);
+begin
+  try
+    if SameText(AActionId, 'new_file') then
+      miNewFileClick(Self)
+    else if SameText(AActionId, 'open_preferences') then
+      miUserPrefsClick(Self)
+    else if SameText(AActionId, 'toggle_bookmark_bar') then
+      miShowBookmarkBarClick(Self)
+    else if SameText(AActionId, 'restore_session_tabs') then
+      miRestoreLastSessionTabsClick(Self)
+    else if SameText(AActionId, 'open_anonymize_dialog') then
+    begin
+      EnsureReadTabVisible;
+      miAnonymizeFileClick(Self);
+    end;
+  except
+    on E: Exception do
+      ReportFastFileException('Agent.' + AActionId, E, True);
+  end;
+end;
+
+function TfrmMain.EnsureAgentWorkspace: TObject;
+var
+  Frm: TfrmAgentWorkspace;
+begin
+  Result := nil;
+  EnsureAskFilesTab;
+  if not Assigned(FAgentTab) then Exit;
+  if not Assigned(FAgentHosted) then
+  begin
+    Frm := TfrmAgentWorkspace.ExecuteEmbedded(Self, FAgentTab);
+    Frm.OnGetOpenFile := AgentCbGetOpenFile;
+    Frm.OnReleaseFile := AgentCbReleaseFile;
+    Frm.OnRefreshFile := AgentCbRefreshFile;
+    Frm.OnHistoryTouched := NotifyHistoryTouched;
+    Frm.OnBeforeWrite := AgentCbBeforeWrite;
+    Frm.OnRunExtraAction := AgentCbRunExtraAction;
+    FAgentHosted := Frm;
+  end;
+  Result := FAgentHosted;
+end;
+
+procedure TfrmMain.miAskFilesClick(Sender: TObject);
+var
+  WasHosted: Boolean;
+begin
+  WasHosted := Assigned(FAgentHosted);
+  EnsureAskFilesTab;
+  if not Assigned(FAgentTab) then Exit;
+  ShowTab(FAgentTab);
+  EnsureAgentWorkspace;
+  if WasHosted and (FAgentHosted is TfrmAgentWorkspace) then
+    TfrmAgentWorkspace(FAgentHosted).ApplyLanguage;
+end;
+
+function TfrmMain.AgentBridgeRunImpl(const APrompt, APath: string; out AWhy: string): Boolean;
+var
+  W: TObject;
+begin
+  Result := False;
+  AWhy := '';
+  W := EnsureAgentWorkspace;
+  if not (W is TfrmAgentWorkspace) then Exit;
+  Result := TfrmAgentWorkspace(W).RunExternal(APrompt, APath, AWhy);
+end;
+
+procedure TfrmMain.AgentBridgeAcceptAllImpl;
+begin
+  if FAgentHosted is TfrmAgentWorkspace then
+    TfrmAgentWorkspace(FAgentHosted).AcceptAllExternal;
+end;
+
+procedure TfrmMain.AgentBridgeRejectAllImpl;
+begin
+  if FAgentHosted is TfrmAgentWorkspace then
+    TfrmAgentWorkspace(FAgentHosted).RejectAllExternal;
+end;
+
+procedure TfrmMain.AgentBridgeReviewImpl;
+begin
+  miAskFilesClick(Self);
+  if FAgentHosted is TfrmAgentWorkspace then
+    TfrmAgentWorkspace(FAgentHosted).ShowEditsPage;
+end;
+
+procedure TfrmMain.AgentBridgeStopImpl;
+begin
+  if FAgentHosted is TfrmAgentWorkspace then
+    TfrmAgentWorkspace(FAgentHosted).StopExternal;
+end;
+
 procedure TfrmMain.CompareMergeFileHook(const APath: string; AStage: Integer);
 var
   Cur: string;
@@ -19108,6 +19338,11 @@ begin
   H.NotifyPanelVisible := AssistantCbNotifyPanelVisible;
   H.ValidateComposedSource := AssistantCbValidateComposedSource;
   SetFastFileAssistantHost(H);
+  AgentBridgeRun := AgentBridgeRunImpl;
+  AgentBridgeAcceptAll := AgentBridgeAcceptAllImpl;
+  AgentBridgeRejectAll := AgentBridgeRejectAllImpl;
+  AgentBridgeReview := AgentBridgeReviewImpl;
+  AgentBridgeStop := AgentBridgeStopImpl;
 end;
 
 function TfrmMain.AssistantCbHasOpenFile: Boolean;
@@ -21547,6 +21782,7 @@ begin
   if (OutDir <> '') and (not DirectoryExists(OutDir)) then
     ForceDirectories(OutDir);
   AssistantHostSetLastExportPath(OutFile);
+  AgentLog(Format('export filtered lines: %d line(s) to %s', [FFilteredCount, OutFile]));
   HitsCopy := FFilterHitsList;
   Mode := AssistantEffectiveFilterMatchMode(FFilterText);
   TExportFilteredLinesThread.Create(Self, CurrentEffectiveFilePath, OutFile,
@@ -22047,6 +22283,7 @@ procedure TfrmMain.AssistantCbExportMatchingLines(const APattern: string;
 var
   Needle: string;
   PreferFile: Boolean;
+  St: TAssistantChainStep;
 begin
   EnsureReadTabVisible;
   if not AssistantCbHasOpenFile then
@@ -22057,6 +22294,19 @@ begin
   end;
   Needle := Trim(NormalizeAssistantFilterNeedle('', APattern));
   if Needle = '' then Exit;
+  { Reopening the file clears the pending export: defer the whole export, not just its filter. }
+  FillChar(St, SizeOf(St), 0);
+  St.ActionId := 'export_matching_lines';
+  St.FilterText := Needle;
+  St.CaseSensitive := ACaseSensitive;
+  if AssistantCbTryDeferUntilLoaded(St) then
+  begin
+    AgentLog('export_matching_lines deferred until the file is loaded: ' + St.Path);
+    Exit;
+  end;
+  AgentLog(Format('export_matching_lines start needle=%s filter_active=%s same=%s count=%d',
+    [Needle, BoolToStr(FFilterActive, True), BoolToStr(SameText(Trim(FFilterText), Needle), True),
+     FFilteredCount]));
   PreferFile := True;
   FAssistantPendingExportToFile := PreferFile;
   FAssistantPendingExportFiltered := True;
@@ -22452,7 +22702,7 @@ procedure TfrmMain.BuildMenu;
     AddItem(AParent, '-', nil);
   end;
 var
-  MFile, MEdit, MView, MTools, MToolsFA, MToolsSM, MToolsLn, MToolsTail,
+  MFile, MEdit, MView, MTools, MToolsFA, MToolsSM, MToolsLn, MToolsAnon, MToolsTail,
   MToolsAuto, MToolsExp, MSession, MOptions, MOptPerf, MAI, MHelp: TMenuItem;
   MEol, MEnc, MDefEol, MDefEnc, Mi: TMenuItem;
 begin
@@ -22586,6 +22836,8 @@ begin
       ShortCut(Ord('J'), [ssCtrl, ssShift]), MenuIconIndex('grid.bmp', 22));
     AddItem(MToolsSM, TrText('Compare / merge + &history tab'), miCompareMergeHistoryClick,
       ShortCut(Ord('H'), [ssCtrl, ssShift]), MenuIconIndex('grid merge cells.bmp', 22));
+    AddItem(MToolsSM, TrText('AI &agent on files'), miAskFilesClick,
+      ShortCut(Ord('G'), [ssCtrl, ssAlt]), MenuIconIndex('wizard.bmp', 32));
     AddItem(MToolsSM, TrText('Split file by &Pattern/Regex...'), miSplitByPatternClick,
       ShortCut(Ord('P'), [ssCtrl, ssAlt]), MenuIconIndex('grid split cells.bmp', 19));
     AddItem(MToolsSM, TrText('Split file into e&qual parts...'), miSplitEqualPartsClick,
@@ -22606,6 +22858,12 @@ begin
       MenuIconIndex('edit.bmp', 17));
     AddItem(MToolsLn, TrText('&Delete line'), miDeleteLinesClick, ShortCut(Ord('D'), [ssCtrl, ssShift]),
       MenuIconIndex('delete.bmp', 16));
+
+    MToolsAnon := AddItem(MTools, TrText('Anon.Menu'), nil, 0, MenuIconIndex('edit.bmp', 12));
+    AddItem(MToolsAnon, TrText('Anon.Menu.Selected'), miAnonymizeSelectedClick,
+      ShortCut(Ord('D'), [ssCtrl, ssAlt]), MenuIconIndex('edit.bmp', 12));
+    AddItem(MToolsAnon, TrText('Anon.Menu.File'), miAnonymizeFileClick, 0,
+      MenuIconIndex('edit.bmp', 12));
 
     MToolsTail := AddItem(MTools, TrText('Menu.Tools.Tail'), nil, 0, MenuIconIndex('forward.bmp', 2));
     AddItem(MToolsTail, TrText('Tail / &Follow mode'), miToggleTailClick, ShortCut(Ord('T'), [ssCtrl]),
@@ -22628,6 +22886,8 @@ begin
     MToolsExp := AddItem(MTools, TrText('Menu.Tools.ExportClear'), nil, 0, MenuIconIndex('save as.bmp', 11));
     AddItem(MToolsExp, TrText('Exp&ort'), miExportClick, ShortCut(Ord('O'), [ssCtrl, ssShift]),
       MenuIconIndex('save as.bmp', 11));
+    AddItem(MToolsExp, TrText('ExportDone.ShowLast') + '...', miShowLastGeneratedFileClick,
+      ShortCut(Ord('O'), [ssCtrl, ssAlt]), MenuIconIndex('save as.bmp', 11));
     AddItem(MToolsExp, TrText('&Clear'), miClearClick, ShortCut(Ord('X'), [ssCtrl, ssShift]),
       MenuIconIndex('clear.bmp', 12));
 
@@ -24590,6 +24850,12 @@ begin
     Exit;
   end;
 
+  if SameText(Id, 'tabAskFiles') then
+  begin
+    miAskFilesClick(nil);
+    Exit;
+  end;
+
   if SameText(Id, 'tabMergeLines') then
   begin
     if not Assigned(tabMergeLines) then Exit;
@@ -25758,7 +26024,10 @@ begin
   end;
 
   CurOpen := CurrentEffectiveFilePath;
-  if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and
+  FSplitReadAfterPath := '';
+  { Only a file that is really loaded is closed and restored: a path left in the box but
+    never read would come back as numbered rows with no content. }
+  if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and Assigned(FSourceFileStream) and
      SameText(ExpandFileName(SourceFile), ExpandFileName(CurOpen)) then
   begin
     if not EnsureWritableSession then Exit;
@@ -25769,7 +26038,10 @@ begin
     FSplitRestoreZeroScanPhysical := FZeroScanPhysicalLineCount;
     FSplitRestoreBytesPerItem := FZeroScanBytesPerItem;
     CloseFileStreams;
-  end;
+  end
+  else if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and
+     SameText(ExpandFileName(SourceFile), ExpandFileName(CurOpen)) then
+    FSplitReadAfterPath := ExpandFileName(CurOpen);
 
   if not ConfirmDiskSpaceForSplitEqual(SourceFile) then
     Exit;
@@ -26097,7 +26369,8 @@ begin
 
   TotalLinesArg := 0;
   CurOpen := CurrentEffectiveFilePath;
-  if (CurOpen <> '') and
+  FSplitReadAfterPath := '';
+  if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and Assigned(FSourceFileStream) and
      SameText(ExpandFileName(SourceFile), ExpandFileName(CurOpen)) then
   begin
     if not EnsureWritableSession then Exit;
@@ -26118,7 +26391,10 @@ begin
     FSplitRestoreZeroScanPhysical := FZeroScanPhysicalLineCount;
     FSplitRestoreBytesPerItem := FZeroScanBytesPerItem;
     CloseFileStreams;
-  end;
+  end
+  else if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and
+     SameText(ExpandFileName(SourceFile), ExpandFileName(CurOpen)) then
+    FSplitReadAfterPath := ExpandFileName(CurOpen);
 
   if not ConfirmDiskSpaceForSplitFraction(SourceFile, PartFrom, PartTo, TotalParts) then
     Exit;
@@ -27120,7 +27396,7 @@ begin
   end;
 
   CurOpen := CurrentEffectiveFilePath;
-  if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and
+  if (CurOpen <> '') and (CurOpen <> SELECTTEXT) and Assigned(FSourceFileStream) and
      SameText(ExpandFileName(SourceFile), ExpandFileName(CurOpen)) then
   begin
     if not EnsureWritableSession then Exit;
@@ -27953,6 +28229,7 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
+  FreeAndNil(FAnonPendingHist);
   GFFCompareMergeFileHook := nil;
   PopupScalingSkinData := nil;
   PopupScalingAlphaHints := nil;
@@ -32751,6 +33028,20 @@ end;
 
 procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
+  { gravacao no proprio ficheiro: sair a meio deixaria o ficheiro misto }
+  if FAnonBusy then
+  begin
+    CanClose := False;
+    MessageBoxTrInfo(TrText('Anon.BusyClose'), TrText('Anon.Title'));
+    Exit;
+  end;
+  if Assigned(FAgentHosted) and (FAgentHosted is TfrmAgentWorkspace) and
+     TfrmAgentWorkspace(FAgentHosted).IsApplying then
+  begin
+    CanClose := False;
+    MessageBoxTrInfo(TrText('Another edit or undo is still in progress. Please wait.'), TrText('AI agent'));
+    Exit;
+  end;
   if FindFile.Busy then FindFile.Abort;
   ShutdownApplicationWork;
 end;
@@ -33398,6 +33689,8 @@ begin
     MenuIconIndex('save as.bmp', 11));
   AddItem(TrText('E&xport tail / filtered lines'), miExportFilteredClick,
     ShortCut(Ord('L'), [ssCtrl, ssShift]), MenuIconIndex('save as.bmp', 11));
+  AddItem(TrText('ExportDone.ShowLast') + '...', miShowLastGeneratedFileClick,
+    ShortCut(Ord('O'), [ssCtrl, ssAlt]), MenuIconIndex('save as.bmp', 11));
   AddItem('-', nil);
   AddItem(TrText('Copy selection'), miCopyClick, ShortCut(Ord('C'), [ssCtrl]),
     MenuIconIndex('copy.bmp', 9));
@@ -33405,6 +33698,7 @@ begin
     ShortCut(Ord('S'), [ssCtrl, ssShift]), MenuIconIndex('select all.bmp', 10));
   AddItem(TrText('Fil&ter / Grep'), miFilterClick, ShortCut(Ord('L'), [ssCtrl]),
     MenuIconIndex(READ_TB_ICON_FILTER, MenuIconIndex('filter-2.bmp', 4)));
+  AddItem(TrText('Anon.Menu.File'), miAnonymizeFileClick, 0, MenuIconIndex('edit.bmp', 12));
   AddItem('-', nil);
   AddItem(TrText('&Clear'), miClearClick, ShortCut(Ord('X'), [ssCtrl, ssShift]),
     MenuIconIndex('clear.bmp', 12));
@@ -34375,6 +34669,8 @@ procedure TfrmMain.UIScaleBoundsTimerTick(Sender: TObject);
 begin
   FUIScaleBoundsTimer.Enabled := False;
   FixWindowBoundsAfterScale;
+  if Assigned(FAgentHosted) and (FAgentHosted is TfrmAgentWorkspace) then
+    TfrmAgentWorkspace(FAgentHosted).FitTexts;
 end;
 
 procedure TfrmMain.FixWindowBoundsAfterScale;
@@ -35070,6 +35366,8 @@ procedure TfrmMain.CloseFileStreams;
 begin
   FDeferredFindAfterIndex := False;
   FDeferredFilterAfterIndex := False;
+  if FAssistantPendingExportFiltered then
+    AgentLog('file closed: pending export dropped');
   FAssistantPendingExportFiltered := False;
   FAssistantPendingExportToFile := False;
   FAssistantPendingFilterCaseSensitive := False;
@@ -35250,20 +35548,19 @@ begin
   Result := GetLineContent(LineIndex, DummyTrail);
 end;
 
-function TfrmMain.GetLineContent(LineIndex: Integer; out ATrailingLineBreaks: AnsiString): String;
+function TfrmMain.ResolveLineByteBounds(LineIndex: Integer; out AStart1, AEndEx1: Int64): Boolean;
+{ Limites de bytes da linha (0-based) no ficheiro: inicio 1-based e fim exclusivo
+  1-based (inclui a quebra de linha), pelo mesmo caminho usado na visualizacao. }
 var
   StartOffset, EndOffset: Int64;
-  FullLineLen: Int64;
-  LineLength: Integer;
   Buffer: AnsiString;
   OffsetBuf: array[0..39] of AnsiChar; // room for 2 index records (18+2 each)
-  BytesRead2: Integer;
   IdxPos: Int64;
   ReadCount: Integer;
   // Sparse path
   CkptIdx: Int64;
   SkipCount: Integer;
-  ScanBuf: array[0..262143] of Byte;  // 256KB buffer (4� faster than 64KB for sparse scan)
+  ScanBuf: array[0..262143] of Byte;  // 256KB buffer (4x faster than 64KB for sparse scan)
   ScanRead, ScanI: Integer;
   ScanRemaining: Integer;
   ScanPos: Int64;
@@ -35283,9 +35580,17 @@ var
     Result := StrToInt64Def(Trim(string(TmpStr)), -1);
   end;
 
+  function Done: Boolean;
+  begin
+    AStart1 := StartOffset;
+    AEndEx1 := EndOffset;
+    Result := True;
+  end;
+
 begin
-  Result := '';
-  ATrailingLineBreaks := '';
+  Result := False;
+  AStart1 := 0;
+  AEndEx1 := 0;
   if not Assigned(FSourceFileStream) then Exit;
 
   try
@@ -35296,12 +35601,12 @@ begin
       if (LineIndex >= 0) and (LineIndex < 65536) and
          TryReadPhysicalLineBounds0(LineIndex, StartOffset, EndOffset) then
       begin
-        Result := ReadLineTextFromSourceOffsets(StartOffset, EndOffset);
+        Result := Done;
         Exit;
       end;
       if TryResolveZeroScanExactLineBoundsFromStart(LineIndex, StartOffset, EndOffset) then
       begin
-        Result := ReadLineTextFromSourceOffsets(StartOffset, EndOffset);
+        Result := Done;
         Exit;
       end;
       if (FZeroScanBytesPerItem > 0) and
@@ -35356,7 +35661,7 @@ begin
           end;
         end;
       end;
-      Result := ReadLineTextFromSourceOffsets(StartOffset, EndOffset);
+      Result := Done;
       Exit;
     end
     else if Assigned(FIndexFileStream) then
@@ -35439,6 +35744,31 @@ begin
     end
     else
       Exit;  { no index available }
+    Result := Done;
+  except
+    Result := False;
+  end;
+end;
+
+function TfrmMain.GetLineContent(LineIndex: Integer; out ATrailingLineBreaks: AnsiString): String;
+var
+  StartOffset, EndOffset: Int64;
+  FullLineLen: Int64;
+  LineLength: Integer;
+  Buffer: AnsiString;
+  BytesRead2: Integer;
+begin
+  Result := '';
+  ATrailingLineBreaks := '';
+  if not Assigned(FSourceFileStream) then Exit;
+
+  try
+    if not ResolveLineByteBounds(LineIndex, StartOffset, EndOffset) then Exit;
+    if UsesProportionalZeroScanScroll then
+    begin
+      Result := ReadLineTextFromSourceOffsets(StartOffset, EndOffset);
+      Exit;
+    end;
 
     FullLineLen := EndOffset - StartOffset;
     if FullLineLen <= 0 then Exit;
@@ -38389,7 +38719,7 @@ begin
     finally
       SL.Free;
     end;
-    ShowAppMessage(Format(TrText('%d filtered line(s) exported to file.'), [FFilteredCount]));
+    ShowGeneratedFileDialog(OutFile, FFilteredCount);
     AssistantOfferAfterActivity('export',
       Format(TrText('Assistant.Offer.Summary.Export'), [FFilteredCount]));
   end
@@ -40623,7 +40953,11 @@ end;
 procedure TExportFilteredLinesThread.SyncFinish;
 begin
   TfrmSmoothLoading.HideLoading;
-  if FSuccess then
+  AgentLog(Format('export filtered lines finished: ok=%s exported=%d exists=%s file=%s',
+    [BoolToStr(FSuccess, True), FExportedCount, BoolToStr(FileExists(FOutputFile), True), FOutputFile]));
+  if FSuccess and FileExists(FOutputFile) then
+    ShowGeneratedFileDialog(FOutputFile, FExportedCount)
+  else if FSuccess then
     FastFileMessageBox(PChar(Format(TrText('%d filtered line(s) exported to file.'),
       [FExportedCount])), PChar(TrText('Assistant.Status.ExportMatching')),
       MB_OK or MB_ICONINFORMATION)
@@ -42344,16 +42678,28 @@ var
 begin
   if not FDeferredFilterAfterIndex then Exit;
   FDeferredFilterAfterIndex := False;
-  FAssistantPendingExportFiltered := False;
-  FAssistantPendingExportToFile := False;
-  FAssistantPendingFilterCaseSensitive := False;
-  if Trim(FFilterText) = '' then Exit;
+  { An assistant "export matching lines" waits for this filter: keep its pending export. }
+  if Trim(FFilterText) = '' then
+  begin
+    FAssistantPendingExportFiltered := False;
+    FAssistantPendingExportToFile := False;
+    FAssistantPendingFilterCaseSensitive := False;
+    Exit;
+  end;
   Needle := FFilterText;
-  Mode := EffectiveFilterMatchMode(Needle);
+  if FAssistantPendingExportFiltered then
+    AgentLog('line index ready: running the filter for the pending export');
+  if FAssistantPendingExportFiltered then
+    Mode := AssistantEffectiveFilterMatchMode(Needle)
+  else
+    Mode := EffectiveFilterMatchMode(Needle);
   if (FFilterMatchPolicy = fmpAuto) and (Mode = fmmPrefix) and
      (Length(Needle) > 0) and (Needle[Length(Needle)] = '*') then
     SetLength(Needle, Length(Needle) - 1);
-  CS := EffectiveFilterCaseSensitive(Needle, Mode);
+  if FAssistantPendingExportFiltered and not FAssistantPendingFilterCaseSensitive then
+    CS := False
+  else
+    CS := EffectiveFilterCaseSensitive(Needle, Mode);
   if Assigned(FIndexFileStream) then
     StartFilter(Needle, CS, Mode)
   else
@@ -44091,7 +44437,15 @@ end;
 
 function TfrmMain.UndoRedoBusy: Boolean;
 begin
-  Result := FPendingEditUndo or (FPendingUndoRedo <> purNone) or FFileReloadInProgress;
+  Result := FPendingEditUndo or (FPendingUndoRedo <> purNone) or FFileReloadInProgress or FAnonBusy;
+end;
+
+procedure TfrmMain.DisposeUndoRecord(P: PUndoRecord);
+begin
+  if P = nil then Exit;
+  if (P^.Op = 3) and (P^.BatchKind = 6) then
+    AnonDeleteJournal(P^.OldContent);
+  Dispose(P);
 end;
 
 function TfrmMain.UndoPartnerNeedsCurrentLine(const AOp: Integer): Boolean;
@@ -44181,6 +44535,11 @@ var
   Preview: String;
   LineCount: Integer;
 begin
+  if (P^.Op = 3) and (P^.BatchKind = 6) then
+  begin
+    Result := Format(TrText('Anon.UndoConfirm'), [P^.NewContent]);
+    Exit;
+  end;
   case P^.Op of
     3: begin
          LineCount := ClipboardLineCountFromUndoRecord(P);
@@ -44219,6 +44578,11 @@ var
   Preview: String;
   LineCount: Integer;
 begin
+  if (P^.Op = 3) and (P^.BatchKind = 6) then
+  begin
+    Result := Format(TrText('Anon.RedoConfirm'), [P^.NewContent]);
+    Exit;
+  end;
   case P^.Op of
     3: begin
          LineCount := ClipboardLineCountFromUndoRecord(P);
@@ -44329,11 +44693,11 @@ begin
     FPendingUndoRedoRestore := nil;
   end;
   if Assigned(FUndoStack) then begin
-    for I := 0 to FUndoStack.Count - 1 do Dispose(PUndoRecord(FUndoStack[I]));
+    for I := 0 to FUndoStack.Count - 1 do DisposeUndoRecord(PUndoRecord(FUndoStack[I]));
     FUndoStack.Clear;
   end;
   if Assigned(FRedoStack) then begin
-    for I := 0 to FRedoStack.Count - 1 do Dispose(PUndoRecord(FRedoStack[I]));
+    for I := 0 to FRedoStack.Count - 1 do DisposeUndoRecord(PUndoRecord(FRedoStack[I]));
     FRedoStack.Clear;
   end;
 end;
@@ -44358,11 +44722,11 @@ begin
   P^.BatchKind := 0;
   FUndoStack.Add(P);
   while FUndoStack.Count > 100 do begin
-    Dispose(PUndoRecord(FUndoStack[0]));
+    DisposeUndoRecord(PUndoRecord(FUndoStack[0]));
     FUndoStack.Delete(0);
   end;
   if Assigned(FRedoStack) then begin
-    for I := 0 to FRedoStack.Count - 1 do Dispose(PUndoRecord(FRedoStack[I]));
+    for I := 0 to FRedoStack.Count - 1 do DisposeUndoRecord(PUndoRecord(FRedoStack[I]));
     FRedoStack.Clear;
   end;
 end;
@@ -46780,13 +47144,13 @@ begin
     FUndoStack.Add(P);
     while FUndoStack.Count > 100 do
     begin
-      Dispose(PUndoRecord(FUndoStack[0]));
+      DisposeUndoRecord(PUndoRecord(FUndoStack[0]));
       FUndoStack.Delete(0);
     end;
     if Assigned(FRedoStack) then
     begin
       for I := 0 to FRedoStack.Count - 1 do
-        Dispose(PUndoRecord(FRedoStack[I]));
+        DisposeUndoRecord(PUndoRecord(FRedoStack[I]));
       FRedoStack.Clear;
     end;
   finally
@@ -46833,13 +47197,13 @@ begin
       FUndoStack.Add(P);
       while FUndoStack.Count > 100 do
       begin
-        Dispose(PUndoRecord(FUndoStack[0]));
+        DisposeUndoRecord(PUndoRecord(FUndoStack[0]));
         FUndoStack.Delete(0);
       end;
       if Assigned(FRedoStack) then
       begin
         for I := 0 to FRedoStack.Count - 1 do
-          Dispose(PUndoRecord(FRedoStack[I]));
+          DisposeUndoRecord(PUndoRecord(FRedoStack[I]));
         FRedoStack.Clear;
       end;
     end;
@@ -46874,11 +47238,11 @@ begin
     P^.BatchKind := FPendingBatchInsertKind;
     FUndoStack.Add(P);
     while FUndoStack.Count > 100 do begin
-      Dispose(PUndoRecord(FUndoStack[0]));
+      DisposeUndoRecord(PUndoRecord(FUndoStack[0]));
       FUndoStack.Delete(0);
     end;
     if Assigned(FRedoStack) then begin
-      for I := 0 to FRedoStack.Count - 1 do Dispose(PUndoRecord(FRedoStack[I]));
+      for I := 0 to FRedoStack.Count - 1 do DisposeUndoRecord(PUndoRecord(FRedoStack[I]));
       FRedoStack.Clear;
     end;
   finally
@@ -47076,6 +47440,12 @@ begin
 
   FUndoStack.Delete(FUndoStack.Count - 1);
 
+  if (P^.Op = 3) and (P^.BatchKind = 6) then
+  begin
+    StartAnonUndoRedo(P, ajkUndo);
+    Exit;
+  end;
+
   if (P^.Op = 3) and (P^.BatchKind = 4) then
   begin
     New(R);
@@ -47219,6 +47589,12 @@ begin
     Exit;
 
   FRedoStack.Delete(FRedoStack.Count - 1);
+
+  if (P^.Op = 3) and (P^.BatchKind = 6) then
+  begin
+    StartAnonUndoRedo(P, ajkRedo);
+    Exit;
+  end;
 
   if (P^.Op = 3) and (P^.BatchKind = 4) then
   begin
@@ -48054,6 +48430,541 @@ begin
   UpdateListViewLineToolsEnabled;
 end;
 
+{ ============================================================================ }
+{ Descaracterizacao (anonimizacao) de dados: escrita no proprio ficheiro com   }
+{ o mesmo numero de bytes, por isso o indice de linhas continua valido.        }
+{ ============================================================================ }
+
+const
+  ANON_SAMPLE_LINES = 200;
+  ANON_SAMPLE_MAX_BYTES = 8192;
+  ANON_SAMPLE_READ_BYTES = 1024 * 1024;
+  { acima disto o historico grava so' o bloco de linhas, sem antes/depois por linha }
+  ANON_HIST_DETAIL_MAX_LINES = 2000;
+
+function TfrmMain.AnonProvideSamples(AScope: TAnonScope; AFromLine, AToLine: Int64;
+  out ASamples: TAnonSamples; out AScopeBytes: Int64): Boolean;
+var
+  Lines: TInt64List;
+  I: Integer;
+  S1, E1, S2, E2: Int64;
+
+  procedure AddSample(ALine1, AStart0: Int64; const ARaw: AnsiString; ATruncated: Boolean);
+  var
+    N: Integer;
+  begin
+    N := Length(ASamples);
+    SetLength(ASamples, N + 1);
+    ASamples[N].LineNo := ALine1;
+    ASamples[N].AbsOffset := AStart0;
+    ASamples[N].Raw := ARaw;
+    ASamples[N].Truncated := ATruncated;
+  end;
+
+  function ReadRaw(AStart0, ALen: Int64): AnsiString;
+  var
+    Got: Integer;
+  begin
+    Result := '';
+    if ALen <= 0 then Exit;
+    SetLength(Result, ALen);
+    FileStreamSeek64(FSourceFileStream, AStart0, Word(soFromBeginning));
+    Got := FSourceFileStream.Read(Result[1], ALen);
+    if Got < 0 then Got := 0;
+    SetLength(Result, Got);
+  end;
+
+  { Linhas consecutivas a partir de AStart0, lidas de uma vez (sem indice). }
+  procedure AddSequential(AStart0, AEnd0, AFirstLine, ALastLine: Int64);
+  var
+    Buf: AnsiString;
+    P, Q, L: Integer;
+    Line: Int64;
+    Term: AnsiChar;
+  begin
+    Buf := ReadRaw(AStart0, Min(Int64(ANON_SAMPLE_READ_BYTES), AEnd0 - AStart0));
+    Term := AnsiChar(FSourceLineTermByte);
+    if Term = #0 then Term := #10;
+    P := 1;
+    Line := AFirstLine;
+    while (P <= Length(Buf)) and (Line <= ALastLine) and (Length(ASamples) < ANON_SAMPLE_LINES) do
+    begin
+      Q := P;
+      while (Q <= Length(Buf)) and (Buf[Q] <> Term) do
+        Inc(Q);
+      L := Q - P + 1;
+      if Q > Length(Buf) then
+        L := Length(Buf) - P + 1;
+      AddSample(Line, AStart0 + P - 1, Copy(Buf, P, Min(L, ANON_SAMPLE_MAX_BYTES)),
+        (L > ANON_SAMPLE_MAX_BYTES) or ((Q > Length(Buf)) and (AStart0 + Length(Buf) < AEnd0)));
+      P := Q + 1;
+      Inc(Line);
+    end;
+  end;
+
+begin
+  Result := False;
+  SetLength(ASamples, 0);
+  AScopeBytes := 0;
+  if not Assigned(FSourceFileStream) then Exit;
+  try
+    case AScope of
+      ascWholeFile:
+        begin
+          AScopeBytes := SourceFileSize64;
+          AddSequential(0, AScopeBytes, 1, High(Int64));
+          Result := True;
+        end;
+      ascLineRange:
+        begin
+          if (AFromLine < 1) or (AToLine < AFromLine) or (AToLine - 1 > MaxInt) then Exit;
+          if not ResolveLineByteBounds(Integer(AFromLine - 1), S1, E1) then Exit;
+          if not ResolveLineByteBounds(Integer(AToLine - 1), S2, E2) then Exit;
+          AScopeBytes := Max(Int64(0), E2 - S1);
+          AddSequential(S1 - 1, E2 - 1, AFromLine, AToLine);
+          Result := True;
+        end;
+      ascSelection:
+        begin
+          Lines := TInt64List.Create;
+          try
+            if not CollectSelectedFileLines(Lines) then Exit;
+            for I := 0 to Lines.Count - 1 do
+            begin
+              if Lines.Items[I] - 1 > MaxInt then Exit;
+              if not ResolveLineByteBounds(Integer(Lines.Items[I] - 1), S1, E1) then Exit;
+              Inc(AScopeBytes, Max(Int64(0), E1 - S1));
+              if I < ANON_SAMPLE_LINES then
+                AddSample(Lines.Items[I], S1 - 1,
+                  ReadRaw(S1 - 1, Min(E1 - S1, Int64(ANON_SAMPLE_MAX_BYTES))),
+                  E1 - S1 > ANON_SAMPLE_MAX_BYTES);
+            end;
+            Result := True;
+          finally
+            Lines.Free;
+          end;
+        end;
+    end;
+  except
+    Result := False;
+  end;
+end;
+
+function TfrmMain.AnonBuildRanges(AScope: TAnonScope; AFromLine, AToLine: Int64;
+  out ARanges: TAnonRanges; out AFirstLine: Int64): Boolean;
+var
+  Lines: TInt64List;
+  I: Integer;
+  S1, E1, S2, E2: Int64;
+begin
+  Result := False;
+  SetLength(ARanges, 0);
+  AFirstLine := 1;
+  case AScope of
+    ascWholeFile:
+      Result := True;
+    ascLineRange:
+      begin
+        if (AFromLine < 1) or (AToLine < AFromLine) or (AToLine - 1 > MaxInt) then Exit;
+        if not ResolveLineByteBounds(Integer(AFromLine - 1), S1, E1) then Exit;
+        if not ResolveLineByteBounds(Integer(AToLine - 1), S2, E2) then Exit;
+        if E2 <= S1 then Exit;
+        SetLength(ARanges, 1);
+        ARanges[0].Start := S1 - 1;
+        ARanges[0].Len := E2 - S1;
+        AFirstLine := AFromLine;
+        Result := True;
+      end;
+    ascSelection:
+      begin
+        Lines := TInt64List.Create;
+        try
+          if not CollectSelectedFileLines(Lines) then Exit;
+          SetLength(ARanges, Lines.Count);
+          for I := 0 to Lines.Count - 1 do
+          begin
+            if Lines.Items[I] - 1 > MaxInt then Exit;
+            if not ResolveLineByteBounds(Integer(Lines.Items[I] - 1), S1, E1) then Exit;
+            ARanges[I].Start := S1 - 1;
+            ARanges[I].Len := Max(Int64(0), E1 - S1);
+          end;
+          AFirstLine := Lines.Items[0];
+          Result := True;
+        finally
+          Lines.Free;
+        end;
+      end;
+  end;
+end;
+
+procedure TfrmMain.DoAnonymize(AScope: TAnonScope);
+var
+  Path, Enc, Desc, Journal: string;
+  Lines: TInt64List;
+  SelCount: Integer;
+  Params: TAnonDialogParams;
+  R: TAnonDialogResult;
+  Ranges: TAnonRanges;
+  FirstLine: Int64;
+begin
+  if UndoRedoBusy or AnonJobRunning then
+  begin
+    MessageBoxTrInfo(TrText('Another edit or undo is still in progress. Please wait.'),
+      TrText('Anon.Title'));
+    Exit;
+  end;
+  Path := Trim(CurrentEffectiveFilePath);
+  if (Path = '') or (not FileExists(Path)) or (not Assigned(FSourceFileStream)) then
+  begin
+    MessageBoxTrInfo(TrText('Open.ForceIndexThisFile.NoFile'), TrText('Anon.Title'));
+    Exit;
+  end;
+  if not EnsureWritableSession then Exit;
+  if not EnsureOpenFileNotStaleForMutate then Exit;
+
+  Lines := TInt64List.Create;
+  try
+    if CollectSelectedFileLines(Lines) then
+      SelCount := Lines.Count
+    else
+      SelCount := 0;
+  finally
+    Lines.Free;
+  end;
+
+  Enc := EffectiveDisplayEncoding;
+  FillChar(Params, SizeOf(Params), 0);
+  Params.FileName := Path;
+  Params.Encoding := Enc;
+  Params.FileSize := SourceFileSize64;
+  Params.SelectedCount := SelCount;
+  Params.TotalLines := totalLines;
+  Params.TotalLinesExact := not UsesProportionalZeroScanScroll;
+  Params.InitialScope := AScope;
+  if FCsvMode then
+  begin
+    Params.CsvDelimiter := FCsvDelimiter;
+    Params.CsvHasHeader := FCsvHasHeader;
+  end;
+  if not ShowAnonymizeDialog(Self, Params, AnonProvideSamples, R) then Exit;
+
+  if not AnonBuildRanges(R.Scope, R.FromLine, R.ToLine, Ranges, FirstLine) then
+  begin
+    MessageBoxTrInfo(TrText('Anon.ResolveFailed'), TrText('Anon.Title'));
+    Exit;
+  end;
+  case R.Scope of
+    ascSelection: Desc := Format(TrText('Anon.Desc.Lines'), [Length(Ranges)]);
+    ascLineRange: Desc := Format(TrText('Anon.Desc.Range'), [R.FromLine, R.ToLine]);
+  else
+    Desc := TrText('Anon.Desc.WholeFile');
+  end;
+  AnonBuildHistoryOps(R.Scope, R.FromLine, R.ToLine, Desc);
+
+  Journal := '';
+  if R.KeepUndo then
+  begin
+    Journal := AnonNewJournalPath;
+    if not ConfirmDiskSpaceForPaths(TrText('Anon.Title'), Journal,
+      AnonEstimateJournalBytes(R.ScopeBytes, R.ChangedRatio)) then Exit;
+  end;
+
+  FAnonBusy := True;
+  FAnonPendingDesc := Desc;
+  FAnonPendingPath := Path;
+  FAnonKeepUndo := R.KeepUndo;
+  UpdateStatusBar(TrText('Anon.Progress.Apply'), iaRight);
+  AnonStartApply(Path, Journal, R.Options, Enc, Ranges, AnonJobDone);
+end;
+
+{ Grava antes/depois por linha nos escopos de ate 2000 linhas; acima disso,
+  usa eventos ANON resumidos para marcar as linhas alteradas no historico. }
+procedure TfrmMain.AnonBuildHistoryOps(AScope: TAnonScope; AFromLine, AToLine: Int64;
+  const ADesc: string);
+var
+  Lines: TInt64List;
+  A: TArray<Int64>;
+  I, J: Integer;
+  D: string;
+
+  procedure Add(AFirst, ACount: Int64);
+  begin
+    if ACount > MaxInt div 4 then ACount := MaxInt div 4;
+    FAnonPendingHist.Add('ANON|' + IntToStr(AFirst) + '|' + IntToStr(ACount) + '|' + D);
+  end;
+
+begin
+  if not Assigned(FAnonPendingHist) then
+    FAnonPendingHist := TStringList.Create;
+  FAnonPendingHist.Clear;
+  SetLength(FAnonHistLines, 0);
+  SetLength(FAnonHistBefore, 0);
+  D := FFHistorySanitizeField(ADesc, 200);
+  SetLength(A, 0);
+  case AScope of
+    ascWholeFile:
+      if (totalLines > 0) and (totalLines <= ANON_HIST_DETAIL_MAX_LINES) then
+      begin
+        SetLength(A, Integer(totalLines));
+        for I := 0 to High(A) do
+          A[I] := I + 1;
+      end;
+    ascLineRange:
+      if (AToLine >= AFromLine) and (AToLine - AFromLine < ANON_HIST_DETAIL_MAX_LINES) then
+      begin
+        SetLength(A, AToLine - AFromLine + 1);
+        for I := 0 to High(A) do
+          A[I] := AFromLine + I;
+      end;
+    ascSelection:
+      begin
+        Lines := TInt64List.Create;
+        try
+          if not CollectSelectedFileLines(Lines) then Exit;
+          Lines.SortUp;
+          SetLength(A, Lines.Count);
+          for I := 0 to Lines.Count - 1 do
+            A[I] := Lines.Items[I];
+        finally
+          Lines.Free;
+        end;
+      end;
+  end;
+
+  if (Length(A) > 0) and (Length(A) <= ANON_HIST_DETAIL_MAX_LINES) then
+  begin
+    { antes/depois por linha: guarda o texto atual, o "depois" e' lido no fim do job }
+    FAnonHistLines := A;
+    SetLength(FAnonHistBefore, Length(A));
+    for I := 0 to High(A) do
+      if A[I] - 1 <= MaxInt then
+        FAnonHistBefore[I] := StripTrailingLineBreaks(GetLineContent(Integer(A[I] - 1)));
+    Exit;
+  end;
+
+  case AScope of
+    ascWholeFile: Add(1, 0);
+    ascLineRange: Add(AFromLine, AToLine - AFromLine + 1);
+    ascSelection:
+      begin
+        I := 0;
+        while I <= High(A) do
+        begin
+          J := I;
+          while (J < High(A)) and (A[J + 1] <= A[J] + 1) do
+            Inc(J);
+          Add(A[I], A[J] - A[I] + 1);
+          I := J + 1;
+        end;
+      end;
+  end;
+end;
+
+procedure TfrmMain.AnonWriteHistory;
+var
+  I, MaxEx: Integer;
+  After: string;
+begin
+  if Length(FAnonHistLines) > 0 then
+  begin
+    if not Assigned(FAnonPendingHist) then
+      FAnonPendingHist := TStringList.Create;
+    FAnonPendingHist.Clear;
+    MaxEx := FFHistoryExcerptMax;
+    for I := 0 to High(FAnonHistLines) do
+    begin
+      if FAnonHistLines[I] - 1 > MaxInt then Continue;
+      After := StripTrailingLineBreaks(GetLineContent(Integer(FAnonHistLines[I] - 1)));
+      if After = FAnonHistBefore[I] then Continue;
+      FAnonPendingHist.Add('ANOL|' + IntToStr(FAnonHistLines[I]) + '|' +
+        FFHistorySanitizeField(FAnonHistBefore[I], MaxEx) + '|' +
+        FFHistorySanitizeField(After, MaxEx));
+    end;
+    SetLength(FAnonHistLines, 0);
+    SetLength(FAnonHistBefore, 0);
+  end;
+  if Assigned(FAnonPendingHist) and (FAnonPendingHist.Count > 0) then
+    FFHistoryAppendOpLines(FAnonPendingPath, FAnonPendingHist)
+  else
+    FFHistoryAppendSessionNote(FAnonPendingPath, 'ANON',
+      Format(TrText('Anon.HistoryNote'), [FAnonPendingDesc]));
+  NotifyHistoryTouched(FAnonPendingPath);
+end;
+
+procedure TfrmMain.AnonRefreshViewAfterInPlaceWrite;
+begin
+  InvalidateLineCache;
+  CaptureOpenFileDiskSnapshot;
+  if isChecked and Assigned(FCheckListBox) then
+  begin
+    FCheckListDisplayOffset := -1;
+    RefreshCheckListViewport(True);
+  end
+  else if Assigned(ListView1) then
+    ListView1.Invalidate;
+end;
+
+procedure TfrmMain.AnonJobDone(const AResult: TAnonJobResult);
+var
+  P: PUndoRecord;
+  I: Integer;
+  Msg, Secs: string;
+begin
+  FAnonBusy := False;
+  AnonRefreshViewAfterInPlaceWrite;
+  Secs := Format('%.1f s', [AResult.ElapsedMs / 1000]);
+  if AResult.Success then
+  begin
+    if AResult.BytesChanged = 0 then
+    begin
+      AnonDeleteJournal(AResult.JournalPath);
+      UpdateStatusBar(TrText('Anon.NothingChanged'), iaRight);
+      MessageBoxTrInfo(TrText('Anon.NothingChanged'), TrText('Anon.Title'));
+      Exit;
+    end;
+    if Assigned(FRedoStack) then
+    begin
+      for I := 0 to FRedoStack.Count - 1 do DisposeUndoRecord(PUndoRecord(FRedoStack[I]));
+      FRedoStack.Clear;
+    end;
+    if FAnonKeepUndo and (AResult.JournalPath <> '') then
+    begin
+      if not Assigned(FUndoStack) then FUndoStack := TList.Create;
+      New(P);
+      P^.Op := 3;
+      P^.BatchKind := 6;
+      P^.Line := 1;
+      P^.OldContent := AResult.JournalPath;
+      P^.NewContent := FAnonPendingDesc;
+      FUndoStack.Add(P);
+      while FUndoStack.Count > 100 do
+      begin
+        DisposeUndoRecord(PUndoRecord(FUndoStack[0]));
+        FUndoStack.Delete(0);
+      end;
+    end;
+    AnonWriteHistory;
+    Msg := Format(TrText('Anon.Done'), [AResult.LinesChanged,
+      AnonFormatBytes(AResult.BytesChanged), Secs]);
+    UpdateStatusBar(Msg, iaRight);
+    if FAnonKeepUndo then
+      Msg := Msg + #13#10#13#10 + TrText('Anon.DoneUndoHint');
+    MessageBoxTrInfo(Msg, TrText('Anon.Title'));
+  end
+  else if AResult.Cancelled then
+  begin
+    if AResult.RolledBack then
+      Msg := TrText('Anon.CancelledReverted')
+    else
+    begin
+      Msg := TrText('Anon.CancelledPartial');
+      if AResult.BytesChanged > 0 then
+        AnonWriteHistory;
+    end;
+    UpdateStatusBar(Msg, iaRight);
+    MessageBoxTrInfo(Msg, TrText('Anon.Title'));
+  end
+  else
+  begin
+    if AResult.RolledBack then
+      Msg := Format(TrText('Anon.FailedReverted'), [AResult.ErrorMsg])
+    else if FAnonKeepUndo then
+      Msg := Format(TrText('Anon.Failed'), [AResult.ErrorMsg])
+    else
+      Msg := Format(TrText('Anon.FailedPartial'), [AResult.ErrorMsg]);
+    UpdateStatusBar(Msg, iaRight);
+    MessageBoxTrInfo(Msg, TrText('Anon.Title'));
+  end;
+end;
+
+procedure TfrmMain.StartAnonUndoRedo(P: PUndoRecord; AKind: TAnonJobKind);
+var
+  Path: string;
+begin
+  Path := Trim(CurrentEffectiveFilePath);
+  if (P^.OldContent = '') or not FileExists(P^.OldContent) then
+  begin
+    DisposeUndoRecord(P);
+    MessageBoxTrInfo(TrText('Anon.JournalMissing'), TrText('Anon.Title'));
+    Exit;
+  end;
+  FAnonBusy := True;
+  FAnonSwapRecord := P;
+  FAnonPendingPath := Path;
+  if AKind = ajkUndo then
+    UpdateStatusBar(TrText('Anon.Progress.Undo'), iaRight)
+  else
+    UpdateStatusBar(TrText('Anon.Progress.Redo'), iaRight);
+  AnonStartSwap(AKind, Path, P^.OldContent, AnonSwapDone);
+end;
+
+procedure TfrmMain.AnonSwapDone(const AResult: TAnonJobResult);
+var
+  P: PUndoRecord;
+  Msg: string;
+
+  procedure PushTo(var AStack: TList);
+  begin
+    if not Assigned(AStack) then AStack := TList.Create;
+    AStack.Add(P);
+  end;
+
+begin
+  FAnonBusy := False;
+  P := FAnonSwapRecord;
+  FAnonSwapRecord := nil;
+  AnonRefreshViewAfterInPlaceWrite;
+  if P = nil then Exit;
+  if AResult.Success then
+  begin
+    if AResult.Kind = ajkUndo then
+    begin
+      PushTo(FRedoStack);
+      Msg := Format(TrText('Anon.Undone'), [P^.NewContent]);
+      FFHistoryAppendSessionNote(FAnonPendingPath, 'UNDO',
+        ANON_HIST_NOTE_MARK + Format(TrText('Anon.HistoryNote'), [P^.NewContent]));
+    end
+    else
+    begin
+      PushTo(FUndoStack);
+      Msg := Format(TrText('Anon.Redone'), [P^.NewContent]);
+      FFHistoryAppendSessionNote(FAnonPendingPath, 'REDO',
+        ANON_HIST_NOTE_MARK + Format(TrText('Anon.HistoryNote'), [P^.NewContent]));
+    end;
+    NotifyHistoryTouched(FAnonPendingPath);
+    UpdateStatusBar(Msg, iaRight);
+    Exit;
+  end;
+  if AResult.Mismatch then
+  begin
+    DisposeUndoRecord(P);
+    Msg := TrText('Anon.UndoMismatch');
+  end
+  else
+  begin
+    { troca revertida: o ficheiro ficou como estava, a acao pode ser repetida }
+    if AResult.RolledBack then
+    begin
+      if AResult.Kind = ajkUndo then PushTo(FUndoStack) else PushTo(FRedoStack);
+    end
+    else
+      DisposeUndoRecord(P);
+    Msg := Format(TrText('Anon.SwapFailed'), [AResult.ErrorMsg]);
+  end;
+  UpdateStatusBar(Msg, iaRight);
+  MessageBoxTrInfo(Msg, TrText('Anon.Title'));
+end;
+
+procedure TfrmMain.miAnonymizeSelectedClick(Sender: TObject);
+begin
+  DoAnonymize(ascSelection);
+end;
+
+procedure TfrmMain.miAnonymizeFileClick(Sender: TObject);
+begin
+  DoAnonymize(ascWholeFile);
+end;
+
 function TfrmMain.CollectSelectedFileLines(ALines: TInt64List): Boolean;
 var
   I, SelIdx: Integer;
@@ -48467,7 +49378,7 @@ begin
     OutFile := SaveDialog1.FileName;
     Texts.SaveToFile(OutFile);
     UpdateStatusBar(Format(TrText('ListView.ExportedLines'), [Texts.Count]), iaRight);
-    ShowAppMessage(Format(TrText('ListView.ExportedLines'), [Texts.Count]));
+    ShowGeneratedFileDialog(OutFile, Texts.Count);
   finally
     Texts.Free;
     Lines.Free;
@@ -48830,6 +49741,9 @@ begin
     ShowAppMessage(TrText('Please read the file first.'));
     Exit;
   end;
+  FAssistantPendingExportFiltered := False;
+  FAssistantPendingExportToFile := False;
+  FAssistantPendingFilterCaseSensitive := False;
   FFilterText := S;
   if Assigned(FFilterBar) then
   begin
@@ -49076,8 +49990,8 @@ begin
       if not SaveDialog1.Execute then Exit;
       OutFile := SaveDialog1.FileName;
       SL.SaveToFile(OutFile);
-      ShowAppMessage(Format(TrText('%d filtered line(s) exported to file.'), [OutCount]));
       UpdateStatusBar(Format(TrText('%d filtered line(s) exported to file.'), [OutCount]), iaRight);
+      ShowGeneratedFileDialog(OutFile, OutCount);
     end;
   finally
     SL.Free;
@@ -49359,6 +50273,7 @@ begin
   RefreshFilterBarState;
   if FAssistantPendingExportFiltered then
   begin
+    AgentLog(Format('filter done for pending export: %d hit(s)', [FFilteredCount]));
     FAssistantPendingExportFiltered := False;
     if FFilteredCount <= 0 then
       ShowAppMessage(TrText('Filter has no results to export.'))
@@ -50759,6 +51674,7 @@ begin
     OutFile := SaveDialog1.FileName;
     SL.SaveToFile(OutFile);
     UpdateStatusBar(Format(TrText('BookmarkBar.Exported'), [SL.Count]), iaRight);
+    ShowGeneratedFileDialog(OutFile, SL.Count);
   finally
     SL.Free;
   end;
@@ -52175,6 +53091,16 @@ var
   SavedTotal, SavedPhys, SavedBPI: Int64;
   SavedZeroScan, SavedEstimated: Boolean;
 begin
+  if FSplitReadAfterPath <> '' then
+  begin
+    Path := FSplitReadAfterPath;
+    FSplitReadAfterPath := '';
+    CurOpen := CurrentEffectiveFilePath;
+    if (CurOpen <> '') and SameText(Path, ExpandFileName(CurOpen)) and
+       (not Assigned(FSourceFileStream)) and FileExists(Path) then
+      BeginRead;
+    Exit;
+  end;
   Path := FSplitClosedSourcePath;
   if Path = '' then Exit;
   FSplitClosedSourcePath := '';
@@ -52414,7 +53340,7 @@ begin
     HelpBody := StringReplace(HelpBody, MK_HELP_VERSION,
       'Version ' + APPLICATION_VERSION, [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_RECENT,
-      TrText('FF_HELP.RecentFeaturesBlock'), [rfReplaceAll]);
+      TrText('FF_HELP.RecentFeaturesBlock2') + #13#10 + TrText('FF_HELP.RecentFeaturesBlock'), [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_READ_PANEL,
       TrText('FF_HELP.ReadPanelBlock'), [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_IDLE_WORKSPACE,
@@ -52666,6 +53592,12 @@ begin
   { Ctrl+Alt+M: marcas visíveis (tab/espaço/CR/LF/NUL/controle) }
   if (Key = Ord('M')) and (Shift = [ssCtrl, ssAlt]) then begin
     ToggleShowWhitespaceMarks;
+    Key := 0;
+    Exit;
+  end;
+
+  if (Key = Ord('G')) and (Shift = [ssCtrl, ssAlt]) then begin
+    miAskFilesClick(nil);
     Key := 0;
     Exit;
   end;

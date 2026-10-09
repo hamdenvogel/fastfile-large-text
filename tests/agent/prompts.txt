@@ -1,0 +1,75 @@
+# id|prompt  (same ids as src/DOC_AGENTE_IA_CHECKLIST_TESTES.md)
+2.1|Quantas pessoas tem "Bianca" no nome?
+2.2|Quantas linhas contêm "@gmail.com"?
+2.3|Quantas linhas contêm "@gmail.com", sem diferenciar maiúsculas?
+2.4|Quantas vezes aparece "ZZZXXX"?
+2.5|Conte as linhas com "São Paulo" e as linhas com "Rio de Janeiro".
+2.6|Quantos ERROR tem no log.txt?
+2.7|How many lines does Bianca have?
+3.1|Em quais linhas aparece "Bianca" no clientes.csv?
+3.2|Mostre as linhas 1 a 5 do clientes.csv.
+3.3|Qual é o cabeçalho de cada arquivo?
+3.4|Mostre a linha 999999999 do clientes.csv.
+3.5|Quais arquivos estão selecionados?
+3.6|Mostre as 5 últimas linhas do log.txt.
+4.1|Que colunas tem o CSV e qual é o separador?
+4.2|Existe algum e-mail repetido no CSV?
+4.3|Existe alguma linha duplicada inteira?
+4.4|Resuma o log.txt: quantos erros e quais os principais?
+4.5|Qual cidade aparece mais vezes?
+5.1|Troque "Bianca" por "BIANCA" na primeira linha onde aparece.
+5.2|Insira a linha "# revisado pelo agente" antes da linha 1.
+5.3|Acrescente a linha "FIM" no final do clientes.csv.
+5.4|Apague as linhas 5 a 7 do clientes.csv.
+5.5|Deixe o e-mail da linha 4 em minúsculas.
+5.6|Corrija "Joao" para "João" no log.txt.
+6.1|Insira 3 linhas em branco antes da linha 2 e depois apague a linha 8.
+6.2|Apague a linha 4 e substitua a linha 4 por "teste".
+7.1|Descaracterize os e-mails e as datas das linhas 2 a 9 do CSV.
+7.2|Descaracterize os nomes do arquivo inteiro, mantendo a palavra "Bianca".
+7.3|Descaracterize só as colunas 2 e 3 (separador ;), sem mexer no cabeçalho.
+8.1|Abra o clientes.csv e vá para a linha 5.
+8.2|Vá para o fim do log.txt.
+8.3|Vá para o byte 100 do clientes.csv.
+8.4|Procure "Carlos" no clientes.csv.
+8.5|Procure "bianca" diferenciando maiúsculas.
+8.6|Filtre na tela as linhas com "São Paulo".
+8.7|Filtre com regex as linhas que terminam em 19\d\d.
+8.8|Limpe o filtro.
+8.9|Ative o modo CSV com cabeçalho.
+8.10|Ligue a quebra de linha e aumente o zoom.
+8.12|Marque a linha atual e vá para o próximo marcador.
+8.13|Inicie o tail no log.txt.
+8.15|Abra a aba Comparar.
+8.16|Abra a ajuda.
+8.18|Coloque em tela cheia.
+8.19|Crie um arquivo novo.
+8.20|Abra as preferências.
+8.23|Abra a tela de descaracterização.
+9.1|Substitua todos os "@hotmail.com" por "@email.com" no clientes.csv.
+9.2|Substitua todos os "gmail" por "GMAIL" diferenciando maiúsculas.
+9.3|Apague as linhas duplicadas do clientes.csv.
+9.6|Divida o log.txt em 3 partes iguais.
+9.7|Divida o log.txt em 5000 partes.
+9.8|Extraia as partes 2 a 4 de 10 do log.txt.
+9.9|Divida o log.txt por padrão sempre que aparecer "ERROR".
+9.10|Exporte as linhas 2 a 5 do clientes.csv.
+9.11|Exporte as linhas que contêm "São Paulo".
+9.13|Exporte o clientes.csv.
+9.14|Extraia as strings mais frequentes do log.txt.
+9.15|Salve a sessão.
+9.16|Limpe todos os marcadores.
+9.17|Force a indexação do arquivo.
+9.19|Mude a política de abertura para instantânea.
+10.1|Converta o clientes.csv para UTF-16.
+10.2|Converta as quebras de linha para LF (Unix).
+10.3|Ordene as linhas do CSV por nome.
+10.5|Desfaça a última alteração.
+10.6|Apague todo o conteúdo do arquivo.
+10.7|Abra o Consumer AI.
+10.8|Leia o arquivo C:\Windows\win.ini.
+10.9|Divida o C:\Windows\win.ini em 2 partes.
+11.1|oi
+11.2|Cuántas líneas contienen "Bianca"?
+11.3|Conte Bianca, Carlos, Ana, Pedro, João e Marina separadamente.
+11.4|Troque "Bianca" por "BIANCA" no unicode16.txt.

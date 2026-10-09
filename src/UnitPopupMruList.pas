@@ -42,7 +42,9 @@ type
       Rect: TRect; State: TOwnerDrawState);
     procedure lstItemsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure WMMruRepopulate(var Msg: TMessage); message WM_USER + 71;
+    procedure WMMruClickOutside(var Msg: TMessage); message WM_USER + 72;
   private
+    FShownTick: Cardinal;
     FAll: TStringList;
     FItemTags: TList;
     FExpanded: Boolean;
@@ -67,6 +69,9 @@ type
     FPinnedW, FPinnedH: Integer;
     FGlyphPx: Integer;
     FGlyphLocked: Boolean;
+    procedure InstallClickHook;
+    procedure RemoveClickHook;
+    procedure HookMouseDown(const APt: TPoint);
     function ScaledPx(ADesignPx: Integer): Integer;
     function UiFontName: string;
     function ItemTag(AIndex: Integer): NativeInt;
@@ -157,6 +162,58 @@ const
   GLYPH_PROPS = 6;
   GLYPH_REMOVE = 7;
   EM_SETCUEBANNER = $1501;
+  WM_MRU_CLICK_OUTSIDE = WM_USER + 72;
+
+var
+  { Thread mouse hook: a quick click falls between two polls of the hold timer and was missed. }
+  GMruClickHook: HHOOK = 0;
+  GMruClickOwner: TFormPopupMruList = nil;
+
+function MruClickHookProc(nCode: Integer; wParam: WPARAM; lParam: LPARAM): LRESULT; stdcall;
+begin
+  if (nCode = HC_ACTION) and Assigned(GMruClickOwner) then
+    case wParam of
+      WM_LBUTTONDOWN, WM_RBUTTONDOWN, WM_MBUTTONDOWN,
+      WM_NCLBUTTONDOWN, WM_NCRBUTTONDOWN, WM_NCMBUTTONDOWN:
+        GMruClickOwner.HookMouseDown(PMouseHookStruct(lParam)^.pt);
+    end;
+  Result := CallNextHookEx(GMruClickHook, nCode, wParam, lParam);
+end;
+
+procedure TFormPopupMruList.InstallClickHook;
+begin
+  GMruClickOwner := Self;
+  if GMruClickHook = 0 then
+    GMruClickHook := SetWindowsHookEx(WH_MOUSE, @MruClickHookProc, 0, GetCurrentThreadId);
+end;
+
+procedure TFormPopupMruList.RemoveClickHook;
+begin
+  if GMruClickOwner <> Self then Exit;
+  GMruClickOwner := nil;
+  if GMruClickHook <> 0 then
+  begin
+    UnhookWindowsHookEx(GMruClickHook);
+    GMruClickHook := 0;
+  end;
+end;
+
+procedure TFormPopupMruList.HookMouseDown(const APt: TPoint);
+begin
+  if (csDestroying in ComponentState) or not Visible or not HandleAllocated then Exit;
+  if (FHoldPhase <> 0) or (GetTickCount - FShownTick < 300) then Exit;
+  { A modal box opened from the popup (e.g. "Clear all" confirmation) disables the main form. }
+  if Assigned(Application.MainForm) and Application.MainForm.HandleAllocated and
+     not IsWindowEnabled(Application.MainForm.Handle) then Exit;
+  if ScreenPointInPopup(APt) then Exit;
+  PostMessage(Handle, WM_MRU_CLICK_OUTSIDE, 0, 0);
+end;
+
+procedure TFormPopupMruList.WMMruClickOutside(var Msg: TMessage);
+begin
+  if Visible and (FHoldPhase = 0) then
+    ClosePopup(False);
+end;
 
 procedure PaintMruRowGradient(ACanvas: TCanvas; const R: TRect; ASelected: Boolean);
 var
@@ -237,6 +294,7 @@ end;
 
 destructor TFormPopupMruList.Destroy;
 begin
+  RemoveClickHook;
   if Assigned(FHoldTimer) then
     FHoldTimer.Enabled := False;
   FHoldPhase := 0;
@@ -398,9 +456,11 @@ begin
   SetBounds(X, Y, W, H);
   FButtonsWereUp := False;
   FArmedTick := GetTickCount + 700;
+  FShownTick := GetTickCount;
   Show;
   PinToScreenPos;
   LockCloseUntilMouseIdle;
+  InstallClickHook;
 end;
 
 procedure TFormPopupMruList.HoldTimerTick(Sender: TObject);
@@ -481,6 +541,7 @@ end;
 
 procedure TFormPopupMruList.ClosePopup(AnimationAllowed: Boolean = False);
 begin
+  RemoveClickHook;
   FOpenHold := False;
   FHoldPhase := 0;
   if Assigned(FHoldTimer) then
@@ -1179,7 +1240,7 @@ begin
       SetPopupCloseLocked(True);
       FOnProperties(Self, Path);
     end;
-    if not FileExists(Path) then
+    if not FileExists(Path) and not DirectoryExists(Path) then
     begin
       SetPopupCloseLocked(False);
       DropPathFromList(Path, False);

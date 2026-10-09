@@ -616,6 +616,20 @@ var
       Exit;
     end;
     L := StrToInt64Def(JournalField(S, 2), 0);
+    if Op = 'ANON' then
+    begin
+      Cnt := StrToInt64Def(JournalField(S, 3), 0);
+      if L <= 0 then
+        Exit
+      else if Cnt <= 0 then
+      begin
+        RangeCount := 0;
+        Base := 1;
+      end
+      else
+        AddRange(L, L + Cnt - 1, 1);
+      Exit;
+    end;
     if (Op = 'BINS') or (Op = 'BAUT') or (Op = 'BDEL') or (Op = 'MDLT') then
     begin
       Cnt := StrToInt64Def(JournalField(S, 3), 1);
@@ -629,7 +643,7 @@ var
     end
     else if Op = 'MRGF' then
       AddRange(1, 1, 1)
-    else if Op = 'EDT' then
+    else if (Op = 'EDT') or (Op = 'ANOL') then
       AddRange(L, L, 1)
     else if Op = 'INS' then
       AddRange(L, L, 2)

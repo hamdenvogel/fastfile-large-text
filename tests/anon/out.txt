@@ -1,0 +1,102 @@
+Preview (UTF-8):
+  ok   valid utf-8 line 0
+  ok   byte length kept line 0
+  ok   char length kept line 0
+  ok   valid utf-8 line 1
+  ok   byte length kept line 1
+  ok   char length kept line 1
+  ok   valid utf-8 line 2
+  ok   byte length kept line 2
+  ok   char length kept line 2
+  ok   valid utf-8 line 3
+  ok   byte length kept line 3
+  ok   char length kept line 3
+  ok   valid utf-8 line 4
+  ok   byte length kept line 4
+  ok   char length kept line 4
+  ok   valid utf-8 line 5
+  ok   byte length kept line 5
+  ok   char length kept line 5
+  ok   valid utf-8 line 6
+  ok   byte length kept line 6
+  ok   char length kept line 6
+  ok   valid utf-8 line 7
+  ok   byte length kept line 7
+  ok   char length kept line 7
+  ok   valid utf-8 line 8
+  ok   byte length kept line 8
+  ok   char length kept line 8
+  ok   valid utf-8 line 9
+  ok   byte length kept line 9
+  ok   char length kept line 9
+  ok   valid utf-8 line 10
+  ok   byte length kept line 10
+  ok   char length kept line 10
+  ok   valid utf-8 line 11
+  ok   byte length kept line 11
+  ok   char length kept line 11
+  ok   consistent mode independent of offset
+Round trip 50 lines (UTF-8):
+   apply: 3 ms, changed=2020 bytes, runs=1
+  ok   apply success 
+  ok   size kept
+  ok   content changed
+  ok   undo success 
+  ok   undo restores original
+  ok   redo success 
+  ok   redo restores anonymized
+  ok   second undo
+  ok   range apply
+  ok   range changed something
+  ok   line 1 untouched
+  ok   tail untouched
+  ok   range undo
+  ok   tampered undo refused
+  ok   tampered file left intact
+Round trip 200000 lines (UTF-8):
+   apply: 623 ms, changed=10871835 bytes, runs=19
+  ok   apply success 
+  ok   size kept
+  ok   content changed
+  ok   undo success 
+  ok   undo restores original
+  ok   redo success 
+  ok   redo restores anonymized
+  ok   second undo
+  ok   range apply
+  ok   range changed something
+  ok   line 1 untouched
+  ok   tail untouched
+  ok   range undo
+  ok   tampered undo refused
+  ok   tampered file left intact
+Round trip 2000 lines (Windows-1252):
+   apply: 14 ms, changed=94271 bytes, runs=1
+  ok   apply success 
+  ok   size kept
+  ok   content changed
+  ok   undo success 
+  ok   undo restores original
+  ok   redo success 
+  ok   redo restores anonymized
+  ok   second undo
+  ok   range apply
+  ok   range changed something
+  ok   line 1 untouched
+  ok   tail untouched
+  ok   range undo
+  ok   tampered undo refused
+  ok   tampered file left intact
+Engine single-thread case 0: 32 MB in 1322 ms = 24,4 MB/s
+Engine single-thread case 1: 32 MB in 531 ms = 60,8 MB/s
+Engine single-thread case 2: 32 MB in 822 ms = 39,3 MB/s
+Engine single-thread case 3: 32 MB in 691 ms = 46,7 MB/s
+Engine single-thread case 4: 32 MB in 983 ms = 32,9 MB/s
+Engine single-thread case 5: 32 MB in 1031 ms = 31,3 MB/s
+Big file 512 MB:
+   apply 12619 ms (40,6 MB/s) changed=228051408 runs=4751071
+  ok   big apply 
+   undo 4373 ms
+  ok   big undo 
+
+Failures: 0

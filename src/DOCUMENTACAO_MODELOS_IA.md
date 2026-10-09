@@ -18,10 +18,15 @@ Para o guia detalhado dos EXEs Python (ConsumerAI / ConsumerRAG / parâmetros CL
 
 O editor **FastFile.exe** não executa estes modelos Python directamente; serve como **host** para integrações (`ConsumerAI.exe` / `ConsumerRAG.exe` / `ScriptEngine.exe`) e para o **Assistente IA** (`uFastFileAssistant*.pas`, `uFastFileAIClient.pas`).
 
-**Versão publicada do EXE:** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.225`** (27/09/2026).
+**Versão publicada do EXE:** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.232`** (08/10/2026).
 
 Trilhos recentes no host Delphi (IA / i18n / arranque):
 
+- **★ v3.0.5.232:** agente — prazo para Aceitar/Rejeitar (20 s, 5..600 s nas Preferências) com distintivo de tempo; «Substituir tudo» conta antes (0 ocorrências = nada proposto); mensagem honesta quando o modelo afirma trabalho que não colocou na fila; respostas do agente e de «Fale com a IA» no idioma da UI (`AssistantLangPromptName` em `uI18n`); parser aceita `"tool":{"<nome>":{...}}`; F1 `FF_HELP.RecentFeaturesBlock2`.
+- **★ v3.0.5.231:** agente — SQL directo sem IA (`uAgentSql`: SELECT/GROUP BY/ORDER BY/SUM/COUNT; UPDATE/DELETE/INSERT/ALTER como propostas); palavra inteira vs parcial em 14 idiomas (`uAgentMatchIntent`); modo «Agente» no painel do Assistente.
+- **★ v3.0.5.230:** edições aceites pelo streaming do core (`uAgentPatch`); ferramentas do agente lêem UTF-16.
+- **★ v3.0.5.229:** novo **agente de IA sobre ficheiros** (Ctrl+Alt+G; `uAgentWorkspace` / `uAgentLoop` / `uAgentProtocol` / `uAgentTools` / `uAgentActions` / `uAgentBridge`): ciclo modelo → ferramenta (contar, procurar, ler, editar, anonimizar, acções do core) → propostas revistas pelo utilizador; separador «Prompt revisto».
+- **★ v3.0.5.227:** anonimizar dados (`uAnonymize`) — também disponível como ferramenta do agente.
 - **★ v3.0.5.225:** sync F1 (`FF_HELP.RecentFeaturesBlock`) / Version History / docs; 17 units UTF-8 com BOM; mensagens de tempo traduzidas.
 - **★ v3.0.5.224:** histórico de sessão — **Perguntar à IA** sobre os eventos / linhas alteradas marcados (além de exportar TXT/CSV, ordenar e filtro por período).
 - **★ v3.0.5.223:** editor de linha — botão **Perguntar à IA** (Ctrl+Shift+A) sobre o conteúdo da linha.
@@ -54,7 +59,8 @@ Ver **`CHANGELOG_IMPLEMENTACOES.md`**, **`README.md`**, **`ROADMAP_COMERCIAL_FAS
 
 | Data | Versão host | Nota |
 |------|-------------|------|
-| 2026-09-27 | **3.0.5.225** | Pipeline pós-acção + memória-ponte; Perguntar à IA no editor de linha e no histórico de sessão |
+| 2026-10-08 | **3.0.5.232** | Agente de IA sobre ficheiros (SQL / linguagem natural, propostas com prazo, respostas no idioma da UI); anonimizar dados |
+| 2026-09-27 | 3.0.5.225 | Pipeline pós-acção + memória-ponte; Perguntar à IA no editor de linha e no histórico de sessão |
 | 2026-09-16 | 3.0.5.210 | 14 idiomas + lazy-load; ponteiro para pasta `data-lake-duckdb-main` se existir |
 | 2026-09-06 | 3.0.5.100 | FilterBar / assistente polish |
 | 2026-08-29 | 3.0.5.0 | Compose + `FF_HELP.AssistantBlock` |

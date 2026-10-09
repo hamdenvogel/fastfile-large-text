@@ -372,6 +372,7 @@ type
     FResultList: TStringList;
     FPercent: Integer;
     FErrMsg: string;
+    FExportCount: Int64;
 
     procedure SyncShowLoading;
     procedure SyncHideLoading;
@@ -766,7 +767,7 @@ implementation
 
 uses
   MainUnit, ThreadFileLog, uI18n, UnUtils, uFileSessionHistory, uFastFilePaths,
-  uFastFileNotice, uFastFileMsgDlg, uExportDialog,
+  uFastFileNotice, uFastFileMsgDlg, uExportDialog, uExportDoneDlg,
   uTemporaryFileStream, uZeroScanBlockIndex, UnConsts, uFileOpenPolicy, uDiskSpaceCheck,
   uTextEncoding, uLineIndexScan, uEolPolicy, ComObj, ActiveX;
 
@@ -2513,6 +2514,7 @@ begin
   FTotalLines := ATotalLines;
   FShowLoadingUI := ShowUI;
   FErrMsg := '';
+  FExportCount := -1;
   FResultList := TStringList.Create;
   if FShowLoadingUI then
   begin
@@ -2570,9 +2572,8 @@ begin
     SyncHideLoading;
   if FSaveToFile then
   begin
-    if Assigned(frmMain) then
-      ShowFastFileAppNotice(frmMain, fnkSuccess, TrText('Information'),
-        Format(TrText('Export finished! File saved to: %s'), [FOutputFileName]))
+    if FileExists(FOutputFileName) then
+      ShowGeneratedFileDialog(FOutputFileName, FExportCount)
     else
       FastFileMsgInfo(Format(TrText('Export finished! File saved to: %s'), [FOutputFileName]));
   end
@@ -2656,9 +2657,29 @@ var
   RangeContiguous: Boolean;
   B, TermB: Byte;
   Ok: Boolean;
+  SrcEnc: string;
+  Wide, HadCR, WideCR: Boolean;
+  Brk: AnsiString;
 
   procedure EmitBuffer;
   begin
+    { UTF-16: lines split on the byte 0A must be re-aligned and get a 2-byte line break. }
+    if Wide then
+    begin
+      Buffer := Utf16LineBytes(Buffer, SrcEnc, HadCR);
+      if FSaveToFile then
+      begin
+        if Buffer <> '' then
+          DestWriter.WriteRaw(Pointer(Buffer), Length(Buffer));
+        { A last line without its own break follows the CR LF style of the lines before it. }
+        WideCR := WideCR or HadCR;
+        Brk := Utf16LineBreakBytes(SrcEnc, WideCR);
+        DestWriter.WriteRaw(Pointer(Brk), Length(Brk));
+      end
+      else
+        FResultList.Add(FileBytesToUnicodeText(Buffer, SrcEnc));
+      Exit;
+    end;
     while (Length(Buffer) > 0) and (Buffer[Length(Buffer)] in [#10, #13]) do
       SetLength(Buffer, Length(Buffer) - 1);
     if FSaveToFile then
@@ -2670,6 +2691,8 @@ var
   procedure EmitOffsets(const AStart, AEnd: Int64);
   begin
     LineLength := AEnd - AStart;
+    { UTF-16 LE ending in 0A 00: the lone 00 after the last break is not a line. }
+    if Wide and (AEnd >= FSize + 1) and (LineLength <= 1) then Exit;
     if LineLength <= 0 then
     begin
       Buffer := '';
@@ -2711,6 +2734,8 @@ begin
   IdxStream := nil;
   Ok := False;
   TargetLines := nil;
+  Wide := False;
+  WideCR := False;
   try
     try
       if (Trim(FSourceFileName) = '') or (not FileExists(FSourceFileName)) then
@@ -2736,6 +2761,7 @@ begin
         FErrMsg := TrText('Nothing to export');
         Exit;
       end;
+      FExportCount := TargetLines.Count;
 
       FromL := Int64(TargetLines[0]);
       ToL := FromL;
@@ -2751,10 +2777,20 @@ begin
       MMF := TMMFReader.Create(FSourceFileName);
       FSize := MMF.FileSize;
       TermB := LineTermByteForFile(FSourceFileName);
+      SrcEnc := DetectTextFileEncoding(FSourceFileName);
+      Wide := IsUtf16LEEncoding(SrcEnc) or IsUtf16BEEncoding(SrcEnc);
       if FSaveToFile then
       begin
         DestWriter := TBufferedTextWriter.Create(FOutputFileName, 4 * 1024 * 1024);
         DestWriter.LineBreak := OutputEolForFile(FSourceFileName);
+        if Wide then
+        begin
+          if IsUtf16BEEncoding(SrcEnc) then
+            Brk := #$FE#$FF
+          else
+            Brk := #$FF#$FE;
+          DestWriter.WriteRaw(Pointer(Brk), 2);
+        end;
       end;
 
       IndexFileName := ResolveWorkingLineIndexPath;
@@ -2913,6 +2949,8 @@ begin
   if FCancelled then
     FastFileMessageBox(PChar(TrText('Tail export cancelled.')),
       PChar(TrText('Export tail lines')), MB_OK or MB_ICONINFORMATION)
+  else if FSuccess and FileExists(FOutputFileName) then
+    ShowGeneratedFileDialog(FOutputFileName, FExportedCount)
   else if FSuccess then
     FastFileMessageBox(PChar(Format(TrText('%d tail line(s) exported to file.'),
       [FExportedCount])), PChar(TrText('Export tail lines')), MB_OK or MB_ICONINFORMATION)
@@ -5560,24 +5598,58 @@ begin
     Result := FormatDateTime('hh:nn:ss', ElapsedMs / MSecsPerDay);
 end;
 
+{ AFixed3: '.part001' naming (equal parts / split by pattern); otherwise the suffix used by
+  the fraction split. }
+function SplitPartPathList(const ASourceFileName: string; AFrom, ATo, ATotal: Integer;
+  AFixed3: Boolean): TStringList;
+var
+  I: Integer;
+  BaseName, ExtPart, Suffix: string;
+begin
+  Result := TStringList.Create;
+  ExtPart := ExtractFileExt(ASourceFileName);
+  BaseName := IncludeTrailingPathDelimiter(ExtractFilePath(ASourceFileName)) +
+    ChangeFileExt(ExtractFileName(ASourceFileName), '');
+  for I := AFrom to ATo do
+  begin
+    if AFixed3 then
+      Suffix := Format('.part%.3d', [I])
+    else
+      Suffix := FastFileSplitPartFileSuffix(I, ATotal);
+    Result.Add(BaseName + Suffix + ExtPart);
+  end;
+end;
+
+function OneFileList(const APath: string): TStringList;
+begin
+  Result := TStringList.Create;
+  Result.Add(APath);
+end;
+
+procedure ShowGeneratedListAndFree(AFiles: TStringList; ARecords: Int64; const AElapsed: string);
+begin
+  try
+    ShowGeneratedFilesDialog(AFiles, ARecords, Format(TrText('ExportDone.Elapsed'), [AElapsed]));
+  finally
+    AFiles.Free;
+  end;
+end;
+
 procedure TSplitFileThread.SyncFinish;
 var
-  Elapsed, OutPath: string;
+  Elapsed: string;
+  L: TStringList;
+  I: Integer;
 begin
   sw.Stop;
   Elapsed := FormatElapsedDuration(sw.ElapsedMilliseconds);
   if FAutoHide and FShowLoadingUI then
     SyncHideLoading;
   if not FSuccess then Exit;
-  { Split-by-lines always creates one extract file; do not reuse the N-files message. }
-  if (FEntryCount = 1) and (Length(FEntries) >= 1) then
-  begin
-    OutPath := FOutputDir + FEntries[0].FileName;
-    ShowAppMessage(Format(TrText('SplitByLines.DoneFormat'),
-      [FEntries[0].SourceLine + 1, FEntries[0].TargetLine + 1, OutPath, Elapsed]));
-  end
-  else
-    ShowAppMessage(Format(TrText('SplitByFiles.DoneFormat'), [FEntryCount, Elapsed]));
+  L := TStringList.Create;
+  for I := 0 to Min(FEntryCount, Length(FEntries)) - 1 do
+    L.Add(FOutputDir + FEntries[I].FileName);
+  ShowGeneratedListAndFree(L, -1, Elapsed);
 end;
 
 procedure TSplitFileThread.Execute;
@@ -5965,7 +6037,8 @@ begin
     if FRegexOp = roSplit then
     begin
       frmMain.AppendOperationTimerLog(Format(TrText('Split by pattern completed. %d file(s) created in %s.'), [FPartCount, sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
-      FastFileMsgInfo(Format(TrText('Split by pattern completed. %d file(s) created in %s.'), [FPartCount, sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
+      ShowGeneratedListAndFree(SplitPartPathList(FSourceFileName, 1, FPartCount, FPartCount, True), -1,
+        sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds));
     end
     else
     begin
@@ -5978,8 +6051,12 @@ begin
       end;
       frmMain.AppendOperationTimerLog(Format(TrText('Regex %s completed. %d line(s) processed in %s. Output: %s'),
         [OpName, FPartCount, sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds), FResultOutputPath]));
-      FastFileMsgInfo(Format(TrText('Regex %s completed. %d line(s) processed in %s.' + #13#10 + 'Output: %s'),
-        [OpName, FPartCount, sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds), FResultOutputPath]));
+      if FileExists(FResultOutputPath) then
+        ShowGeneratedListAndFree(OneFileList(FResultOutputPath), FPartCount,
+          sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds))
+      else
+        FastFileMsgInfo(Format(TrText('Regex %s completed. %d line(s) processed in %s.' + #13#10 + 'Output: %s'),
+          [OpName, FPartCount, sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds), FResultOutputPath]));
     end;
   end
   else
@@ -6749,8 +6826,12 @@ begin
       [sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]);
     if Assigned(frmMain) then
       frmMain.AppendOperationTimerLog(TimeStr);
-    ShowAppMessage(Format(TrText('MergeFiles.Join.Success'),
-      [FPartCount, FDestinationFileName]));
+    if FileExists(FDestinationFileName) then
+      ShowGeneratedListAndFree(OneFileList(FDestinationFileName), -1,
+        sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds))
+    else
+      ShowAppMessage(Format(TrText('MergeFiles.Join.Success'),
+        [FPartCount, FDestinationFileName]));
   end;
 end;
 
@@ -7074,7 +7155,6 @@ end;
 procedure TSplitEqualPartsThread.SyncFinish;
 var
   TimeStr: String;
-  Msg: String;
 begin
   sw.Stop;
   if FAutoHide and FShowLoadingUI then
@@ -7083,9 +7163,7 @@ begin
   if FSuccess then
   begin
     TimeStr := sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds);
-    Msg := Format(TrText('SplitEqualParts.SuccessFormat'),
-      [FPartCount, FSuccessOutputDir, FSuccessFirstPath, FSuccessLastPath, TimeStr]);
-    FastFileMsgInfo(Msg);
+    ShowGeneratedListAndFree(SplitPartPathList(FSourceFileName, 1, FPartCount, FPartCount, True), -1, TimeStr);
     if Assigned(frmMain) then
     begin
       frmMain.AppendOperationTimerLog(Format(TrText('SplitEqualParts.LogSummary'),
@@ -7438,8 +7516,6 @@ end;
 procedure TSplitFileFractionThread.SyncFinish;
 var
   TimeStr: String;
-  Msg: String;
-  FirstName, LastName: String;
 begin
   sw.Stop;
   if FAutoHide and FShowLoadingUI then
@@ -7447,19 +7523,11 @@ begin
   if FSuccess then
   begin
     TimeStr := sw.FormatMillisecondsToDateTime(sw.ElapsedMilliseconds);
-    FirstName := ExtractFileName(FSuccessFirstPath);
-    LastName := ExtractFileName(FSuccessLastPath);
-    Msg := Format(TrText('SplitFileFraction.SuccessFormat'),
-      [FExportedCount, FPartFrom, FPartTo, FPartCount, FSuccessOutputDir,
-       FirstName, LastName, TimeStr]);
+    ShowGeneratedListAndFree(SplitPartPathList(FSourceFileName, FPartFrom, FPartTo, FPartCount, False), -1,
+      TimeStr);
     if Assigned(frmMain) then
-    begin
-      frmMain.ShowSplitExportResultDialog(Msg);
       frmMain.AppendOperationTimerLog(Format(TrText('SplitFileFraction.LogSummary'),
         [FExportedCount, FSuccessOutputDir]));
-    end
-    else
-      FastFileMsgInfo(Msg);
   end
   else if FErrorMsg <> '' then
     FastFileMsgInfo(Format(TrText('SplitFileFraction.FailureFormat'), [FErrorMsg]))

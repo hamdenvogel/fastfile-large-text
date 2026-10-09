@@ -7,7 +7,7 @@ uses
 
 const
   APPLICATION_NAME = 'FastFile';
-  APPLICATION_VERSION = '3.0.5.225';
+  APPLICATION_VERSION = '3.0.5.232';
   APPLICATION_FULLNAME = 'FastFile editor';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
@@ -228,6 +228,7 @@ const
   MAIN_TB_ICON_EXTRACT_PARTS = 'cut.bmp';
   MAIN_TB_ICON_TOOLS_GALLERY = 'Tools.bmp';
   MAIN_TB_ICON_HELP = 'Help.bmp';
+  MAIN_TB_ICON_FILE_AGENT = 'wizard.bmp';
   FILEBAR_ICON_READ_F5 = 'insert file-2.bmp';
 
   { Read toolbar quick buttons (16x16 glyphs, ~30px hit target) }
@@ -427,7 +428,116 @@ const
     '*******************************************************'#13#10 +
     ''#13#10 +
     '-------------------------------------------------------'#13#10 +
-    '  v3.0.5.225  (2026-09-27)  (current)'#13#10 +
+    '  v3.0.5.232  (2026-10-08)  (current)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  AI agent - time to decide + safer answers:'#13#10 +
+    '    Proposed edits wait 20 s for Accept / Reject / Accept all'#13#10 +
+    '      (Options > Preferences, 5..600 s; empty or invalid value'#13#10 +
+    '      is rejected and the default comes back). Timer badge with'#13#10 +
+    '      icon; paused while a confirmation is open; when it runs out'#13#10 +
+    '      the proposals are discarded and the request must be redone.'#13#10 +
+    '    Buttons that act on items are enabled only when there is'#13#10 +
+    '      something to act on (proposals, prompt, sources, answer),'#13#10 +
+    '      re-checked whenever the list or the text changes.'#13#10 +
+    '    Replace all counts the matches first: 0 hits = nothing is'#13#10 +
+    '      proposed and the answer says so. The agent never claims a'#13#10 +
+    '      change that was not queued; replies follow the UI language.'#13#10 +
+    '    Generated-files window: translated "Folder:" / "File:" label.'#13#10 +
+    '    Fix: after splitting the open file the main list shows the'#13#10 +
+    '      lines again (no blank rows until reload).'#13#10 +
+    '    Version History / F1 / CHANGELOG / README / ROADMAP /'#13#10 +
+    '      DOC_ZS_ATALHOS / DOCUMENTACAO_MODELOS_IA synced to 3.0.5.232.'#13#10 +
+    '    Internal v3.0.5.232: contagem regressiva + preferencia,'#13#10 +
+    '      habilitar botoes, parser mais tolerante, idioma da resposta.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.231  (2026-10-07)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  AI agent - SQL, exact match and generated files:'#13#10 +
+    '    The request can be SQL or plain words in any of the 14'#13#10 +
+    '      languages: SELECT with WHERE / GROUP BY / ORDER BY / SUM /'#13#10 +
+    '      COUNT on delimited files; UPDATE / DELETE / INSERT and'#13#10 +
+    '      ALTER TABLE become proposals; SQL typed directly runs'#13#10 +
+    '      without AI. "Total: N record(s) found" when it applies.'#13#10 +
+    '    Whole-word ("not partial", "exact") vs partial search'#13#10 +
+    '      understood in the 14 languages.'#13#10 +
+    '    "File(s) generated successfully" window: open in FastFile,'#13#10 +
+    '      open folder, copy path(s); also after split / export.'#13#10 +
+    '      "Last generated file" (menu + Answer bar) reopens it.'#13#10 +
+    '    Sources list: Recent MRU (search, delete, clear all).'#13#10 +
+    '    Assistant panel: "Agent" mode sends the question to the'#13#10 +
+    '      agent engine and shows its proposals.'#13#10 +
+    '    Internal v3.0.5.231: uAgentSql + uAgentMatchIntent +'#13#10 +
+    '      uExportDoneDlg + MRU de fontes + modo agente no assistente.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.230  (2026-10-06)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  AI agent on the core + layout:'#13#10 +
+    '    Accepted edits use the core streaming routines (files of'#13#10 +
+    '      many GB, progress and Cancel).'#13#10 +
+    '    Proposed edits preview: before / after highlighted, paged'#13#10 +
+    '      (RAM-safe), double-click to zoom; clipped texts show the'#13#10 +
+    '      full text on hover with Copy.'#13#10 +
+    '    UTF-16 files are read correctly by the agent tools.'#13#10 +
+    '    Clipped captions widened on every form; layout follows'#13#10 +
+    '      Windows resolution / scale changes while running.'#13#10 +
+    '    Internal v3.0.5.230: uAgentPatch + preview paginado +'#13#10 +
+    '      FfFitCaptions em todos os forms + WM_DISPLAYCHANGE.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.229  (2026-10-05)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  New: AI agent on files (toolbar, Tools menu, Ctrl+Alt+G):'#13#10 +
+    '    1) pick files / folders (mask, depth, max files, filter),'#13#10 +
+    '    2) describe the request, 3) review: Answer, Proposed edits,'#13#10 +
+    '    Revised prompt, Files found. Nothing is written before'#13#10 +
+    '    Accept. Tools: count, search, read, edit / insert / delete'#13#10 +
+    '    lines, anonymize and FastFile core actions (replace all,'#13#10 +
+    '    split, export, filter, bookmarks...).'#13#10 +
+    '    Recent requests MRU (search, delete 1..N, clear all; INI).'#13#10 +
+    '    Bars with New, Clear, Copy, Ask AI, Translate, Suggest.'#13#10 +
+    '    Loading overlay with progress and Cancel for long requests.'#13#10 +
+    '    Internal v3.0.5.229: uAgentWorkspace / uAgentLoop /'#13#10 +
+    '      uAgentProtocol / uAgentTools / uAgentActions / uAgentBridge.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.228  (2026-10-04)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Session history - event details:'#13#10 +
+    '    Double-click (or Enter) on a session event: full lines'#13#10 +
+    '      before / after, previous / next change (F3 / Shift+F3),'#13#10 +
+    '      field-by-field compare (delimiter auto-detected) and the'#13#10 +
+    '      event summary. Copy or export one, the selected or all'#13#10 +
+    '      events at once (TXT / CSV / JSON).'#13#10 +
+    '    Internal v3.0.5.228: uHistLineDetailDlg.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.227  (2026-10-04)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Anonymize data (list right-click or Tools menu: selected'#13#10 +
+    '    lines, Ctrl+Alt+D, or the whole file): private values become'#13#10 +
+    '    fake ones of the same type and length (numbers, dates,'#13#10 +
+    '    e-mails, codes, names); columns, delimiter, skip header and'#13#10 +
+    '    words to keep;'#13#10 +
+    '    preview before applying; undo / redo. Written in place, so'#13#10 +
+    '    it is fast on files of any size.'#13#10 +
+    '    Session history shows before / after per line; right-click'#13#10 +
+    '      "Remove anonymization from history" (line N or all).'#13#10 +
+    '    Internal v3.0.5.227: uAnonymize + uAnonymizeDialog.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.226  (2026-10-03)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Custom PPI (toolbar): choose the UI scale while running,'#13#10 +
+    '    synced with the zoom combo of the status bar; "Restore'#13#10 +
+    '    default" item and default PPI in Preferences; the window'#13#10 +
+    '    stays inside the screen after a resize.'#13#10 +
+    '  Language switch also translates texts already on screen.'#13#10 +
+    '    Internal v3.0.5.226: botao PPI + preferencia + retraducao.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.225  (2026-09-27)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  i18n + encoding: "Time to execute that operation" and other'#13#10 +
     '    timing messages translated (14 languages); 17 units saved as'#13#10 +

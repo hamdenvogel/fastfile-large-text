@@ -1,0 +1,24 @@
+﻿< Dr. Fulano Beltrano mora aqui. Depois o Sr. Marcos ligou para Juliana.
+> Dr. Thiago Leopoldo mora aqui. Depois o Sr. Wagner ligou para Leandro.
+< O cliente Pedro Henrique Gonçalves comprou 3 itens. Obrigado!
+> O cliente Vitor Leonardo Vetçojsaq comprou 2 itens. Obrigado!
+< Empresário Marcos Antônio da Silva pagou R$ 3.664,50 em 12/03/2024 às 14:35
+> Empresário Wagner Vitória da Diego pagou R$ 2.652,93 em 11/03/2024 às 03:39
+< CPF 123.456.789-09 CNPJ 11.222.333/0001-81 email joao.pereira@empresa.com.br
+> CPF 340.968.538-36 CNPJ 44.882.071/1482-00 email deoi.bucoemo@ifncado.com.br
+< Cartão 4111 1111 1111 1111 IP 192.168.10.254 código ABX-99812-Z
+> Cartão 3556 9187 9187 9187 IP 129.106.87.198 código ABX-96042-Z
+< ID;Nome;Cidade;Valor
+> ID;Kate;Danilo;Pinto
+< 00042;MARIA JOSÉ;São Paulo;-1.234,56
+> 00046;MARIA JOSÉ;Tão Irene;-3.465,53
+< Data ISO 2023-12-31T23:59:59Z, versão 10.4.2
+> Data ISO 2024-11-25T07:00:29Z, versão 45.8.7
+< Привет Иван Петров 555-1234
+> Привет Лдзр Ицсзжъ 524-4092
+< 田中太郎 さん 電話 03-1234-5678
+> 田中太郎 さん 電話 02-4092-5362
+< Zoë Müller wohnt in Köln, Tel. +49 221 1234567
+> Zoë Márcia wohnt in Gëtp, Tel. +87 311 2901522
+< plain line without digits or names?
+> plain line without digits or names?

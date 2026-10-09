@@ -241,6 +241,9 @@ type
     FJrnSel: TDictionary<string, Byte>;
     { Chaves a descartar na reescrita (nil = usar a selecao das linhas alteradas). }
     FRewriteDrop: TDictionary<string, Byte>;
+    { Exclusao de eventos de descaracterizacao: FAnonDropLine 0 = todos. }
+    FAnonDrop: Boolean;
+    FAnonDropLine: Integer;
     FJrnSort: Integer;
     FpnJrnTools: TPanel;
     FbtnJrnAll, FbtnJrnDel, FbtnJrnSort, FbtnJrnExport, FbtnJrnAI: TButton;
@@ -316,6 +319,8 @@ type
     FPopupHistTargetLV: TListView;
     { Indice 0-based no lvHistFile apos clique no diario (-1 = nenhum realce extra). }
     FJournalPreviewHiliteIdx: Integer;
+    { Linha (1-based) cujos eventos a lista mostra; 0 = todos / nenhuma. }
+    FJrnViewLine: Integer;
     { True enquanto JournalJump faz scroll — ignora/desfaz selecao nativa do Win32. }
     FHistJumpIgnoreSel: Boolean;
     FHistClearSelTicks: Integer;
@@ -370,6 +375,9 @@ type
     procedure sgJournalMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure sgJournalSelectCell(Sender: TObject; ACol, ARow: Longint; var CanSelect: Boolean);
+    procedure sgJournalDblClick(Sender: TObject);
+    procedure sgJournalKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure ShowJournalLineDetail(ARow: Integer);
     procedure SgHistWndProc(var Message: TMessage);
     procedure StartHistPagedPreview(const APath: string);
     procedure StopHistPagedPreview;
@@ -576,6 +584,8 @@ type
     procedure RewriteJournal(const AConfirmMsg: string);
     procedure DeleteCheckedChangedLines;
     procedure DeleteCheckedJournalEvents;
+    function HistIsAnonDropLine(const Line: string): Boolean;
+    procedure DeleteAnonJournalEvents(ALine: Integer);
     function PickHistExportPath(out ACsv: Boolean): string;
     procedure ExportChangedLines;
     procedure ExportJournalEvents;
@@ -614,9 +624,9 @@ implementation
 uses
   Math, ClipBrd, CommCtrl, sDateUtils,
   uI18n, uFileSessionHistory, uSmoothLoading, uLineEditor, UnConsts,
-  uDiskSpaceCheck, uTextEncoding, uFastFileMsgDlg, uUserPrefs,
+  StrUtils, uAnonymize, uDiskSpaceCheck, uTextEncoding, uFastFileMsgDlg, uUserPrefs,
   uFastFilePaths, uMruFind, UnitPopupMruList, uFastFileScale, uEolPolicy,
-  uFastFileAssistant, uAssistantPipelineStore;
+  uFastFileAssistant, uAssistantPipelineStore, uHistLineDetailDlg, uExportDoneDlg;
 
 function SetWindowTheme(hwnd: HWND; pszSubAppName, pszSubIdList: PWideChar): HRESULT; stdcall;
   external 'uxtheme.dll' name 'SetWindowTheme';
@@ -2571,6 +2581,21 @@ begin
       OutLines.Add(Format(TrText('Merge lines (delta): %d line(s) from line %d'), [cnt, L]));
       Exit;
     end;
+    if op = 'ANON' then
+    begin
+      L := StrToIntDef(Trim(Parts[2]), 0);
+      cnt := 0;
+      if Parts.Count >= 4 then
+        cnt := StrToIntDef(Trim(Parts[3]), 0);
+      if L <= 0 then
+        OutLines.Add(ts + '  [ANON]  ' + HistSanitizeJournalExcerpt(Parts[2], 160))
+      else if cnt <= 0 then
+        OutLines.Add(TrText('Anon.Hist.WholeFile'))
+      else
+        OutLines.Add(Format(TrText('Anon.Hist.Lines'), [cnt, L]));
+      OutLines.Add('  ' + TrText('Anon.Hist.NoDetail'));
+      Exit;
+    end;
     if op = 'MRGF' then
     begin
       if Parts.Count >= 4 then
@@ -2600,7 +2625,7 @@ begin
       Exit;
     end;
 
-    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') then
+    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'ANOL') then
     begin
       L := StrToIntDef(HistSanitizeText(Parts[2]), 0);
       oldEx := '';
@@ -2610,7 +2635,10 @@ begin
       if Parts.Count >= 5 then
         newEx := Parts[4];
       HistDescribeEditParts(oldEx, newEx, PosN, OldFrag, NewFrag, LenNote, EndsNote, KindNote);
-      Head := Format(TrText('Hist.EventHead: %s  [%s]  line %d'), [ts, op, L]);
+      if op = 'ANOL' then
+        Head := Format(TrText('Hist.EventHead: %s  [%s]  line %d'), [ts, TrText('Anon.Hist.Tag'), L])
+      else
+        Head := Format(TrText('Hist.EventHead: %s  [%s]  line %d'), [ts, op, L]);
       OutLines.Add(Head);
       if KindNote = 'APPEND' then
       begin
@@ -2693,7 +2721,7 @@ begin
     if Parts.Count < 3 then Exit;
     op := UpperCase(Trim(Parts[1]));
     if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'BINS') or (op = 'BAUT') or (op = 'BDEL') or
-       (op = 'MDLT') or (op = 'MRGF') then
+       (op = 'MDLT') or (op = 'MRGF') or (op = 'ANON') or (op = 'ANOL') then
       Result := StrToIntDef(Trim(Parts[2]), 0)
     else if op = 'RPLALL' then
       Result := 1;
@@ -2716,7 +2744,7 @@ begin
     HistSplitPipeFields(S, Parts);
     if Parts.Count < 3 then Exit;
     op := UpperCase(Trim(Parts[1]));
-    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'MRGF') then
+    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'MRGF') or (op = 'ANOL') then
     begin
       AStart := StrToIntDef(Trim(Parts[2]), 0);
       AEnd := AStart;
@@ -2730,6 +2758,22 @@ begin
       if cnt < 1 then cnt := 1;
       AEnd := AStart + cnt - 1;
       if AEnd < AStart then AEnd := AStart;
+    end
+    else if op = 'ANON' then
+    begin
+      AStart := StrToIntDef(Trim(Parts[2]), 0);
+      cnt := 0;
+      if Parts.Count >= 4 then
+        cnt := StrToIntDef(Trim(Parts[3]), 0);
+      if AStart <= 0 then
+        AStart := 0
+      else if cnt <= 0 then
+      begin
+        AStart := 1;
+        AEnd := MaxInt div 4;
+      end
+      else
+        AEnd := AStart + cnt - 1;
     end
     else if op = 'RPLALL' then
     begin
@@ -2753,7 +2797,7 @@ begin
     HistSplitPipeFields(S, Parts);
     if Parts.Count < 2 then Exit;
     op := UpperCase(HistSanitizeText(Parts[1]));
-    if (op = 'EDT') or (op = 'MDLT') or (op = 'MRGF') then
+    if (op = 'EDT') or (op = 'MDLT') or (op = 'MRGF') or (op = 'ANON') or (op = 'ANOL') then
       Result := 1
     else if (op = 'INS') or (op = 'BINS') or (op = 'BAUT') then
       Result := 2
@@ -2785,7 +2829,7 @@ begin
       Exit;
     end;
     op := UpperCase(HistSanitizeText(Parts[1]));
-    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') then
+    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'ANOL') then
     begin
       oldEx := '';
       newEx := '';
@@ -2919,12 +2963,27 @@ begin
       LineKinds[1] := 1;
     Exit;
   end;
-  if (op = 'EDT') or (op = 'INS') or (op = 'DEL') then
+  if op = 'ANON' then
+  begin
+    L := StrToIntDef(Trim(Parts[2]), 0);
+    cnt := 0;
+    if Parts.Count >= 4 then
+      cnt := StrToIntDef(Trim(Parts[3]), 0);
+    if L <= 0 then
+      Exit
+    else if cnt <= 0 then
+      FillChar(LineKinds[1], maxL, 1)
+    else
+      for j := Max(L, 1) to Min(Int64(L) + cnt - 1, maxL) do
+        LineKinds[j] := 1;
+    Exit;
+  end;
+  if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'ANOL') then
   begin
     L := StrToIntDef(Trim(Parts[2]), 0);
     if (L >= 1) and (L <= maxL) then
     begin
-      if op = 'EDT' then
+      if (op = 'EDT') or (op = 'ANOL') then
         LineKinds[L] := 1
       else if op = 'INS' then
         LineKinds[L] := 2
@@ -4824,6 +4883,8 @@ begin
     ApplyHistDateFilterHints;
     LayoutJrnTools;
   end;
+  if Assigned(FsgJournal) then
+    FsgJournal.Hint := TrText('HistDetail.GridHint');
 end;
 
 procedure TfrmCompareMerge.LayoutChgTools(AX, AY, AW: Integer);
@@ -5181,6 +5242,8 @@ var
   L0, L1: Integer;
   Tg: Byte;
 begin
+  if FAnonDrop then
+    Exit(not HistIsAnonDropLine(Line));
   if Assigned(FRewriteDrop) then
     Exit(not FRewriteDrop.ContainsKey(Line));
   Utf := UTF8Encode(Line);
@@ -5223,6 +5286,9 @@ begin
   if Assigned(FJrnSel) then
     FJrnSel.Clear;
   ReloadHistoryMemo(True);
+  if FAnonDrop then
+    FastFileMessageBox(PChar(Format(TrText('Anon.Hist.Deleted'), [Removed])),
+      PChar(Caption), MB_OK or MB_ICONINFORMATION);
 end;
 
 procedure TfrmCompareMerge.DeleteCheckedChangedLines;
@@ -5256,6 +5322,54 @@ begin
     RewriteJournal(Format(TrText('Hist.DeleteEventsConfirm: %d'), [n]));
   finally
     FRewriteDrop := nil;
+  end;
+end;
+
+{ ANON (bloco) / ANOL (linha com antes/depois) e as notas UNDO/REDO marcadas como
+  descaracterizacao. Com FAnonDropLine > 0 so' os eventos que incluem essa linha. }
+function TfrmCompareMerge.HistIsAnonDropLine(const Line: string): Boolean;
+var
+  Parts: TStringList;
+  op, Legacy: string;
+  L0, L1: Integer;
+begin
+  Result := False;
+  Parts := TStringList.Create;
+  try
+    HistSplitPipeFields(Line, Parts);
+    if Parts.Count < 3 then Exit;
+    op := UpperCase(Trim(Parts[1]));
+    if (op = 'UNDO') or (op = 'REDO') then
+    begin
+      if FAnonDropLine <> 0 then Exit;
+      Legacy := TrText('Anon.HistoryNote');
+      if Pos('%', Legacy) > 0 then
+        Legacy := Copy(Legacy, 1, Pos('%', Legacy) - 1);
+      Result := StartsText(ANON_HIST_NOTE_MARK, TrimLeft(Parts[2])) or
+        ((Trim(Legacy) <> '') and StartsText(Legacy, TrimLeft(Parts[2])));
+      Exit;
+    end;
+    if (op <> 'ANON') and (op <> 'ANOL') then Exit;
+    if FAnonDropLine = 0 then Exit(True);
+    HistParseJournalLineSpan(Line, L0, L1);
+    Result := (L0 > 0) and (FAnonDropLine >= L0) and (FAnonDropLine <= L1);
+  finally
+    Parts.Free;
+  end;
+end;
+
+procedure TfrmCompareMerge.DeleteAnonJournalEvents(ALine: Integer);
+begin
+  FAnonDrop := True;
+  FAnonDropLine := ALine;
+  try
+    if ALine > 0 then
+      RewriteJournal(Format(TrText('Anon.Hist.DeleteLineConfirm'), [ALine]))
+    else
+      RewriteJournal(TrText('Anon.Hist.DeleteAllConfirm'));
+  finally
+    FAnonDrop := False;
+    FAnonDropLine := 0;
   end;
 end;
 
@@ -5353,8 +5467,7 @@ begin
     FastFileMessageBox(PChar(TrText('Hist.ExportEmpty')), PChar(Caption),
       MB_OK or MB_ICONINFORMATION)
   else
-    FastFileMessageBox(PChar(Format(TrText('Hist.ExportDone: %s'), [Path])),
-      PChar(Caption), MB_OK or MB_ICONINFORMATION);
+    ShowGeneratedFileDialog(Path, nOut);
 end;
 
 function TfrmCompareMerge.BuildJournalText(AForAi: Boolean): string;
@@ -5465,8 +5578,7 @@ begin
   finally
     SW.Free;
   end;
-  FastFileMessageBox(PChar(Format(TrText('Hist.ExportDone: %s'), [Path])),
-    PChar(Caption), MB_OK or MB_ICONINFORMATION);
+  ShowGeneratedFileDialog(Path);
 end;
 
 function TfrmCompareMerge.PromptHistAiGoal(out AGoal: string): Boolean;
@@ -5997,6 +6109,11 @@ begin
   else
     AddHistCtxItem(Root, 'Hist.Ctx.CheckAll', 21, ChgCtxClick, HasItems);
   AddHistCtxItem(Root, 'Hist.Ctx.DeleteChecked', 22, ChgCtxClick, ChgSelectedCount > 0);
+  Sub := AddHistCtxItem(Root, 'Anon.Hist.DeleteMenu', 0, nil, HasItems);
+  Mi := AddHistCtxItem(Sub, 'Anon.Hist.DeleteLine', 40, ChgCtxClick, HasSel);
+  if HasSel then
+    Mi.Caption := Format(TrText('Anon.Hist.DeleteLine'), [R.Ln0]);
+  AddHistCtxItem(Sub, 'Anon.Hist.DeleteAll', 41, ChgCtxClick);
   AddHistCtxItem(Root, '-', 0, nil);
   Sub := AddHistCtxItem(Root, 'Hist.Ctx.Sort', 0, nil, HasItems);
   for m in SortOrder do
@@ -6050,6 +6167,8 @@ begin
         end;
     21: ChgSelectAllToggle;
     22: DeleteCheckedChangedLines;
+    40: if HasSel then DeleteAnonJournalEvents(R.Ln0);
+    41: DeleteAnonJournalEvents(0);
     30: ExportChangedLines;
     31: ChgToolClick(FbtnChgAI);
     32: if Assigned(FbtnChgDateClr) then FbtnChgDateClr.Click;
@@ -6151,6 +6270,9 @@ begin
   HasRow := JrnCellText(FJrnPopRow) <> '';
   HasEv := JrnEventStart(FJrnPopRow) >= 0;
   Root := FpmJrnCtx.Items;
+  Mi := AddHistCtxItem(Root, 'Hist.Ctx.ShowDetail', 5, JrnCtxClick, HasEv and HasRow);
+  Mi.Default := True;
+  AddHistCtxItem(Root, '-', 0, nil);
   AddHistCtxItem(Root, 'Hist.Ctx.CopyEvent', 1, JrnCtxClick, HasEv);
   AddHistCtxItem(Root, 'Hist.Ctx.CopyRow', 2, JrnCtxClick, HasRow);
   AddHistCtxItem(Root, 'Hist.Ctx.CopyChecked', 3, JrnCtxClick,
@@ -6164,6 +6286,11 @@ begin
     AddHistCtxItem(Root, 'Hist.Ctx.CheckAll', 21, JrnCtxClick, JrnHasEvents);
   AddHistCtxItem(Root, 'Hist.Ctx.DeleteChecked', 22, JrnCtxClick,
     Assigned(FJrnSel) and (FJrnSel.Count > 0));
+  Sub := AddHistCtxItem(Root, 'Anon.Hist.DeleteMenu', 0, nil, JrnHasEvents);
+  Mi := AddHistCtxItem(Sub, 'Anon.Hist.DeleteLine', 40, JrnCtxClick, FJrnViewLine > 0);
+  if FJrnViewLine > 0 then
+    Mi.Caption := Format(TrText('Anon.Hist.DeleteLine'), [FJrnViewLine]);
+  AddHistCtxItem(Sub, 'Anon.Hist.DeleteAll', 41, JrnCtxClick);
   AddHistCtxItem(Root, '-', 0, nil);
   Sub := AddHistCtxItem(Root, 'Hist.Ctx.Sort', 0, nil, JrnHasEvents);
   for m in SortOrder do
@@ -6196,6 +6323,7 @@ begin
     2: S := HistPrintableText(JrnCellText(FJrnPopRow));
     3: S := BuildJournalText(False);
     4: S := JrnAllEventsText;
+    5: ShowJournalLineDetail(FJrnPopRow);
     20:
       begin
         st := JrnEventStart(FJrnPopRow);
@@ -6207,6 +6335,8 @@ begin
       end;
     21: JrnSelectAllToggle;
     22: DeleteCheckedJournalEvents;
+    40: if FJrnViewLine > 0 then DeleteAnonJournalEvents(FJrnViewLine);
+    41: DeleteAnonJournalEvents(0);
     30: ExportJournalEvents;
     31: AskAiAboutHistory(BuildJournalText(True));
     32: if Assigned(FbtnJrnDateClr) then FbtnJrnDateClr.Click;
@@ -6221,6 +6351,120 @@ procedure TfrmCompareMerge.JrnCtxSortClick(Sender: TObject);
 begin
   FSortMenuTarget := 2;
   HistSortMenuClick(Sender);
+end;
+
+procedure HistBuildDetailItem(const ARaw, ASummary: string; out AItem: THistDetailItem);
+var
+  Parts: TStringList;
+  op: string;
+  OldRuns, NewRuns: THistDiffRuns;
+  RawMax, i: Integer;
+begin
+  AItem := Default(THistDetailItem);
+  AItem.Summary := ASummary;
+  Parts := TStringList.Create;
+  try
+    HistSplitPipeFields(ARaw, Parts);
+    if Parts.Count > 0 then
+      AItem.Stamp := HistSanitizeText(Parts[0]);
+    if Parts.Count > 1 then
+      op := UpperCase(HistSanitizeText(Parts[1]));
+    if op = 'ANOL' then
+      AItem.Op := TrText('Anon.Hist.Tag')
+    else
+      AItem.Op := op;
+    if Parts.Count > 2 then
+      AItem.Line := StrToIntDef(HistSanitizeText(Parts[2]), 0);
+    if (op = 'EDT') or (op = 'INS') or (op = 'DEL') or (op = 'ANOL') then
+    begin
+      AItem.HasLines := True;
+      if Parts.Count > 3 then
+        AItem.Before := HistPrintableText(Parts[3]);
+      if Parts.Count > 4 then
+        AItem.After := HistPrintableText(Parts[4]);
+      RawMax := Max(Length(AItem.Before), Length(AItem.After));
+      if (RawMax = cHistJournalLegacyExcerptMax) or (RawMax >= PrefHistoryLineExcerptMax) then
+        AItem.TruncLimit := RawMax;
+      if (AItem.Before <> '') and (AItem.After <> '') and (AItem.Before <> AItem.After) then
+      begin
+        SetLength(OldRuns, 0);
+        SetLength(NewRuns, 0);
+        HistDiffSpans(AItem.Before, AItem.After, 0, 0, 0, OldRuns, NewRuns);
+        SetLength(AItem.BeforeRuns, Length(OldRuns));
+        for i := 0 to High(OldRuns) do
+        begin
+          AItem.BeforeRuns[i].Start0 := OldRuns[i].Start0;
+          AItem.BeforeRuns[i].Len := OldRuns[i].Len;
+        end;
+        SetLength(AItem.AfterRuns, Length(NewRuns));
+        for i := 0 to High(NewRuns) do
+        begin
+          AItem.AfterRuns[i].Start0 := NewRuns[i].Start0;
+          AItem.AfterRuns[i].Len := NewRuns[i].Len;
+        end;
+      end;
+    end;
+  finally
+    Parts.Free;
+  end;
+end;
+
+{ Abre o detalhe com todos os eventos visiveis; ficam pre-selecionados os marcados
+  (se o evento clicado estiver entre eles) ou so' o clicado. }
+procedure TfrmCompareMerge.ShowJournalLineDetail(ARow: Integer);
+var
+  st, i, n, StartIx: Integer;
+  Items: THistDetailItems;
+  UseChecked: Boolean;
+begin
+  if FClosing or not Assigned(FsgJournal) or not Assigned(FJournalRaws) then Exit;
+  if JrnCellText(ARow) = '' then Exit;
+  st := JrnEventStart(ARow);
+  if st < 0 then Exit;
+  UseChecked := Assigned(FJrnSel) and FJrnSel.ContainsKey(JrnRawAt(st));
+  SetLength(Items, 0);
+  n := 0;
+  StartIx := 0;
+  for i := 0 to FJournalRaws.Count - 1 do
+  begin
+    if FJournalRaws[i] = '' then Continue;
+    SetLength(Items, n + 1);
+    HistBuildDetailItem(FJournalRaws[i], JrnEventText(i), Items[n]);
+    if i = st then
+    begin
+      StartIx := n;
+      Items[n].Selected := True;
+    end
+    else
+      Items[n].Selected := UseChecked and FJrnSel.ContainsKey(FJournalRaws[i]);
+    Inc(n);
+  end;
+  if n = 0 then Exit;
+  ShowHistLineDetailDialog(Self, Trim(FDefaultLeft), Items, StartIx);
+end;
+
+procedure TfrmCompareMerge.sgJournalDblClick(Sender: TObject);
+var
+  P: TPoint;
+  ACol, ARow: Integer;
+begin
+  if FClosing or not Assigned(FsgJournal) then Exit;
+  P := FsgJournal.ScreenToClient(Mouse.CursorPos);
+  FsgJournal.MouseToCell(P.X, P.Y, ACol, ARow);
+  if (ARow < 0) or ((ACol = 0) and (FsgJournal.ColCount > 1)) then Exit;
+  ShowJournalLineDetail(ARow);
+end;
+
+procedure TfrmCompareMerge.sgJournalKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = VK_RETURN) and Assigned(FsgJournal) then
+  begin
+    Key := 0;
+    if FJournalGridSelLine >= 0 then
+      ShowJournalLineDetail(FJournalGridSelLine)
+    else
+      ShowJournalLineDetail(FsgJournal.Row);
+  end;
 end;
 
 procedure TfrmCompareMerge.JrnToolClick(Sender: TObject);
@@ -6552,7 +6796,10 @@ var
 
   procedure AddEventLine(const S: string; ALn0, ALn1, ATag: Integer;
     const AEx, ARaw: string);
+  var
+    T: string;
   begin
+    T := S;
     if Copy(S, 1, 1) <> ' ' then
     begin
       if nEvents > 0 then
@@ -6561,8 +6808,11 @@ var
         JournalMetaAdd(0, 0, '');
       end;
       Inc(nEvents);
+      if (FJrnViewLine > 0) and (ALn1 > ALn0) then
+        T := S + '  ' + Format(TrText('Hist.EventCoversLine: %d %d %d'),
+          [ALn0, ALn1, FJrnViewLine]);
     end;
-    Buf.Add(S);
+    Buf.Add(T);
     JournalMetaAdd(ALn0, ALn1, ATag, AEx, ARaw);
   end;
 
@@ -6580,6 +6830,7 @@ begin
     end;
 
     JournalMetaClear;
+    FJrnViewLine := 0;
 
     if FJournalCacheLines.Count = 0 then
     begin
@@ -6609,6 +6860,7 @@ begin
     else
     begin
       wantLine := FJournalPreviewHiliteIdx + 1;
+      FJrnViewLine := wantLine;
       any := False;
       Buf.Add('');
       JournalMetaAdd(0, 0, '');
@@ -7514,6 +7766,10 @@ begin
   FsgJournal.OnDrawCell := sgJournalDrawCell;
   FsgJournal.OnMouseUp := sgJournalMouseUp;
   FsgJournal.OnSelectCell := sgJournalSelectCell;
+  FsgJournal.OnDblClick := sgJournalDblClick;
+  FsgJournal.OnKeyDown := sgJournalKeyDown;
+  FsgJournal.Hint := TrText('HistDetail.GridHint');
+  FsgJournal.ShowHint := True;
   FpmJrnCtx := TPopupMenu.Create(Self);
   FpmJrnCtx.OnPopup := JrnCtxPopup;
   FsgJournal.PopupMenu := FpmJrnCtx;
@@ -7733,6 +7989,8 @@ begin
   { Linhas de espaco/estado (0) nao mudam a selecao da lista. }
   Ln0 := Integer(FJournalLineNums[ARow]);
   if Ln0 < 1 then Exit;
+  { A lista mostra os eventos de uma linha: todos a incluem, a selecao fica nela. }
+  if FJrnViewLine > 0 then Exit;
   if ChgRecAt(FlbChangedLines.ItemIndex, R) and (R.Ln0 = Ln0) then Exit;
   FSyncingChangedLines := True;
   try
@@ -8784,6 +9042,8 @@ begin
     if Assigned(FsgHist) then FsgHist.Invalidate;
     Exit;
   end;
+  if FJrnViewLine > 0 then
+    Ln := FJrnViewLine;
   if (Ln >= 1) and (Ln <= HistPreviewDataCount) then
     found := Ln - 1
   else

@@ -39,6 +39,10 @@ type
     FLblUIScale: TLabel;
     FEdtUIScale: TEdit;
     FLblUIScaleHint: TLabel;
+    FGrpAgent: TGroupBox;
+    FLblAgentSecs: TLabel;
+    FEdtAgentSecs: TEdit;
+    FLblAgentSecsHint: TLabel;
     FBtnReset: TButton;
     FBtnOK: TButton;
     FBtnCancel: TButton;
@@ -189,6 +193,22 @@ begin
   FLblUIScaleHint.SetBounds(12, 42, 420, 13);
   FLblUIScaleHint.Font.Color := clGrayText;
 
+  FGrpAgent := TGroupBox.Create(Self);
+  FGrpAgent.Parent := Self;
+  FGrpAgent.SetBounds(L, 532, W, 66);
+
+  FLblAgentSecs := TLabel.Create(Self);
+  FLblAgentSecs.Parent := FGrpAgent;
+  FLblAgentSecs.SetBounds(12, 24, 290, 13);
+  FEdtAgentSecs := TEdit.Create(Self);
+  FEdtAgentSecs.Parent := FGrpAgent;
+  FEdtAgentSecs.SetBounds(310, 20, EDIT_W, 21);
+  FEdtAgentSecs.MaxLength := 4;
+  FLblAgentSecsHint := TLabel.Create(Self);
+  FLblAgentSecsHint.Parent := FGrpAgent;
+  FLblAgentSecsHint.SetBounds(12, 42, 420, 13);
+  FLblAgentSecsHint.Font.Color := clGrayText;
+
   FBtnReset := TButton.Create(Self);
   FBtnReset.Parent := Self;
   FBtnReset.SetBounds(L, 458, 120, 25);
@@ -221,7 +241,7 @@ const
 var
   IntroH, Y, NeedH, W, LblW, HintW, EditLeft, ResetW, OkW, CancelW, I, G: Integer;
   R: TRect;
-  Groups: array[0..3] of TGroupBox;
+  Groups: array[0..4] of TGroupBox;
   C: TControl;
 begin
   Canvas.Font := Font;
@@ -229,6 +249,7 @@ begin
   Groups[1] := FGrpHints;
   Groups[2] := FGrpHistory;
   Groups[3] := FGrpDisplay;
+  Groups[4] := FGrpAgent;
 
   { Size columns/buttons from the translated captions (long in DE/PL/HU...). }
   LblW := MIN_LBL_W;
@@ -282,7 +303,9 @@ begin
   FGrpHistory.SetBounds(L, Y, W, FGrpHistory.Height);
   Y := FGrpHistory.Top + FGrpHistory.Height + GAP;
   FGrpDisplay.SetBounds(L, Y, W, FGrpDisplay.Height);
-  Y := FGrpDisplay.Top + FGrpDisplay.Height + BTN_GAP;
+  Y := FGrpDisplay.Top + FGrpDisplay.Height + GAP;
+  FGrpAgent.SetBounds(L, Y, W, FGrpAgent.Height);
+  Y := FGrpAgent.Top + FGrpAgent.Height + BTN_GAP;
   FBtnReset.SetBounds(L, Y, ResetW, BTN_H);
   FBtnCancel.SetBounds(L + W - CancelW, Y, CancelW, BTN_H);
   FBtnOK.SetBounds(FBtnCancel.Left - 8 - OkW, Y, OkW, BTN_H);
@@ -320,6 +343,10 @@ begin
   FLblUIScale.Caption := TrText('Prefs.DefaultUIScalePPI');
   FLblUIScaleHint.Caption := Format(TrText('Prefs.DefaultUIScalePPIHint'),
     [MIN_UI_SCALE_PPI, MAX_UI_SCALE_PPI]);
+  FGrpAgent.Caption := TrText('Prefs.Section.Agent');
+  FLblAgentSecs.Caption := TrText('Prefs.AgentDecisionSeconds');
+  FLblAgentSecsHint.Caption := RangeHint(MIN_AGENT_DECISION_SECONDS,
+    MAX_AGENT_DECISION_SECONDS, DEF_AGENT_DECISION_SECONDS);
   FBtnReset.Caption := TrText('Prefs.ResetDefaults');
   FBtnOK.Caption := TrText('OK');
   FBtnCancel.Caption := TrText('Cancel');
@@ -339,6 +366,52 @@ begin
   FEdtHintLines.Text := IntToStr(V.LineHintMaxLines);
   FEdtHistExcerpt.Text := IntToStr(V.HistoryLineExcerptMax);
   FEdtUIScale.Text := IntToStr(V.DefaultUIScalePPI);
+  FEdtAgentSecs.Text := IntToStr(V.AgentDecisionSeconds);
+end;
+
+{ Strict: digits only, never blank. On any problem the default goes back into the field
+  and the dialog stays open, so the user sees the value that will be saved. }
+function ParseStrictField(Edt: TEdit; AMin, AMax, ADefault: Integer; const ALabel: string;
+  out AValue: Integer): Boolean;
+var
+  S, Msg: string;
+  I, N: Integer;
+begin
+  Result := False;
+  AValue := ADefault;
+  S := Trim(Edt.Text);
+  Msg := '';
+  N := -1;
+  if S = '' then
+    Msg := Format(TrText('Prefs.EmptyValue'), [ALabel])
+  else
+  begin
+    for I := 1 to Length(S) do
+      if not CharInSet(S[I], ['0'..'9']) then
+      begin
+        Msg := Format(TrText('Prefs.InvalidNumber'), [ALabel]);
+        Break;
+      end;
+    if Msg = '' then
+    begin
+      N := StrToIntDef(S, -1);
+      if (N < AMin) or (N > AMax) then
+        Msg := Format(TrText('Prefs.OutOfRange'), [ALabel, AMin, AMax]);
+    end;
+  end;
+  if Msg <> '' then
+  begin
+    MessageDlg(Msg + #13#10#13#10 + Format(TrText('Prefs.DefaultRestored'), [ADefault]), mtError, [mbOK], 0);
+    Edt.Text := IntToStr(ADefault);
+    if Edt.CanFocus then
+    begin
+      Edt.SetFocus;
+      Edt.SelectAll;
+    end;
+    Exit;
+  end;
+  AValue := N;
+  Result := True;
 end;
 
 function ParseField(Edt: TEdit; AMin, AMax, ADefault: Integer; const ALabel: string;
@@ -401,6 +474,8 @@ begin
     if FEdtUIScale.CanFocus then FEdtUIScale.SetFocus;
     Exit;
   end;
+  if not ParseStrictField(FEdtAgentSecs, MIN_AGENT_DECISION_SECONDS, MAX_AGENT_DECISION_SECONDS,
+    DEF_AGENT_DECISION_SECONDS, TrText('Prefs.AgentDecisionSeconds'), V.AgentDecisionSeconds) then Exit;
   SetUserPrefValues(V);
   Result := True;
 end;

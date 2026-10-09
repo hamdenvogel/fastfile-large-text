@@ -21,6 +21,8 @@ const
   DEF_HISTORY_LINE_EXCERPT_MAX = 4000;
   { Escala padrao da interface (PPI do skin); 0 = DPI do Windows. }
   DEF_UI_SCALE_PPI = 0;
+  { Segundos para aceitar/rejeitar as edicoes propostas pelo Agente IA; depois sao descartadas. }
+  DEF_AGENT_DECISION_SECONDS = 20;
 
   MIN_FILTER_RECENT_MAX = 5;
   MAX_FILTER_RECENT_MAX = 100;
@@ -38,6 +40,8 @@ const
   MAX_HISTORY_LINE_EXCERPT_MAX = 32000;
   MIN_UI_SCALE_PPI = 72;
   MAX_UI_SCALE_PPI = 288;
+  MIN_AGENT_DECISION_SECONDS = 5;
+  MAX_AGENT_DECISION_SECONDS = 600;
 
 type
   TUserPrefValues = record
@@ -49,6 +53,7 @@ type
     LineHintMaxLines: Integer;
     HistoryLineExcerptMax: Integer;
     DefaultUIScalePPI: Integer;
+    AgentDecisionSeconds: Integer;
   end;
 
 procedure LoadUserPrefs(const AIniPath: string);
@@ -66,6 +71,7 @@ function PrefLineHintMaxChars: Integer;
 function PrefLineHintMaxLines: Integer;
 function PrefHistoryLineExcerptMax: Integer;
 function PrefDefaultUIScalePPI: Integer;
+function PrefAgentDecisionSeconds: Integer;
 function ClampUIScalePPI(AValue: Integer): Integer;
 
 function ClampUserPrefInt(AValue, AMin, AMax, ADefault: Integer): Integer;
@@ -105,6 +111,7 @@ begin
   V.LineHintMaxLines := LINE_HINT_MAX_LINES;
   V.HistoryLineExcerptMax := DEF_HISTORY_LINE_EXCERPT_MAX;
   V.DefaultUIScalePPI := DEF_UI_SCALE_PPI;
+  V.AgentDecisionSeconds := DEF_AGENT_DECISION_SECONDS;
 end;
 
 procedure ClampAll(var V: TUserPrefValues);
@@ -124,6 +131,8 @@ begin
   V.HistoryLineExcerptMax := ClampUserPrefInt(V.HistoryLineExcerptMax,
     MIN_HISTORY_LINE_EXCERPT_MAX, MAX_HISTORY_LINE_EXCERPT_MAX, DEF_HISTORY_LINE_EXCERPT_MAX);
   V.DefaultUIScalePPI := ClampUIScalePPI(V.DefaultUIScalePPI);
+  V.AgentDecisionSeconds := ClampUserPrefInt(V.AgentDecisionSeconds,
+    MIN_AGENT_DECISION_SECONDS, MAX_AGENT_DECISION_SECONDS, DEF_AGENT_DECISION_SECONDS);
 end;
 
 procedure EnsureLoaded;
@@ -183,6 +192,8 @@ begin
       DEF_HISTORY_LINE_EXCERPT_MAX, MIN_HISTORY_LINE_EXCERPT_MAX, MAX_HISTORY_LINE_EXCERPT_MAX);
     GPrefs.DefaultUIScalePPI := ClampUIScalePPI(ReadPrefInt(Ini, 'DefaultUIScalePPI',
       DEF_UI_SCALE_PPI, 0, MAX_UI_SCALE_PPI));
+    GPrefs.AgentDecisionSeconds := ReadPrefInt(Ini, 'AgentDecisionSeconds',
+      DEF_AGENT_DECISION_SECONDS, MIN_AGENT_DECISION_SECONDS, MAX_AGENT_DECISION_SECONDS);
   finally
     Ini.Free;
   end;
@@ -206,6 +217,7 @@ begin
     Ini.WriteInteger(INI_SECTION_USER_PREFS, 'LineHintMaxLines', GPrefs.LineHintMaxLines);
     Ini.WriteInteger(INI_SECTION_USER_PREFS, 'HistoryLineExcerptMax', GPrefs.HistoryLineExcerptMax);
     Ini.WriteInteger(INI_SECTION_USER_PREFS, 'DefaultUIScalePPI', GPrefs.DefaultUIScalePPI);
+    Ini.WriteInteger(INI_SECTION_USER_PREFS, 'AgentDecisionSeconds', GPrefs.AgentDecisionSeconds);
   finally
     Ini.Free;
   end;
@@ -270,6 +282,12 @@ function PrefDefaultUIScalePPI: Integer;
 begin
   EnsureLoaded;
   Result := GPrefs.DefaultUIScalePPI;
+end;
+
+function PrefAgentDecisionSeconds: Integer;
+begin
+  EnsureLoaded;
+  Result := GPrefs.AgentDecisionSeconds;
 end;
 
 initialization

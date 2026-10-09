@@ -1,15 +1,44 @@
 ﻿# FastFile — Relatório de Implementações
 
-**Data:** 27 de setembro de 2026  
+**Data:** 8 de outubro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64)  
 **Pasta:** `FileReadThread-2\Src` (host D10: `delphi10_4_2\FastFile\src`)  
-**Versão publicada actual:** **`3.0.5.225`** — histórico de sessão (checkboxes, ordenar, filtro de datas), editor de linha, EOL CR/LF/CRLF, merge rápido, abas reordenáveis, preferências (ver secções abaixo)
+**Versão publicada actual:** **`3.0.5.232`** — agente de IA sobre ficheiros (SQL / linguagem natural, propostas com prazo para aceitar), anonimizar dados, detalhe de eventos do histórico, PPI personalizado (ver secções abaixo)
 
 ---
 
-## ★ FastFile 3.0.5.225 — BOM UTF-8, mensagens de tempo traduzidas e sync de docs (setembro/2026)
+## ★ FastFile 3.0.5.232 — Agente de IA: prazo para decidir e respostas mais seguras (outubro/2026)
 
-- **v3.0.5.225 (Current / Atual):** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.225`**. Mensagens de tempo («Time to execute that operation» e afins) passam por `TrText` em 14 idiomas. 17 units gravadas em **UTF-8 com BOM** (Biblioteca, uAssistantPipelineStore, uCompareMergeUI, uFastFileAIPythonMacroHelp, uFastFileAIScreenHelp, uFastFileAssistantCatalog, uFastFileAssistantMap, uFastFileAssistantRAG, uFilterBar, uMMF_utf8, UnConsts, UnReadFileThread_utf8, UnUtils, uWelcomeScreen, uLineEditor, uHistChangedIndex, uFileSessionHistory) — sem acentos/setas/símbolos corrompidos em nenhum idioma (backup em `backup_bom_20260927_193156`).
+- **v3.0.5.232 (Current / Atual):** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.232`**. As edições propostas pelo agente aguardam **20 s** por **Aceitar / Rejeitar / Aceitar todas** (configurável em **Opções → Preferências**, 5..600 s; valor vazio/inválido é recusado e volta ao padrão). Distintivo de tempo com ícone (normal / urgente / expirado); a contagem pausa enquanto há uma confirmação aberta; ao expirar, as propostas são descartadas e o pedido tem de ser refeito.
+- **v3.0.5.232 (interno):** Botões que actuam sobre itens (Aceitar, Rejeitar, Aceitar todas e barras de prompt, fontes e resposta) só ficam activos quando há conteúdo — reavaliados em cada alteração da lista ou do texto (`UpdateEditButtons` / `UpdateToolButtons` / `AnswerChange`). **Substituir tudo** conta as ocorrências antes: 0 ocorrências = nada é proposto e a resposta diz isso. O agente nunca afirma uma alteração que não foi colocada na fila (mensagem honesta «Nada foi alterado nem proposto…», 14 idiomas). Respostas do agente e de «Fale com a IA» no **idioma da interface** (`AssistantLangPromptName` movido para `uI18n`). Parser aceita `"tool":{"replace_all":{...}}` (teste `tests/agent/ParseShapeTest`). Janela de ficheiros gerados com rótulo traduzido **«Pasta:» / «Ficheiro:»**. Correcção: após dividir o ficheiro aberto a lista principal volta a mostrar as linhas. F1 ganha o bloco **`FF_HELP.RecentFeaturesBlock2`** (14 idiomas). Sync **HISTORY** / README / ROADMAP / `DOC_ZS_ATALHOS.md` / `DOCUMENTACAO_MODELOS_IA.md` / `DOC_AGENTE_IA_CHECKLIST_TESTES.md` (secções 1.4.1 e 1.6).
+
+## ★ FastFile 3.0.5.231 (interno) — Agente de IA: SQL, correspondência exacta e ficheiros gerados (outubro/2026)
+
+- **v3.0.5.231 (interno):** O pedido pode ser **SQL** ou linguagem natural em qualquer dos 14 idiomas: `SELECT` com `WHERE` / `GROUP BY` / `ORDER BY` / `SUM` / `COUNT` em ficheiros delimitados; `UPDATE` / `DELETE` / `INSERT` / `ALTER TABLE` viram propostas; SQL digitado directamente corre sem IA (**`uAgentSql`**). «Total: N registo(s) encontrado(s)» quando se aplica. Palavra inteira («não parcial», «exacto») vs procura parcial reconhecida nos 14 idiomas (**`uAgentMatchIntent`**). Janela **«Ficheiro(s) gerado(s) com sucesso»** (**`uExportDoneDlg`**): abrir no FastFile, abrir pasta, copiar caminho(s); também após dividir / exportar; **«Último ficheiro gerado»** (menu + barra da Resposta). Lista de fontes com MRU **Recentes** (procurar, excluir, limpar tudo). Painel do Assistente com modo **«Agente»**.
+
+## ★ FastFile 3.0.5.230 (interno) — Agente sobre o core + layout (outubro/2026)
+
+- **v3.0.5.230 (interno):** Edições aceites usam as rotinas de streaming do core (**`uAgentPatch`**; ficheiros de vários GB, progresso e Cancelar). Pré-visualização das edições propostas: antes / depois realçado, paginada (segura em RAM), duplo clique para zoom; textos cortados mostram o texto completo ao passar o rato, com Copiar. Ficheiros **UTF-16** lidos correctamente pelas ferramentas do agente. Legendas cortadas alargadas em todos os forms (`FfFitCaptions`); o layout acompanha mudanças de resolução / escala do Windows em execução (`WM_DISPLAYCHANGE`).
+
+## ★ FastFile 3.0.5.229 (interno) — Novo: agente de IA sobre ficheiros (outubro/2026)
+
+- **v3.0.5.229 (interno):** Barra de ferramentas, menu **Ferramentas** e **Ctrl+Alt+G**: 1) escolher ficheiros / pastas (máscara, profundidade, máx. ficheiros, filtro), 2) descrever o pedido, 3) rever: **Resposta**, **Edições propostas**, **Prompt revisto**, **Ficheiros encontrados**. Nada é gravado antes de Aceitar. Ferramentas: contar, procurar, ler, editar / inserir / excluir linhas, anonimizar e acções do core (substituir tudo, dividir, exportar, filtrar, marcadores…). MRU de pedidos recentes (procurar, excluir 1..N, limpar tudo; INI). Barras com Novo, Limpar, Copiar, Perguntar à IA, Traduzir, Sugerir. Overlay de carregamento com progresso e Cancelar. Units: `uAgentWorkspace`, `uAgentLoop`, `uAgentProtocol`, `uAgentTools`, `uAgentActions`, `uAgentBridge`, `uAgentPrefs`.
+
+## ★ FastFile 3.0.5.228 (interno) — Histórico de sessão: detalhe do evento (outubro/2026)
+
+- **v3.0.5.228 (interno):** Duplo clique (ou Enter) num evento da sessão (**`uHistLineDetailDlg`**): linhas completas antes / depois, alteração anterior / seguinte (**F3 / Shift+F3**), comparação campo a campo (delimitador detectado automaticamente) e resumo do evento. Copiar ou exportar um, os seleccionados ou todos os eventos de uma vez (TXT / CSV / JSON).
+
+## ★ FastFile 3.0.5.227 (interno) — Anonimizar dados (outubro/2026)
+
+- **v3.0.5.227 (interno):** Clique direito na lista ou menu **Ferramentas**: linhas seleccionadas (**Ctrl+Alt+D**) ou o ficheiro inteiro (**`uAnonymize`** / **`uAnonymizeDialog`**). Valores privados viram valores falsos do mesmo tipo e tamanho (números, datas, e-mails, códigos, nomes); colunas, delimitador, ignorar cabeçalho e palavras a manter; pré-visualização antes de aplicar; desfazer / refazer. Gravado no próprio ficheiro — rápido em qualquer tamanho. O histórico de sessão mostra antes / depois por linha; clique direito **«Remover anonimização do histórico»** (linha N ou todas).
+
+## ★ FastFile 3.0.5.226 (interno) — PPI personalizado e retradução (outubro/2026)
+
+- **v3.0.5.226 (interno):** Botão **PPI personalizado** na barra de ferramentas: escolhe a escala da interface em execução, sincronizado com o combo de zoom da barra de estado; item **«Restaurar padrão»** e PPI padrão nas Preferências; a janela permanece dentro do ecrã após redimensionar. A troca de idioma também traduz os textos já visíveis.
+
+## ★ FastFile 3.0.5.225 (interno) — BOM UTF-8, mensagens de tempo traduzidas e sync de docs (setembro/2026)
+
+- **v3.0.5.225 (interno):** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.225`**. Mensagens de tempo («Time to execute that operation» e afins) passam por `TrText` em 14 idiomas. 17 units gravadas em **UTF-8 com BOM** (Biblioteca, uAssistantPipelineStore, uCompareMergeUI, uFastFileAIPythonMacroHelp, uFastFileAIScreenHelp, uFastFileAssistantCatalog, uFastFileAssistantMap, uFastFileAssistantRAG, uFilterBar, uMMF_utf8, UnConsts, UnReadFileThread_utf8, UnUtils, uWelcomeScreen, uLineEditor, uHistChangedIndex, uFileSessionHistory) — sem acentos/setas/símbolos corrompidos em nenhum idioma (backup em `backup_bom_20260927_193156`).
 - **v3.0.5.225 (interno):** F1 ganha o bloco traduzido **`FF_HELP.RecentFeaturesBlock`** (marcador `MK_HELP_RECENT`, 14 idiomas); `FF_HELP.AssistantBlock` → v3.0.5.225. Sync **HISTORY** / README / ROADMAP / `DOC_ZS_ATALHOS.md` / `DOCUMENTACAO_MODELOS_IA.md`.
 
 ## ★ FastFile 3.0.5.224 (interno) — Histórico de sessão: checkboxes, ordenar e filtro de datas (setembro/2026)

@@ -1,0 +1,409 @@
+﻿OK   SELECT COUNT(*) FROM sql WHERE nome LIKE '%Allyne%'
+statement=select
+sql=SELECT COUNT(*) FROM sql WHERE nome LIKE '%Allyne%'
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=4
+result_rows=1 shown=1
+result (columns separated by " | "):
+COUNT(*)
+4
+line_numbers=2,3,4,6
+
+OK   SELECT COUNT(*) AS total FROM sql WHERE WORD_MATCH(nome, 'Allyne')
+statement=select
+sql=SELECT COUNT(*) AS total FROM sql WHERE WORD_MATCH(nome, 'Allyne')
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=3
+result_rows=1 shown=1
+result (columns separated by " | "):
+total
+3
+line_numbers=2,4,6
+
+OK   SELECT nome FROM sql WHERE nome = 'allyne'
+statement=select
+sql=SELECT nome FROM sql WHERE nome = 'allyne'
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=1
+result_rows=1 shown=1
+result (columns separated by " | "):
+nome
+Allyne
+line_numbers=6
+
+OK   SELECT SUM(valor) AS soma, AVG(valor) media, MIN(valor), MAX(valor) FROM sql
+statement=select
+sql=SELECT SUM(valor) AS soma, AVG(valor) media, MIN(valor), MAX(valor) FROM sql
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+result_rows=1 shown=1
+result (columns separated by " | "):
+soma | media | MIN(valor) | MAX(valor)
+1270.06 | 317.515 | 5 | 1234.56
+note=SUM(valor): 1 value(s) were not numbers and were left out
+note=AVG(valor): 1 value(s) were not numbers and were left out
+
+OK   SELECT cidade, COUNT(*) AS n FROM sql GROUP BY cidade ORDER BY n DESC, cidade
+statement=select
+sql=SELECT cidade, COUNT(*) AS n FROM sql GROUP BY cidade ORDER BY n DESC, cidade
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+result_rows=4 shown=4
+result (columns separated by " | "):
+cidade | n
+São Paulo | 3
+Curitiba | 1
+Recife | 1
+Rio de Janeiro | 1
+
+OK   SELECT UPPER(cidade) c, COUNT(*) FROM sql GROUP BY 1 HAVING COUNT(*) > 1
+statement=select
+sql=SELECT UPPER(cidade) c, COUNT(*) FROM sql GROUP BY 1 HAVING COUNT(*) > 1
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+result_rows=1 shown=1
+result (columns separated by " | "):
+c | COUNT(*)
+SÃO PAULO | 3
+
+OK   SELECT nome, valor FROM sql WHERE NUM(valor) > 15 ORDER BY NUM(valor) DESC
+statement=select
+sql=SELECT nome, valor FROM sql WHERE NUM(valor) > 15 ORDER BY NUM(valor) DESC
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=2
+result_rows=2 shown=2
+result (columns separated by " | "):
+nome | valor
+Bianca Allyne | 1.234,56
+Kallyne Lima | 20
+line_numbers=3,4
+
+OK   SELECT YEAR(data) ano, COUNT(*) FROM sql GROUP BY YEAR(data) ORDER BY ano
+statement=select
+sql=SELECT YEAR(data) ano, COUNT(*) FROM sql GROUP BY YEAR(data) ORDER BY ano
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+result_rows=2 shown=2
+result (columns separated by " | "):
+ano | COUNT(*)
+2023 | 2
+2024 | 4
+
+OK   SELECT DISTINCT cidade FROM sql
+statement=select
+sql=SELECT DISTINCT cidade FROM sql
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+result_rows=4 shown=4
+result (columns separated by " | "):
+cidade
+São Paulo
+Rio de Janeiro
+Curitiba
+Recife
+line_numbers=2,3,4,5,6,7
+
+OK   SELECT * FROM sql WHERE obs IS NULL
+statement=select
+sql=SELECT * FROM sql WHERE obs IS NULL
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=1
+result_rows=1 shown=1
+result (columns separated by " | "):
+id | nome | cidade | valor | data | obs
+3 | Bianca Allyne | São Paulo | 1.234,56 | 2024-03-01 | 
+line_numbers=4
+
+OK   SELECT obs FROM sql WHERE id IN (2, 5)
+statement=select
+sql=SELECT obs FROM sql WHERE id IN (2, 5)
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=2
+result_rows=2 shown=2
+result (columns separated by " | "):
+obs
+tem ; ponto e vírgula
+aspas "duplas"
+line_numbers=3,6
+
+OK   SELECT nome FROM sql WHERE id BETWEEN 2 AND 3 ORDER BY nome LIMIT 1
+statement=select
+sql=SELECT nome FROM sql WHERE id BETWEEN 2 AND 3 ORDER BY nome LIMIT 1
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=2
+result_rows=2 shown=1
+result (columns separated by " | "):
+nome
+Bianca Allyne
+line_numbers=3,4
+
+OK   SELECT CASE WHEN NUM(valor) >= 20 THEN 'alto' ELSE 'baixo' END faixa, COUNT(*) FROM sql WHERE valor IS NOT NULL GROUP BY 1 ORDER BY 1
+statement=select
+sql=SELECT CASE WHEN NUM(valor) >= 20 THEN 'alto' ELSE 'baixo' END faixa, COUNT(*) FROM sql WHERE valor IS NOT NULL GROUP BY 1 ORDER BY 1
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=5
+result_rows=2 shown=2
+result (columns separated by " | "):
+faixa | COUNT(*)
+alto | 2
+baixo | 3
+line_numbers=2,3,4,5,6
+
+OK   SELECT "nome", c3 FROM sql WHERE "cidade" = "Recife"
+statement=select
+sql=SELECT "nome", c3 FROM sql WHERE "cidade" = "Recife"
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=1
+result_rows=1 shown=1
+result (columns separated by " | "):
+"nome" | c3
+Marcos | Recife
+line_numbers=7
+note="Recife" is not a column, so it was read as the text 'Recife'. Write text values in single quotes.
+
+OK   SELECT nme FROM sql
+error=sql: unknown column "nme". Use a name from columns= below, "quoted" when it has spaces, or c1, c2, ... by position. Text values go in single quotes.
+statement=select
+sql=SELECT nme FROM sql
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   SELECT COUNT(*) FROM sql WHERE COUNT(*) > 1
+error=sql: COUNT() is not allowed in WHERE, GROUP BY, SET or VALUES; filter on aggregates with HAVING
+sql=SELECT COUNT(*) FROM sql WHERE COUNT(*) > 1
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   SELECT a FROM x JOIN y
+error=sql: JOIN is not supported yet: one file per statement
+sql=SELECT a FROM x JOIN y
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   DROP TABLE x
+error=sql: DROP is not supported: the agent does not delete files. To empty the data use TRUNCATE TABLE file; to remove a column use ALTER TABLE file DROP COLUMN col
+sql=DROP TABLE x
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   UPDATE sql SET cidade = 'Sao Paulo' WHERE cidade = 'são paulo'
+statement=update
+sql=UPDATE sql SET cidade = 'Sao Paulo' WHERE cidade = 'são paulo'
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=3
+lines_changed=3 blocks=3
+line_numbers=2,4,6
+change 2-2: 1;Allyne Souza;Sao Paulo;10,50;2024-01-15;ok
+change 4-4: 3;Bianca Allyne;Sao Paulo;1.234,56;2024-03-01;
+change 6-6: 5;Allyne;Sao Paulo;abc;2023-12-31;"aspas ""duplas"""
+
+OK   UPDATE sql SET obs = 'a;b' WHERE id = 6
+statement=update
+sql=UPDATE sql SET obs = 'a;b' WHERE id = 6
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=1
+lines_changed=1 blocks=1
+line_numbers=7
+change 7-7: 6;Marcos;Recife;;2024-05-20;"a;b"
+
+OK   UPDATE sql SET obs = 'x' WHERE id = 2
+statement=update
+sql=UPDATE sql SET obs = 'x' WHERE id = 2
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=1
+lines_changed=1 blocks=1
+line_numbers=3
+change 3-3: 2;Kallyne Lima;Rio de Janeiro;20;15/02/2024;"x"
+
+OK   DELETE FROM sql WHERE nome LIKE '%allyne%'
+statement=delete
+sql=DELETE FROM sql WHERE nome LIKE '%allyne%'
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=4
+lines_changed=4 blocks=2
+line_numbers=2,3,4,6
+change 2-4: 
+change 6-6: 
+
+OK   INSERT INTO sql (id, nome, valor) VALUES (7, 'Ana; Maria', 3.5), (8, 'Rui', NULL)
+statement=insert
+sql=INSERT INTO sql (id, nome, valor) VALUES (7, 'Ana; Maria', 3.5), (8, 'Rui', NULL)
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=0 rows_matching_where=0
+lines_changed=2 blocks=1
+insert_before_line=8 (end of the file)
+change 8-7: 7;"Ana; Maria";;3.5;; \n 8;Rui;;;;
+
+OK   SELECT line_no, line FROM sql WHERE line LIKE '%Recife%'
+statement=select
+sql=SELECT line_no, line FROM sql WHERE line LIKE '%Recife%'
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=1
+result_rows=1 shown=1
+result (columns separated by " | "):
+line_no | line
+7 | 6;Marcos;Recife;;2024-05-20;ok
+line_numbers=7
+
+OK   SELECT c1, c2 FROM sql LIMIT 2
+statement=select
+sql=SELECT c1, c2 FROM sql LIMIT 2
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=no (columns are c1, c2, ...)
+columns=6: c1 | c2 | c3 | c4 | c5 | c6
+rows_scanned=7 rows_matching_where=7
+result_rows=7 shown=2
+result (columns separated by " | "):
+c1 | c2
+id | nome
+1 | Allyne Souza
+line_numbers=1,2,3,4,5,6,7
+
+OK   ALTER TABLE sql ADD COLUMN pais DEFAULT 'BR'
+statement=alter
+sql=ALTER TABLE sql ADD COLUMN pais DEFAULT 'BR'
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=7 blocks=1
+change 1-7: id;nome;cidade;valor;data;obs;pais \n 1;Allyne Souza;São Paulo;10,50;2024-01-15;ok;BR \n 2;Kallyne Lima;Rio de Janeiro;20;15/02/2024;"tem ; ponto e vírgula";BR \n 3;Bianca Allyne;São Paulo;1.234,56;2024-03-01;;BR \n 4;Carlos;Curitiba;R$ 5,00;01/03/2023;ok;BR \n 5;Allyne;são paulo;abc;2023-12-31;"aspas ""duplas""";BR \n 6;Marcos;Recife;;2024-05-20;ok;BR
+
+OK   ALTER TABLE sql ADD nome_up VARCHAR(50) DEFAULT UPPER(nome) AFTER nome
+statement=alter
+sql=ALTER TABLE sql ADD nome_up VARCHAR(50) DEFAULT UPPER(nome) AFTER nome
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=7 blocks=1
+change 1-7: id;nome;nome_up;cidade;valor;data;obs \n 1;Allyne Souza;ALLYNE SOUZA;São Paulo;10,50;2024-01-15;ok \n 2;Kallyne Lima;KALLYNE LIMA;Rio de Janeiro;20;15/02/2024;"tem ; ponto e vírgula" \n 3;Bianca Allyne;BIANCA ALLYNE;São Paulo;1.234,56;2024-03-01; \n 4;Carlos;CARLOS;Curitiba;R$ 5,00;01/03/2023;ok \n 5;Allyne;ALLYNE;são paulo;abc;2023-12-31;"aspas ""duplas""" \n 6;Marcos;MARCOS;Recife;;2024-05-20;ok
+
+OK   ALTER TABLE sql ADD COLUMN flag FIRST
+statement=alter
+sql=ALTER TABLE sql ADD COLUMN flag FIRST
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=7 blocks=1
+change 1-7: flag;id;nome;cidade;valor;data;obs \n ;1;Allyne Souza;São Paulo;10,50;2024-01-15;ok \n ;2;Kallyne Lima;Rio de Janeiro;20;15/02/2024;"tem ; ponto e vírgula" \n ;3;Bianca Allyne;São Paulo;1.234,56;2024-03-01; \n ;4;Carlos;Curitiba;R$ 5,00;01/03/2023;ok \n ;5;Allyne;são paulo;abc;2023-12-31;"aspas ""duplas""" \n ;6;Marcos;Recife;;2024-05-20;ok
+
+OK   ALTER TABLE sql DROP COLUMN obs
+statement=alter
+sql=ALTER TABLE sql DROP COLUMN obs
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=7 blocks=1
+change 1-7: id;nome;cidade;valor;data \n 1;Allyne Souza;São Paulo;10,50;2024-01-15 \n 2;Kallyne Lima;Rio de Janeiro;20;15/02/2024 \n 3;Bianca Allyne;São Paulo;1.234,56;2024-03-01 \n 4;Carlos;Curitiba;R$ 5,00;01/03/2023 \n 5;Allyne;são paulo;abc;2023-12-31 \n 6;Marcos;Recife;;2024-05-20
+
+OK   ALTER TABLE sql DROP id
+statement=alter
+sql=ALTER TABLE sql DROP id
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=7 blocks=1
+change 1-7: nome;cidade;valor;data;obs \n Allyne Souza;São Paulo;10,50;2024-01-15;ok \n Kallyne Lima;Rio de Janeiro;20;15/02/2024;"tem ; ponto e vírgula" \n Bianca Allyne;São Paulo;1.234,56;2024-03-01; \n Carlos;Curitiba;R$ 5,00;01/03/2023;ok \n Allyne;são paulo;abc;2023-12-31;"aspas ""duplas""" \n Marcos;Recife;;2024-05-20;ok
+
+OK   ALTER TABLE sql RENAME COLUMN valor TO preco
+statement=alter
+sql=ALTER TABLE sql RENAME COLUMN valor TO preco
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=1 blocks=1
+change 1-1: id;nome;cidade;preco;data;obs
+
+OK   ALTER TABLE sql ADD COLUMN Nome
+error=sql: column "Nome" already exists
+statement=alter
+sql=ALTER TABLE sql ADD COLUMN Nome
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   ALTER TABLE sql DROP COLUMN xyz
+error=sql: unknown column "xyz". Use a name from columns= below
+statement=alter
+sql=ALTER TABLE sql DROP COLUMN xyz
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   ALTER TABLE sql MODIFY valor INT
+error=sql: column types do not exist in a text file. To change values use UPDATE; to rename use ALTER TABLE file RENAME COLUMN old TO new
+sql=ALTER TABLE sql MODIFY valor INT
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   TRUNCATE TABLE sql
+statement=delete
+sql=TRUNCATE TABLE sql
+path=C:\Hamden\Sistemas\Backend\delphi\delphi10_4_2\FastFile\tests\agent\work\sql.csv
+delimiter=";" header=yes (first line, never changed)
+columns=6: id | nome | cidade | valor | data | obs
+rows_scanned=6 rows_matching_where=6
+lines_changed=6 blocks=1
+line_numbers=2,3,4,5,6,7
+change 2-7: 
+
+OK   CREATE TABLE x (a INT)
+error=sql: CREATE is not supported: the agent does not create files from sql. To save rows to a new file run a SELECT, then export_lines with its line_numbers
+sql=CREATE TABLE x (a INT)
+note=dialect: SELECT [DISTINCT] cols FROM file [WHERE ..] [GROUP BY ..] [HAVING ..] [ORDER BY .. DESC] [LIMIT n]; UPDATE file SET col = .. WHERE ..; DELETE FROM file WHERE ..; INSERT INTO file (cols) VALUES (..); ALTER TABLE file ADD COLUMN c [DEFAULT ..] | DROP COLUMN c | RENAME COLUMN c TO d; TRUNCATE TABLE file. Text in single quotes, names with spaces in "double quotes". No JOIN, UNION or subqueries.
+
+OK   direct: SELECT * FROM clientes
+OK   direct:   update clientes set cidade = 'SP' where id = 1;
+OK   direct: alter table clientes add column pais
+OK   direct: Delete as linhas 5 a 7 do clientes.csv
+OK   direct: delete linhas duplicadas
+OK   direct: Update the city of Bianca to Recife
+OK   direct: Select the lines with Bianca
+OK   direct: quantos registros por cidade?
+OK   direct: Selecione os clientes de São Paulo
+runs=45 fails=0

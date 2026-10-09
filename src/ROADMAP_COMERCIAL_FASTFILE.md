@@ -2,10 +2,25 @@
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 
-**Data:** 27 de setembro de 2026  
+**Data:** 8 de outubro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64) — editor de arquivos de texto enormes (GB+)  
-**Versão atual:** **3.0.5.225** — histórico de sessão com checkboxes/ordenar/filtro de datas, editor de linha renovado, EOL CR/LF/CRLF, merge rápido (pós-**★ FastFile 3.0.5.210** / **3.0.5.100**)  
+**Versão atual:** **3.0.5.232** — agente de IA sobre ficheiros (SQL / linguagem natural, propostas revistas antes de gravar), anonimizar dados, detalhe de eventos do histórico, PPI personalizado (pós-**3.0.5.225** / **★ FastFile 3.0.5.210**)  
 **Objetivo deste documento:** consolidar sugestões técnicas, de UX e de negócio para tornar o FastFile um produto comercialmente competitivo.
+
+---
+
+## ★ Actualização 3.0.5.232 (outubro/2026)
+
+Entrega incremental após **3.0.5.225** (trilhos internos **.226–.232**):
+
+- **Agente de IA sobre ficheiros (Ctrl+Alt+G):** escolher ficheiros/pastas, descrever o pedido em linguagem natural (14 idiomas) ou em **SQL** (`SELECT … WHERE / GROUP BY / ORDER BY / SUM / COUNT`; `UPDATE / DELETE / INSERT / ALTER` viram propostas). Nada é gravado antes de **Aceitar**; edições aceites usam o streaming do core (ficheiros de vários GB, Cancelar).
+- **Controlo e confiança:** prazo para decidir (20 s por omissão, 5..600 s nas Preferências) com distintivo de tempo; «Substituir tudo» conta antes e não propõe nada se não houver ocorrências; o agente nunca afirma alterações que não fez; respostas no idioma da interface; botões só activos quando há conteúdo.
+- **Resultados:** janela «Ficheiro(s) gerado(s) com sucesso» (abrir, abrir pasta, copiar caminho; rótulo «Pasta:» / «Ficheiro:»), «Último ficheiro gerado», «Total: N registo(s)»; palavra inteira vs parcial reconhecida.
+- **Privacidade (LGPD/GDPR):** **anonimizar dados** (Ctrl+Alt+D ou ficheiro inteiro) com valores falsos do mesmo tipo e tamanho, pré-visualização, desfazer/refazer e antes/depois no histórico.
+- **Auditoria:** detalhe do evento do histórico (antes/depois completos, F3 / Shift+F3, comparação campo a campo, exportar TXT/CSV/JSON).
+- **UX:** PPI personalizado na barra (sincronizado com o zoom da barra de estado); retradução imediata ao trocar idioma; layout acompanha mudanças de resolução; F1 com bloco **`FF_HELP.RecentFeaturesBlock2`**.
+
+**Valor comercial:** «pergunte ao ficheiro» — consultas e edições em massa por linguagem natural ou SQL em ficheiros de GB, com revisão obrigatória e anonimização para partilhar dados com segurança.
 
 ---
 

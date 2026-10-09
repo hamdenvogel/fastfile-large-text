@@ -494,7 +494,8 @@ begin
     Bmp.Free;
   end;
   if Result < FfPx(28) then Result := FfPx(28);
-  if Result > FfPx(220) then Result := FfPx(220);
+  if Result > Max(FfPx(220), Screen.WorkAreaHeight * 55 div 100) then
+    Result := Max(FfPx(220), Screen.WorkAreaHeight * 55 div 100);
 end;
 
 procedure TFfMsgForm.LayoutContent(const ACaption, AMessage: string);

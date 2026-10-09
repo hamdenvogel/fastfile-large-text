@@ -47,7 +47,6 @@ procedure SetFastFileAssistantFloatingState(AFloating: Boolean);
 procedure RelayoutFastFileAssistantAfterDock;
 procedure PersistAssistantLayout;
 function AssistantLangMenuCaption(ALang: TAppLanguage): string;
-function AssistantLangPromptName(ALang: TAppLanguage): string;
 function BuildAssistantTranslatePromptW(const AText, ALangName: string;
   AKeepLineCount: Boolean = False): WideString;
 
@@ -59,7 +58,8 @@ uses
   uFastFileAssistantHost, uFastFileAssistantRAG, uFastFileAssistantCatalog, uFastFileAssistantMap,
   uFastFileAssistantIntent,   uFastFilePaths, uFastFileComposeExport, ShellAPI, uMruFind,
   UnitPopupMruList, uSmoothLoading, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost,
-  uFastFileScale, uAssistantPipelineStore, uAssistantPostAction, uUserPrefs;
+  uFastFileScale, uAssistantPipelineStore, uAssistantPostAction, uUserPrefs, uExportDoneDlg,
+  uAgentBridge;
 
 type
   { Plain TMemo + ssVertical always paints a track. Strip WS_VSCROLL so empty
@@ -129,6 +129,12 @@ const
   ASSISTANT_TOOL_BTN_PAD_Y = 6;
   ASSISTANT_TRANSLATE_BTN_W = 82;
   ASSISTANT_REWRITE_BTN_W = 74;
+  ASSISTANT_AGENT_BTN_W = 70;
+  { Offer chips that drive the AI agent's proposed edits (uAgentBridge), not catalog actions. }
+  AGENT_CHIP_ACCEPT = 'agent_accept_all';
+  AGENT_CHIP_REVIEW = 'agent_review';
+  AGENT_CHIP_REJECT = 'agent_reject_all';
+  AGENT_TASK_ACTION = 'agent_task';
   ASSISTANT_CLEAR_TOOL_BTN_W = 68;
   ASSISTANT_COPY_TOOL_BTN_W = 68;
   ASSISTANT_PYTHON_BTN_W = 72;
@@ -148,6 +154,12 @@ const
   COMPOSE_MAX_BYTES = 256 * 1024;
   COMPOSE_SAMPLE_MAX_BYTES = 12000;
   COMPOSE_SAMPLE_MAX_LINES = 40;
+
+function IsAgentChipId(const AId: string): Boolean;
+begin
+  Result := SameText(AId, AGENT_CHIP_ACCEPT) or SameText(AId, AGENT_CHIP_REVIEW) or
+    SameText(AId, AGENT_CHIP_REJECT);
+end;
 
 function AssistantBlendColor(C1, C2: TColor; APctTowardC2: Integer): TColor;
 var
@@ -358,6 +370,8 @@ type
     BtnClearQuestion: TButton;
     BtnTranslate: TsSpeedButton;
     BtnRewrite: TsSpeedButton;
+    { Down = send the question to the AI agent engine (reads the open file, proposes edits for review). }
+    BtnAgentMode: TsSpeedButton;
     BtnClearReply: TsSpeedButton;
     BtnCopyReply: TsSpeedButton;
     BtnPython: TsSpeedButton;
@@ -395,6 +409,7 @@ type
     BtnFileNoticeFolder: TsSpeedButton;
     BtnFileNoticeCopy: TsSpeedButton;
     BtnFileNoticeDismiss: TsSpeedButton;
+    BtnFileNoticeDetails: TsSpeedButton;
     FGeneratedFilePath: string;
     FFileNoticeAutoHide: TFastFileNoticeAutoHide;
     PnlOfferNext: TsPanel;
@@ -411,6 +426,8 @@ type
     FPopupQuestion: TPopupMenu;
     FPopupReply: TPopupMenu;
     FBusy: Boolean;
+    { An agent run started from this panel is in progress (FBusy stays True until it reports back). }
+    FAgentRunning: Boolean;
     FPopupMenuOpen: Boolean;
     FRecentPopupPosted: Boolean;
     FWaitOverlayOwned: Boolean;
@@ -528,6 +545,11 @@ type
     procedure UpdateQuestionToolButtons;
     procedure BtnTranslateClick(Sender: TObject);
     procedure BtnRewriteClick(Sender: TObject);
+    procedure BtnAgentModeClick(Sender: TObject);
+    procedure LocalizeAgentModeBtn;
+    function StartAgentTask(const AUserQ: string): Boolean;
+    procedure AgentBridgeEvent(AEvent: TAgentBridgeEvent; const AText, AExtra: string; ACount: Integer);
+    procedure ShowAgentProposals(ACount: Integer);
     procedure TranslateLangClick(Sender: TObject);
     procedure StartQuestionTextJob(AJob: Integer; const ALangName: string);
     procedure ApplyTextJobFinished(AJob: Integer; AOk: Boolean;
@@ -593,6 +615,7 @@ type
     procedure FileNoticeOpenClick(Sender: TObject);
     procedure FileNoticeFolderClick(Sender: TObject);
     procedure FileNoticeCopyClick(Sender: TObject);
+    procedure FileNoticeDetailsClick(Sender: TObject);
     procedure FileNoticeValidateClick(Sender: TObject);
     function IsValidatableComposeSource(const APath: string): Boolean;
     function TryPickSourceToValidate(out APath: string): Boolean;
@@ -4645,6 +4668,7 @@ end;
 
 destructor TFastFileAssistantCtrl.Destroy;
 begin
+  AgentBridgeSetListener(nil);
   EndAssistantWait;
   FTmrWaitCancel := nil;
   FreeAndNil(FRecentQuestions);
@@ -4745,6 +4769,7 @@ begin
     BtnRewrite.ShowHint := True;
     SizeQuestionToolBtn(BtnRewrite, ASSISTANT_REWRITE_BTN_W);
   end;
+  LocalizeAgentModeBtn;
   if Assigned(BtnClearReply) then
   begin
     BtnClearReply.Caption := TrText('Assistant.ClearReply');
@@ -6527,6 +6552,7 @@ begin
   ToolY := S(ASSISTANT_TOOL_BTN_PAD_Y);
   PlaceTool(BtnTranslate, ASSISTANT_TRANSLATE_BTN_W);
   PlaceTool(BtnRewrite, ASSISTANT_REWRITE_BTN_W);
+  PlaceTool(BtnAgentMode, ASSISTANT_AGENT_BTN_W);
   PlaceTool(BtnClearReply, ASSISTANT_CLEAR_TOOL_BTN_W);
   PlaceTool(BtnCopyReply, ASSISTANT_COPY_TOOL_BTN_W);
   PlaceTool(BtnPython, ASSISTANT_PYTHON_BTN_W);
@@ -6665,6 +6691,7 @@ begin
   Place(BtnFileNoticeOpen, 56);
   Place(BtnFileNoticeFolder, 56);
   Place(BtnFileNoticeCopy, 56);
+  Place(BtnFileNoticeDetails, 56);
   Place(BtnFileNoticeValidate, 56);
 end;
 
@@ -6781,6 +6808,11 @@ begin
   BtnFileNoticeCopy.OnClick := FileNoticeCopyClick;
   StyleQuestionToolBtn(BtnFileNoticeCopy);
 
+  BtnFileNoticeDetails := TsSpeedButton.Create(Self);
+  BtnFileNoticeDetails.Parent := PnlFileNoticeActions;
+  BtnFileNoticeDetails.OnClick := FileNoticeDetailsClick;
+  StyleQuestionToolBtn(BtnFileNoticeDetails);
+
   BtnFileNoticeValidate := TsSpeedButton.Create(Self);
   BtnFileNoticeValidate.Parent := PnlFileNoticeActions;
   BtnFileNoticeValidate.OnClick := FileNoticeValidateClick;
@@ -6826,6 +6858,12 @@ begin
     BtnFileNoticeCopy.Hint := TrText('SCRIPT_EXPORT_COPY_PATH');
     BtnFileNoticeCopy.ShowHint := True;
   end;
+  if Assigned(BtnFileNoticeDetails) then
+  begin
+    BtnFileNoticeDetails.Caption := TrText('ExportDone.Details');
+    BtnFileNoticeDetails.Hint := TrText('ExportDone.ShowLastHint');
+    BtnFileNoticeDetails.ShowHint := True;
+  end;
   if Assigned(LblFileNoticeHint) then
     LblFileNoticeHint.Caption := TrText('SCRIPT_EXPORT_LINK_HINT');
   if (FGeneratedFilePath <> '') and Assigned(PnlFileNotice) and PnlFileNotice.Visible then
@@ -6870,6 +6908,8 @@ begin
   PnlFileNotice.Hint := FileName;
   if Assigned(BtnFileNoticeOpen) then
     BtnFileNoticeOpen.Enabled := FileExists(FileName);
+  if Assigned(BtnFileNoticeDetails) then
+    BtnFileNoticeDetails.Enabled := FileExists(FileName);
   if Assigned(BtnFileNoticeValidate) then
   begin
     BtnFileNoticeValidate.Visible := IsValidatableComposeSource(FileName);
@@ -7138,6 +7178,12 @@ begin
     Result := TrText('Assistant.Offer.Chip.ConsumerRAG')
   else if SameText(AActionId, 'force_index_file') then
     Result := TrText('Assistant.Offer.Chip.Index')
+  else if SameText(AActionId, AGENT_CHIP_ACCEPT) then
+    Result := TrText('Assistant.Agent.Chip.Accept')
+  else if SameText(AActionId, AGENT_CHIP_REVIEW) then
+    Result := TrText('Assistant.Agent.Chip.Review')
+  else if SameText(AActionId, AGENT_CHIP_REJECT) then
+    Result := TrText('Assistant.Agent.Chip.Reject')
   else
     Result := AActionId;
 end;
@@ -7174,6 +7220,22 @@ begin
       UpdateQuestionCharCount;
       RequestInputFocus;
     end;
+    Exit;
+  end;
+
+  if SameText(ActionId, AGENT_CHIP_ACCEPT) then
+  begin
+    if Assigned(AgentBridgeAcceptAll) then AgentBridgeAcceptAll;
+    Exit;
+  end;
+  if SameText(ActionId, AGENT_CHIP_REJECT) then
+  begin
+    if Assigned(AgentBridgeRejectAll) then AgentBridgeRejectAll;
+    Exit;
+  end;
+  if SameText(ActionId, AGENT_CHIP_REVIEW) then
+  begin
+    if Assigned(AgentBridgeReview) then AgentBridgeReview;
     Exit;
   end;
 
@@ -7474,7 +7536,8 @@ begin
     begin
       Id := Trim(Parts[I]);
       if Id = '' then Continue;
-      if not SameText(Id, 'ask_ai') and not CatalogIsAllowedActionId(Id) then Continue;
+      if not SameText(Id, 'ask_ai') and not IsAgentChipId(Id) and not CatalogIsAllowedActionId(Id) then
+        Continue;
       Btn := TsSpeedButton.Create(Self);
       Btn.Parent := PnlOfferActions;
       Btn.Flat := True;
@@ -7558,6 +7621,18 @@ begin
   if FGeneratedFilePath = '' then Exit;
   Clipboard.AsText := FGeneratedFilePath;
   SetStatusCaption(TrText('Assistant.Status.CopiedToClipboard'));
+end;
+
+procedure TFastFileAssistantCtrl.FileNoticeDetailsClick(Sender: TObject);
+var
+  LastPath: string;
+  Recs: Int64;
+begin
+  if (FGeneratedFilePath = '') or (not FileExists(FGeneratedFilePath)) then Exit;
+  if LastGeneratedFile(LastPath, Recs) and SameFileName(LastPath, FGeneratedFilePath) then
+    ShowLastGeneratedFileDialog
+  else
+    ShowGeneratedFileDialog(FGeneratedFilePath, -1);
 end;
 
 function TFastFileAssistantCtrl.IsValidatableComposeSource(const APath: string): Boolean;
@@ -8068,6 +8143,15 @@ begin
   BtnRewrite.AlignWithMargins := True;
   BtnRewrite.Margins.SetBounds(2, 4, 4, 4);
   BtnRewrite.Align := alLeft;
+
+  BtnAgentMode := TsSpeedButton.Create(Self);
+  BtnAgentMode.Parent := PnlQuestionTools;
+  BtnAgentMode.GroupIndex := 7101;
+  BtnAgentMode.AllowAllUp := True;
+  BtnAgentMode.OnClick := BtnAgentModeClick;
+  StyleQuestionToolBtn(BtnAgentMode);
+  LocalizeAgentModeBtn;
+  AgentBridgeSetListener(AgentBridgeEvent);
 
   BtnClearReply := TsSpeedButton.Create(Self);
   BtnClearReply.Parent := PnlQuestionTools;
@@ -8639,27 +8723,6 @@ begin
   end;
 end;
 
-function AssistantLangPromptName(ALang: TAppLanguage): string;
-begin
-  case ALang of
-    alPortuguese:   Result := 'Portuguese (Brazil)';
-    alSpanish:      Result := 'Spanish';
-    alFrench:       Result := 'French';
-    alGerman:       Result := 'German';
-    alItalian:      Result := 'Italian';
-    alPolish:       Result := 'Polish';
-    alPortuguesePT: Result := 'Portuguese (Portugal)';
-    alRomanian:     Result := 'Romanian';
-    alHungarian:    Result := 'Hungarian';
-    alCzech:        Result := 'Czech';
-    alJapanese:     Result := 'Japanese';
-    alChineseSimplified:  Result := 'Chinese (Simplified)';
-    alChineseTraditional: Result := 'Chinese (Traditional)';
-  else
-    Result := 'English';
-  end;
-end;
-
 procedure TFastFileAssistantCtrl.SizeQuestionToolBtn(ABtn: TsSpeedButton; AMinW: Integer);
 var
   Cap: string;
@@ -8744,6 +8807,8 @@ begin
     BtnTranslate.Enabled := CanUse;
   if Assigned(BtnRewrite) then
     BtnRewrite.Enabled := CanUse;
+  if Assigned(BtnAgentMode) then
+    BtnAgentMode.Enabled := (not FBusy) and AgentBridgeAvailable;
   if Assigned(BtnClearReply) then
     BtnClearReply.Enabled := (not FBusy) and (HasQ or HasR);
   if Assigned(BtnCopyReply) then
@@ -8940,6 +9005,147 @@ begin
     Exit;
   end;
   StartQuestionTextJob(ATJ_REWRITE, '');
+end;
+
+procedure TFastFileAssistantCtrl.LocalizeAgentModeBtn;
+begin
+  if not Assigned(BtnAgentMode) then Exit;
+  BtnAgentMode.Caption := TrText('Assistant.AgentMode');
+  BtnAgentMode.Hint := TrText('Assistant.AgentModeHint');
+  BtnAgentMode.ShowHint := True;
+  SizeQuestionToolBtn(BtnAgentMode, ASSISTANT_AGENT_BTN_W);
+end;
+
+procedure TFastFileAssistantCtrl.BtnAgentModeClick(Sender: TObject);
+begin
+  if not Assigned(BtnAgentMode) then Exit;
+  if BtnAgentMode.Down then
+    SetStatusCaption(TrText('Assistant.AgentModeOn'))
+  else
+    SetStatusCaption(TrText('Assistant.AgentModeOff'));
+  RequestInputFocus;
+end;
+
+function TFastFileAssistantCtrl.StartAgentTask(const AUserQ: string): Boolean;
+var
+  Path, Why: string;
+begin
+  Result := False;
+  if FAgentRunning or not AgentBridgeAvailable then Exit;
+  Path := Trim(AssistantHostGetOpenFilePath);
+  if (Path = '') or not FileExists(Path) then
+  begin
+    FLastReplyBody := TrText('Assistant.Error.NoFileOpen');
+    MemoReply.Lines.Text := FLastReplyBody;
+    SetStatusCaption(TrText('Assistant.ReplyReady'));
+    BtnExecute.Enabled := False;
+    PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
+    Exit;
+  end;
+  HideOfferNext;
+  FBusy := True;
+  FAgentRunning := True;
+  FHasPlan := False;
+  FMsLastAi := 0;
+  FMsLastExec := 0;
+  FTickAiStart := GetTickCount;
+  BtnExecute.Enabled := False;
+  BtnSend.Enabled := False;
+  UpdateQuestionToolButtons;
+  FLastReplyBody := Format(TrText('Assistant.Agent.Running'), [ExtractFileName(Path)]);
+  MemoReply.Lines.Text := FLastReplyBody;
+  SetStatusCaption(FLastReplyBody);
+  AssistantWriteLog('agent_task start path=' + Path);
+  if not AgentBridgeRun(AUserQ, Path, Why) then
+  begin
+    FAgentRunning := False;
+    if Trim(Why) = '' then
+      Why := TrText('Assistant.Agent.CannotStart');
+    FLastReplyBody := Why;
+    MemoReply.Lines.Text := Why;
+    SetStatusCaption(Why);
+    PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
+    Exit;
+  end;
+  Result := True;
+end;
+
+procedure TFastFileAssistantCtrl.ShowAgentProposals(ACount: Integer);
+begin
+  ShowOfferNext(Format(TrText('Assistant.Agent.Proposed'), [ACount]),
+    AGENT_CHIP_ACCEPT + ',' + AGENT_CHIP_REVIEW + ',' + AGENT_CHIP_REJECT, '');
+end;
+
+procedure TFastFileAssistantCtrl.AgentBridgeEvent(AEvent: TAgentBridgeEvent; const AText, AExtra: string;
+  ACount: Integer);
+var
+  Body: string;
+  OfferIsAgent: Boolean;
+begin
+  if (Handle = 0) or (csDestroying in ComponentState) then Exit;
+  OfferIsAgent := Assigned(PnlOfferNext) and PnlOfferNext.Visible and Assigned(FOfferActionIds) and
+    (FOfferActionIds.IndexOf(AGENT_CHIP_ACCEPT) >= 0);
+  case AEvent of
+    abeStatus:
+      if FAgentRunning and (Trim(AText) <> '') then
+        SetStatusCaption(AText);
+    abeDone:
+      begin
+        FAgentRunning := False;
+        FMsLastAi := GetTickCount - FTickAiStart;
+        Body := Trim(AText);
+        if Trim(AExtra) <> '' then
+        begin
+          if Body = '' then
+            Body := Trim(AExtra)
+          else if Pos(Trim(AExtra), Body) = 0 then
+            Body := Body + #13#10#13#10 + Trim(AExtra);
+        end;
+        if Body = '' then
+          Body := TrText('Assistant.Agent.NoChanges');
+        FLastReplyBody := ClampAssistantDisplayText(Body);
+        MemoReply.Lines.Text := BuildReplyWithTiming(FLastReplyBody, False);
+        PipelineRememberAssistant(FLastReplyBody);
+        AssistantWriteLog('agent_task done edits=' + IntToStr(ACount) + ' ms=' + IntToStr(FMsLastAi));
+        FBusy := False;
+        if Assigned(BtnSend) then BtnSend.Enabled := True;
+        UpdateQuestionToolButtons;
+        if ACount > 0 then
+          ShowAgentProposals(ACount)
+        else if Trim(AExtra) <> '' then
+          SetStatusCaption(Trim(AExtra))
+        else
+          SetStatusCaption(TrText('Assistant.ReplyReady'));
+      end;
+    abeEditsChanged:
+      if FAgentRunning then
+        Exit
+      else if ACount > 0 then
+      begin
+        if OfferIsAgent then
+          ShowAgentProposals(ACount);
+      end
+      else if OfferIsAgent then
+        HideOfferNext;
+    abeApplied:
+      begin
+        if Trim(AText) <> '' then
+        begin
+          if Pos(Trim(AText), FLastReplyBody) = 0 then
+            FLastReplyBody := ClampAssistantDisplayText(FLastReplyBody + #13#10#13#10 + Trim(AText));
+          MemoReply.Lines.Text := FLastReplyBody;
+        end;
+        if ACount > 0 then
+          ShowAgentProposals(ACount)
+        else
+        begin
+          if OfferIsAgent then
+            HideOfferNext;
+          if Trim(AText) <> '' then
+            SetStatusCaption(Trim(AText));
+        end;
+      end;
+  end;
 end;
 
 procedure TFastFileAssistantCtrl.BtnClearReplyClick(Sender: TObject);
@@ -11209,6 +11415,11 @@ begin
     BtnExecute.Enabled := False;
     Exit;
   end;
+  if Assigned(BtnAgentMode) and BtnAgentMode.Down and AgentBridgeAvailable then
+  begin
+    StartAgentTask(UserQ);
+    Exit;
+  end;
   if not TryBindChatQuestionSourceFile(UserQ, BindErr) then
   begin
     FLastReplyBody := BindErr;
@@ -11255,6 +11466,12 @@ begin
   ExecPlan := Plan;
   if ExecPlan.Intent <> aiExecute then Exit;
   UserQ := Trim(MemoQuestion.Text);
+  if SameText(ExecPlan.ActionId, AGENT_TASK_ACTION) then
+  begin
+    if not FBusy then
+      StartAgentTask(UserQ);
+    Exit;
+  end;
   if SameText(ExecPlan.ActionId, 'consumer_rag') or SameText(ExecPlan.ActionId, 'consumer_ai') then
   begin
     ApplyConsumerGate(UserQ, ExecPlan);
@@ -11405,6 +11622,15 @@ begin
       EndAssistantWait;
       PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
     end;
+    Exit;
+  end;
+
+  if SameText(Plan.ActionId, AGENT_TASK_ACTION) and AgentBridgeAvailable then
+  begin
+    EndAssistantWait;
+    { StartAgentTask keeps FBusy until the agent reports back; on failure it clears it. }
+    FBusy := False;
+    StartAgentTask(UserQ);
     Exit;
   end;
 

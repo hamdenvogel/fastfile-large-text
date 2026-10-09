@@ -18,6 +18,11 @@ smoothly as a 10 KB one.
 - **Navigation** – bookmarks, go to line, filtered views, zoom.
 - **Python macros** – run scripts against the open file through the built-in script engine.
 - **AI assistant** – ask questions about the file content (optional Python companion).
+- **AI agent on files** (Ctrl+Alt+G) – describe a request in plain words or SQL (`SELECT … GROUP BY / SUM / COUNT`, `UPDATE`, `DELETE`…) over one or many files; every change is shown as a proposal and only written after you accept it, within a configurable time limit.
+- **Anonymize data** (Ctrl+Alt+D) – replace private values with fake ones of the same type and length, with preview and undo.
+- **Session history details** – before/after of every change, field-by-field compare, export to TXT/CSV/JSON.
+
+Current version: **3.0.5.232** — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
 - **14 languages** – English, Português (BR/PT), Español, Français, Deutsch, Italiano, Polski, Română, Magyar, Čeština, 日本語, 简体中文, 繁體中文.
 - **Skinnable UI** – AlphaSkins themes and adjustable UI scaling (PPI) for high-DPI monitors.
 

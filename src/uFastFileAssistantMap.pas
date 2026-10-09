@@ -1106,6 +1106,21 @@ begin
     'kolik radku|pocet radku|unikatni hodnoty|soucet sloupce|prumer sloupce|sql dotaz|' +
     'pocet zaznamu|group by',
     'path, filter_text=original question forwarded to ConsumerAI Python');
+  { Content edits/analysis by the AI agent engine; edits wait for Accept/Reject (never written directly). }
+  AddCap('agent_task', 'AI', '',
+    'modo agente|use o agente|usar o agente|via agente|pelo agente|agente ia|' +
+    'agent mode|use the agent|via the agent|ai agent|' +
+    'usar el agente|usa el agente|mediante el agente|' +
+    'mode agent|utiliser l agent|via l agent|' +
+    'agentenmodus|agent verwenden|ueber den agenten|ki agent|' +
+    'modalita agente|usa l agente|tramite l agente|' +
+    'tryb agenta|uzyj agenta|przez agenta|' +
+    'modul agent|foloseste agentul|prin agent|' +
+    'ugynok mod|hasznald az ugynokot|ai ugynok|' +
+    'rezim agenta|pouzij agenta|pres agenta',
+    'filter_text=the user request; edits/rewrites/fixes the CONTENT of the open file (replace values, fix ' +
+    'lines, reformat records, insert/delete lines) or analyzes it in depth by reading it; proposals wait ' +
+    'for Accept/Reject. Use only when no catalog action does it');
   CapAnti('formato word|documento word|gere um programa|gerar um programa|pra que serve|' +
     'para que serve|resumo no formato|gere um readme|rodar python|format word|' +
     'generer document|generar documento|dokument erzeugen|genera documento|' +

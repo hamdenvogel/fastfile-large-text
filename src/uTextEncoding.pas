@@ -24,6 +24,12 @@ function FileBytesToUnicodeText(const Raw: AnsiString; const Enc: string): strin
 function UnicodeTextToFileBytes(const S: string; const Enc: string): AnsiString;
 function FileBytesToWideString(const Raw: AnsiString; const Enc: string): WideString;
 function WideStringToFileBytes(const W: WideString; const Enc: string): AnsiString;
+{ UTF-16 line split on the byte 0A: drops the BOM, the 00 left from the line break
+  (LE: leading, BE: trailing) and the CR unit. AHadCR tells whether the break was CR LF.
+  Other encodings: returned unchanged, AHadCR = False. }
+function Utf16LineBytes(const Raw: AnsiString; const Enc: string; out AHadCR: Boolean): AnsiString;
+{ CR LF or LF in the given UTF-16 byte order. }
+function Utf16LineBreakBytes(const Enc: string; ACR: Boolean): AnsiString;
 
 function ResolveTextEncoding(const AFileName: string; const AHint: string = ''): string;
 function IsUtf8Encoding(const Enc: string): Boolean;
@@ -416,19 +422,25 @@ begin
   MultiByteToWideChar(CP_ACP, 0, PAnsiChar(Raw), Length(Raw), PWideChar(Result), Len);
 end;
 
+{ Lines are split on the byte 0A, so in UTF-16 LE every line after the first starts with
+  the 00 left over from the previous line break (odd length): skip it to stay aligned. }
 function Utf16LEToWideString(const Raw: AnsiString): WideString;
 var
-  n, i: Integer;
+  n, i, Ofs: Integer;
 begin
   Result := '';
   if Raw = '' then Exit;
-  n := Length(Raw) div 2;
+  Ofs := 0;
+  if Odd(Length(Raw)) and (Raw[1] = #0) then
+    Ofs := 1;
+  n := (Length(Raw) - Ofs) div 2;
   if n <= 0 then Exit;
   SetLength(Result, n);
   for i := 1 to n do
-    Result[i] := WideChar(Word(Ord(Raw[2 * i - 1])) or (Word(Ord(Raw[2 * i])) shl 8));
+    Result[i] := WideChar(Word(Ord(Raw[Ofs + 2 * i - 1])) or (Word(Ord(Raw[Ofs + 2 * i])) shl 8));
 end;
 
+{ BE: the line break is 00 0A, so the stray 00 ends the previous line (dropped by div 2). }
 function Utf16BEToWideString(const Raw: AnsiString): WideString;
 var
   n, i: Integer;
@@ -543,6 +555,51 @@ begin
     Exit;
   end;
   Result := AcpBytesToWideString(Raw);
+end;
+
+function Utf16LineBytes(const Raw: AnsiString; const Enc: string; out AHadCR: Boolean): AnsiString;
+begin
+  Result := Raw;
+  AHadCR := False;
+  if IsUtf16BEEncoding(Enc) then
+  begin
+    if (Length(Result) >= 2) and (Result[1] = #$FE) and (Result[2] = #$FF) then
+      Delete(Result, 1, 2);
+    if Odd(Length(Result)) and (Result[Length(Result)] = #0) then
+      SetLength(Result, Length(Result) - 1);
+    if (Length(Result) >= 2) and (Result[Length(Result) - 1] = #0) and (Result[Length(Result)] = #13) then
+    begin
+      SetLength(Result, Length(Result) - 2);
+      AHadCR := True;
+    end;
+  end
+  else if IsUtf16LEEncoding(Enc) then
+  begin
+    if (Length(Result) >= 2) and (Result[1] = #$FF) and (Result[2] = #$FE) then
+      Delete(Result, 1, 2);
+    if Odd(Length(Result)) and (Result[1] = #0) then
+      Delete(Result, 1, 1);
+    if (Length(Result) >= 2) and (Result[Length(Result) - 1] = #13) and (Result[Length(Result)] = #0) then
+    begin
+      SetLength(Result, Length(Result) - 2);
+      AHadCR := True;
+    end;
+  end;
+end;
+
+function Utf16LineBreakBytes(const Enc: string; ACR: Boolean): AnsiString;
+begin
+  if IsUtf16BEEncoding(Enc) then
+  begin
+    if ACR then
+      Result := #0#13#0#10
+    else
+      Result := #0#10;
+  end
+  else if ACR then
+    Result := #13#0#10#0
+  else
+    Result := #10#0;
 end;
 
 function FileBytesToUnicodeText(const Raw: AnsiString; const Enc: string): string;

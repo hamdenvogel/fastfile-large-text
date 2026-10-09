@@ -19,6 +19,9 @@ procedure SetCurrentLanguage(const Lang: TAppLanguage);
 
 function GetCurrentLanguage: TAppLanguage;
 
+{ English name of ALang for AI prompts ("Portuguese (Brazil)", "German", ...). }
+function AssistantLangPromptName(ALang: TAppLanguage): string;
+
 function Tr(const Key, DefaultText: string): string;
 
 function TrText(const DefaultText: string): string;
@@ -20114,14 +20117,14 @@ begin
     'File saved',
     'Arquivo salvo',
     'Archivo guardado',
-    'Fichier enregistre',
+    'Fichier enregistré',
     'Datei gespeichert',
     'File salvato',
     'Plik zapisany',
     'Ficheiro guardado',
-    'Fisier salvat',
+    'Fișier salvat',
     'Fájl mentve',
-    'Soubor ulozen',
+    'Soubor uložen',
     'ファイルが保存されました',
     '文件已保存',
     '檔案已儲存');
@@ -28868,7 +28871,7 @@ procedure AddCommonTranslationsHelpAssistantBlock;
 begin
   Set14(
     'FF_HELP.AssistantBlock',
-    '  Ctrl+Alt+A toggles the FastFile AI Assistant (v3.0.5.225). Natural-language ops + compose: ' +
+    '  Ctrl+Alt+A toggles the FastFile AI Assistant (v3.0.5.232). Natural-language ops + compose: ' +
     'generate Word/RTF/DOCX/ODT/PDF summaries and source (.py/.js/.ts/.go/.java/...). ' +
     'Files go to fastfile_assistant\ (not fastfile_temp). Clear/Copy reply buttons. ' +
     'Safety lock blocks malware, disk format, OS shell, and dangerous extensions. ' +
@@ -28878,63 +28881,63 @@ begin
     'SQL and file-content questions stay in the Assistant (Ctrl+Alt+A); Python engines run in the background. ' +
     'With focus in the panel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. ' +
     'UI languages: 14 (incl. Japanese, Chinese Simplified/Traditional). Optional startup (ASkin.ini: AssistantShowOnStartup). AssistantLog=1 appends Assistant.log.',
-    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.225). Operações + compose: gerar resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant' +
+    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.232). Operações + compose: gerar resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant' +
       '\ (não fastfile_temp). Botoes Limpar/Copiar. Trava: sem virus/malware, formatar disco, shell do SO nem .exe/.bat/.vbs. count_matching_lines conta ocorrências contains/parcial local' +
       'mente (AI-first). Abrir o N.o ficheiro dos recentes. Comandos locais (filtrar+exportar, substituir, dividir). Ctrl+L abre a FilterBar dockada (MRU 20). Status Mode/Wrap/Tail/Filter' +
       ': clique para toggle. Perguntas SQL e sobre o arquivo ficam no Assistente (Ctrl+Alt+A); os motores Python rodam em segundo plano. Foco no painel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z' +
       '/Y, Ctrl+C/V. UI em 14 idiomas (incl. japonês e chinês simplificado/tradicional). Arranque opcional (ASkin.ini). AssistantLog=1.',
-    '  Ctrl+Alt+A muestra/oculta el Asistente IA (v3.0.5.225). Operaciones + compose: resúmenes Word/RTF/DOCX/ODT/PDF y código (.py/.js/.ts/.go/.java/...). Archivos en fastfile_assistan' +
+    '  Ctrl+Alt+A muestra/oculta el Asistente IA (v3.0.5.232). Operaciones + compose: resúmenes Word/RTF/DOCX/ODT/PDF y código (.py/.js/.ts/.go/.java/...). Archivos en fastfile_assistan' +
       't\ (no fastfile_temp). Botones Limpiar/Copiar. Bloqueo: sin malware, formatear disco, shell ni .exe/.bat/.vbs. count_matching_lines cuenta coincidencias contains/parcial en local (' +
       'AI-first). Ctrl+L abre FilterBar acoplada (MRU 20). Barra de estado Mode/Wrap/Tail/Filter: clic = toggle. Las preguntas SQL y de contenido quedan en el Asistente (Ctrl+Alt+A); los ' +
       'motores Python corren en segundo plano. Foco en el panel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. Idiomas de UI: 14 (incl. japones y chino simplificado/tradicional). Inicio' +
       ' opcional (ASkin.ini).',
-    '  Ctrl+Alt+A affiche/masque l''Assistant IA (v3.0.5.225). Opérations + compose : resumes Word/RTF/DOCX/ODT/PDF et code (.py/.js/.ts/.go/.java/...). Fichiers dans fastfile_assistant\' +
+    '  Ctrl+Alt+A affiche/masque l''Assistant IA (v3.0.5.232). Opérations + compose : resumes Word/RTF/DOCX/ODT/PDF et code (.py/.js/.ts/.go/.java/...). Fichiers dans fastfile_assistant\' +
       ' (pas fastfile_temp). Boutons Effacer/Copier. Verrou : pas de malware, formatage disque, shell ni .exe/.bat/.vbs. count_matching_lines compte contains/partiel en local (AI-first). ' +
       'Ctrl+L ouvre la FilterBar ancrée (MRU 20). Barre d''état Mode/Wrap/Tail/Filter : clic = bascule. Les questions SQL et contenu restent dans l''Assistant (Ctrl+Alt+A) ; les moteurs Pyt' +
       'hon tournent en arriere-plan. Focus panneau : Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 langues d''interface (jap. + chinois simplifie/traditionnel). Démarrage optionnel (A' +
       'Skin.ini).',
-    '  Ctrl+Alt+A schaltet den KI-Assistenten ein/aus (v3.0.5.225). Betrieb + Compose: Word/RTF/DOCX/ODT/PDF ' +
+    '  Ctrl+Alt+A schaltet den KI-Assistenten ein/aus (v3.0.5.232). Betrieb + Compose: Word/RTF/DOCX/ODT/PDF ' +
     'und Quellcode (.py/.js/.ts/.go/.java/...). Dateien in fastfile_assistant\ (nicht fastfile_temp). ' +
     'Leeren/Kopieren. Sperre: kein Malware, Formatieren, OS-Shell, .exe/.bat/.vbs. ' +
     'count_matching_lines zahlt contains/teilweise lokal (AI-first). ' +
     'Ctrl+L '#246'ffnet die angedockte FilterBar (MRU 20). Status Mode/Wrap/Tail/Filter: Klick = Umschalten. ' +
     'SQL- und Dateiinhalt-Fragen bleiben im Assistenten (Ctrl+Alt+A); Python-Engines laufen im Hintergrund. ' +
     'Fokus Panel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 UI-Sprachen (inkl. Japanisch, Chin. vereinfacht/traditionell). Start optional (ASkin.ini).',
-    '  Ctrl+Alt+A apre/chiude l''Assistente IA (v3.0.5.225). Operazioni + compose: riepiloghi Word/RTF/DOCX/ODT/PDF ' +
+    '  Ctrl+Alt+A apre/chiude l''Assistente IA (v3.0.5.232). Operazioni + compose: riepiloghi Word/RTF/DOCX/ODT/PDF ' +
     'e codice (.py/.js/.ts/.go/.java/...). File in fastfile_assistant\ (non fastfile_temp). ' +
     'Pulsanti Pulisci/Copia. Blocco: niente malware, format disco, shell ne .exe/.bat/.vbs. ' +
     'count_matching_lines conta contains/parziale in locale (AI-first). ' +
     'Ctrl+L apre la FilterBar ancorata (MRU 20). Status Mode/Wrap/Tail/Filter: clic = toggle. ' +
     'Le domande SQL e sul file restano nell''Assistente (Ctrl+Alt+A); i motori Python restano in background. ' +
     'Focus pannello: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 lingue UI (incl. giapponese e cinese semplificato/tradizionale). Avvio opzionale (ASkin.ini).',
-    '  Ctrl+Alt+A przelacza Asystenta AI (v3.0.5.225). Operacje + compose: podsumowania Word/RTF/DOCX/ODT/PDF i kod (.py/.js/.ts/.go/.java/...). Pliki w fastfile_assistant\ (nie fastfil' +
+    '  Ctrl+Alt+A przelacza Asystenta AI (v3.0.5.232). Operacje + compose: podsumowania Word/RTF/DOCX/ODT/PDF i kod (.py/.js/.ts/.go/.java/...). Pliki w fastfile_assistant\ (nie fastfil' +
       'e_temp). Przyciski Wyczyść/Kopiuj. Blokada: bez malware, formatowania, shell ani .exe/.bat/.vbs. count_matching_lines liczy contains/czesciowe lokalnie (AI-first). Ctrl+L otwiera d' +
       'okowana FilterBar (MRU 20). Pasek Mode/Wrap/Tail/Filter: klik = przełącz. Pytania SQL i o treść pliku zostaja w Asystencie (Ctrl+Alt+A); silniki Python dzialaja w tle. Fokus panelu' +
       ': Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 jezykow UI (wl. japonski oraz chinski uproszczony/tradycyjny). Start opcjonalny (ASkin.ini).',
-    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.225). Operações + compose: resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant\ (não' +
+    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.232). Operações + compose: resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant\ (não' +
       ' fastfile_temp). Botoes Limpar/Copiar. Trava: sem virus/malware, formatar disco, shell nem .exe/.bat/.vbs. count_matching_lines conta ocorrências contains/parcial localmente (AI-fi' +
       'rst). Ctrl+L abre a FilterBar acoplada (MRU 20). Estado Mode/Wrap/Tail/Filter: clique = toggle. Perguntas SQL e sobre o ficheiro ficam no Assistente (Ctrl+Alt+A); os motores Python' +
       ' correm em segundo plano. Foco no painel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. UI em 14 idiomas (incl. japonês e chinês simplificado/tradicional). Arranque opcional (ASk' +
       'in.ini).',
-    '  Ctrl+Alt+A comuta Asistentul IA (v3.0.5.225). Operații + compose: rezumate Word/RTF/DOCX/ODT/PDF si cod (.py/.js/.ts/.go/.java/...). Fisiere in fastfile_assistant\ (nu fastfile_t' +
+    '  Ctrl+Alt+A comuta Asistentul IA (v3.0.5.232). Operații + compose: rezumate Word/RTF/DOCX/ODT/PDF si cod (.py/.js/.ts/.go/.java/...). Fisiere in fastfile_assistant\ (nu fastfile_t' +
       'emp). Butoane Curăţa/Copiază. Blocaj: fără malware, format disk, shell sau .exe/.bat/.vbs. count_matching_lines numara contains/parțial local (AI-first). Ctrl+L deschide FilterBar ' +
       'andocata (MRU 20). Status Mode/Wrap/Tail/Filter: clic = toggle. Intrebarile SQL si despre fisier raman in Asistent (Ctrl+Alt+A); motoarele Python rulează in fundal. Focus panou: Ct' +
       'rl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 limbi UI (incl. japoneza si chineza simplificata/traditionala). Pornire optionala (ASkin.ini).',
-    '  Ctrl+Alt+A ki/be kapcsolja az AI asszisztenst (v3.0.5.225). Muveletek + compose: Word/RTF/DOCX/ODT/PDF es forraskod (.py/.js/.ts/.go/.java/...). Fájlok: fastfile_assistant\ (nem ' +
+    '  Ctrl+Alt+A ki/be kapcsolja az AI asszisztenst (v3.0.5.232). Muveletek + compose: Word/RTF/DOCX/ODT/PDF es forraskod (.py/.js/.ts/.go/.java/...). Fájlok: fastfile_assistant\ (nem ' +
       'fastfile_temp). Töröl/Másol gombok. Zar: nincs malware, format, shell, .exe/.bat/.vbs. count_matching_lines helyben szamol contains/részleges (AI-first). Ctrl+L megnyitja a dokkolt' +
       ' FilterBar-t (MRU 20). Status Mode/Wrap/Tail/Filter: kattintás = kapcsol. SQL es fajltartalom kérdések az Asszisztensben maradnak (Ctrl+Alt+A); a Python motorok hatterben futnak. F' +
       'okusz: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 UI nyelv (japan + egyszerusitett/hagyomanyos kinai). Inditas opcionalis (ASkin.ini).',
-    '  Ctrl+Alt+A prepne Asistenta AI (v3.0.5.225). Operace + compose: souhrny Word/RTF/DOCX/ODT/PDF a kod (.py/.js/.ts/.go/.java/...). Soubory ve fastfile_assistant\ (ne fastfile_temp)' +
+    '  Ctrl+Alt+A prepne Asistenta AI (v3.0.5.232). Operace + compose: souhrny Word/RTF/DOCX/ODT/PDF a kod (.py/.js/.ts/.go/.java/...). Soubory ve fastfile_assistant\ (ne fastfile_temp)' +
       '. Tlacitka Vymazat/Kopírovat. Zamek: bez malware, formatovani, shell ani .exe/.bat/.vbs. count_matching_lines pocita contains/castecne lokalne (AI-first). Ctrl+L otevře dokovanou F' +
       'ilterBar (MRU 20). Status Mode/Wrap/Tail/Filter: klik = přepnout. Asistenta AI (Ctrl+Alt+A): jeden chat pro FastFile, SQL (Python) a obsah souboru. Focus panelu: Ctrl+H/L/F, Ctrl+S' +
       'hift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 jazyku UI (vc. japonstiny a cinstiny zjednodusene/tradicni). Volitelné při startu (ASkin.ini).',
-    'CtrlAltAはFastFile AIアシスタント（v3.0.5.225）を切り替えます。自然言語操作の構成：''Word/RTF/DOCX/ODT/PDFの要約とソース（.py/.js/.ts/.go/.java/...）を生成。ファイルはfastfile_assistant\に保存（fastfile_tempではなく）。返信のクリア/コピー ボタン。''セーフティロックはマルウェア、ディスクフォーマット、OSシェル、危険な拡張子をブロック。''count_matchin' +
+    'CtrlAltAはFastFile AIアシスタント（v3.0.5.232）を切り替えます。自然言語操作の構成：''Word/RTF/DOCX/ODT/PDFの要約とソース（.py/.js/.ts/.go/.java/...）を生成。ファイルはfastfile_assistant\に保存（fastfile_tempではなく）。返信のクリア/コピー ボタン。''セーフティロックはマルウェア、ディスクフォーマット、OSシェル、危険な拡張子をブロック。''count_matchin' +
       'g_linesはローカルでcontains/部分一致をカウント（AI優先）。''N番目の最近のファイルエントリを開くように尋ねます。可能な場合はローカルツールを使用（filterexport、replace、split）。''CtrlLでドッキングされたFilterBarを開く（MRU 20）。ステータスバーのMode/Wrap/Tail/Filterクリックで切り替え。''SQLおよびファイル内容の質問はアシスタント内に留まる（CtrlAltA）；Pythonエンジンはバッ' + 'クグラウンドで実行。''パネルにフォーカスがあるとき：CtrlH/L/F、CtrlShiftL/Q、CtrlZ/Y、CtrlC/V。''オプションの起動（ASkin.ini: AssistantShowOnStartup）。UI言語は14（日本語・簡体字/繁体字中国語を含む）。AssistantLog=1でAssistant.logに追記。',
-    'CtrlAltA 切换 FastFile AI 助手 (v3.0.5.225)。自然语言操作组合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件保存到 fastfile_assistant\（而不是 fastfile_temp）。清除/复制回复按钮。''安全锁阻止恶意软件、磁盘格式、操作系统命令和危险扩展。''count_matching_lines 在本地统计包含/部分匹配行（以 AI 为主）。' +
+    'CtrlAltA 切换 FastFile AI 助手 (v3.0.5.232)。自然语言操作组合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件保存到 fastfile_assistant\（而不是 fastfile_temp）。清除/复制回复按钮。''安全锁阻止恶意软件、磁盘格式、操作系统命令和危险扩展。''count_matching_lines 在本地统计包含/部分匹配行（以 AI 为主）。' +
       '''请求打开第 N 个最近文件条目。本地工具优先使用（filterexport、replace、split）。''CtrlL 打开停靠的 FilterBar（MRU 20）。状态栏模式/换行/尾随/过滤点击切换。''SQL 和文件内容问题保留在助手中 (CtrlAltA)；Python 引擎在后台运行。''聚焦面板时：CtrlH/L/F、CtrlShiftL/Q、CtrlZ/Y、CtrlC/V。''可选启动 (ASkin.ini: AssistantShowOnStartup)。界面语' +
       '言共 14 种（含日语、简体/繁体中文）。Ass' +
       'istantLog=1 会追加到 Assistant.log。',
-    'CtrlAltA 切換 FastFile AI 助手 (v3.0.5.225)。自然語言操作組合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件會保存到 fastfile_assistant\（而非 fastfile_temp）。清除/複製回覆按鈕。''安全鎖阻止惡意軟件、磁碟格式化、操作系統命令行和危險擴展。''count_matching_lines 本地計算包含/部分匹配（以 AI 為先）。' +
+    'CtrlAltA 切換 FastFile AI 助手 (v3.0.5.232)。自然語言操作組合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件會保存到 fastfile_assistant\（而非 fastfile_temp）。清除/複製回覆按鈕。''安全鎖阻止惡意軟件、磁碟格式化、操作系統命令行和危險擴展。''count_matching_lines 本地計算包含/部分匹配（以 AI 為先）。' +
       '''可打開第 N 個最近文件條目。盡可能使用本地工具（filterexport、replace、split）。''CtrlL 打開停靠的 FilterBar（MRU 20）。狀態欄 Mode/Wrap/Tail/Filter 點擊切換。''SQL 和文件內容問題保留在助手中（CtrlAltA）；Python 引擎在後台運行。''面板焦點時：CtrlH/L/F、CtrlShiftL/Q、CtrlZ/Y、CtrlC/V。''可選啟動（ASkin.ini: AssistantShowOnSt' +
       'artup）。介面語言共 14 種（含日語、簡體/繁體中文）。AssistantLog=1 會附加到 Assistant.log。');
 
@@ -29498,6 +29501,176 @@ begin
     '  兩個檔案比較：同步捲動；快速、可取消的左 <-> 右套用。'#13#10 +
     '  助手：每次操作後提供「下一步？」建議；從上次中斷處繼續。'#13#10 +
     '  穩定性：全域例外保護 + 介面凍結/記憶體看門狗。'#13#10);
+  Set14(
+    'FF_HELP.RecentFeaturesBlock2',
+    'RECENT FEATURES (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  AI agent on files (Ctrl+Alt+G): pick files/folders, describe the request, review the answer.'#13#10 +
+    '    Nothing is written before Accept; Accept / Reject / Accept all within the time limit'#13#10 +
+    '    (default 20 s, Options > Preferences). It counts, searches, reads, edits/inserts/deletes lines,'#13#10 +
+    '    anonymizes and runs FastFile actions (replace all, split, export, filter...).'#13#10 +
+    '    SQL or plain words in the 14 languages: SELECT / GROUP BY / SUM on CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    become proposals. "not partial" / "exact" = whole word.'#13#10 +
+    '    Each area has its own bar (new, clear, copy, ask AI); buttons are enabled only when there is content.'#13#10 +
+    '  Generated files: window to open the file, open the folder or copy the path; "Last generated file" reopens it.'#13#10 +
+    '  Anonymize (Ctrl+Alt+D or whole file): fake data of the same type and length; preview; undo.'#13#10 +
+    '  Session history: double-click an event = full lines before/after, fields, export TXT/CSV/JSON.'#13#10 +
+    '  Custom PPI on the toolbar: UI scale while running, synced with the status bar zoom.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agente IA em arquivos (Ctrl+Alt+G): escolha arquivos/pastas, descreva o pedido e confira a resposta.'#13#10 +
+    '    Nada é gravado antes de Aceitar; Aceitar / Rejeitar / Aceitar tudo dentro do tempo limite'#13#10 +
+    '    (padrão 20 s, Opções > Preferências). Conta, pesquisa, lê, edita/insere/exclui linhas,'#13#10 +
+    '    descaracteriza e executa ações do FastFile (substituir tudo, dividir, exportar, filtrar...).'#13#10 +
+    '    SQL ou linguagem natural nos 14 idiomas: SELECT / GROUP BY / SUM em CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    viram propostas. "sem ser parcial" / "exato" = palavra inteira.'#13#10 +
+    '    Cada área tem sua barra (novo, apagar, copiar, fale com a IA); os botões só ficam ativos com conteúdo.'#13#10 +
+    '  Arquivos gerados: janela para abrir o arquivo, abrir a pasta ou copiar o caminho; "Último arquivo gerado" reabre.'#13#10 +
+    '  Descaracterizar (Ctrl+Alt+D ou arquivo inteiro): dados fictícios do mesmo tipo e tamanho; prévia; desfazer.'#13#10 +
+    '  Histórico de sessão: duplo clique num evento = linhas inteiras antes/depois, campos, exportar TXT/CSV/JSON.'#13#10 +
+    '  PPI customizado na barra de ferramentas: escala da interface em tempo real, sincronizada com o zoom da barra de status.'#13#10,
+    'NOVEDADES RECIENTES (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agente IA en archivos (Ctrl+Alt+G): elija archivos/carpetas, describa la solicitud y revise la respuesta.'#13#10 +
+    '    No se escribe nada antes de Aceptar; Aceptar / Rechazar / Aceptar todo dentro del tiempo límite'#13#10 +
+    '    (20 s por defecto, Opciones > Preferencias). Cuenta, busca, lee, edita/inserta/elimina líneas,'#13#10 +
+    '    anonimiza y ejecuta acciones de FastFile (reemplazar todo, dividir, exportar, filtrar...).'#13#10 +
+    '    SQL o lenguaje natural en los 14 idiomas: SELECT / GROUP BY / SUM en CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    se convierten en propuestas. "no parcial" / "exacto" = palabra completa.'#13#10 +
+    '    Cada área tiene su barra (nuevo, borrar, copiar, hablar con la IA); los botones solo se activan con contenido.'#13#10 +
+    '  Archivos generados: ventana para abrir el archivo, abrir la carpeta o copiar la ruta; "Último archivo generado" la reabre.'#13#10 +
+    '  Anonimizar (Ctrl+Alt+D o archivo completo): datos ficticios del mismo tipo y longitud; vista previa; deshacer.'#13#10 +
+    '  Historial de sesión: doble clic en un evento = líneas completas antes/después, campos, exportar TXT/CSV/JSON.'#13#10 +
+    '  PPI personalizado en la barra de herramientas: escala de la interfaz en tiempo real, sincronizada con el zoom de la barra de estado.'#13#10,
+    'NOUVEAUTÉS RÉCENTES (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agent IA sur fichiers (Ctrl+Alt+G) : choisissez des fichiers/dossiers, décrivez la demande, vérifiez la réponse.'#13#10 +
+    '    Rien n''est écrit avant l''acceptation ; accepter / rejeter / tout accepter dans le délai imparti'#13#10 +
+    '    (20 s par défaut, Options > Préférences). Il compte, recherche, lit, modifie/insère/supprime des lignes,'#13#10 +
+    '    anonymise et exécute les actions de FastFile (tout remplacer, découper, exporter, filtrer...).'#13#10 +
+    '    SQL ou langage naturel dans les 14 langues : SELECT / GROUP BY / SUM sur CSV ; UPDATE / DELETE / INSERT'#13#10 +
+    '    deviennent des propositions. « pas partiel » / « exact » = mot entier.'#13#10 +
+    '    Chaque zone a sa barre (nouveau, effacer, copier, parler à l''IA) ; les boutons ne sont actifs qu''avec du contenu.'#13#10 +
+    '  Fichiers générés : fenêtre pour ouvrir le fichier, ouvrir le dossier ou copier le chemin ; « Dernier fichier généré » la rouvre.'#13#10 +
+    '  Anonymiser (Ctrl+Alt+D ou fichier entier) : données fictives de même type et longueur ; aperçu ; annuler.'#13#10 +
+    '  Historique de session : double-clic sur un événement = lignes complètes avant/après, champs, export TXT/CSV/JSON.'#13#10 +
+    '  PPI personnalisé dans la barre d''outils : échelle de l''interface en direct, synchronisée avec le zoom de la barre d''état.'#13#10,
+    'NEUE FUNKTIONEN (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  KI-Agent für Dateien (Ctrl+Alt+G): Dateien/Ordner wählen, Anfrage beschreiben, Antwort prüfen.'#13#10 +
+    '    Vor dem Übernehmen wird nichts geschrieben; Übernehmen / Ablehnen / Alle übernehmen innerhalb der Frist'#13#10 +
+    '    (Standard 20 s, Optionen > Einstellungen). Zählt, sucht, liest, bearbeitet/fügt ein/löscht Zeilen,'#13#10 +
+    '    anonymisiert und führt FastFile-Aktionen aus (alles ersetzen, aufteilen, exportieren, filtern...).'#13#10 +
+    '    SQL oder natürliche Sprache in den 14 Sprachen: SELECT / GROUP BY / SUM auf CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    werden zu Vorschlägen. „nicht teilweise“ / „exakt“ = ganzes Wort.'#13#10 +
+    '    Jeder Bereich hat seine Leiste (Neu, Löschen, Kopieren, KI fragen); Schaltflächen sind nur mit Inhalt aktiv.'#13#10 +
+    '  Erstellte Dateien: Fenster zum Öffnen der Datei oder des Ordners bzw. Kopieren des Pfads; „Zuletzt erstellte Datei“ öffnet es erneut.'#13#10 +
+    '  Anonymisieren (Ctrl+Alt+D oder ganze Datei): fiktive Daten mit gleichem Typ und gleicher Länge; Vorschau; Rückgängig.'#13#10 +
+    '  Sitzungsverlauf: Doppelklick auf ein Ereignis = ganze Zeilen vorher/nachher, Felder, Export TXT/CSV/JSON.'#13#10 +
+    '  Benutzerdefiniertes PPI in der Symbolleiste: UI-Skalierung zur Laufzeit, synchron mit dem Zoom der Statusleiste.'#13#10,
+    'NOVITÀ RECENTI (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agente IA sui file (Ctrl+Alt+G): scegli file/cartelle, descrivi la richiesta e controlla la risposta.'#13#10 +
+    '    Nulla viene scritto prima di accettare; accetta / rifiuta / accetta tutto entro il tempo limite'#13#10 +
+    '    (predefinito 20 s, Opzioni > Preferenze). Conta, cerca, legge, modifica/inserisce/elimina righe,'#13#10 +
+    '    anonimizza ed esegue azioni di FastFile (sostituisci tutto, dividi, esporta, filtra...).'#13#10 +
+    '    SQL o linguaggio naturale nelle 14 lingue: SELECT / GROUP BY / SUM su CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    diventano proposte. "non parziale" / "esatto" = parola intera.'#13#10 +
+    '    Ogni area ha la sua barra (nuovo, cancella, copia, parla con l''IA); i pulsanti sono attivi solo con contenuto.'#13#10 +
+    '  File generati: finestra per aprire il file, aprire la cartella o copiare il percorso; "Ultimo file generato" la riapre.'#13#10 +
+    '  Anonimizza (Ctrl+Alt+D o file intero): dati fittizi dello stesso tipo e lunghezza; anteprima; annulla.'#13#10 +
+    '  Cronologia della sessione: doppio clic su un evento = righe complete prima/dopo, campi, esporta TXT/CSV/JSON.'#13#10 +
+    '  PPI personalizzato nella barra degli strumenti: scala dell''interfaccia in tempo reale, sincronizzata con lo zoom della barra di stato.'#13#10,
+    'NOWOŚCI (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agent AI dla plików (Ctrl+Alt+G): wybierz pliki/foldery, opisz prośbę i sprawdź odpowiedź.'#13#10 +
+    '    Nic nie jest zapisywane przed akceptacją; akceptuj / odrzuć / akceptuj wszystko w wyznaczonym czasie'#13#10 +
+    '    (domyślnie 20 s, Opcje > Preferencje). Liczy, wyszukuje, czyta, edytuje/wstawia/usuwa wiersze,'#13#10 +
+    '    anonimizuje i wykonuje akcje FastFile (zamień wszystko, podziel, eksportuj, filtruj...).'#13#10 +
+    '    SQL lub język naturalny w 14 językach: SELECT / GROUP BY / SUM na CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    stają się propozycjami. „nie częściowo” / „dokładnie” = całe słowo.'#13#10 +
+    '    Każdy obszar ma własny pasek (nowy, wyczyść, kopiuj, zapytaj AI); przyciski są aktywne tylko przy treści.'#13#10 +
+    '  Wygenerowane pliki: okno do otwarcia pliku, folderu lub skopiowania ścieżki; „Ostatnio wygenerowany plik” otwiera je ponownie.'#13#10 +
+    '  Anonimizacja (Ctrl+Alt+D lub cały plik): fikcyjne dane tego samego typu i długości; podgląd; cofnij.'#13#10 +
+    '  Historia sesji: dwuklik na zdarzeniu = całe wiersze przed/po, pola, eksport TXT/CSV/JSON.'#13#10 +
+    '  Niestandardowe PPI na pasku narzędzi: skala interfejsu w trakcie działania, zsynchronizowana z powiększeniem paska stanu.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agente IA em ficheiros (Ctrl+Alt+G): escolha ficheiros/pastas, descreva o pedido e reveja a resposta.'#13#10 +
+    '    Nada é gravado antes de Aceitar; Aceitar / Rejeitar / Aceitar tudo dentro do tempo limite'#13#10 +
+    '    (predefinição 20 s, Opções > Preferências). Conta, pesquisa, lê, edita/insere/elimina linhas,'#13#10 +
+    '    descaracteriza e executa ações do FastFile (substituir tudo, dividir, exportar, filtrar...).'#13#10 +
+    '    SQL ou linguagem natural nos 14 idiomas: SELECT / GROUP BY / SUM em CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    passam a propostas. "sem ser parcial" / "exato" = palavra inteira.'#13#10 +
+    '    Cada área tem a sua barra (novo, apagar, copiar, fale com a IA); os botões só ficam ativos com conteúdo.'#13#10 +
+    '  Ficheiros gerados: janela para abrir o ficheiro, abrir a pasta ou copiar o caminho; "Último ficheiro gerado" reabre-a.'#13#10 +
+    '  Descaracterizar (Ctrl+Alt+D ou ficheiro inteiro): dados fictícios do mesmo tipo e comprimento; pré-visualização; anular.'#13#10 +
+    '  Histórico da sessão: duplo clique num evento = linhas inteiras antes/depois, campos, exportar TXT/CSV/JSON.'#13#10 +
+    '  PPI personalizado na barra de ferramentas: escala da interface em tempo real, sincronizada com o zoom da barra de estado.'#13#10,
+    'NOUTĂȚI RECENTE (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  Agent AI pentru fișiere (Ctrl+Alt+G): alegeți fișiere/dosare, descrieți cererea și verificați răspunsul.'#13#10 +
+    '    Nimic nu se scrie înainte de acceptare; acceptați / respingeți / acceptați tot în limita de timp'#13#10 +
+    '    (implicit 20 s, Opțiuni > Preferințe). Numără, caută, citește, editează/inserează/șterge rânduri,'#13#10 +
+    '    anonimizează și rulează acțiuni FastFile (înlocuire totală, împărțire, export, filtrare...).'#13#10 +
+    '    SQL sau limbaj natural în cele 14 limbi: SELECT / GROUP BY / SUM pe CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    devin propuneri. „nu parțial” / „exact” = cuvânt întreg.'#13#10 +
+    '    Fiecare zonă are bara ei (nou, ștergere, copiere, întreabă AI); butoanele sunt active doar când există conținut.'#13#10 +
+    '  Fișiere generate: fereastră pentru a deschide fișierul, dosarul sau a copia calea; „Ultimul fișier generat” o redeschide.'#13#10 +
+    '  Anonimizare (Ctrl+Alt+D sau tot fișierul): date fictive de același tip și lungime; previzualizare; anulare.'#13#10 +
+    '  Istoricul sesiunii: dublu clic pe un eveniment = rânduri întregi înainte/după, câmpuri, export TXT/CSV/JSON.'#13#10 +
+    '  PPI personalizat în bara de instrumente: scala interfeței în timpul rulării, sincronizată cu zoomul barei de stare.'#13#10,
+    'ÚJDONSÁGOK (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  MI-ügynök fájlokhoz (Ctrl+Alt+G): válasszon fájlokat/mappákat, írja le a kérést, és ellenőrizze a választ.'#13#10 +
+    '    Elfogadás előtt semmi sem íródik ki; elfogadás / elutasítás / összes elfogadása a határidőn belül'#13#10 +
+    '    (alapértelmezés 20 mp, Beállítások > Preferenciák). Számol, keres, olvas, sorokat szerkeszt/beszúr/töröl,'#13#10 +
+    '    anonimizál és FastFile-műveleteket futtat (összes cseréje, felosztás, exportálás, szűrés...).'#13#10 +
+    '    SQL vagy természetes nyelv a 14 nyelven: SELECT / GROUP BY / SUM CSV-n; az UPDATE / DELETE / INSERT'#13#10 +
+    '    javaslattá válik. „nem részleges” / „pontos” = teljes szó.'#13#10 +
+    '    Minden területnek saját sávja van (új, törlés, másolás, kérdezd az MI-t); a gombok csak tartalommal aktívak.'#13#10 +
+    '  Létrehozott fájlok: ablak a fájl vagy a mappa megnyitásához, illetve az útvonal másolásához; a „Legutóbb létrehozott fájl” újra megnyitja.'#13#10 +
+    '  Anonimizálás (Ctrl+Alt+D vagy a teljes fájl): azonos típusú és hosszúságú fiktív adatok; előnézet; visszavonás.'#13#10 +
+    '  Munkamenet-előzmények: dupla kattintás egy eseményre = teljes sorok előtte/utána, mezők, exportálás TXT/CSV/JSON.'#13#10 +
+    '  Egyedi PPI az eszköztáron: a felület méretezése futás közben, szinkronban az állapotsor nagyításával.'#13#10,
+    'NOVINKY (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  AI agent pro soubory (Ctrl+Alt+G): vyberte soubory/složky, popište požadavek a zkontrolujte odpověď.'#13#10 +
+    '    Před přijetím se nic nezapíše; přijmout / odmítnout / přijmout vše v časovém limitu'#13#10 +
+    '    (výchozí 20 s, Možnosti > Předvolby). Počítá, hledá, čte, upravuje/vkládá/maže řádky,'#13#10 +
+    '    anonymizuje a spouští akce FastFile (nahradit vše, rozdělit, exportovat, filtrovat...).'#13#10 +
+    '    SQL nebo přirozený jazyk ve 14 jazycích: SELECT / GROUP BY / SUM nad CSV; UPDATE / DELETE / INSERT'#13#10 +
+    '    se stanou návrhy. „ne částečně“ / „přesně“ = celé slovo.'#13#10 +
+    '    Každá oblast má vlastní lištu (nový, vymazat, kopírovat, zeptat se AI); tlačítka jsou aktivní jen s obsahem.'#13#10 +
+    '  Vytvořené soubory: okno pro otevření souboru, složky nebo zkopírování cesty; „Naposledy vytvořený soubor“ je znovu otevře.'#13#10 +
+    '  Anonymizace (Ctrl+Alt+D nebo celý soubor): smyšlená data stejného typu a délky; náhled; zpět.'#13#10 +
+    '  Historie relace: dvojklik na událost = celé řádky před/po, pole, export TXT/CSV/JSON.'#13#10 +
+    '  Vlastní PPI na panelu nástrojů: měřítko rozhraní za běhu, synchronizované se zoomem stavového řádku.'#13#10,
+    '最近の新機能 (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  ファイル向け AI エージェント (Ctrl+Alt+G): ファイル/フォルダーを選び、依頼を書き、回答を確認します。'#13#10 +
+    '    承認するまで何も書き込まれません。承認 / 拒否 / すべて承認は制限時間内に行います'#13#10 +
+    '    （既定 20 秒、オプション > 環境設定）。行の数え上げ・検索・読み取り・編集/挿入/削除、'#13#10 +
+    '    匿名化、FastFile の操作（すべて置換、分割、エクスポート、フィルター…）を実行できます。'#13#10 +
+    '    SQL または 14 言語の自然文: CSV に対する SELECT / GROUP BY / SUM。UPDATE / DELETE / INSERT は'#13#10 +
+    '    提案になります。「部分一致でない」/「完全一致」= 単語全体。'#13#10 +
+    '    各エリアに専用バー（新規、クリア、コピー、AI に聞く）。内容があるときだけボタンが有効になります。'#13#10 +
+    '  生成されたファイル: ファイルを開く、フォルダーを開く、パスをコピーするウィンドウ。「最後に生成したファイル」で再表示。'#13#10 +
+    '  匿名化 (Ctrl+Alt+D またはファイル全体): 同じ型と長さの架空データ。プレビュー、元に戻す。'#13#10 +
+    '  セッション履歴: イベントをダブルクリック = 変更前/後の行全体、フィールド、TXT/CSV/JSON エクスポート。'#13#10 +
+    '  ツールバーのカスタム PPI: 実行中に UI の拡大率を変更、ステータスバーのズームと連動。'#13#10,
+    '近期新功能 (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  文件 AI 代理 (Ctrl+Alt+G)：选择文件/文件夹，描述请求，查看回答。'#13#10 +
+    '    接受之前不会写入任何内容；须在时限内接受 / 拒绝 / 全部接受'#13#10 +
+    '    （默认 20 秒，选项 > 首选项）。可计数、搜索、读取、编辑/插入/删除行、'#13#10 +
+    '    匿名化，并执行 FastFile 操作（全部替换、拆分、导出、筛选…）。'#13#10 +
+    '    SQL 或 14 种语言的自然语言：对 CSV 执行 SELECT / GROUP BY / SUM；UPDATE / DELETE / INSERT'#13#10 +
+    '    会成为建议。“非部分匹配”/“精确” = 整词。'#13#10 +
+    '    每个区域都有自己的工具栏（新建、清除、复制、询问 AI）；只有有内容时按钮才可用。'#13#10 +
+    '  生成的文件：可打开文件、打开文件夹或复制路径的窗口；“最近生成的文件”可再次打开。'#13#10 +
+    '  匿名化 (Ctrl+Alt+D 或整个文件)：相同类型和长度的虚构数据；预览；撤销。'#13#10 +
+    '  会话历史：双击事件 = 修改前/后的完整行、字段，导出 TXT/CSV/JSON。'#13#10 +
+    '  工具栏上的自定义 PPI：运行时调整界面缩放，与状态栏缩放同步。'#13#10,
+    '近期新功能 (v3.0.5.226 – v3.0.5.232)'#13#10 + SEP + #13#10 +
+    '  檔案 AI 代理 (Ctrl+Alt+G)：選擇檔案/資料夾，描述需求，檢視回答。'#13#10 +
+    '    接受之前不會寫入任何內容；須在時限內接受 / 拒絕 / 全部接受'#13#10 +
+    '    （預設 20 秒，選項 > 喜好設定）。可計數、搜尋、讀取、編輯/插入/刪除行、'#13#10 +
+    '    匿名化，並執行 FastFile 動作（全部取代、分割、匯出、篩選…）。'#13#10 +
+    '    SQL 或 14 種語言的自然語言：對 CSV 執行 SELECT / GROUP BY / SUM；UPDATE / DELETE / INSERT'#13#10 +
+    '    會成為建議。「非部分比對」/「精確」= 整個單字。'#13#10 +
+    '    每個區域都有自己的工具列（新增、清除、複製、詢問 AI）；只有有內容時按鈕才可用。'#13#10 +
+    '  產生的檔案：可開啟檔案、開啟資料夾或複製路徑的視窗；「最近產生的檔案」可再次開啟。'#13#10 +
+    '  匿名化 (Ctrl+Alt+D 或整個檔案)：相同類型與長度的虛構資料；預覽；復原。'#13#10 +
+    '  工作階段歷史：按兩下事件 = 修改前/後的完整行、欄位，匯出 TXT/CSV/JSON。'#13#10 +
+    '  工具列上的自訂 PPI：執行時調整介面縮放，與狀態列縮放同步。'#13#10);
 end;
 
 procedure AddCommonTranslationsHelpWin64IndexBlock;
@@ -32416,6 +32589,70 @@ begin
     '「%s」は %d から %d の間である必要があります。',
     '“%s”必须介于 %d 和 %d 之间。',
     '「%s」必須介於 %d 與 %d 之間。');
+  Set14(
+    'Prefs.EmptyValue',
+    'Enter a value for "%s".',
+    'Informe um valor para "%s".',
+    'Indique un valor para "%s".',
+    'Saisissez une valeur pour "%s".',
+    'Geben Sie einen Wert für "%s" ein.',
+    'Inserisci un valore per "%s".',
+    'Podaj wartość dla "%s".',
+    'Indique um valor para "%s".',
+    'Introduceți o valoare pentru "%s".',
+    'Adjon meg egy értéket: "%s".',
+    'Zadejte hodnotu pro "%s".',
+    '「%s」に値を入力してください。',
+    '请为“%s”输入一个值。',
+    '請為「%s」輸入一個值。');
+  Set14(
+    'Prefs.DefaultRestored',
+    'The default value (%d) was restored. Click OK again to save it, or type another value.',
+    'O valor padrão (%d) foi restaurado. Clique em OK novamente para salvá-lo ou digite outro valor.',
+    'Se restauró el valor predeterminado (%d). Haga clic en OK de nuevo para guardarlo o escriba otro valor.',
+    'La valeur par défaut (%d) a été rétablie. Cliquez de nouveau sur OK pour l''enregistrer ou saisissez une autre valeur.',
+    'Der Standardwert (%d) wurde wiederhergestellt. Klicken Sie erneut auf OK, um ihn zu speichern, oder geben Sie einen anderen Wert ein.',
+    'È stato ripristinato il valore predefinito (%d). Fai di nuovo clic su OK per salvarlo o digita un altro valore.',
+    'Przywrócono wartość domyślną (%d). Kliknij ponownie OK, aby ją zapisać, lub wpisz inną wartość.',
+    'O valor predefinido (%d) foi reposto. Clique novamente em OK para o guardar ou escreva outro valor.',
+    'Valoarea implicită (%d) a fost restabilită. Faceți din nou clic pe OK pentru a o salva sau introduceți altă valoare.',
+    'Az alapértelmezett érték (%d) visszaállt. Kattintson újra az OK gombra a mentéshez, vagy írjon be másik értéket.',
+    'Byla obnovena výchozí hodnota (%d). Klikněte znovu na OK pro uložení nebo zadejte jinou hodnotu.',
+    '既定値（%d）に戻しました。保存するにはもう一度 [OK] をクリックするか、別の値を入力してください。',
+    '已恢复默认值（%d）。再次单击“OK”保存，或输入其他值。',
+    '已還原預設值（%d）。再次按一下「OK」儲存，或輸入其他值。');
+  Set14(
+    'Prefs.Section.Agent',
+    'AI agent',
+    'Agente IA',
+    'Agente IA',
+    'Agent IA',
+    'KI-Agent',
+    'Agente IA',
+    'Agent AI',
+    'Agente IA',
+    'Agent IA',
+    'MI-ügynök',
+    'Agent AI',
+    'AI エージェント',
+    'AI 智能体',
+    'AI 智慧體');
+  Set14(
+    'Prefs.AgentDecisionSeconds',
+    'Time to accept/reject proposed edits (seconds)',
+    'Tempo para aceitar/rejeitar edições propostas (segundos)',
+    'Tiempo para aceptar/rechazar ediciones propuestas (segundos)',
+    'Délai pour accepter/rejeter les modifications proposées (secondes)',
+    'Zeit zum Übernehmen/Ablehnen vorgeschlagener Änderungen (Sekunden)',
+    'Tempo per accettare/rifiutare le modifiche proposte (secondi)',
+    'Czas na akceptację/odrzucenie proponowanych zmian (sekundy)',
+    'Tempo para aceitar/rejeitar alterações propostas (segundos)',
+    'Timp pentru acceptarea/respingerea modificărilor propuse (secunde)',
+    'Idő a javasolt módosítások elfogadására/elutasítására (másodperc)',
+    'Čas na přijetí/odmítnutí navržených úprav (sekundy)',
+    '提案された編集を適用/却下するまでの時間（秒）',
+    '接受/拒绝建议编辑的时间（秒）',
+    '接受/拒絕建議編輯的時間（秒）');
   Set14(
     'Prefs.Section.Display',
     'Display',
@@ -44857,6 +45094,2854 @@ begin
     '使用「套用」按鈕將合併後的列儲存到磁碟（批次）。綠色（相同）的列會被忽略。');
 end;
 
+procedure AddCommonTranslationsAnonymize;
+const
+  NL2 = #13#10#13#10;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+begin
+  { --- menus / titulo --- }
+  Set14('Anon.Menu',
+    'Anonymize data', 'Descaracterizar dados', 'Anonimizar datos', 'Anonymiser les données',
+    'Daten anonymisieren', 'Anonimizza dati', 'Anonimizuj dane', 'Anonimizar dados',
+    'Anonimizare date', 'Adatok anonimizálása', 'Anonymizovat data', 'データの匿名化',
+    '数据脱敏', '資料去識別化');
+  Set14('Anon.Menu.Selected',
+    'Anonymize selected lines...', 'Descaracterizar linhas selecionadas...',
+    'Anonimizar líneas seleccionadas...', 'Anonymiser les lignes sélectionnées...',
+    'Ausgewählte Zeilen anonymisieren...', 'Anonimizza righe selezionate...',
+    'Anonimizuj zaznaczone wiersze...', 'Anonimizar linhas selecionadas...',
+    'Anonimizare linii selectate...', 'Kijelölt sorok anonimizálása...',
+    'Anonymizovat vybrané řádky...', '選択した行を匿名化...', '脱敏所选行...', '去識別化所選行...');
+  Set14('Anon.Menu.File',
+    'Anonymize whole file...', 'Descaracterizar arquivo inteiro...',
+    'Anonimizar archivo completo...', 'Anonymiser tout le fichier...',
+    'Gesamte Datei anonymisieren...', 'Anonimizza l''intero file...',
+    'Anonimizuj cały plik...', 'Anonimizar ficheiro inteiro...',
+    'Anonimizare fișier întreg...', 'Teljes fájl anonimizálása...',
+    'Anonymizovat celý soubor...', 'ファイル全体を匿名化...', '脱敏整个文件...', '去識別化整個檔案...');
+  Set14('Anon.Title',
+    'Anonymize data', 'Descaracterizar dados', 'Anonimizar datos', 'Anonymiser les données',
+    'Daten anonymisieren', 'Anonimizza dati', 'Anonimizuj dane', 'Anonimizar dados',
+    'Anonimizare date', 'Adatok anonimizálása', 'Anonymizovat data', 'データの匿名化',
+    '数据脱敏', '資料去識別化');
+
+  { --- dialogo: escopo --- }
+  Set14('Anon.Scope',
+    'Scope', 'Escopo', 'Alcance', 'Portée', 'Bereich', 'Ambito', 'Zakres', 'Âmbito',
+    'Domeniu', 'Hatókör', 'Rozsah', '範囲', '范围', '範圍');
+  Set14('Anon.Scope.Selection',
+    'Selected lines (%d)', 'Linhas selecionadas (%d)', 'Líneas seleccionadas (%d)',
+    'Lignes sélectionnées (%d)', 'Ausgewählte Zeilen (%d)', 'Righe selezionate (%d)',
+    'Zaznaczone wiersze (%d)', 'Linhas selecionadas (%d)', 'Linii selectate (%d)',
+    'Kijelölt sorok (%d)', 'Vybrané řádky (%d)', '選択した行 (%d)', '所选行 (%d)', '所選行 (%d)');
+  Set14('Anon.Scope.Range',
+    'Line range (from - to):', 'Intervalo de linhas (de - até):', 'Rango de líneas (desde - hasta):',
+    'Plage de lignes (de - à) :', 'Zeilenbereich (von - bis):', 'Intervallo di righe (da - a):',
+    'Zakres wierszy (od - do):', 'Intervalo de linhas (de - até):',
+    'Interval de linii (de la - până la):', 'Sortartomány (első - utolsó):',
+    'Rozsah řádků (od - do):', '行範囲 (開始 - 終了):', '行范围 (从 - 到):', '行範圍 (從 - 到):');
+  Set14('Anon.Scope.File',
+    'Whole file (%s)', 'Arquivo inteiro (%s)', 'Archivo completo (%s)', 'Fichier entier (%s)',
+    'Gesamte Datei (%s)', 'Intero file (%s)', 'Cały plik (%s)', 'Ficheiro inteiro (%s)',
+    'Fișier întreg (%s)', 'Teljes fájl (%s)', 'Celý soubor (%s)', 'ファイル全体 (%s)',
+    '整个文件 (%s)', '整個檔案 (%s)');
+  Set14('Anon.Scope.TotalLines',
+    'The file has %s line(s).', 'O arquivo tem %s linha(s).', 'El archivo tiene %s línea(s).',
+    'Le fichier contient %s ligne(s).', 'Die Datei hat %s Zeile(n).', 'Il file ha %s riga/e.',
+    'Liczba wierszy w pliku: %s.', 'O ficheiro tem %s linha(s).', 'Fișierul are %s linie(i).',
+    'A fájl sorainak száma: %s.', 'Počet řádků v souboru: %s.', 'ファイルの行数: %s',
+    '文件共 %s 行。', '檔案共 %s 行。');
+
+  { --- dialogo: o que descaracterizar --- }
+  Set14('Anon.What',
+    'What to anonymize', 'O que descaracterizar', 'Qué anonimizar', 'Quoi anonymiser',
+    'Was anonymisieren', 'Cosa anonimizzare', 'Co anonimizować', 'O que anonimizar',
+    'Ce se anonimizează', 'Mit anonimizáljon', 'Co anonymizovat', '匿名化する対象',
+    '脱敏内容', '去識別化內容');
+  Set14('Anon.Numbers',
+    'Numbers and values', 'Números e valores', 'Números y valores', 'Nombres et valeurs',
+    'Zahlen und Werte', 'Numeri e valori', 'Liczby i wartości', 'Números e valores',
+    'Numere și valori', 'Számok és értékek', 'Čísla a hodnoty', '数値と金額', '数字和数值', '數字和數值');
+  Set14('Anon.MinDigits',
+    'min. digits:', 'mín. dígitos:', 'mín. dígitos:', 'chiffres min. :', 'min. Ziffern:',
+    'cifre min.:', 'min. cyfr:', 'mín. dígitos:', 'cifre min.:', 'min. számjegy:',
+    'min. číslic:', '最小桁数:', '最少位数:', '最少位數:');
+  Set14('Anon.Dates',
+    'Dates and times', 'Datas e horas', 'Fechas y horas', 'Dates et heures', 'Datum und Uhrzeit',
+    'Date e orari', 'Daty i godziny', 'Datas e horas', 'Date și ore', 'Dátumok és időpontok',
+    'Data a časy', '日付と時刻', '日期和时间', '日期和時間');
+  Set14('Anon.Emails',
+    'E-mail addresses', 'Endereços de e-mail', 'Direcciones de correo electrónico',
+    'Adresses e-mail', 'E-Mail-Adressen', 'Indirizzi e-mail', 'Adresy e-mail',
+    'Endereços de e-mail', 'Adrese de e-mail', 'E-mail-címek', 'E-mailové adresy',
+    'メールアドレス', '电子邮件地址', '電子郵件地址');
+  Set14('Anon.Codes',
+    'Codes (letters + digits, e.g. ABC-123)', 'Códigos (letras + dígitos, ex.: ABC-123)',
+    'Códigos (letras + dígitos, p. ej. ABC-123)', 'Codes (lettres + chiffres, ex. ABC-123)',
+    'Codes (Buchstaben + Ziffern, z. B. ABC-123)', 'Codici (lettere + cifre, es. ABC-123)',
+    'Kody (litery + cyfry, np. ABC-123)', 'Códigos (letras + dígitos, ex.: ABC-123)',
+    'Coduri (litere + cifre, ex. ABC-123)', 'Kódok (betűk + számjegyek, pl. ABC-123)',
+    'Kódy (písmena + číslice, např. ABC-123)', 'コード (英字+数字、例: ABC-123)',
+    '代码 (字母+数字，例如 ABC-123)', '代碼 (字母+數字，例如 ABC-123)');
+  Set14('Anon.Words',
+    'Words:', 'Palavras:', 'Palabras:', 'Mots :', 'Wörter:', 'Parole:', 'Słowa:', 'Palavras:',
+    'Cuvinte:', 'Szavak:', 'Slova:', '単語:', '单词:', '單字:');
+  Set14('Anon.Words.None',
+    'Keep all words', 'Manter todas as palavras', 'Mantener todas las palabras',
+    'Conserver tous les mots', 'Alle Wörter behalten', 'Mantieni tutte le parole',
+    'Zachowaj wszystkie słowa', 'Manter todas as palavras', 'Păstrează toate cuvintele',
+    'Minden szó megtartása', 'Ponechat všechna slova', 'すべての単語を保持', '保留所有单词', '保留所有單字');
+  Set14('Anon.Words.Names',
+    'Names (capitalized words)', 'Nomes (palavras com inicial maiúscula)',
+    'Nombres (palabras con mayúscula inicial)', 'Noms (mots avec majuscule)',
+    'Namen (großgeschriebene Wörter)', 'Nomi (parole con iniziale maiuscola)',
+    'Nazwy (słowa z wielkiej litery)', 'Nomes (palavras com maiúscula inicial)',
+    'Nume (cuvinte cu majusculă)', 'Nevek (nagybetűs szavak)', 'Jména (slova s velkým písmenem)',
+    '名前 (大文字で始まる単語)', '名称 (首字母大写的单词)', '名稱 (首字母大寫的單字)');
+  Set14('Anon.Words.All',
+    'All words', 'Todas as palavras', 'Todas las palabras', 'Tous les mots', 'Alle Wörter',
+    'Tutte le parole', 'Wszystkie słowa', 'Todas as palavras', 'Toate cuvintele', 'Minden szó',
+    'Všechna slova', 'すべての単語', '所有单词', '所有單字');
+  Set14('Anon.AllCaps',
+    'Treat ALL-CAPS words as names', 'Tratar palavras em MAIÚSCULAS como nomes',
+    'Tratar palabras en MAYÚSCULAS como nombres', 'Traiter les mots en MAJUSCULES comme des noms',
+    'Wörter in GROSSBUCHSTABEN als Namen behandeln', 'Tratta le parole in MAIUSCOLO come nomi',
+    'Traktuj słowa WIELKIMI LITERAMI jako nazwy', 'Tratar palavras em MAIÚSCULAS como nomes',
+    'Tratează cuvintele cu MAJUSCULE ca nume', 'A CSUPA NAGYBETŰS szavak is nevek',
+    'Slova VELKÝMI PÍSMENY brát jako jména', 'すべて大文字の単語も名前として扱う',
+    '将全大写单词视为名称', '將全大寫單字視為名稱');
+
+  { --- dialogo: opcoes --- }
+  Set14('Anon.Options',
+    'Options', 'Opções', 'Opciones', 'Options', 'Optionen', 'Opzioni', 'Opcje', 'Opções',
+    'Opțiuni', 'Beállítások', 'Možnosti', 'オプション', '选项', '選項');
+  Set14('Anon.Consistent',
+    'Consistent (same value → same replacement)', 'Consistente (mesmo valor → mesma substituição)',
+    'Coherente (mismo valor → mismo reemplazo)', 'Cohérent (même valeur → même remplacement)',
+    'Konsistent (gleicher Wert → gleicher Ersatz)', 'Coerente (stesso valore → stessa sostituzione)',
+    'Spójnie (ta sama wartość → ten sam zamiennik)', 'Consistente (mesmo valor → mesma substituição)',
+    'Consecvent (aceeași valoare → aceeași înlocuire)', 'Következetes (azonos érték → azonos csere)',
+    'Konzistentní (stejná hodnota → stejná náhrada)', '一貫性 (同じ値 → 同じ置換)',
+    '一致 (相同值 → 相同替换)', '一致 (相同值 → 相同替換)');
+  Set14('Anon.SkipHeader',
+    'Keep the first line (header)', 'Manter a primeira linha (cabeçalho)',
+    'Mantener la primera línea (encabezado)', 'Conserver la première ligne (en-tête)',
+    'Erste Zeile behalten (Kopfzeile)', 'Mantieni la prima riga (intestazione)',
+    'Zachowaj pierwszy wiersz (nagłówek)', 'Manter a primeira linha (cabeçalho)',
+    'Păstrează prima linie (antet)', 'Első sor megtartása (fejléc)',
+    'Ponechat první řádek (záhlaví)', '先頭行 (ヘッダー) を保持', '保留第一行 (标题)', '保留第一行 (標題)');
+  Set14('Anon.Columns',
+    'Columns:', 'Colunas:', 'Columnas:', 'Colonnes :', 'Spalten:', 'Colonne:', 'Kolumny:',
+    'Colunas:', 'Coloane:', 'Oszlopok:', 'Sloupce:', '列:', '列:', '欄:');
+  Set14('Anon.Columns.Hint',
+    'Columns to anonymize, e.g. 2,4-6 (empty = all)', 'Colunas a descaracterizar, ex.: 2,4-6 (vazio = todas)',
+    'Columnas a anonimizar, p. ej. 2,4-6 (vacío = todas)', 'Colonnes à anonymiser, ex. 2,4-6 (vide = toutes)',
+    'Zu anonymisierende Spalten, z. B. 2,4-6 (leer = alle)', 'Colonne da anonimizzare, es. 2,4-6 (vuoto = tutte)',
+    'Kolumny do anonimizacji, np. 2,4-6 (puste = wszystkie)', 'Colunas a anonimizar, ex.: 2,4-6 (vazio = todas)',
+    'Coloane de anonimizat, ex. 2,4-6 (gol = toate)', 'Anonimizálandó oszlopok, pl. 2,4-6 (üres = mind)',
+    'Sloupce k anonymizaci, např. 2,4-6 (prázdné = všechny)', '匿名化する列 (例: 2,4-6、空欄 = すべて)',
+    '要脱敏的列，例如 2,4-6 (留空 = 全部)', '要去識別化的欄，例如 2,4-6 (留空 = 全部)');
+  Set14('Anon.Delimiter.None',
+    'No delimiter', 'Sem delimitador', 'Sin delimitador', 'Sans délimiteur', 'Kein Trennzeichen',
+    'Nessun delimitatore', 'Bez separatora', 'Sem delimitador', 'Fără delimitator',
+    'Nincs elválasztó', 'Bez oddělovače', '区切りなし', '无分隔符', '無分隔符號');
+  Set14('Anon.Delimiter.Comma',
+    'Comma (,)', 'Vírgula (,)', 'Coma (,)', 'Virgule (,)', 'Komma (,)', 'Virgola (,)',
+    'Przecinek (,)', 'Vírgula (,)', 'Virgulă (,)', 'Vessző (,)', 'Čárka (,)', 'カンマ (,)',
+    '逗号 (,)', '逗號 (,)');
+  Set14('Anon.Delimiter.Semicolon',
+    'Semicolon (;)', 'Ponto e vírgula (;)', 'Punto y coma (;)', 'Point-virgule (;)', 'Semikolon (;)',
+    'Punto e virgola (;)', 'Średnik (;)', 'Ponto e vírgula (;)', 'Punct și virgulă (;)',
+    'Pontosvessző (;)', 'Středník (;)', 'セミコロン (;)', '分号 (;)', '分號 (;)');
+  Set14('Anon.Delimiter.Tab',
+    'Tab', 'Tabulação', 'Tabulador', 'Tabulation', 'Tabulator', 'Tabulazione', 'Tabulator',
+    'Tabulação', 'Tab', 'Tabulátor', 'Tabulátor', 'タブ', '制表符', '定位字元');
+  Set14('Anon.Delimiter.Pipe',
+    'Pipe (|)', 'Barra vertical (|)', 'Barra vertical (|)', 'Barre verticale (|)',
+    'Senkrechter Strich (|)', 'Barra verticale (|)', 'Kreska pionowa (|)', 'Barra vertical (|)',
+    'Bară verticală (|)', 'Függőleges vonal (|)', 'Svislá čára (|)', 'パイプ (|)', '竖线 (|)', '豎線 (|)');
+  Set14('Anon.KeepWords',
+    'Keep words:', 'Manter palavras:', 'Mantener palabras:', 'Mots à garder :', 'Behalten:',
+    'Parole da tenere:', 'Zachowaj słowa:', 'Manter palavras:', 'Păstrează:', 'Megtartandó:',
+    'Ponechat slova:', '保持する単語:', '保留单词:', '保留單字:');
+  Set14('Anon.KeepWords.Hint',
+    'Words that must not be changed, separated by spaces or commas',
+    'Palavras que não devem ser alteradas, separadas por espaço ou vírgula',
+    'Palabras que no deben cambiarse, separadas por espacios o comas',
+    'Mots à ne pas modifier, séparés par des espaces ou des virgules',
+    'Wörter, die nicht geändert werden dürfen, durch Leerzeichen oder Kommas getrennt',
+    'Parole da non modificare, separate da spazi o virgole',
+    'Słowa, których nie wolno zmieniać, oddzielone spacjami lub przecinkami',
+    'Palavras que não devem ser alteradas, separadas por espaço ou vírgula',
+    'Cuvinte care nu trebuie modificate, separate prin spații sau virgule',
+    'Nem módosítandó szavak, szóközzel vagy vesszővel elválasztva',
+    'Slova, která se nesmí změnit, oddělená mezerami nebo čárkami',
+    '変更しない単語 (スペースまたはカンマ区切り)', '不应更改的单词，用空格或逗号分隔',
+    '不應變更的單字，以空格或逗號分隔');
+  Set14('Anon.Key',
+    'Key:', 'Chave:', 'Clave:', 'Clé :', 'Schlüssel:', 'Chiave:', 'Klucz:', 'Chave:', 'Cheie:',
+    'Kulcs:', 'Klíč:', 'キー:', '密钥:', '金鑰:');
+  Set14('Anon.Key.Hint',
+    'The same key produces the same replacements, also in other files. Keep it private.',
+    'A mesma chave gera as mesmas substituições, inclusive em outros arquivos. Mantenha-a em sigilo.',
+    'La misma clave genera los mismos reemplazos, también en otros archivos. Manténgala en privado.',
+    'La même clé produit les mêmes remplacements, y compris dans d''autres fichiers. Gardez-la confidentielle.',
+    'Derselbe Schlüssel erzeugt dieselben Ersetzungen, auch in anderen Dateien. Halten Sie ihn geheim.',
+    'La stessa chiave produce le stesse sostituzioni, anche in altri file. Tienila riservata.',
+    'Ten sam klucz daje te same zamienniki, także w innych plikach. Zachowaj go w tajemnicy.',
+    'A mesma chave gera as mesmas substituições, inclusive noutros ficheiros. Mantenha-a confidencial.',
+    'Aceeași cheie produce aceleași înlocuiri, inclusiv în alte fișiere. Păstrați-o confidențială.',
+    'Ugyanaz a kulcs ugyanazokat a cseréket adja, más fájlokban is. Tartsa titokban.',
+    'Stejný klíč vytvoří stejné náhrady, i v jiných souborech. Uchovejte jej v tajnosti.',
+    '同じキーなら他のファイルでも同じ置換になります。キーは秘密にしてください。',
+    '相同的密钥会产生相同的替换（其他文件中也一样）。请妥善保密。',
+    '相同的金鑰會產生相同的替換（其他檔案中也一樣）。請妥善保密。');
+  Set14('Anon.NewKey',
+    'New key', 'Nova chave', 'Nueva clave', 'Nouvelle clé', 'Neuer Schlüssel', 'Nuova chiave',
+    'Nowy klucz', 'Nova chave', 'Cheie nouă', 'Új kulcs', 'Nový klíč', '新しいキー', '新密钥', '新金鑰');
+  Set14('Anon.KeepUndo',
+    'Keep undo data (allows Undo / Redo)', 'Guardar dados para desfazer (permite Desfazer / Refazer)',
+    'Guardar datos para deshacer (permite Deshacer / Rehacer)',
+    'Conserver les données d''annulation (Annuler / Rétablir)',
+    'Rückgängig-Daten behalten (Rückgängig / Wiederholen)',
+    'Conserva i dati di annullamento (Annulla / Ripeti)', 'Zachowaj dane cofania (Cofnij / Ponów)',
+    'Guardar dados para anular (permite Anular / Refazer)',
+    'Păstrează datele de anulare (Anulare / Refacere)',
+    'Visszavonási adatok megőrzése (Visszavonás / Újra)', 'Uchovat data pro zpět (Zpět / Znovu)',
+    '元に戻すデータを保持 (元に戻す / やり直し)', '保留撤销数据 (可撤销 / 重做)', '保留復原資料 (可復原 / 重做)');
+
+  { --- dialogo: pre-visualizacao e botoes --- }
+  Set14('Anon.Preview',
+    'Preview (first lines of the scope; gray = unchanged):',
+    'Prévia (primeiras linhas do escopo; cinza = sem alteração):',
+    'Vista previa (primeras líneas del alcance; gris = sin cambios):',
+    'Aperçu (premières lignes de la portée ; gris = inchangé) :',
+    'Vorschau (erste Zeilen des Bereichs; grau = unverändert):',
+    'Anteprima (prime righe dell''ambito; grigio = invariato):',
+    'Podgląd (pierwsze wiersze zakresu; szary = bez zmian):',
+    'Pré-visualização (primeiras linhas do âmbito; cinzento = sem alteração):',
+    'Previzualizare (primele linii din domeniu; gri = neschimbat):',
+    'Előnézet (a hatókör első sorai; szürke = változatlan):',
+    'Náhled (první řádky rozsahu; šedá = beze změny):',
+    'プレビュー (範囲の先頭行、灰色 = 変更なし):', '预览 (范围内的前几行；灰色 = 未更改):',
+    '預覽 (範圍內的前幾行；灰色 = 未變更):');
+  Set14('Anon.Col.Line',
+    'Line', 'Linha', 'Línea', 'Ligne', 'Zeile', 'Riga', 'Wiersz', 'Linha', 'Linie', 'Sor',
+    'Řádek', '行', '行', '行');
+  Set14('Anon.Col.Original',
+    'Original', 'Original', 'Original', 'Original', 'Original', 'Originale', 'Oryginał', 'Original',
+    'Original', 'Eredeti', 'Původní', '元のデータ', '原始', '原始');
+  Set14('Anon.Col.Anonymized',
+    'Anonymized', 'Descaracterizado', 'Anonimizado', 'Anonymisé', 'Anonymisiert', 'Anonimizzato',
+    'Zanonimizowany', 'Anonimizado', 'Anonimizat', 'Anonimizált', 'Anonymizováno', '匿名化後',
+    '脱敏后', '去識別化後');
+  Set14('Anon.Refresh',
+    'Refresh preview', 'Atualizar prévia', 'Actualizar vista previa', 'Actualiser l''aperçu',
+    'Vorschau aktualisieren', 'Aggiorna anteprima', 'Odśwież podgląd', 'Atualizar pré-visualização',
+    'Reîmprospătare', 'Előnézet frissítése', 'Obnovit náhled', 'プレビュー更新', '刷新预览', '重新整理預覽');
+  Set14('Anon.Apply',
+    'Anonymize...', 'Descaracterizar...', 'Anonimizar...', 'Anonymiser...', 'Anonymisieren...',
+    'Anonimizza...', 'Anonimizuj...', 'Anonimizar...', 'Anonimizare...', 'Anonimizálás...',
+    'Anonymizovat...', '匿名化...', '脱敏...', '去識別化...');
+  Set14('Anon.Cancel',
+    'Cancel', 'Cancelar', 'Cancelar', 'Annuler', 'Abbrechen', 'Annulla', 'Anuluj', 'Cancelar',
+    'Anulare', 'Mégse', 'Zrušit', 'キャンセル', '取消', '取消');
+  Set14('Anon.Info',
+    'Scope: %s. Preview: %d of %d line(s) change. Estimated undo data: %s.',
+    'Escopo: %s. Prévia: %d de %d linha(s) alterada(s). Dados de desfazer estimados: %s.',
+    'Alcance: %s. Vista previa: cambian %d de %d línea(s). Datos de deshacer estimados: %s.',
+    'Portée : %s. Aperçu : %d ligne(s) sur %d modifiée(s). Données d''annulation estimées : %s.',
+    'Bereich: %s. Vorschau: %d von %d Zeile(n) geändert. Geschätzte Rückgängig-Daten: %s.',
+    'Ambito: %s. Anteprima: %d di %d riga/e modificate. Dati di annullamento stimati: %s.',
+    'Zakres: %s. Podgląd: zmienione wiersze: %d z %d. Szacowane dane cofania: %s.',
+    'Âmbito: %s. Pré-visualização: %d de %d linha(s) alterada(s). Dados para anular estimados: %s.',
+    'Domeniu: %s. Previzualizare: %d din %d linii modificate. Date de anulare estimate: %s.',
+    'Hatókör: %s. Előnézet: %d / %d sor változik. Becsült visszavonási adat: %s.',
+    'Rozsah: %s. Náhled: změní se %d z %d řádků. Odhad dat pro zpět: %s.',
+    '範囲: %s。プレビュー: %d / %d 行が変更されます。元に戻すデータの見積もり: %s。',
+    '范围: %s。预览: %d / %d 行将被更改。预计撤销数据: %s。',
+    '範圍: %s。預覽: %d / %d 行將被變更。預估復原資料: %s。');
+  Set14('Anon.InfoNoUndo',
+    'Scope: %s. Preview: %d of %d line(s) change. Without undo data the change is permanent.',
+    'Escopo: %s. Prévia: %d de %d linha(s) alterada(s). Sem dados de desfazer a alteração é definitiva.',
+    'Alcance: %s. Vista previa: cambian %d de %d línea(s). Sin datos de deshacer el cambio es permanente.',
+    'Portée : %s. Aperçu : %d ligne(s) sur %d modifiée(s). Sans données d''annulation, la modification est définitive.',
+    'Bereich: %s. Vorschau: %d von %d Zeile(n) geändert. Ohne Rückgängig-Daten ist die Änderung endgültig.',
+    'Ambito: %s. Anteprima: %d di %d riga/e modificate. Senza dati di annullamento la modifica è definitiva.',
+    'Zakres: %s. Podgląd: zmienione wiersze: %d z %d. Bez danych cofania zmiana jest trwała.',
+    'Âmbito: %s. Pré-visualização: %d de %d linha(s) alterada(s). Sem dados para anular, a alteração é definitiva.',
+    'Domeniu: %s. Previzualizare: %d din %d linii modificate. Fără date de anulare, modificarea este definitivă.',
+    'Hatókör: %s. Előnézet: %d / %d sor változik. Visszavonási adat nélkül a módosítás végleges.',
+    'Rozsah: %s. Náhled: změní se %d z %d řádků. Bez dat pro zpět je změna trvalá.',
+    '範囲: %s。プレビュー: %d / %d 行が変更されます。元に戻すデータがないため変更は元に戻せません。',
+    '范围: %s。预览: %d / %d 行将被更改。没有撤销数据，更改将是永久性的。',
+    '範圍: %s。預覽: %d / %d 行將被變更。沒有復原資料，變更將是永久性的。');
+  Set14('Anon.Truncated',
+    '(long line: only the beginning is shown)', '(linha longa: só o início é mostrado)',
+    '(línea larga: solo se muestra el inicio)', '(ligne longue : seul le début est affiché)',
+    '(lange Zeile: nur der Anfang wird angezeigt)', '(riga lunga: viene mostrato solo l''inizio)',
+    '(długi wiersz: pokazano tylko początek)', '(linha longa: só é mostrado o início)',
+    '(linie lungă: se afișează doar începutul)', '(hosszú sor: csak az eleje látható)',
+    '(dlouhý řádek: zobrazen jen začátek)', '(長い行: 先頭のみ表示)', '(长行: 仅显示开头部分)',
+    '(長行: 僅顯示開頭部分)');
+  Set14('Anon.Detail.Original',
+    'Original:', 'Original:', 'Original:', 'Original :', 'Original:', 'Originale:', 'Oryginał:',
+    'Original:', 'Original:', 'Eredeti:', 'Původní:', '元のデータ:', '原始:', '原始:');
+  Set14('Anon.Detail.Anonymized',
+    'Anonymized:', 'Descaracterizado:', 'Anonimizado:', 'Anonymisé :', 'Anonymisiert:',
+    'Anonimizzato:', 'Zanonimizowany:', 'Anonimizado:', 'Anonimizat:', 'Anonimizált:',
+    'Anonymizováno:', '匿名化後:', '脱敏后:', '去識別化後:');
+
+  { --- dialogo: erros --- }
+  Set14('Anon.ErrNoSelection',
+    'No lines are selected. Select lines in the list or choose another scope.',
+    'Nenhuma linha selecionada. Selecione linhas na lista ou escolha outro escopo.',
+    'No hay líneas seleccionadas. Seleccione líneas en la lista o elija otro alcance.',
+    'Aucune ligne sélectionnée. Sélectionnez des lignes dans la liste ou choisissez une autre portée.',
+    'Keine Zeilen ausgewählt. Wählen Sie Zeilen in der Liste oder einen anderen Bereich.',
+    'Nessuna riga selezionata. Seleziona righe nell''elenco o scegli un altro ambito.',
+    'Nie zaznaczono wierszy. Zaznacz wiersze na liście lub wybierz inny zakres.',
+    'Nenhuma linha selecionada. Selecione linhas na lista ou escolha outro âmbito.',
+    'Nicio linie selectată. Selectați linii din listă sau alegeți alt domeniu.',
+    'Nincs kijelölt sor. Jelöljön ki sorokat a listában, vagy válasszon másik hatókört.',
+    'Nejsou vybrány žádné řádky. Vyberte řádky v seznamu nebo zvolte jiný rozsah.',
+    '行が選択されていません。一覧で行を選択するか、別の範囲を選んでください。',
+    '未选择任何行。请在列表中选择行或选择其他范围。',
+    '未選取任何行。請在清單中選取行或選擇其他範圍。');
+  Set14('Anon.ErrRange',
+    'Invalid line range. Use numbers from 1 to %s, with "from" not greater than "to".',
+    'Intervalo de linhas inválido. Use números de 1 a %s, com "de" menor ou igual a "até".',
+    'Rango de líneas no válido. Use números de 1 a %s, con "desde" menor o igual que "hasta".',
+    'Plage de lignes non valide. Utilisez des nombres de 1 à %s, « de » ne dépassant pas « à ».',
+    'Ungültiger Zeilenbereich. Verwenden Sie Zahlen von 1 bis %s, wobei „von“ nicht größer als „bis“ ist.',
+    'Intervallo di righe non valido. Usa numeri da 1 a %s, con «da» non maggiore di «a».',
+    'Nieprawidłowy zakres wierszy. Użyj liczb od 1 do %s; „od” nie może być większe niż „do”.',
+    'Intervalo de linhas inválido. Use números de 1 a %s, com «de» menor ou igual a «até».',
+    'Interval de linii nevalid. Folosiți numere de la 1 la %s, cu „de la” cel mult egal cu „până la”.',
+    'Érvénytelen sortartomány. 1 és %s közötti számokat adjon meg; az első nem lehet nagyobb az utolsónál.',
+    'Neplatný rozsah řádků. Použijte čísla od 1 do %s, přičemž „od“ nesmí být větší než „do“.',
+    '行範囲が無効です。1 から %s までの数値を指定し、開始は終了以下にしてください。',
+    '行范围无效。请使用 1 到 %s 之间的数字，且“从”不能大于“到”。',
+    '行範圍無效。請使用 1 到 %s 之間的數字，且「從」不能大於「到」。');
+  Set14('Anon.ErrColumns',
+    'Invalid column list. Use numbers and ranges such as 1,3,5-7.',
+    'Lista de colunas inválida. Use números e intervalos, como 1,3,5-7.',
+    'Lista de columnas no válida. Use números y rangos como 1,3,5-7.',
+    'Liste de colonnes non valide. Utilisez des nombres et des plages comme 1,3,5-7.',
+    'Ungültige Spaltenliste. Verwenden Sie Zahlen und Bereiche wie 1,3,5-7.',
+    'Elenco colonne non valido. Usa numeri e intervalli come 1,3,5-7.',
+    'Nieprawidłowa lista kolumn. Użyj liczb i zakresów, np. 1,3,5-7.',
+    'Lista de colunas inválida. Use números e intervalos, como 1,3,5-7.',
+    'Listă de coloane nevalidă. Folosiți numere și intervale precum 1,3,5-7.',
+    'Érvénytelen oszloplista. Számokat és tartományokat adjon meg, pl. 1,3,5-7.',
+    'Neplatný seznam sloupců. Použijte čísla a rozsahy, např. 1,3,5-7.',
+    '列の指定が無効です。1,3,5-7 のように数値と範囲で指定してください。',
+    '列列表无效。请使用数字和范围，例如 1,3,5-7。',
+    '欄清單無效。請使用數字和範圍，例如 1,3,5-7。');
+  Set14('Anon.ResolveFailed',
+    'Could not locate the chosen lines in the file. Wait for the file to finish loading and try again.',
+    'Não foi possível localizar as linhas escolhidas no arquivo. Aguarde o término do carregamento e tente novamente.',
+    'No se pudieron localizar las líneas elegidas en el archivo. Espere a que termine la carga e inténtelo de nuevo.',
+    'Impossible de localiser les lignes choisies dans le fichier. Attendez la fin du chargement et réessayez.',
+    'Die gewählten Zeilen konnten in der Datei nicht gefunden werden. Warten Sie, bis das Laden abgeschlossen ist, und versuchen Sie es erneut.',
+    'Impossibile individuare le righe scelte nel file. Attendi il termine del caricamento e riprova.',
+    'Nie można zlokalizować wybranych wierszy w pliku. Poczekaj na zakończenie wczytywania i spróbuj ponownie.',
+    'Não foi possível localizar as linhas escolhidas no ficheiro. Aguarde o fim do carregamento e tente novamente.',
+    'Liniile alese nu au putut fi localizate în fișier. Așteptați finalizarea încărcării și încercați din nou.',
+    'A kiválasztott sorok nem találhatók a fájlban. Várja meg a betöltés végét, majd próbálja újra.',
+    'Zvolené řádky se v souboru nepodařilo najít. Počkejte na dokončení načítání a zkuste to znovu.',
+    '選択した行をファイル内で特定できませんでした。読み込みの完了を待ってから再試行してください。',
+    '无法在文件中定位所选行。请等待加载完成后重试。',
+    '無法在檔案中定位所選行。請等待載入完成後再試一次。');
+
+  { --- progresso --- }
+  Set14('Anon.Progress.Apply',
+    'Anonymizing data...', 'Descaracterizando dados...', 'Anonimizando datos...',
+    'Anonymisation des données...', 'Daten werden anonymisiert...', 'Anonimizzazione dei dati...',
+    'Anonimizowanie danych...', 'A anonimizar dados...', 'Se anonimizează datele...',
+    'Adatok anonimizálása...', 'Anonymizace dat...', 'データを匿名化しています...',
+    '正在脱敏数据...', '正在去識別化資料...');
+  Set14('Anon.Progress.Undo',
+    'Undoing anonymization...', 'Desfazendo a descaracterização...', 'Deshaciendo la anonimización...',
+    'Annulation de l''anonymisation...', 'Anonymisierung wird rückgängig gemacht...',
+    'Annullamento dell''anonimizzazione...', 'Cofanie anonimizacji...', 'A anular a anonimização...',
+    'Se anulează anonimizarea...', 'Anonimizálás visszavonása...', 'Vracení anonymizace...',
+    '匿名化を元に戻しています...', '正在撤销脱敏...', '正在復原去識別化...');
+  Set14('Anon.Progress.Redo',
+    'Redoing anonymization...', 'Refazendo a descaracterização...', 'Rehaciendo la anonimización...',
+    'Rétablissement de l''anonymisation...', 'Anonymisierung wird wiederholt...',
+    'Ripristino dell''anonimizzazione...', 'Ponawianie anonimizacji...', 'A refazer a anonimização...',
+    'Se reface anonimizarea...', 'Anonimizálás újra végrehajtása...', 'Opakování anonymizace...',
+    '匿名化をやり直しています...', '正在重做脱敏...', '正在重做去識別化...');
+  Set14('Anon.Progress.Revert',
+    'Reverting:', 'Revertendo:', 'Revirtiendo:', 'Retour arrière :', 'Zurücksetzen:', 'Ripristino:',
+    'Przywracanie:', 'A reverter:', 'Revenire:', 'Visszaállítás:', 'Vracení:', '復元中:',
+    '正在还原:', '正在還原:');
+  Set14('Anon.Progress.Detail',
+    '%s of %s · %.1f MB/s · remaining %s', '%s de %s · %.1f MB/s · faltam %s',
+    '%s de %s · %.1f MB/s · quedan %s', '%s sur %s · %.1f Mo/s · reste %s',
+    '%s von %s · %.1f MB/s · verbleibend %s', '%s di %s · %.1f MB/s · rimanente %s',
+    '%s z %s · %.1f MB/s · pozostało %s', '%s de %s · %.1f MB/s · faltam %s',
+    '%s din %s · %.1f MB/s · rămas %s', '%s / %s · %.1f MB/s · hátralévő idő %s',
+    '%s z %s · %.1f MB/s · zbývá %s', '%s / %s · %.1f MB/s · 残り %s',
+    '%s / %s · %.1f MB/s · 剩余 %s', '%s / %s · %.1f MB/s · 剩餘 %s');
+  Set14('Anon.Progress.EtaCalc',
+    'calculating...', 'calculando...', 'calculando...', 'calcul...', 'wird berechnet...',
+    'calcolo...', 'obliczanie...', 'a calcular...', 'se calculează...', 'számítás...',
+    'počítá se...', '計算中...', '计算中...', '計算中...');
+
+  { --- descricoes (confirmacao, historico, undo) --- }
+  Set14('Anon.Desc.Lines',
+    '%d selected line(s)', '%d linha(s) selecionada(s)', '%d línea(s) seleccionada(s)',
+    '%d ligne(s) sélectionnée(s)', '%d ausgewählte Zeile(n)', '%d riga/e selezionata/e',
+    'zaznaczone wiersze (%d)', '%d linha(s) selecionada(s)', '%d linie(i) selectată(e)',
+    '%d kijelölt sor', 'vybrané řádky (%d)', '選択した %d 行', '所选的 %d 行', '所選的 %d 行');
+  Set14('Anon.Desc.Range',
+    'lines %d to %d', 'linhas %d a %d', 'líneas %d a %d', 'lignes %d à %d', 'Zeilen %d bis %d',
+    'righe da %d a %d', 'wiersze od %d do %d', 'linhas %d a %d', 'liniile %d - %d',
+    'sorok: %d - %d', 'řádky %d až %d', '%d 行目から %d 行目', '第 %d 行到第 %d 行', '第 %d 行到第 %d 行');
+  Set14('Anon.Desc.WholeFile',
+    'the whole file', 'o arquivo inteiro', 'el archivo completo', 'le fichier entier',
+    'die gesamte Datei', 'l''intero file', 'cały plik', 'o ficheiro inteiro', 'întregul fișier',
+    'a teljes fájl', 'celý soubor', 'ファイル全体', '整个文件', '整個檔案');
+  Set14('Anon.ConfirmUndo',
+    'Anonymize %s (%s) directly in the file?' + NL2 +
+      'The file size and the line layout stay the same. You can undo it later with Ctrl+Z.',
+    'Descaracterizar %s (%s) diretamente no arquivo?' + NL2 +
+      'O tamanho do arquivo e a estrutura das linhas não mudam. Você pode desfazer depois com Ctrl+Z.',
+    '¿Anonimizar %s (%s) directamente en el archivo?' + NL2 +
+      'El tamaño del archivo y la estructura de líneas no cambian. Puede deshacerlo después con Ctrl+Z.',
+    'Anonymiser %s (%s) directement dans le fichier ?' + NL2 +
+      'La taille du fichier et la structure des lignes ne changent pas. Vous pourrez annuler avec Ctrl+Z.',
+    '%s (%s) direkt in der Datei anonymisieren?' + NL2 +
+      'Dateigröße und Zeilenstruktur bleiben gleich. Sie können es später mit Strg+Z rückgängig machen.',
+    'Anonimizzare %s (%s) direttamente nel file?' + NL2 +
+      'La dimensione del file e la struttura delle righe non cambiano. Potrai annullare con Ctrl+Z.',
+    'Zanonimizować %s (%s) bezpośrednio w pliku?' + NL2 +
+      'Rozmiar pliku i układ wierszy się nie zmienią. Możesz to cofnąć skrótem Ctrl+Z.',
+    'Anonimizar %s (%s) diretamente no ficheiro?' + NL2 +
+      'O tamanho do ficheiro e a estrutura das linhas não mudam. Pode anular depois com Ctrl+Z.',
+    'Anonimizați %s (%s) direct în fișier?' + NL2 +
+      'Dimensiunea fișierului și structura liniilor rămân aceleași. Puteți anula ulterior cu Ctrl+Z.',
+    'Anonimizálja közvetlenül a fájlban: %s (%s)?' + NL2 +
+      'A fájl mérete és a sorok szerkezete nem változik. Később visszavonhatja a Ctrl+Z billentyűkkel.',
+    'Anonymizovat %s (%s) přímo v souboru?' + NL2 +
+      'Velikost souboru a struktura řádků se nezmění. Později to můžete vrátit pomocí Ctrl+Z.',
+    '%s (%s) をファイル内で直接匿名化しますか?' + NL2 +
+      'ファイルサイズと行構成は変わりません。後で Ctrl+Z で元に戻せます。',
+    '直接在文件中脱敏%s (%s)？' + NL2 + '文件大小和行结构保持不变。之后可按 Ctrl+Z 撤销。',
+    '直接在檔案中去識別化%s (%s)？' + NL2 + '檔案大小和行結構保持不變。之後可按 Ctrl+Z 復原。');
+  Set14('Anon.ConfirmNoUndo',
+    'Anonymize %s (%s) directly in the file WITHOUT undo data?' + NL2 +
+      'This cannot be undone. Make sure you have a copy of the original file.',
+    'Descaracterizar %s (%s) diretamente no arquivo SEM dados para desfazer?' + NL2 +
+      'Isto não poderá ser desfeito. Certifique-se de ter uma cópia do arquivo original.',
+    '¿Anonimizar %s (%s) directamente en el archivo SIN datos para deshacer?' + NL2 +
+      'No se podrá deshacer. Asegúrese de tener una copia del archivo original.',
+    'Anonymiser %s (%s) directement dans le fichier SANS données d''annulation ?' + NL2 +
+      'Cette opération sera irréversible. Assurez-vous d''avoir une copie du fichier original.',
+    '%s (%s) direkt in der Datei OHNE Rückgängig-Daten anonymisieren?' + NL2 +
+      'Dies kann nicht rückgängig gemacht werden. Stellen Sie sicher, dass Sie eine Kopie der Originaldatei haben.',
+    'Anonimizzare %s (%s) direttamente nel file SENZA dati di annullamento?' + NL2 +
+      'L''operazione non potrà essere annullata. Assicurati di avere una copia del file originale.',
+    'Zanonimizować %s (%s) bezpośrednio w pliku BEZ danych cofania?' + NL2 +
+      'Tej operacji nie będzie można cofnąć. Upewnij się, że masz kopię oryginalnego pliku.',
+    'Anonimizar %s (%s) diretamente no ficheiro SEM dados para anular?' + NL2 +
+      'Isto não poderá ser anulado. Certifique-se de que tem uma cópia do ficheiro original.',
+    'Anonimizați %s (%s) direct în fișier FĂRĂ date de anulare?' + NL2 +
+      'Operația nu va putea fi anulată. Asigurați-vă că aveți o copie a fișierului original.',
+    'Anonimizálja közvetlenül a fájlban, visszavonási adat NÉLKÜL: %s (%s)?' + NL2 +
+      'Ez nem vonható vissza. Győződjön meg róla, hogy van másolata az eredeti fájlról.',
+    'Anonymizovat %s (%s) přímo v souboru BEZ dat pro zpět?' + NL2 +
+      'Tuto akci nebude možné vrátit. Ujistěte se, že máte kopii původního souboru.',
+    '元に戻すデータなしで %s (%s) をファイル内で直接匿名化しますか?' + NL2 +
+      'この操作は元に戻せません。元のファイルのコピーがあることを確認してください。',
+    '在没有撤销数据的情况下直接在文件中脱敏%s (%s)？' + NL2 + '此操作无法撤销。请确保已备份原始文件。',
+    '在沒有復原資料的情況下直接在檔案中去識別化%s (%s)？' + NL2 + '此操作無法復原。請確保已備份原始檔案。');
+  Set14('Anon.HistoryNote',
+    'Anonymized: %s', 'Descaracterizado: %s', 'Anonimizado: %s', 'Anonymisé : %s', 'Anonymisiert: %s',
+    'Anonimizzato: %s', 'Zanonimizowano: %s', 'Anonimizado: %s', 'Anonimizat: %s', 'Anonimizálva: %s',
+    'Anonymizováno: %s', '匿名化: %s', '已脱敏: %s', '已去識別化: %s');
+
+  { --- resultado --- }
+  Set14('Anon.NothingChanged',
+    'Nothing to anonymize in the chosen scope with these options. The file was not changed.',
+    'Nada a descaracterizar no escopo escolhido com essas opções. O arquivo não foi alterado.',
+    'No hay nada que anonimizar en el alcance elegido con estas opciones. El archivo no se modificó.',
+    'Rien à anonymiser dans la portée choisie avec ces options. Le fichier n''a pas été modifié.',
+    'Im gewählten Bereich gibt es mit diesen Optionen nichts zu anonymisieren. Die Datei wurde nicht geändert.',
+    'Niente da anonimizzare nell''ambito scelto con queste opzioni. Il file non è stato modificato.',
+    'W wybranym zakresie nie ma nic do anonimizacji przy tych opcjach. Plik nie został zmieniony.',
+    'Nada a anonimizar no âmbito escolhido com estas opções. O ficheiro não foi alterado.',
+    'Nu există nimic de anonimizat în domeniul ales cu aceste opțiuni. Fișierul nu a fost modificat.',
+    'Ezekkel a beállításokkal a kiválasztott hatókörben nincs mit anonimizálni. A fájl nem változott.',
+    'Ve zvoleném rozsahu není s těmito možnostmi co anonymizovat. Soubor nebyl změněn.',
+    '選択した範囲には、この設定で匿名化するデータがありません。ファイルは変更されていません。',
+    '按这些选项，所选范围内没有需要脱敏的内容。文件未更改。',
+    '依這些選項，所選範圍內沒有需要去識別化的內容。檔案未變更。');
+  Set14('Anon.Done',
+    'Anonymization finished: %d line(s) changed, %s rewritten in %s.',
+    'Descaracterização concluída: %d linha(s) alterada(s), %s regravados em %s.',
+    'Anonimización finalizada: %d línea(s) modificada(s), %s reescritos en %s.',
+    'Anonymisation terminée : %d ligne(s) modifiée(s), %s réécrits en %s.',
+    'Anonymisierung abgeschlossen: %d Zeile(n) geändert, %s neu geschrieben in %s.',
+    'Anonimizzazione completata: %d riga/e modificate, %s riscritti in %s.',
+    'Anonimizacja zakończona: zmienione wiersze: %d, przepisano %s w %s.',
+    'Anonimização concluída: %d linha(s) alterada(s), %s regravados em %s.',
+    'Anonimizare finalizată: %d linie(i) modificată(e), %s rescriși în %s.',
+    'Az anonimizálás kész: %d sor módosult, %s újraírva, időtartam: %s.',
+    'Anonymizace dokončena: změněné řádky: %d, přepsáno %s za %s.',
+    '匿名化が完了しました: %d 行を変更、%s を書き換え (%s)。',
+    '脱敏完成: 已更改 %d 行，重写 %s，用时 %s。',
+    '去識別化完成: 已變更 %d 行，重寫 %s，耗時 %s。');
+  Set14('Anon.DoneUndoHint',
+    'Press Ctrl+Z (Undo) to restore the original data.',
+    'Pressione Ctrl+Z (Desfazer) para restaurar os dados originais.',
+    'Pulse Ctrl+Z (Deshacer) para restaurar los datos originales.',
+    'Appuyez sur Ctrl+Z (Annuler) pour restaurer les données d''origine.',
+    'Drücken Sie Strg+Z (Rückgängig), um die Originaldaten wiederherzustellen.',
+    'Premi Ctrl+Z (Annulla) per ripristinare i dati originali.',
+    'Naciśnij Ctrl+Z (Cofnij), aby przywrócić oryginalne dane.',
+    'Prima Ctrl+Z (Anular) para repor os dados originais.',
+    'Apăsați Ctrl+Z (Anulare) pentru a restaura datele originale.',
+    'Az eredeti adatok visszaállításához nyomja meg a Ctrl+Z (Visszavonás) billentyűket.',
+    'Stisknutím Ctrl+Z (Zpět) obnovíte původní data.',
+    'Ctrl+Z (元に戻す) で元のデータに戻せます。',
+    '按 Ctrl+Z (撤销) 可恢复原始数据。',
+    '按 Ctrl+Z (復原) 可還原原始資料。');
+  Set14('Anon.CancelledReverted',
+    'Anonymization cancelled. The file was restored to its original state.',
+    'Descaracterização cancelada. O arquivo foi restaurado ao estado original.',
+    'Anonimización cancelada. El archivo se restauró a su estado original.',
+    'Anonymisation annulée. Le fichier a été restauré dans son état d''origine.',
+    'Anonymisierung abgebrochen. Die Datei wurde in den Originalzustand zurückversetzt.',
+    'Anonimizzazione annullata. Il file è stato ripristinato allo stato originale.',
+    'Anonimizacja anulowana. Przywrócono pierwotny stan pliku.',
+    'Anonimização cancelada. O ficheiro foi reposto no estado original.',
+    'Anonimizare anulată. Fișierul a fost readus la starea originală.',
+    'Anonimizálás megszakítva. A fájl visszaállt az eredeti állapotába.',
+    'Anonymizace zrušena. Soubor byl obnoven do původního stavu.',
+    '匿名化をキャンセルしました。ファイルは元の状態に戻されました。',
+    '已取消脱敏。文件已恢复到原始状态。',
+    '已取消去識別化。檔案已還原為原始狀態。');
+  Set14('Anon.CancelledPartial',
+    'Anonymization cancelled. Without undo data, the part already processed stays anonymized.',
+    'Descaracterização cancelada. Sem dados de desfazer, a parte já processada permanece descaracterizada.',
+    'Anonimización cancelada. Sin datos de deshacer, la parte ya procesada queda anonimizada.',
+    'Anonymisation annulée. Sans données d''annulation, la partie déjà traitée reste anonymisée.',
+    'Anonymisierung abgebrochen. Ohne Rückgängig-Daten bleibt der bereits verarbeitete Teil anonymisiert.',
+    'Anonimizzazione annullata. Senza dati di annullamento, la parte già elaborata resta anonimizzata.',
+    'Anonimizacja anulowana. Bez danych cofania już przetworzona część pozostaje zanonimizowana.',
+    'Anonimização cancelada. Sem dados para anular, a parte já processada fica anonimizada.',
+    'Anonimizare anulată. Fără date de anulare, partea deja procesată rămâne anonimizată.',
+    'Anonimizálás megszakítva. Visszavonási adat nélkül a már feldolgozott rész anonimizált marad.',
+    'Anonymizace zrušena. Bez dat pro zpět zůstává již zpracovaná část anonymizovaná.',
+    '匿名化をキャンセルしました。元に戻すデータがないため、処理済みの部分は匿名化されたままです。',
+    '已取消脱敏。由于没有撤销数据，已处理的部分仍保持脱敏状态。',
+    '已取消去識別化。由於沒有復原資料，已處理的部分仍保持去識別化狀態。');
+  Set14('Anon.Failed',
+    'Anonymization failed: %s', 'Falha na descaracterização: %s', 'Error en la anonimización: %s',
+    'Échec de l''anonymisation : %s', 'Anonymisierung fehlgeschlagen: %s',
+    'Anonimizzazione non riuscita: %s', 'Anonimizacja nie powiodła się: %s',
+    'Falha na anonimização: %s', 'Anonimizarea a eșuat: %s', 'Az anonimizálás sikertelen: %s',
+    'Anonymizace se nezdařila: %s', '匿名化に失敗しました: %s', '脱敏失败: %s', '去識別化失敗: %s');
+  Set14('Anon.FailedReverted',
+    'Anonymization failed: %s' + NL2 + 'The file was restored to its original state.',
+    'Falha na descaracterização: %s' + NL2 + 'O arquivo foi restaurado ao estado original.',
+    'Error en la anonimización: %s' + NL2 + 'El archivo se restauró a su estado original.',
+    'Échec de l''anonymisation : %s' + NL2 + 'Le fichier a été restauré dans son état d''origine.',
+    'Anonymisierung fehlgeschlagen: %s' + NL2 + 'Die Datei wurde in den Originalzustand zurückversetzt.',
+    'Anonimizzazione non riuscita: %s' + NL2 + 'Il file è stato ripristinato allo stato originale.',
+    'Anonimizacja nie powiodła się: %s' + NL2 + 'Przywrócono pierwotny stan pliku.',
+    'Falha na anonimização: %s' + NL2 + 'O ficheiro foi reposto no estado original.',
+    'Anonimizarea a eșuat: %s' + NL2 + 'Fișierul a fost readus la starea originală.',
+    'Az anonimizálás sikertelen: %s' + NL2 + 'A fájl visszaállt az eredeti állapotába.',
+    'Anonymizace se nezdařila: %s' + NL2 + 'Soubor byl obnoven do původního stavu.',
+    '匿名化に失敗しました: %s' + NL2 + 'ファイルは元の状態に戻されました。',
+    '脱敏失败: %s' + NL2 + '文件已恢复到原始状态。',
+    '去識別化失敗: %s' + NL2 + '檔案已還原為原始狀態。');
+  Set14('Anon.FailedPartial',
+    'Anonymization failed: %s' + NL2 + 'Without undo data, part of the file may already be anonymized.',
+    'Falha na descaracterização: %s' + NL2 + 'Sem dados de desfazer, parte do arquivo pode já estar descaracterizada.',
+    'Error en la anonimización: %s' + NL2 + 'Sin datos de deshacer, parte del archivo puede estar ya anonimizada.',
+    'Échec de l''anonymisation : %s' + NL2 + 'Sans données d''annulation, une partie du fichier est peut-être déjà anonymisée.',
+    'Anonymisierung fehlgeschlagen: %s' + NL2 + 'Ohne Rückgängig-Daten ist ein Teil der Datei möglicherweise bereits anonymisiert.',
+    'Anonimizzazione non riuscita: %s' + NL2 + 'Senza dati di annullamento, parte del file potrebbe essere già anonimizzata.',
+    'Anonimizacja nie powiodła się: %s' + NL2 + 'Bez danych cofania część pliku może być już zanonimizowana.',
+    'Falha na anonimização: %s' + NL2 + 'Sem dados para anular, parte do ficheiro pode já estar anonimizada.',
+    'Anonimizarea a eșuat: %s' + NL2 + 'Fără date de anulare, o parte din fișier poate fi deja anonimizată.',
+    'Az anonimizálás sikertelen: %s' + NL2 + 'Visszavonási adat nélkül a fájl egy része már anonimizált lehet.',
+    'Anonymizace se nezdařila: %s' + NL2 + 'Bez dat pro zpět může být část souboru již anonymizována.',
+    '匿名化に失敗しました: %s' + NL2 + '元に戻すデータがないため、ファイルの一部がすでに匿名化されている可能性があります。',
+    '脱敏失败: %s' + NL2 + '由于没有撤销数据，文件的一部分可能已被脱敏。',
+    '去識別化失敗: %s' + NL2 + '由於沒有復原資料，檔案的一部分可能已被去識別化。');
+  Set14('Anon.BusyClose',
+    'Anonymization is still writing to the file. Please wait for it to finish before closing.',
+    'A descaracterização ainda está gravando no arquivo. Aguarde a conclusão antes de fechar.',
+    'La anonimización todavía está escribiendo en el archivo. Espere a que termine antes de cerrar.',
+    'L''anonymisation écrit encore dans le fichier. Attendez la fin avant de fermer.',
+    'Die Anonymisierung schreibt noch in die Datei. Bitte warten Sie vor dem Schließen, bis sie abgeschlossen ist.',
+    'L''anonimizzazione sta ancora scrivendo nel file. Attendi il termine prima di chiudere.',
+    'Anonimizacja wciąż zapisuje plik. Poczekaj na jej zakończenie przed zamknięciem.',
+    'A anonimização ainda está a gravar no ficheiro. Aguarde a conclusão antes de fechar.',
+    'Anonimizarea încă scrie în fișier. Așteptați finalizarea înainte de închidere.',
+    'Az anonimizálás még ír a fájlba. Bezárás előtt várja meg, amíg befejeződik.',
+    'Anonymizace stále zapisuje do souboru. Před zavřením počkejte na dokončení.',
+    '匿名化処理がまだファイルに書き込み中です。終了するまでお待ちください。',
+    '脱敏仍在写入文件。请等待完成后再关闭。',
+    '去識別化仍在寫入檔案。請等待完成後再關閉。');
+
+  { --- desfazer / refazer --- }
+  Set14('Anon.UndoConfirm',
+    'Undo anonymization of %s? The original data will be restored.',
+    'Desfazer a descaracterização de %s? Os dados originais serão restaurados.',
+    '¿Deshacer la anonimización de %s? Se restaurarán los datos originales.',
+    'Annuler l''anonymisation de %s ? Les données d''origine seront restaurées.',
+    'Anonymisierung von %s rückgängig machen? Die Originaldaten werden wiederhergestellt.',
+    'Annullare l''anonimizzazione di %s? I dati originali verranno ripristinati.',
+    'Cofnąć anonimizację (%s)? Oryginalne dane zostaną przywrócone.',
+    'Anular a anonimização de %s? Os dados originais serão repostos.',
+    'Anulați anonimizarea pentru %s? Datele originale vor fi restaurate.',
+    'Visszavonja az anonimizálást (%s)? Az eredeti adatok visszaállnak.',
+    'Vrátit anonymizaci (%s)? Původní data budou obnovena.',
+    '%s の匿名化を元に戻しますか? 元のデータが復元されます。',
+    '撤销对%s的脱敏？原始数据将被恢复。',
+    '復原對%s的去識別化？原始資料將被還原。');
+  Set14('Anon.RedoConfirm',
+    'Redo anonymization of %s?', 'Refazer a descaracterização de %s?',
+    '¿Rehacer la anonimización de %s?', 'Rétablir l''anonymisation de %s ?',
+    'Anonymisierung von %s wiederholen?', 'Ripetere l''anonimizzazione di %s?',
+    'Ponowić anonimizację (%s)?', 'Refazer a anonimização de %s?',
+    'Refaceți anonimizarea pentru %s?', 'Újra végrehajtja az anonimizálást (%s)?',
+    'Znovu provést anonymizaci (%s)?', '%s の匿名化をやり直しますか?',
+    '重做对%s的脱敏？', '重做對%s的去識別化？');
+  Set14('Anon.Undone',
+    'Anonymization undone: %s', 'Descaracterização desfeita: %s', 'Anonimización deshecha: %s',
+    'Anonymisation annulée : %s', 'Anonymisierung rückgängig gemacht: %s',
+    'Anonimizzazione annullata: %s', 'Cofnięto anonimizację: %s', 'Anonimização anulada: %s',
+    'Anonimizare anulată: %s', 'Anonimizálás visszavonva: %s', 'Anonymizace vrácena: %s',
+    '匿名化を元に戻しました: %s', '已撤销脱敏: %s', '已復原去識別化: %s');
+  Set14('Anon.Redone',
+    'Anonymization redone: %s', 'Descaracterização refeita: %s', 'Anonimización rehecha: %s',
+    'Anonymisation rétablie : %s', 'Anonymisierung wiederholt: %s',
+    'Anonimizzazione ripristinata: %s', 'Ponowiono anonimizację: %s', 'Anonimização refeita: %s',
+    'Anonimizare refăcută: %s', 'Anonimizálás újra végrehajtva: %s',
+    'Anonymizace znovu provedena: %s', '匿名化をやり直しました: %s', '已重做脱敏: %s', '已重做去識別化: %s');
+  Set14('Anon.JournalMissing',
+    'The undo data for this anonymization is no longer available. The action was removed from the undo list.',
+    'Os dados de desfazer desta descaracterização não estão mais disponíveis. A ação foi removida da lista de desfazer.',
+    'Los datos para deshacer esta anonimización ya no están disponibles. La acción se quitó de la lista de deshacer.',
+    'Les données d''annulation de cette anonymisation ne sont plus disponibles. L''action a été retirée de la liste d''annulation.',
+    'Die Rückgängig-Daten dieser Anonymisierung sind nicht mehr verfügbar. Die Aktion wurde aus der Rückgängig-Liste entfernt.',
+    'I dati di annullamento di questa anonimizzazione non sono più disponibili. L''azione è stata rimossa dall''elenco Annulla.',
+    'Dane cofania tej anonimizacji nie są już dostępne. Akcję usunięto z listy cofania.',
+    'Os dados para anular esta anonimização já não estão disponíveis. A ação foi removida da lista de anulação.',
+    'Datele de anulare pentru această anonimizare nu mai sunt disponibile. Acțiunea a fost eliminată din lista de anulare.',
+    'Ennek az anonimizálásnak a visszavonási adatai már nem érhetők el. A művelet lekerült a visszavonási listáról.',
+    'Data pro vrácení této anonymizace již nejsou k dispozici. Akce byla odebrána ze seznamu Zpět.',
+    'この匿名化の元に戻すデータは利用できなくなりました。操作は元に戻す一覧から削除されました。',
+    '此脱敏操作的撤销数据已不可用。该操作已从撤销列表中移除。',
+    '此去識別化操作的復原資料已無法使用。該操作已從復原清單中移除。');
+  Set14('Anon.UndoMismatch',
+    'The file was changed after the anonymization (outside this undo history), so it cannot be undone safely. Nothing was changed and the action was removed from the list.',
+    'O arquivo foi alterado depois da descaracterização (fora deste histórico de desfazer), por isso não é possível desfazer com segurança. Nada foi alterado e a ação foi removida da lista.',
+    'El archivo se modificó después de la anonimización (fuera de este historial de deshacer), por lo que no se puede deshacer de forma segura. No se cambió nada y la acción se quitó de la lista.',
+    'Le fichier a été modifié après l''anonymisation (hors de cet historique d''annulation) ; l''annulation n''est donc pas sûre. Rien n''a été modifié et l''action a été retirée de la liste.',
+    'Die Datei wurde nach der Anonymisierung geändert (außerhalb dieses Rückgängig-Verlaufs) und kann daher nicht sicher rückgängig gemacht werden. Es wurde nichts geändert und die Aktion wurde aus der Liste entfernt.',
+    'Il file è stato modificato dopo l''anonimizzazione (al di fuori di questa cronologia), quindi non può essere annullata in sicurezza. Non è stato modificato nulla e l''azione è stata rimossa dall''elenco.',
+    'Plik zmieniono po anonimizacji (poza tą historią cofania), więc nie można jej bezpiecznie cofnąć. Niczego nie zmieniono, a akcję usunięto z listy.',
+    'O ficheiro foi alterado depois da anonimização (fora deste histórico de anulação), por isso não é possível anular com segurança. Nada foi alterado e a ação foi removida da lista.',
+    'Fișierul a fost modificat după anonimizare (în afara acestui istoric de anulare), deci nu poate fi anulată în siguranță. Nu s-a modificat nimic, iar acțiunea a fost eliminată din listă.',
+    'A fájl az anonimizálás után megváltozott (ezen a visszavonási előzményen kívül), ezért nem vonható vissza biztonságosan. Semmi sem változott, a művelet lekerült a listáról.',
+    'Soubor byl po anonymizaci změněn (mimo tuto historii Zpět), takže ji nelze bezpečně vrátit. Nic nebylo změněno a akce byla odebrána ze seznamu.',
+    '匿名化の後にファイルが (この元に戻す履歴の外で) 変更されたため、安全に元に戻せません。何も変更されず、操作は一覧から削除されました。',
+    '文件在脱敏后（在此撤销历史之外）被修改，因此无法安全撤销。未做任何更改，该操作已从列表中移除。',
+    '檔案在去識別化後（在此復原歷程之外）被修改，因此無法安全復原。未做任何變更，該操作已從清單中移除。');
+  Set14('Anon.SwapFailed',
+    'Could not complete the operation: %s', 'Não foi possível concluir a operação: %s',
+    'No se pudo completar la operación: %s', 'Impossible de terminer l''opération : %s',
+    'Der Vorgang konnte nicht abgeschlossen werden: %s', 'Impossibile completare l''operazione: %s',
+    'Nie można ukończyć operacji: %s', 'Não foi possível concluir a operação: %s',
+    'Operația nu a putut fi finalizată: %s', 'A művelet nem fejezhető be: %s',
+    'Operaci nelze dokončit: %s', '操作を完了できませんでした: %s', '无法完成操作: %s', '無法完成操作: %s');
+
+  Set14('Anon.Refreshed',
+    '(preview updated at %s)', '(prévia atualizada às %s)', '(vista previa actualizada a las %s)',
+    '(aperçu actualisé à %s)', '(Vorschau aktualisiert um %s)', '(anteprima aggiornata alle %s)',
+    '(podgląd odświeżony o %s)', '(pré-visualização atualizada às %s)',
+    '(previzualizare actualizată la %s)', '(előnézet frissítve: %s)', '(náhled obnoven v %s)',
+    '(プレビュー更新: %s)', '(预览已于 %s 更新)', '(預覽已於 %s 更新)');
+  Set14('Anon.ConfirmSample',
+    'Example of the change (from the preview):', 'Exemplo da alteração (da prévia):',
+    'Ejemplo del cambio (de la vista previa):', 'Exemple de modification (d''après l''aperçu) :',
+    'Beispiel der Änderung (aus der Vorschau):', 'Esempio della modifica (dall''anteprima):',
+    'Przykład zmiany (z podglądu):', 'Exemplo da alteração (da pré-visualização):',
+    'Exemplu de modificare (din previzualizare):', 'Példa a módosításra (az előnézetből):',
+    'Příklad změny (z náhledu):', '変更例 (プレビューより):', '更改示例 (来自预览):', '變更範例 (來自預覽):');
+  Set14('Anon.ConfirmSample.Line',
+    'Line %d:', 'Linha %d:', 'Línea %d:', 'Ligne %d :', 'Zeile %d:', 'Riga %d:', 'Wiersz %d:',
+    'Linha %d:', 'Linia %d:', '%d. sor:', 'Řádek %d:', '%d 行目:', '第 %d 行:', '第 %d 行:');
+  Set14('Anon.Hist.Lines',
+    'Anonymize data: %d line(s) from line %d', 'Descaracterizar dados: %d linha(s) a partir da linha %d',
+    'Anonimizar datos: %d línea(s) desde la línea %d', 'Anonymiser les données : %d ligne(s) à partir de la ligne %d',
+    'Daten anonymisieren: %d Zeile(n) ab Zeile %d', 'Anonimizza dati: %d riga/e dalla riga %d',
+    'Anonimizacja danych: %d wiersz(y) od wiersza %d', 'Anonimizar dados: %d linha(s) a partir da linha %d',
+    'Anonimizare date: %d linie(i) de la linia %d', 'Adatok anonimizálása: %d sor a(z) %d. sortól',
+    'Anonymizace dat: %d řádků od řádku %d', 'データの匿名化: %d 行 (%d 行目から)',
+    '数据脱敏: 从第 %1:d 行起共 %0:d 行', '資料去識別化: 從第 %1:d 行起共 %0:d 行');
+  Set14('Anon.Hist.Tag',
+    'ANONYMIZED', 'DESCARACTERIZADO', 'ANONIMIZADO', 'ANONYMISÉ', 'ANONYMISIERT', 'ANONIMIZZATO',
+    'ZANONIMIZOWANO', 'ANONIMIZADO', 'ANONIMIZAT', 'ANONIMIZÁLVA', 'ANONYMIZOVÁNO', '匿名化',
+    '已脱敏', '已去識別化');
+  Set14('Hist.EventCoversLine: %d %d %d',
+    '[lines %d-%d, includes line %d]', '[linhas %d-%d, inclui a linha %d]',
+    '[líneas %d-%d, incluye la línea %d]', '[lignes %d-%d, inclut la ligne %d]',
+    '[Zeilen %d-%d, enthält Zeile %d]', '[righe %d-%d, include la riga %d]',
+    '[wiersze %d-%d, obejmuje wiersz %d]', '[linhas %d-%d, inclui a linha %d]',
+    '[liniile %d-%d, include linia %d]', '[%d-%d. sor, tartalmazza a(z) %d. sort]',
+    '[řádky %d-%d, včetně řádku %d]', '[%d-%d 行、%d 行目を含む]',
+    '[第 %d-%d 行，包含第 %d 行]', '[第 %d-%d 行，包含第 %d 行]');
+  Set14('Anon.Hist.NoDetail',
+    '(summary only: before/after is recorded per line for up to 2000 lines; older records do not have it)',
+    '(só resumo: o antes/depois é gravado por linha para até 2000 linhas; registros antigos não o têm)',
+    '(solo resumen: el antes/después se guarda por línea hasta 2000 líneas; los registros antiguos no lo tienen)',
+    '(résumé seulement : l''avant/après est enregistré par ligne jusqu''à 2000 lignes ; les anciens enregistrements ne l''ont pas)',
+    '(nur Zusammenfassung: Vorher/Nachher wird pro Zeile für bis zu 2000 Zeilen gespeichert; ältere Einträge haben es nicht)',
+    '(solo riepilogo: il prima/dopo viene registrato per riga fino a 2000 righe; i record precedenti non lo hanno)',
+    '(tylko podsumowanie: przed/po jest zapisywane dla każdego wiersza do 2000 wierszy; starsze wpisy go nie mają)',
+    '(só resumo: o antes/depois é gravado por linha para até 2000 linhas; registos antigos não o têm)',
+    '(doar rezumat: înainte/după se salvează pe linie pentru cel mult 2000 de linii; înregistrările vechi nu îl au)',
+    '(csak összegzés: az előtte/utána soronként legfeljebb 2000 sorig kerül mentésre; a régebbi bejegyzésekben nincs)',
+    '(jen souhrn: před/po se ukládá po řádcích až pro 2000 řádků; starší záznamy jej nemají)',
+    '(概要のみ: 変更前/変更後は 2000 行までは行ごとに記録されます。古い記録にはありません)',
+    '(仅摘要: 最多 2000 行时按行记录更改前/后；旧记录没有此信息)',
+    '(僅摘要: 最多 2000 行時按行記錄變更前/後；舊記錄沒有此資訊)');
+  Set14('Anon.Hist.DeleteMenu',
+    'Remove anonymization from history', 'Remover descaracterização do histórico',
+    'Quitar anonimización del historial', 'Retirer l''anonymisation de l''historique',
+    'Anonymisierung aus dem Verlauf entfernen', 'Rimuovi anonimizzazione dalla cronologia',
+    'Usuń anonimizację z historii', 'Remover descaracterização do histórico',
+    'Elimină anonimizarea din istoric', 'Anonimizálás eltávolítása az előzményekből',
+    'Odebrat anonymizaci z historie', '履歴から匿名化を削除',
+    '从历史记录中移除匿名化', '從歷史記錄中移除匿名化');
+  Set14('Anon.Hist.DeleteLine',
+    'Events of line %d', 'Eventos da linha %d', 'Eventos de la línea %d',
+    'Événements de la ligne %d', 'Ereignisse der Zeile %d', 'Eventi della riga %d',
+    'Zdarzenia wiersza %d', 'Eventos da linha %d', 'Evenimentele liniei %d',
+    'A(z) %d. sor eseményei', 'Události řádku %d', '%d 行目のイベント',
+    '第 %d 行的事件', '第 %d 行的事件');
+  Set14('Anon.Hist.DeleteAll',
+    'All anonymization events', 'Todos os eventos de descaracterização',
+    'Todos los eventos de anonimización', 'Tous les événements d''anonymisation',
+    'Alle Anonymisierungsereignisse', 'Tutti gli eventi di anonimizzazione',
+    'Wszystkie zdarzenia anonimizacji', 'Todos os eventos de descaracterização',
+    'Toate evenimentele de anonimizare', 'Az összes anonimizálási esemény',
+    'Všechny události anonymizace', 'すべての匿名化イベント',
+    '所有匿名化事件', '所有匿名化事件');
+  Set14('Anon.Hist.DeleteLineConfirm',
+    'Remove from the history the anonymization events that include line %d?' + NL2 +
+      'Only the history is changed: the file data and undo stay as they are.',
+    'Remover do histórico os eventos de descaracterização que incluem a linha %d?' + NL2 +
+      'Só o histórico é alterado: os dados do arquivo e o desfazer continuam como estão.',
+    '¿Quitar del historial los eventos de anonimización que incluyen la línea %d?' + NL2 +
+      'Solo cambia el historial: los datos del archivo y el deshacer siguen igual.',
+    'Retirer de l''historique les événements d''anonymisation qui incluent la ligne %d ?' + NL2 +
+      'Seul l''historique est modifié : les données du fichier et l''annulation restent inchangées.',
+    'Die Anonymisierungsereignisse, die Zeile %d enthalten, aus dem Verlauf entfernen?' + NL2 +
+      'Nur der Verlauf wird geändert: Dateidaten und Rückgängig bleiben unverändert.',
+    'Rimuovere dalla cronologia gli eventi di anonimizzazione che includono la riga %d?' + NL2 +
+      'Cambia solo la cronologia: i dati del file e l''annullamento restano invariati.',
+    'Usunąć z historii zdarzenia anonimizacji obejmujące wiersz %d?' + NL2 +
+      'Zmienia się tylko historia: dane pliku i cofanie pozostają bez zmian.',
+    'Remover do histórico os eventos de descaracterização que incluem a linha %d?' + NL2 +
+      'Só o histórico é alterado: os dados do ficheiro e o anular continuam como estão.',
+    'Eliminați din istoric evenimentele de anonimizare care includ linia %d?' + NL2 +
+      'Se modifică doar istoricul: datele fișierului și anularea rămân neschimbate.',
+    'Eltávolítja az előzményekből a(z) %d. sort tartalmazó anonimizálási eseményeket?' + NL2 +
+      'Csak az előzmények változnak: a fájl adatai és a visszavonás változatlanok maradnak.',
+    'Odebrat z historie události anonymizace, které zahrnují řádek %d?' + NL2 +
+      'Mění se jen historie: data souboru a zpět zůstávají beze změny.',
+    '%d 行目を含む匿名化イベントを履歴から削除しますか？' + NL2 +
+      '変更されるのは履歴のみです。ファイルのデータと元に戻す操作はそのままです。',
+    '从历史记录中移除包含第 %d 行的匿名化事件？' + NL2 +
+      '仅更改历史记录：文件数据和撤销保持不变。',
+    '從歷史記錄中移除包含第 %d 行的匿名化事件？' + NL2 +
+      '僅變更歷史記錄：檔案資料和復原保持不變。');
+  Set14('Anon.Hist.DeleteAllConfirm',
+    'Remove all anonymization events from the history of this file?' + NL2 +
+      'Only the history is changed: the file data and undo stay as they are.',
+    'Remover do histórico deste arquivo todos os eventos de descaracterização?' + NL2 +
+      'Só o histórico é alterado: os dados do arquivo e o desfazer continuam como estão.',
+    '¿Quitar del historial de este archivo todos los eventos de anonimización?' + NL2 +
+      'Solo cambia el historial: los datos del archivo y el deshacer siguen igual.',
+    'Retirer de l''historique de ce fichier tous les événements d''anonymisation ?' + NL2 +
+      'Seul l''historique est modifié : les données du fichier et l''annulation restent inchangées.',
+    'Alle Anonymisierungsereignisse aus dem Verlauf dieser Datei entfernen?' + NL2 +
+      'Nur der Verlauf wird geändert: Dateidaten und Rückgängig bleiben unverändert.',
+    'Rimuovere dalla cronologia di questo file tutti gli eventi di anonimizzazione?' + NL2 +
+      'Cambia solo la cronologia: i dati del file e l''annullamento restano invariati.',
+    'Usunąć z historii tego pliku wszystkie zdarzenia anonimizacji?' + NL2 +
+      'Zmienia się tylko historia: dane pliku i cofanie pozostają bez zmian.',
+    'Remover do histórico deste ficheiro todos os eventos de descaracterização?' + NL2 +
+      'Só o histórico é alterado: os dados do ficheiro e o anular continuam como estão.',
+    'Eliminați din istoricul acestui fișier toate evenimentele de anonimizare?' + NL2 +
+      'Se modifică doar istoricul: datele fișierului și anularea rămân neschimbate.',
+    'Eltávolítja a fájl előzményeiből az összes anonimizálási eseményt?' + NL2 +
+      'Csak az előzmények változnak: a fájl adatai és a visszavonás változatlanok maradnak.',
+    'Odebrat z historie tohoto souboru všechny události anonymizace?' + NL2 +
+      'Mění se jen historie: data souboru a zpět zůstávají beze změny.',
+    'このファイルの履歴からすべての匿名化イベントを削除しますか？' + NL2 +
+      '変更されるのは履歴のみです。ファイルのデータと元に戻す操作はそのままです。',
+    '从此文件的历史记录中移除所有匿名化事件？' + NL2 +
+      '仅更改历史记录：文件数据和撤销保持不变。',
+    '從此檔案的歷史記錄中移除所有匿名化事件？' + NL2 +
+      '僅變更歷史記錄：檔案資料和復原保持不變。');
+  Set14('Anon.Hist.Deleted',
+    'Anonymization entries removed from the history: %d',
+    'Entradas de descaracterização removidas do histórico: %d',
+    'Entradas de anonimización quitadas del historial: %d',
+    'Entrées d''anonymisation retirées de l''historique : %d',
+    'Aus dem Verlauf entfernte Anonymisierungseinträge: %d',
+    'Voci di anonimizzazione rimosse dalla cronologia: %d',
+    'Wpisy anonimizacji usunięte z historii: %d',
+    'Entradas de descaracterização removidas do histórico: %d',
+    'Intrări de anonimizare eliminate din istoric: %d',
+    'Az előzményekből eltávolított anonimizálási bejegyzések: %d',
+    'Záznamy anonymizace odebrané z historie: %d',
+    '履歴から削除された匿名化エントリ: %d',
+    '已从历史记录中移除的匿名化条目: %d',
+    '已從歷史記錄中移除的匿名化條目: %d');
+  Set14('Anon.Hist.WholeFile',
+    'Anonymize data: whole file', 'Descaracterizar dados: arquivo inteiro', 'Anonimizar datos: archivo completo',
+    'Anonymiser les données : fichier entier', 'Daten anonymisieren: gesamte Datei',
+    'Anonimizza dati: intero file', 'Anonimizacja danych: cały plik', 'Anonimizar dados: ficheiro inteiro',
+    'Anonimizare date: fișier întreg', 'Adatok anonimizálása: teljes fájl', 'Anonymizace dat: celý soubor',
+    'データの匿名化: ファイル全体', '数据脱敏: 整个文件', '資料去識別化: 整個檔案');
+end;
+
+{ Janela de detalhe do historico (duplo clique em "Eventos da sessao"). }
+procedure AddCommonTranslationsHistLineDetail;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+begin
+  Set14('Hist.Ctx.ShowDetail',
+    'Show full lines (before / after)...', 'Mostrar linhas inteiras (antes / depois)...',
+    'Mostrar líneas completas (antes / después)...', 'Afficher les lignes complètes (avant / après)...',
+    'Vollständige Zeilen anzeigen (vorher / nachher)...', 'Mostra righe complete (prima / dopo)...',
+    'Pokaż pełne wiersze (przed / po)...', 'Mostrar linhas completas (antes / depois)...',
+    'Afișează liniile complete (înainte / după)...', 'Teljes sorok megjelenítése (előtte / utána)...',
+    'Zobrazit celé řádky (před / po)...', '行全体を表示(変更前 / 変更後)...',
+    '显示完整行（修改前 / 修改后）...', '顯示完整行（修改前 / 修改後）...');
+  Set14('HistDetail.GridHint',
+    'Double-click an event (or press Enter) to see the full lines before / after and the export options.',
+    'Dê um duplo clique num evento (ou tecle Enter) para ver as linhas inteiras antes / depois e as opções de exportação.',
+    'Haga doble clic en un evento (o pulse Intro) para ver las líneas completas antes / después y las opciones de exportación.',
+    'Double-cliquez sur un événement (ou appuyez sur Entrée) pour voir les lignes complètes avant / après et les options d''exportation.',
+    'Doppelklicken Sie auf ein Ereignis (oder drücken Sie die Eingabetaste), um die vollständigen Zeilen vorher / nachher und die Exportoptionen zu sehen.',
+    'Fai doppio clic su un evento (o premi Invio) per vedere le righe complete prima / dopo e le opzioni di esportazione.',
+    'Kliknij dwukrotnie zdarzenie (lub naciśnij Enter), aby zobaczyć pełne wiersze przed / po oraz opcje eksportu.',
+    'Faça duplo clique num evento (ou prima Enter) para ver as linhas completas antes / depois e as opções de exportação.',
+    'Faceți dublu clic pe un eveniment (sau apăsați Enter) pentru a vedea liniile complete înainte / după și opțiunile de export.',
+    'Kattintson duplán egy eseményre (vagy nyomja meg az Entert) a teljes sorok (előtte / utána) és az exportálási lehetőségek megtekintéséhez.',
+    'Poklepejte na událost (nebo stiskněte Enter) a zobrazí se celé řádky před / po a možnosti exportu.',
+    'イベントをダブルクリック(または Enter キー)すると、変更前 / 変更後の行全体とエクスポートのオプションが表示されます。',
+    '双击某个事件（或按 Enter）可查看修改前 / 修改后的完整行以及导出选项。',
+    '按兩下某個事件（或按 Enter）可檢視修改前 / 修改後的完整行以及匯出選項。');
+  Set14('HistDetail.Title',
+    'Session history — full lines', 'Histórico da sessão — linhas inteiras',
+    'Historial de la sesión — líneas completas', 'Historique de la session — lignes complètes',
+    'Sitzungsverlauf — vollständige Zeilen', 'Cronologia della sessione — righe complete',
+    'Historia sesji — pełne wiersze', 'Histórico da sessão — linhas completas',
+    'Istoricul sesiunii — linii complete', 'Munkamenet előzményei — teljes sorok',
+    'Historie relace — celé řádky', 'セッション履歴 — 行全体',
+    '会话历史记录 — 完整行', '工作階段歷程記錄 — 完整行');
+  Set14('HistDetail.TitleN',
+    'Session history — full lines (%d of %d)', 'Histórico da sessão — linhas inteiras (%d de %d)',
+    'Historial de la sesión — líneas completas (%d de %d)', 'Historique de la session — lignes complètes (%d sur %d)',
+    'Sitzungsverlauf — vollständige Zeilen (%d von %d)', 'Cronologia della sessione — righe complete (%d di %d)',
+    'Historia sesji — pełne wiersze (%d z %d)', 'Histórico da sessão — linhas completas (%d de %d)',
+    'Istoricul sesiunii — linii complete (%d din %d)', 'Munkamenet előzményei — teljes sorok (%d / %d)',
+    'Historie relace — celé řádky (%d z %d)', 'セッション履歴 — 行全体 (%d / %d)',
+    '会话历史记录 — 完整行（%d / %d）', '工作階段歷程記錄 — 完整行（%d / %d）');
+  Set14('HistDetail.File',
+    'File: %s', 'Arquivo: %s', 'Archivo: %s', 'Fichier : %s', 'Datei: %s', 'File: %s', 'Plik: %s',
+    'Ficheiro: %s', 'Fișier: %s', 'Fájl: %s', 'Soubor: %s', 'ファイル: %s', '文件：%s', '檔案：%s');
+  Set14('HistDetail.EventsLabel',
+    'Events in the list: %d — selected for copy / export: %d (Ctrl+click or Shift+click selects several)',
+    'Eventos na lista: %d — selecionados para copiar / exportar: %d (Ctrl+clique ou Shift+clique seleciona vários)',
+    'Eventos en la lista: %d — seleccionados para copiar / exportar: %d (Ctrl+clic o Mayús+clic selecciona varios)',
+    'Événements dans la liste : %d — sélectionnés pour copier / exporter : %d (Ctrl+clic ou Maj+clic pour en sélectionner plusieurs)',
+    'Ereignisse in der Liste: %d — zum Kopieren / Exportieren ausgewählt: %d (Strg+Klick oder Umschalt+Klick wählt mehrere aus)',
+    'Eventi nell''elenco: %d — selezionati per copia / esportazione: %d (Ctrl+clic o Maiusc+clic per selezionarne più di uno)',
+    'Zdarzenia na liście: %d — zaznaczone do kopiowania / eksportu: %d (Ctrl+klik lub Shift+klik zaznacza kilka)',
+    'Eventos na lista: %d — selecionados para copiar / exportar: %d (Ctrl+clique ou Shift+clique seleciona vários)',
+    'Evenimente în listă: %d — selectate pentru copiere / export: %d (Ctrl+clic sau Shift+clic selectează mai multe)',
+    'Események a listában: %d — másolásra / exportálásra kijelölve: %d (Ctrl+kattintás vagy Shift+kattintás több elemet jelöl ki)',
+    'Události v seznamu: %d — vybráno ke kopírování / exportu: %d (Ctrl+klik nebo Shift+klik vybere více)',
+    'リスト内のイベント: %d — コピー / エクスポート対象: %d (Ctrl+クリックまたは Shift+クリックで複数選択)',
+    '列表中的事件：%d — 已选择用于复制 / 导出：%d（Ctrl+单击或 Shift+单击可多选）',
+    '清單中的事件：%d — 已選取用於複製 / 匯出：%d（Ctrl+按一下或 Shift+按一下可多選）');
+  Set14('HistDetail.EventsHint',
+    'Click to view an event. Ctrl+click or Shift+click selects several events to copy or export together. Right-click for more options.',
+    'Clique para ver um evento. Ctrl+clique ou Shift+clique seleciona vários eventos para copiar ou exportar de uma vez. Botão direito para mais opções.',
+    'Haga clic para ver un evento. Ctrl+clic o Mayús+clic selecciona varios eventos para copiarlos o exportarlos a la vez. Clic derecho para más opciones.',
+    'Cliquez pour afficher un événement. Ctrl+clic ou Maj+clic sélectionne plusieurs événements à copier ou exporter ensemble. Clic droit pour plus d''options.',
+    'Klicken Sie, um ein Ereignis anzuzeigen. Strg+Klick oder Umschalt+Klick wählt mehrere Ereignisse zum gemeinsamen Kopieren oder Exportieren aus. Rechtsklick für weitere Optionen.',
+    'Fai clic per vedere un evento. Ctrl+clic o Maiusc+clic seleziona più eventi da copiare o esportare insieme. Clic destro per altre opzioni.',
+    'Kliknij, aby wyświetlić zdarzenie. Ctrl+klik lub Shift+klik zaznacza kilka zdarzeń do wspólnego skopiowania lub eksportu. Prawy przycisk myszy — więcej opcji.',
+    'Clique para ver um evento. Ctrl+clique ou Shift+clique seleciona vários eventos para copiar ou exportar de uma só vez. Botão direito para mais opções.',
+    'Faceți clic pentru a vedea un eveniment. Ctrl+clic sau Shift+clic selectează mai multe evenimente pentru a le copia sau exporta împreună. Clic dreapta pentru mai multe opțiuni.',
+    'Kattintson egy esemény megtekintéséhez. Ctrl+kattintással vagy Shift+kattintással több eseményt jelölhet ki együttes másoláshoz vagy exportáláshoz. Jobb kattintás: további lehetőségek.',
+    'Klepnutím zobrazíte událost. Ctrl+klik nebo Shift+klik vybere více událostí ke společnému kopírování nebo exportu. Pravým tlačítkem zobrazíte další možnosti.',
+    'クリックするとイベントを表示します。Ctrl+クリックまたは Shift+クリックで複数のイベントを選択し、まとめてコピーやエクスポートができます。右クリックでその他のオプション。',
+    '单击可查看事件。Ctrl+单击或 Shift+单击可选择多个事件，一次性复制或导出。右键单击可查看更多选项。',
+    '按一下可檢視事件。Ctrl+按一下或 Shift+按一下可選取多個事件，一次複製或匯出。按右鍵可檢視更多選項。');
+  Set14('HistDetail.EventHead',
+    '%s  [%s]  line %d', '%s  [%s]  linha %d', '%s  [%s]  línea %d', '%s  [%s]  ligne %d',
+    '%s  [%s]  Zeile %d', '%s  [%s]  riga %d', '%s  [%s]  wiersz %d', '%s  [%s]  linha %d',
+    '%s  [%s]  linia %d', '%s  [%s]  %d. sor', '%s  [%s]  řádek %d', '%s  [%s]  %d 行目',
+    '%s  [%s]  第 %d 行', '%s  [%s]  第 %d 行');
+  Set14('HistDetail.EventHeadNoLine',
+    '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]',
+    '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]', '%s  [%s]');
+  Set14('HistDetail.Stats',
+    'Before: %d characters · After: %d characters (difference: %s) · Changed fragments: %d',
+    'Antes: %d caracteres · Depois: %d caracteres (diferença: %s) · Trechos alterados: %d',
+    'Antes: %d caracteres · Después: %d caracteres (diferencia: %s) · Fragmentos modificados: %d',
+    'Avant : %d caractères · Après : %d caractères (écart : %s) · Fragments modifiés : %d',
+    'Vorher: %d Zeichen · Nachher: %d Zeichen (Differenz: %s) · Geänderte Abschnitte: %d',
+    'Prima: %d caratteri · Dopo: %d caratteri (differenza: %s) · Frammenti modificati: %d',
+    'Przed: %d znaków · Po: %d znaków (różnica: %s) · Zmienione fragmenty: %d',
+    'Antes: %d caracteres · Depois: %d caracteres (diferença: %s) · Excertos alterados: %d',
+    'Înainte: %d caractere · După: %d caractere (diferență: %s) · Fragmente modificate: %d',
+    'Előtte: %d karakter · Utána: %d karakter (eltérés: %s) · Módosított részek: %d',
+    'Před: %d znaků · Po: %d znaků (rozdíl: %s) · Změněné úseky: %d',
+    '変更前: %d 文字 · 変更後: %d 文字 (差: %s) · 変更箇所: %d',
+    '修改前：%d 个字符 · 修改后：%d 个字符（差异：%s）· 已更改片段：%d',
+    '修改前：%d 個字元 · 修改後：%d 個字元（差異：%s）· 已變更片段：%d');
+  Set14('HistDetail.NoLines',
+    'This event does not record line content. See the "Event summary" tab.',
+    'Este evento não grava o conteúdo das linhas. Veja a aba "Resumo do evento".',
+    'Este evento no registra el contenido de las líneas. Consulte la pestaña "Resumen del evento".',
+    'Cet événement n''enregistre pas le contenu des lignes. Voir l''onglet « Résumé de l''événement ».',
+    'Dieses Ereignis speichert keinen Zeileninhalt. Siehe Registerkarte „Ereigniszusammenfassung“.',
+    'Questo evento non registra il contenuto delle righe. Vedi la scheda "Riepilogo evento".',
+    'To zdarzenie nie zapisuje zawartości wierszy. Zobacz kartę „Podsumowanie zdarzenia”.',
+    'Este evento não regista o conteúdo das linhas. Consulte o separador "Resumo do evento".',
+    'Acest eveniment nu înregistrează conținutul liniilor. Consultați fila „Rezumatul evenimentului”.',
+    'Ez az esemény nem rögzíti a sorok tartalmát. Lásd az „Esemény összefoglalója” lapot.',
+    'Tato událost neukládá obsah řádků. Viz karta „Souhrn události“.',
+    'このイベントには行の内容が記録されていません。「イベントの概要」タブを参照してください。',
+    '此事件未记录行内容。请查看“事件摘要”选项卡。',
+    '此事件未記錄行內容。請查看「事件摘要」索引標籤。');
+  Set14('HistDetail.Truncated',
+    'Warning: the content was recorded truncated at %d characters (limit set in Preferences).',
+    'Atenção: o conteúdo foi gravado cortado em %d caracteres (limite definido nas Preferências).',
+    'Atención: el contenido se registró truncado en %d caracteres (límite definido en Preferencias).',
+    'Attention : le contenu a été enregistré tronqué à %d caractères (limite définie dans les Préférences).',
+    'Achtung: Der Inhalt wurde auf %d Zeichen gekürzt gespeichert (Grenze in den Einstellungen festgelegt).',
+    'Attenzione: il contenuto è stato registrato troncato a %d caratteri (limite impostato nelle Preferenze).',
+    'Uwaga: zawartość została zapisana obcięta do %d znaków (limit ustawiony w Preferencjach).',
+    'Atenção: o conteúdo foi registado truncado em %d caracteres (limite definido nas Preferências).',
+    'Atenție: conținutul a fost înregistrat trunchiat la %d caractere (limită setată în Preferințe).',
+    'Figyelem: a tartalom %d karakternél csonkolva lett rögzítve (a korlát a Beállításokban adható meg).',
+    'Upozornění: obsah byl uložen zkrácený na %d znaků (limit nastavený v Předvolbách).',
+    '注意: 内容は %d 文字で切り詰めて記録されています(上限は環境設定で指定)。',
+    '注意：内容在 %d 个字符处被截断后记录（上限在“首选项”中设置）。',
+    '注意：內容在 %d 個字元處被截斷後記錄（上限在「喜好設定」中設定）。');
+  Set14('HistDetail.LineBefore',
+    'Line before (%d characters):', 'Linha antes (%d caracteres):', 'Línea antes (%d caracteres):',
+    'Ligne avant (%d caractères) :', 'Zeile vorher (%d Zeichen):', 'Riga prima (%d caratteri):',
+    'Wiersz przed (%d znaków):', 'Linha antes (%d caracteres):', 'Linia înainte (%d caractere):',
+    'Sor előtte (%d karakter):', 'Řádek před (%d znaků):', '変更前の行 (%d 文字):',
+    '修改前的行（%d 个字符）：', '修改前的行（%d 個字元）：');
+  Set14('HistDetail.LineAfter',
+    'Line after (%d characters):', 'Linha depois (%d caracteres):', 'Línea después (%d caracteres):',
+    'Ligne après (%d caractères) :', 'Zeile nachher (%d Zeichen):', 'Riga dopo (%d caratteri):',
+    'Wiersz po (%d znaków):', 'Linha depois (%d caracteres):', 'Linia după (%d caractere):',
+    'Sor utána (%d karakter):', 'Řádek po (%d znaků):', '変更後の行 (%d 文字):',
+    '修改后的行（%d 个字符）：', '修改後的行（%d 個字元）：');
+  Set14('HistDetail.Tab.Lines',
+    'Full lines', 'Linhas inteiras', 'Líneas completas', 'Lignes complètes', 'Vollständige Zeilen',
+    'Righe complete', 'Pełne wiersze', 'Linhas completas', 'Linii complete', 'Teljes sorok',
+    'Celé řádky', '行全体', '完整行', '完整行');
+  Set14('HistDetail.Tab.Fields',
+    'Fields (columns)', 'Campos (colunas)', 'Campos (columnas)', 'Champs (colonnes)', 'Felder (Spalten)',
+    'Campi (colonne)', 'Pola (kolumny)', 'Campos (colunas)', 'Câmpuri (coloane)', 'Mezők (oszlopok)',
+    'Pole (sloupce)', 'フィールド(列)', '字段（列）', '欄位（欄）');
+  Set14('HistDetail.Tab.Summary',
+    'Event summary', 'Resumo do evento', 'Resumen del evento', 'Résumé de l''événement',
+    'Ereigniszusammenfassung', 'Riepilogo evento', 'Podsumowanie zdarzenia', 'Resumo do evento',
+    'Rezumatul evenimentului', 'Esemény összefoglalója', 'Souhrn události', 'イベントの概要',
+    '事件摘要', '事件摘要');
+  Set14('HistDetail.Delimiter',
+    'Delimiter:', 'Delimitador:', 'Delimitador:', 'Séparateur :', 'Trennzeichen:', 'Delimitatore:',
+    'Separator:', 'Delimitador:', 'Delimitator:', 'Elválasztó:', 'Oddělovač:', '区切り文字:',
+    '分隔符：', '分隔符號：');
+  Set14('HistDetail.Delim.Auto',
+    'Automatic', 'Automático', 'Automático', 'Automatique', 'Automatisch', 'Automatico',
+    'Automatyczny', 'Automático', 'Automat', 'Automatikus', 'Automaticky', '自動', '自动', '自動');
+  Set14('HistDetail.Delim.Comma',
+    'Comma (,)', 'Vírgula (,)', 'Coma (,)', 'Virgule (,)', 'Komma (,)', 'Virgola (,)', 'Przecinek (,)',
+    'Vírgula (,)', 'Virgulă (,)', 'Vessző (,)', 'Čárka (,)', 'カンマ (,)', '逗号 (,)', '逗號 (,)');
+  Set14('HistDetail.Delim.Semicolon',
+    'Semicolon (;)', 'Ponto e vírgula (;)', 'Punto y coma (;)', 'Point-virgule (;)', 'Semikolon (;)',
+    'Punto e virgola (;)', 'Średnik (;)', 'Ponto e vírgula (;)', 'Punct și virgulă (;)',
+    'Pontosvessző (;)', 'Středník (;)', 'セミコロン (;)', '分号 (;)', '分號 (;)');
+  Set14('HistDetail.Delim.Tab',
+    'Tab', 'Tabulação', 'Tabulación', 'Tabulation', 'Tabulator', 'Tabulazione', 'Tabulator',
+    'Tabulação', 'Tab', 'Tabulátor', 'Tabulátor', 'タブ', '制表符', '定位字元');
+  Set14('HistDetail.Delim.Space',
+    'Space', 'Espaço', 'Espacio', 'Espace', 'Leerzeichen', 'Spazio', 'Spacja', 'Espaço', 'Spațiu',
+    'Szóköz', 'Mezera', 'スペース', '空格', '空格');
+  Set14('HistDetail.Delim.None',
+    'None (whole line)', 'Nenhum (linha inteira)', 'Ninguno (línea completa)', 'Aucun (ligne entière)',
+    'Keines (ganze Zeile)', 'Nessuno (riga intera)', 'Brak (cały wiersz)', 'Nenhum (linha inteira)',
+    'Niciunul (linia întreagă)', 'Nincs (teljes sor)', 'Žádný (celý řádek)', 'なし(行全体)',
+    '无（整行）', '無（整行）');
+  Set14('HistDetail.OnlyChanged',
+    'Only changed fields', 'Somente campos alterados', 'Solo campos modificados',
+    'Seulement les champs modifiés', 'Nur geänderte Felder', 'Solo campi modificati',
+    'Tylko zmienione pola', 'Apenas campos alterados', 'Doar câmpurile modificate',
+    'Csak a módosított mezők', 'Pouze změněná pole', '変更されたフィールドのみ',
+    '仅显示已更改的字段', '僅顯示已變更的欄位');
+  Set14('HistDetail.FieldsInfo',
+    '%d field(s) · %d changed', '%d campo(s) · %d alterado(s)', '%d campo(s) · %d modificado(s)',
+    '%d champ(s) · %d modifié(s)', '%d Feld(er) · %d geändert', '%d campo/i · %d modificato/i',
+    'Pola: %d · zmienione: %d', '%d campo(s) · %d alterado(s)', 'Câmpuri: %d · modificate: %d',
+    '%d mező · %d módosítva', 'Pole: %d · změněno: %d', '%d フィールド · %d 件変更',
+    '%d 个字段 · %d 个已更改', '%d 個欄位 · %d 個已變更');
+  Set14('HistDetail.Col.Field',
+    'Field', 'Campo', 'Campo', 'Champ', 'Feld', 'Campo', 'Pole', 'Campo', 'Câmp', 'Mező', 'Pole',
+    'フィールド', '字段', '欄位');
+  Set14('HistDetail.Col.Before',
+    'Before', 'Antes', 'Antes', 'Avant', 'Vorher', 'Prima', 'Przed', 'Antes', 'Înainte', 'Előtte',
+    'Před', '変更前', '修改前', '修改前');
+  Set14('HistDetail.Col.After',
+    'After', 'Depois', 'Después', 'Après', 'Nachher', 'Dopo', 'Po', 'Depois', 'După', 'Utána', 'Po',
+    '変更後', '修改后', '修改後');
+  Set14('HistDetail.Fields.CopyBefore',
+    'Copy value before', 'Copiar valor antes', 'Copiar valor anterior', 'Copier la valeur avant',
+    'Wert vorher kopieren', 'Copia valore prima', 'Kopiuj wartość przed', 'Copiar valor antes',
+    'Copiază valoarea dinainte', 'Előző érték másolása', 'Kopírovat hodnotu před',
+    '変更前の値をコピー', '复制修改前的值', '複製修改前的值');
+  Set14('HistDetail.Fields.CopyAfter',
+    'Copy value after', 'Copiar valor depois', 'Copiar valor posterior', 'Copier la valeur après',
+    'Wert nachher kopieren', 'Copia valore dopo', 'Kopiuj wartość po', 'Copiar valor depois',
+    'Copiază valoarea de după', 'Új érték másolása', 'Kopírovat hodnotu po',
+    '変更後の値をコピー', '复制修改后的值', '複製修改後的值');
+  Set14('HistDetail.Fields.CopyRows',
+    'Copy selected rows', 'Copiar linhas selecionadas', 'Copiar filas seleccionadas',
+    'Copier les lignes sélectionnées', 'Ausgewählte Zeilen kopieren', 'Copia righe selezionate',
+    'Kopiuj zaznaczone wiersze', 'Copiar linhas selecionadas', 'Copiază rândurile selectate',
+    'Kijelölt sorok másolása', 'Kopírovat vybrané řádky', '選択した行をコピー',
+    '复制所选行', '複製所選列');
+  Set14('HistDetail.WordWrap',
+    'Word wrap', 'Quebra automática de linha', 'Ajuste de línea', 'Retour à la ligne automatique',
+    'Zeilenumbruch', 'A capo automatico', 'Zawijanie wierszy', 'Quebra automática de linha',
+    'Încadrare text', 'Sortörés', 'Zalamovat řádky', '折り返し表示', '自动换行', '自動換行');
+  Set14('HistDetail.PrevChange',
+    '◀ Previous change', '◀ Alteração anterior', '◀ Cambio anterior', '◀ Modification précédente',
+    '◀ Vorherige Änderung', '◀ Modifica precedente', '◀ Poprzednia zmiana', '◀ Alteração anterior',
+    '◀ Modificarea anterioară', '◀ Előző módosítás', '◀ Předchozí změna', '◀ 前の変更',
+    '◀ 上一处更改', '◀ 上一處變更');
+  Set14('HistDetail.NextChange',
+    'Next change ▶', 'Próxima alteração ▶', 'Cambio siguiente ▶', 'Modification suivante ▶',
+    'Nächste Änderung ▶', 'Modifica successiva ▶', 'Następna zmiana ▶', 'Alteração seguinte ▶',
+    'Modificarea următoare ▶', 'Következő módosítás ▶', 'Další změna ▶', '次の変更 ▶',
+    '下一处更改 ▶', '下一處變更 ▶');
+  Set14('HistDetail.PrevChangeHint',
+    'Highlight the previous changed fragment in both lines (Shift+F3)',
+    'Destacar o trecho alterado anterior nas duas linhas (Shift+F3)',
+    'Resaltar el fragmento modificado anterior en ambas líneas (Mayús+F3)',
+    'Mettre en évidence le fragment modifié précédent dans les deux lignes (Maj+F3)',
+    'Vorherigen geänderten Abschnitt in beiden Zeilen hervorheben (Umschalt+F3)',
+    'Evidenzia il frammento modificato precedente in entrambe le righe (Maiusc+F3)',
+    'Wyróżnij poprzedni zmieniony fragment w obu wierszach (Shift+F3)',
+    'Realçar o excerto alterado anterior nas duas linhas (Shift+F3)',
+    'Evidențiază fragmentul modificat anterior în ambele linii (Shift+F3)',
+    'Az előző módosított rész kiemelése mindkét sorban (Shift+F3)',
+    'Zvýraznit předchozí změněný úsek v obou řádcích (Shift+F3)',
+    '両方の行で前の変更箇所を強調表示 (Shift+F3)',
+    '在两行中突出显示上一处已更改片段 (Shift+F3)',
+    '在兩行中醒目提示上一處已變更片段 (Shift+F3)');
+  Set14('HistDetail.NextChangeHint',
+    'Highlight the next changed fragment in both lines (F3)',
+    'Destacar o próximo trecho alterado nas duas linhas (F3)',
+    'Resaltar el siguiente fragmento modificado en ambas líneas (F3)',
+    'Mettre en évidence le fragment modifié suivant dans les deux lignes (F3)',
+    'Nächsten geänderten Abschnitt in beiden Zeilen hervorheben (F3)',
+    'Evidenzia il frammento modificato successivo in entrambe le righe (F3)',
+    'Wyróżnij następny zmieniony fragment w obu wierszach (F3)',
+    'Realçar o excerto alterado seguinte nas duas linhas (F3)',
+    'Evidențiază fragmentul modificat următor în ambele linii (F3)',
+    'A következő módosított rész kiemelése mindkét sorban (F3)',
+    'Zvýraznit další změněný úsek v obou řádcích (F3)',
+    '両方の行で次の変更箇所を強調表示 (F3)',
+    '在两行中突出显示下一处已更改片段 (F3)',
+    '在兩行中醒目提示下一處已變更片段 (F3)');
+  Set14('HistDetail.ChangesCount',
+    '%d change(s)', '%d alteração(ões)', '%d cambio(s)', '%d modification(s)', '%d Änderung(en)',
+    '%d modifica/he', 'Zmiany: %d', '%d alteração(ões)', 'Modificări: %d', '%d módosítás',
+    'Změny: %d', '%d 件の変更', '%d 处更改', '%d 處變更');
+  Set14('HistDetail.ChangePos',
+    'Change %d of %d', 'Alteração %d de %d', 'Cambio %d de %d', 'Modification %d sur %d',
+    'Änderung %d von %d', 'Modifica %d di %d', 'Zmiana %d z %d', 'Alteração %d de %d',
+    'Modificarea %d din %d', '%d. módosítás / %d', 'Změna %d z %d', '変更 %d / %d',
+    '第 %d 处更改，共 %d 处', '第 %d 處變更，共 %d 處');
+  Set14('HistDetail.Copy',
+    'Copy', 'Copiar', 'Copiar', 'Copier', 'Kopieren', 'Copia', 'Kopiuj', 'Copiar', 'Copiază',
+    'Másolás', 'Kopírovat', 'コピー', '复制', '複製');
+  Set14('HistDetail.Export',
+    'Export', 'Exportar', 'Exportar', 'Exporter', 'Exportieren', 'Esporta', 'Eksportuj', 'Exportar',
+    'Exportă', 'Exportálás', 'Exportovat', 'エクスポート', '导出', '匯出');
+  Set14('HistDetail.CopyBefore',
+    'Copy line before', 'Copiar linha antes', 'Copiar línea anterior', 'Copier la ligne avant',
+    'Zeile vorher kopieren', 'Copia riga prima', 'Kopiuj wiersz przed', 'Copiar linha antes',
+    'Copiază linia dinainte', 'Előző sor másolása', 'Kopírovat řádek před', '変更前の行をコピー',
+    '复制修改前的行', '複製修改前的行');
+  Set14('HistDetail.CopyAfter',
+    'Copy line after', 'Copiar linha depois', 'Copiar línea posterior', 'Copier la ligne après',
+    'Zeile nachher kopieren', 'Copia riga dopo', 'Kopiuj wiersz po', 'Copiar linha depois',
+    'Copiază linia de după', 'Új sor másolása', 'Kopírovat řádek po', '変更後の行をコピー',
+    '复制修改后的行', '複製修改後的行');
+  Set14('HistDetail.CopyEvent',
+    'Copy this event (before and after)', 'Copiar este evento (antes e depois)',
+    'Copiar este evento (antes y después)', 'Copier cet événement (avant et après)',
+    'Dieses Ereignis kopieren (vorher und nachher)', 'Copia questo evento (prima e dopo)',
+    'Kopiuj to zdarzenie (przed i po)', 'Copiar este evento (antes e depois)',
+    'Copiază acest eveniment (înainte și după)', 'Az esemény másolása (előtte és utána)',
+    'Kopírovat tuto událost (před a po)', 'このイベントをコピー(変更前と変更後)',
+    '复制此事件（修改前和修改后）', '複製此事件（修改前和修改後）');
+  Set14('HistDetail.CopySelected',
+    'Copy selected events (%d)', 'Copiar eventos selecionados (%d)', 'Copiar eventos seleccionados (%d)',
+    'Copier les événements sélectionnés (%d)', 'Ausgewählte Ereignisse kopieren (%d)',
+    'Copia eventi selezionati (%d)', 'Kopiuj zaznaczone zdarzenia (%d)',
+    'Copiar eventos selecionados (%d)', 'Copiază evenimentele selectate (%d)',
+    'Kijelölt események másolása (%d)', 'Kopírovat vybrané události (%d)',
+    '選択したイベントをコピー (%d)', '复制所选事件 (%d)', '複製所選事件 (%d)');
+  Set14('HistDetail.CopyAll',
+    'Copy all events in the list (%d)', 'Copiar todos os eventos da lista (%d)',
+    'Copiar todos los eventos de la lista (%d)', 'Copier tous les événements de la liste (%d)',
+    'Alle Ereignisse der Liste kopieren (%d)', 'Copia tutti gli eventi dell''elenco (%d)',
+    'Kopiuj wszystkie zdarzenia z listy (%d)', 'Copiar todos os eventos da lista (%d)',
+    'Copiază toate evenimentele din listă (%d)', 'A lista összes eseményének másolása (%d)',
+    'Kopírovat všechny události v seznamu (%d)', 'リスト内のすべてのイベントをコピー (%d)',
+    '复制列表中的所有事件 (%d)', '複製清單中的所有事件 (%d)');
+  Set14('HistDetail.ExportCurrent',
+    'Export this event (TXT / CSV / JSON)...', 'Exportar este evento (TXT / CSV / JSON)...',
+    'Exportar este evento (TXT / CSV / JSON)...', 'Exporter cet événement (TXT / CSV / JSON)...',
+    'Dieses Ereignis exportieren (TXT / CSV / JSON)...', 'Esporta questo evento (TXT / CSV / JSON)...',
+    'Eksportuj to zdarzenie (TXT / CSV / JSON)...', 'Exportar este evento (TXT / CSV / JSON)...',
+    'Exportă acest eveniment (TXT / CSV / JSON)...', 'Az esemény exportálása (TXT / CSV / JSON)...',
+    'Exportovat tuto událost (TXT / CSV / JSON)...', 'このイベントをエクスポート (TXT / CSV / JSON)...',
+    '导出此事件 (TXT / CSV / JSON)...', '匯出此事件 (TXT / CSV / JSON)...');
+  Set14('HistDetail.ExportSelected',
+    'Export selected events (%d)...', 'Exportar eventos selecionados (%d)...',
+    'Exportar eventos seleccionados (%d)...', 'Exporter les événements sélectionnés (%d)...',
+    'Ausgewählte Ereignisse exportieren (%d)...', 'Esporta eventi selezionati (%d)...',
+    'Eksportuj zaznaczone zdarzenia (%d)...', 'Exportar eventos selecionados (%d)...',
+    'Exportă evenimentele selectate (%d)...', 'Kijelölt események exportálása (%d)...',
+    'Exportovat vybrané události (%d)...', '選択したイベントをエクスポート (%d)...',
+    '导出所选事件 (%d)...', '匯出所選事件 (%d)...');
+  Set14('HistDetail.ExportAll',
+    'Export all events in the list (%d)...', 'Exportar todos os eventos da lista (%d)...',
+    'Exportar todos los eventos de la lista (%d)...', 'Exporter tous les événements de la liste (%d)...',
+    'Alle Ereignisse der Liste exportieren (%d)...', 'Esporta tutti gli eventi dell''elenco (%d)...',
+    'Eksportuj wszystkie zdarzenia z listy (%d)...', 'Exportar todos os eventos da lista (%d)...',
+    'Exportă toate evenimentele din listă (%d)...', 'A lista összes eseményének exportálása (%d)...',
+    'Exportovat všechny události v seznamu (%d)...', 'リスト内のすべてのイベントをエクスポート (%d)...',
+    '导出列表中的所有事件 (%d)...', '匯出清單中的所有事件 (%d)...');
+  Set14('HistDetail.SelectAll',
+    'Select all events', 'Selecionar todos os eventos', 'Seleccionar todos los eventos',
+    'Sélectionner tous les événements', 'Alle Ereignisse auswählen', 'Seleziona tutti gli eventi',
+    'Zaznacz wszystkie zdarzenia', 'Selecionar todos os eventos', 'Selectează toate evenimentele',
+    'Összes esemény kijelölése', 'Vybrat všechny události', 'すべてのイベントを選択',
+    '选择所有事件', '選取所有事件');
+  Set14('HistDetail.SelectNone',
+    'Clear selection', 'Limpar seleção', 'Borrar selección', 'Effacer la sélection',
+    'Auswahl aufheben', 'Cancella selezione', 'Wyczyść zaznaczenie', 'Limpar seleção',
+    'Golește selecția', 'Kijelölés törlése', 'Zrušit výběr', '選択を解除', '清除选择', '清除選取');
+  Set14('HistDetail.ExportFilter',
+    'Text file (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Arquivo de texto (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Archivo de texto (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Fichier texte (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Textdatei (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'File di testo (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Plik tekstowy (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Ficheiro de texto (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Fișier text (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Szövegfájl (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'Textový soubor (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    'テキスト ファイル (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    '文本文件 (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json',
+    '文字檔 (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json');
+  Set14('HistDetail.Exported',
+    'Exported: %s · Events: %d', 'Exportado em: %s · Eventos: %d', 'Exportado: %s · Eventos: %d',
+    'Exporté le : %s · Événements : %d', 'Exportiert: %s · Ereignisse: %d',
+    'Esportato: %s · Eventi: %d', 'Wyeksportowano: %s · Zdarzenia: %d',
+    'Exportado em: %s · Eventos: %d', 'Exportat: %s · Evenimente: %d',
+    'Exportálva: %s · Események: %d', 'Exportováno: %s · Události: %d',
+    'エクスポート日時: %s · イベント数: %d', '导出时间：%s · 事件数：%d', '匯出時間：%s · 事件數：%d');
+  Set14('HistDetail.CsvHeader',
+    'Date/time;Operation;Line;Line before;Line after;Characters before;Characters after;Summary',
+    'Data/hora;Operação;Linha;Linha antes;Linha depois;Caracteres antes;Caracteres depois;Resumo',
+    'Fecha/hora;Operación;Línea;Línea antes;Línea después;Caracteres antes;Caracteres después;Resumen',
+    'Date/heure;Opération;Ligne;Ligne avant;Ligne après;Caractères avant;Caractères après;Résumé',
+    'Datum/Uhrzeit;Vorgang;Zeile;Zeile vorher;Zeile nachher;Zeichen vorher;Zeichen nachher;Zusammenfassung',
+    'Data/ora;Operazione;Riga;Riga prima;Riga dopo;Caratteri prima;Caratteri dopo;Riepilogo',
+    'Data/godzina;Operacja;Wiersz;Wiersz przed;Wiersz po;Znaki przed;Znaki po;Podsumowanie',
+    'Data/hora;Operação;Linha;Linha antes;Linha depois;Caracteres antes;Caracteres depois;Resumo',
+    'Dată/oră;Operație;Linie;Linie înainte;Linie după;Caractere înainte;Caractere după;Rezumat',
+    'Dátum/idő;Művelet;Sor;Sor előtte;Sor utána;Karakterek előtte;Karakterek utána;Összefoglaló',
+    'Datum/čas;Operace;Řádek;Řádek před;Řádek po;Znaky před;Znaky po;Souhrn',
+    '日時;操作;行;変更前の行;変更後の行;変更前の文字数;変更後の文字数;概要',
+    '日期/时间;操作;行;修改前的行;修改后的行;修改前字符数;修改后字符数;摘要',
+    '日期/時間;操作;行;修改前的行;修改後的行;修改前字元數;修改後字元數;摘要');
+  Set14('HistDetail.ExportFailed',
+    'Could not export: %s', 'Não foi possível exportar: %s', 'No se pudo exportar: %s',
+    'Impossible d''exporter : %s', 'Export nicht möglich: %s', 'Impossibile esportare: %s',
+    'Nie można wyeksportować: %s', 'Não foi possível exportar: %s', 'Nu s-a putut exporta: %s',
+    'Az exportálás nem sikerült: %s', 'Export se nezdařil: %s', 'エクスポートできませんでした: %s',
+    '无法导出：%s', '無法匯出：%s');
+  Set14('HistDetail.ExportDoneN',
+    '%d event(s) exported to %s', '%d evento(s) exportado(s) para %s', '%d evento(s) exportado(s) a %s',
+    '%d événement(s) exporté(s) vers %s', '%d Ereignis(se) exportiert nach %s',
+    '%d evento/i esportato/i in %s', 'Wyeksportowano zdarzenia (%d) do %s',
+    '%d evento(s) exportado(s) para %s', 'Evenimente exportate (%d) în %s',
+    '%d esemény exportálva ide: %s', 'Exportováno událostí: %d do %s',
+    '%d 件のイベントを %s にエクスポートしました', '已将 %d 个事件导出到 %s', '已將 %d 個事件匯出到 %s');
+end;
+
+procedure AddAgentWorkspaceTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('AI agent', 'AI agent', 'Agente IA', 'Agente IA', 'Agent IA', 'KI-Agent', 'Agente IA', 'Agent AI', 'Agente IA', 'Agent IA', 'MI-ügynök', 'Agent AI', 'AIエージェント', 'AI 智能体', 'AI 智慧體');
+  Set14('AI &agent on files', 'AI &agent on files', '&Agente IA nos arquivos', '&Agente IA en archivos', '&Agent IA sur les fichiers', 'KI-&Agent für Dateien', '&Agente IA sui file', '&Agent AI na plikach', '&Agente IA nos ficheiros', '&Agent IA pe fișiere', 'MI-ügynök (&A)', '&Agent AI nad soubory', 'ファイルのAIエージェント(&A)', '文件 AI 智能体(&A)', '檔案 AI 智慧體(&A)');
+  Set14('Agent.Guide',
+    '1) Add files or folders  →  2) Describe what you want and click Send  →  3) Read the answer and review the edits. Nothing is saved until you accept.',
+    '1) Adicione arquivos ou pastas  →  2) Descreva o que deseja e clique em Enviar  →  3) Leia a resposta e revise as edições. Nada é gravado até você aceitar.',
+    '1) Agregue archivos o carpetas  →  2) Describa lo que desea y haga clic en Enviar  →  3) Lea la respuesta y revise las ediciones. No se guarda nada hasta que acepte.',
+    '1) Ajoutez des fichiers ou des dossiers  →  2) Décrivez ce que vous voulez et cliquez sur Envoyer  →  3) Lisez la réponse et vérifiez les modifications. Rien n''est enregistré avant votre accord.',
+    '1) Dateien oder Ordner hinzufügen  →  2) Beschreiben, was Sie möchten, und auf Senden klicken  →  3) Antwort lesen und Änderungen prüfen. Nichts wird gespeichert, bevor Sie zustimmen.',
+    '1) Aggiungi file o cartelle  →  2) Descrivi cosa vuoi e fai clic su Invia  →  3) Leggi la risposta e controlla le modifiche. Nulla viene salvato finché non accetti.',
+    '1) Dodaj pliki lub foldery  →  2) Opisz, czego potrzebujesz, i kliknij Wyślij  →  3) Przeczytaj odpowiedź i sprawdź zmiany. Nic nie zostanie zapisane bez Twojej akceptacji.',
+    '1) Adicione ficheiros ou pastas  →  2) Descreva o que pretende e clique em Enviar  →  3) Leia a resposta e reveja as edições. Nada é gravado até aceitar.',
+    '1) Adăugați fișiere sau foldere  →  2) Descrieți ce doriți și faceți clic pe Trimite  →  3) Citiți răspunsul și verificați editările. Nimic nu se salvează până nu acceptați.',
+    '1) Adjon hozzá fájlokat vagy mappákat  →  2) Írja le, mit szeretne, és kattintson a Küldés gombra  →  3) Olvassa el a választ, és nézze át a módosításokat. Semmi sem mentődik, amíg el nem fogadja.',
+    '1) Přidejte soubory nebo složky  →  2) Popište, co chcete, a klikněte na Odeslat  →  3) Přečtěte si odpověď a zkontrolujte úpravy. Nic se neuloží, dokud to nepřijmete.',
+    '1) ファイルまたはフォルダーを追加  →  2) やりたいことを書いて［送信］をクリック  →  3) 回答を読み、編集案を確認。適用するまで何も保存されません。',
+    '1) 添加文件或文件夹  →  2) 描述需求并点击“发送”  →  3) 阅读回答并检查修改。接受之前不会保存任何内容。',
+    '1) 新增檔案或資料夾  →  2) 描述需求並按「傳送」  →  3) 閱讀回答並檢查修改。接受之前不會儲存任何內容。');
+  Set14('Agent.Step1', '1. Choose files or folders', '1. Escolha arquivos ou pastas', '1. Elija archivos o carpetas',
+    '1. Choisissez des fichiers ou des dossiers', '1. Dateien oder Ordner wählen', '1. Scegli file o cartelle',
+    '1. Wybierz pliki lub foldery', '1. Escolha ficheiros ou pastas', '1. Alegeți fișiere sau foldere',
+    '1. Fájlok vagy mappák kiválasztása', '1. Vyberte soubory nebo složky', '1. ファイルまたはフォルダーを選ぶ',
+    '1. 选择文件或文件夹', '1. 選擇檔案或資料夾');
+  Set14('Agent.Step2', '2. Describe what you want', '2. Descreva o que deseja', '2. Describa lo que desea',
+    '2. Décrivez votre demande', '2. Beschreiben, was Sie möchten', '2. Descrivi cosa vuoi',
+    '2. Opisz, czego potrzebujesz', '2. Descreva o que pretende', '2. Descrieți ce doriți',
+    '2. Írja le, mit szeretne', '2. Popište, co chcete', '2. やりたいことを書く',
+    '2. 描述您的需求', '2. 描述您的需求');
+  Set14('Agent.Step3', '3. Review the result', '3. Confira o resultado', '3. Revise el resultado',
+    '3. Vérifiez le résultat', '3. Ergebnis prüfen', '3. Controlla il risultato',
+    '3. Sprawdź wynik', '3. Verifique o resultado', '3. Verificați rezultatul',
+    '3. Az eredmény ellenőrzése', '3. Zkontrolujte výsledek', '3. 結果を確認する',
+    '3. 查看结果', '3. 檢視結果');
+  Set14('Agent.SendHint', 'Ctrl+Enter also sends.', 'Ctrl+Enter também envia.', 'Ctrl+Enter también envía.',
+    'Ctrl+Entrée envoie aussi.', 'Strg+Eingabe sendet ebenfalls.', 'Anche Ctrl+Invio invia.',
+    'Ctrl+Enter również wysyła.', 'Ctrl+Enter também envia.', 'Ctrl+Enter trimite și el.',
+    'A Ctrl+Enter is elküldi.', 'Odeslat lze i pomocí Ctrl+Enter.', 'Ctrl+Enter でも送信できます。',
+    '也可按 Ctrl+Enter 发送。', '也可按 Ctrl+Enter 傳送。');
+  Set14('Agent.SqlQuery', 'SQL statement run by FastFile:', 'Comando SQL executado pelo FastFile:',
+    'Instrucción SQL ejecutada por FastFile:', 'Requête SQL exécutée par FastFile :',
+    'Von FastFile ausgeführte SQL-Anweisung:', 'Istruzione SQL eseguita da FastFile:',
+    'Polecenie SQL wykonane przez FastFile:', 'Comando SQL executado pelo FastFile:',
+    'Instrucțiune SQL executată de FastFile:', 'A FastFile által futtatott SQL-utasítás:',
+    'Příkaz SQL spuštěný aplikací FastFile:', 'FastFile が実行した SQL 文:',
+    'FastFile 执行的 SQL 语句：', 'FastFile 執行的 SQL 陳述式：');
+  Set14('Agent.SqlRowsAll', 'Result: %d row(s):', 'Resultado: %d linha(s):', 'Resultado: %d fila(s):',
+    'Résultat : %d ligne(s) :', 'Ergebnis: %d Zeile(n):', 'Risultato: %d riga/e:',
+    'Wynik: %d wiersz(y):', 'Resultado: %d linha(s):', 'Rezultat: %d rând(uri):',
+    'Eredmény: %d sor:', 'Výsledek: %d řádek/řádků:', '結果: %d 行:', '结果：%d 行：', '結果：%d 列：');
+  Set14('Agent.SqlRowsSome', 'Result: showing %d of %d rows:', 'Resultado: exibindo %d de %d linhas:',
+    'Resultado: se muestran %d de %d filas:', 'Résultat : %d lignes affichées sur %d :',
+    'Ergebnis: %d von %d Zeilen angezeigt:', 'Risultato: %d righe mostrate su %d:',
+    'Wynik: wyświetlono %d z %d wierszy:', 'Resultado: a mostrar %d de %d linhas:',
+    'Rezultat: se afișează %d din %d rânduri:', 'Eredmény: %d sor látható ennyiből: %d',
+    'Výsledek: zobrazeno %d z %d řádků:', '結果: %d / %d 行を表示:', '结果：显示 %d / %d 行：',
+    '結果：顯示 %d / %d 列：');
+  Set14('Agent.SqlRunning', 'Running SQL...', 'Executando SQL...', 'Ejecutando SQL...',
+    'Exécution du SQL...', 'SQL wird ausgeführt...', 'Esecuzione SQL...', 'Wykonywanie SQL...',
+    'A executar SQL...', 'Se execută SQL...', 'SQL futtatása...', 'Spouštění SQL...',
+    'SQL を実行中...', '正在执行 SQL...', '正在執行 SQL...');
+  Set14('Agent.SqlDirect', 'SQL statement detected: run directly by FastFile, without the AI.',
+    'Comando SQL detectado: executado diretamente pelo FastFile, sem a IA.',
+    'Instrucción SQL detectada: ejecutada directamente por FastFile, sin la IA.',
+    'Requête SQL détectée : exécutée directement par FastFile, sans l''IA.',
+    'SQL-Anweisung erkannt: direkt von FastFile ausgeführt, ohne KI.',
+    'Istruzione SQL rilevata: eseguita direttamente da FastFile, senza l''IA.',
+    'Wykryto polecenie SQL: wykonane bezpośrednio przez FastFile, bez AI.',
+    'Comando SQL detetado: executado diretamente pelo FastFile, sem a IA.',
+    'Instrucțiune SQL detectată: executată direct de FastFile, fără AI.',
+    'SQL-utasítás észlelve: a FastFile közvetlenül, MI nélkül futtatta.',
+    'Zjištěn příkaz SQL: spuštěn přímo aplikací FastFile, bez AI.',
+    'SQL 文を検出しました。AI を使わずに FastFile が直接実行しました。',
+    '检测到 SQL 语句：由 FastFile 直接执行，未使用 AI。',
+    '偵測到 SQL 陳述式：由 FastFile 直接執行，未使用 AI。');
+  Set14('Agent.SqlChanges',
+    '%d line(s) to change in %d proposal(s). Nothing has been written yet: review them in the "Proposed edits" tab and click "Accept".',
+    '%d linha(s) a alterar em %d proposta(s). Nada foi gravado ainda: revise na aba "Edições propostas" e clique em "Aceitar".',
+    '%d línea(s) a modificar en %d propuesta(s). Todavía no se ha guardado nada: revíselas en la pestaña "Ediciones propuestas" y haga clic en "Aceptar".',
+    '%d ligne(s) à modifier dans %d proposition(s). Rien n''a encore été écrit : vérifiez-les dans l''onglet « Modifications proposées » et cliquez sur « Accepter ».',
+    '%d Zeile(n) in %d Vorschlag/Vorschlägen zu ändern. Noch wurde nichts geschrieben: Prüfen Sie sie auf der Registerkarte „Vorgeschlagene Änderungen“ und klicken Sie auf „Übernehmen“.',
+    '%d riga/e da modificare in %d proposta/e. Non è stato ancora scritto nulla: controllale nella scheda "Modifiche proposte" e fai clic su "Accetta".',
+    '%d wiersz(y) do zmiany w %d propozycji. Nic jeszcze nie zapisano: sprawdź je na karcie „Proponowane zmiany” i kliknij „Akceptuj”.',
+    '%d linha(s) a alterar em %d proposta(s). Ainda nada foi gravado: reveja-as no separador "Edições propostas" e clique em "Aceitar".',
+    '%d rând(uri) de modificat în %d propunere/propuneri. Nu s-a scris încă nimic: verificați-le în fila „Editări propuse” și faceți clic pe „Acceptare”.',
+    '%d módosítandó sor, %d javaslatban. Még semmi sincs mentve: ellenőrizze őket a „Javasolt módosítások” lapon, majd kattintson az „Elfogadás” gombra.',
+    'Řádků ke změně: %d, počet návrhů: %d. Zatím nebylo nic zapsáno: zkontrolujte je na kartě „Navrhované úpravy“ a klikněte na „Přijmout“.',
+    '%d 行を %d 件の提案で変更します。まだ何も書き込まれていません。「提案された編集」タブで確認し、「適用」をクリックしてください。',
+    '需要修改 %d 行，共 %d 个建议。尚未写入任何内容：请在“建议的修改”选项卡中检查，然后点击“接受”。',
+    '需要修改 %d 列，共 %d 個建議。尚未寫入任何內容：請在「建議的修改」索引標籤中檢查，然後按一下「接受」。');
+  Set14('Agent.TotalFound', 'Total: %d record(s) found.', 'Total: %d registro(s) encontrado(s).',
+    'Total: %d registro(s) encontrado(s).', 'Total : %d enregistrement(s) trouvé(s).',
+    'Gesamt: %d Datensatz/Datensätze gefunden.', 'Totale: %d record trovati.',
+    'Razem: znaleziono %d rekord(ów).', 'Total: %d registo(s) encontrado(s).',
+    'Total: au fost găsite %d înregistrări.', 'Összesen: %d rekord található.',
+    'Celkem nalezeno záznamů: %d.', '合計: %d 件のレコードが見つかりました。', '共找到 %d 条记录。',
+    '共找到 %d 筆記錄。');
+  Set14('Agent.TotalFoundFor', 'Total: %d record(s) found for %s.', 'Total: %d registro(s) encontrado(s) para %s.',
+    'Total: %d registro(s) encontrado(s) para %s.', 'Total : %d enregistrement(s) trouvé(s) pour %s.',
+    'Gesamt: %d Datensatz/Datensätze für %s gefunden.', 'Totale: %d record trovati per %s.',
+    'Razem: znaleziono %d rekord(ów) dla %s.', 'Total: %d registo(s) encontrado(s) para %s.',
+    'Total: au fost găsite %d înregistrări pentru %s.', 'Összesen: %d rekord található ehhez: %s.',
+    'Celkem nalezeno záznamů pro %1:s: %0:d.', '%1:s の合計: %0:d 件のレコードが見つかりました。',
+    '%1:s：共找到 %0:d 条记录。', '%1:s：共找到 %0:d 筆記錄。');
+  Set14('Agent.TotalShort', 'Total: %d record(s)', 'Total: %d registro(s)', 'Total: %d registro(s)',
+    'Total : %d enregistrement(s)', 'Gesamt: %d Datensatz/Datensätze', 'Totale: %d record',
+    'Razem: %d rekord(ów)', 'Total: %d registo(s)', 'Total: %d înregistrări', 'Összesen: %d rekord',
+    'Celkem: %d záznamů', '合計: %d 件', '共 %d 条记录', '共 %d 筆記錄');
+  Set14('ExportDone.Title', 'File created successfully', 'Arquivo gerado com sucesso',
+    'Archivo generado correctamente', 'Fichier généré avec succès', 'Datei erfolgreich erstellt',
+    'File generato correttamente', 'Plik został wygenerowany', 'Ficheiro gerado com sucesso',
+    'Fișierul a fost generat cu succes', 'A fájl sikeresen létrejött', 'Soubor byl úspěšně vytvořen',
+    'ファイルを作成しました', '文件已成功生成', '檔案已成功產生');
+  Set14('ExportDone.Records', '%d record(s) exported', '%d registro(s) exportado(s)',
+    '%d registro(s) exportado(s)', '%d enregistrement(s) exporté(s)', '%d Datensatz/Datensätze exportiert',
+    '%d record esportati', 'Wyeksportowano rekordów: %d', '%d registo(s) exportado(s)',
+    '%d înregistrări exportate', '%d rekord exportálva', 'Exportováno záznamů: %d',
+    '%d 件のレコードをエクスポートしました', '已导出 %d 条记录', '已匯出 %d 筆記錄');
+  Set14('ExportDone.OpenLink', 'Click here to open the generated file', 'Clique aqui para abrir o arquivo gerado',
+    'Haga clic aquí para abrir el archivo generado', 'Cliquez ici pour ouvrir le fichier généré',
+    'Hier klicken, um die erstellte Datei zu öffnen', 'Fai clic qui per aprire il file generato',
+    'Kliknij tutaj, aby otworzyć wygenerowany plik', 'Clique aqui para abrir o ficheiro gerado',
+    'Faceți clic aici pentru a deschide fișierul generat', 'Kattintson ide a létrehozott fájl megnyitásához',
+    'Klikněte sem pro otevření vytvořeného souboru', 'ここをクリックして作成したファイルを開く',
+    '单击此处打开生成的文件', '按一下這裡開啟產生的檔案');
+  Set14('ExportDone.OpenDefault', 'Open with the default Windows program', 'Abrir com o programa padrão do Windows',
+    'Abrir con el programa predeterminado de Windows', 'Ouvrir avec le programme par défaut de Windows',
+    'Mit dem Windows-Standardprogramm öffnen', 'Apri con il programma predefinito di Windows',
+    'Otwórz w domyślnym programie systemu Windows', 'Abrir com o programa predefinido do Windows',
+    'Deschide cu programul implicit din Windows', 'Megnyitás a Windows alapértelmezett programjával',
+    'Otevřít ve výchozím programu systému Windows', 'Windows の既定のプログラムで開く',
+    '使用 Windows 默认程序打开', '使用 Windows 預設程式開啟');
+  Set14('ExportDone.OpenInApp', 'Open in FastFile', 'Abrir no FastFile', 'Abrir en FastFile',
+    'Ouvrir dans FastFile', 'In FastFile öffnen', 'Apri in FastFile', 'Otwórz w FastFile', 'Abrir no FastFile',
+    'Deschide în FastFile', 'Megnyitás a FastFile-ban', 'Otevřít ve FastFile', 'FastFile で開く',
+    '在 FastFile 中打开', '在 FastFile 中開啟');
+  Set14('ExportDone.OpenFolder', 'Open folder', 'Abrir pasta', 'Abrir carpeta', 'Ouvrir le dossier',
+    'Ordner öffnen', 'Apri cartella', 'Otwórz folder', 'Abrir pasta', 'Deschide folderul', 'Mappa megnyitása',
+    'Otevřít složku', 'フォルダーを開く', '打开文件夹', '開啟資料夾');
+  Set14('ExportDone.CopyPath', 'Copy path', 'Copiar caminho', 'Copiar ruta', 'Copier le chemin', 'Pfad kopieren',
+    'Copia percorso', 'Kopiuj ścieżkę', 'Copiar caminho', 'Copiază calea', 'Elérési út másolása',
+    'Kopírovat cestu', 'パスをコピー', '复制路径', '複製路徑');
+  Set14('ExportDone.Copied', 'Copied!', 'Copiado!', '¡Copiado!', 'Copié !', 'Kopiert!', 'Copiato!',
+    'Skopiowano!', 'Copiado!', 'Copiat!', 'Másolva!', 'Zkopírováno!', 'コピーしました', '已复制', '已複製');
+  Set14('ExportDone.ShowLast', 'Last generated file', 'Último arquivo gerado', 'Último archivo generado',
+    'Dernier fichier généré', 'Zuletzt erstellte Datei', 'Ultimo file generato', 'Ostatnio wygenerowany plik',
+    'Último ficheiro gerado', 'Ultimul fișier generat', 'Legutóbb létrehozott fájl',
+    'Naposledy vytvořený soubor', '最後に作成したファイル', '最近生成的文件', '最近產生的檔案');
+  Set14('ExportDone.ShowLastHint', 'Show again the window of the last generated file (open it, open its folder or copy its path).',
+    'Reabre a janela do último arquivo gerado (abrir o arquivo, abrir a pasta ou copiar o caminho).',
+    'Vuelve a mostrar la ventana del último archivo generado (abrirlo, abrir la carpeta o copiar la ruta).',
+    'Réaffiche la fenêtre du dernier fichier généré (l''ouvrir, ouvrir le dossier ou copier le chemin).',
+    'Zeigt das Fenster der zuletzt erstellten Datei erneut an (öffnen, Ordner öffnen oder Pfad kopieren).',
+    'Mostra di nuovo la finestra dell''ultimo file generato (aprirlo, aprire la cartella o copiare il percorso).',
+    'Ponownie pokazuje okno ostatnio wygenerowanego pliku (otwórz plik, folder lub skopiuj ścieżkę).',
+    'Volta a mostrar a janela do último ficheiro gerado (abrir o ficheiro, abrir a pasta ou copiar o caminho).',
+    'Afișează din nou fereastra ultimului fișier generat (deschidere, folder sau copierea căii).',
+    'Újra megjeleníti a legutóbb létrehozott fájl ablakát (megnyitás, mappa vagy elérési út másolása).',
+    'Znovu zobrazí okno naposledy vytvořeného souboru (otevřít soubor, složku nebo zkopírovat cestu).',
+    '最後に作成したファイルのウィンドウを再表示します (ファイルやフォルダーを開く、パスをコピー)。',
+    '再次显示最近生成文件的窗口（打开文件、打开文件夹或复制路径）。',
+    '再次顯示最近產生檔案的視窗（開啟檔案、開啟資料夾或複製路徑）。');
+  Set14('ExportDone.NoneYet', 'No file has been generated yet.', 'Nenhum arquivo foi gerado ainda.',
+    'Todavía no se ha generado ningún archivo.', 'Aucun fichier n''a encore été généré.',
+    'Es wurde noch keine Datei erstellt.', 'Non è stato ancora generato alcun file.',
+    'Nie wygenerowano jeszcze żadnego pliku.', 'Ainda não foi gerado nenhum ficheiro.',
+    'Nu a fost generat încă niciun fișier.', 'Még nem jött létre fájl.', 'Zatím nebyl vytvořen žádný soubor.',
+    'まだファイルは作成されていません。', '尚未生成任何文件。', '尚未產生任何檔案。');
+  Set14('ExportDone.Missing', 'The last generated file no longer exists:'#13#10'%s',
+    'O último arquivo gerado não existe mais:'#13#10'%s', 'El último archivo generado ya no existe:'#13#10'%s',
+    'Le dernier fichier généré n''existe plus :'#13#10'%s', 'Die zuletzt erstellte Datei existiert nicht mehr:'#13#10'%s',
+    'L''ultimo file generato non esiste più:'#13#10'%s', 'Ostatnio wygenerowany plik już nie istnieje:'#13#10'%s',
+    'O último ficheiro gerado já não existe:'#13#10'%s', 'Ultimul fișier generat nu mai există:'#13#10'%s',
+    'A legutóbb létrehozott fájl már nem létezik:'#13#10'%s', 'Naposledy vytvořený soubor už neexistuje:'#13#10'%s',
+    '最後に作成したファイルはもう存在しません:'#13#10'%s', '最近生成的文件已不存在：'#13#10'%s',
+    '最近產生的檔案已不存在：'#13#10'%s');
+  Set14('ExportDone.Details', 'Details', 'Detalhes', 'Detalles', 'Détails', 'Details', 'Dettagli', 'Szczegóły',
+    'Detalhes', 'Detalii', 'Részletek', 'Podrobnosti', '詳細', '详细信息', '詳細資訊');
+  Set14('ExportDone.TitleN', '%d files created successfully', '%d arquivos gerados com sucesso',
+    '%d archivos generados correctamente', '%d fichiers générés avec succès', '%d Dateien erfolgreich erstellt',
+    '%d file generati correttamente', 'Wygenerowano plików: %d', '%d ficheiros gerados com sucesso',
+    '%d fișiere generate cu succes', '%d fájl sikeresen létrejött', 'Úspěšně vytvořené soubory: %d',
+    '%d 個のファイルを作成しました', '已成功生成 %d 个文件', '已成功產生 %d 個檔案');
+  Set14('ExportDone.TotalSize', 'Total: %s', 'Total: %s', 'Total: %s', 'Total : %s', 'Gesamt: %s',
+    'Totale: %s', 'Razem: %s', 'Total: %s', 'Total: %s', 'Összesen: %s', 'Celkem: %s', '合計: %s',
+    '共 %s', '共 %s');
+  Set14('ExportDone.Elapsed', 'Time: %s', 'Tempo: %s', 'Tiempo: %s', 'Durée : %s', 'Dauer: %s',
+    'Tempo: %s', 'Czas: %s', 'Tempo: %s', 'Durată: %s', 'Időtartam: %s', 'Doba: %s', '所要時間: %s',
+    '用时: %s', '耗時: %s');
+  Set14('ExportDone.ClickFile', 'Click a file to open it in FastFile:', 'Clique em um arquivo para abri-lo no FastFile:',
+    'Haga clic en un archivo para abrirlo en FastFile:', 'Cliquez sur un fichier pour l''ouvrir dans FastFile :',
+    'Klicken Sie auf eine Datei, um sie in FastFile zu öffnen:', 'Fai clic su un file per aprirlo in FastFile:',
+    'Kliknij plik, aby otworzyć go w FastFile:', 'Clique num ficheiro para o abrir no FastFile:',
+    'Faceți clic pe un fișier pentru a-l deschide în FastFile:',
+    'Kattintson egy fájlra a FastFile-ban való megnyitáshoz:', 'Klikněte na soubor pro otevření ve FastFile:',
+    'ファイルをクリックすると FastFile で開きます:', '单击文件即可在 FastFile 中打开：', '按一下檔案即可在 FastFile 中開啟：');
+  Set14('ExportDone.More', '... and %d more file(s) in the folder', '... e mais %d arquivo(s) na pasta',
+    '... y %d archivo(s) más en la carpeta', '... et %d autre(s) fichier(s) dans le dossier',
+    '... und %d weitere Datei(en) im Ordner', '... e altri %d file nella cartella',
+    '... i jeszcze %d plik(ów) w folderze', '... e mais %d ficheiro(s) na pasta',
+    '... și încă %d fișier(e) în folder', '... és még %d fájl a mappában', '... a další soubory ve složce: %d',
+    '... ほか %d 個のファイルがフォルダーにあります', '... 文件夹中还有 %d 个文件', '... 資料夾中還有 %d 個檔案');
+  Set14('ExportDone.CopyPaths', 'Copy paths', 'Copiar caminhos', 'Copiar rutas', 'Copier les chemins',
+    'Pfade kopieren', 'Copia percorsi', 'Kopiuj ścieżki', 'Copiar caminhos', 'Copiază căile',
+    'Elérési utak másolása', 'Kopírovat cesty', 'パスをコピー', '复制路径', '複製路徑');
+  Set14('ExportDone.FolderLabel', 'Folder:', 'Pasta:', 'Carpeta:', 'Dossier :',
+    'Ordner:', 'Cartella:', 'Folder:', 'Pasta:', 'Dosar:',
+    'Mappa:', 'Složka:', 'フォルダー:', '文件夹：', '資料夾：');
+  Set14('ExportDone.FileLabel', 'File:', 'Arquivo:', 'Archivo:', 'Fichier :',
+    'Datei:', 'File:', 'Plik:', 'Ficheiro:', 'Fișier:',
+    'Fájl:', 'Soubor:', 'ファイル:', '文件：', '檔案：');
+  Set14('Agent.SqlNoChange', 'No line would change, so nothing was proposed.',
+    'Nenhuma linha seria alterada; nada foi proposto.', 'Ninguna línea cambiaría; no se propuso nada.',
+    'Aucune ligne ne serait modifiée ; rien n''a été proposé.',
+    'Keine Zeile würde sich ändern; es wurde nichts vorgeschlagen.',
+    'Nessuna riga verrebbe modificata; non è stato proposto nulla.',
+    'Żaden wiersz nie zostałby zmieniony; nic nie zaproponowano.',
+    'Nenhuma linha seria alterada; nada foi proposto.', 'Niciun rând nu s-ar modifica; nu s-a propus nimic.',
+    'Egyetlen sor sem változna, ezért nincs javaslat.', 'Žádný řádek by se nezměnil, proto nebylo nic navrženo.',
+    '変更される行がないため、提案はありません。', '没有行会被修改，因此未提出任何建议。',
+    '沒有任何列會被修改，因此未提出任何建議。');
+  Set14('Agent.SqlSkipped', 'Note: %s left out %d value(s) that are not numbers.',
+    'Observação: %s ignorou %d valor(es) não numérico(s).', 'Nota: %s omitió %d valor(es) no numérico(s).',
+    'Remarque : %s a ignoré %d valeur(s) non numérique(s).',
+    'Hinweis: %s hat %d nicht numerische(n) Wert(e) ausgelassen.',
+    'Nota: %s ha ignorato %d valore/i non numerico/i.', 'Uwaga: %s pominęło %d wartość(i) nieliczbowe.',
+    'Nota: %s ignorou %d valor(es) não numérico(s).', 'Notă: %s a omis %d valoare/valori nenumerice.',
+    'Megjegyzés: a(z) %s %d nem numerikus értéket kihagyott.', 'Poznámka: %s vynechalo nečíselné hodnoty: %d.',
+    '注: %s は数値以外の値 %d 件を除外しました。', '注意：%s 忽略了 %d 个非数字值。', '注意：%s 略過了 %d 個非數字值。');
+  Set14('Agent.EditsNote',
+    'The change is shown on the right (double-click to enlarge). Nothing is written until you click Accept.',
+    'A mudança aparece à direita (duplo clique amplia). Nada é gravado até você clicar em Aceitar.',
+    'El cambio se muestra a la derecha (doble clic para ampliar). No se escribe nada hasta que haga clic en Aceptar.',
+    'La modification s''affiche à droite (double-clic pour agrandir). Rien n''est écrit avant de cliquer sur Accepter.',
+    'Die Änderung wird rechts angezeigt (Doppelklick vergrößert). Erst mit Übernehmen wird etwas geschrieben.',
+    'La modifica appare a destra (doppio clic per ingrandire). Nulla viene scritto finché non fai clic su Accetta.',
+    'Zmiana jest widoczna po prawej (dwuklik powiększa). Nic nie zostanie zapisane, dopóki nie klikniesz Akceptuj.',
+    'A alteração aparece à direita (duplo clique amplia). Nada é gravado até clicar em Aceitar.',
+    'Modificarea apare în dreapta (dublu clic pentru mărire). Nimic nu se scrie până nu faceți clic pe Acceptare.',
+    'A módosítás jobbra látható (dupla kattintással nagyítható). Semmi sem íródik ki, amíg nem kattint az Elfogadás gombra.',
+    'Změna je zobrazena vpravo (dvojklik zvětší). Nic se nezapíše, dokud nekliknete na Přijmout.',
+    '変更内容は右側に表示されます（ダブルクリックで拡大）。［適用］をクリックするまで書き込まれません。',
+    '变更显示在右侧（双击可放大）。点击“接受”之前不会写入任何内容。',
+    '變更顯示在右側（按兩下可放大）。按「接受」之前不會寫入任何內容。');
+  Set14('Agent.ExpireIn',
+    'Expires in %d s',
+    'Expira em %d s',
+    'Caduca en %d s',
+    'Expire dans %d s',
+    'Läuft ab in %d s',
+    'Scade tra %d s',
+    'Wygasa za %d s',
+    'Expira em %d s',
+    'Expiră în %d s',
+    'Lejár: %d mp',
+    'Vyprší za %d s',
+    '残り %d 秒',
+    '剩余 %d 秒',
+    '剩餘 %d 秒');
+  Set14('Agent.ExpiredShort',
+    'Time is up',
+    'Tempo esgotado',
+    'Tiempo agotado',
+    'Délai expiré',
+    'Zeit abgelaufen',
+    'Tempo scaduto',
+    'Czas minął',
+    'Tempo esgotado',
+    'Timp expirat',
+    'Lejárt az idő',
+    'Čas vypršel',
+    '時間切れ',
+    '时间已到',
+    '時間已到');
+  Set14('Agent.ExpireHint',
+    'Decide within %d seconds: Accept, Reject or Accept all. After that the proposals are discarded and the request must be sent again. Change this time in Options > Preferences.',
+    'Decida em até %d segundos: Aceitar, Rejeitar ou Aceitar tudo. Depois disso as propostas são descartadas e o pedido precisa ser enviado novamente. Altere esse tempo em Opções > Preferências.',
+    'Decida en un máximo de %d segundos: Aceptar, Rechazar o Aceptar todo. Después, las propuestas se descartan y hay que enviar la solicitud de nuevo. Cambie este tiempo en Opciones > Preferencias.',
+    'Décidez dans les %d secondes : Accepter, Rejeter ou Tout accepter. Passé ce délai, les propositions sont abandonnées et la demande doit être renvoyée. Modifiez ce délai dans Options > Préférences.',
+    'Entscheiden Sie innerhalb von %d Sekunden: Übernehmen, Ablehnen oder Alle übernehmen. Danach werden die Vorschläge verworfen und die Anfrage muss erneut gesendet werden. Diese Zeit ändern Sie unter Optionen > Einstellungen.',
+    'Decidi entro %d secondi: Accetta, Rifiuta o Accetta tutto. Dopo, le proposte vengono scartate e la richiesta va inviata di nuovo. Modifica questo tempo in Opzioni > Preferenze.',
+    'Zdecyduj w ciągu %d sekund: Akceptuj, Odrzuć lub Akceptuj wszystko. Potem propozycje zostaną odrzucone i trzeba będzie wysłać prośbę ponownie. Ten czas zmienisz w Opcje > Preferencje.',
+    'Decida no máximo em %d segundos: Aceitar, Rejeitar ou Aceitar tudo. Depois disso as propostas são descartadas e o pedido tem de ser enviado novamente. Altere este tempo em Opções > Preferências.',
+    'Decideți în cel mult %d secunde: Acceptare, Respinge sau Acceptă tot. După aceea propunerile sunt eliminate și cererea trebuie trimisă din nou. Modificați acest timp în Opțiuni > Preferințe.',
+    'Döntsön %d másodpercen belül: Elfogadás, Elutasítás vagy Összes elfogadása. Utána a javaslatok elvesznek, és a kérést újra el kell küldeni. Ezt az időt a Beállítások menü Beállítások... pontjában módosíthatja.',
+    'Rozhodněte se do %d sekund: Přijmout, Odmítnout nebo Přijmout vše. Poté budou návrhy zahozeny a požadavek je nutné odeslat znovu. Tento čas změníte v Možnosti > Předvolby.',
+    '%d 秒以内に［適用］、［却下］、［すべて適用］のいずれかを選んでください。時間を過ぎると提案は破棄され、依頼を再送信する必要があります。この時間は［オプション］>［設定］で変更できます。',
+    '请在 %d 秒内选择“接受”、“拒绝”或“全部接受”。超时后建议将被丢弃，需要重新发送请求。可在“选项 > 首选项”中更改此时间。',
+    '請在 %d 秒內選擇「接受」、「拒絕」或「全部接受」。逾時後建議將被捨棄，需要重新傳送要求。可在「選項 > 偏好設定」中變更此時間。');
+  Set14('Agent.EditsExpired',
+    'Time is up (%d s): the proposed edits were discarded and nothing was written. Send the request again to redo them.',
+    'Tempo esgotado (%d s): as edições propostas foram descartadas e nada foi gravado. Envie o pedido novamente para refazê-las.',
+    'Tiempo agotado (%d s): las ediciones propuestas se descartaron y no se escribió nada. Envíe la solicitud de nuevo para rehacerlas.',
+    'Délai expiré (%d s) : les modifications proposées ont été abandonnées et rien n''a été écrit. Renvoyez la demande pour les refaire.',
+    'Zeit abgelaufen (%d s): Die vorgeschlagenen Änderungen wurden verworfen, nichts wurde geschrieben. Senden Sie die Anfrage erneut, um sie neu zu erstellen.',
+    'Tempo scaduto (%d s): le modifiche proposte sono state scartate e non è stato scritto nulla. Invia di nuovo la richiesta per rifarle.',
+    'Czas minął (%d s): proponowane zmiany zostały odrzucone i nic nie zapisano. Wyślij prośbę ponownie, aby je odtworzyć.',
+    'Tempo esgotado (%d s): as alterações propostas foram descartadas e nada foi gravado. Envie o pedido novamente para as refazer.',
+    'Timp expirat (%d s): modificările propuse au fost eliminate și nu s-a scris nimic. Trimiteți din nou cererea pentru a le reface.',
+    'Lejárt az idő (%d mp): a javasolt módosítások elvesztek, semmi sem íródott ki. Küldje el újra a kérést az újbóli elkészítésükhöz.',
+    'Čas vypršel (%d s): navržené úpravy byly zahozeny a nic se nezapsalo. Odešlete požadavek znovu, abyste je vytvořili znovu.',
+    '時間切れ（%d 秒）：提案された編集は破棄され、何も書き込まれていません。やり直すには依頼を再送信してください。',
+    '时间已到（%d 秒）：建议的编辑已丢弃，未写入任何内容。请重新发送请求以重新生成。',
+    '時間已到（%d 秒）：建議的編輯已捨棄，未寫入任何內容。請重新傳送要求以重新產生。');
+  Set14('Agent.PreviewZoomHint',
+    'Double-click to enlarge',
+    'Duplo clique para ampliar',
+    'Doble clic para ampliar',
+    'Double-cliquez pour agrandir',
+    'Doppelklick zum Vergrößern',
+    'Doppio clic per ingrandire',
+    'Kliknij dwukrotnie, aby powiększyć',
+    'Duplo clique para ampliar',
+    'Dublu clic pentru mărire',
+    'Dupla kattintás a nagyításhoz',
+    'Dvojklikem zvětšíte',
+    'ダブルクリックで拡大',
+    '双击可放大',
+    '按兩下可放大');
+  Set14('Agent.ChangeLine',
+    'Change line %d',
+    'Alterar linha %d',
+    'Cambiar línea %d',
+    'Modifier la ligne %d',
+    'Zeile %d ändern',
+    'Modificare riga %d',
+    'Zmień wiersz %d',
+    'Alterar linha %d',
+    'Modifică linia %d',
+    '%d. sor módosítása',
+    'Změnit řádek %d',
+    '%d 行目を変更',
+    '修改第 %d 行',
+    '修改第 %d 行');
+  Set14('Agent.FullText',
+    'See full text',
+    'Ver texto completo',
+    'Ver texto completo',
+    'Voir le texte complet',
+    'Vollständigen Text anzeigen',
+    'Vedi testo completo',
+    'Pokaż pełny tekst',
+    'Ver texto completo',
+    'Vezi textul complet',
+    'Teljes szöveg megjelenítése',
+    'Zobrazit celý text',
+    '全文を表示',
+    '查看完整文本',
+    '檢視完整文字');
+  Set14('Agent.PreviewLoading',
+    'Reading the lines from the file...',
+    'Lendo as linhas do arquivo...',
+    'Leyendo las líneas del archivo...',
+    'Lecture des lignes du fichier...',
+    'Zeilen der Datei werden gelesen...',
+    'Lettura delle righe del file...',
+    'Odczytywanie wierszy pliku...',
+    'A ler as linhas do ficheiro...',
+    'Se citesc liniile din fișier...',
+    'A fájl sorainak beolvasása...',
+    'Načítání řádků souboru...',
+    'ファイルの行を読み込み中...',
+    '正在读取文件中的行...',
+    '正在讀取檔案中的行...');
+  Set14('Agent.PreviewMore',
+    '... and %s more line(s) (not shown in the preview; all are applied on Accept)',
+    '... e mais %s linha(s) (não exibidas na prévia; todas são aplicadas ao Aceitar)',
+    '... y %s línea(s) más (no se muestran en la vista previa; todas se aplican al Aceptar)',
+    '... et %s ligne(s) de plus (non affichées dans l''aperçu ; toutes sont appliquées en acceptant)',
+    '... und %s weitere Zeile(n) (nicht in der Vorschau; beim Übernehmen werden alle angewendet)',
+    '... e altre %s riga/e (non mostrate nell''anteprima; vengono applicate tutte con Accetta)',
+    '... i jeszcze %s wiersz(y) (niewidoczne w podglądzie; wszystkie zostaną zastosowane po akceptacji)',
+    '... e mais %s linha(s) (não mostradas na pré-visualização; todas são aplicadas ao Aceitar)',
+    '... și încă %s linie/linii (neafișate în previzualizare; toate se aplică la Acceptare)',
+    '... és további %s sor (az előnézetben nem látható; elfogadáskor mind alkalmazásra kerül)',
+    '... a dalších %s řádků (v náhledu se nezobrazují; při přijetí se použijí všechny)',
+    '... ほか %s 行（プレビューには表示されません。適用時にはすべて反映されます）',
+    '... 另有 %s 行（预览中未显示；接受时会全部应用）',
+    '... 另有 %s 行（預覽中未顯示；接受時會全部套用）');
+  Set14('Agent.DeleteLine',
+    'Delete line %d',
+    'Excluir linha %d',
+    'Eliminar línea %d',
+    'Supprimer la ligne %d',
+    'Zeile %d löschen',
+    'Eliminare riga %d',
+    'Usuń wiersz %d',
+    'Eliminar linha %d',
+    'Șterge linia %d',
+    '%d. sor törlése',
+    'Smazat řádek %d',
+    '%d 行目を削除',
+    '删除第 %d 行',
+    '刪除第 %d 行');
+  Set14('Files found', 'Files found', 'Arquivos encontrados', 'Archivos encontrados', 'Fichiers trouvés',
+    'Gefundene Dateien', 'File trovati', 'Znalezione pliki', 'Ficheiros encontrados', 'Fișiere găsite',
+    'Talált fájlok', 'Nalezené soubory', '見つかったファイル', '找到的文件', '找到的檔案');
+  Set14('Edit preview', 'Edit preview', 'Pré-visualização', 'Vista previa', 'Aperçu', 'Vorschau', 'Anteprima', 'Podgląd', 'Pré-visualização', 'Previzualizare', 'Előnézet', 'Náhled', 'プレビュー', '预览', '預覽');
+  Set14('Describe what you want from these files.',
+    'Describe what you want from these files.',
+    'Descreva o que deseja fazer com estes arquivos.',
+    'Describa qué desea hacer con estos archivos.',
+    'Décrivez ce que vous voulez faire avec ces fichiers.',
+    'Beschreiben Sie, was mit diesen Dateien geschehen soll.',
+    'Descrivi che cosa vuoi fare con questi file.',
+    'Opisz, co chcesz zrobić z tymi plikami.',
+    'Descreva o que pretende fazer com estes ficheiros.',
+    'Descrieți ce doriți să faceți cu aceste fișiere.',
+    'Írja le, mit szeretne tenni ezekkel a fájlokkal.',
+    'Popište, co chcete s těmito soubory udělat.',
+    'これらのファイルで何をしたいかを書いてください。',
+    '请描述希望对这些文件做什么。',
+    '請描述希望對這些檔案做什麼。');
+  Set14('Add files...', 'Add files...', 'Adicionar arquivos...', 'Agregar archivos...', 'Ajouter des fichiers...', 'Dateien hinzufügen...', 'Aggiungi file...', 'Dodaj pliki...', 'Adicionar ficheiros...', 'Adăugați fișiere...', 'Fájlok hozzáadása...', 'Přidat soubory...', 'ファイルを追加...', '添加文件...', '新增檔案...');
+  Set14('Add folder...', 'Add folder...', 'Adicionar pasta...', 'Agregar carpeta...', 'Ajouter un dossier...', 'Ordner hinzufügen...', 'Aggiungi cartella...', 'Dodaj folder...', 'Adicionar pasta...', 'Adăugați folder...', 'Mappa hozzáadása...', 'Přidat složku...', 'フォルダーを追加...', '添加文件夹...', '新增資料夾...');
+  Set14('Open file', 'Open file', 'Arquivo aberto', 'Archivo abierto', 'Fichier ouvert', 'Geöffnete Datei', 'File aperto', 'Otwarty plik', 'Ficheiro aberto', 'Fișier deschis', 'Megnyitott fájl', 'Otevřený soubor', '開いているファイル', '当前文件', '目前的檔案');
+  Set14('Remove', 'Remove', 'Remover', 'Quitar', 'Retirer', 'Entfernen', 'Rimuovi', 'Usuń', 'Remover', 'Eliminare', 'Eltávolítás', 'Odebrat', '削除', '移除', '移除');
+  Set14('Send', 'Send', 'Enviar', 'Enviar', 'Envoyer', 'Senden', 'Invia', 'Wyślij', 'Enviar', 'Trimite', 'Küldés', 'Odeslat', '送信', '发送', '傳送');
+  Set14('Stop', 'Stop', 'Parar', 'Detener', 'Arrêter', 'Stopp', 'Ferma', 'Zatrzymaj', 'Parar', 'Oprire', 'Leállítás', 'Zastavit', '停止', '停止', '停止');
+  Set14('Sources', 'Sources', 'Origens', 'Orígenes', 'Sources', 'Quellen', 'Origini', 'Źródła', 'Origens', 'Surse', 'Források', 'Zdroje', '対象', '来源', '來源');
+  Set14('Included', 'Included', 'Incluídos', 'Incluidos', 'Inclus', 'Enthalten', 'Inclusi', 'Uwzględnione', 'Incluídos', 'Incluse', 'Beleértve', 'Zahrnuto', '対象ファイル', '已列入', '已列入');
+  Set14('Options', 'Options', 'Opções', 'Opciones', 'Options', 'Optionen', 'Opzioni', 'Opcje', 'Opções', 'Opțiuni', 'Beállítások', 'Možnosti', 'オプション', '选项', '選項');
+  Set14('Include subfolders', 'Include subfolders', 'Incluir subpastas', 'Incluir subcarpetas', 'Inclure les sous-dossiers', 'Unterordner einschließen', 'Includi sottocartelle', 'Uwzględnij podfoldery', 'Incluir subpastas', 'Include subfoldere', 'Almappákkal', 'Zahrnout podsložky', 'サブフォルダーを含める', '包含子文件夹', '包含子資料夾');
+  Set14('File mask', 'File mask', 'Máscara', 'Máscara', 'Masque', 'Maske', 'Maschera', 'Maska', 'Máscara', 'Mască', 'Maszk', 'Maska', 'マスク', '文件掩码', '檔案遮罩');
+  Set14('Max folder depth', 'Max folder depth', 'Profundidade', 'Profundidad', 'Profondeur', 'Tiefe', 'Profondità', 'Głębokość', 'Profundidade', 'Adâncime', 'Mélység', 'Hloubka', '深さ', '深度', '深度');
+  Set14('Max files', 'Max files', 'Máx. arquivos', 'Máx. archivos', 'Max. fichiers', 'Max. Dateien', 'Max. file', 'Maks. plików', 'Máx. ficheiros', 'Max. fișiere', 'Max. fájl', 'Max. souborů', '最大ファイル数', '最大文件数', '最大檔案數');
+  Set14('Prompt', 'Prompt', 'Prompt', 'Consulta', 'Invite', 'Eingabe', 'Richiesta', 'Polecenie', 'Pedido', 'Solicitare', 'Kérés', 'Dotaz', 'プロンプト', '提示', '提示');
+  Set14('Answer', 'Answer', 'Resposta', 'Respuesta', 'Réponse', 'Antwort', 'Risposta', 'Odpowiedź', 'Resposta', 'Răspuns', 'Válasz', 'Odpověď', '回答', '回答', '回答');
+  Set14('Revised prompt', 'Revised prompt', 'Prompt revisto', 'Consulta revisada', 'Invite révisée', 'Überarbeitete Eingabe', 'Richiesta rivista', 'Zmienione polecenie', 'Pedido revisto', 'Solicitare revizuită', 'Átdolgozott kérés', 'Upravený dotaz', '改訂プロンプト', '修订后的提示', '修訂後的提示');
+  Set14('Proposed edits', 'Proposed edits', 'Edições propostas', 'Ediciones propuestas', 'Modifications proposées', 'Vorgeschlagene Änderungen', 'Modifiche proposte', 'Proponowane zmiany', 'Edições propostas', 'Editări propuse', 'Javasolt módosítások', 'Navrhované úpravy', '提案された編集', '建议的修改', '建議的修改');
+  Set14('Accept', 'Accept', 'Aceitar', 'Aceptar', 'Accepter', 'Übernehmen', 'Accetta', 'Akceptuj', 'Aceitar', 'Acceptare', 'Elfogadás', 'Přijmout', '適用', '接受', '接受');
+  Set14('Reject', 'Reject', 'Rejeitar', 'Rechazar', 'Rejeter', 'Ablehnen', 'Rifiuta', 'Odrzuć', 'Rejeitar', 'Respinge', 'Elutasítás', 'Odmítnout', '却下', '拒绝', '拒絕');
+  Set14('Accept all', 'Accept all', 'Aceitar tudo', 'Aceptar todo', 'Tout accepter', 'Alle übernehmen', 'Accetta tutto', 'Akceptuj wszystko', 'Aceitar tudo', 'Acceptă tot', 'Összes elfogadása', 'Přijmout vše', 'すべて適用', '全部接受', '全部接受');
+  Set14('Ready.', 'Ready.', 'Pronto.', 'Listo.', 'Prêt.', 'Bereit.', 'Pronto.', 'Gotowe.', 'Pronto.', 'Gata.', 'Kész.', 'Hotovo.', '準備完了。', '就绪。', '就緒。');
+  Set14('Scanning sources... %d', 'Scanning sources... %d', 'Varrendo origens... %d', 'Examinando orígenes... %d', 'Analyse des sources... %d', 'Quellen werden gelesen... %d', 'Scansione origini... %d', 'Skanowanie źródeł... %d', 'A verificar origens... %d', 'Se scanează sursele... %d', 'Források olvasása... %d', 'Prohledávání zdrojů... %d', '対象を走査中... %d', '正在扫描来源... %d', '正在掃描來源... %d');
+  Set14('Agent.AskingStep',
+    'Asking the AI (step %d)...',
+    'Consultando a IA (etapa %d)...',
+    'Consultando a la IA (paso %d)...',
+    'Consultation de l''IA (étape %d)...',
+    'KI wird befragt (Schritt %d)...',
+    'Consultazione dell''IA (passo %d)...',
+    'Pytanie do AI (krok %d)...',
+    'A consultar a IA (etapa %d)...',
+    'Se consultă IA (pasul %d)...',
+    'MI lekérdezése (%d. lépés)...',
+    'Dotaz na AI (krok %d)...',
+    'AI に問い合わせ中（ステップ %d）...',
+    '正在询问 AI（第 %d 步）...',
+    '正在詢問 AI（第 %d 步）...');
+  Set14('Counting matches...', 'Counting matches...', 'Contando ocorrências...', 'Contando coincidencias...', 'Comptage des occurrences...', 'Treffer werden gezählt...', 'Conteggio delle occorrenze...', 'Liczenie wystąpień...', 'A contar ocorrências...', 'Se numără aparițiile...', 'Találatok számlálása...', 'Počítání výskytů...', '一致を数えています...', '正在统计匹配...', '正在統計相符項目...');
+  Set14('Searching...', 'Searching...', 'Procurando...', 'Buscando...', 'Recherche...', 'Suche...', 'Ricerca...', 'Wyszukiwanie...', 'A procurar...', 'Se caută...', 'Keresés...', 'Hledání...', '検索しています...', '正在搜索...', '正在搜尋...');
+  Set14('Reading lines...', 'Reading lines...', 'Lendo linhas...', 'Leyendo líneas...', 'Lecture des lignes...', 'Zeilen werden gelesen...', 'Lettura delle righe...', 'Odczyt wierszy...', 'A ler linhas...', 'Se citesc liniile...', 'Sorok olvasása...', 'Čtení řádků...', '行を読んでいます...', '正在读取行...', '正在讀取行...');
+  Set14('Asking the model again...', 'Asking the AI again...', 'Consultando a IA novamente...', 'Consultando de nuevo a la IA...', 'Nouvelle consultation de l''IA...', 'KI wird erneut befragt...', 'Nuova consultazione dell''IA...', 'Ponowne pytanie do AI...', 'A consultar novamente a IA...', 'Se consultă din nou IA...', 'MI újbóli lekérdezése...', 'Opakovaný dotaz na AI...', 'AI に再度問い合わせ中...', '正在再次询问 AI...', '正在再次詢問 AI...');
+  Set14('Files ready: %d', 'Files ready: %d', 'Arquivos prontos: %d', 'Archivos listos: %d', 'Fichiers prêts : %d', 'Dateien bereit: %d', 'File pronti: %d', 'Pliki gotowe: %d', 'Ficheiros prontos: %d', 'Fișiere gata: %d', 'Fájlok készen: %d', 'Soubory připraveny: %d', '準備できたファイル: %d', '文件已就绪：%d', '檔案已就緒：%d');
+  Set14('No files in the selection.', 'No files in the selection.', 'Nenhum arquivo na seleção.', 'No hay archivos en la selección.', 'Aucun fichier dans la sélection.', 'Keine Dateien in der Auswahl.', 'Nessun file nella selezione.', 'Brak plików w wyborze.', 'Nenhum ficheiro na seleção.', 'Niciun fișier în selecție.', 'Nincs fájl a kijelölésben.', 'Ve výběru nejsou žádné soubory.', '選択にファイルがありません。', '选择中没有文件。', '選取中沒有檔案。');
+  Set14('Write a prompt first.', 'Write a prompt first.', 'Escreva um prompt primeiro.', 'Escriba una consulta primero.', 'Écrivez une invite d''abord.', 'Zuerst eine Eingabe schreiben.', 'Scrivi prima una richiesta.', 'Najpierw wpisz polecenie.', 'Escreva um pedido primeiro.', 'Scrieți mai întâi o solicitare.', 'Először írjon egy kérést.', 'Nejprve napište dotaz.', '先にプロンプトを入力してください。', '请先输入提示。', '請先輸入提示。');
+  Set14('Select a file or folder first.', 'Select a file or folder first.', 'Selecione um arquivo ou uma pasta primeiro.', 'Seleccione primero un archivo o una carpeta.', 'Sélectionnez d''abord un fichier ou un dossier.', 'Zuerst eine Datei oder einen Ordner wählen.', 'Seleziona prima un file o una cartella.', 'Najpierw wybierz plik lub folder.', 'Selecione primeiro um ficheiro ou uma pasta.', 'Selectați mai întâi un fișier sau un folder.', 'Először válasszon fájlt vagy mappát.', 'Nejprve vyberte soubor nebo složku.', '先にファイルまたはフォルダーを選んでください。', '请先选择文件或文件夹。', '請先選擇檔案或資料夾。');
+  Set14('Request stopped.', 'Request stopped.', 'Pedido interrompido.', 'Solicitud detenida.', 'Demande arrêtée.', 'Anfrage angehalten.', 'Richiesta interrotta.', 'Żądanie zatrzymane.', 'Pedido interrompido.', 'Solicitare oprită.', 'Kérés leállítva.', 'Požadavek zastaven.', '要求を停止しました。', '请求已停止。', '要求已停止。');
+  Set14('The model stopped after the turn limit.', 'The model stopped after the turn limit.', 'O modelo parou no limite de turnos.', 'El modelo se detuvo en el límite de turnos.', 'Le modèle s''est arrêté à la limite de tours.', 'Das Modell hat am Rundenlimit angehalten.', 'Il modello si è fermato al limite di turni.', 'Model zatrzymał się na limicie tur.', 'O modelo parou no limite de turnos.', 'Modelul s-a oprit la limita de runde.', 'A modell megállt a körlimitnél.', 'Model se zastavil na limitu kol.', 'モデルが応答回数の上限で停止しました。', '模型在回合上限后停止。', '模型在回合上限後停止。');
+  Set14('Apply the edit to %s?', 'Apply the edit to %s?', 'Aplicar a edição em %s?', '¿Aplicar la edición a %s?', 'Appliquer la modification à %s ?', 'Änderung auf %s anwenden?', 'Applicare la modifica a %s?', 'Zastosować zmianę do %s?', 'Aplicar a edição em %s?', 'Aplicați editarea la %s?', 'Alkalmazza a módosítást erre: %s?', 'Použít úpravu na %s?', '%s に編集を適用しますか？', '要将编辑应用到 %s 吗？', '要將編輯套用到 %s 嗎？');
+  Set14('Edit applied.', 'Edit applied.', 'Edição aplicada.', 'Edición aplicada.', 'Modification appliquée.', 'Änderung angewendet.', 'Modifica applicata.', 'Zmiana zastosowana.', 'Edição aplicada.', 'Editare aplicată.', 'Módosítás alkalmazva.', 'Úprava použita.', '編集を適用しました。', '已应用编辑。', '已套用編輯。');
+  Set14('Could not apply the edit.', 'Could not apply the edit.', 'Não foi possível aplicar a edição.', 'No se pudo aplicar la edición.', 'Impossible d''appliquer la modification.', 'Die Änderung konnte nicht angewendet werden.', 'Impossibile applicare la modifica.', 'Nie można zastosować zmiany.', 'Não foi possível aplicar a edição.', 'Nu s-a putut aplica editarea.', 'A módosítást nem sikerült alkalmazni.', 'Úpravu se nepodařilo použít.', '編集を適用できませんでした。', '无法应用编辑。', '無法套用編輯。');
+  Set14('Discard this edit?', 'Discard this edit?', 'Descartar esta edição?', '¿Descartar esta edición?', 'Abandonner cette modification ?', 'Diese Änderung verwerfen?', 'Scartare questa modifica?', 'Odrzucić tę zmianę?', 'Rejeitar esta edição?', 'Renunțați la această editare?', 'Elveti ezt a módosítást?', 'Zahodit tuto úpravu?', 'この編集を破棄しますか？', '放弃此编辑？', '捨棄此編輯？');
+  Set14('Apply every proposed edit?', 'Apply every proposed edit?', 'Aplicar todas as edições propostas?', '¿Aplicar todas las ediciones propuestas?', 'Appliquer toutes les modifications proposées ?', 'Alle vorgeschlagenen Änderungen anwenden?', 'Applicare tutte le modifiche proposte?', 'Zastosować wszystkie proponowane zmiany?', 'Aplicar todas as edições propostas?', 'Aplicați toate editările propuse?', 'Alkalmazza az összes javasolt módosítást?', 'Použít všechny navrhované úpravy?', '提案された編集をすべて適用しますか？', '应用全部建议的修改？', '套用全部建議的修改？');
+  Set14('List capped at the max file count.', 'List capped at the max file count.', 'Lista limitada ao máximo de arquivos.', 'Lista limitada al máximo de archivos.', 'Liste limitée au nombre maximal de fichiers.', 'Liste auf die maximale Dateianzahl begrenzt.', 'Elenco limitato al massimo di file.', 'Lista ograniczona do maksymalnej liczby plików.', 'Lista limitada ao máximo de ficheiros.', 'Lista limitată la numărul maxim de fișiere.', 'A lista a maximális fájlszámra van korlátozva.', 'Seznam omezen na maximální počet souborů.', 'リストは最大ファイル数で打ち切られました。', '列表已达到最大文件数。', '清單已達到最大檔案數。');
+  Set14('Preview skipped. New text:', 'Preview skipped. New text:', 'Pré-visualização ignorada. Texto novo:', 'Vista previa omitida. Texto nuevo:', 'Aperçu ignoré. Nouveau texte :', 'Vorschau übersprungen. Neuer Text:', 'Anteprima saltata. Nuovo testo:', 'Podgląd pominięty. Nowy tekst:', 'Pré-visualização ignorada. Texto novo:', 'Previzualizare omisă. Text nou:', 'Előnézet kihagyva. Új szöveg:', 'Náhled přeskočen. Nový text:', 'プレビューを省略しました。新しいテキスト:', '已跳过预览。新文本：', '已略過預覽。新文字：');
+  Set14('Working...', 'Working...', 'Trabalhando...', 'Trabajando...', 'Traitement...', 'Arbeitet...', 'Elaborazione...', 'Przetwarzanie...', 'A processar...', 'Se lucrează...', 'Feldolgozás...', 'Zpracování...', '処理中...', '正在处理...', '正在處理...');
+  Set14('[file] %s', '[file] %s', '[arquivo] %s', '[archivo] %s', '[fichier] %s', '[Datei] %s', '[file] %s', '[plik] %s', '[ficheiro] %s', '[fișier] %s', '[fájl] %s', '[soubor] %s', '[ファイル] %s', '[文件] %s', '[檔案] %s');
+  Set14('[folder] %s', '[folder] %s', '[pasta] %s', '[carpeta] %s', '[dossier] %s', '[Ordner] %s', '[cartella] %s', '[folder] %s', '[pasta] %s', '[folder] %s', '[mappa] %s', '[složka] %s', '[フォルダー] %s', '[文件夹] %s', '[資料夾] %s');
+  Set14('Agent.CountAnswer',
+    '%s line(s) contain "%s" in %s file(s):',
+    '%s linha(s) contêm "%s" em %s arquivo(s):',
+    '%s línea(s) contienen "%s" en %s archivo(s):',
+    '%s ligne(s) contiennent « %s » dans %s fichier(s) :',
+    '%s Zeile(n) enthalten "%s" in %s Datei(en):',
+    '%s riga/e contengono "%s" in %s file:',
+    '%s wierszy zawiera "%s" w %s plikach:',
+    '%s linha(s) contêm "%s" em %s ficheiro(s):',
+    '%s linii conțin „%s” în %s fișier(e):',
+    '%s sor tartalmazza ezt: "%s" (%s fájlban):',
+    '%s řádků obsahuje „%s“ v %s souborech:',
+    '%s 行に「%s」が含まれています（%s ファイル）:',
+    '%s 行包含“%s”（共 %s 个文件）：',
+    '%s 行包含「%s」（共 %s 個檔案）：');
+  Set14('Agent.CountNote',
+    'This counts lines that contain the text, not distinct people or records.',
+    'A contagem é de linhas que contêm o texto, não de pessoas ou registros distintos.',
+    'Se cuentan líneas que contienen el texto, no personas ni registros distintos.',
+    'Le décompte porte sur les lignes contenant le texte, pas sur des personnes ou enregistrements distincts.',
+    'Gezählt werden Zeilen, die den Text enthalten, nicht verschiedene Personen oder Datensätze.',
+    'Si contano le righe che contengono il testo, non persone o record distinti.',
+    'Liczone są wiersze zawierające tekst, a nie osoby czy unikalne rekordy.',
+    'A contagem é de linhas que contêm o texto, não de pessoas ou registos distintos.',
+    'Se numără liniile care conțin textul, nu persoane sau înregistrări distincte.',
+    'A szöveget tartalmazó sorok száma, nem különböző személyeké vagy rekordoké.',
+    'Počítají se řádky obsahující text, ne odlišné osoby či záznamy.',
+    'テキストを含む行数であり、人数や重複しないレコード数ではありません。',
+    '统计的是包含该文本的行数，而不是不同的人或记录数。',
+    '統計的是包含該文字的行數，而不是不同的人或記錄數。');
+  Set14('Agent.Action',
+    'FastFile action',
+    'Ação do FastFile',
+    'Acción de FastFile',
+    'Action FastFile',
+    'FastFile-Aktion',
+    'Azione FastFile',
+    'Akcja FastFile',
+    'Ação do FastFile',
+    'Acțiune FastFile',
+    'FastFile-művelet',
+    'Akce FastFile',
+    'FastFile の操作',
+    'FastFile 操作',
+    'FastFile 操作');
+  Set14('Agent.ActionConfirm',
+    'Run this FastFile action now?',
+    'Executar esta ação do FastFile agora?',
+    '¿Ejecutar esta acción de FastFile ahora?',
+    'Exécuter cette action FastFile maintenant ?',
+    'Diese FastFile-Aktion jetzt ausführen?',
+    'Eseguire ora questa azione FastFile?',
+    'Wykonać teraz tę akcję FastFile?',
+    'Executar esta ação do FastFile agora?',
+    'Executați acum această acțiune FastFile?',
+    'Futtatja most ezt a FastFile-műveletet?',
+    'Spustit tuto akci FastFile nyní?',
+    'この FastFile の操作を今すぐ実行しますか？',
+    '现在执行此 FastFile 操作吗？',
+    '現在執行此 FastFile 操作嗎？');
+  Set14('Agent.ActionStarted',
+    'FastFile action started in the main window.',
+    'Ação do FastFile iniciada na janela principal.',
+    'Acción de FastFile iniciada en la ventana principal.',
+    'Action FastFile lancée dans la fenêtre principale.',
+    'FastFile-Aktion im Hauptfenster gestartet.',
+    'Azione FastFile avviata nella finestra principale.',
+    'Akcja FastFile uruchomiona w oknie głównym.',
+    'Ação do FastFile iniciada na janela principal.',
+    'Acțiunea FastFile a pornit în fereastra principală.',
+    'A FastFile-művelet elindult a főablakban.',
+    'Akce FastFile byla spuštěna v hlavním okně.',
+    'FastFile の操作をメイン ウィンドウで開始しました。',
+    '已在主窗口中启动 FastFile 操作。',
+    '已在主視窗中啟動 FastFile 操作。');
+  Set14('Agent.ActionPreview',
+    'Runs the FastFile feature when you click Accept. Features that have their own window open it so you can review the options and confirm.',
+    'Executa o recurso do FastFile quando você clicar em Aceitar. Recursos com janela própria abrem essa janela para você revisar as opções e confirmar.',
+    'Ejecuta la función de FastFile al hacer clic en Aceptar. Las funciones con ventana propia la abren para que revise las opciones y confirme.',
+    'Exécute la fonction FastFile lorsque vous cliquez sur Accepter. Les fonctions qui ont leur propre fenêtre l''ouvrent pour que vous vérifiiez les options et confirmiez.',
+    'Führt die FastFile-Funktion aus, wenn Sie auf Übernehmen klicken. Funktionen mit eigenem Fenster öffnen es, damit Sie die Optionen prüfen und bestätigen.',
+    'Esegue la funzione FastFile quando fai clic su Accetta. Le funzioni con una propria finestra la aprono per rivedere le opzioni e confermare.',
+    'Uruchamia funkcję FastFile po kliknięciu Akceptuj. Funkcje z własnym oknem otwierają je, aby można było sprawdzić opcje i potwierdzić.',
+    'Executa a funcionalidade do FastFile quando clicar em Aceitar. Funcionalidades com janela própria abrem-na para rever as opções e confirmar.',
+    'Rulează funcția FastFile când faceți clic pe Acceptare. Funcțiile cu fereastră proprie o deschid pentru a verifica opțiunile și a confirma.',
+    'Az Elfogadás gombra kattintva futtatja a FastFile funkciót. A saját ablakkal rendelkező funkciók megnyitják azt a beállítások ellenőrzéséhez és megerősítéséhez.',
+    'Po kliknutí na Přijmout spustí funkci FastFile. Funkce s vlastním oknem ho otevřou, abyste mohli zkontrolovat možnosti a potvrdit.',
+    '［承認］をクリックすると FastFile の機能を実行します。専用ウィンドウがある機能はそれを開くので、オプションを確認して確定してください。',
+    '单击“接受”时运行该 FastFile 功能。带有独立窗口的功能会打开该窗口，供您检查选项并确认。',
+    '按一下「接受」時執行該 FastFile 功能。具有獨立視窗的功能會開啟該視窗，供您檢查選項並確認。');
+  Set14('Agent.ActionsOneByOne',
+    'FastFile actions in the list must be accepted one at a time.',
+    'As ações do FastFile na lista devem ser aceitas uma de cada vez.',
+    'Las acciones de FastFile de la lista se aceptan de una en una.',
+    'Les actions FastFile de la liste doivent être acceptées une par une.',
+    'FastFile-Aktionen in der Liste müssen einzeln übernommen werden.',
+    'Le azioni FastFile nell''elenco vanno accettate una alla volta.',
+    'Akcje FastFile na liście należy akceptować pojedynczo.',
+    'As ações do FastFile na lista devem ser aceites uma de cada vez.',
+    'Acțiunile FastFile din listă trebuie acceptate pe rând.',
+    'A listában lévő FastFile-műveleteket egyenként kell elfogadni.',
+    'Akce FastFile v seznamu je nutné přijímat po jedné.',
+    '一覧の FastFile の操作は 1 つずつ承認してください。',
+    '列表中的 FastFile 操作需要逐个接受。',
+    '清單中的 FastFile 操作需要逐一接受。');
+  Set14('Agent.ActionsRun',
+    'Running %d FastFile action(s) in the main window...',
+    'Executando %d ação(ões) do FastFile na janela principal...',
+    'Ejecutando %d acción(es) de FastFile en la ventana principal...',
+    'Exécution de %d action(s) FastFile dans la fenêtre principale...',
+    '%d FastFile-Aktion(en) werden im Hauptfenster ausgeführt...',
+    'Esecuzione di %d azione/i FastFile nella finestra principale...',
+    'Wykonywanie %d akcji FastFile w oknie głównym...',
+    'A executar %d ação(ões) do FastFile na janela principal...',
+    'Se rulează %d acțiune(i) FastFile în fereastra principală...',
+    '%d FastFile-művelet futtatása a főablakban...',
+    'Spouštění %d akcí FastFile v hlavním okně...',
+    'メイン ウィンドウで FastFile の操作を %d 件実行しています...',
+    '正在主窗口中执行 %d 个 FastFile 操作...',
+    '正在主視窗中執行 %d 個 FastFile 操作...');
+  Set14('Agent.ModelToolCall',
+    'The AI model tried to run code instead of answering, and the AI service rejected the reply. Please send the request again.',
+    'O modelo de IA tentou executar código em vez de responder, e o serviço de IA recusou a resposta. Envie o pedido novamente.',
+    'El modelo de IA intentó ejecutar código en lugar de responder y el servicio de IA rechazó la respuesta. Envía la solicitud de nuevo.',
+    'Le modèle d''IA a tenté d''exécuter du code au lieu de répondre, et le service d''IA a refusé la réponse. Renvoyez la demande.',
+    'Das KI-Modell hat versucht, Code auszuführen, statt zu antworten, und der KI-Dienst hat die Antwort abgelehnt. Senden Sie die Anfrage erneut.',
+    'Il modello di IA ha tentato di eseguire codice invece di rispondere e il servizio di IA ha rifiutato la risposta. Invia di nuovo la richiesta.',
+    'Model AI próbował uruchomić kod zamiast odpowiedzieć i usługa AI odrzuciła odpowiedź. Wyślij polecenie ponownie.',
+    'O modelo de IA tentou executar código em vez de responder, e o serviço de IA recusou a resposta. Envie o pedido novamente.',
+    'Modelul AI a încercat să ruleze cod în loc să răspundă, iar serviciul AI a respins răspunsul. Trimite cererea din nou.',
+    'Az MI-modell válasz helyett kódot próbált futtatni, és az MI-szolgáltatás elutasította a választ. Küldje el újra a kérést.',
+    'Model AI se místo odpovědi pokusil spustit kód a služba AI odpověď odmítla. Odešlete požadavek znovu.',
+    'AI モデルが回答の代わりにコードを実行しようとしたため、AI サービスが応答を拒否しました。もう一度送信してください。',
+    'AI 模型试图执行代码而不是回答，AI 服务拒绝了该回复。请重新发送请求。',
+    'AI 模型試圖執行程式碼而非回答，AI 服務拒絕了該回覆。請重新傳送請求。');
+  Set14('Agent.ToolNew',
+    'New',
+    'Novo',
+    'Nuevo',
+    'Nouveau',
+    'Neu',
+    'Nuovo',
+    'Nowy',
+    'Novo',
+    'Nou',
+    'Új',
+    'Nový',
+    '新規',
+    '新建',
+    '新增');
+  Set14('Agent.ToolNewPromptHint',
+    'Save this request in Recent requests, then clear it to start a new one',
+    'Salva este pedido em Pedidos recentes e depois limpa, para começar um novo',
+    'Guarda esta solicitud en Solicitudes recientes y luego la borra para empezar una nueva',
+    'Enregistre cette demande dans Demandes récentes, puis l''efface pour en commencer une nouvelle',
+    'Speichert diese Anfrage unter Letzte Anfragen und leert sie dann für eine neue',
+    'Salva questa richiesta in Richieste recenti, poi la cancella per iniziarne una nuova',
+    'Zapisuje to polecenie w Ostatnich poleceniach, a potem je czyści, aby zacząć nowe',
+    'Guarda este pedido em Pedidos recentes e depois limpa-o, para começar um novo',
+    'Salvează această solicitare în Solicitări recente, apoi o șterge pentru a începe una nouă',
+    'Elmenti a kérést a Legutóbbi kérések közé, majd törli, hogy újat kezdhessen',
+    'Uloží tento požadavek do Nedávných požadavků a pak ho vymaže, abyste mohli začít nový',
+    'この依頼を最近の依頼に保存してから消去し、新しい依頼を始めます',
+    '将此请求保存到最近的请求，然后清除，开始新的请求',
+    '將此請求儲存到最近的請求，然後清除，開始新的請求');
+  Set14('Agent.ToolNewRootsHint',
+    'Save the list of files and folders to a text file (AgentHistory folder), then remove them all',
+    'Salva a lista de arquivos e pastas num arquivo de texto (pasta AgentHistory) e depois remove todos',
+    'Guarda la lista de archivos y carpetas en un archivo de texto (carpeta AgentHistory) y luego los quita todos',
+    'Enregistre la liste des fichiers et dossiers dans un fichier texte (dossier AgentHistory), puis les retire tous',
+    'Speichert die Liste der Dateien und Ordner in einer Textdatei (Ordner AgentHistory) und entfernt dann alle',
+    'Salva l''elenco di file e cartelle in un file di testo (cartella AgentHistory), poi li rimuove tutti',
+    'Zapisuje listę plików i folderów w pliku tekstowym (folder AgentHistory), a potem usuwa wszystkie',
+    'Guarda a lista de ficheiros e pastas num ficheiro de texto (pasta AgentHistory) e depois remove todos',
+    'Salvează lista de fișiere și foldere într-un fișier text (folderul AgentHistory), apoi le elimină pe toate',
+    'Elmenti a fájlok és mappák listáját egy szövegfájlba (AgentHistory mappa), majd mindet eltávolítja',
+    'Uloží seznam souborů a složek do textového souboru (složka AgentHistory) a pak je všechny odebere',
+    'ファイルとフォルダーの一覧をテキストファイル（AgentHistory フォルダー）に保存してから、すべて削除します',
+    '将文件和文件夹列表保存到文本文件（AgentHistory 文件夹），然后全部移除',
+    '將檔案和資料夾清單儲存到文字檔（AgentHistory 資料夾），然後全部移除');
+  Set14('Agent.ToolNewAnswerHint',
+    'Save the request and the answer to a text file (AgentHistory folder), then clear the answer',
+    'Salva o pedido e a resposta num arquivo de texto (pasta AgentHistory) e depois limpa a resposta',
+    'Guarda la solicitud y la respuesta en un archivo de texto (carpeta AgentHistory) y luego borra la respuesta',
+    'Enregistre la demande et la réponse dans un fichier texte (dossier AgentHistory), puis efface la réponse',
+    'Speichert Anfrage und Antwort in einer Textdatei (Ordner AgentHistory) und leert dann die Antwort',
+    'Salva la richiesta e la risposta in un file di testo (cartella AgentHistory), poi cancella la risposta',
+    'Zapisuje polecenie i odpowiedź w pliku tekstowym (folder AgentHistory), a potem czyści odpowiedź',
+    'Guarda o pedido e a resposta num ficheiro de texto (pasta AgentHistory) e depois limpa a resposta',
+    'Salvează solicitarea și răspunsul într-un fișier text (folderul AgentHistory), apoi șterge răspunsul',
+    'Elmenti a kérést és a választ egy szövegfájlba (AgentHistory mappa), majd törli a választ',
+    'Uloží požadavek a odpověď do textového souboru (složka AgentHistory) a pak vymaže odpověď',
+    '依頼と回答をテキストファイル（AgentHistory フォルダー）に保存してから、回答を消去します',
+    '将请求和回答保存到文本文件（AgentHistory 文件夹），然后清除回答',
+    '將請求和回答儲存到文字檔（AgentHistory 資料夾），然後清除回答');
+  Set14('Agent.NewPromptSaved',
+    'Request saved in Recent requests. Ready for a new one.',
+    'Pedido salvo em Pedidos recentes. Pronto para um novo.',
+    'Solicitud guardada en Solicitudes recientes. Listo para una nueva.',
+    'Demande enregistrée dans Demandes récentes. Prêt pour une nouvelle.',
+    'Anfrage unter Letzte Anfragen gespeichert. Bereit für eine neue.',
+    'Richiesta salvata in Richieste recenti. Pronto per una nuova.',
+    'Polecenie zapisane w Ostatnich poleceniach. Gotowe na nowe.',
+    'Pedido guardado em Pedidos recentes. Pronto para um novo.',
+    'Solicitare salvată în Solicitări recente. Gata pentru una nouă.',
+    'Kérés elmentve a Legutóbbi kérések közé. Kezdhet újat.',
+    'Požadavek uložen do Nedávných požadavků. Připraveno na nový.',
+    '依頼を最近の依頼に保存しました。新しい依頼を始められます。',
+    '请求已保存到最近的请求。可以开始新的请求。',
+    '請求已儲存到最近的請求。可以開始新的請求。');
+  Set14('Agent.NewSaved',
+    'Saved to %s. Ready for a new one.',
+    'Salvo em %s. Pronto para um novo.',
+    'Guardado en %s. Listo para uno nuevo.',
+    'Enregistré dans %s. Prêt pour un nouveau.',
+    'Gespeichert in %s. Bereit für Neues.',
+    'Salvato in %s. Pronto per uno nuovo.',
+    'Zapisano w %s. Gotowe na nowe.',
+    'Guardado em %s. Pronto para um novo.',
+    'Salvat în %s. Gata pentru unul nou.',
+    'Mentve ide: %s. Kezdhet újat.',
+    'Uloženo do %s. Připraveno na nové.',
+    '%s に保存しました。新しく始められます。',
+    '已保存到 %s。可以重新开始。',
+    '已儲存到 %s。可以重新開始。');
+  Set14('Agent.NewNothingToSave',
+    'Nothing to save; the area was already empty.',
+    'Nada para salvar; a área já estava vazia.',
+    'Nada que guardar; el área ya estaba vacía.',
+    'Rien à enregistrer ; la zone était déjà vide.',
+    'Nichts zu speichern; der Bereich war bereits leer.',
+    'Niente da salvare; l''area era già vuota.',
+    'Nie ma nic do zapisania; obszar był już pusty.',
+    'Nada para guardar; a área já estava vazia.',
+    'Nimic de salvat; zona era deja goală.',
+    'Nincs mit menteni; a terület már üres volt.',
+    'Není co uložit; oblast už byla prázdná.',
+    '保存するものはありません。すでに空です。',
+    '没有可保存的内容；该区域已为空。',
+    '沒有可儲存的內容；該區域已為空。');
+  Set14('Agent.NewSaveFailed',
+    'Could not save, so nothing was cleared:',
+    'Não foi possível salvar, por isso nada foi apagado:',
+    'No se pudo guardar, así que no se borró nada:',
+    'Enregistrement impossible, rien n''a donc été effacé :',
+    'Speichern nicht möglich, daher wurde nichts geleert:',
+    'Impossibile salvare, quindi non è stato cancellato nulla:',
+    'Nie udało się zapisać, więc nic nie zostało wyczyszczone:',
+    'Não foi possível guardar, por isso nada foi apagado:',
+    'Nu s-a putut salva, așa că nu s-a șters nimic:',
+    'A mentés nem sikerült, ezért semmi sem lett törölve:',
+    'Nelze uložit, proto nebylo nic vymazáno:',
+    '保存できなかったため、何も消去していません：',
+    '无法保存，因此未清除任何内容：',
+    '無法儲存，因此未清除任何內容：');
+  Set14('Agent.ToolClear',
+    'Clear',
+    'Apagar',
+    'Borrar',
+    'Effacer',
+    'Löschen',
+    'Cancella',
+    'Wyczyść',
+    'Apagar',
+    'Șterge',
+    'Törlés',
+    'Vymazat',
+    'クリア',
+    '清除',
+    '清除');
+  Set14('Agent.ToolCopy',
+    'Copy',
+    'Copiar',
+    'Copiar',
+    'Copier',
+    'Kopieren',
+    'Copia',
+    'Kopiuj',
+    'Copiar',
+    'Copiază',
+    'Másolás',
+    'Kopírovat',
+    'コピー',
+    '复制',
+    '複製');
+  Set14('Agent.ToolAsk',
+    'Ask the AI',
+    'Fale com a IA',
+    'Habla con la IA',
+    'Parler à l''IA',
+    'KI fragen',
+    'Parla con l''IA',
+    'Zapytaj AI',
+    'Fale com a IA',
+    'Întreabă AI',
+    'Kérdezd az MI-t',
+    'Zeptat se AI',
+    'AI に聞く',
+    '询问 AI',
+    '詢問 AI');
+  Set14('Agent.ToolClearPromptHint',
+    'Clear the request text.',
+    'Apaga o texto do pedido.',
+    'Borra el texto de la solicitud.',
+    'Efface le texte de la demande.',
+    'Löscht den Anfragetext.',
+    'Cancella il testo della richiesta.',
+    'Czyści tekst polecenia.',
+    'Apaga o texto do pedido.',
+    'Șterge textul cererii.',
+    'Törli a kérés szövegét.',
+    'Vymaže text požadavku.',
+    '依頼のテキストを消去します。',
+    '清除请求文本。',
+    '清除請求文字。');
+  Set14('Agent.ToolClearRootsHint',
+    'Remove the selected sources (or all of them, after confirming).',
+    'Remove as fontes selecionadas (ou todas, após confirmar).',
+    'Quita las fuentes seleccionadas (o todas, tras confirmar).',
+    'Retire les sources sélectionnées (ou toutes, après confirmation).',
+    'Entfernt die ausgewählten Quellen (oder alle, nach Bestätigung).',
+    'Rimuove le fonti selezionate (o tutte, dopo conferma).',
+    'Usuwa zaznaczone źródła (lub wszystkie, po potwierdzeniu).',
+    'Remove as fontes selecionadas (ou todas, após confirmar).',
+    'Elimină sursele selectate (sau toate, după confirmare).',
+    'Eltávolítja a kijelölt forrásokat (vagy mindet, megerősítés után).',
+    'Odebere vybrané zdroje (nebo všechny, po potvrzení).',
+    '選択したソースを削除します (確認後はすべて)。',
+    '移除所选来源 (确认后可移除全部)。',
+    '移除所選來源 (確認後可移除全部)。');
+  Set14('Agent.ToolClearAnswerHint',
+    'Clear the answer.',
+    'Apaga a resposta.',
+    'Borra la respuesta.',
+    'Efface la réponse.',
+    'Löscht die Antwort.',
+    'Cancella la risposta.',
+    'Czyści odpowiedź.',
+    'Apaga a resposta.',
+    'Șterge răspunsul.',
+    'Törli a választ.',
+    'Vymaže odpověď.',
+    '回答を消去します。',
+    '清除回答。',
+    '清除回答。');
+  Set14('Agent.ToolCopyHint',
+    'Copy to the clipboard (the selected text, or everything).',
+    'Copia para a área de transferência (o texto selecionado, ou tudo).',
+    'Copia al portapapeles (el texto seleccionado, o todo).',
+    'Copie dans le presse-papiers (le texte sélectionné, ou tout).',
+    'In die Zwischenablage kopieren (markierter Text oder alles).',
+    'Copia negli appunti (il testo selezionato, o tutto).',
+    'Kopiuje do schowka (zaznaczony tekst lub całość).',
+    'Copia para a área de transferência (o texto selecionado, ou tudo).',
+    'Copiază în clipboard (textul selectat sau tot).',
+    'Vágólapra másol (a kijelölt szöveget vagy mindent).',
+    'Zkopíruje do schránky (vybraný text, nebo vše).',
+    'クリップボードにコピーします (選択したテキスト、またはすべて)。',
+    '复制到剪贴板 (所选文本或全部)。',
+    '複製到剪貼簿 (所選文字或全部)。');
+  Set14('Agent.ToolCopyRootsHint',
+    'Copy the paths of the selected sources (or of all of them).',
+    'Copia os caminhos das fontes selecionadas (ou de todas).',
+    'Copia las rutas de las fuentes seleccionadas (o de todas).',
+    'Copie les chemins des sources sélectionnées (ou de toutes).',
+    'Kopiert die Pfade der ausgewählten Quellen (oder aller).',
+    'Copia i percorsi delle fonti selezionate (o di tutte).',
+    'Kopiuje ścieżki zaznaczonych źródeł (lub wszystkich).',
+    'Copia os caminhos das fontes selecionadas (ou de todas).',
+    'Copiază căile surselor selectate (sau ale tuturor).',
+    'Kimásolja a kijelölt (vagy az összes) forrás elérési útját.',
+    'Zkopíruje cesty vybraných zdrojů (nebo všech).',
+    '選択したソース (またはすべて) のパスをコピーします。',
+    '复制所选来源 (或全部来源) 的路径。',
+    '複製所選來源 (或全部來源) 的路徑。');
+  Set14('Agent.ToolAskHint',
+    'Ask the AI a question about this content. The reply appears in Answer.',
+    'Faça uma pergunta à IA sobre este conteúdo. A resposta aparece em Resposta.',
+    'Haz una pregunta a la IA sobre este contenido. La respuesta aparece en Respuesta.',
+    'Posez une question à l''IA sur ce contenu. La réponse apparaît dans Réponse.',
+    'Stellen Sie der KI eine Frage zu diesem Inhalt. Die Antwort erscheint unter Antwort.',
+    'Fai una domanda all''IA su questo contenuto. La risposta appare in Risposta.',
+    'Zadaj AI pytanie o tę treść. Odpowiedź pojawi się w zakładce Odpowiedź.',
+    'Faça uma pergunta à IA sobre este conteúdo. A resposta aparece em Resposta.',
+    'Pune o întrebare AI despre acest conținut. Răspunsul apare în Răspuns.',
+    'Tegyen fel kérdést az MI-nek erről a tartalomról. A válasz a Válasz lapon jelenik meg.',
+    'Položte AI otázku k tomuto obsahu. Odpověď se zobrazí v Odpověď.',
+    'この内容について AI に質問します。返答は [回答] に表示されます。',
+    '就此内容向 AI 提问。回复显示在“回答”中。',
+    '就此內容向 AI 提問。回覆顯示在「回答」中。');
+  Set14('Agent.AskQuestion',
+    'What do you want to ask the AI about this content?',
+    'O que você quer perguntar à IA sobre este conteúdo?',
+    '¿Qué quieres preguntar a la IA sobre este contenido?',
+    'Que voulez-vous demander à l''IA sur ce contenu ?',
+    'Was möchten Sie die KI zu diesem Inhalt fragen?',
+    'Cosa vuoi chiedere all''IA su questo contenuto?',
+    'O co chcesz zapytać AI w sprawie tej treści?',
+    'O que quer perguntar à IA sobre este conteúdo?',
+    'Ce vrei să întrebi AI despre acest conținut?',
+    'Mit szeretne kérdezni az MI-től erről a tartalomról?',
+    'Na co se chcete AI zeptat k tomuto obsahu?',
+    'この内容について AI に何を聞きますか?',
+    '关于此内容，您想问 AI 什么？',
+    '關於此內容，您想問 AI 什麼？');
+  Set14('Agent.AskEmptyArea',
+    'This area is empty.',
+    'Esta área está vazia.',
+    'Esta área está vacía.',
+    'Cette zone est vide.',
+    'Dieser Bereich ist leer.',
+    'Questa area è vuota.',
+    'Ten obszar jest pusty.',
+    'Esta área está vazia.',
+    'Această zonă este goală.',
+    'Ez a terület üres.',
+    'Tato oblast je prázdná.',
+    'この領域は空です。',
+    '此区域为空。',
+    '此區域為空。');
+  Set14('Agent.AskNoAnswer',
+    'The AI returned no answer.',
+    'A IA não retornou resposta.',
+    'La IA no devolvió respuesta.',
+    'L''IA n''a renvoyé aucune réponse.',
+    'Die KI hat keine Antwort geliefert.',
+    'L''IA non ha restituito alcuna risposta.',
+    'AI nie zwróciła odpowiedzi.',
+    'A IA não devolveu resposta.',
+    'AI nu a returnat niciun răspuns.',
+    'Az MI nem adott választ.',
+    'AI nevrátila žádnou odpověď.',
+    'AI から回答がありませんでした。',
+    'AI 未返回回答。',
+    'AI 未傳回回答。');
+  Set14('Agent.AskFailed',
+    'AI request failed: %s',
+    'Falha na consulta à IA: %s',
+    'Error en la consulta a la IA: %s',
+    'Échec de la requête à l''IA : %s',
+    'KI-Anfrage fehlgeschlagen: %s',
+    'Richiesta all''IA non riuscita: %s',
+    'Zapytanie do AI nie powiodło się: %s',
+    'Falha na consulta à IA: %s',
+    'Cererea către AI a eșuat: %s',
+    'Az MI-kérés sikertelen: %s',
+    'Dotaz na AI selhal: %s',
+    'AI への要求に失敗しました: %s',
+    'AI 请求失败：%s',
+    'AI 請求失敗：%s');
+  Set14('Agent.Copied',
+    'Copied to the clipboard.',
+    'Copiado para a área de transferência.',
+    'Copiado al portapapeles.',
+    'Copié dans le presse-papiers.',
+    'In die Zwischenablage kopiert.',
+    'Copiato negli appunti.',
+    'Skopiowano do schowka.',
+    'Copiado para a área de transferência.',
+    'Copiat în clipboard.',
+    'Vágólapra másolva.',
+    'Zkopírováno do schránky.',
+    'クリップボードにコピーしました。',
+    '已复制到剪贴板。',
+    '已複製到剪貼簿。');
+  Set14('Agent.NothingToCopy',
+    'Nothing to copy.',
+    'Nada para copiar.',
+    'Nada que copiar.',
+    'Rien à copier.',
+    'Nichts zu kopieren.',
+    'Niente da copiare.',
+    'Nic do skopiowania.',
+    'Nada para copiar.',
+    'Nimic de copiat.',
+    'Nincs mit másolni.',
+    'Není co kopírovat.',
+    'コピーする内容がありません。',
+    '没有可复制的内容。',
+    '沒有可複製的內容。');
+  Set14('Agent.FindRootsHint', 'Filter sources...', 'Filtrar fontes...', 'Filtrar fuentes...', 'Filtrer les sources...',
+    'Quellen filtern...', 'Filtra fonti...', 'Filtruj źródła...', 'Filtrar fontes...', 'Filtrează sursele...',
+    'Források szűrése...', 'Filtrovat zdroje...', 'ソースを絞り込み...', '筛选来源...', '篩選來源...');
+  Set14('Agent.FindNoMatch', 'no matches', 'nenhum resultado', 'sin resultados', 'aucun résultat',
+    'keine Treffer', 'nessun risultato', 'brak wyników', 'nenhum resultado', 'niciun rezultat',
+    'nincs találat', 'žádné výsledky', '該当なし', '无匹配项', '無相符項目');
+  Set14('Agent.FindCount', '%d of %d', '%d de %d', '%d de %d', '%d sur %d',
+    '%d von %d', '%d di %d', '%d z %d', '%d de %d', '%d din %d',
+    '%d / %d', '%d z %d', '%d / %d 件', '%d / %d', '%d / %d');
+  Set14('Agent.ItemCount', '%d item(s)', '%d item(ns)', '%d elemento(s)', '%d élément(s)',
+    '%d Eintrag/Einträge', '%d elemento/i', '%d pozycji', '%d item(ns)', '%d element(e)',
+    '%d elem', '%d položek', '%d 件', '%d 项', '%d 項');
+  Set14('Agent.PickFilesTitle',
+    'Choose files for the agent to read',
+    'Escolha os arquivos que o agente vai ler',
+    'Elija los archivos que leerá el agente',
+    'Choisissez les fichiers que l''agent lira',
+    'Dateien wählen, die der Agent lesen soll',
+    'Scegli i file che l''agente leggerà',
+    'Wybierz pliki do odczytu przez agenta',
+    'Escolha os ficheiros que o agente vai ler',
+    'Alegeți fișierele pe care le va citi agentul',
+    'Válassza ki az ügynök által olvasandó fájlokat',
+    'Vyberte soubory, které bude agent číst',
+    'エージェントが読むファイルを選択',
+    '选择代理要读取的文件',
+    '選擇代理要讀取的檔案');
+  Set14('Agent.PickFolderTitle',
+    'Choose one or more folders for the agent to read',
+    'Escolha uma ou mais pastas que o agente vai ler',
+    'Elija una o más carpetas que leerá el agente',
+    'Choisissez un ou plusieurs dossiers que l''agent lira',
+    'Einen oder mehrere Ordner wählen, die der Agent lesen soll',
+    'Scegli una o più cartelle che l''agente leggerà',
+    'Wybierz jeden lub więcej folderów do odczytu przez agenta',
+    'Escolha uma ou mais pastas que o agente vai ler',
+    'Alegeți unul sau mai multe foldere pe care le va citi agentul',
+    'Válasszon egy vagy több mappát, amelyet az ügynök olvas',
+    'Vyberte jednu nebo více složek, které bude agent číst',
+    'エージェントが読むフォルダーを選択（複数可）',
+    '选择代理要读取的一个或多个文件夹',
+    '選擇代理要讀取的一個或多個資料夾');
+  Set14('Agent.PickFolderOk', 'Select folder', 'Selecionar pasta', 'Seleccionar carpeta', 'Sélectionner le dossier',
+    'Ordner auswählen', 'Seleziona cartella', 'Wybierz folder', 'Selecionar pasta', 'Selectează folderul',
+    'Mappa kiválasztása', 'Vybrat složku', 'フォルダーを選択', '选择文件夹', '選擇資料夾');
+  Set14('Agent.PickFolderLabel', 'Folder:', 'Pasta:', 'Carpeta:', 'Dossier :',
+    'Ordner:', 'Cartella:', 'Folder:', 'Pasta:', 'Folder:',
+    'Mappa:', 'Složka:', 'フォルダー:', '文件夹：', '資料夾：');
+  Set14('Agent.RemoveSelected', 'Remove selected', 'Remover selecionados', 'Quitar seleccionados', 'Retirer la sélection', 'Auswahl entfernen', 'Rimuovi selezionati', 'Usuń zaznaczone', 'Remover selecionados', 'Elimină selectate', 'Kijelöltek eltávolítása', 'Odebrat vybrané', '選択項目を削除', '移除所选', '移除所選');
+  Set14('Agent.SelectAll', 'Select all', 'Selecionar todos', 'Seleccionar todo', 'Tout sélectionner', 'Alle auswählen', 'Seleziona tutto', 'Zaznacz wszystko', 'Selecionar todos', 'Selectează tot', 'Összes kijelölése', 'Vybrat vše', 'すべて選択', '全选', '全選');
+  Set14('Agent.RootRecent', 'Recent', 'Recentes', 'Recientes', 'Récents', 'Zuletzt', 'Recenti', 'Ostatnie',
+    'Recentes', 'Recente', 'Legutóbbiak', 'Nedávné', '最近', '最近', '最近');
+  Set14('Agent.RootRecentHint', 'Recent files and folders: click to add one again (Alt+Down in the filter box). ' +
+    'Find, remove items, properties and delete all, like the other recent lists.',
+    'Arquivos e pastas recentes: clique para adicionar de novo (Alt+Seta para baixo na caixa de filtro). ' +
+    'Procurar, remover itens, propriedades e apagar todos, como nas outras listas de recentes.',
+    'Archivos y carpetas recientes: haga clic para volver a agregar uno (Alt+Flecha abajo en el filtro). ' +
+    'Buscar, quitar elementos, propiedades y borrar todo, como en las demás listas recientes.',
+    'Fichiers et dossiers récents : cliquez pour en rajouter un (Alt+Bas dans le filtre). ' +
+    'Rechercher, retirer, propriétés et tout effacer, comme les autres listes récentes.',
+    'Zuletzt verwendete Dateien und Ordner: klicken, um einen erneut hinzuzufügen (Alt+Unten im Filter). ' +
+    'Suchen, entfernen, Eigenschaften und alles löschen, wie in den anderen Verlaufslisten.',
+    'File e cartelle recenti: fai clic per aggiungerne di nuovo uno (Alt+Giù nel filtro). ' +
+    'Cerca, rimuovi, proprietà ed elimina tutto, come nelle altre liste recenti.',
+    'Ostatnie pliki i foldery: kliknij, aby dodać ponownie (Alt+Strzałka w dół w filtrze). ' +
+    'Szukaj, usuwaj, właściwości i usuń wszystko, jak w innych listach ostatnich.',
+    'Ficheiros e pastas recentes: clique para adicionar de novo (Alt+Seta para baixo no filtro). ' +
+    'Procurar, remover itens, propriedades e apagar todos, como nas outras listas de recentes.',
+    'Fișiere și foldere recente: faceți clic pentru a adăuga din nou (Alt+Jos în filtru). ' +
+    'Căutare, eliminare, proprietăți și ștergere totală, ca în celelalte liste recente.',
+    'Legutóbbi fájlok és mappák: kattintson az újbóli hozzáadáshoz (Alt+Le a szűrőben). ' +
+    'Keresés, eltávolítás, tulajdonságok és összes törlése, mint a többi listában.',
+    'Nedávné soubory a složky: klikněte pro opětovné přidání (Alt+Dolů ve filtru). ' +
+    'Hledat, odebrat, vlastnosti a smazat vše jako v ostatních seznamech nedávných.',
+    '最近のファイルとフォルダー: クリックすると再追加できます (フィルターで Alt+↓)。' +
+    '他の履歴リストと同様に検索、削除、プロパティ、すべて削除が使えます。',
+    '最近的文件和文件夹：单击可再次添加（在筛选框中按 Alt+↓）。' +
+    '与其他最近列表一样可查找、移除、查看属性和全部删除。',
+    '最近的檔案和資料夾：按一下即可再次加入（在篩選方塊中按 Alt+↓）。' +
+    '與其他最近清單一樣可尋找、移除、檢視內容和全部刪除。');
+  Set14('Agent.RootRecentTitle', 'Recent files and folders', 'Arquivos e pastas recentes',
+    'Archivos y carpetas recientes', 'Fichiers et dossiers récents', 'Zuletzt verwendete Dateien und Ordner',
+    'File e cartelle recenti', 'Ostatnie pliki i foldery', 'Ficheiros e pastas recentes',
+    'Fișiere și foldere recente', 'Legutóbbi fájlok és mappák', 'Nedávné soubory a složky',
+    '最近のファイルとフォルダー', '最近的文件和文件夹', '最近的檔案和資料夾');
+  Set14('Agent.RootRecentMissing', 'Not found (removed from the recent list):'#13#10'%s',
+    'Não encontrado (removido da lista de recentes):'#13#10'%s',
+    'No encontrado (quitado de la lista de recientes):'#13#10'%s',
+    'Introuvable (retiré de la liste des récents) :'#13#10'%s',
+    'Nicht gefunden (aus der Verlaufsliste entfernt):'#13#10'%s',
+    'Non trovato (rimosso dalla lista dei recenti):'#13#10'%s',
+    'Nie znaleziono (usunięto z listy ostatnich):'#13#10'%s',
+    'Não encontrado (removido da lista de recentes):'#13#10'%s',
+    'Nu a fost găsit (eliminat din lista recentelor):'#13#10'%s',
+    'Nem található (eltávolítva a legutóbbiak listájáról):'#13#10'%s',
+    'Nenalezeno (odebráno ze seznamu nedávných):'#13#10'%s',
+    '見つかりません (履歴から削除しました):'#13#10'%s', '未找到（已从最近列表中移除）：'#13#10'%s',
+    '找不到（已從最近清單中移除）：'#13#10'%s');
+  Set14('Agent.Bridge.Busy', 'The AI agent is busy with another request. Wait for it to finish or stop it.',
+    'O Agente IA está ocupado com outro pedido. Aguarde terminar ou interrompa-o.',
+    'El Agente IA está ocupado con otra solicitud. Espere a que termine o deténgala.',
+    'L''Agent IA est occupé par une autre demande. Attendez la fin ou arrêtez-la.',
+    'Der KI-Agent bearbeitet gerade eine andere Anfrage. Warten Sie oder brechen Sie sie ab.',
+    'L''Agente IA è occupato con un''altra richiesta. Attendi che finisca o interrompila.',
+    'Agent AI jest zajęty innym zadaniem. Poczekaj na zakończenie lub je zatrzymaj.',
+    'O Agente IA está ocupado com outro pedido. Aguarde que termine ou interrompa-o.',
+    'Agentul IA este ocupat cu altă cerere. Așteptați să termine sau opriți-o.',
+    'A MI-ügynök egy másik kérésen dolgozik. Várja meg, vagy állítsa le.',
+    'Agent AI zpracovává jiný požadavek. Počkejte na dokončení nebo jej zastavte.',
+    'AIエージェントは別の依頼を処理中です。完了を待つか停止してください。',
+    'AI 智能体正在处理另一个请求。请等待完成或将其停止。',
+    'AI 智慧體正在處理另一個請求。請等待完成或將其停止。');
+  Set14('Agent.Bridge.RejectConfirm', 'Discard the %d proposed edit(s)? Nothing will be written.',
+    'Descartar a(s) %d edição(ões) proposta(s)? Nada será gravado.',
+    '¿Descartar la(s) %d edición(es) propuesta(s)? No se escribirá nada.',
+    'Abandonner la ou les %d modification(s) proposée(s) ? Rien ne sera écrit.',
+    'Die %d vorgeschlagene(n) Änderung(en) verwerfen? Es wird nichts geschrieben.',
+    'Scartare le %d modifiche proposte? Non verrà scritto nulla.',
+    'Odrzucić proponowane zmiany (%d)? Nic nie zostanie zapisane.',
+    'Descartar a(s) %d edição(ões) proposta(s)? Nada será gravado.',
+    'Renunțați la cele %d modificări propuse? Nu se va scrie nimic.',
+    'Elveti a(z) %d javasolt módosítást? Semmi nem lesz kiírva.',
+    'Zahodit navržené úpravy (%d)? Nic nebude zapsáno.',
+    '提案された %d 件の編集を破棄しますか？何も書き込まれません。',
+    '放弃 %d 项建议的编辑？不会写入任何内容。',
+    '放棄 %d 項建議的編輯？不會寫入任何內容。');
+  Set14('Assistant.AgentMode', 'Agent', 'Agente', 'Agente', 'Agent', 'Agent', 'Agente', 'Agent', 'Agente', 'Agent',
+    'Ügynök', 'Agent', 'エージェント', '智能体', '智慧體');
+  Set14('Assistant.AgentModeHint',
+    'Agent mode: the AI agent reads the open file and proposes edits. Nothing is written until you click Accept.',
+    'Modo Agente: o Agente IA lê o arquivo aberto e propõe edições. Nada é gravado até você clicar em Aceitar.',
+    'Modo Agente: el Agente IA lee el archivo abierto y propone ediciones. No se escribe nada hasta que pulse Aceptar.',
+    'Mode Agent : l''Agent IA lit le fichier ouvert et propose des modifications. Rien n''est écrit avant Accepter.',
+    'Agent-Modus: Der KI-Agent liest die geöffnete Datei und schlägt Änderungen vor. Erst „Annehmen“ schreibt.',
+    'Modalità Agente: l''Agente IA legge il file aperto e propone modifiche. Nulla viene scritto finché non premi Accetta.',
+    'Tryb agenta: Agent AI czyta otwarty plik i proponuje zmiany. Nic nie jest zapisywane przed kliknięciem Akceptuj.',
+    'Modo Agente: o Agente IA lê o ficheiro aberto e propõe edições. Nada é gravado até clicar em Aceitar.',
+    'Mod Agent: Agentul IA citește fișierul deschis și propune modificări. Nimic nu se scrie până nu apăsați Acceptă.',
+    'Ügynök mód: a MI-ügynök beolvassa a megnyitott fájlt és módosításokat javasol. Az Elfogadásig semmi nem íródik ki.',
+    'Režim agenta: Agent AI čte otevřený soubor a navrhuje úpravy. Nic se nezapíše, dokud nekliknete na Přijmout.',
+    'エージェントモード: AIエージェントが開いているファイルを読み、編集を提案します。「承認」するまで何も書き込まれません。',
+    '智能体模式：AI 智能体读取打开的文件并提出编辑建议。点击“接受”之前不会写入任何内容。',
+    '智慧體模式：AI 智慧體讀取開啟的檔案並提出編輯建議。按下「接受」之前不會寫入任何內容。');
+  Set14('Assistant.AgentModeOn', 'Agent mode on: requests go to the AI agent (open file, review before writing).',
+    'Modo Agente ligado: os pedidos vão para o Agente IA (arquivo aberto, revisão antes de gravar).',
+    'Modo Agente activado: las solicitudes van al Agente IA (archivo abierto, revisión antes de escribir).',
+    'Mode Agent activé : les demandes vont à l''Agent IA (fichier ouvert, revue avant écriture).',
+    'Agent-Modus an: Anfragen gehen an den KI-Agenten (geöffnete Datei, Prüfung vor dem Schreiben).',
+    'Modalità Agente attiva: le richieste vanno all''Agente IA (file aperto, revisione prima di scrivere).',
+    'Tryb agenta włączony: prośby trafiają do Agenta AI (otwarty plik, przegląd przed zapisem).',
+    'Modo Agente ligado: os pedidos vão para o Agente IA (ficheiro aberto, revisão antes de gravar).',
+    'Mod Agent activ: cererile merg la Agentul IA (fișierul deschis, revizuire înainte de scriere).',
+    'Ügynök mód bekapcsolva: a kérések a MI-ügynökhöz kerülnek (megnyitott fájl, ellenőrzés írás előtt).',
+    'Režim agenta zapnut: požadavky jdou Agentovi AI (otevřený soubor, kontrola před zápisem).',
+    'エージェントモード オン: 依頼はAIエージェントへ送られます (開いているファイル、書き込み前に確認)。',
+    '智能体模式已开启：请求将发送给 AI 智能体（当前文件，写入前审阅）。',
+    '智慧體模式已開啟：請求將傳送給 AI 智慧體（目前檔案，寫入前審閱）。');
+  Set14('Assistant.AgentModeOff', 'Agent mode off: normal Assistant.', 'Modo Agente desligado: Assistente normal.',
+    'Modo Agente desactivado: Asistente normal.', 'Mode Agent désactivé : Assistant normal.',
+    'Agent-Modus aus: normaler Assistent.', 'Modalità Agente disattivata: Assistente normale.',
+    'Tryb agenta wyłączony: zwykły Asystent.', 'Modo Agente desligado: Assistente normal.',
+    'Mod Agent dezactivat: Asistent normal.', 'Ügynök mód kikapcsolva: normál Asszisztens.',
+    'Režim agenta vypnut: běžný Asistent.', 'エージェントモード オフ: 通常のアシスタント。',
+    '智能体模式已关闭：普通助手。', '智慧體模式已關閉：一般助理。');
+  Set14('Assistant.Agent.Running', 'The AI agent is working on %s... (nothing is written until you accept)',
+    'O Agente IA está trabalhando em %s... (nada é gravado até você aceitar)',
+    'El Agente IA está trabajando en %s... (no se escribe nada hasta que acepte)',
+    'L''Agent IA travaille sur %s... (rien n''est écrit avant votre acceptation)',
+    'Der KI-Agent bearbeitet %s... (erst nach dem Annehmen wird geschrieben)',
+    'L''Agente IA sta lavorando su %s... (nulla viene scritto finché non accetti)',
+    'Agent AI pracuje nad %s... (nic nie zostanie zapisane przed akceptacją)',
+    'O Agente IA está a trabalhar em %s... (nada é gravado até aceitar)',
+    'Agentul IA lucrează la %s... (nimic nu se scrie până nu acceptați)',
+    'A MI-ügynök dolgozik ezen: %s... (elfogadásig semmi nem íródik ki)',
+    'Agent AI pracuje na %s... (nic se nezapíše, dokud nepřijmete)',
+    'AIエージェントが %s を処理中... (承認するまで何も書き込まれません)',
+    'AI 智能体正在处理 %s...（接受之前不会写入任何内容）',
+    'AI 智慧體正在處理 %s...（接受之前不會寫入任何內容）');
+  Set14('Assistant.Agent.CannotStart', 'The AI agent could not start this request.',
+    'Não foi possível iniciar este pedido no Agente IA.', 'No se pudo iniciar esta solicitud en el Agente IA.',
+    'Impossible de lancer cette demande dans l''Agent IA.', 'Diese Anfrage konnte im KI-Agenten nicht gestartet werden.',
+    'Impossibile avviare questa richiesta nell''Agente IA.', 'Nie udało się uruchomić tego zadania w Agencie AI.',
+    'Não foi possível iniciar este pedido no Agente IA.', 'Cererea nu a putut fi pornită în Agentul IA.',
+    'A kérést nem sikerült elindítani a MI-ügynökben.', 'Tento požadavek se v Agentovi AI nepodařilo spustit.',
+    'この依頼をAIエージェントで開始できませんでした。', '无法在 AI 智能体中启动此请求。', '無法在 AI 智慧體中啟動此請求。');
+  Set14('Assistant.Agent.Proposed', '%d edit(s) proposed - nothing has been written yet.',
+    '%d edição(ões) proposta(s) - nada foi gravado ainda.',
+    '%d edición(es) propuesta(s) - todavía no se ha escrito nada.',
+    '%d modification(s) proposée(s) - rien n''a encore été écrit.',
+    '%d Änderung(en) vorgeschlagen - noch wurde nichts geschrieben.',
+    '%d modifica/e proposta/e - non è stato ancora scritto nulla.',
+    'Zaproponowano zmian: %d - nic jeszcze nie zapisano.',
+    '%d edição(ões) proposta(s) - ainda nada foi gravado.',
+    '%d modificare(ări) propusă(e) - încă nu s-a scris nimic.',
+    '%d javasolt módosítás - még semmi nincs kiírva.',
+    'Navržené úpravy: %d - zatím nic nebylo zapsáno.',
+    '%d 件の編集を提案しました - まだ何も書き込まれていません。',
+    '已建议 %d 项编辑 - 尚未写入任何内容。',
+    '已建議 %d 項編輯 - 尚未寫入任何內容。');
+  Set14('Assistant.Agent.NoChanges', 'The AI agent finished without proposing changes.',
+    'O Agente IA terminou sem propor alterações.', 'El Agente IA terminó sin proponer cambios.',
+    'L''Agent IA a terminé sans proposer de modification.', 'Der KI-Agent ist fertig, ohne Änderungen vorzuschlagen.',
+    'L''Agente IA ha terminato senza proporre modifiche.', 'Agent AI zakończył pracę bez propozycji zmian.',
+    'O Agente IA terminou sem propor alterações.', 'Agentul IA a terminat fără să propună modificări.',
+    'A MI-ügynök módosítási javaslat nélkül végzett.', 'Agent AI skončil bez navržených změn.',
+    'AIエージェントは変更を提案せずに終了しました。', 'AI 智能体已完成，未建议任何更改。',
+    'AI 智慧體已完成，未建議任何變更。');
+  Set14('Assistant.Agent.Chip.Accept', 'Accept all', 'Aceitar tudo', 'Aceptar todo', 'Tout accepter', 'Alle annehmen',
+    'Accetta tutto', 'Akceptuj wszystko', 'Aceitar tudo', 'Acceptă tot', 'Összes elfogadása', 'Přijmout vše',
+    'すべて承認', '全部接受', '全部接受');
+  Set14('Assistant.Agent.Chip.Review', 'Review in the Agent', 'Revisar no Agente', 'Revisar en el Agente',
+    'Revoir dans l''Agent', 'Im Agenten prüfen', 'Rivedi nell''Agente', 'Przejrzyj w Agencie', 'Rever no Agente',
+    'Revizuiește în Agent', 'Áttekintés az ügynökben', 'Zkontrolovat v Agentovi', 'エージェントで確認',
+    '在智能体中审阅', '在智慧體中審閱');
+  Set14('Assistant.Agent.Chip.Reject', 'Reject all', 'Rejeitar tudo', 'Rechazar todo', 'Tout rejeter', 'Alle ablehnen',
+    'Rifiuta tutto', 'Odrzuć wszystko', 'Rejeitar tudo', 'Respinge tot', 'Összes elutasítása', 'Odmítnout vše',
+    'すべて却下', '全部拒绝', '全部拒絕');
+  Set14('Agent.RemoveAll', 'Remove all', 'Remover todos', 'Quitar todos', 'Tout retirer', 'Alle entfernen', 'Rimuovi tutti', 'Usuń wszystkie', 'Remover todos', 'Elimină tot', 'Összes eltávolítása', 'Odebrat vše', 'すべて削除', '全部移除', '全部移除');
+  Set14('Agent.CopyPaths', 'Copy paths', 'Copiar caminhos', 'Copiar rutas', 'Copier les chemins', 'Pfade kopieren', 'Copia percorsi', 'Kopiuj ścieżki', 'Copiar caminhos', 'Copiază căile', 'Elérési utak másolása', 'Kopírovat cesty', 'パスをコピー', '复制路径', '複製路徑');
+  Set14('Agent.RootsHint',
+    'Ctrl+click or Shift+click selects several. Del removes the selection; right-click for more.',
+    'Ctrl+clique ou Shift+clique seleciona vários. Del remove a seleção; clique direito para mais opções.',
+    'Ctrl+clic o Mayús+clic selecciona varios. Supr quita la selección; clic derecho para más opciones.',
+    'Ctrl+clic ou Maj+clic pour en sélectionner plusieurs. Suppr retire la sélection ; clic droit pour plus d''options.',
+    'Strg+Klick oder Umschalt+Klick wählt mehrere aus. Entf entfernt die Auswahl; Rechtsklick für mehr.',
+    'Ctrl+clic o Maiusc+clic seleziona più voci. Canc rimuove la selezione; clic destro per altre opzioni.',
+    'Ctrl+klik lub Shift+klik zaznacza kilka. Del usuwa zaznaczenie; prawy przycisk – więcej opcji.',
+    'Ctrl+clique ou Shift+clique seleciona vários. Del remove a seleção; clique direito para mais opções.',
+    'Ctrl+clic sau Shift+clic selectează mai multe. Del elimină selecția; clic dreapta pentru mai multe.',
+    'Ctrl+kattintás vagy Shift+kattintás többet jelöl ki. A Del eltávolítja a kijelölést; jobb klikk további lehetőségekért.',
+    'Ctrl+klik nebo Shift+klik vybere více položek. Del odebere výběr; pravé tlačítko pro další volby.',
+    'Ctrl+クリックまたは Shift+クリックで複数選択。Del で選択を削除、右クリックでその他の操作。',
+    'Ctrl+单击或 Shift+单击可多选。Del 移除所选；右键查看更多。',
+    'Ctrl+按一下或 Shift+按一下可多選。Del 移除所選；按右鍵查看更多。');
+  Set14('Agent.RemoveAllConfirm',
+    'Remove all %d sources from the list? Files on disk are not touched.',
+    'Remover todas as %d fontes da lista? Os arquivos no disco não são alterados.',
+    '¿Quitar las %d fuentes de la lista? Los archivos del disco no se modifican.',
+    'Retirer les %d sources de la liste ? Les fichiers sur le disque ne sont pas modifiés.',
+    'Alle %d Quellen aus der Liste entfernen? Dateien auf dem Datenträger bleiben unverändert.',
+    'Rimuovere tutte le %d fonti dall''elenco? I file su disco non vengono toccati.',
+    'Usunąć wszystkie %d źródeł z listy? Pliki na dysku pozostaną bez zmian.',
+    'Remover todas as %d fontes da lista? Os ficheiros no disco não são alterados.',
+    'Eliminați toate cele %d surse din listă? Fișierele de pe disc nu sunt modificate.',
+    'Eltávolítja mind a(z) %d forrást a listából? A lemezen lévő fájlok nem változnak.',
+    'Odebrat všech %d zdrojů ze seznamu? Soubory na disku zůstanou beze změny.',
+    '一覧から %d 件のソースをすべて削除しますか？ディスク上のファイルは変更されません。',
+    '要从列表中移除全部 %d 个来源吗？磁盘上的文件不受影响。',
+    '要從清單中移除全部 %d 個來源嗎？磁碟上的檔案不受影響。');
+  Set14('Agent.Recent', 'Recent requests', 'Pedidos recentes', 'Solicitudes recientes', 'Demandes récentes', 'Letzte Anfragen', 'Richieste recenti', 'Ostatnie polecenia', 'Pedidos recentes', 'Solicitări recente', 'Legutóbbi kérések', 'Nedávné požadavky', '最近の依頼', '最近的请求', '最近的要求');
+  Set14('Agent.RecentEmpty', '(no recent requests yet)', '(nenhum pedido recente ainda)', '(aún no hay solicitudes recientes)', '(aucune demande récente)', '(noch keine letzten Anfragen)', '(nessuna richiesta recente)', '(brak ostatnich poleceń)', '(ainda sem pedidos recentes)', '(încă nu există solicitări recente)', '(még nincs legutóbbi kérés)', '(zatím žádné nedávné požadavky)', '（最近の依頼はまだありません）', '（暂无最近的请求）', '（尚無最近的要求）');
+  Set14('Agent.RecentCount', '%d recent request(s) - click to choose', '%d pedido(s) recente(s) - clique para escolher', '%d solicitud(es) reciente(s) - haga clic para elegir', '%d demande(s) récente(s) - cliquez pour choisir', '%d letzte Anfrage(n) - zum Auswählen klicken', '%d richiesta/e recente/i - fai clic per scegliere', '%d ostatnich poleceń - kliknij, aby wybrać', '%d pedido(s) recente(s) - clique para escolher', '%d solicitare/solicitări recente - faceți clic pentru a alege', '%d legutóbbi kérés - kattintson a választáshoz', '%d nedávných požadavků - klikněte pro výběr', '最近の依頼 %d 件 - クリックして選択', '%d 个最近的请求 - 点击选择', '%d 個最近的要求 - 按一下選擇');
+  Set14('Agent.RecentHint',
+    'Reuse a previous request. The list has search, remove and delete all. Alt+Down opens it from the text box.',
+    'Reutilize um pedido anterior. A lista tem pesquisa, remover e apagar tudo. Alt+Seta para baixo abre a lista pela caixa de texto.',
+    'Reutilice una solicitud anterior. La lista permite buscar, quitar y borrar todo. Alt+Abajo la abre desde el cuadro de texto.',
+    'Réutilisez une demande précédente. La liste permet de rechercher, retirer et tout effacer. Alt+Bas l''ouvre depuis la zone de texte.',
+    'Eine frühere Anfrage wiederverwenden. Die Liste bietet Suche, Entfernen und Alles löschen. Alt+Unten öffnet sie im Textfeld.',
+    'Riutilizza una richiesta precedente. L''elenco consente ricerca, rimozione ed eliminazione totale. Alt+Giù lo apre dalla casella di testo.',
+    'Użyj ponownie wcześniejszego polecenia. Lista ma wyszukiwanie, usuwanie i usuń wszystko. Alt+Strzałka w dół otwiera ją z pola tekstowego.',
+    'Reutilize um pedido anterior. A lista tem pesquisa, remover e apagar tudo. Alt+Seta para baixo abre a lista a partir da caixa de texto.',
+    'Refolosiți o solicitare anterioară. Lista are căutare, eliminare și ștergere totală. Alt+Jos o deschide din caseta de text.',
+    'Korábbi kérés újrafelhasználása. A lista kereshető, elemek törölhetők, vagy mind egyszerre. Alt+Le a szövegmezőből is megnyitja.',
+    'Znovu použijte dřívější požadavek. Seznam umí hledat, odebrat i smazat vše. Alt+Dolů jej otevře z textového pole.',
+    '以前の依頼を再利用します。リストでは検索、削除、すべて削除ができます。テキストボックスで Alt+↓ でも開きます。',
+    '重用之前的请求。列表支持搜索、删除和全部清除。在文本框中按 Alt+↓ 也可打开。',
+    '重用先前的要求。清單支援搜尋、移除和全部清除。在文字方塊中按 Alt+↓ 也可開啟。');
+  Set14('Replace lines %d-%d with %d line(s)', 'Replace lines %d-%d with %d line(s)', 'Substituir linhas %d-%d por %d linha(s)', 'Reemplazar líneas %d-%d por %d línea(s)', 'Remplacer les lignes %d-%d par %d ligne(s)', 'Zeilen %d-%d durch %d Zeile(n) ersetzen', 'Sostituire righe %d-%d con %d riga/e', 'Zastąp wiersze %d-%d przez %d wiersz(y)', 'Substituir linhas %d-%d por %d linha(s)', 'Înlocuiește liniile %d-%d cu %d linie/linii', '%d-%d. sor cseréje %d sorra', 'Nahradit řádky %d-%d %d řádky', '%d-%d 行を %d 行に置換', '将第 %d-%d 行替换为 %d 行', '將第 %d-%d 行取代為 %d 行');
+  Set14('Insert %d line(s) before line %d', 'Insert %d line(s) before line %d', 'Inserir %d linha(s) antes da linha %d', 'Insertar %d línea(s) antes de la línea %d', 'Insérer %d ligne(s) avant la ligne %d', '%d Zeile(n) vor Zeile %d einfügen', 'Inserire %d riga/e prima della riga %d', 'Wstaw %d wiersz(y) przed wierszem %d', 'Inserir %d linha(s) antes da linha %d', 'Inserează %d linie/linii înainte de linia %d', '%d sor beszúrása a(z) %d. sor elé', 'Vložit %d řádků před řádek %d', '%d 行を %d 行目の前に挿入', '在第 %1:d 行前插入 %0:d 行', '在第 %1:d 行前插入 %0:d 行');
+  Set14('Delete lines %d-%d', 'Delete lines %d-%d', 'Excluir linhas %d-%d', 'Eliminar líneas %d-%d', 'Supprimer les lignes %d-%d', 'Zeilen %d-%d löschen', 'Eliminare righe %d-%d', 'Usuń wiersze %d-%d', 'Eliminar linhas %d-%d', 'Șterge liniile %d-%d', '%d-%d. sor törlése', 'Smazat řádky %d-%d', '%d-%d 行を削除', '删除第 %d-%d 行', '刪除第 %d-%d 行');
+  Set14('Anonymize lines %d-%d', 'Anonymize lines %d-%d', 'Descaracterizar linhas %d-%d', 'Anonimizar líneas %d-%d', 'Anonymiser les lignes %d-%d', 'Zeilen %d-%d anonymisieren', 'Anonimizzare righe %d-%d', 'Anonimizuj wiersze %d-%d', 'Anonimizar linhas %d-%d', 'Anonimizează liniile %d-%d', '%d-%d. sor anonimizálása', 'Anonymizovat řádky %d-%d', '%d-%d 行を匿名化', '匿名化第 %d-%d 行', '匿名化第 %d-%d 行');
+  Set14('Anonymize from line %d to the end', 'Anonymize from line %d to the end', 'Descaracterizar da linha %d até o fim', 'Anonimizar desde la línea %d hasta el final', 'Anonymiser de la ligne %d jusqu''à la fin', 'Ab Zeile %d bis zum Ende anonymisieren', 'Anonimizzare dalla riga %d alla fine', 'Anonimizuj od wiersza %d do końca', 'Anonimizar da linha %d até ao fim', 'Anonimizează de la linia %d până la sfârșit', 'Anonimizálás a(z) %d. sortól a végéig', 'Anonymizovat od řádku %d do konce', '%d 行目から末尾まで匿名化', '从第 %d 行到末尾匿名化', '從第 %d 行到結尾匿名化');
+  Set14('Anonymize the whole file', 'Anonymize the whole file', 'Descaracterizar o arquivo inteiro', 'Anonimizar todo el archivo', 'Anonymiser tout le fichier', 'Ganze Datei anonymisieren', 'Anonimizzare l''intero file', 'Anonimizuj cały plik', 'Anonimizar o ficheiro inteiro', 'Anonimizează tot fișierul', 'A teljes fájl anonimizálása', 'Anonymizovat celý soubor', 'ファイル全体を匿名化', '匿名化整个文件', '匿名化整個檔案');
+  Set14('Options: %s', 'Options: %s', 'Opções: %s', 'Opciones: %s', 'Options : %s', 'Optionen: %s', 'Opzioni: %s', 'Opcje: %s', 'Opções: %s', 'Opțiuni: %s', 'Beállítások: %s', 'Možnosti: %s', 'オプション: %s', '选项：%s', '選項：%s');
+  Set14('Applying edits... %d%%', 'Applying edits... %d%%', 'Aplicando edições... %d%%', 'Aplicando ediciones... %d%%', 'Application des modifications... %d%%', 'Änderungen werden angewendet... %d%%', 'Applicazione delle modifiche... %d%%', 'Stosowanie zmian... %d%%', 'A aplicar edições... %d%%', 'Se aplică editările... %d%%', 'Módosítások alkalmazása... %d%%', 'Použití úprav... %d%%', '編集を適用しています... %d%%', '正在应用编辑... %d%%', '正在套用編輯... %d%%');
+  Set14('Proposals on %s overlap. Accept them one at a time.', 'Proposals on %s overlap. Accept them one at a time.', 'Há propostas sobrepostas em %s. Aceite uma de cada vez.', 'Hay propuestas superpuestas en %s. Acéptelas de una en una.', 'Des propositions se chevauchent dans %s. Acceptez-les une par une.', 'Vorschläge in %s überschneiden sich. Bitte einzeln übernehmen.', 'Ci sono proposte sovrapposte in %s. Accettale una alla volta.', 'Propozycje w %s nakładają się. Akceptuj je pojedynczo.', 'Há propostas sobrepostas em %s. Aceite uma de cada vez.', 'Propunerile din %s se suprapun. Acceptați-le pe rând.', 'A(z) %s javaslatai átfedik egymást. Fogadja el őket egyenként.', 'Návrhy v %s se překrývají. Přijímejte je po jednom.', '%s の提案が重なっています。1 つずつ適用してください。', '%s 中的建议有重叠。请逐个接受。', '%s 中的建議有重疊。請逐一接受。');
+  Set14('The file changed on disk. Ask the agent again.', 'The file changed on disk. Ask the agent again.', 'O arquivo mudou no disco. Peça de novo ao agente.', 'El archivo cambió en el disco. Vuelva a pedírselo al agente.', 'Le fichier a changé sur le disque. Redemandez à l''agent.', 'Die Datei wurde auf dem Datenträger geändert. Fragen Sie den Agenten erneut.', 'Il file è cambiato sul disco. Chiedi di nuovo all''agente.', 'Plik zmienił się na dysku. Zapytaj agenta ponownie.', 'O ficheiro mudou no disco. Peça novamente ao agente.', 'Fișierul s-a modificat pe disc. Întrebați din nou agentul.', 'A fájl megváltozott a lemezen. Kérje újra az ügynököt.', 'Soubor se na disku změnil. Požádejte agenta znovu.', 'ディスク上のファイルが変更されました。もう一度エージェントに依頼してください。', '磁盘上的文件已更改。请重新询问代理。', '磁碟上的檔案已變更。請重新詢問代理。');
+  Set14('Not enough disk space: need %s, free %s.', 'Not enough disk space: need %s, free %s.', 'Espaço em disco insuficiente: necessário %s, livre %s.', 'Espacio en disco insuficiente: necesario %s, libre %s.', 'Espace disque insuffisant : requis %s, libre %s.', 'Nicht genug Speicherplatz: benötigt %s, frei %s.', 'Spazio su disco insufficiente: necessario %s, libero %s.', 'Za mało miejsca na dysku: potrzeba %s, wolne %s.', 'Espaço em disco insuficiente: necessário %s, livre %s.', 'Spațiu insuficient pe disc: necesar %s, liber %s.', 'Nincs elég lemezterület: szükséges %s, szabad %s.', 'Nedostatek místa na disku: potřeba %s, volno %s.', 'ディスク容量が不足しています: 必要 %s、空き %s。', '磁盘空间不足：需要 %s，可用 %s。', '磁碟空間不足：需要 %s，可用 %s。');
+  Set14('Edits applied: %d file(s).', 'Edits applied: %d file(s).', 'Edições aplicadas: %d arquivo(s).', 'Ediciones aplicadas: %d archivo(s).', 'Modifications appliquées : %d fichier(s).', 'Änderungen angewendet: %d Datei(en).', 'Modifiche applicate: %d file.', 'Zmiany zastosowane: %d plik(i).', 'Edições aplicadas: %d ficheiro(s).', 'Editări aplicate: %d fișier(e).', 'Módosítások alkalmazva: %d fájl.', 'Úpravy použity: %d soubor(ů).', '編集を適用しました: %d ファイル。', '已应用编辑：%d 个文件。', '已套用編輯：%d 個檔案。');
+  Set14('%d line(s) were past the end of the file and were skipped.', '%d line(s) were past the end of the file and were skipped.', '%d linha(s) estavam além do fim do arquivo e foram ignoradas.', '%d línea(s) estaban más allá del final del archivo y se omitieron.', '%d ligne(s) dépassaient la fin du fichier et ont été ignorées.', '%d Zeile(n) lagen hinter dem Dateiende und wurden übersprungen.', '%d riga/e oltre la fine del file sono state saltate.', '%d wiersz(y) poza końcem pliku pominięto.', '%d linha(s) estavam além do fim do ficheiro e foram ignoradas.', '%d linie/linii erau după sfârșitul fișierului și au fost omise.', '%d sor a fájl végén túl volt, kihagyva.', '%d řádků bylo za koncem souboru a byly přeskočeny.', '%d 行はファイルの末尾を超えていたためスキップしました。', '%d 行超出文件末尾，已跳过。', '%d 行超出檔案結尾，已略過。');
+  Set14('%d proposal(s) overlapped the applied change and were removed.',
+    '%d proposal(s) overlapped the applied change and were removed.',
+    '%d proposta(s) se sobrepunham à mudança aplicada e foram removidas.',
+    '%d propuesta(s) se superponían al cambio aplicado y se quitaron.',
+    '%d proposition(s) chevauchaient la modification appliquée et ont été retirées.',
+    '%d Vorschlag/Vorschläge überschnitten sich mit der Änderung und wurden entfernt.',
+    '%d proposta/e sovrapposte alla modifica applicata sono state rimosse.',
+    '%d propozycji nakładało się na zastosowaną zmianę i usunięto je.',
+    '%d proposta(s) sobrepunham-se à alteração aplicada e foram removidas.',
+    '%d propunere/propuneri se suprapuneau cu modificarea și au fost eliminate.',
+    '%d javaslat átfedte az alkalmazott módosítást, eltávolítva.',
+    '%d návrhů se překrývalo s použitou změnou a byly odebrány.',
+    '適用した変更と重なる %d 件の提案を削除しました。',
+    '%d 个建议与已应用的修改重叠，已移除。',
+    '%d 個建議與已套用的修改重疊，已移除。');
+  Set14('%d change(s) proposed. Review them in Proposed edits.',
+    '%d change(s) proposed. Review them in Proposed edits.',
+    '%d alteração(ões) proposta(s). Revise em Edições propostas.',
+    '%d cambio(s) propuesto(s). Revíselos en Ediciones propuestas.',
+    '%d modification(s) proposée(s). Vérifiez-les dans Modifications proposées.',
+    '%d Änderung(en) vorgeschlagen. Prüfen Sie sie unter Vorgeschlagene Änderungen.',
+    '%d modifica/e proposta/e. Controllale in Modifiche proposte.',
+    'Zaproponowano %d zmian(y). Sprawdź je w Proponowanych zmianach.',
+    '%d alteração(ões) proposta(s). Reveja em Edições propostas.',
+    '%d modificare/modificări propusă/e. Verificați-le în Editări propuse.',
+    '%d módosítás javasolva. Nézze át a Javasolt módosítások lapon.',
+    'Navrženo %d změn. Zkontrolujte je v Navržených úpravách.',
+    '%d 件の変更を提案しました。［提案された編集］で確認してください。',
+    '已建议 %d 项修改。请在“建议的修改”中查看。',
+    '已建議 %d 項修改。請在「建議的修改」中檢視。');
+  Set14('Nothing was changed or proposed: the model did not send a valid command. Rephrase the request and try again.',
+    'Nothing was changed or proposed: the model did not send a valid command. Rephrase the request and try again.',
+    'Nada foi alterado nem proposto: o modelo não enviou um comando válido. Reformule o pedido e tente novamente.',
+    'No se cambió ni propuso nada: el modelo no envió un comando válido. Reformule la solicitud e inténtelo de nuevo.',
+    'Rien n''a été modifié ni proposé : le modèle n''a pas envoyé de commande valide. Reformulez la demande et réessayez.',
+    'Nichts wurde geändert oder vorgeschlagen: Das Modell hat keinen gültigen Befehl gesendet. Formulieren Sie die Anfrage um und versuchen Sie es erneut.',
+    'Nulla è stato modificato o proposto: il modello non ha inviato un comando valido. Riformula la richiesta e riprova.',
+    'Niczego nie zmieniono ani nie zaproponowano: model nie wysłał prawidłowego polecenia. Przeformułuj prośbę i spróbuj ponownie.',
+    'Nada foi alterado nem proposto: o modelo não enviou um comando válido. Reformule o pedido e tente novamente.',
+    'Nu s-a modificat și nu s-a propus nimic: modelul nu a trimis o comandă validă. Reformulați cererea și încercați din nou.',
+    'Semmi sem módosult, és nem született javaslat: a modell nem küldött érvényes parancsot. Fogalmazza át a kérést, és próbálja újra.',
+    'Nic nebylo změněno ani navrženo: model neposlal platný příkaz. Přeformulujte požadavek a zkuste to znovu.',
+    '何も変更・提案されませんでした。モデルが有効なコマンドを送信しませんでした。依頼を言い換えて、もう一度お試しください。',
+    '未更改也未建议任何内容：模型未发送有效命令。请换一种说法后重试。',
+    '未變更也未建議任何內容：模型未傳送有效命令。請換個說法後再試一次。');
+end;
+
+{ Texts that were still in English (or missing accents) in some of the 14 languages.
+  Runs last: last wins. }
+procedure AddTranslationGapFill;
+  procedure Set8(const K, ES, FR, DE, IT, PL, RO, HU, CZ: string);
+  begin
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+  end;
+begin
+  { Regex helper (Split by pattern / Python macro dialogs). }
+  Set8('Mode-specific examples (auto-detected from file):',
+    'Ejemplos específicos del modo (detectados automáticamente en el archivo):',
+    'Exemples propres au mode (détectés automatiquement dans le fichier) :',
+    'Modusspezifische Beispiele (automatisch aus der Datei erkannt):',
+    'Esempi specifici della modalità (rilevati automaticamente dal file):',
+    'Przykłady dla tego trybu (wykryte automatycznie w pliku):',
+    'Exemple specifice modului (detectate automat din fișier):',
+    'Módspecifikus példák (automatikusan felismerve a fájlból):',
+    'Příklady pro tento režim (automaticky zjištěné ze souboru):');
+  Set8('Choose a source file to generate mode-specific examples.',
+    'Elija un archivo de origen para generar ejemplos específicos del modo.',
+    'Choisissez un fichier source pour générer des exemples propres au mode.',
+    'Wählen Sie eine Quelldatei, um modusspezifische Beispiele zu erzeugen.',
+    'Scegli un file sorgente per generare esempi specifici della modalità.',
+    'Wybierz plik źródłowy, aby wygenerować przykłady dla tego trybu.',
+    'Alegeți un fișier sursă pentru a genera exemple specifice modului.',
+    'Válasszon forrásfájlt a módspecifikus példák létrehozásához.',
+    'Vyberte zdrojový soubor pro vytvoření příkladů pro tento režim.');
+  Set8('Split: Start a new file when a line matches',
+    'Dividir: iniciar un archivo nuevo cuando una línea coincide',
+    'Découper : commencer un nouveau fichier quand une ligne correspond',
+    'Teilen: neue Datei beginnen, wenn eine Zeile passt',
+    'Dividi: inizia un nuovo file quando una riga corrisponde',
+    'Podział: zacznij nowy plik, gdy wiersz pasuje',
+    'Împărțire: începe un fișier nou când o linie se potrivește',
+    'Felosztás: új fájl kezdése, ha egy sor illeszkedik',
+    'Rozdělení: začít nový soubor, když řádek odpovídá');
+  Set8('If you want to split the CSV file every time you find a new region value (assuming the file is sorted), or start a new file for each state.',
+    'Si quiere dividir el archivo CSV cada vez que aparezca un nuevo valor de región (suponiendo que el archivo esté ordenado), o empezar un archivo nuevo para cada estado.',
+    'Si vous voulez découper le fichier CSV à chaque nouvelle valeur de région (en supposant que le fichier est trié), ou commencer un nouveau fichier pour chaque état.',
+    'Wenn Sie die CSV-Datei bei jedem neuen Regionswert teilen möchten (vorausgesetzt, die Datei ist sortiert) oder für jedes Bundesland eine neue Datei beginnen möchten.',
+    'Se vuoi dividere il file CSV ogni volta che trovi un nuovo valore di regione (supponendo che il file sia ordinato), oppure iniziare un nuovo file per ogni stato.',
+    'Jeśli chcesz dzielić plik CSV przy każdej nowej wartości regionu (zakładając, że plik jest posortowany) lub zaczynać nowy plik dla każdego stanu.',
+    'Dacă doriți să împărțiți fișierul CSV de fiecare dată când apare o nouă valoare de regiune (presupunând că fișierul este sortat) sau să începeți un fișier nou pentru fiecare stat.',
+    'Ha minden új régióértéknél fel szeretné osztani a CSV-fájlt (feltéve, hogy a fájl rendezett), vagy minden államhoz új fájlt szeretne kezdeni.',
+    'Pokud chcete rozdělit soubor CSV pokaždé, když najdete novou hodnotu regionu (za předpokladu, že je soubor seřazený), nebo začít nový soubor pro každý stát.');
+  Set8('Logic: Every time the line contains the exact region value (for example, Sao Paulo), the system starts a new file.',
+    'Lógica: cada vez que la línea contiene el valor exacto de la región (por ejemplo, Sao Paulo), el sistema empieza un archivo nuevo.',
+    'Logique : chaque fois que la ligne contient la valeur exacte de la région (par exemple, Sao Paulo), le système commence un nouveau fichier.',
+    'Logik: Jedes Mal, wenn die Zeile den genauen Regionswert enthält (zum Beispiel Sao Paulo), beginnt das System eine neue Datei.',
+    'Logica: ogni volta che la riga contiene il valore esatto della regione (ad esempio, Sao Paulo), il sistema inizia un nuovo file.',
+    'Logika: za każdym razem, gdy wiersz zawiera dokładną wartość regionu (na przykład Sao Paulo), system zaczyna nowy plik.',
+    'Logică: de fiecare dată când linia conține valoarea exactă a regiunii (de exemplu, Sao Paulo), sistemul începe un fișier nou.',
+    'Logika: amikor a sor pontosan a régió értékét tartalmazza (például Sao Paulo), a rendszer új fájlt kezd.',
+    'Logika: pokaždé, když řádek obsahuje přesnou hodnotu regionu (například Sao Paulo), systém začne nový soubor.');
+  Set8('Regex Match: Extract all occurrences',
+    'Coincidencia regex: extraer todas las ocurrencias',
+    'Correspondance regex : extraire toutes les occurrences',
+    'Regex-Treffer: alle Vorkommen extrahieren',
+    'Corrispondenza regex: estrai tutte le occorrenze',
+    'Dopasowanie regex: wyodrębnij wszystkie wystąpienia',
+    'Potrivire regex: extrage toate aparițiile',
+    'Regex-egyezés: az összes előfordulás kinyerése',
+    'Shoda regex: extrahovat všechny výskyty');
+  Set8('Useful when you want to extract specific tokens from each line (for example, IDs and URLs).',
+    'Útil cuando quiere extraer elementos concretos de cada línea (por ejemplo, ID y URL).',
+    'Utile pour extraire des éléments précis de chaque ligne (par exemple, des identifiants et des URL).',
+    'Nützlich, um bestimmte Teile aus jeder Zeile zu extrahieren (zum Beispiel IDs und URLs).',
+    'Utile quando vuoi estrarre elementi specifici da ogni riga (ad esempio, ID e URL).',
+    'Przydatne, gdy chcesz wyodrębnić konkretne elementy z każdego wiersza (na przykład identyfikatory i adresy URL).',
+    'Util când doriți să extrageți elemente specifice din fiecare linie (de exemplu, ID-uri și URL-uri).',
+    'Hasznos, ha minden sorból konkrét elemeket szeretne kinyerni (például azonosítókat és URL-eket).',
+    'Užitečné, když chcete z každého řádku vytáhnout konkrétní prvky (například ID a URL).');
+  Set8('Logic: Returns every occurrence that matches the regex in each line.',
+    'Lógica: devuelve cada ocurrencia que coincide con la regex en cada línea.',
+    'Logique : renvoie chaque occurrence qui correspond à la regex dans chaque ligne.',
+    'Logik: Gibt jedes Vorkommen zurück, das in jeder Zeile zur Regex passt.',
+    'Logica: restituisce ogni occorrenza che corrisponde alla regex in ogni riga.',
+    'Logika: zwraca każde wystąpienie pasujące do regex w każdym wierszu.',
+    'Logică: returnează fiecare apariție care se potrivește cu regex-ul în fiecare linie.',
+    'Logika: minden sorban visszaadja a regexre illeszkedő összes előfordulást.',
+    'Logika: vrátí každý výskyt odpovídající regexu v každém řádku.');
+  Set8('Useful to validate each line quickly (for example, if a line keeps the expected CSV structure).',
+    'Útil para validar rápidamente cada línea (por ejemplo, si una línea mantiene la estructura CSV esperada).',
+    'Utile pour valider rapidement chaque ligne (par exemple, si une ligne respecte la structure CSV attendue).',
+    'Nützlich, um jede Zeile schnell zu prüfen (zum Beispiel, ob eine Zeile die erwartete CSV-Struktur hat).',
+    'Utile per convalidare rapidamente ogni riga (ad esempio, se una riga mantiene la struttura CSV prevista).',
+    'Przydatne do szybkiego sprawdzania każdego wiersza (na przykład, czy wiersz zachowuje oczekiwaną strukturę CSV).',
+    'Util pentru validarea rapidă a fiecărei linii (de exemplu, dacă o linie păstrează structura CSV așteptată).',
+    'Hasznos minden sor gyors ellenőrzéséhez (például, hogy a sor megtartja-e a várt CSV-szerkezetet).',
+    'Užitečné pro rychlou kontrolu každého řádku (například zda řádek dodržuje očekávanou strukturu CSV).');
+  Set8('Logic: If the line matches, output is true; otherwise false.',
+    'Lógica: si la línea coincide, el resultado es true; si no, false.',
+    'Logique : si la ligne correspond, le résultat est true ; sinon false.',
+    'Logik: Passt die Zeile, ist das Ergebnis true, sonst false.',
+    'Logica: se la riga corrisponde, il risultato è true; altrimenti false.',
+    'Logika: jeśli wiersz pasuje, wynik to true; w przeciwnym razie false.',
+    'Logică: dacă linia se potrivește, rezultatul este true; altfel false.',
+    'Logika: ha a sor illeszkedik, az eredmény true, különben false.',
+    'Logika: pokud řádek odpovídá, výsledek je true, jinak false.');
+  Set8('Regex Replace: Replace matches',
+    'Reemplazo regex: reemplazar coincidencias',
+    'Remplacement regex : remplacer les correspondances',
+    'Regex-Ersetzen: Treffer ersetzen',
+    'Sostituzione regex: sostituisci le corrispondenze',
+    'Zamiana regex: zamień dopasowania',
+    'Înlocuire regex: înlocuiește potrivirile',
+    'Regex-csere: egyezések cseréje',
+    'Nahrazení regex: nahradit shody');
+  Set8('Useful to anonymize or normalize content in all lines (for example, removing numeric URL suffixes).',
+    'Útil para anonimizar o normalizar el contenido de todas las líneas (por ejemplo, quitar sufijos numéricos de URL).',
+    'Utile pour anonymiser ou normaliser le contenu de toutes les lignes (par exemple, supprimer les suffixes numériques des URL).',
+    'Nützlich, um den Inhalt aller Zeilen zu anonymisieren oder zu normalisieren (zum Beispiel numerische URL-Endungen entfernen).',
+    'Utile per anonimizzare o normalizzare il contenuto di tutte le righe (ad esempio, rimuovere i suffissi numerici degli URL).',
+    'Przydatne do anonimizacji lub normalizacji treści we wszystkich wierszach (na przykład usuwania numerycznych końcówek adresów URL).',
+    'Util pentru anonimizarea sau normalizarea conținutului din toate liniile (de exemplu, eliminarea sufixelor numerice din URL-uri).',
+    'Hasznos az összes sor tartalmának anonimizálásához vagy egységesítéséhez (például numerikus URL-végződések eltávolításához).',
+    'Užitečné pro anonymizaci nebo normalizaci obsahu všech řádků (například odstranění číselných přípon URL).');
+  Set8('Logic: Every match is replaced, preserving the rest of the line unchanged.',
+    'Lógica: se reemplaza cada coincidencia y el resto de la línea queda igual.',
+    'Logique : chaque correspondance est remplacée, le reste de la ligne reste inchangé.',
+    'Logik: Jeder Treffer wird ersetzt, der Rest der Zeile bleibt unverändert.',
+    'Logica: ogni corrispondenza viene sostituita, il resto della riga resta invariato.',
+    'Logika: każde dopasowanie jest zamieniane, a reszta wiersza pozostaje bez zmian.',
+    'Logică: fiecare potrivire este înlocuită, iar restul liniei rămâne neschimbat.',
+    'Logika: minden egyezés lecserélődik, a sor többi része változatlan marad.',
+    'Logika: každá shoda se nahradí, zbytek řádku zůstane beze změny.');
+  Set8('Regex Filter: Keep only lines where regex matches',
+    'Filtro regex: conservar solo las líneas que coinciden',
+    'Filtre regex : garder uniquement les lignes qui correspondent',
+    'Regex-Filter: nur passende Zeilen behalten',
+    'Filtro regex: mantieni solo le righe corrispondenti',
+    'Filtr regex: zachowaj tylko pasujące wiersze',
+    'Filtru regex: păstrează doar liniile care se potrivesc',
+    'Regex-szűrő: csak az illeszkedő sorok megtartása',
+    'Filtr regex: ponechat jen odpovídající řádky');
+  Set8('Useful to keep only rows that match a rule (for example, lines from one region).',
+    'Útil para conservar solo las filas que cumplen una regla (por ejemplo, las líneas de una región).',
+    'Utile pour ne garder que les lignes qui respectent une règle (par exemple, celles d''une région).',
+    'Nützlich, um nur Zeilen zu behalten, die einer Regel entsprechen (zum Beispiel Zeilen einer Region).',
+    'Utile per mantenere solo le righe che rispettano una regola (ad esempio, le righe di una regione).',
+    'Przydatne, aby zachować tylko wiersze spełniające regułę (na przykład wiersze z jednego regionu).',
+    'Util pentru a păstra doar rândurile care respectă o regulă (de exemplu, liniile dintr-o regiune).',
+    'Hasznos, ha csak a szabálynak megfelelő sorokat szeretné megtartani (például egy régió sorait).',
+    'Užitečné, když chcete ponechat jen řádky splňující pravidlo (například řádky z jednoho regionu).');
+  Set8('Logic: Only lines that match are kept in the output.',
+    'Lógica: en la salida solo se conservan las líneas que coinciden.',
+    'Logique : seules les lignes qui correspondent sont conservées dans le résultat.',
+    'Logik: Nur passende Zeilen bleiben in der Ausgabe.',
+    'Logica: nell''output restano solo le righe corrispondenti.',
+    'Logika: w wyniku pozostają tylko pasujące wiersze.',
+    'Logică: în rezultat rămân doar liniile care se potrivesc.',
+    'Logika: a kimenetben csak az illeszkedő sorok maradnak.',
+    'Logika: ve výstupu zůstanou jen odpovídající řádky.');
+  Set8('This mode does not use Regex. The file will be split into X equal parts, preserving complete lines (no cuts in the middle of a line).',
+    'Este modo no usa Regex. El archivo se dividirá en X partes iguales, conservando las líneas completas (sin cortes en medio de una línea).',
+    'Ce mode n''utilise pas de Regex. Le fichier sera découpé en X parties égales, en conservant les lignes complètes (aucune coupure au milieu d''une ligne).',
+    'Dieser Modus verwendet keine Regex. Die Datei wird in X gleiche Teile geteilt, vollständige Zeilen bleiben erhalten (kein Schnitt mitten in einer Zeile).',
+    'Questa modalità non usa Regex. Il file verrà diviso in X parti uguali, mantenendo le righe complete (nessun taglio a metà riga).',
+    'Ten tryb nie używa Regex. Plik zostanie podzielony na X równych części z zachowaniem pełnych wierszy (bez cięcia w środku wiersza).',
+    'Acest mod nu folosește Regex. Fișierul va fi împărțit în X părți egale, păstrând liniile complete (fără tăieturi în mijlocul unei linii).',
+    'Ez a mód nem használ Regexet. A fájl X egyenlő részre oszlik, a sorok egészben maradnak (sor közepén nincs vágás).',
+    'Tento režim nepoužívá Regex. Soubor se rozdělí na X stejných částí a řádky zůstanou celé (žádné dělení uprostřed řádku).');
+  Set8('How to use: set X in "Equal parts count" and run.',
+    'Cómo usar: indique X en "Cantidad de partes iguales" y ejecute.',
+    'Mode d''emploi : indiquez X dans « Nombre de parties égales » et lancez.',
+    'So geht''s: X bei „Anzahl gleicher Teile“ eintragen und ausführen.',
+    'Come usare: imposta X in "Numero parti uguali" ed esegui.',
+    'Jak używać: ustaw X w polu „Liczba równych części” i uruchom.',
+    'Mod de utilizare: setați X în „Număr părți egale” și rulați.',
+    'Használat: adja meg X értékét az „Egyenlő részek száma” mezőben, majd futtassa.',
+    'Postup: nastavte X v poli „Počet stejných částí“ a spusťte.');
+  PutNV(GTextJapanese, 'How to use: set X in "Equal parts count" and run.',
+    '使い方: 「等しいパーツ数」に X を設定して実行します。');
+  Set8('No dynamic examples detected for this mode in sampled lines.',
+    'No se detectaron ejemplos dinámicos para este modo en las líneas muestreadas.',
+    'Aucun exemple dynamique détecté pour ce mode dans les lignes échantillonnées.',
+    'In den Stichprobenzeilen wurden keine dynamischen Beispiele für diesen Modus gefunden.',
+    'Nessun esempio dinamico rilevato per questa modalità nelle righe campionate.',
+    'W próbce wierszy nie wykryto dynamicznych przykładów dla tego trybu.',
+    'Nu s-au detectat exemple dinamice pentru acest mod în liniile eșantionate.',
+    'A mintasorokban nem található dinamikus példa ehhez a módhoz.',
+    'Ve vzorku řádků nebyly pro tento režim nalezeny žádné dynamické příklady.');
+
+  { Split into equal parts. }
+  PutNV(GTextPolish, 'Equal parts count (2..1000):', 'Liczba równych części (2..1000):');
+  PutNV(GTextRomanian, 'Equal parts count (2..1000):', 'Număr de părți egale (2..1000):');
+  PutNV(GTextCzech, 'Equal parts count (2..1000):', 'Počet stejných částí (2..1000):');
+  PutNV(GTextPolish, 'Equal parts count (2..1000, only in equal-parts mode):',
+    'Liczba równych części (2..1000, tylko w trybie równych części):');
+  PutNV(GTextRomanian, 'Equal parts count (2..1000, only in equal-parts mode):',
+    'Număr de părți egale (2..1000, doar în modul părți egale):');
+  PutNV(GTextCzech, 'Equal parts count (2..1000, only in equal-parts mode):',
+    'Počet stejných částí (2..1000, pouze v režimu stejných částí):');
+  PutNV(GTextPolish, 'Number of parts (2..1000):', 'Liczba części (2..1000):');
+  PutNV(GTextRomanian, 'Number of parts (2..1000):', 'Număr de părți (2..1000):');
+  PutNV(GTextCzech, 'Number of parts (2..1000):', 'Počet částí (2..1000):');
+  PutNV(GTextJapanese, 'Number of parts (2..1000):', '分割数 (2..1000):');
+  PutNV(GTextChineseTraditional, 'Number of parts (2..1000):', '部分數量（2..1000）：');
+  PutNV(GTextChineseTraditional, 'SplitFileFraction.PartsRangeError',
+    '部分範圍必須介於 1 到 %d 之間，且第一部分不得大於最後一部分。');
+  PutNV(GTextPolish, 'Open file from parts ?', 'Otworzyć plik z części?');
+  PutNV(GTextRomanian, 'Open file from parts ?', 'Deschideți fișierul din părți?');
+  PutNV(GTextHungarian, 'Open file from parts ?', 'Megnyitja a fájlt a részekből?');
+  PutNV(GTextCzech, 'Open file from parts ?', 'Otevřít soubor z částí?');
+  PutNV(GTextPortuguesePT, 'Open file from parts ?', 'Abrir o ficheiro a partir das partes?');
+  PutNV(GTextPortuguesePT, 'files generated successfully.', 'ficheiros gerados com sucesso.');
+  PutNV(GTextRomanian, 'files generated successfully.', 'Fișiere generate cu succes.');
+  PutNV(GTextHungarian, 'files generated successfully.', 'Fájlok sikeresen létrehozva.');
+  PutNV(GTextCzech, 'files generated successfully.', 'Soubory byly úspěšně vytvořeny.');
+
+  { Other gaps. }
+  Set8('Force Zero Scan Mode (Ultra Large Files)',
+    'Forzar modo Zero Scan (lectura inmediata)', 'Forcer le mode Zero Scan (lecture immédiate)',
+    'Zero-Scan-Modus erzwingen (sofortiges Lesen)', 'Forza modalità Zero Scan (lettura immediata)',
+    'Wymuś tryb Zero Scan (natychmiastowy odczyt)', 'Forțează modul Zero Scan (citire imediată)',
+    'Zero Scan mód kényszerítése (azonnali olvasás)', 'Vynutit režim Zero Scan (okamžité čtení)');
+  PutNV(GTextFrench, 'Source and destination files must be different.',
+    'Les fichiers source et destination doivent être différents.');
+  PutNV(GTextPolish, 'Source and destination files must be different.', 'Plik źródłowy i docelowy muszą być różne.');
+  PutNV(GTextPortuguesePT, 'Source and destination files must be different.',
+    'Os ficheiros de origem e de destino têm de ser diferentes.');
+  PutNV(GTextRomanian, 'Source and destination files must be different.',
+    'Fișierele sursă și destinație trebuie să fie diferite.');
+  PutNV(GTextHungarian, 'Source and destination files must be different.',
+    'A forrás- és a célfájlnak különböznie kell.');
+  PutNV(GTextCzech, 'Source and destination files must be different.', 'Zdrojový a cílový soubor se musí lišit.');
+  PutNV(GTextJapanese, 'Source and destination files must be different.',
+    '元のファイルと保存先のファイルは別のものにしてください。');
+  PutNV(GTextChineseTraditional, 'Assistant.Error.ReplaceTextRequired', '必須提供取代文字。');
+  PutNV(GTextPortuguesePT, 'Assistant.Error.ReplaceTextRequired', 'Texto de substituição obrigatório.');
+  PutNV(GTextCzech, 'Assistant.Error.ReplaceTextRequired', 'Je vyžadován náhradní text.');
+  PutNV(GTextHungarian, 'Assistant.Error.ReplaceTextRequired', 'A csereszöveg megadása kötelező.');
+  PutNV(GTextPortuguese, 'Assistant.Local.WillExportMatching',
+    'Filtrando as linhas que contêm o texto e exportando as correspondências para um arquivo .txt.');
+  PutNV(GTextPortuguesePT, 'Assistant.Local.WillExportMatching',
+    'A filtrar as linhas que contêm o texto e a exportar as correspondências para um ficheiro .txt.');
+  PutNV(GTextRomanian, 'Assistant.Local.WillExportMatching',
+    'Se filtrează liniile care conțin textul, apoi potrivirile se exportă într-un fișier .txt.');
+  PutNV(GTextHungarian, 'Assistant.Local.WillExportMatching',
+    'A szöveget tartalmazó sorok szűrése, majd a találatok exportálása egy .txt fájlba.');
+  PutNV(GTextCzech, 'Assistant.Local.WillExportMatching',
+    'Filtrování řádků obsahujících text a export shod do souboru .txt.');
+  PutNV(GTextChineseTraditional, 'Assistant.Local.WillExportMatching',
+    '篩選包含該文字的行，然後將相符項目匯出到 .txt 檔案。');
+  PutNV(GTextSpanish, 'Assistant.Local.WillExtractPartAskFile',
+    'Extraer una parte del archivo. No hay ningún archivo abierto: se le pedirá que elija el archivo.');
+  PutNV(GTextPolish, 'Assistant.Local.WillExtractPartAskFile',
+    'Wyodrębnij część pliku. Żaden plik nie jest otwarty – zostaniesz poproszony o wybór pliku.');
+  PutNV(GTextRomanian, 'Assistant.Local.WillExtractPartAskFile',
+    'Extrage o parte din fișier. Niciun fișier nu este deschis – vi se va cere să alegeți fișierul.');
+  PutNV(GTextHungarian, 'Assistant.Local.WillExtractPartAskFile',
+    'Fájlrész kinyerése. Nincs megnyitott fájl – a program kéri a fájl kiválasztását.');
+  PutNV(GTextCzech, 'Assistant.Local.WillExtractPartAskFile',
+    'Extrahovat část souboru. Žádný soubor není otevřen – budete vyzváni k výběru souboru.');
+  PutNV(GTextChineseTraditional, 'Assistant.Local.WillExtractPartAskFile',
+    '擷取檔案的一部分。目前沒有開啟的檔案，系統會請您選擇檔案。');
+  PutNV(GTextChineseSimplified, 'Filter hit file missing; restart the filter.',
+    '筛选结果文件丢失；请重新运行筛选。');
+  PutNV(GTextChineseTraditional, 'Filter hit file missing; restart the filter.',
+    '篩選結果檔案遺失；請重新執行篩選。');
+  PutNV(GTextPortuguese, 'Ir para linha', 'Ir para linha');
+  PutNV(GTextPortuguesePT, 'Ir para linha', 'Ir para a linha');
+  PutNV(GTextChineseTraditional, 'Ir para linha', '前往行');
+  PutNV(GTextChineseSimplified, 'Name && Location', '名称和位置');
+  PutNV(GTextHungarian, 'BookmarkBar.ByteFmt', 'Bájteltolás: %d');
+  PutNV(GTextCzech, 'BookmarkBar.ByteFmt', 'Posun v bajtech: %d');
+  PutNV(GTextHungarian, 'Assistant.Offer.Chip.Export', 'Exportálás');
+  PutNV(GTextPortuguese, 'FileSearch.ToggleFind', 'Localizar (ocorrências)');
+  PutNV(GTextPortuguesePT, 'FileSearch.ToggleFind', 'Localizar (ocorrências)');
+  PutNV(GTextSpanish, 'FileSearch.ToggleFind', 'Buscar (ocurrencias)');
+  PutNV(GTextFrench, 'FileSearch.ToggleFind', 'Rechercher (occurrences)');
+  PutNV(GTextGerman, 'FileSearch.ToggleFind', 'Suchen (Treffer)');
+  PutNV(GTextItalian, 'FileSearch.ToggleFind', 'Trova (occorrenze)');
+  PutNV(GTextPolish, 'FileSearch.ToggleFind', 'Znajdź (wystąpienia)');
+  PutNV(GTextRomanian, 'FileSearch.ToggleFind', 'Caută (apariții)');
+  PutNV(GTextHungarian, 'FileSearch.ToggleFind', 'Keresés (találatok)');
+  PutNV(GTextCzech, 'FileSearch.ToggleFind', 'Hledat (výskyty)');
+  PutNV(GTextJapanese, 'FileSearch.ToggleFind', '検索（出現箇所）');
+  PutNV(GTextChineseSimplified, 'FileSearch.ToggleFind', '查找（匹配项）');
+  PutNV(GTextChineseTraditional, 'FileSearch.ToggleFind', '尋找（相符項目）');
+  PutNV(GTextJapanese, 'FileSearch.ToggleFilter', 'フィルター / Grep');
+  PutNV(GTextChineseSimplified, 'FileSearch.ToggleFilter', '筛选 / Grep');
+  PutNV(GTextChineseTraditional, 'FileSearch.ToggleFilter', '篩選 / Grep');
+  PutNV(GTextRomanian, 'Import', 'Importă');
+  PutNV(GTextHungarian, 'Import', 'Importálás');
+  PutNV(GTextCzech, 'Import', 'Importovat');
+  PutNV(GTextHungarian, 'Hist.Tool.Export', 'Exportálás');
+end;
+
 procedure FillTranslationDataBody;
 begin
   AddCommonTranslationsBaseLanguageOptions;
@@ -44898,6 +47983,8 @@ begin
   AddCommonTranslationsHelpWin64IndexBlock;
   AddCommonTranslationsHelpRecentFeaturesBlock;
   AddCommonTranslationsRecentFilesTab;
+  AddCommonTranslationsAnonymize;
+  AddCommonTranslationsHistLineDetail;
 
   AddCommonTranslationsAuditFill;
   AddCommonTranslationsHistLegend;
@@ -45659,6 +48746,8 @@ begin
   AddNewLanguagesTabComponentCoverage;
   AddFinalRomanianCzechOverrides;
   AddCommonTranslationsDiffTabFinal;
+  AddAgentWorkspaceTranslations;
+  AddTranslationGapFill;
 end;
 
 function PeekStartupLanguage: TAppLanguage;
@@ -45872,6 +48961,27 @@ end;
 function GetCurrentLanguage: TAppLanguage;
 begin
   Result := GCurrentLanguage;
+end;
+
+function AssistantLangPromptName(ALang: TAppLanguage): string;
+begin
+  case ALang of
+    alPortuguese:   Result := 'Portuguese (Brazil)';
+    alSpanish:      Result := 'Spanish';
+    alFrench:       Result := 'French';
+    alGerman:       Result := 'German';
+    alItalian:      Result := 'Italian';
+    alPolish:       Result := 'Polish';
+    alPortuguesePT: Result := 'Portuguese (Portugal)';
+    alRomanian:     Result := 'Romanian';
+    alHungarian:    Result := 'Hungarian';
+    alCzech:        Result := 'Czech';
+    alJapanese:     Result := 'Japanese';
+    alChineseSimplified:  Result := 'Chinese (Simplified)';
+    alChineseTraditional: Result := 'Chinese (Traditional)';
+  else
+    Result := 'English';
+  end;
 end;
 
 function Tr(const Key, DefaultText: string): string;

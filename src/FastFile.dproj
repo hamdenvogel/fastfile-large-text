@@ -101,6 +101,7 @@
         <DCCReference Include="uHistPagedPreview.pas"/>
         <DCCReference Include="uHistChangedIndex.pas"/>
         <DCCReference Include="uMergeApply.pas"/>
+        <DCCReference Include="uHistLineDetailDlg.pas"/>
         <DCCReference Include="uCompareMergeUI.pas">
             <Form>frmCompareMerge</Form>
         </DCCReference>
@@ -109,6 +110,19 @@
             <Form>frmTailExportDialog</Form>
         </DCCReference>
         <DCCReference Include="uEmEditorFeatures.pas"/>
+        <DCCReference Include="uAnonymize.pas"/>
+        <DCCReference Include="uAnonymizeDialog.pas"/>
+        <DCCReference Include="uAgentPrefs.pas"/>
+        <DCCReference Include="uAgentProtocol.pas"/>
+        <DCCReference Include="uAgentTools.pas"/>
+        <DCCReference Include="uAgentPatch.pas"/>
+        <DCCReference Include="uAgentMatchIntent.pas"/>
+        <DCCReference Include="uAgentSql.pas"/>
+        <DCCReference Include="uExportDoneDlg.pas"/>
+        <DCCReference Include="uAgentBridge.pas"/>
+        <DCCReference Include="uAgentLoop.pas"/>
+        <DCCReference Include="uAgentActions.pas"/>
+        <DCCReference Include="uAgentWorkspace.pas"/>
         <DCCReference Include="uFastFileAssistantHost.pas"/>
         <DCCReference Include="uFastFileAssistantMap.pas"/>
         <DCCReference Include="uFastFileAssistantRAG.pas"/>

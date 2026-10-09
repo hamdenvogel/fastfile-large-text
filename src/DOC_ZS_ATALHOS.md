@@ -3,7 +3,7 @@
 **Nome curto deste ficheiro:** `DOC_ZS_ATALHOS.md` (alias de `DOC_ZERO_SCAN_ATALHOS_E_FUNCIONALIDADES.md`)
 
 **Documento de referência para utilizadores e QA**  
-Versão de referência: **`3.0.5.225`** (FastFile 3.0.5; barras de ocorrências/marcadores, editor de linha, histórico de sessão com filtro de datas **v3.0.5.211–225**; **14 idiomas** UI + lazy-load i18n **v3.0.5.207–210**; FilterBar/status toggles v3.0.5.100, compose/assistente v3.0.5.0, Chat IA avançado GB+ v3.0.4.x, indexação SWAR Win64 v3.0.3.x, Zero Scan `2.1.7.25+`, bloco coluna v3.0.2.x)  
+Versão de referência: **`3.0.5.232`** (FastFile 3.0.5; agente de IA Ctrl+Alt+G, anonimizar Ctrl+Alt+D, detalhe do evento do histórico **v3.0.5.226–232**; barras de ocorrências/marcadores, editor de linha, histórico de sessão com filtro de datas **v3.0.5.211–225**; **14 idiomas** UI + lazy-load i18n **v3.0.5.207–210**; FilterBar/status toggles v3.0.5.100, compose/assistente v3.0.5.0, Chat IA avançado GB+ v3.0.4.x, indexação SWAR Win64 v3.0.3.x, Zero Scan `2.1.7.25+`, bloco coluna v3.0.2.x)  
 Ambiente: Delphi 7 / Win32 · Delphi 10.4.2 / Win64  
 Código principal: `MainUnit.pas`, `uSmoothLoading.pas`, `uLineIndexScan.pas`, `uFastFileAssistant.pas`
 
@@ -218,7 +218,33 @@ Aplicam-se em modo normal; em Zero Scan valem as regras de §4 para Ctrl+F / F3 
 | **Scroll** | As duas listas rolam sincronizadas |
 | **Aplicar ← / →** | Uma passagem em thread, cancelável; só reescreve a região alterada (rápido em 50 GB) |
 
-Ajuda F1: **`FF_HELP.RecentFeaturesBlock`** (14 idiomas). Ver **`CHANGELOG_IMPLEMENTACOES.md`** secções **3.0.5.211–225**.
+### 19.5 Histórico de sessão → detalhe do evento (v3.0.5.228)
+
+| Tecla / acção | Comportamento |
+|---------------|---------------|
+| **Duplo clique** / **Enter** num evento | Abre o detalhe: linhas completas antes / depois, comparação campo a campo, resumo |
+| **F3** / **Shift+F3** | Alteração seguinte / anterior |
+| **Copiar / Exportar** | Um, os seleccionados ou todos os eventos (TXT / CSV / JSON) |
+
+### 19.6 Anonimizar dados (v3.0.5.227)
+
+| Tecla / acção | Comportamento |
+|---------------|---------------|
+| **Ctrl+Alt+D** | Anonimizar as linhas seleccionadas (também no clique direito da lista) |
+| **Ferramentas → Anonimizar** | Linhas seleccionadas ou o ficheiro inteiro; pré-visualização antes de aplicar; desfazer / refazer |
+| Clique direito no histórico | «Remover anonimização do histórico» (linha N ou todas) |
+
+### 19.7 Agente de IA sobre ficheiros (v3.0.5.229–232)
+
+| Tecla / acção | Comportamento |
+|---------------|---------------|
+| **Ctrl+Alt+G** | Abre o agente (também na barra de ferramentas e no menu Ferramentas) |
+| **Aceitar / Rejeitar / Aceitar todas** | Decidir as edições propostas dentro do prazo (20 s por omissão; 5..600 s em Opções → Preferências); ao expirar, as propostas são descartadas |
+| Botões sem itens | Desactivados até haver conteúdo (propostas, prompt, fontes, resposta) |
+| **Duplo clique** na pré-visualização | Zoom do antes / depois |
+| **Último ficheiro gerado** | Reabre o último ficheiro criado (menu + barra da Resposta) |
+
+Ajuda F1: **`FF_HELP.RecentFeaturesBlock2`** (v3.0.5.226–232) + **`FF_HELP.RecentFeaturesBlock`** (14 idiomas). Ver **`CHANGELOG_IMPLEMENTACOES.md`** secções **3.0.5.211–232**.
 
 ---
 
@@ -574,6 +600,7 @@ Garantir que o modo indexado **não** regrediu (ver também §0).
 | 2026-09-06 | **v3.0.5.100:** §17 FilterBar dockada (MRU 20, Aplicar/Continuar/Limpar/Ocultar), toggles na status bar, `count_matching_lines`; Ctrl+L actualizado em §4.3 / §12. |
 | 2026-09-09 | **v3.0.5.136–137:** §18 Validar fonte (Python/JS/JSX/TS/TSX); chat carregar/validar; `DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`; `CodeCheck.exe`. |
 | 2026-09-16 | **v3.0.5.210:** 14 idiomas UI (JA + zh-CN/zh-TW); lazy-load i18n; Version History / F1 / docs sync. |
+| 2026-10-08 | **v3.0.5.226–232:** §19.5 detalhe do evento do histórico (Enter, F3/Shift+F3), §19.6 anonimizar (Ctrl+Alt+D), §19.7 agente de IA (Ctrl+Alt+G, prazo para aceitar, botões por conteúdo); F1 `FF_HELP.RecentFeaturesBlock2`. |
 | 2026-09-27 | **v3.0.5.211–225:** §19 barra de ocorrências (Ctrl+F/F3), barra de marcadores (Ctrl+B), abas reordenáveis, Opções, atalhos do editor de linha, histórico de sessão (checkboxes, ordenar, filtro De/Até, exportar, Perguntar à IA), diff sincronizado; F1 `FF_HELP.RecentFeaturesBlock`. |
 
 ---

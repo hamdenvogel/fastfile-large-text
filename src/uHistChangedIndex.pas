@@ -442,9 +442,9 @@ begin
   end;
   while (OpL > 0) and (P[OpS + OpL - 1] = ' ') do Dec(OpL);
   if (OpL < 3) or (OpL > 6) then Exit;
-  if IsOp('EDT') or IsOp('INS') or IsOp('DEL') or IsOp('MRGF') then
+  if IsOp('EDT') or IsOp('INS') or IsOp('DEL') or IsOp('MRGF') or IsOp('ANOL') then
   begin
-    if IsOp('EDT') or IsOp('MRGF') then ATag := 1
+    if IsOp('EDT') or IsOp('MRGF') or IsOp('ANOL') then ATag := 1
     else if IsOp('INS') then ATag := 2
     else ATag := 3;
     ALn0 := FieldInt(2, 0);
@@ -459,6 +459,22 @@ begin
     cnt := FieldInt(3, 1);
     if cnt < 1 then cnt := 1;
     ALn1 := ALn0 + cnt - 1;
+    if ALn1 < ALn0 then ALn1 := ALn0;
+  end
+  else if IsOp('ANON') then
+  begin
+    ATag := 1;
+    ALn0 := FieldInt(2, 0);
+    cnt := FieldInt(3, 0);
+    if ALn0 <= 0 then
+      Exit
+    else if cnt <= 0 then
+    begin
+      ALn0 := 1;
+      ALn1 := MaxInt div 4;
+    end
+    else
+      ALn1 := ALn0 + cnt - 1;
     if ALn1 < ALn0 then ALn1 := ALn0;
   end
   else if IsOp('RPLALL') then

@@ -1,0 +1,7 @@
+id;nome;cidade;valor;data;obs
+1;Allyne Souza;São Paulo;10,50;2024-01-15;ok
+2;Kallyne Lima;Rio de Janeiro;20;15/02/2024;"tem ; ponto e vírgula"
+3;Bianca Allyne;São Paulo;1.234,56;2024-03-01;
+4;Carlos;Curitiba;R$ 5,00;01/03/2023;ok
+5;Allyne;são paulo;abc;2023-12-31;"aspas ""duplas"""
+6;Marcos;Recife;;2024-05-20;ok

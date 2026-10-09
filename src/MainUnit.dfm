@@ -4160,8 +4160,8 @@ object frmMain: TfrmMain
         ActivePage = tabSplitByLines
         Align = alClient
         TabOrder = 0
+        OnChange = pgcSplitFilesChange
         TabPadding = 8
-          OnChange = pgcSplitFilesChange
         SkinData.OuterEffects.Visibility = ovAlways
         object tabSplitByLines: TsTabSheet
           Caption = 'Split By Lines'
