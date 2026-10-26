@@ -1,11 +1,71 @@
 ﻿# FastFile — Relatório de Implementações
 
-**Data:** 8 de outubro de 2026  
+**Data:** 23 de outubro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64)  
 **Pasta:** `FileReadThread-2\Src` (host D10: `delphi10_4_2\FastFile\src`)  
-**Versão publicada actual:** **`3.0.5.232`** — agente de IA sobre ficheiros (SQL / linguagem natural, propostas com prazo para aceitar), anonimizar dados, detalhe de eventos do histórico, PPI personalizado (ver secções abaixo)
+**Versão publicada actual:** **`3.0.5.244`** — ordenação de colunas no modo CSV sem carregar o ficheiro, grupos nomeados no `grep` e sessão `.ffsession` com filtro e codificação; mantém o glob/grep da **.243**.
 
 ---
+
+## ★ FastFile 3.0.5.244 (atual) — Colunas, grupos do grep e sessão (24/10/2026)
+
+- **Grelha por delimitador:** o modo CSV/colunas (Ctrl+Alt+V) já lia cada linha pelo índice. Clique num cabeçalho de coluna ordena essa coluna: a ordem fica num índice temporário (`ff_csv_order.idx`), o ficheiro original não é carregado nem reescrito. Números ordenam como número. Esc cancela. Clicar em **Line #** limpa a ordenação. O mesmo clique inverte a direção sem reler o ficheiro.
+- **grep com grupos nomeados:** `grep -E "(?<ip>...).*(?<status>...)"` (também `(?P<name>...)`) mostra uma tabela com uma coluna por grupo, na mesma leitura por blocos, com página e cancelamento. Copiar inclui os grupos.
+- **`.ffsession`:** além do ficheiro, da linha e dos marcadores, grava o filtro activo (texto) e a codificação de visualização. Ao reabrir, o filtro volta e a linha é reposta quando o filtro termina.
+- **IA:** o agente ordena a vista delimitada (`sort_csv_column` / `clear_csv_sort`), pede `grep -E` com grupos nomeados e grava ou reabre a `.ffsession` com filtro e codificação. O assistente reconhece os mesmos pedidos. «O que posso fazer?» lista ordenação e sessão. O menu e o botão direito têm «perguntar à IA» sobre as colunas e sobre a sessão; o `grep` tem o mesmo botão sobre a tabela de resultados.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.244**, `HISTORY`, F1, `FastFile.dproj`.
+
+## ★ FastFile 3.0.5.243 — Arquivo opcional e busca limitada em arquivos gigantes (23/10/2026)
+
+- **Arquivo opcional:** `grep "casa"` e `glob "*.txt"` usam primeiro o campo de nome do arquivo da janela principal, mesmo com outro arquivo carregado. Na ausência dele: arquivo atual, depois fontes selecionadas. Um campo não vazio inválido gera erro, sem fallback silencioso.
+- **Arquivo explícito:** um único caminho após o padrão (`grep "casa" "C:\dados\arquivo grande.txt"`), absoluto ou relativo ao diretório de trabalho. Verifica existência, arquivo regular e acesso de leitura, carrega pelo fluxo existente e só então executa. Comandos editados no modal usam a mesma ponte; falha/cancelamento de carga descarta a execução pendente. Diretórios, operandos vazios/com curingas e vários arquivos são recusados.
+- **GB+:** leitura em blocos de 64K caracteres decodificados, posições/linhas de 64 bits, cancelamento entre blocos, prévias/resultados limitados. `grep` para no limite solicitado e informa resultado parcial, não total exato. Uma linha acima de **16.777.216 caracteres decodificados** gera erro explícito; não é um limite do tamanho do arquivo. `glob` só examina caminhos.
+- **Validação:** parser/codificações/CR-LF nos limites de bloco, capacidade de linha e erro de excesso; autorização das ferramentas IA; integração VCL (campo padrão, troca de arquivo, comando editado e inválidos); arquivo **esparso de 80 GiB** para offsets, glob, grep com limite e cancelamento, além da abertura pela interface em **Instant Open**. Não é benchmark nem certificação de leitura integral de 80 GiB. A política de abertura/indexação existente é preservada; modo indexado pode varrer o arquivo antes da busca. Compilação integral Win64 aprovada. IA remota não chamada nos testes: provedor injetado.
+- **Sync:** `APPLICATION_VERSION`, `HISTORY` (`miVersionHistoryClick`), F1, `FastFile.dproj` (build/FileVersion/ProductVersion **243 / 3.0.5.243**) e documentação. Ajuda F1 reutiliza `SearchCommandHelp` e o fluxo traduzido `SearchCmd.WorkflowHelp`, sem duplicar regras do modal; 14 idiomas. Referência de índice/checkpoints: [DOC_INDICE_CKPT_EXEMPLO.md](DOC_INDICE_CKPT_EXEMPLO.md), cujo exemplo medido da .239 permanece histórico.
+
+## ★ FastFile 3.0.5.242 (interno) — Acessos diretos e superfícies IA (23/10/2026)
+
+- Digitar apenas `grep` ou `glob` abre o modal com exemplos/sugestões sem iniciar busca nem exigir fontes. **Localizar/Ocorrências**, **Filtro/Grep** e **Marcadores** têm botões separados dos dois comandos, sem diálogo de entrada intermediário.
+- Assistente e agente abrem comandos digitados localmente, sem chamar provedor; listas «O que posso fazer?» incluem os recursos. Diagnóstico usa suas próprias fontes/configurações, admite `search_command` somente leitura e restringe inventário a glob; recusa `--mark`/`--bookmarks`. Ferramentas do modelo não ampliam fontes com um operando explícito.
+- Regressões dos seis botões, entradas Assistente/agente/diagnóstico e layouts nos 14 idiomas a 600/800/1200 pixels lógicos.
+
+## ★ FastFile 3.0.5.241 (interno) — Ajuda IA dentro do modal (23/10/2026)
+
+- Pedido em linguagem natural, **Gerar com IA**, explicação, comando editável e até três sugestões; ambiguidades pedem esclarecimento. Gerar nunca executa: o usuário revisa e usa **Executar comando**.
+- Reutiliza o gateway FastFile em worker. Envia somente pedido/comando atual, não conteúdo dos arquivos ou lista de fontes. JSON/comandos/regex validados, erros visíveis e descarte seguro após parar/fechar (aguarda resposta/timeout do gateway). Exemplos e comandos manuais continuam disponíveis sem IA.
+
+## ★ FastFile 3.0.5.240 (interno) — Comandos glob/grep compartilhados (23/10/2026)
+
+- `uSearchCommands` / `uSearchCommandDialog`: `glob` encontra nomes/caminhos (`* ? **`); `grep` busca conteúdo literal sensível a caixa por padrão, com PCRE opcional. Dialeto interno, sem shell, pipes ou executáveis externos; preserva pesquisas de texto simples.
+- Modal cancelável/paginado, Abrir/Copiar, adicionar marcadores e pesquisar linhas já marcadas (arquivo aberto indexado). Previews limitados, limite global de resultados, limites de trabalho/recursão PCRE e leitura compatível com codificação. Contratos IA, exemplos, ajuda e mensagens nos 14 idiomas.
+
+## ★ FastFile 3.0.5.239 — Diagnóstico IA (outubro/2026)
+
+- **v3.0.5.239 (versão anterior):** **Diagnóstico IA** (barra de ferramentas, menu **Ferramentas**, **Ctrl+Alt+U**): revisão somente leitura de ficheiros e pastas. Especialistas de inventário, estrutura, conteúdo, SQL, privacidade e ações. Percurso Discovery → Plan → Delegate → Evaluate → Aggregate → Synthesize. Nada é gravado; as edições continuam no **Agente IA**. «O que posso fazer?» nesta aba (também F1). Units: `uAgentHub`, `uAgentHubModel`, `uAgentDiscovery`, `uAgentHubWorkspace`. F1 ganha **`FF_HELP.RecentFeaturesBlock3`** (14 idiomas) e os atalhos Ctrl+Alt+G / U / E / D. Sync **HISTORY** / README / ROADMAP / `DOC_ZS_ATALHOS.md` / `DOCUMENTACAO_MODELOS_IA.md`.
+
+## ★ FastFile 3.0.5.238 (interno) — Pastas e «O que posso fazer?» (outubro/2026)
+
+- **v3.0.5.238 (interno):** Seletor de pastas do agente e do diagnóstico (`uFolderPickDlg`): várias pastas de unidades diferentes, com recentes. Lista **«O que posso fazer?»** (`uAICapabilitiesDlg`) no Assistente, no Agente IA e no Diagnóstico IA — um exemplo por capacidade; **Usar exemplo** ou **Perguntar à IA**; F1 nessas abas abre a mesma lista. O botão Cancelar do overlay de carregamento usa o visual do overlay (`uFfOverlayButton`).
+
+## ★ FastFile 3.0.5.237 (interno) — Agente: perfil, alvos e macro Python (outubro/2026)
+
+- **v3.0.5.237 (interno):** `describe_files` (`uAgentDescribe`) resume cada ficheiro (tamanho, data, codificação, fim de linha, delimitador ou largura fixa, amostras) sem o ler por inteiro. O pedido pode indicar os ficheiros por nome, posição («os dois últimos», «arquivo 2»), tipo ou «todos menos o último», nos 14 idiomas (`uAgentTargets`). Macro Python em cada linha após Aceitar, com prévia das primeiras linhas; a saída fica no painel de macro e o ficheiro original não é alterado.
+
+## ★ FastFile 3.0.5.236 (interno) — Validar código-fonte (outubro/2026)
+
+- **v3.0.5.236 (interno):** JSON, HTML e SQL são verificados dentro do FastFile (só a estrutura). Java, Go e C# usam o compilador já instalado neste PC (`javac`, `gofmt`, `csc`). O código do utilizador não é executado (`uSourceValidators`). Ajuda **«Código-fonte com IA»** (`uSourceCodeHelpDlg`): o que a IA gera, que linguagens são validadas, o ciclo corrigir-com-IA e que compiladores este PC tem.
+
+## ★ FastFile 3.0.5.235 (interno) — Extrair e prévia do Python (outubro/2026)
+
+- **v3.0.5.235 (interno):** No editor de linha, **Extrair** (`uLineExtract`): dígitos, letras, e-mails, datas, colunas, CPF, CNPJ ou uma expressão regular própria, da seleção ou da linha inteira; prévia ao vivo; pedir um padrão à IA. A macro Python mostra uma amostra curta (ok / ignorada / erro) antes de gerar a saída completa (`uScriptRunPreview`).
+
+## ★ FastFile 3.0.5.234 (interno) — Índice de linhas em paralelo no Win64 (outubro/2026)
+
+- **v3.0.5.234 (interno):** No Win64, ficheiros a partir de **128 MB** são indexados em paralelo (`uLineIndexScan`, `LINE_INDEX_PARALLEL_ENABLED`): workers varrem blocos com SSE2 e um mapa de bits das quebras de linha; a thread chamadora grava o índice em ordem. A memória fica limitada a poucos mapas de bloco, qualquer que seja o tamanho. Abaixo de 128 MB, e no Win32, a varredura continua sequencial (SWAR). Temporários de índice sem teto de RAM (`TTemporaryFileStream`). Ver `DOC_TREADFILETHREAD_EXECUTE.md`.
+
+## ★ FastFile 3.0.5.233 (interno) — Edição rápida de linhas grandes (outubro/2026)
+
+- **v3.0.5.233 (interno):** Inserir, substituir e apagar em ficheiros a partir de **32 MB** usam o índice de linhas já existente (`uFastLineEdit`). Texto do mesmo tamanho grava no lugar; um sufixo curto desloca-se dentro do ficheiro; nos outros casos um temporário no mesmo volume é renomeado por cima do original. Os índices são reconstruídos na mesma passagem. Um diário (`.ffj`) repõe o ficheiro se a aplicação parar a meio (recuperado no arranque). Antes de gravar as linhas selecionadas, uma lista antes/depois mostra só o que muda (`uLinesChangePreview`).
 
 ## ★ FastFile Professional — nome do produto (outubro/2026)
 
@@ -1559,6 +1619,4 @@ Quebra de linha **só visual** na coluna **Content**, sem reindexar o arquivo (`
 - **Codificação (Delphi 7 / ANSI):** nova unit `uTextEncoding.pas` — confirmação do editor com **`MessageBoxW`** e textos PT em **UTF-8 literal**; `GetLineContent` usa conversão **UTF-8 → Unicode → CP_ACP** quando o ficheiro é detectado como UTF-8 (BOM ou heurística nos primeiros 16 KB). Sem BOM, ficheiros só ASCII ou Latin-1 válido sem sequências UTF-8 ficam como **ANSI**.
 - **Exibição dinâmica (estilo Notepad++):** combo **`comboViewEncoding`** no **último painel da `sStatusBar1`** (filho do control), posicionado por **`LayoutViewEncodingCombo`** em resize/show/skin — evita duplicar com texto no painel. Opção **`DEFAULT (detected)`** segue a detecção; força **UTF-8**, **ANSI**, **UTF-16 LE/BE** só na **ListView**. **Hook** `HookedStatusBarWndProcForCombo` na status bar para **`CBN_CLOSEUP`** (skins / mesmo item). *Hint* do combo resume ficheiro detectado + vista.
 - ~~Clique no painel para ciclar encoding~~ removido: uso direto do combo no painel.
-
-
 

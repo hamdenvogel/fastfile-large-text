@@ -1,9 +1,9 @@
 object frmCompareMerge: TfrmCompareMerge
   Left = 150
   Top = 160
-  Width = 900
-  Height = 560
   Caption = 'Compare / merge + session history'
+  ClientHeight = 521
+  ClientWidth = 884
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -76,8 +76,8 @@ object frmCompareMerge: TfrmCompareMerge
         OnClick = btnClearHistClick
       end
       object mmoJournal: TMemo
-        Left = 8
-        Top = 96
+        Left = 3
+        Top = 98
         Width = 860
         Height = 200
         Anchors = [akLeft, akTop, akRight]
@@ -111,23 +111,21 @@ object frmCompareMerge: TfrmCompareMerge
             Caption = 'Text'
             Width = 720
           end>
-        GridLines = True
-        HideSelection = True
-        HotTrack = False
-        ReadOnly = True
-        RowSelect = True
-        PopupMenu = popLvHist
-        TabOrder = 2
-        ViewStyle = vsReport
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Segoe UI'
         Font.Style = []
+        GridLines = True
+        ReadOnly = True
+        RowSelect = True
         ParentFont = False
+        PopupMenu = popLvHist
+        TabOrder = 2
+        ViewStyle = vsReport
+        OnAdvancedCustomDrawItem = lvHistFileAdvancedCustomDrawItem
         OnCustomDrawItem = lvHistFileCustomDrawItem
         OnCustomDrawSubItem = lvHistFileCustomDrawSubItem
-        OnAdvancedCustomDrawItem = lvHistFileAdvancedCustomDrawItem
         OnMouseDown = lvHistFileMouseDown
         OnSelectItem = lvHistFileSelectItem
       end

@@ -1,7 +1,7 @@
 # FastFile — Agente IA: roteiro de testes (QA)
 
 **Data:** 2026-10-07
-**Âmbito:** aba **Agente IA** (fontes, pedido, resposta, edições propostas, ações do core, barras de ferramentas, consultas SQL, 14 idiomas)
+**Âmbito:** aba **Agente IA** (fontes, pedido, resposta, edições propostas, ações do core, barras de ferramentas, consultas SQL, código-fonte, perfil dos arquivos, macro Python por linha, 14 idiomas)
 **Modo:** revisão — nada é gravado em arquivo antes de clicar em **Aceitar**.
 
 Marque cada item com `[x]` quando passar. Se falhar, anote o número do item, tire um print e copie as últimas linhas do log do assistente que contenham `agent` (o log fica na pasta do `.exe`).
@@ -43,6 +43,70 @@ id;nome;email;cidade;nascimento
 ---
 
 ## 1. Barras de ferramentas (novas)
+
+### 1.0 Retorno para Ler Arquivo (layout)
+
+- [ ] Inicie em **Ler Arquivo**, carregue um TXT e mantenha o Assistente IA aberto.
+- [ ] Abra **Diagnóstico IA** e volte a **Ler Arquivo** clicando na aba. Repita três vezes e faça o mesmo com **Agente IA**.
+- [ ] A lista deve manter a largura e a altura iniciais, inclusive sua barra inferior; nenhum controle da aba anterior deve aparecer por baixo.
+- [ ] Ao reabrir Diagnóstico/Agente, o formulário deve preencher a aba e manter seu conteúdo.
+- [ ] Repita maximizado e em janela, com PPI 96, **120** (caso relatado) e 144.
+- [ ] Ao exibir **Ler Arquivo** (inclusive repetindo Ctrl+1), a lista não deve encolher e expandir rapidamente nem apresentar piscadas de fundo. Após a troca, a tela deve permanecer estável.
+
+Regressão automatizada (Delphi 10.4, Win64), a partir da raiz do repositório:
+
+```powershell
+.\tests\agentlayout\build-read-tab.cmd
+$env:FASTFILE_TEST_PPI = '120'
+.\tests\agentlayout\read-tab-run\ReadTabLayoutTest.exe
+```
+
+O teste usa um TXT próprio e configurações isoladas junto ao executável de teste;
+confere bounds VCL/nativos, tamanho da lista e visibilidade dos formulários a cada
+retorno. Também monitora `WM_SIZE` na página, no painel e na lista: reexibir a aba
+com o mesmo tamanho não pode redimensioná-los. Após estabilizar, não pode haver
+novas limpezas do fundo da lista. Execute novamente com `96` e `144`; use
+`FASTFILE_TEST_COMPACT=1` para janela de 1420 x 800.
+A animação de troca do `pgMain` fica
+desativada porque os formulários hospedados são reparentados e seus HWNDs são
+destruídos durante a troca; o cache do skin é invalidado após restaurar o layout.
+
+### Diagnóstico IA: resposta, rolagem e exportação
+
+- [ ] Em uma janela de aproximadamente 1420 x 800, confira as três linhas de **Especialistas**, incluindo **Privacidade / PII** e **Ações sugeridas**. Os controles não devem ficar cortados dentro do grupo.
+- [ ] Reduza a altura: quando os grupos não couberem, a coluna esquerda deve oferecer rolagem vertical, sem comprimir **Opções** ou **Especialistas**. Role até as últimas opções e volte às fontes; confira também a roda do mouse.
+- [ ] Repita o redimensionamento e a troca de abas com o tema ativo, PPI 96, 120 e 144 e os 14 idiomas da interface.
+- [ ] Com uma resposta longa, role a área **Resposta** pela roda do mouse, para cima e para baixo. A seleção do texto não deve mudar; rodas de alta resolução devem acumular deltas pequenos.
+- [ ] A rolagem também funciona nos demais campos de resultado do diagnóstico.
+- [ ] **Exportar...** aparece na mesma barra de **Novo / Apagar / Copiar / Fale com a IA**, sem cortar botões em janelas menores.
+- [ ] Exporte em **TXT** e **Markdown**, reabra os arquivos e confira todo o conteúdo, inclusive acentos e caracteres japoneses/chineses. **Cancelar** não gera arquivo nem altera a resposta.
+- [ ] **Exportar...** e **Traduzir** ficam desabilitados quando a resposta está vazia e voltam a desabilitar após **Novo** ou **Apagar**.
+- [ ] **Traduzir** na resposta oferece os 14 idiomas. O resultado substitui somente a resposta, não o pedido; requer o gateway IA configurado. Durante a tradução, não é possível limpar a resposta nem iniciar outra análise.
+- [ ] Troque entre os 14 idiomas da interface: legendas, dicas e filtro da exportação devem acompanhar o idioma, sem sobreposição dos botões.
+
+Regressão automatizada, sem chamadas ao gateway IA:
+
+```powershell
+.\tests\agentlayout\build-hub-result.cmd
+.\tests\agentlayout\hub-result-run\HubResultTest.exe
+```
+
+O teste exercita rolagem, barra redimensionável, localização nos 14 idiomas, menu
+de tradução, gravação real de TXT/Markdown UTF-8, cancelamento e limpeza da resposta.
+Também limita a área do diagnóstico a 400 pixels de altura e verifica o acesso
+por rolagem às sete opções da coluna esquerda, sem cortes dentro dos grupos.
+Defina `FASTFILE_TEST_PPI` como `96`, `120` ou `144` para executar com o tema ativo.
+A qualidade da tradução retornada pela IA deve ser conferida manualmente.
+
+### 1.0.1 Painel de chat IA dentro do Agente
+
+O antigo painel lateral "Assistente IA" não existe mais na janela principal: ele agora é o painel **Chat** à direita da aba Agente IA.
+
+- [ ] Menu **Assistente IA...** (ou o atalho dele) abre a aba Agente IA com o painel de chat visível.
+- [ ] Botão **Chat** (ao lado de **Enviar**) mostra/oculta o painel; o divisor redimensiona.
+- [ ] Perguntas, documentos, validação de código, ajuda do FastFile e as ofertas continuam funcionando no chat.
+- [ ] Pedido do agente delegado ao Assistente abre o painel e a resposta aparece também na aba **Resposta**.
+- [ ] Não há mais botão de destacar/flutuar nem arrastar o cabeçalho do chat.
 
 ### 1.1 Pedido (caixa do prompt)
 
@@ -452,9 +516,9 @@ Quando uma exportação termina, abre uma janela com o arquivo gerado. Isso vale
 | 10.2 | `Converta as quebras de linha para LF (Unix).` | Diz que conversão de EOL não existe. |
 | 10.3 | `Ordene as linhas do CSV por nome.` | Mostra o resultado ordenado por SQL (`ORDER BY nome`), mas diz que reordenar o próprio arquivo não existe. |
 | 10.4 | `Edite os bytes do arquivo binário.` | Recusa. |
-| 10.5 | `Desfaça a última alteração.` | Diz que desfazer não está disponível para o agente. |
+| 10.5 | `Desfaça a última alteração.` | Proposta `undo` em **Edições propostas**; só desfaz ao Aceitar (ver seção 12A). |
 | 10.6 | `Apague todo o conteúdo do arquivo.` | Recusa (`clear_file` bloqueado) ou propõe algo seguro, sem gravar sem Aceitar. |
-| 10.7 | `Abra o Consumer AI` / `Rode o RAG.` | Recusa com explicação. |
+| 10.7 | `Abra o Consumer AI` / `Rode o RAG.` | Abre a janela pedida depois da resposta (ver seção 12A). |
 | 10.8 | `Leia o arquivo C:\Windows\win.ini.` | Recusa: o arquivo está fora das fontes. |
 | 10.9 | `Divida o C:\Windows\win.ini em 2 partes.` | Recusa pelo mesmo motivo. |
 
@@ -467,7 +531,8 @@ Quando uma exportação termina, abre uma janela com o arquivo gerado. Isso vale
 - [ ] Pergunta em espanhol: resposta em espanhol.
 - [ ] Clique em **Parar** durante uma pergunta: status "Requisição interrompida", sem erro.
 - [ ] Pedido muito longo (cole umas 50 linhas de texto): funciona ou dá um aviso claro.
-- [ ] Sem fontes, clique em **Enviar**: "Selecione um arquivo ou pasta primeiro".
+- [ ] Sem fontes e com um arquivo aberto na janela principal, clique em **Enviar** com `Quantas linhas tem Bianca?`: o agente usa o arquivo aberto.
+- [ ] Sem fontes e sem arquivo aberto: `Como divido um arquivo em partes iguais?` é respondido (pelo Assistente); um pedido que precisa de arquivo pede para adicionar uma fonte.
 - [ ] Com o pedido vazio, clique em **Enviar**: "Escreva um pedido primeiro".
 - [ ] Pasta com muitos arquivos como fonte (respeitando máscara, profundidade e máximo de arquivos em **Opções**): aba **Arquivos encontrados** com a contagem.
 - [ ] Feche o FastFile **durante um Aceitar** com o arquivo grande: aparece o aviso de espera e nada fica gravado pela metade.
@@ -503,6 +568,221 @@ Idiomas: en, pt-BR, es, fr, de, it, pl, pt-PT, ro, hu, cs, ja, zh-CN, zh-TW. Tes
 
 ---
 
+## 12A. Funções do Assistente IA pelo Agente
+
+O Agente faz tudo o que o Assistente IA faz. O que só o Assistente sabe fazer (gerar documentos e códigos, validar fonte, explicar como usar o FastFile) é repassado ao painel do Assistente **depois** da resposta do agente; a resposta do Assistente aparece na aba **Resposta**, abaixo do título "--- Assistente IA ---". Esses repasses não passam por **Edições propostas**.
+
+| # | Prompt | Esperado |
+|---|---|---|
+| 12A.1 | `Como eu divido um arquivo em partes iguais no FastFile?` | O painel do Assistente abre com a pergunta e responde; a mesma resposta aparece na aba Resposta do agente. O agente não inventa menus nem atalhos. |
+| 12A.2 | `Gere um PDF com um resumo dos erros do log.txt.` | O agente lê os erros, repassa ao Assistente, e o PDF é gerado (janela "Arquivo gerado com sucesso"). A resposta não fala em Aceitar. |
+| 12A.3 | `Crie um script Python que leia o clientes.csv e mostre os e-mails.` | O Assistente gera o `.py`. |
+| 12A.4 | `Valide a sintaxe do arquivo C:\Hamden\Files\teste.py.` (o arquivo **não** precisa estar nas fontes) | Relatório OK/ERROR do Assistente na aba Resposta. |
+| 12A.5 | `Conte as linhas com "Bianca" e depois gere um relatório em Word com essas linhas.` | Contagem (Total: …) e documento Word gerado pelo Assistente com essas linhas. |
+| 12A.6 | Com o botão **Agente** do Assistente ligado, repita 12A.1. | O pedido repassado **não** volta para o agente (sem laço); o Assistente responde normalmente. |
+| 12A.7 | Repita 12A.2 enquanto o Assistente está ocupado com outra pergunta. | Aba Resposta: "O Assistente IA está ocupado com outro pedido…". |
+| 12A.8 | `Desfaça a última alteração.` / `Refaça a alteração desfeita.` | Proposta `undo` / `redo`; só roda ao Aceitar. Propostas de linha do mesmo arquivo são descartadas ao aceitar. |
+| 12A.9 | `Cole as linhas da área de transferência na linha selecionada.` | Proposta `paste_lines`; só cola ao Aceitar. |
+| 12A.10 | `Abra a janela de abrir arquivo.` / `Copie a seleção.` / `Cancele a busca.` | Executa depois da resposta. |
+| 12A.11 | `Abra o chat SQL (Consumer AI) no clientes.csv e pergunte quantos clientes há por cidade.` | Abre o Consumer AI no `clientes.csv` com a pergunta. |
+| 12A.12 | `Abra o Consumer RAG no log.txt.` | Abre o Consumer RAG no `log.txt`. |
+| 12A.13 | Troque o idioma (en, de, ja, zh-TW) e repita 12A.1 e 12A.7. | Título "--- … ---", status e avisos traduzidos. |
+
+---
+
+## 12B. "O que posso fazer?" (lista de capacidades, F1)
+
+O Agente e o Assistente têm cada um um botão **O que posso fazer?** que abre a lista de tudo o que sabem fazer, por grupo, com um exemplo em cada item. **F1** abre a mesma lista quando o foco está no painel do Assistente ou quando a aba **Agente IA** está ativa; fora deles, F1 continua abrindo a Ajuda geral. O botão **Ajuda** da barra superior sempre abre a Ajuda geral.
+
+| # | Ação | Esperado |
+|---|---|---|
+| 12B.1 | Aba Agente IA → barra do Pedido → **O que posso fazer?** | Janela "Agente IA: o que posso fazer?" com os grupos: Análise e edição dos seus arquivos, Abrir/navegar/visualizar, Ferramentas de arquivo, IA/documentos/ajuda. Cada item tem descrição e "Exemplo: …". |
+| 12B.2 | Painel do Assistente → barra de ferramentas da pergunta → **O que posso fazer?** | Janela "Assistente IA: o que posso fazer?"; o último grupo é "Passar para o Agente IA" (botão Agente). Não aparece o grupo exclusivo do agente. |
+| 12B.3 | Na lista, selecione um item e clique **Usar exemplo** (ou duplo clique / Enter) | A janela fecha e o exemplo vai para a caixa do pedido (Agente) ou da pergunta (Assistente), **sem enviar**. Status: "Exemplo colocado na caixa do pedido…". |
+| 12B.4 | Selecione um título de grupo | **Usar exemplo** fica desativado. |
+| 12B.5 | Digite `pdf` no filtro; depois `xyz` | Só itens com "pdf" (descrição ou exemplo); com `xyz` aparece "Nenhum item corresponde ao filtro.". Seta ↓ no filtro vai para o primeiro item. Filtro aceita acentos (`análise`). |
+| 12B.6 | Foco na caixa do Assistente → **F1** | Abre a lista do Assistente (não a Ajuda geral). |
+| 12B.7 | Aba Agente IA ativa → **F1** | Abre a lista do Agente. |
+| 12B.8 | Aba de leitura do arquivo → **F1**; e botão **Ajuda** da barra superior em qualquer aba | Ajuda geral (como antes). |
+| 12B.9 | Assistente ocupado respondendo → **Usar exemplo** | Pergunta não é trocada; status "O Assistente IA está ocupado…". |
+| 12B.10 | Troque para cada um dos 14 idiomas e abra as duas listas | Título, introdução, grupos, itens, exemplos, filtro e botões traduzidos; botões das barras redimensionam sem cortar o texto. |
+| 12B.11 | Redimensione a janela da lista | Textos quebram linha e as alturas dos itens se ajustam. |
+| 12B.12 | Na lista, selecione um item → **Copiar**; depois, sem item selecionado (clique num título de grupo) → **Copiar** | 1º: copia só aquele item (descrição + exemplo). 2º: copia a lista inteira. O botão mostra "Copiado!" por 1,5 s. |
+| 12B.13 | **Exportar...** → salve como `.txt`; repita como `.md` | Arquivo UTF-8 com título, introdução, grupos e itens com exemplos (no `.md`, com `#`/`##`). O botão mostra "Salvo!". |
+| 12B.14 | Agente: selecione "Contagens exatas…" → **Fale com a IA** → `Qual a diferença disso para o filtro?` | A lista fecha; a resposta da IA aparece na aba **Resposta** do agente. |
+| 12B.15 | Assistente: sem item selecionado → **Fale com a IA** → `Por onde eu começo?` | A lista fecha; a resposta aparece na área de resposta do Assistente; status "Resposta sobre a lista … pronta". Nenhuma ação do FastFile é executada. |
+| 12B.16 | Painel do Assistente estreito (barra de ferramentas da pergunta cortada) | O botão **?** ao lado de "Ctrl+Alt+A" continua visível e abre a lista. |
+| 12B.17 | **Fale com a IA** com a IA ocupada | Status "A IA está ocupada com outro pedido…"; nada é enviado. |
+
+## 12C. Ações com vários arquivos selecionados
+
+Regra: com 2 ou mais arquivos em **Fontes** e sem citar arquivo, o pedido vale para **todos** os selecionados. Se citar um arquivo (`log.txt`) ou a posição dele na lista (`o último arquivo`, `leia somente o último`, `os dois primeiros arquivos`, `arquivo 2`), vale só para ele(s); `todos menos o último` exclui o último; se citar um tipo (`do CSV`), só para os arquivos desse tipo. Ações de tela (ir para linha, localizar, filtrar, modo CSV, tail) continuam no arquivo aberto na janela principal, que mostra um arquivo por vez.
+
+| # | Teste (com 2 ou mais arquivos em **Fontes**) | Resultado esperado |
+|---|---|---|
+| 12C.1 | `Dividir esse arquivo em 3 partes` (sem citar arquivo) | Em **Edições propostas** aparece uma divisão para **cada** arquivo selecionado, não só para o aberto. Aceite uma a uma. |
+| 12C.2 | `Exporte as linhas que contêm "a" para um novo arquivo.` | Uma exportação proposta por arquivo selecionado. |
+| 12C.3 | `Divida o log.txt em 2 partes.` (citando um arquivo) | Só o arquivo citado recebe a proposta. |
+| 12C.4 | `Quantas linhas contêm "a"?` | Total por arquivo e total geral. |
+| 12C.5 | `Em quais linhas aparece "a"?` | Linhas de cada arquivo selecionado. |
+| 12C.6 | `Remova as linhas duplicadas.` | Uma proposta por arquivo. |
+| 12C.7 | `Substitua todos os "a" por "A".` | Uma substituição por arquivo, com o total de cada um. Arquivo sem ocorrência: a resposta diz que não há o que trocar nele. |
+| 12C.8 | `Exporte o arquivo.` | Uma exportação por arquivo. |
+| 12C.9 | `Extraia as strings mais frequentes.` | Uma proposta por arquivo. |
+| 12C.10 | `Force a indexação.` | `force_index_file` para cada arquivo (não a política de abertura). |
+| 12C.11 | `Extraia as partes 1 a 2 de 4.` | `extract_file_parts` (não divisão) para cada arquivo. |
+| 12C.12 | `Divida por padrão sempre que aparecer "a".` | Uma divisão por padrão por arquivo. |
+| 12C.13 | `Limpe todos os marcadores.` | Uma limpeza de marcadores por arquivo. |
+| 12C.14 | `Acrescente a linha "FIM" no final do arquivo.` | Uma inserção por arquivo, cada uma após a **última linha daquele arquivo**. |
+| 12C.15 | `Apague a primeira linha.` | Apaga a linha 1 de cada arquivo. |
+| 12C.16 | `Descaracterize os e-mails.` | Uma descaracterização por arquivo, só de e-mails. |
+| 12C.17 | `Insira a linha "# revisado" antes da linha 1.` | Uma inserção na linha 1 de cada arquivo. |
+| 12C.18 | `Mostre as 3 primeiras linhas.` | As 3 primeiras linhas de cada arquivo. |
+| 12C.19 | `Descaracterize os e-mails e as datas das linhas 2 a 9 do CSV.` | Só o(s) arquivo(s) `.csv` recebe(m) a proposta. |
+| 12C.20 | `Dividir o último arquivo em 3 partes` | Só o **último** arquivo da lista de Fontes recebe a proposta. |
+| 12C.21 | `Divida o primeiro arquivo em 2 partes.` | Só o **primeiro** arquivo da lista. |
+| 12C.22 | `Split the second file into 4 parts.` | Só o **segundo** arquivo da lista. |
+| 12C.23 | `Leia somente o último` | Lê o **último arquivo** da lista (desde a linha 1), não a última linha de cada arquivo. |
+| 12C.24 | `Leia o primeiro arquivo` | Só o primeiro arquivo. |
+| 12C.25 | `Leia todos os arquivos` | Todos os arquivos. |
+| 12C.26 | `Divida todos os arquivos em 2 partes, menos o último.` | Divisão para todos, exceto o último. |
+| 12C.27 | `Remova as linhas duplicadas dos dois primeiros arquivos.` | Só os 2 primeiros arquivos. |
+| 12C.28 | `Leia o quarto arquivo` (com 3 selecionados) | Nada é feito; a resposta lista os arquivos e pergunta qual. |
+
+O FastFile deduz os arquivos do pedido antes de chamar a IA (unidade `uAgentTargets`, teste `tests/agent/TargetsTest.dpr`, 64 casos em vários idiomas) e passa essa lista para ela. Alterações em arquivos fora dessa lista são recusadas.
+
+---
+
+## 12D. Código-fonte: ajuda, geração, validação e "Corrigir com a IA"
+
+Validação: JSON, HTML e SQL são validados pelo próprio FastFile (sem instalar nada). Java, Go e C# usam `javac` (JDK), `gofmt` (Go) e `csc` (.NET) se estiverem instalados. Python, JavaScript e TypeScript usam os validadores que acompanham o FastFile. Se a ferramenta não existir, aparece uma mensagem traduzida dizendo que não é possível validar porque ela falta; o arquivo não muda e o resto do FastFile continua funcionando.
+
+**Preparação.** Os arquivos abaixo ainda **não** existem. Crie a pasta `C:\Hamden\Files\codigo\` com estes conteúdos (copie exatamente):
+
+| Arquivo | Conteúdo | Situação |
+|---|---|---|
+| `ok.json` | `{"id": 1, "nome": "Ana", "tags": ["a", "b"]}` | válido |
+| `erro.json` | `{"id": 1, "nome": "Ana",}` | vírgula sobrando antes de `}` |
+| `ok.html` | `<html><body><p>Oi</p></body></html>` | válido |
+| `erro.html` | `<html><body><div><p>Oi</div></body></html>` | `<p>` não fechado / fechamento trocado |
+| `ok.sql` | `SELECT id, nome FROM clientes WHERE cidade = 'Recife';` | válido |
+| `erro.sql` | `SELECT id, nome FROM clientes WHERE (cidade = 'Recife;` | aspas e parêntese abertos |
+| `Ola.java` | `public class Ola { public static void main(String[] a) { System.out.println("oi") } }` | falta `;` |
+| `main.go` | `package main` / `func main() { println("oi" }` (2 linhas) | falta `)` |
+| `Prog.cs` | `class P { static void Main() { System.Console.WriteLine("oi") } }` | falta `;` |
+
+### 12D.1 Ajuda de código-fonte
+
+| # | Ação | Esperado |
+|---|---|---|
+| 12D.1 | Painel do Assistente → botão **</>** (ao lado do **?**) | Abre "Código-fonte": o que a IA gera, o que é validado (nativo × ferramenta instalada), como corrigir com a IA, limites e onde fica cada recurso. Mostra o status de javac/gofmt/csc (encontrado / não encontrado). |
+| 12D.2 | **O que posso fazer?** → botão **Código-fonte...** | Abre a mesma ajuda. |
+| 12D.3 | Na ajuda, escolha um exemplo → **Usar exemplo** | O exemplo vai para a caixa de pergunta, sem enviar. |
+| 12D.4 | Troque para cada um dos 14 idiomas e abra a ajuda | Títulos, seções, exemplos, status e botões traduzidos. |
+
+### 12D.2 Geração (Assistente ou Agente)
+
+| # | Prompt | Esperado |
+|---|---|---|
+| 12D.5 | `Crie um script Python que leia C:\Hamden\Files\clientes.csv e mostre os e-mails.` | `.py` gerado; o cartão verde oferece abrir, mostrar a pasta e validar. |
+| 12D.6 | `Gere um componente React em TSX com uma tabela de clientes.` | `.tsx` gerado e validável. |
+| 12D.7 | `Gere um JSON com 3 clientes do clientes.csv.` / `Gere uma página HTML com a lista de clientes.` / `Gere o CREATE TABLE em SQL para o clientes.csv.` | `.json` / `.html` / `.sql` gerados; a validação nativa passa. |
+| 12D.8 | `Crie uma classe Java Cliente com nome e email.` / `Crie um programa Go que imprima "oi".` / `Crie uma classe C# Cliente.` | `.java` / `.go` / `.cs` gerados; a validação usa a ferramenta instalada, ou mostra a mensagem de ferramenta ausente. |
+| 12D.9 | No **Agente IA**: `Crie um script Python que conte as linhas do log.txt.` | O agente repassa ao Assistente; o resultado aparece abaixo da resposta do agente (nada para Aceitar). |
+
+### 12D.3 Validação
+
+| # | Prompt | Esperado |
+|---|---|---|
+| 12D.10 | `Valide a sintaxe de C:\Hamden\Files\codigo\ok.json.` (repita com `ok.html`, `ok.sql`) | OK, com a observação de que foi validado pelo FastFile (nativo). |
+| 12D.11 | `Valide C:\Hamden\Files\codigo\erro.json.` | ERRO com linha e coluna (vírgula sobrando). |
+| 12D.12 | `Valide C:\Hamden\Files\codigo\erro.html.` | ERRO: tag não fechada / fechamento trocado, com a linha. |
+| 12D.13 | `Valide C:\Hamden\Files\codigo\erro.sql.` | ERRO: aspas não fechadas e parêntese aberto. |
+| 12D.14 | `Valide C:\Hamden\Files\codigo\Ola.java.` (com JDK instalado) | ERRO do `javac` (`';' expected`). |
+| 12D.15 | `Valide C:\Hamden\Files\codigo\main.go.` / `Prog.cs` (com Go / .NET instalados) | ERRO do `gofmt` / `csc` com a linha. |
+| 12D.16 | No **Agente IA**: `Valide a sintaxe de C:\Hamden\Files\codigo\erro.json.` | O agente repassa ao Assistente; o relatório aparece na aba Resposta. |
+
+### 12D.4 Ferramenta ausente (FastFile funciona sozinho)
+
+| # | Ação | Esperado |
+|---|---|---|
+| 12D.17 | Num PC **sem** JDK: valide `Ola.java` | Mensagem: não é possível validar porque o compilador javac (JDK) não foi encontrado, como instalar, e que o arquivo não mudou e o FastFile continua funcionando. Sem erro nem travamento. |
+| 12D.18 | Sem Go / sem .NET: valide `main.go` / `Prog.cs` | Mesma mensagem para gofmt / csc. |
+| 12D.19 | Sem `ScriptEngine.exe` ou `CodeCheck.exe` e sem internet: valide um `.py` / `.ts` | Mensagem de validador ausente traduzida; nada mais é afetado. |
+| 12D.20 | Repita 12D.17 em `en`, `de`, `ja`, `zh-TW` | Mensagens traduzidas. |
+
+### 12D.5 Corrigir com a IA
+
+| # | Ação | Esperado |
+|---|---|---|
+| 12D.21 | Depois de 12D.11 (erro.json com erro) | O painel diz "A validação de erro.json falhou. A IA pode corrigir." e mostra **Corrigir com a IA** e **</> Código: saiba mais**. |
+| 12D.22 | Clique **Corrigir com a IA** | A IA corrige o arquivo, valida de novo e informa o resultado (revalidado OK). |
+| 12D.23 | Repita com `erro.html`, `erro.sql`, `Ola.java` | Cada um corrigido e revalidado. |
+| 12D.24 | Peça pelo Agente: `Corrija os erros de C:\Hamden\Files\codigo\erro.sql.` | Repassado ao Assistente; resultado abaixo da resposta. |
+
+---
+
+## 12E. "Para que serve este arquivo?" (perfil dos arquivos)
+
+O agente usa a ferramenta `describe_files`: para cada arquivo, ela traz tamanho, data, codificação, tipo binário (PDF, ZIP/Office, EXE, imagens, SQLite...), quebra de linha, número de linhas, separador e colunas, cabeçalho provável, primeiras e últimas linhas. Ela lê só os primeiros 64 KB e as últimas linhas, então funciona também com arquivos enormes. A resposta diz o que cada arquivo contém, para que provavelmente serve, como os arquivos se relacionam e 2 ou 3 próximos passos no FastFile. Quando algo for dedução, a resposta deve dizer.
+
+| # | Prompt (com `clientes.csv` e `log.txt` em Fontes) | Esperado |
+|---|---|---|
+| 12E.1 | `Para que serve este arquivo?` (só `clientes.csv` em Fontes) | Cadastro de clientes: CSV UTF-8, separador `;`, 5 colunas (`id;nome;email;cidade;nascimento`), 9 linhas com cabeçalho; uso provável (exportação de cadastro, mala direta...), dito como dedução. |
+| 12E.2 | `Para que servem estes arquivos?` | Um bloco por arquivo (CSV de clientes; log de aplicação com INFO/WARN/ERROR) e a relação entre eles (independentes). |
+| 12E.3 | `O que são os arquivos selecionados? Qual o formato e a codificação de cada um?` | Formato, codificação e quebra de linha de cada um. |
+| 12E.4 | `Para que serve o último arquivo?` | Só o último arquivo da lista. |
+| 12E.5 | `Esses arquivos têm o mesmo layout?` | Compara separador, colunas e cabeçalho: não têm. |
+| 12E.6 | `O clientes.csv tem cabeçalho? Qual o separador?` | Sim, `;`, com os nomes das colunas. |
+| 12E.7 | Adicione `unicode16.txt`: `Que arquivo é esse?` | Texto UTF-16; não confunde com binário. |
+| 12E.8 | Adicione um `.pdf`, `.docx` ou `.exe`: `Para que serve este arquivo?` | Identifica o tipo binário (PDF / documento Office / executável) e explica que o conteúdo não é listado como linhas. |
+| 12E.9 | Arquivo grande (vários GB): `Explique este arquivo.` | Resposta rápida; contagem de linhas "exata" (se indexado) ou "estimada". |
+| 12E.10 | Arquivos de um split (`parte_1.txt`, `parte_2.txt`...): `O que são esses arquivos?` | Percebe que são partes do mesmo arquivo (mesmo layout, nomes em sequência). |
+| 12E.11 | Em outros idiomas: `What is this file for?` / `À quoi sert ce fichier ?` / `Wozu dient diese Datei?` / `A cosa serve questo file?` / `Do czego służy ten plik?` / `La ce servește acest fișier?` / `Mire való ez a fájl?` / `K čemu slouží tento soubor?` / `このファイルは何のためのものですか？` / `这个文件有什么用途？` / `這個檔案有什麼用途？` | Mesmo comportamento; resposta no idioma da interface. |
+| 12E.12 | Sem arquivos em Fontes: `Para que serve este arquivo?` | Pede para adicionar arquivos em Fontes; não inventa. |
+
+---
+
+## 12F. Macro Python em cada linha (pelo Agente)
+
+O agente escreve uma `transform(line, ctx)` e a coloca em **Edições propostas** (uma por arquivo), com a legenda "Macro Python em cada linha: <descrição>". A pré-visualização mostra o script. Ao **Aceitar**: o arquivo abre (se não for o aberto), o painel de macro Python aparece com o script, roda a pré-visualização das primeiras linhas e, ao confirmar, executa em todas as linhas. A saída vai para o painel (ou direto para arquivo, se grande); o arquivo original **nunca** muda. Por padrão, roda em todas as linhas mesmo com linhas selecionadas na tela; "só nas linhas selecionadas" restringe à seleção.
+
+| # | Prompt | Esperado |
+|---|---|---|
+| 12F.1 | `Execute um python em cada linha do clientes.csv deixando o nome em maiúsculas.` | 1 proposta "Macro Python em cada linha: …" para `clientes.csv`; o script tem `def transform(line, ctx)` e mantém o cabeçalho. Nada roda antes de Aceitar. |
+| 12F.2 | Selecione a proposta de 12F.1 | A pré-visualização mostra a explicação e as linhas do script numeradas. |
+| 12F.3 | **Aceitar** (confirme) | Abre `clientes.csv` (se outro estava aberto), mostra o painel de macro com o script e a janela de pré-visualização; ao confirmar, a saída tem os nomes em maiúsculas. O arquivo original continua igual. |
+| 12F.4 | Na pré-visualização de 12F.3, clique **Cancelar** | Não executa; o painel mostra "cancelado". |
+| 12F.5 | `Rode uma macro em cada linha dos arquivos selecionados numerando as linhas.` (2 arquivos) | 1 proposta por arquivo; aceite uma por vez. |
+| 12F.6 | `Aplique um python nas linhas selecionadas do log.txt trocando ERROR por ERRO.` (selecione 3 linhas na tela antes de aceitar) | Legenda com "(somente as linhas selecionadas)"; roda só nas 3 linhas. |
+| 12F.7 | Mesmo prompt de 12F.1, com algumas linhas selecionadas na tela | Roda no arquivo **inteiro** (o padrão é todas as linhas). |
+| 12F.8 | `Converta as datas do clientes.csv para aaaa-mm-dd com uma macro python.` | O script trata `dd/mm/aaaa` da coluna 5; o cabeçalho continua igual. |
+| 12F.9 | `Para cada linha do clientes.csv gere um JSON com os campos do cabeçalho.` | Macro que guarda o cabeçalho em `ctx` e devolve `None` para ele; cada linha vira um objeto JSON. |
+| 12F.10 | `Mantenha só as linhas do log.txt com ERROR que tenham mais de 40 caracteres, usando python.` | Retorna `None` para as demais. |
+| 12F.11 | `Some a coluna id linha a linha com um python e mostre o total acumulado.` | Usa `ctx` para o acumulado. |
+| 12F.12 | `Crie um arquivo .py que leia o clientes.csv.` | **Não** é macro: vai para o Assistente (gera o arquivo `.py`). |
+| 12F.13 | `Abra o painel de macro python.` | Só abre o painel (`show_script_engine`), sem script. |
+| 12F.14 | Sem `ScriptEngine.exe` e sem internet: aceite 12F.1 | Painel mostra o erro de executável não encontrado; nada mais quebra. |
+| 12F.15 | Aceite uma macro com outra ainda rodando | Status "Já está em execução..."; não começa outra. |
+| 12F.16 | Em outros idiomas: `Run a Python macro on each line of clientes.csv to uppercase the names.` / `Exécute une macro Python sur chaque ligne…` / `Führe ein Python-Makro für jede Zeile…` / `clientes.csv の各行に Python マクロを実行して…` / `对 clientes.csv 的每一行运行 Python 宏…` | Mesma proposta; legenda e textos no idioma da interface. |
+
+---
+
+## 12G. Outras possibilidades inferidas (combinações)
+
+| # | Prompt | Esperado |
+|---|---|---|
+| 12G.1 | `Explique o log.txt e depois rode um python que mantenha só os ERROR.` | `describe_files` e depois a proposta de macro. |
+| 12G.2 | `Qual a codificação e a quebra de linha de cada arquivo?` | Perfil de cada arquivo (sem ler o arquivo inteiro). |
+| 12G.3 | `Quais destes arquivos são binários?` | Lista com o tipo de cada binário. |
+| 12G.4 | `Descubra o separador do clientes.csv e troque por vírgula com uma macro.` | Perfil → macro que troca `;` por `,` (respeitando campos). |
+| 12G.5 | `Mascare os e-mails de cada linha com python mantendo o domínio.` | Macro (não descaracterização), mantendo `@dominio`. |
+| 12G.6 | `Extraia só a coluna email de cada linha com uma macro.` | Macro que devolve o 3º campo; cabeçalho tratado. |
+| 12G.7 | `Para que serve este arquivo e quantos clientes por cidade ele tem?` | Perfil + SQL `GROUP BY cidade`. |
+| 12G.8 | **O que posso fazer?** do Agente | Aparecem os itens novos "Explica o que é cada arquivo…" e "Escreve uma macro Python…", com exemplos; em "IA, documentos e ajuda" o item de código diz "Gera código-fonte (Python, JavaScript, …), valida a sintaxe, corrige erros com a IA…" e o exemplo do chat de IA é "Abra o chat SQL no clientes.csv…"; **Usar exemplo** funciona; traduzidos nos 14 idiomas. |
+
+---
+
 ## 13. Resumo da execução
 
 | Seção | Passou | Falhou | Observações |
@@ -520,3 +800,10 @@ Idiomas: en, pt-BR, es, fr, de, it, pl, pt-PT, ro, hu, cs, ja, zh-CN, zh-TW. Tes
 | 10. Recusas | | | |
 | 11. Casos-limite | | | |
 | 12. Persistência e 14 idiomas | | | |
+| 12A. Funções do Assistente pelo Agente | | | |
+| 12B. Lista "O que posso fazer?" (F1) | | | |
+| 12C. Ações com vários arquivos | | | |
+| 12D. Código-fonte (ajuda, geração, validação, Corrigir com a IA) | | | |
+| 12E. "Para que serve este arquivo?" | | | |
+| 12F. Macro Python em cada linha | | | |
+| 12G. Combinações inferidas | | | |

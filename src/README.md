@@ -3,7 +3,7 @@
 **Professional high-performance text file editor for large files — Delphi 7 / Win32**
 
 > Edition: **Professional** — FastFile is a professional-grade product for production-size data.  
-> Version: **`3.0.5.232`** — **FastFile Professional 3.0.5** (14 UI languages; AI agent on files with SQL / natural language and reviewed proposals; anonymize data; session-history event details; custom PPI)  
+> Version: **`3.0.5.244`** — **FastFile Professional 3.0.5** (14 UI languages; CSV column sort without loading the file; grep named-group table; session filter and encoding; internal glob/grep; read-only AI diagnosis; fast line edit; parallel Win64 line index; source check)  
 > Developer: Hamden Vogel  
 > Copyright © 2025–2026. All rights reserved.
 
@@ -39,9 +39,165 @@ FastFile Professional is a **professional viewer and line editor** designed for 
 
 Product overview (PT-BR marketing): [`apresentacao_fastfile.md`](apresentacao_fastfile.md).
 
-### Latest releases (**3.0.5.232** · 3.0.5.225 · 3.0.5.210 · 3.0.5.100 · 3.0.5.0 · 3.0.4.0 · 3.0.3.0 · 3.0.2.0 · 3.0.1.0 · 3.0.0.0 · 2.1.7.31 · 2.1.7.30 · 2.1.7.29 · 2.1.7.25 · 2.1.7.21 · 2.1.7.17 · 2.1.7.13 · 2.1.7.11 · 2.1.7.9 · 2.1.7.7)
+### Internal glob / grep commands
 
-- **★ 3.0.5.232 (release) — AI agent on files, anonymize, history details, custom PPI:** new **AI agent** (toolbar, Tools menu, **Ctrl+Alt+G**; `uAgentWorkspace` / `uAgentLoop` / `uAgentProtocol` / `uAgentTools` / `uAgentActions` / `uAgentBridge` / `uAgentPrefs`): pick files/folders, describe the request in plain words (14 languages) or **SQL** (`uAgentSql`: SELECT with WHERE / GROUP BY / ORDER BY / SUM / COUNT; UPDATE / DELETE / INSERT / ALTER become proposals; typed SQL runs without AI), whole-word vs partial matching (`uAgentMatchIntent`); tabs Answer / Proposed edits / Revised prompt / Files found; nothing is written before **Accept**, accepted edits use the core streaming routines (`uAgentPatch`, GB files, Cancel); **time to decide** (20 s, 5..600 s in Preferences) with timer badge; replace-all pre-count (0 hits = nothing proposed); no false "done" claims; replies in the UI language; buttons enabled only when there is content; "File(s) generated successfully" window (`uExportDoneDlg`, "Folder:" / "File:") + "Last generated file"; UTF-16 read fix. **Anonymize data** (`uAnonymize` / `uAnonymizeDialog`, **Ctrl+Alt+D** or whole file; same type and length, preview, undo/redo, before/after in history). Session-history **event details** (`uHistLineDetailDlg`: double-click/Enter, F3 / Shift+F3, field-by-field compare, export TXT/CSV/JSON). **Custom PPI** toolbar button synced with the status-bar zoom; language switch retranslates on-screen texts; layout follows display changes (`FfFitCaptions`, `WM_DISPLAYCHANGE`); split-view refresh fix. Internal tracks **3.0.5.226–232** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock2`.
+The **Find (Occurrences)** and **Filter / Grep** input fields accept internal
+commands in addition to their unchanged plain-text searches. **Find
+(Occurrences)**, **Filter / Grep** and **Bookmarks** each have separate **grep**
+and **glob** buttons that open the shared modal directly, without another input
+dialog. Type only `grep` or `glob` (case-insensitive, surrounding whitespace
+allowed) and apply/search to open the same modal with mode-specific examples,
+AI help and suggestions, without starting a scan or requiring sources.
+Incomplete commands with options, such as `grep -i`, still report the missing
+pattern instead of searching for an empty string.
+Complete commands open a shared,
+cancellable result window with 40 results per page, **Open**, **Copy**, and
+**Bookmark hits in the open file**. They do **not** invoke a shell or external
+executable, and do not replace an existing plain-text filter.
+
+In the **main-window search tools, Assistant and typed AI-agent commands**, a
+file operand is optional.
+`grep "casa"` uses the main filename field (`edtFileName`) first, even if another
+file was previously loaded. `glob "*.txt"` uses the same default. If that field
+is empty, the current file is used, then the agent's selected sources.
+A nonempty invalid filename is an error, never a reason to silently search
+different sources.
+
+One explicit file may follow the pattern: `grep "casa" "C:\logs\arquivo.txt"`.
+The main window validates existence, regular-file status and read access, loads
+that file using the existing open/index/Instant Open policy, and executes the
+command only after successful loading. A file edited or suggested inside the
+modal follows the same flow after **Run command**. Relative operands resolve
+against the application's working directory. Quote paths containing spaces;
+directories, wildcard file operands, empty operands and multiple files are
+not accepted. Use a selected folder plus `--glob` for multi-file searches.
+
+Read-only **AI agent/diagnosis tools** retain their selected-source boundary:
+an explicit operand can narrow the authorized file list, not grant new access.
+User-typed agent commands use the same main-window modal/loading bridge.
+The diagnosis modal remains scoped to its own sources.
+For folder sources, the agent's mask, recursion, maximum depth and file-count
+settings remain in force; `**` does not enable recursion by itself.
+
+| Command | Purpose |
+|---|---|
+| `glob "**\*.log"` | Find log paths, including subfolders enabled in the source settings |
+| `glob "report_202?.csv" --limit 500` | Match one character with `?` |
+| `grep "casa"` | Search the filename-field file, with no file operand required |
+| `grep -i "casa" "C:\logs\arquivo grande.txt"` | Validate and open the explicit file before searching |
+| `glob "*.txt" "C:\logs\arquivo grande.txt"` | Open the explicit file, then match its path without reading its content |
+| `grep -i "erro" --glob "**\*.log"` | Find literal text, ignoring case, in selected log files |
+| `grep -n -E "erro\|falha" --glob "*.txt"` | Search with a PCRE regular expression (the pattern is `erro` OR `falha`) |
+| `grep -v -F "DEBUG"` | Keep lines that do not contain the literal text |
+| `grep -iw "Maria" --mark --limit 10000` | Add bookmarks to matching lines in the open file; existing bookmarks stay set |
+| `grep --bookmarks -E "^[0-9]+"` | Search only bookmarked lines of the open file |
+| `grep -- "-pending"` | Search a pattern starting with `-` |
+| `grep --help` | Show help and examples in the current UI language |
+
+`grep` defaults to **literal, case-sensitive** matching; this is a documented
+internal dialect, not GNU grep's basic-regex syntax. `-F` selects literal text,
+`-E` PCRE regex, `-i` ignores case, `-s` matches case, `-w` selects whole words,
+and `-v` inverts the match. `-n` is accepted; results always contain the path and
+physical 1-based line number. Quotes preserve spaces and backslashes; there is
+no shell expansion, piping or redirection. `glob` matches paths only: `*` stays
+within a path component, `?` matches one character, and `**` crosses folders.
+
+The **global** result limit is 200 by default (`--limit 1..10000`).
+Previews retain at most 400 characters per line; **Open** navigates to the
+original line. Partial and cancelled results are explicitly identified and
+must not be interpreted as exact totals. The AI tool additionally bounds its
+text output and reports truncation with `partial=True`. Bookmark operations
+require the open file to have been read with its line index; hits from other
+files or beyond the existing 10,000-bookmark limit are reported as skipped.
+The scan uses encoding-aware **64K-character blocks** on a worker, with 64-bit
+physical line numbers and file offsets. It never buffers the entire file.
+Cancellation is checked between blocks, including inside long physical lines.
+Each line is limited to **16,777,216 decoded characters** to bound memory;
+larger lines fail explicitly, with file and line number, instead of exhausting
+memory or reporting a false negative. This is a per-line limit, not a file-size
+limit. `glob` inspects paths only. `grep` stops as soon as its requested hit cap
+is reached, marking the result partial even if that hit happens to be the last.
+An uncapped/no-match search still requires reading all eligible content;
+80-GB traversal time depends on storage, encoding, patterns and line lengths.
+This command reader supports UTF-8, UTF-16 LE/BE and recognized Windows code
+pages; UTF-32 is rejected explicitly rather than searched using the wrong encoding.
+Regex execution has PCRE work/recursion limits; exceeding them is an error, not
+a negative match.
+
+The **AI agent** accepts typed commands without an LLM call. Its model can also
+emit `{"tool":"search_command","command":"glob \"**\\*.log\""}` or a `grep`
+command. Bookmark requests use the existing `app_action/apply_filter` bridge;
+the **Assistant** uses `apply_filter` with the entire command in `filter_text`.
+The prompt contracts distinguish filenames from content and preserve the
+user's search text in every UI language. For example, “find CSV files” maps to
+`glob "*.csv"`, while “find errors in logs” maps to
+`grep -i "error" --glob "**\*.log"`. Model-dependent natural-language choices
+still require a configured AI provider; typed commands run locally.
+Bare `grep` and `glob` also open the modal directly from the **Assistant** and
+**AI agent**, without contacting the provider or first enumerating sources.
+The capability lists ("What can I do?") on the Assistant, agent and diagnosis
+include the command features and examples in all 14 languages.
+
+**AI diagnosis** supports the same bounded, local `search_command` tool for its
+specialists. Inventory can use `glob` paths only; content-capable specialists
+can use `grep`. Complete typed commands run locally and produce a report without
+an LLM call. Bare names open the interactive modal using the **diagnosis's own
+selected sources and scan settings**, even before sources are chosen. Diagnosis
+remains read-only: `--mark` and `--bookmarks` are rejected because it has no
+main-window bookmark snapshot. Use the main-window search tools for bookmarks.
+The diagnosis modal can generate/edit commands and open matching files/lines,
+but cannot change bookmarks. Model requests to broaden sources, run a shell,
+or change bookmark state are not executed by diagnosis.
+
+The **glob / grep modal itself** also has an AI command helper, including when
+opened with `grep --help`. Describe the search in your language (for example,
+"find errors in log files, ignoring case" or "search only my bookmarks") and
+click **Generate with AI**. It uses the existing FastFile AI gateway and returns
+an editable command, an explanation and up to three alternative command
+suggestions. An ambiguous request asks for clarification rather than inventing
+a search pattern. Select a suggestion or edit the command, then click
+**Run command**: AI generation never executes a search or changes bookmarks.
+Commands and regexes from the model are validated before being offered.
+Only the entered request and current command are sent to AI, not file contents
+or the selected source list. Provider errors are displayed in the modal;
+manual commands and built-in examples remain usable without AI.
+While AI is pending, closing/stopping waits for the current gateway request
+to finish or time out, then discards its reply. Local scans retain their
+existing cancellation behavior.
+
+Help, input hints, result messages and errors cover all 14 UI languages in
+[`uI18n.pas`](uI18n.pas); command names and options are language-independent.
+Implementation: [`uSearchCommands.pas`](uSearchCommands.pas),
+[`uSearchCommandDialog.pas`](uSearchCommandDialog.pas).
+Regression tests: [`SearchCommandTest.dpr`](../tests/agent/SearchCommandTest.dpr).
+Run [`build-search.cmd`](../tests/agent/build-search.cmd) with an optional
+absolute output directory for command, agent and protocol tests. The VCL
+[`SearchCommandDialogTest.dpr`](../tests/agentlayout/SearchCommandDialogTest.dpr)
+also exercises result paging, opening a hit, marking, idempotence and the
+main form's Find/Assistant bridge. Modal AI tests use an injected provider
+to cover generation, review before execution, suggestion selection,
+clarification, invalid replies, transport errors, cancellation and bookmark
+index/source guards without making network requests.
+They also cover all six bar launch buttons, bare commands through Find, Filter,
+Assistant, agent and diagnosis, and button layout in all 14 UI languages at
+600/800/1200 logical-pixel widths. Search-agent tests cover the diagnosis tool's
+read-only/inventory guards, selected-source scope and bounded output.
+Capacity regressions use a temporary **80 GiB sparse file** (without physically
+writing 80 GiB) to verify 64-bit offsets, path-only glob, immediate grep hit-limit
+termination and cancellation. Boundary tests cover CR/LF across decoded blocks,
+the exact per-line capacity and its explicit overflow error. This is **not**
+a benchmark or certification of a full 80-GiB scan. VCL tests also verify loading
+another file before execution, filename-field precedence, modal-edited operands
+and missing-file rejection, plus 80-GiB GUI opening with the **Instant Open**
+policy explicitly selected, path-only glob and an early-limit grep. The existing
+automatic/indexed opening policy may build a full line index before running
+the command; this change does not silently override that user preference.
+
+### Latest releases (**3.0.5.243** · 3.0.5.239 · 3.0.5.232 · 3.0.5.225 · 3.0.5.210 · 3.0.5.100 · 3.0.5.0 · 3.0.4.0 · 3.0.3.0 · 3.0.2.0 · 3.0.1.0 · 3.0.0.0 · 2.1.7.31 · 2.1.7.30 · 2.1.7.29 · 2.1.7.25 · 2.1.7.21 · 2.1.7.17 · 2.1.7.13 · 2.1.7.11 · 2.1.7.9 · 2.1.7.7)
+
+- **★ 3.0.5.243 (current) — internal glob/grep and optional file operands:** internal tracks **.240** (parser, path/content matching, paged results and bookmarks), **.241** (modal AI suggestions with explicit execution), **.242** (bare-name launchers, six bar buttons, Assistant/agent/diagnosis), **.243** (validate/load optional file, bounded GB streaming). See the [command guide](#internal-glob--grep-commands) for examples, source authorization, per-line limits and exact 80-GiB sparse-test scope. F1 shares the localized command help; EXE metadata and `APPLICATION_VERSION` are **3.0.5.243**.
+- **★ 3.0.5.239 (previous release) — AI diagnosis, fast line edit, parallel Win64 index, source check:** **AI diagnosis** (toolbar, Tools, **Ctrl+Alt+U**; `uAgentHub` / `uAgentHubWorkspace` / `uAgentDiscovery` / `uAgentHubModel`) is read-only: specialists for inventory, structure, content, SQL, privacy and actions (Discovery → Plan → Delegate → Evaluate → Aggregate → Synthesize). Edits stay on the AI agent. **Fast line edit** from 32 MB (`uFastLineEdit`: in place, shift or rewrite via the existing line index; `.ffj` journal recovered at startup) and a before/after list of only the lines that change (`uLinesChangePreview`). **Win64 parallel line index** from 128 MB (`uLineIndexScan`: SSE2 bit maps, bounded RAM; sequential SWAR below that and on Win32); index temps via `TTemporaryFileStream`. Line editor **Extract** (`uLineExtract`) and a short Python preview before the full run (`uScriptRunPreview`). **Source check** without running user code (`uSourceValidators`: JSON/HTML/SQL in-process; Java/Go/C# via javac, gofmt, csc) and **Source code with AI** help (`uSourceCodeHelpDlg`). Agent **describe_files** (`uAgentDescribe`), which-files inference in 14 languages (`uAgentTargets`), and a per-line Python macro after Accept (preview; original file unchanged). Multi-folder picker (`uFolderPickDlg`) and **What can I do?** (`uAICapabilitiesDlg`) on the Assistant, the agent and diagnosis. Internal tracks **3.0.5.233–239** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock3` · `DOC_TREADFILETHREAD_EXECUTE.md`.
+- **★ 3.0.5.232 (previous within 3.0.5) — AI agent on files, anonymize, history details, custom PPI:** new **AI agent** (toolbar, Tools menu, **Ctrl+Alt+G**; `uAgentWorkspace` / `uAgentLoop` / `uAgentProtocol` / `uAgentTools` / `uAgentActions` / `uAgentBridge` / `uAgentPrefs`): pick files/folders, describe the request in plain words (14 languages) or **SQL** (`uAgentSql`: SELECT with WHERE / GROUP BY / ORDER BY / SUM / COUNT; UPDATE / DELETE / INSERT / ALTER become proposals; typed SQL runs without AI), whole-word vs partial matching (`uAgentMatchIntent`); tabs Answer / Proposed edits / Revised prompt / Files found; nothing is written before **Accept**, accepted edits use the core streaming routines (`uAgentPatch`, GB files, Cancel); **time to decide** (20 s, 5..600 s in Preferences) with timer badge; replace-all pre-count (0 hits = nothing proposed); no false "done" claims; replies in the UI language; buttons enabled only when there is content; "File(s) generated successfully" window (`uExportDoneDlg`, "Folder:" / "File:") + "Last generated file"; UTF-16 read fix. **Anonymize data** (`uAnonymize` / `uAnonymizeDialog`, **Ctrl+Alt+D** or whole file; same type and length, preview, undo/redo, before/after in history). Session-history **event details** (`uHistLineDetailDlg`: double-click/Enter, F3 / Shift+F3, field-by-field compare, export TXT/CSV/JSON). **Custom PPI** toolbar button synced with the status-bar zoom; language switch retranslates on-screen texts; layout follows display changes (`FfFitCaptions`, `WM_DISPLAYCHANGE`); split-view refresh fix. Internal tracks **3.0.5.226–232** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock2`.
 - **★ 3.0.5.225 (previous within 3.0.5) — session history, Line editor, EOL policy, fast merge, stability:** **Find Occurrences** bar after Ctrl+F (F3 / Shift+F3, paged clickable hits, Load more) and **Search tools** gallery (`uFindOccurrencesBar`, `UnitPopupFileSearchGallery`); AI-First **post-action pipeline** ("What next?" chips + bridge memory, `uAssistantPostAction` / `uAssistantPipelineStore`); EOL/encoding detect + convert (`uFileFormatConvert`); docked **Bookmarks** bar (Ctrl+B, `uBookmarkBar`); professional message boxes (`uFastFileMsgDlg`); **Options** dialog (`uUserPrefs` / `uPrefsDialog`); MRU partial find (`uMruFind`); exception guard + hang/memory **watchdog** (`uFastFileAppGuard` / `uFastFileWatchdog`); **paged RAM-safe history preview** (`uHistPagedPreview`), Ctrl+wheel in history, export by legend; faster startup with many tabs and cancellable language switch; **CR+LF / LF / CR** in all routines (`uEolPolicy`); compare/merge history rework (substring highlight, paged **Changed lines** index `uHistChangedIndex`, merge-history MRU, dockable panels); diff synced scroll + threaded cancellable **apply left↔right** for 50 GB files (`uMergeApply`); **drag-to-reorder tabs**; renewed **Line editor** (find/replace F3/F4/Shift+F4, undo/redo, clear, previous/next line Alt+↑/↓, Ask AI); session history **checkboxes / select all / delete**, sort by line or date, **date range** with AlphaSkins `TsDateEdit`, export TXT/CSV, Ask AI, legend-colored selection; time messages translated and **17 units saved as UTF-8 with BOM** (no garbled accents). Internal tracks **3.0.5.211–225** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock`.
 - **★ 3.0.5.210 (previous within 3.0.5) — 14 UI languages + lazy-load i18n:** **Japanese** (12th) and **Chinese Simplified / Traditional** (13th/14th, `zh-CN` / `zh-TW`) with full `uI18n` **Set14** coverage; language combo + Assistente + Windows `LANG_CHINESE` detection. Startup fills **English + active language only** (`PutNV` allow-list; other languages load on first switch). Internal tracks **3.0.5.207–210** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.AssistantBlock`.
 - **★ 3.0.5.100 (previous within 3.0.5) — FilterBar MRU, status-bar toggles, assistant polish, count_matching, More tools gradient:** **Ctrl+L** opens a docked **FilterBar** (pattern combo, Apply/Continue/Clear/Hide, peek strip; MRU last **20** patterns in `ASkin.ini` `[FilterRecentPatterns]`). Click status-bar **Mode/Wrap/Tail/Filter/Marks/View** to toggle. Assistant soft chrome (`TsPanel` CustomColor); AI-first local **`count_matching_lines`** (contains/partial). **More tools** gallery soft-blue gradient items; search/ESC polish. Internal tracks **3.0.5.91–101** in `CHANGELOG_IMPLEMENTACOES.md`. Internal **3.0.5.136–137:** Assistente **Validar fonte** (Python/JS/JSX/TS/TSX; chat *carregar o fonte pra validar*) — see [`DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`](DOC_ASSISTENTE_IA_VALIDAR_FONTE.md).
@@ -186,6 +342,8 @@ Src\
 Main form `frmMain`. Responsibilities:
 
 - **`TListView` (OwnerData / virtual mode):** items fetched on demand via `OnData` → index lookup in `temp.txt` → `TMMFReader` → `uTextEncoding` decode.
+- **Read File painting:** native `LVS_EX_DOUBLEBUFFER` is restored after handle recreation and before painting; scrollbar updates invalidate the viewport instead of forcing repeated synchronous repaints. On Delphi 10.4, search highlights use the custom-draw canvas so they remain inside the paint buffer.
+- **Read File startup layout:** docking/scale repair batches alignment without toggling `alNone` or forcing intermediate native sizes. Deferred layout retries compare the host with its actual viewport, not the entire tab; unchanged column widths and virtual item counts are not reapplied. Repeated `OnShow` notifications from skin handle recreation do not reload startup preferences or recreate the ListView again.
 - **`TPageControl`:** includes Read File, Split File, Exported Lines, Find Files, Recent Files, embedded Compare/Merge + History (`tabMerge`), and embedded **Split by Pattern/Regex** (`tabSplitByPatternTab`) with Preview + optional **Talk with AI** (gateway JSON).
 - **Filter (`TFilterMatchMode`):** `fmmContains`, `fmmPrefix`, `fmmRegex`. A bitset over all indexed lines marks which lines pass; `TFilterThread` builds it (Int64 arithmetic to stay within 32-bit limits).
 - **Tail/Follow:** timer detects file growth → `TailAppendNewLines` reads delta in 64 MiB chunks to append index records without full re-read, with pause/resume and pending-lines status.
@@ -610,7 +768,7 @@ Requires `GROQ_API_KEY` (and optional `GROQ_MODEL`, `EMBEDDING_MODEL`) via `.env
 APPLICATION_NAME              = 'FastFile'                 // also the [FastFile] INI section
 APPLICATION_EDITION           = 'Professional'
 APPLICATION_DISPLAY_NAME      = 'FastFile Professional'    // window title, About, idle logo
-APPLICATION_VERSION           = '3.0.5.232'
+APPLICATION_VERSION           = '3.0.5.243'
 ASKIN_INI                     = 'ASkin.ini'
 XMLFOLDERS                    = 'folders.xml'
 XMLFILES                      = 'files.xml'
@@ -637,4 +795,5 @@ MAX_FILESIZE_MEMORY_LIMIT_BYTES = 15958207655 // ~14.86 GB safety ceiling
 - [CHANGELOG_IMPLEMENTACOES.md](CHANGELOG_IMPLEMENTACOES.md) — implementation changelog (v2.1.6.x series)
 - [ARQUIVOS_EXTERNOS_FASTFILE.md](ARQUIVOS_EXTERNOS_FASTFILE.md) — external files and resources reference
 - [DOC_INDEXACAO_F5_MMF_WRITER.md](DOC_INDEXACAO_F5_MMF_WRITER.md) — F5 indexed open: `TMMFReader` + `TBufferedTextWriter` → `temp.txt` / `temp_ckpt.txt`
+- [DOC_INDICE_CKPT_EXEMPLO.md](DOC_INDICE_CKPT_EXEMPLO.md) — sparse checkpoint walkthrough on `PI121106.txt` (line lookup, meta fields, partial last block)
 - [DOC_COMPARAR_MESCLAR_HISTORICO_PASSO_A_PASSO.md](DOC_COMPARAR_MESCLAR_HISTORICO_PASSO_A_PASSO.md) — Compare/Merge step-by-step guide

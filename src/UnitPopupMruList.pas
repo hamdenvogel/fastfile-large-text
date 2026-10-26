@@ -43,6 +43,7 @@ type
     procedure lstItemsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure WMMruRepopulate(var Msg: TMessage); message WM_USER + 71;
     procedure WMMruClickOutside(var Msg: TMessage); message WM_USER + 72;
+    procedure WMActivateApp(var Msg: TWMActivateApp); message WM_ACTIVATEAPP;
   private
     FShownTick: Cardinal;
     FAll: TStringList;
@@ -69,6 +70,7 @@ type
     FPinnedW, FPinnedH: Integer;
     FGlyphPx: Integer;
     FGlyphLocked: Boolean;
+    FOwnerWnd: HWND;
     procedure InstallClickHook;
     procedure RemoveClickHook;
     procedure HookMouseDown(const APt: TPoint);
@@ -112,6 +114,7 @@ type
     procedure PrepareLayout(AWidth: Integer);
     procedure FocusSearch;
     procedure ClosePopup(AnimationAllowed: Boolean = False);
+    procedure HideOnAppDeactivate;
     property OnPick: TMruListPickEvent read FOnPick write FOnPick;
     property OnProperties: TMruListPathActionEvent read FOnProperties write FOnProperties;
     property OnRemove: TMruListPathActionEvent read FOnRemove write FOnRemove;
@@ -124,7 +127,12 @@ procedure ShowMruListPopup(AOwner: TComponent; const ATitle, AMoreCaption: strin
   AOnProperties: TMruListPathActionEvent = nil;
   AOnRemove: TMruListPathActionEvent = nil;
   AKeepOpen: TWinControl = nil;
-  AOnClearAll: TNotifyEvent = nil);
+  AOnClearAll: TNotifyEvent = nil;
+  AOwnerWnd: HWND = 0);
+
+{ Frees the shared popup when its window owner is AOwnerWnd.
+  A modal dialog must call this before its own window is destroyed. }
+procedure ReleaseMruListPopup(AOwnerWnd: HWND);
 
 var
   FormPopupMruList: TFormPopupMruList;
@@ -165,6 +173,7 @@ const
   WM_MRU_CLICK_OUTSIDE = WM_USER + 72;
 
 var
+  GMruPendingOwnerWnd: HWND = 0;
   { Thread mouse hook: a quick click falls between two polls of the hold timer and was missed. }
   GMruClickHook: HHOOK = 0;
   GMruClickOwner: TFormPopupMruList = nil;
@@ -270,6 +279,9 @@ end;
 constructor TFormPopupMruList.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  { Sem borda estendida: a janela visivel fica no retangulo que ancoramos no campo. }
+  if Assigned(sSkinProvider1) then
+    sSkinProvider1.AllowExtBorders := False;
   FAll := TStringList.Create;
   FItemTags := TList.Create;
   FMoreCaption := '...';
@@ -294,6 +306,9 @@ end;
 
 destructor TFormPopupMruList.Destroy;
 begin
+  { The owner (a modal dialog) may free this form without going through FreeAndNil. }
+  if FormPopupMruList = Self then
+    FormPopupMruList := nil;
   RemoveClickHook;
   if Assigned(FHoldTimer) then
     FHoldTimer.Enabled := False;
@@ -405,17 +420,41 @@ begin
   inherited CreateParams(Params);
   Params.ExStyle := Params.ExStyle or WS_EX_TOOLWINDOW;
   Params.Style := Params.Style and not WS_CHILD;
-  if Assigned(Application.MainForm) and Application.MainForm.HandleAllocated then
+  if FOwnerWnd = 0 then
+    FOwnerWnd := GMruPendingOwnerWnd;
+  { Dialogo modal: o popup tem de pertencer ao dialogo, senao ativa-lo traz o form
+    principal para a frente e o dialogo fica escondido atras dele. }
+  if (FOwnerWnd <> 0) and IsWindow(FOwnerWnd) then
+    Params.WndParent := FOwnerWnd
+  else if Assigned(Application.MainForm) and Application.MainForm.HandleAllocated then
     Params.WndParent := Application.MainForm.Handle
   else if Application.Handle <> 0 then
     Params.WndParent := Application.Handle;
 end;
 
 procedure TFormPopupMruList.PinToScreenPos;
+var
+  R, Visual: TRect;
+  dx, dy: Integer;
 begin
   if not HandleAllocated then Exit;
   SetWindowPos(Handle, HWND_TOPMOST, FPinnedPos.X, FPinnedPos.Y, FPinnedW, FPinnedH,
     SWP_NOACTIVATE or SWP_SHOWWINDOW);
+  GetWindowRect(Handle, R);
+  Visual := R;
+  if Assigned(sSkinProvider1) and Assigned(sSkinProvider1.BorderForm) and
+     Assigned(sSkinProvider1.BorderForm.AForm) and
+     sSkinProvider1.BorderForm.AForm.HandleAllocated then
+  begin
+    GetWindowRect(sSkinProvider1.BorderForm.AForm.Handle, Visual);
+    Inc(Visual.Left, sSkinProvider1.BorderForm.OffsetX);
+    Inc(Visual.Top, sSkinProvider1.BorderForm.OffsetY);
+  end;
+  dx := FPinnedPos.X - Visual.Left;
+  dy := FPinnedPos.Y - Visual.Top;
+  if (dx <> 0) or (dy <> 0) then
+    SetWindowPos(Handle, HWND_TOPMOST, R.Left + dx, R.Top + dy, FPinnedW, FPinnedH,
+      SWP_NOACTIVATE or SWP_SHOWWINDOW);
 end;
 
 procedure TFormPopupMruList.PlaceAndShowStandalone(const AScreenPos: TPoint);
@@ -537,6 +576,24 @@ begin
     FButtonsWereUp := False;
     ClosePopup(False);
   end;
+end;
+
+procedure TFormPopupMruList.WMActivateApp(var Msg: TWMActivateApp);
+begin
+  inherited;
+  if not Msg.Active then
+    HideOnAppDeactivate;
+end;
+
+procedure TFormPopupMruList.HideOnAppDeactivate;
+begin
+  if (csDestroying in ComponentState) or (not Visible) then Exit;
+  { Propriedades do arquivo abre outra janela de proposito; a lista fica. }
+  if FHoldPhase <> 0 then Exit;
+  if HandleAllocated then
+    SetWindowPos(Handle, HWND_NOTOPMOST, 0, 0, 0, 0,
+      SWP_NOMOVE or SWP_NOSIZE or SWP_NOACTIVATE);
+  ClosePopup(False);
 end;
 
 procedure TFormPopupMruList.ClosePopup(AnimationAllowed: Boolean = False);
@@ -872,10 +929,14 @@ begin
     ListH := ScaledPx(80);
 
   NeedH := ScaledPx(MRU_HEADER_H) + ScaledPx(MRU_HEADER_SEP_H) + ListH + (BodyPad * 2);
-  ClientWidth := W;
-  ClientHeight := NeedH;
+  { Largura externa = largura do edtFileName, para as bordas verticais coincidirem. }
+  Width := W;
+  Height := NeedH;
   if Assigned(sPanel1) then
+  begin
+    sPanel1.BevelOuter := bvNone;
     sPanel1.SetBounds(0, 0, ClientWidth, ClientHeight);
+  end;
   if Assigned(pnlAccent) then
     pnlAccent.Height := ClientHeight;
 end;
@@ -1475,13 +1536,25 @@ begin
     Key := 0;
 end;
 
+procedure ReleaseMruListPopup(AOwnerWnd: HWND);
+begin
+  if not Assigned(FormPopupMruList) then Exit;
+  if (AOwnerWnd = 0) or (FormPopupMruList.FOwnerWnd <> AOwnerWnd) then Exit;
+  FormPopupMruList.OnPick := nil;
+  FormPopupMruList.OnProperties := nil;
+  FormPopupMruList.OnRemove := nil;
+  FormPopupMruList.OnClearAll := nil;
+  FreeAndNil(FormPopupMruList);
+end;
+
 procedure ShowMruListPopup(AOwner: TComponent; const ATitle, AMoreCaption: string;
   AItems: TStrings; AWidth: Integer; const AScreenPos: TPoint;
   AOnPick: TMruListPickEvent; const AMoreHint: string;
   AOnProperties: TMruListPathActionEvent;
   AOnRemove: TMruListPathActionEvent;
   AKeepOpen: TWinControl;
-  AOnClearAll: TNotifyEvent);
+  AOnClearAll: TNotifyEvent;
+  AOwnerWnd: HWND);
 var
   KeepR: TRect;
 begin
@@ -1497,7 +1570,13 @@ begin
     FormPopupMruList.OnClearAll := nil;
     FreeAndNil(FormPopupMruList);
   end;
-  FormPopupMruList := TFormPopupMruList.Create(AOwner);
+  GMruPendingOwnerWnd := AOwnerWnd;
+  try
+    FormPopupMruList := TFormPopupMruList.Create(AOwner);
+  finally
+    GMruPendingOwnerWnd := 0;
+  end;
+  FormPopupMruList.FOwnerWnd := AOwnerWnd;
   FormPopupMruList.ShowHint := True;
   FormPopupMruList.OnPick := AOnPick;
   FormPopupMruList.OnProperties := AOnProperties;

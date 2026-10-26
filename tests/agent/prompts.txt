@@ -73,3 +73,42 @@
 11.2|Cuántas líneas contienen "Bianca"?
 11.3|Conte Bianca, Carlos, Ana, Pedro, João e Marina separadamente.
 11.4|Troque "Bianca" por "BIANCA" no unicode16.txt.
+14.1|Como eu divido um arquivo em partes iguais no FastFile?
+14.2|Gere um PDF com um resumo dos erros do log.txt.
+14.3|Crie um script Python que leia o clientes.csv e mostre os e-mails.
+14.4|Valide a sintaxe do arquivo C:\Hamden\Files\teste.py.
+14.5|Desfaça a última alteração do arquivo.
+14.6|Refaça a alteração que foi desfeita.
+14.7|Cole as linhas da área de transferência na linha selecionada.
+14.8|Abra a janela de abrir arquivo.
+14.9|Abra o chat SQL (Consumer AI) no clientes.csv e pergunte quantos clientes há por cidade.
+14.10|Abra o Consumer RAG no log.txt para eu perguntar o que significa esse log.
+14.11|Conte as linhas com "Bianca" e depois gere um relatório em Word com essas linhas.
+12C.1|Dividir esse arquivo em 3 partes
+12C.2|Exporte as linhas que contêm "a" para um novo arquivo.
+12C.3|Divida o log.txt em 2 partes.
+12C.4|Quantas linhas contêm "a"?
+12C.5|Em quais linhas aparece "a"?
+12C.6|Remova as linhas duplicadas.
+12C.7|Substitua todos os "a" por "A".
+12C.8|Exporte o arquivo.
+12C.9|Extraia as strings mais frequentes.
+12C.10|Force a indexação.
+12C.11|Extraia as partes 1 a 2 de 4.
+12C.12|Divida por padrão sempre que aparecer "a".
+12C.13|Limpe todos os marcadores.
+12C.14|Acrescente a linha "FIM" no final do arquivo.
+12C.15|Apague a primeira linha.
+12C.16|Descaracterize os e-mails.
+12C.17|Insira a linha "# revisado" antes da linha 1.
+12C.18|Mostre as 3 primeiras linhas.
+12C.19|Descaracterize os e-mails e as datas das linhas 2 a 9 do CSV.
+12C.20|Dividir o último arquivo em 3 partes
+12C.21|Divida o primeiro arquivo em 2 partes.
+12C.22|Split the second file into 4 parts.
+12C.23|Leia somente o último
+12C.24|Leia o primeiro arquivo
+12C.25|Leia todos os arquivos
+12C.26|Divida todos os arquivos em 2 partes, menos o último.
+12C.27|Remova as linhas duplicadas dos dois primeiros arquivos.
+12C.28|Leia o quarto arquivo

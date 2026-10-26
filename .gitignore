@@ -61,6 +61,12 @@ __recovery/
 backup_*/
 modules/
 
+# --- Line-index fixtures larger than GitHub's 100 MB file limit --------------
+tests/agent/search-run/lisdata/allnl.txt
+tests/agent/search-run/lisdata/cr.txt
+tests/agent/search-run/lisdata/mixed.txt
+tests/agent/search-run/temp_blk.idx
+
 # --- Runtime files written next to the exe (config, MRU, logs, temp) --------
 *.ini
 temp.txt

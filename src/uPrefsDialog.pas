@@ -43,6 +43,13 @@ type
     FLblAgentSecs: TLabel;
     FEdtAgentSecs: TEdit;
     FLblAgentSecsHint: TLabel;
+    FLblAgentSample: TLabel;
+    FEdtAgentSample: TEdit;
+    FLblAgentSampleHint: TLabel;
+    FGrpSelLines: TGroupBox;
+    FLblSelLinesMax: TLabel;
+    FEdtSelLinesMax: TEdit;
+    FLblSelLinesMaxHint: TLabel;
     FBtnReset: TButton;
     FBtnOK: TButton;
     FBtnCancel: TButton;
@@ -195,7 +202,7 @@ begin
 
   FGrpAgent := TGroupBox.Create(Self);
   FGrpAgent.Parent := Self;
-  FGrpAgent.SetBounds(L, 532, W, 66);
+  FGrpAgent.SetBounds(L, 532, W, 108);
 
   FLblAgentSecs := TLabel.Create(Self);
   FLblAgentSecs.Parent := FGrpAgent;
@@ -208,6 +215,34 @@ begin
   FLblAgentSecsHint.Parent := FGrpAgent;
   FLblAgentSecsHint.SetBounds(12, 42, 420, 13);
   FLblAgentSecsHint.Font.Color := clGrayText;
+
+  FLblAgentSample := TLabel.Create(Self);
+  FLblAgentSample.Parent := FGrpAgent;
+  FLblAgentSample.SetBounds(12, 66, 290, 13);
+  FEdtAgentSample := TEdit.Create(Self);
+  FEdtAgentSample.Parent := FGrpAgent;
+  FEdtAgentSample.SetBounds(310, 62, EDIT_W, 21);
+  FEdtAgentSample.MaxLength := 4;
+  FLblAgentSampleHint := TLabel.Create(Self);
+  FLblAgentSampleHint.Parent := FGrpAgent;
+  FLblAgentSampleHint.SetBounds(12, 84, 420, 13);
+  FLblAgentSampleHint.Font.Color := clGrayText;
+
+  FGrpSelLines := TGroupBox.Create(Self);
+  FGrpSelLines.Parent := Self;
+  FGrpSelLines.SetBounds(L, 608, W, 66);
+
+  FLblSelLinesMax := TLabel.Create(Self);
+  FLblSelLinesMax.Parent := FGrpSelLines;
+  FLblSelLinesMax.SetBounds(12, 24, 290, 13);
+  FEdtSelLinesMax := TEdit.Create(Self);
+  FEdtSelLinesMax.Parent := FGrpSelLines;
+  FEdtSelLinesMax.SetBounds(310, 20, EDIT_W, 21);
+  FEdtSelLinesMax.MaxLength := 5;
+  FLblSelLinesMaxHint := TLabel.Create(Self);
+  FLblSelLinesMaxHint.Parent := FGrpSelLines;
+  FLblSelLinesMaxHint.SetBounds(12, 42, 420, 13);
+  FLblSelLinesMaxHint.Font.Color := clGrayText;
 
   FBtnReset := TButton.Create(Self);
   FBtnReset.Parent := Self;
@@ -241,7 +276,7 @@ const
 var
   IntroH, Y, NeedH, W, LblW, HintW, EditLeft, ResetW, OkW, CancelW, I, G: Integer;
   R: TRect;
-  Groups: array[0..4] of TGroupBox;
+  Groups: array[0..5] of TGroupBox;
   C: TControl;
 begin
   Canvas.Font := Font;
@@ -250,6 +285,7 @@ begin
   Groups[2] := FGrpHistory;
   Groups[3] := FGrpDisplay;
   Groups[4] := FGrpAgent;
+  Groups[5] := FGrpSelLines;
 
   { Size columns/buttons from the translated captions (long in DE/PL/HU...). }
   LblW := MIN_LBL_W;
@@ -305,7 +341,9 @@ begin
   FGrpDisplay.SetBounds(L, Y, W, FGrpDisplay.Height);
   Y := FGrpDisplay.Top + FGrpDisplay.Height + GAP;
   FGrpAgent.SetBounds(L, Y, W, FGrpAgent.Height);
-  Y := FGrpAgent.Top + FGrpAgent.Height + BTN_GAP;
+  Y := FGrpAgent.Top + FGrpAgent.Height + GAP;
+  FGrpSelLines.SetBounds(L, Y, W, FGrpSelLines.Height);
+  Y := FGrpSelLines.Top + FGrpSelLines.Height + BTN_GAP;
   FBtnReset.SetBounds(L, Y, ResetW, BTN_H);
   FBtnCancel.SetBounds(L + W - CancelW, Y, CancelW, BTN_H);
   FBtnOK.SetBounds(FBtnCancel.Left - 8 - OkW, Y, OkW, BTN_H);
@@ -347,6 +385,13 @@ begin
   FLblAgentSecs.Caption := TrText('Prefs.AgentDecisionSeconds');
   FLblAgentSecsHint.Caption := RangeHint(MIN_AGENT_DECISION_SECONDS,
     MAX_AGENT_DECISION_SECONDS, DEF_AGENT_DECISION_SECONDS);
+  FLblAgentSample.Caption := TrText('Prefs.AgentSampleLines');
+  FLblAgentSampleHint.Caption := RangeHint(MIN_AGENT_SAMPLE_LINES,
+    MAX_AGENT_SAMPLE_LINES, DEF_AGENT_SAMPLE_LINES);
+  FGrpSelLines.Caption := TrText('Prefs.Section.SelLines');
+  FLblSelLinesMax.Caption := TrText('Prefs.SelectedLinesActionMax');
+  FLblSelLinesMaxHint.Caption := RangeHint(MIN_SELECTED_LINES_ACTION_MAX,
+    MAX_SELECTED_LINES_ACTION_MAX, DEF_SELECTED_LINES_ACTION_MAX);
   FBtnReset.Caption := TrText('Prefs.ResetDefaults');
   FBtnOK.Caption := TrText('OK');
   FBtnCancel.Caption := TrText('Cancel');
@@ -367,6 +412,8 @@ begin
   FEdtHistExcerpt.Text := IntToStr(V.HistoryLineExcerptMax);
   FEdtUIScale.Text := IntToStr(V.DefaultUIScalePPI);
   FEdtAgentSecs.Text := IntToStr(V.AgentDecisionSeconds);
+  FEdtAgentSample.Text := IntToStr(V.AgentSampleLines);
+  FEdtSelLinesMax.Text := IntToStr(V.SelectedLinesActionMax);
 end;
 
 { Strict: digits only, never blank. On any problem the default goes back into the field
@@ -476,6 +523,10 @@ begin
   end;
   if not ParseStrictField(FEdtAgentSecs, MIN_AGENT_DECISION_SECONDS, MAX_AGENT_DECISION_SECONDS,
     DEF_AGENT_DECISION_SECONDS, TrText('Prefs.AgentDecisionSeconds'), V.AgentDecisionSeconds) then Exit;
+  if not ParseStrictField(FEdtAgentSample, MIN_AGENT_SAMPLE_LINES, MAX_AGENT_SAMPLE_LINES,
+    DEF_AGENT_SAMPLE_LINES, TrText('Prefs.AgentSampleLines'), V.AgentSampleLines) then Exit;
+  if not ParseStrictField(FEdtSelLinesMax, MIN_SELECTED_LINES_ACTION_MAX, MAX_SELECTED_LINES_ACTION_MAX,
+    DEF_SELECTED_LINES_ACTION_MAX, TrText('Prefs.SelectedLinesActionMax'), V.SelectedLinesActionMax) then Exit;
   SetUserPrefValues(V);
   Result := True;
 end;

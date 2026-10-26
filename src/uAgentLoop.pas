@@ -32,7 +32,8 @@ implementation
 
 uses
   SysUtils, StrUtils, uAgentProtocol, uAgentTools, uFastFileAIClient, uFastFilePaths, UnConsts,
-  uAnonymize, uI18n, uAgentActions, uFastFileAssistantHost, uAgentMatchIntent, uAgentSql;
+  uAnonymize, uI18n, uUserPrefs, uAgentActions, uFastFileAssistantHost, uAgentMatchIntent, uAgentSql, uAgentTargets,
+  uAgentDescribe, uSearchCommands;
 
 const
   AGENT_MAX_PROPOSAL_LINES = 5000;
@@ -444,8 +445,127 @@ end;
 
 function ProposalKey(const P: TAgentTurn): string;
 begin
-  Result := Format('%d|%s|%s|%d|%d|%s|%s|%s|%d|%s', [Ord(P.Tool), P.ActionId, LowerCase(P.Path),
-    P.StartLine, P.EndLine, P.Needle, P.NewText, P.ReplaceText, P.Parts, P.Sql]);
+  Result := Format('%d|%s|%s|%d|%d|%s|%s|%s|%d|%s|%s|%s|%d', [Ord(P.Tool), P.ActionId, LowerCase(P.Path),
+    P.StartLine, P.EndLine, P.Needle, P.NewText, P.ReplaceText, P.Parts, P.Sql, P.Request, P.Script,
+    Ord(P.MacroSelected)]);
+end;
+
+const
+  AGENT_MACRO_MAX_CHARS = 60000;
+
+{ python_macro: one Review proposal per file; on Accept the main window runs it in the Python macro panel. }
+function HandleMacro(const P: TAgentTurn; AFiles: TStrings; AClient: TAgentLoopClient;
+  var AQueued: Integer): string;
+var
+  E: TAgentEdit;
+  Script: string;
+begin
+  if P.Path = '' then
+  begin
+    if AFiles.Count = 0 then
+      Exit('error=no file is selected, so there are no lines to run the macro on. Ask the user to add a file.');
+    Exit('error=python_macro needs "path": one python_macro per file. Retry with one of these exact paths:' +
+      SelectedPathsText(AFiles));
+  end;
+  if not AgentFileAllowed(P.Path, AFiles) then
+    Exit(OutsideSelectionError(P.Path, AFiles));
+  Script := Trim(P.Script);
+  if Script = '' then
+    Exit('error=python_macro needs "script" with def transform(line, ctx): ... returning the new line or None.');
+  if Pos('def transform', Script) = 0 then
+    Exit('error=the script must define transform(line, ctx) (one line in, the new line or None out). Resend ' +
+      'python_macro with "def transform(line, ctx):" in "script".');
+  if Length(Script) > AGENT_MACRO_MAX_CHARS then
+    Exit('error=the script is too long (' + IntToStr(Length(Script)) + ' characters, limit ' +
+      IntToStr(AGENT_MACRO_MAX_CHARS) + '). Send a shorter transform.');
+  E := TAgentEdit.Create;
+  E.Kind := aekAction;
+  E.Path := P.Path;
+  E.Action := Default(TAssistantChainStep);
+  E.Action.ActionId := AGENT_PYTHON_MACRO;
+  E.Action.Path := P.Path;
+  E.Action.FilterText := Script;
+  E.Action.ReplaceText := Trim(P.Description);
+  E.Action.Parts := Ord(P.MacroSelected);
+  E.MatchCount := -1;
+  AClient.QueueEdit(E);
+  Inc(AQueued);
+  Result := 'queued action python_macro for ' + ExtractFileName(P.Path) + '; it runs only when the user ' +
+    'accepts it in Proposed edits: the file opens in the Python macro panel, a preview of the first lines is ' +
+    'shown, and the output goes to the panel (the original file is not changed)' + #13#10 +
+    'proposals_queued=' + IntToStr(AQueued) + #13#10 +
+    'note=in the answer, explain in one or two sentences what the macro does and that it runs after Accept; ' +
+    'do not show results you have not seen.';
+end;
+
+{ describe_files: the named file, or every file of the request. }
+function HandleDescribe(const P: TAgentTurn; AFiles, ATargets: TStrings; ATargetMode: TAgentTargetMode;
+  AClient: TAgentLoopClient): string;
+var
+  L: TStringList;
+begin
+  if AFiles.Count = 0 then
+    Exit('error=no file is selected. Ask the user to add files in Sources, or answer from general knowledge.');
+  L := TStringList.Create;
+  try
+    if P.Path <> '' then
+    begin
+      if not AgentFileAllowed(P.Path, AFiles) then
+        Exit(OutsideSelectionError(P.Path, AFiles));
+      L.Add(P.Path);
+    end
+    else if (ATargetMode <> tgtAll) and (ATargets.Count > 0) then
+      L.Assign(ATargets)
+    else
+      L.Assign(AFiles);
+    AClient.Status('read');
+    Result := AgentToolDescribe(L, AClient.CancelPtr, AGENT_TOOL_CHARS, PrefAgentSampleLines);
+  finally
+    L.Free;
+  end;
+end;
+
+{ The request names a document format only the Assistant can write (PDF, Word, report...). }
+function AgentWantsDocument(const APrompt: string): Boolean;
+const
+  DOC_TOKENS: array[0..13] of string = ('pdf', 'docx', '.doc', 'word', 'odt', 'rtf', 'html', 'markdown',
+    'relat', 'report', 'rapport', 'informe', 'bericht', 'raport');
+var
+  L: string;
+  I: Integer;
+begin
+  Result := False;
+  L := LowerCase(APrompt);
+  L := StringReplace(L, 'word wrap', '', [rfReplaceAll]);
+  L := StringReplace(L, 'whole word', '', [rfReplaceAll]);
+  L := StringReplace(L, 'whole_word', '', [rfReplaceAll]);
+  for I := 0 to High(DOC_TOKENS) do
+    if Pos(DOC_TOKENS[I], L) > 0 then
+      Exit(True);
+end;
+
+{ assistant: hand the request to the Assistant panel after the answer (one per agent request). }
+function HandleAssistant(const P: TAgentTurn; AClient: TAgentLoopClient; var ASent: Boolean): string;
+var
+  E: TAgentEdit;
+begin
+  if Trim(P.Request) = '' then
+    Exit('error=assistant needs "request": the user''s request in their words, with full file paths');
+  if ASent then
+    Exit('error=a request was already handed to the Assistant in this conversation; only one is allowed. ' +
+      'Finish with the answer.');
+  E := TAgentEdit.Create;
+  E.Kind := aekAction;
+  E.Path := '';
+  E.Action := Default(TAssistantChainStep);
+  E.Action.ActionId := AGENT_ASSISTANT_REQUEST;
+  E.Action.FilterText := Trim(P.Request);
+  E.MatchCount := -1;
+  AClient.RunAfter(E);
+  ASent := True;
+  Result := 'ok=the request will be handed to the FastFile Assistant after your answer; its reply is shown ' +
+    'under your answer. Nothing was queued in Proposed edits. Finish now: say in answer that the Assistant is ' +
+    'handling it, without describing its result and without mentioning Accept.';
 end;
 
 { The selected file named after FROM / UPDATE / INTO ("clientes" or "clientes.csv"); '' when none matches. }
@@ -462,6 +582,79 @@ begin
     F := ExtractFileName(AFiles[I]);
     if SameText(F, N) or SameText(ChangeFileExt(F, ''), N) then
       Exit(AFiles[I]);
+  end;
+end;
+
+{ Actions that process a whole file: with several sources and no file named, each one gets its own copy. }
+function IsWholeFileAction(const AId: string): Boolean;
+const
+  IDS: array[0..10] of string = ('split_equal_parts', 'extract_file_parts', 'split_files', 'pattern_split',
+    'export_file', 'export_matching_lines', 'replace_all', 'delete_duplicate_lines', 'extract_frequent_strings',
+    'force_index_file', 'clear_bookmarks');
+var
+  I: Integer;
+begin
+  for I := 0 to High(IDS) do
+    if SameText(AId, IDS[I]) then
+      Exit(True);
+  Result := False;
+end;
+
+function IsTargetFile(const APath: string; ATargets: TStrings): Boolean;
+var
+  I: Integer;
+begin
+  for I := 0 to ATargets.Count - 1 do
+    if SameText(ExpandFileName(ATargets[I]), ExpandFileName(APath)) then
+      Exit(True);
+  Result := False;
+end;
+
+{ Per-file work that, with several sources and no file named, every selected file should get: the tool or
+  app_action id, or '' for tools that already cover all files (count, list_files) or name their own file (sql). }
+function PerFileKind(const P: TAgentTurn): string;
+begin
+  case P.Tool of
+    atkRead: Result := 'read_lines';
+    atkSearch: Result := 'search';
+    atkEdit: Result := 'propose_edit';
+    atkInsert: Result := 'insert_lines';
+    atkDelete: Result := 'delete_lines';
+    atkAnonymize: Result := 'anonymize';
+    atkMacro: Result := 'python_macro';
+    atkAction:
+      if IsWholeFileAction(P.ActionId) then
+        Result := P.ActionId
+      else
+        Result := '';
+  else
+    Result := '';
+  end;
+end;
+
+{ "kind|path" entries done so far -> one line per selected file still missing each kind. }
+function MissingPerFileWork(ADone, AFiles: TStrings): string;
+var
+  Kinds: TStringList;
+  I, K: Integer;
+  Kind: string;
+begin
+  Result := '';
+  Kinds := TStringList.Create;
+  try
+    Kinds.Sorted := True;
+    Kinds.Duplicates := dupIgnore;
+    for I := 0 to ADone.Count - 1 do
+      Kinds.Add(Copy(ADone[I], 1, Pos('|', ADone[I]) - 1));
+    for I := 0 to Kinds.Count - 1 do
+    begin
+      Kind := Kinds[I];
+      for K := 0 to AFiles.Count - 1 do
+        if ADone.IndexOf(Kind + '|' + LowerCase(ExpandFileName(AFiles[K]))) < 0 then
+          Result := Result + #13#10 + '- ' + Kind + ' "path":"' + AFiles[K] + '"';
+    end;
+  finally
+    Kinds.Free;
   end;
 end;
 
@@ -656,7 +849,8 @@ begin
   if Cls = aacUnsupported then
     Exit('error=unknown action "' + Id + '". Check the name: the read and change tools are count, search, ' +
       'read_lines, list_files, propose_edit, insert_lines, delete_lines, anonymize; core actions go in ' +
-      '{"tool":"app_action","action":"<id from the list>"}. Only if no tool or listed action fits, tell the user plainly.');
+      '{"tool":"app_action","action":"<id from the list>"}; documents, source validation and questions about ' +
+      'FastFile go in {"tool":"assistant","request":"..."}. Only if none fits, tell the user plainly.');
   if Cls = aacBlocked then
     Exit('error=' + Id + ': ' + AgentActionBlockedHint(Id));
   NeedsPath := AgentActionNeedsOpenFile(Id) or (Id = 'split_equal_parts') or
@@ -670,6 +864,13 @@ begin
   end
   else if NeedsPath then
   begin
+    { Whole-file actions on several sources: the open file is only one of them, never a silent default. }
+    if (Cls = aacReview) and (AFiles.Count > 1) and not SameText(Id, 'undo') and not SameText(Id, 'redo') and
+       not SameText(Id, 'paste_lines') and not SameText(Id, 'duplicate_line') and
+       not SameText(Id, 'tail_macro_reprocess') then
+      Exit('error="path" is required for ' + Id + ' because ' + IntToStr(AFiles.Count) + ' files are selected. ' +
+        'Unless the user named one file, the request is for EVERY selected file: send this app_action once per ' +
+        'file, same parameters, each with its own "path":' + SelectedPathsText(AFiles));
     if (APrefs.OpenPath <> '') and AgentFileAllowed(APrefs.OpenPath, AFiles) then
       Path := ExpandFileName(APrefs.OpenPath)
     else if AFiles.Count = 1 then
@@ -713,6 +914,11 @@ begin
   if (Id = 'extract_file_parts') and ((P.TotalParts < 2) or (P.PartFrom < 1) or
      (P.PartTo < P.PartFrom) or (P.PartTo > P.TotalParts)) then
     Exit('error=extract_file_parts needs total_parts >= 2 and 1 <= part_from <= part_to <= total_parts');
+  if Id = 'sort_csv_column' then
+  begin
+    if (Step.LineNo < 1) and (Trim(Step.FilterText) = '') then
+      Exit('error=sort_csv_column needs "column": a 1-based index or the header name');
+  end;
   if Id = 'goto_line' then
   begin
     if Step.LineNo < 1 then
@@ -781,12 +987,22 @@ var
   Turn: Integer;
   Parsed: TAgentTurn;
   Count, Limit, Queued, ToolsOk, RunAfters: Integer;
-  Nudged, Exact, HasSql: Boolean;
+  Nudged, Exact, HasSql, AssistantSent, DocNudged: Boolean;
   RunPrefs: TAgentPrefs;
   SqlRes, LastSql: TAgentSqlResult;
-  Totals: TStringList;
+  Totals, PerFileDone, Targets: TStringList;
+  Missing, LastMissing, Kind: string;
+  EachNudges, EachStalls: Integer;
+  TargetMode: TAgentTargetMode;
+  SearchCommand: TSearchCommand;
+  SearchAction: TAgentEdit;
 begin
   HasSql := False;
+  EachNudges := 0;
+  EachStalls := 0;
+  LastMissing := '';
+  AssistantSent := False;
+  DocNudged := False;
   Exact := AgentWantsExactMatch(AUserPrompt);
   Queued := 0;
   ToolsOk := 0;
@@ -801,6 +1017,39 @@ begin
   if (AClient = nil) or (AFiles = nil) then
   begin
     AErr := 'no client';
+    Exit;
+  end;
+  if IsSearchCommand(AUserPrompt) then
+  begin
+    try
+      SearchCommand := ParseSearchCommand(AUserPrompt);
+      if IsSearchCommandLauncher(AUserPrompt) or (SearchCommand.FilePath <> '') or
+        (not SearchCommand.Help and (SearchCommand.Mark or SearchCommand.BookmarksOnly)) then
+      begin
+        if not IsSearchCommandLauncher(AUserPrompt) and
+          (SearchCommand.FilePath = '') and (APrefs.OpenPath = '') then
+          raise ESearchCommand.Create(TrText('SearchCmd.NoSources'));
+        SearchAction := TAgentEdit.Create;
+        SearchAction.Kind := aekAction;
+        SearchAction.Path := APrefs.OpenPath;
+        if SearchCommand.FilePath <> '' then
+          SearchAction.Path := ValidateSearchFile(SearchCommand.FilePath);
+        SearchAction.Action := Default(TAssistantChainStep);
+        SearchAction.Action.ActionId := 'apply_filter';
+        SearchAction.Action.Path := SearchAction.Path;
+        SearchAction.Action.FilterText := AUserPrompt;
+        AClient.RunAfter(SearchAction);
+        if IsSearchCommandLauncher(AUserPrompt) then
+          AAnswer := Format(TrText('SearchCmd.LaunchQueued'), [Trim(AUserPrompt)])
+        else
+          AAnswer := TrText('SearchCmd.Queued');
+      end
+      else
+        AAnswer := SearchCommandTool(AUserPrompt, AFiles, AClient.CancelPtr, AGENT_TOOL_CHARS);
+    except
+      on E: ESearchCommand do AErr := E.Message;
+    end;
+    ARevised := AUserPrompt;
     Exit;
   end;
   if TryDirectSql(AUserPrompt, AFiles, APrefs, AClient, AAnswer, DirectNote) then
@@ -828,7 +1077,15 @@ begin
   Transcript := '';
   LastCount := '';
   Totals := TStringList.Create;
+  PerFileDone := TStringList.Create;
+  Targets := TStringList.Create;
   try
+  TargetMode := AgentInferTargets(AUserPrompt, AFiles, Targets);
+  if AFiles.Count > 1 then
+  begin
+    Opening := Opening + #13#10 + AgentTargetsNote(TargetMode, AFiles, Targets);
+    AgentLog('targets mode=' + IntToStr(Ord(TargetMode)) + ' files=' + IntToStr(Targets.Count));
+  end;
   for Turn := 1 to AGENT_MAX_TURNS do
   begin
     if AClient.Cancelled then
@@ -869,6 +1126,46 @@ begin
         'TOOL error=reply was not one valid JSON object with an answer or a tool. Send exactly one of: ' +
         '{"tool":"count","needle":"<word>"} | {"tool":"search","path":"<path>","needle":"<word>"} | ' +
         '{"answer":"<final text in the app UI language>","prompt":"<plan>","tool":""}';
+      Continue;
+    end;
+    { Repeated while the model makes progress; it stops after two nudges in a row leave the same files missing.
+      Files named by name are skipped: "copy line 3 of a.txt to b.txt" reads one and changes the other. }
+    if (Parsed.Tool = atkNone) and (EachNudges < 4) and (Turn < AGENT_MAX_TURNS) and (AFiles.Count > 1) and
+      (PerFileDone.Count > 0) and (TargetMode in [tgtAll, tgtPosition, tgtType]) and (Targets.Count > 1) then
+    begin
+      Missing := MissingPerFileWork(PerFileDone, Targets);
+      if Missing = LastMissing then
+        Inc(EachStalls)
+      else
+        EachStalls := 0;
+      if (Missing <> '') and (EachStalls < 2) then
+      begin
+        Inc(EachNudges);
+        LastMissing := Missing;
+        AAnswer := '';
+        AgentLog('per-file work done for some of the target files only; asking for the rest');
+        AClient.Status('retry');
+        Transcript := Transcript + #13#10 + 'TOOL error=the request is about ' + IntToStr(Targets.Count) +
+          ' files, not only the one open in the main window. Do the same work for each of these files, one tool ' +
+          'per reply:' + Missing +
+          #13#10 + 'app_action: send the same action with the same parameters and that path. read_lines / search: ' +
+          'the same read or search on that file. Line edits and anonymize: work out that file''s own line numbers ' +
+          '(read it first; "end of file" is its last line + 1) and queue the same change. Only skip a file if the ' +
+          'request cannot apply to it, and say why in the answer. Then give the final answer covering every file.';
+        Continue;
+      end;
+    end;
+    if (Parsed.Tool = atkNone) and (not AssistantSent) and (not DocNudged) and (Turn < AGENT_MAX_TURNS) and
+      AgentWantsDocument(AUserPrompt) then
+    begin
+      DocNudged := True;
+      AAnswer := '';
+      AgentLog('document request finished without the assistant tool; asking again');
+      AClient.Status('retry');
+      Transcript := Transcript + #13#10 + 'TOOL error=the request may ask for a document or file (PDF, Word, ' +
+        'report, HTML...). Only the Assistant writes those: if so, send {"tool":"assistant","request":"<the ' +
+        'request with the facts you found and full file paths>"} now. If no document is asked for, send the ' +
+        'same final answer again.';
       Continue;
     end;
     if (Parsed.Tool = atkNone) and (not Nudged) and (Turn < AGENT_MAX_TURNS) and
@@ -913,15 +1210,28 @@ begin
     ToolOut := '';
     if Parsed.Path <> '' then
       Parsed.Path := ResolveSelectedPath(Parsed.Path, AFiles)
-    else if (Parsed.Tool in [atkRead, atkSearch, atkEdit, atkInsert, atkDelete, atkAnonymize, atkSql]) and
+    else if (Parsed.Tool in [atkRead, atkSearch, atkEdit, atkInsert, atkDelete, atkAnonymize, atkSql, atkMacro]) and
       (AFiles.Count = 1) then
       Parsed.Path := AFiles[0]
+    else if (Parsed.Tool in [atkRead, atkSearch, atkEdit, atkInsert, atkDelete, atkAnonymize, atkSql, atkMacro]) and
+      (TargetMode <> tgtAll) and (Targets.Count = 1) then
+      Parsed.Path := Targets[0]
+    else if (Parsed.Tool = atkAction) and (TargetMode <> tgtAll) and (Targets.Count = 1) and
+      (AgentActionClass(Parsed.ActionId) = aacReview) and (AgentActionNeedsOpenFile(Parsed.ActionId) or
+       IsWholeFileAction(Parsed.ActionId) or (Parsed.ActionId = 'export_lines')) then
+      Parsed.Path := Targets[0]
     else if Parsed.Tool = atkSql then
       Parsed.Path := SqlFromPath(Parsed.Sql, AFiles);
+    if (Parsed.Tool = atkInsert) and (Parsed.StartLine < 1) and AgentFileAllowed(Parsed.Path, AFiles) then
+    begin
+      Raw := AgentToolReadLines(Parsed.Path, -1, 1, nil, '');
+      Parsed.StartLine := StrToInt64Def(Copy(Raw, 1, Pos('|', Raw) - 1), 0) + 1;
+      Parsed.EndLine := Parsed.StartLine;
+    end;
     if Parsed.Tool in [atkCount, atkSearch, atkAction] then
       ApplyMatchIntent(Parsed, Exact);
     Key := '';
-    if Parsed.Tool in [atkEdit, atkInsert, atkDelete, atkAnonymize, atkAction, atkSql] then
+    if Parsed.Tool in [atkEdit, atkInsert, atkDelete, atkAnonymize, atkAction, atkSql, atkAssistant, atkMacro] then
       Key := #1 + ProposalKey(Parsed) + #1;
     if (Key <> '') and (Pos(Key, Seen) > 0) then
       ToolOut := 'ok=this exact ' + Parsed.RawTool + ' already ran or was queued earlier in this request; ' +
@@ -939,10 +1249,23 @@ begin
           '(send the same text again only if dropping that part is intended).';
       end;
     end;
+    if (ToolOut = '') and (AFiles.Count > 1) and (TargetMode <> tgtAll) and (Parsed.Path <> '') and
+       ((Parsed.Tool in [atkEdit, atkInsert, atkDelete, atkAnonymize, atkMacro]) or
+        ((Parsed.Tool = atkAction) and (AgentActionClass(Parsed.ActionId) = aacReview))) and
+       AgentFileAllowed(Parsed.Path, AFiles) and not IsTargetFile(Parsed.Path, Targets) then
+      ToolOut := 'error=' + ExtractFileName(Parsed.Path) + ' is not one of the files this request is about, so ' +
+        'nothing was queued for it. The request is only about:' + SelectedPathsText(Targets) + #13#10 +
+        'Work on those files only (or, if none, tell the user).';
     if ToolOut = '' then
     case Parsed.Tool of
       atkList:
         ToolOut := AgentToolList(AFiles, AGENT_TOOL_CHARS);
+      atkCommand:
+        begin
+          AClient.Status('search');
+          ToolOut := SearchCommandTool(Parsed.Command, AFiles,
+            AClient.CancelPtr, AGENT_TOOL_CHARS);
+        end;
       atkRead:
         if not AgentFileAllowed(Parsed.Path, AFiles) then
           ToolOut := OutsideSelectionError(Parsed.Path, AFiles)
@@ -1034,9 +1357,20 @@ begin
             HasSql := True;
           end;
         end;
+      atkAssistant:
+        begin
+          ToolOut := HandleAssistant(Parsed, AClient, AssistantSent);
+          if Copy(ToolOut, 1, 3) = 'ok=' then
+            Inc(RunAfters);
+        end;
+      atkDescribe:
+        ToolOut := Clip(HandleDescribe(Parsed, AFiles, Targets, TargetMode, AClient), AGENT_TOOL_CHARS);
+      atkMacro:
+        ToolOut := HandleMacro(Parsed, AFiles, AClient, Queued);
     else
       ToolOut := 'error=unknown tool ' + Parsed.RawTool + '. Valid tools: count, search, read_lines, ' +
-        'list_files, sql, propose_edit, insert_lines, delete_lines, anonymize, app_action. ' +
+        'list_files, search_command, describe_files, sql, propose_edit, insert_lines, delete_lines, anonymize, python_macro, ' +
+        'app_action, assistant. ' +
         'They ARE available: retry with one of them.';
     end;
     if AClient.Cancelled then
@@ -1050,6 +1384,10 @@ begin
       Inc(ToolsOk);
       if Key <> '' then
         Seen := Seen + Key;
+      Kind := PerFileKind(Parsed);
+      if (Kind <> '') and (Parsed.Path <> '') and
+         ((Parsed.Tool <> atkAction) or (Copy(ToolOut, 1, 13) = 'queued action')) then
+        PerFileDone.Add(Kind + '|' + LowerCase(ExpandFileName(Parsed.Path)));
     end;
     if Parsed.MoreTools then
       ToolOut := ToolOut + #13#10 +
@@ -1089,6 +1427,8 @@ begin
         AAnswer := TrimRight(AAnswer) + #13#10#13#10 + SqlAnswerBlock(LastSql);
     end;
     Totals.Free;
+    PerFileDone.Free;
+    Targets.Free;
   end;
 end;
 

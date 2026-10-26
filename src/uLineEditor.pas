@@ -98,12 +98,21 @@ type
     FAskAIOldCancelEnabled: Boolean;
     FAskAIOldMemoEnabled: Boolean;
     FAskAIOldAskEnabled: Boolean;
+    FbtnAnon: TButton;
+    FbtnExtract: TButton;
+    procedure btnAnonClick(Sender: TObject);
+    procedure AnonymizeContent;
+    procedure btnExtractClick(Sender: TObject);
+    procedure ExtractContent;
+    procedure ReplaceMemoSource(AHasSel: Boolean; const ANew: string);
     procedure CreateUndo;
     function CurState: TLineEditorState;
     procedure PushUndo(const AState: TLineEditorState);
     procedure UndoBegin;
     procedure UndoEnd;
     procedure UndoReset;
+    procedure ApplyInitialSelection;
+    procedure FormShow(Sender: TObject);
     procedure ApplyState(const AState: TLineEditorState);
     procedure DoUndo;
     procedure DoRedo;
@@ -122,7 +131,15 @@ type
     FbtnNextLine: TButton;
     FOrigText: string;
     FOrigLineNo: Int64;
+    FPendingSelStart: Integer;
+    FPendingSelLen: Integer;
     FLineCount: Int64;
+    FMultiMode: Boolean;
+    FMultiLines: TArray<Int64>;
+    FMultiOld: TStrings;
+    FMultiResult: TStringList;
+    procedure ConfirmMulti;
+    function MultiLineSummary(AMaxShown: Integer): string;
     procedure CreateAdjacentButtons;
     procedure LayoutAdjacentButtons;
     procedure UpdateAdjacentButtons;
@@ -186,7 +203,11 @@ type
       AGetLine: TLineEditorGetLineEvent = nil;
       AGetCount: TLineEditorGetCountEvent = nil;
       AMergeDeleteLines: TList = nil;
-      const AInsertAfter: Boolean = False): Boolean;
+      const AInsertAfter: Boolean = False;
+      const ASelStart: Integer = -1; const ASelLen: Integer = 0): Boolean;
+    { Edicao de varias linhas: o memo traz uma linha do arquivo por linha; ao confirmar
+      mostra a pre-visualizacao e devolve em ANew o novo texto de cada linha (mesma ordem). }
+    class function ExecuteMulti(const ALineNos: array of Int64; AOld, ANew: TStrings): Boolean;
   end;
 
 var
@@ -196,7 +217,8 @@ implementation
 
 uses
   Math, StrUtils, Character, RegularExpressions, Menus,
-  uTextEncoding, uI18n, uFastFileMsgDlg, uFastFileAIClient, uFastFileScale;
+  uTextEncoding, uI18n, uFastFileMsgDlg, uFastFileAIClient, uFastFileScale,
+  uAnonymize, uAnonymizeDialog, uLineExtract, uLinesChangePreview;
 
 {$R *.dfm}
 
@@ -210,6 +232,8 @@ const
   cKeyPaste = 'Ctrl+V';
   cKeyClear = 'Ctrl+Shift+Del';
   cKeyAskAI = 'Ctrl+Shift+A';
+  cKeyAnon = 'Ctrl+Shift+D';
+  cKeyExtract = 'Ctrl+Shift+E';
   cKeyPrevLine = 'Alt+' + #$2191;
   cKeyNextLine = 'Alt+' + #$2193;
   cKeyReplOne = 'F4';
@@ -1246,6 +1270,10 @@ begin
   btnPaste.Enabled := En and Clipboard.HasFormat(CF_TEXT);
   btnClear.Enabled := En;
   btnAskAI.Enabled := not FAskAIInProgress;
+  if Assigned(FbtnAnon) then
+    FbtnAnon.Enabled := En;
+  if Assigned(FbtnExtract) then
+    FbtnExtract.Enabled := En;
   if Assigned(FedtRepl) then
   begin
     FedtRepl.Enabled := En;
@@ -1276,6 +1304,7 @@ begin
   end;
   FreeAndNil(FUndoList);
   FreeAndNil(FRedoList);
+  FreeAndNil(FMultiResult);
   inherited;
 end;
 
@@ -1302,6 +1331,105 @@ begin
   FbtnRedo := NewBtn(btnRedoClick);
   FbtnUndo.TabOrder := btnClear.TabOrder + 1;
   FbtnRedo.TabOrder := FbtnUndo.TabOrder + 1;
+  FbtnAnon := NewBtn(btnAnonClick);
+  FbtnAnon.TabOrder := btnAskAI.TabOrder + 1;
+  FbtnExtract := NewBtn(btnExtractClick);
+  FbtnExtract.TabOrder := FbtnAnon.TabOrder + 1;
+end;
+
+procedure TfrmLineEditor.btnAnonClick(Sender: TObject);
+begin
+  AnonymizeContent;
+end;
+
+procedure TfrmLineEditor.btnExtractClick(Sender: TObject);
+begin
+  ExtractContent;
+end;
+
+{ Substitui a seleção (que continua selecionada) ou todo o conteúdo, num passo de desfazer. }
+procedure TfrmLineEditor.ReplaceMemoSource(AHasSel: Boolean; const ANew: string);
+var
+  SelPos: Integer;
+begin
+  UndoBegin;
+  try
+    if AHasSel then
+    begin
+      SelPos := mmContent.SelStart;
+      mmContent.SelText := ANew;
+      mmContent.SelStart := SelPos;
+      mmContent.SelLength := Length(ANew);
+    end
+    else
+      mmContent.Text := ANew;
+  finally
+    UndoEnd;
+  end;
+  if mmContent.CanFocus then
+    mmContent.SetFocus;
+end;
+
+procedure TfrmLineEditor.ExtractContent;
+var
+  HasSel: Boolean;
+  Src, Res: string;
+begin
+  if not mmContent.Enabled then Exit;
+  HasSel := mmContent.SelLength > 0;
+  if HasSel then
+    Src := mmContent.SelText
+  else
+    Src := mmContent.Text;
+  if Src = '' then
+  begin
+    MessageBeep(MB_OK);
+    Exit;
+  end;
+  if ShowLineExtractDialog(Self, Src, HasSel, Res) then
+    ReplaceMemoSource(HasSel, Res)
+  else if mmContent.CanFocus then
+    mmContent.SetFocus;
+end;
+
+{ Descaracteriza o texto selecionado (ou todo o conteúdo) com as opções e a chave
+  da última descaracterização, para a linha ficar coerente com o resto do arquivo. }
+procedure TfrmLineEditor.AnonymizeContent;
+var
+  HasSel, Changed: Boolean;
+  Src, Res: string;
+  B: TBytes;
+  Raw, Outp: AnsiString;
+  Engine: TAnonEngine;
+begin
+  if not mmContent.Enabled then Exit;
+  HasSel := mmContent.SelLength > 0;
+  if HasSel then
+    Src := mmContent.SelText
+  else
+    Src := mmContent.Text;
+  if Src = '' then
+  begin
+    MessageBeep(MB_OK);
+    Exit;
+  end;
+  B := TEncoding.UTF8.GetBytes(Src);
+  SetString(Raw, PAnsiChar(@B[0]), Length(B));
+  Engine := TAnonEngine.Create(AnonLastOptions, 'UTF-8');
+  try
+    Outp := AnonPreviewBytes(Engine, Raw, 0, Changed);
+  finally
+    Engine.Free;
+  end;
+  if not Changed then
+  begin
+    FastFileMsgInfo(TrText('LineEditor.AnonNoChange'));
+    Exit;
+  end;
+  SetLength(B, Length(Outp));
+  Move(PAnsiChar(Outp)^, B[0], Length(Outp));
+  Res := TEncoding.UTF8.GetString(B);
+  ReplaceMemoSource(HasSel, Res);
 end;
 
 function TfrmLineEditor.CurState: TLineEditorState;
@@ -1343,6 +1471,31 @@ begin
     PushUndo(FPendingState);
   FLastState := CurState;
   UpdateUndoButtons;
+end;
+
+procedure TfrmLineEditor.ApplyInitialSelection;
+var
+  N, L: Integer;
+begin
+  if FPendingSelLen <= 0 then Exit;
+  N := Length(mmContent.Text);
+  if (FPendingSelStart < 0) or (FPendingSelStart >= N) then Exit;
+  L := FPendingSelLen;
+  if FPendingSelStart + L > N then
+    L := N - FPendingSelStart;
+  if L <= 0 then Exit;
+  mmContent.HideSelection := False;
+  mmContent.SelStart := FPendingSelStart;
+  mmContent.SelLength := L;
+  if mmContent.HandleAllocated then
+    SendMessage(mmContent.Handle, EM_SCROLLCARET, 0, 0);
+  if mmContent.CanFocus then
+    ActiveControl := mmContent;
+end;
+
+procedure TfrmLineEditor.FormShow(Sender: TObject);
+begin
+  ApplyInitialSelection;
 end;
 
 procedure TfrmLineEditor.UndoReset;
@@ -1543,6 +1696,24 @@ begin
     FbtnRedo.Caption := WithKey(TrText('LineEditor.Redo'), cKeyRedo);
     FbtnRedo.Hint := TrText('LineEditor.RedoHint');
   end;
+  if Assigned(FbtnAnon) then
+  begin
+    FbtnAnon.Caption := WithKey(TrText('LineEditor.Anon'), cKeyAnon);
+    FbtnAnon.Hint := TrText('LineEditor.AnonHint');
+  end;
+  if Assigned(FbtnExtract) then
+  begin
+    FbtnExtract.Caption := WithKey(TrText('Extract.Button'), cKeyExtract);
+    FbtnExtract.Hint := TrText('Extract.Hint');
+  end;
+
+  if FMultiMode then
+  begin
+    Caption := Format(TrText('LineEditor.MultiCaption'), [Length(FMultiLines)]);
+    Label2.Caption := TrText('LineEditor.MultiLinesLabel');
+    Label3.Caption := TrText('LineEditor.MultiContent');
+    btnConfirm.Caption := WithKey(TrText('LineEditor.PreviewConfirm'), cKeyConfirm);
+  end;
 
   btnConfirm.Width := FitButtonWidth(btnConfirm, FfPx(90));
   btnCancel.Width := FitButtonWidth(btnCancel, FfPx(90));
@@ -1565,7 +1736,7 @@ end;
 
 procedure TfrmLineEditor.LayoutMemoTools;
 var
-  Btns: array[0..6] of TButton;
+  Btns: array[0..8] of TButton;
   i, x, y, w, h, gap: Integer;
 begin
   Btns[0] := btnSelectAll;
@@ -1575,6 +1746,8 @@ begin
   Btns[4] := FbtnUndo;
   Btns[5] := FbtnRedo;
   Btns[6] := btnAskAI;
+  Btns[7] := FbtnAnon;
+  Btns[8] := FbtnExtract;
   h := btnSelectAll.Height;
   gap := FfPx(6);
   x := 0;
@@ -1596,7 +1769,7 @@ end;
 
 function TfrmLineEditor.MemoToolsWantedWidth: Integer;
 var
-  Btns: array[0..6] of TButton;
+  Btns: array[0..8] of TButton;
   i: Integer;
 begin
   Btns[0] := btnSelectAll;
@@ -1606,6 +1779,8 @@ begin
   Btns[4] := FbtnUndo;
   Btns[5] := FbtnRedo;
   Btns[6] := btnAskAI;
+  Btns[7] := FbtnAnon;
+  Btns[8] := FbtnExtract;
   Result := 0;
   for i := Low(Btns) to High(Btns) do
     if Assigned(Btns[i]) then
@@ -1708,6 +1883,13 @@ var
   Show: Boolean;
 begin
   if not Assigned(FbtnPrevLine) then Exit;
+  if FMultiMode then
+  begin
+    FbtnPrevLine.Visible := False;
+    FbtnNextLine.Visible := False;
+    chkMergeLines.Visible := False;
+    Exit;
+  end;
   Show := IsInsertOp;
   FbtnPrevLine.Visible := Show;
   FbtnNextLine.Visible := Show;
@@ -2107,6 +2289,12 @@ begin
     end;
   end;
 
+  if FMultiMode then
+    LineNums := MultiLineSummary(500) + '. The input has ' +
+      IntToStr(Length(FMultiLines)) + ' lines, one per file line, in this order; ' +
+      'return exactly ' + IntToStr(Length(FMultiLines)) +
+      ' lines in the same order and never merge or split lines';
+
   Prompt :=
     'Apply the user instruction to the complete input text from line(s) ' +
     LineNums + '.' + #13#10 +
@@ -2186,7 +2374,8 @@ class function TfrmLineEditor.Execute(var Op: TOperationType;
   AGetLine: TLineEditorGetLineEvent = nil;
   AGetCount: TLineEditorGetCountEvent = nil;
   AMergeDeleteLines: TList = nil;
-  const AInsertAfter: Boolean = False): Boolean;
+  const AInsertAfter: Boolean = False;
+  const ASelStart: Integer = -1; const ASelLen: Integer = 0): Boolean;
 var
   InitialOp: TOperationType;
   InitialText, TempText: String;
@@ -2221,6 +2410,17 @@ begin
     InitialText := NormalizeEditorNewlines(TextContent);
     frmLineEditor.FOrigText := TextContent;
     frmLineEditor.FOrigLineNo := LineNum;
+    frmLineEditor.OnShow := frmLineEditor.FormShow;
+    if Op = otInsert then
+    begin
+      frmLineEditor.FPendingSelStart := -1;
+      frmLineEditor.FPendingSelLen := 0;
+    end
+    else
+    begin
+      frmLineEditor.FPendingSelStart := ASelStart;
+      frmLineEditor.FPendingSelLen := ASelLen;
+    end;
 
     frmLineEditor.cbOperation.Items.Clear;
     frmLineEditor.cbOperation.Items.Add(TrText('Delete Line'));
@@ -2267,6 +2467,7 @@ begin
       frmLineEditor.mmContent.Text := ''
     else
       frmLineEditor.mmContent.Text := TextContent;
+    frmLineEditor.ApplyInitialSelection;
     frmLineEditor.UndoReset;
     frmLineEditor.UpdateMemoToolButtons;
     frmLineEditor.UpdateAdjacentButtons;
@@ -2333,9 +2534,151 @@ begin
   end;
 end;
 
+class function TfrmLineEditor.ExecuteMulti(const ALineNos: array of Int64;
+  AOld, ANew: TStrings): Boolean;
+var
+  I: Integer;
+  SB: TStringBuilder;
+  Frm: TfrmLineEditor;
+begin
+  Result := False;
+  if Assigned(ANew) then
+    ANew.Clear;
+  if (Length(ALineNos) = 0) or not Assigned(AOld) or not Assigned(ANew) or
+     (AOld.Count <> Length(ALineNos)) then
+    Exit;
+  Frm := TfrmLineEditor.Create(nil);
+  frmLineEditor := Frm;
+  try
+    Frm.Color := clBtnFace;
+    Frm.DoubleBuffered := True;
+    Frm.AlphaBlend := False;
+    ApplyTranslationsToForm(Frm);
+    Frm.FMultiMode := True;
+    SetLength(Frm.FMultiLines, Length(ALineNos));
+    for I := 0 to High(ALineNos) do
+      Frm.FMultiLines[I] := ALineNos[I];
+    Frm.FMultiOld := AOld;
+    Frm.CreateUndo;
+    Frm.CreateFindBar;
+    Frm.CreateAdjacentButtons;
+    FfPrepareDialog(Frm, 760, 520);
+    Frm.ApplyUiLanguage;
+
+    Frm.Tag := 1;
+    Frm.cbOperation.Items.Clear;
+    Frm.cbOperation.Items.Add(TrText('LineEditor.MultiOp'));
+    Frm.cbOperation.ItemIndex := 0;
+    Frm.cbOperation.Enabled := False;
+    Frm.chkMergeLines.Checked := False;
+    Frm.chkMergeLines.Enabled := False;
+    Frm.LayoutMergePanel(False);
+    Frm.edtLineNumber.ReadOnly := True;
+    Frm.edtLineNumber.Color := clBtnFace;
+    Frm.edtLineNumber.Text := Frm.MultiLineSummary(12);
+    Frm.edtLineNumber.Hint := Frm.MultiLineSummary(300);
+    Frm.edtLineNumber.ShowHint := True;
+
+    Frm.mmContent.WordWrap := False;
+    Frm.mmContent.ScrollBars := ssBoth;
+    SB := TStringBuilder.Create;
+    try
+      for I := 0 to AOld.Count - 1 do
+      begin
+        if I > 0 then
+          SB.Append(#13#10);
+        SB.Append(AOld[I]);
+      end;
+      Frm.mmContent.Text := SB.ToString;
+    finally
+      SB.Free;
+    end;
+    Frm.cbOperationChange(nil);
+    Frm.UndoReset;
+    Frm.UpdateMemoToolButtons;
+    Frm.UpdateAdjacentButtons;
+
+    if (Frm.ShowModal = mrOk) and Assigned(Frm.FMultiResult) then
+    begin
+      ANew.Assign(Frm.FMultiResult);
+      Result := ANew.Count = AOld.Count;
+    end;
+  finally
+    frmLineEditor := nil;
+    Frm.Free;
+  end;
+end;
+
+function TfrmLineEditor.MultiLineSummary(AMaxShown: Integer): string;
+var
+  I, N: Integer;
+begin
+  Result := '';
+  N := Min(Length(FMultiLines), AMaxShown);
+  for I := 0 to N - 1 do
+  begin
+    if I > 0 then
+      Result := Result + ', ';
+    Result := Result + IntToStr(FMultiLines[I]);
+  end;
+  if Length(FMultiLines) > N then
+    Result := Result + ', ' + #$2026;
+end;
+
+{ O memo tem de manter uma linha por linha selecionada; a gravacao so acontece
+  depois da pre-visualizacao confirmada. }
+procedure TfrmLineEditor.ConfirmMulti;
+var
+  T: string;
+  L: TStringList;
+  I, Start, N, Changed: Integer;
+begin
+  T := StringReplace(mmContent.Text, #13#10, #10, [rfReplaceAll]);
+  T := StringReplace(T, #13, #10, [rfReplaceAll]);
+  N := Length(FMultiLines);
+  L := TStringList.Create;
+  try
+    Start := 1;
+    for I := 1 to Length(T) do
+      if T[I] = #10 then
+      begin
+        L.Add(Copy(T, Start, I - Start));
+        Start := I + 1;
+      end;
+    L.Add(Copy(T, Start, MaxInt));
+    if (L.Count = N + 1) and (L[L.Count - 1] = '') then
+      L.Delete(L.Count - 1);
+    if L.Count <> N then
+    begin
+      ShowAppMessage(Format(TrText('LineEditor.MultiCountMismatch'), [N, L.Count]));
+      if mmContent.CanFocus then
+        mmContent.SetFocus;
+      Exit;
+    end;
+    Changed := 0;
+    for I := 0 to N - 1 do
+      if L[I] <> FMultiOld[I] then
+        Inc(Changed);
+    if Changed = 0 then
+    begin
+      ShowAppMessage(TrText('LineEditor.MultiNoChange'));
+      Exit;
+    end;
+    if not ShowLinesChangePreview(Self, TrText('LinesPreview.Caption'), FMultiLines,
+      FMultiOld, L) then
+      Exit;
+    FreeAndNil(FMultiResult);
+    FMultiResult := L;
+    L := nil;
+    ModalResult := mrOk;
+  finally
+    L.Free;
+  end;
+end;
+
 procedure TfrmLineEditor.cbOperationChange(Sender: TObject);
 begin
-  if chkMergeLines.Checked then
+  if FMultiMode or chkMergeLines.Checked then
   begin
     mmContent.Enabled := True;
     mmContent.Color := clWindow;
@@ -2375,6 +2718,11 @@ var
   Joined: string;
   Extra: string;
 begin
+  if FMultiMode then
+  begin
+    ConfirmMulti;
+    Exit;
+  end;
   if Trim(edtLineNumber.Text) = '' then
   begin
     ShowAppMessage('Line Number is required.');
@@ -2467,6 +2815,20 @@ begin
     Handled(True);
     if btnAskAI.Enabled then
       btnAskAIClick(btnAskAI);
+    Exit;
+  end;
+  if (Key = Ord('D')) and (Mods = [ssCtrl, ssShift]) then
+  begin
+    Handled(True);
+    if Assigned(FbtnAnon) and FbtnAnon.Enabled then
+      AnonymizeContent;
+    Exit;
+  end;
+  if (Key = Ord('E')) and (Mods = [ssCtrl, ssShift]) then
+  begin
+    Handled(True);
+    if Assigned(FbtnExtract) and FbtnExtract.Enabled then
+      ExtractContent;
     Exit;
   end;
   { Ctrl+Z / Ctrl+Y usam a pilha própria do memo; nos campos Procurar/Substituir fica o padrão. }

@@ -23,6 +23,12 @@ const
   DEF_UI_SCALE_PPI = 0;
   { Segundos para aceitar/rejeitar as edicoes propostas pelo Agente IA; depois sao descartadas. }
   DEF_AGENT_DECISION_SECONDS = 20;
+  { Linhas selecionadas aceitas por acao da barra da lista (copiar, editar, descaracterizar...).
+    O teto evita carregar em memoria quase todas as linhas de arquivos enormes. }
+  DEF_SELECTED_LINES_ACTION_MAX = 1000;
+  { Linhas que o Agente IA analisa para descrever um arquivo (metade do inicio, metade espalhada pelo arquivo).
+    Viram estatisticas e layout; so poucas linhas de exemplo vao para a IA. }
+  DEF_AGENT_SAMPLE_LINES = 500;
 
   MIN_FILTER_RECENT_MAX = 5;
   MAX_FILTER_RECENT_MAX = 100;
@@ -42,6 +48,10 @@ const
   MAX_UI_SCALE_PPI = 288;
   MIN_AGENT_DECISION_SECONDS = 5;
   MAX_AGENT_DECISION_SECONDS = 600;
+  MIN_SELECTED_LINES_ACTION_MAX = 1;
+  MAX_SELECTED_LINES_ACTION_MAX = 10000;
+  MIN_AGENT_SAMPLE_LINES = 20;
+  MAX_AGENT_SAMPLE_LINES = 5000;
 
 type
   TUserPrefValues = record
@@ -54,6 +64,8 @@ type
     HistoryLineExcerptMax: Integer;
     DefaultUIScalePPI: Integer;
     AgentDecisionSeconds: Integer;
+    SelectedLinesActionMax: Integer;
+    AgentSampleLines: Integer;
   end;
 
 procedure LoadUserPrefs(const AIniPath: string);
@@ -72,6 +84,8 @@ function PrefLineHintMaxLines: Integer;
 function PrefHistoryLineExcerptMax: Integer;
 function PrefDefaultUIScalePPI: Integer;
 function PrefAgentDecisionSeconds: Integer;
+function PrefSelectedLinesActionMax: Integer;
+function PrefAgentSampleLines: Integer;
 function ClampUIScalePPI(AValue: Integer): Integer;
 
 function ClampUserPrefInt(AValue, AMin, AMax, ADefault: Integer): Integer;
@@ -112,6 +126,8 @@ begin
   V.HistoryLineExcerptMax := DEF_HISTORY_LINE_EXCERPT_MAX;
   V.DefaultUIScalePPI := DEF_UI_SCALE_PPI;
   V.AgentDecisionSeconds := DEF_AGENT_DECISION_SECONDS;
+  V.SelectedLinesActionMax := DEF_SELECTED_LINES_ACTION_MAX;
+  V.AgentSampleLines := DEF_AGENT_SAMPLE_LINES;
 end;
 
 procedure ClampAll(var V: TUserPrefValues);
@@ -133,6 +149,10 @@ begin
   V.DefaultUIScalePPI := ClampUIScalePPI(V.DefaultUIScalePPI);
   V.AgentDecisionSeconds := ClampUserPrefInt(V.AgentDecisionSeconds,
     MIN_AGENT_DECISION_SECONDS, MAX_AGENT_DECISION_SECONDS, DEF_AGENT_DECISION_SECONDS);
+  V.SelectedLinesActionMax := ClampUserPrefInt(V.SelectedLinesActionMax,
+    MIN_SELECTED_LINES_ACTION_MAX, MAX_SELECTED_LINES_ACTION_MAX, DEF_SELECTED_LINES_ACTION_MAX);
+  V.AgentSampleLines := ClampUserPrefInt(V.AgentSampleLines,
+    MIN_AGENT_SAMPLE_LINES, MAX_AGENT_SAMPLE_LINES, DEF_AGENT_SAMPLE_LINES);
 end;
 
 procedure EnsureLoaded;
@@ -194,6 +214,10 @@ begin
       DEF_UI_SCALE_PPI, 0, MAX_UI_SCALE_PPI));
     GPrefs.AgentDecisionSeconds := ReadPrefInt(Ini, 'AgentDecisionSeconds',
       DEF_AGENT_DECISION_SECONDS, MIN_AGENT_DECISION_SECONDS, MAX_AGENT_DECISION_SECONDS);
+    GPrefs.SelectedLinesActionMax := ReadPrefInt(Ini, 'SelectedLinesActionMax',
+      DEF_SELECTED_LINES_ACTION_MAX, MIN_SELECTED_LINES_ACTION_MAX, MAX_SELECTED_LINES_ACTION_MAX);
+    GPrefs.AgentSampleLines := ReadPrefInt(Ini, 'AgentSampleLines',
+      DEF_AGENT_SAMPLE_LINES, MIN_AGENT_SAMPLE_LINES, MAX_AGENT_SAMPLE_LINES);
   finally
     Ini.Free;
   end;
@@ -218,6 +242,8 @@ begin
     Ini.WriteInteger(INI_SECTION_USER_PREFS, 'HistoryLineExcerptMax', GPrefs.HistoryLineExcerptMax);
     Ini.WriteInteger(INI_SECTION_USER_PREFS, 'DefaultUIScalePPI', GPrefs.DefaultUIScalePPI);
     Ini.WriteInteger(INI_SECTION_USER_PREFS, 'AgentDecisionSeconds', GPrefs.AgentDecisionSeconds);
+    Ini.WriteInteger(INI_SECTION_USER_PREFS, 'SelectedLinesActionMax', GPrefs.SelectedLinesActionMax);
+    Ini.WriteInteger(INI_SECTION_USER_PREFS, 'AgentSampleLines', GPrefs.AgentSampleLines);
   finally
     Ini.Free;
   end;
@@ -288,6 +314,18 @@ function PrefAgentDecisionSeconds: Integer;
 begin
   EnsureLoaded;
   Result := GPrefs.AgentDecisionSeconds;
+end;
+
+function PrefSelectedLinesActionMax: Integer;
+begin
+  EnsureLoaded;
+  Result := GPrefs.SelectedLinesActionMax;
+end;
+
+function PrefAgentSampleLines: Integer;
+begin
+  EnsureLoaded;
+  Result := GPrefs.AgentSampleLines;
 end;
 
 initialization

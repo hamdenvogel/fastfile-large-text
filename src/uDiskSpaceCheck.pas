@@ -163,6 +163,7 @@ begin
     BtnCancel.Parent := Pnl;
     BtnCancel.Caption := TrText('DiskSpace.Button.Cancel');
     BtnCancel.ModalResult := mrCancel;
+    BtnCancel.Cancel := True;
 
     BtnExport := TButton.Create(Dlg);
     BtnExport.Parent := Pnl;

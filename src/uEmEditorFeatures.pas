@@ -1484,6 +1484,7 @@ begin
     BtnClose.Parent := Dlg;
     BtnClose.Caption := TrText('Close');
     BtnClose.ModalResult := mrCancel;
+    BtnClose.Cancel := True;
     BtnClose.Left := Dlg.ClientWidth - BtnClose.Width - 16;
     BtnClose.Top := Dlg.ClientHeight - BtnClose.Height - 12;
     BtnClose.Anchors := [akRight, akBottom];
@@ -2126,6 +2127,7 @@ begin
     BtnCancel.Parent := Dlg;
     BtnCancel.Caption := TrText('Cancel');
     BtnCancel.ModalResult := mrCancel;
+    BtnCancel.Cancel := True;
     BtnCancel.Left := Dlg.ClientWidth - 90;
     BtnCancel.Top := BtnOk.Top;
 
@@ -2210,6 +2212,7 @@ begin
     BtnCancel.Parent := Dlg;
     BtnCancel.Caption := TrText('Cancel');
     BtnCancel.ModalResult := mrCancel;
+    BtnCancel.Cancel := True;
     BtnCancel.Left := Dlg.ClientWidth - 90;
     BtnCancel.Top := BtnOk.Top;
 

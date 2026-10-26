@@ -9,7 +9,8 @@ Constantes: `UnConsts.TEMPFILE` / `TEMP_CKPT_FILE`, `INDEX_RECORD_SIZE` / `INDEX
 > - [README.md](README.md) — política de abertura / Zero Scan  
 > - [DOC_ZS_ATALHOS.md](DOC_ZS_ATALHOS.md) §14 — SWAR / ficheiros > 2 GB  
 > - [fastfile_arquitetura_bigdata.md](fastfile_arquitetura_bigdata.md) — Zero Scan vs indexado  
-> - [ARQUITETURA_TECNICA_FASTFILE.md](ARQUITETURA_TECNICA_FASTFILE.md) §5–6 — visão geral (ver correção do formato do registo abaixo)
+> - [ARQUITETURA_TECNICA_FASTFILE.md](ARQUITETURA_TECNICA_FASTFILE.md) §5–6 — visão geral (ver correção do formato do registo abaixo)  
+> - [DOC_INDICE_CKPT_EXEMPLO.md](DOC_INDICE_CKPT_EXEMPLO.md) — salto até uma linha, com o `PI121106.txt` (9.277.689 linhas, checkpoint de 9.061 registos)
 
 ---
 

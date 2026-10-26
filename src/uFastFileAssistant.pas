@@ -23,6 +23,12 @@ procedure NotifyAssistantDelegatedReply(const AText: string; AAppend: Boolean);
 procedure NotifyAssistantDelegatedStatus(const AStatus: string);
 { Prefill the question box and focus the assistant (e.g. Ask AI about selected lines). }
 procedure AssistantPrefillQuestion(const AText: string);
+{ Same recent-question list the assistant chat shows. }
+procedure AssistantCopyRecentQuestions(ADest: TStrings);
+procedure AssistantRemoveRecentQuestion(const AText: string);
+procedure AssistantClearRecentQuestions;
+{ "What can I do?" list for the assistant; a chosen example goes to the question box. }
+procedure FastFileAssistantShowCapabilities;
 procedure AssistantSubmitQuestion;
 { Post-action offer: summary + "What do you want to do next?" + action chips.
   Optional AAiDraft is kept as a clickable suggestion (not typed into the question box). }
@@ -59,7 +65,14 @@ uses
   uFastFileAssistantIntent,   uFastFilePaths, uFastFileComposeExport, ShellAPI, uMruFind,
   UnitPopupMruList, uSmoothLoading, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost,
   uFastFileScale, uAssistantPipelineStore, uAssistantPostAction, uUserPrefs, uExportDoneDlg,
-  uAgentBridge;
+  uAgentBridge, uAICapabilitiesDlg, uSourceCodeHelpDlg, uSourceValidators, uSearchCommands;
+
+const
+  { Chips of the offer banner after a failed validation (not catalog action ids). }
+  OFFER_CHIP_FIX_SOURCE = 'ff_fix_source_ai';
+  OFFER_CHIP_SOURCE_HELP = 'ff_source_help';
+  { Validation errors sent to the AI with "Fix with AI" (the checker can be verbose). }
+  FIX_SOURCE_MAX_ERROR_CHARS = 6000;
 
 type
   { Plain TMemo + ssVertical always paints a track. Strip WS_VSCROLL so empty
@@ -118,6 +131,8 @@ const
   ASSISTANT_CHAR_COUNT_H = 20;
   ASSISTANT_INPUT_MIN_H = 300;
   ASSISTANT_INPUT_DEFAULT_H = 340;
+  { Caption + style row + a few wrapped lines. Below this the reply reads as dots. }
+  ASSISTANT_REPLY_MIN_H = 172;
   ASSISTANT_INPUT_SPLIT_H = 6;
   ASSISTANT_QUESTION_FRAME_H = 148;
   ASSISTANT_DRAFT_HINT_H = 56;
@@ -146,6 +161,7 @@ const
   ASSISTANT_FILE_NOTICE_ACCENT = TColor($004CAF50);
   ATJ_TRANSLATE = 0;
   ATJ_REWRITE = 1;
+  ATJ_ASK_CAPS = 2;
   ASSISTANT_STATUS_OK = $002E7D32;
   { Memo reply limits — avoid OOM if the model dumps file/transform output in user_message. }
   ASSISTANT_MAX_REPLY_CHARS = 16384;
@@ -339,6 +355,9 @@ type
     LblTitle: TLabel;
     LblShortcut: TLabel;
     BtnHide: TButton;
+    { "?" next to the shortcut badge: the "What can I do?" list stays reachable when the
+      question toolbar wraps out of view in a narrow panel. }
+    BtnCapsTop: TButton;
     PnlInput: TsPanel;
     SplInputReply: TsSplitter;
     BtnFloat: TButton;
@@ -372,10 +391,12 @@ type
     BtnRewrite: TsSpeedButton;
     { Down = send the question to the AI agent engine (reads the open file, proposes edits for review). }
     BtnAgentMode: TsSpeedButton;
+    BtnCapabilities: TsSpeedButton;
     BtnClearReply: TsSpeedButton;
     BtnCopyReply: TsSpeedButton;
     BtnPython: TsSpeedButton;
     BtnComposeFormats: TsSpeedButton;
+    BtnSourceHelp: TsSpeedButton;
     LblQuestionCharCount: TLabel;
     PopupTranslateLang: TPopupMenu;
     BtnSend: TButton;
@@ -428,6 +449,9 @@ type
     FBusy: Boolean;
     { An agent run started from this panel is in progress (FBusy stays True until it reports back). }
     FAgentRunning: Boolean;
+    { The current request came from the AI agent (assistant tool): never route it back to the agent,
+      and report the reply to it once (FinishAgentDelegate). }
+    FFromAgent: Boolean;
     FPopupMenuOpen: Boolean;
     FRecentPopupPosted: Boolean;
     FWaitOverlayOwned: Boolean;
@@ -441,6 +465,7 @@ type
     FHasPlan: Boolean;
     FIniPath: string;
     FLayoutBuilt: Boolean;
+    FInputLayoutBusy: Boolean;
     FLastReplyBody: string;
     FReplyStylePresetId: string;
     FReplyStyleCustom: string;
@@ -459,6 +484,13 @@ type
     FComposeAppendFiltered: Boolean; { Collect filter lines at write time (not before AI). }
     FComposeSummarizePhase: Boolean;
     FComposePipelineWord: Boolean;
+    { Last failed validation (offer "Fix with AI"): file and checker output. }
+    FFixSourcePath: string;
+    FFixSourceErrors: string;
+    { The running compose is a "Fix with AI" of FFixSourcePath: errors go to the prompt, the
+      document is written as is, and the file is validated again afterwards. }
+    FFixFromValidation: Boolean;
+    FValidateReplyPrefix: string;
     FLastAssistantMemo: TMemo;
     FRecentQuestions: TStringList;
     FSuppressRecentChange: Boolean;
@@ -547,7 +579,12 @@ type
     procedure BtnRewriteClick(Sender: TObject);
     procedure BtnAgentModeClick(Sender: TObject);
     procedure LocalizeAgentModeBtn;
+    procedure BtnCapabilitiesClick(Sender: TObject);
+    procedure ShowCapabilities;
+    procedure StartCapsAskJob(const AContent, AQuestion: string);
     function StartAgentTask(const AUserQ: string): Boolean;
+    function RunFromAgent(const ARequest: string; out AWhy: string): Boolean;
+    procedure FinishAgentDelegate;
     procedure AgentBridgeEvent(AEvent: TAgentBridgeEvent; const AText, AExtra: string; ACount: Integer);
     procedure ShowAgentProposals(ACount: Integer);
     procedure TranslateLangClick(Sender: TObject);
@@ -560,6 +597,9 @@ type
     procedure BtnPythonClick(Sender: TObject);
     procedure BtnComposeFormatsClick(Sender: TObject);
     procedure ShowComposeFormatsDialog(const AUnsupportedExt: string);
+    procedure BtnSourceHelpClick(Sender: TObject);
+    procedure ShowSourceHelp;
+    procedure StartSourceFixWithAi;
     function RejectUnsupportedComposeFormat(const AQuestion: string): Boolean;
     procedure FillReplyStyleCombo;
     procedure LoadReplyStylePrefs;
@@ -1845,6 +1885,8 @@ function NormalizeAssistantFilterNeedle(const AUserQ, ARawPattern: string): stri
 var
   T: string;
 begin
+  if IsSearchCommand(ARawPattern) then Exit(Trim(ARawPattern));
+  if IsSearchCommand(AUserQ) then Exit(Trim(AUserQ));
   T := Trim(ExtractSearchTextFromText(AUserQ));
   if T = '' then
     T := Trim(ARawPattern);
@@ -3371,6 +3413,7 @@ begin
   else if SameText(AActionId, 'start_tail') then Result := TrText('Assistant.Status.Tail')
   else if SameText(AActionId, 'export_file') then Result := TrText('Assistant.Status.Export')
   else if SameText(AActionId, 'export_lines') then Result := TrText('Assistant.Status.ExportLines')
+  else if SameText(AActionId, 'anonymize_lines') then Result := TrText('Assistant.Status.AnonymizeLines')
   else if SameText(AActionId, 'export_matching_lines') then Result := TrText('Assistant.Status.ExportMatching')
   else if SameText(AActionId, 'show_script_engine') then Result := TrText('Assistant.Local.WillShowScriptEngine')
   else if SameText(AActionId, 'show_tail_macro') then Result := TrText('Assistant.Local.WillShowTailMacro')
@@ -3410,6 +3453,11 @@ begin
     'open_find — Open Find dialog only (Ctrl+F); prefer find_text when user gives search text.' + #13#10 +
     'find_text — params: search_text or filter_text, case_sensitive (default false). Runs Ctrl+F search, first match highlighted in ListView.' + #13#10 +
     'edit_line — params: line_no (1-based). Goes to line and opens line editor (like double-click).' + #13#10 +
+    '  Not for anonymize, mask or descaracterizar — that is anonymize_lines.' + #13#10 +
+    'anonymize_lines — params: filter_text = inclusive range "5-10" (or one line "5"). ' +
+    'Opens the anonymize dialog on that range. With no numbers, the current selection, or the whole file. ' +
+    'Use for anonymize, mask, redact, descaracterizar or anonimizar, in any language. ' +
+    'NEVER edit_line (that only opens the text editor) and NEVER export_lines (that writes a new file).' + #13#10 +
     'split_equal_parts — params: path (optional if a file is open in edtFileName), parts (integer 2..1000 or words: duas/two/dos/deux/zwei/due/...). LF-safe split.' + #13#10 +
     'extract_file_parts — params: path, total_parts, part_from, part_to (subset of equal LF parts).' + #13#10 +
     'open_replace — Open Find & Replace dialog (Ctrl+H); prefer replace_all when user gives find+replace text.' + #13#10 +
@@ -3435,6 +3483,7 @@ begin
     'export_lines — params: line_range in filter_text (e.g. "3-10" or "3,5,9"), path optional.' + #13#10 +
     '  If the user names a file and asks to generate/create/export a NEW file with lines N to M (inclusive),' + #13#10 +
     '  use export_lines (filter_text=N-M, params.path=that file). Do NOT use goto_line.' + #13#10 +
+    '  Anonymize, mask or descaracterizar a range is anonymize_lines, not export_lines and not edit_line.' + #13#10 +
     'export_matching_lines — params: filter_text (substring). Applies filter then exports matching lines to a .txt file when filter completes (never clipboard).' + #13#10 +
     'export_filtered — Export current filter/tail hits (Ctrl+Shift+L). Prefer when filter_active=1.' + #13#10 +
     'delete_duplicate_lines — Tools > Delete duplicate lines (needs writable file).' + #13#10 +
@@ -3465,7 +3514,10 @@ begin
     'Optional params: filter_text (needle for lines to append), max_lines (cap, e.g. 100).' + #13#10 +
     'validate_source — Syntax-check a source file (does NOT run it). ' +
     'Supported ONLY: Python (.py), JavaScript (.js/.mjs/.cjs), JSX (.jsx), ' +
-    'TypeScript (.ts), TSX/React (.tsx). params.path optional (full Windows path); ' +
+    'TypeScript (.ts), TSX/React (.tsx), JSON (.json), HTML (.html/.htm), SQL (.sql) built in, ' +
+    'Java (.java via javac), Go (.go via gofmt), C# (.cs via csc) when installed on the PC. ' +
+    'On failure FastFile offers "Fix with AI" (rewrites the file from the errors and validates again). ' +
+    'params.path optional (full Windows path); ' +
     'if missing, FastFile may use last composed file or ask the user to pick one. ' +
     'If user asks which languages are validated: intent=explain and list those ' +
     'extensions in user_message (do not invent others).' + #13#10 +
@@ -3475,7 +3527,7 @@ begin
     'Compound native + explain/PDF: put the native tool FIRST, then compose_document or consumer_rag ' +
     'in "actions" (e.g. [apply_filter, consumer_rag] or [find_text, compose_document]). ' +
     'FastFile runs hop-1 then the follow-up. Prefer format ids (.pdf/.docx/.txt/…) when a saved file is wanted.' + #13#10 +
-    'NEVER use intent=explain when the user asked FastFile to DO something (filter/split/find/count/merge). ' +
+    'NEVER use intent=explain when the user asked FastFile to DO something (filter/split/find/count/merge/anonymize). ' +
     'Describing the plan in user_message without action/actions is WRONG — return intent=execute.' + #13#10 +
     'For filter+meaning (any language): actions:[{apply_filter, filter_text=<exact needle>}, {consumer_rag}]. ' +
     'Put the needle EXACTLY in filter_text (e.g. XXX).' + #13#10 +
@@ -3517,6 +3569,10 @@ begin
     '"Procurar palavra Rocha insensitive" -> find_text search_text=Rocha case_sensitive=false' + #13#10 +
     '"Ir para linha 4444" -> goto_line line_no=4444' + #13#10 +
     '"Editar linha 5" -> edit_line line_no=5' + #13#10 +
+    '"Descaracterizar as linhas entre 5 a 10" / "anonymize lines 5 to 10" / "anonimizar lineas 5 a 10"' + #13#10 +
+    '  -> intent=execute, anonymize_lines filter_text=5-10 (not edit_line, not export_lines)' + #13#10 +
+    '"Descaracterizar as linhas selecionadas" / "anonymize the selected lines"' + #13#10 +
+    '  -> anonymize_lines using selected_lines from CURRENT_CONTEXT' + #13#10 +
     '"Exportar linhas entre 3 a 10" -> export_lines filter_text=3-10' + #13#10 +
     '"Com relacao ao arquivo C:\x.txt, gerar um novo somente com as linhas entre 500 a 1000 (inclusive)"' + #13#10 +
     '  -> export_lines filter_text=500-1000 params.path=C:\x.txt (open that file first if it is not already loaded)' + #13#10 +
@@ -3552,6 +3608,12 @@ begin
     '"Comparar arquivos" / "Compare files" / "Comparer fichiers" / "Dateien vergleichen" /' + #13#10 +
     ' "Confronta file" / "Porownaj pliki" / "Compara fisiere" / "Porovnat soubory" -> show_tab_compare' + #13#10 +
     '"Ativar modo CSV" -> toggle_csv_mode' + #13#10 +
+    '"Ordenar pela coluna status" / "sort by the status column, descending" -> ' +
+    'sort_csv_column column=status descending=true (does not rewrite the file)' + #13#10 +
+    '"Limpar a ordenacao das colunas" -> clear_csv_sort' + #13#10 +
+    '"grep com grupos ip e status" -> grep -E "(?<ip>...).*(?<status>...)"' + #13#10 +
+    '"Guardar a sessao" / "reabrir a sessao" -> save_session / load_session ' +
+    '(file, line, filter, bookmarks, encoding)' + #13#10 +
     '"Iniciar tail / follow" -> start_tail' + #13#10 +
     '"Substituir pedro por pedrinho" -> replace_all search_text=pedro replace_text=pedrinho' + #13#10 +
     '"Gere um README em markdown" / "write a .pas unit" -> compose_document. ' +
@@ -3659,6 +3721,15 @@ begin
     'Export those results -> export_filtered. Copy to clipboard -> copy_filtered. ' +
     'Clear -> clear_filter. Open/show filter UI -> open_filter. ' +
     'Never ask again for the pattern if filter_text is present.' + #13#10 +
+    '6g) SELECTED LINES: CURRENT_CONTEXT may include selected_count= and selected_lines= ' +
+    '(1-based, comma-separated). selected_lines_truncated=1 means the list was cut. ' +
+    'When the user means the current selection and does not give other line numbers, ' +
+    'those are the lines. Choose the tool from the meaning, in any language. ' +
+    'line_no and ranges come from selected_lines. Do not ask which line if selected_lines is present.' + #13#10 +
+    '6h) ANONYMIZE: masking, redacting or descaracterizar lines (a range "entre N a M", one line, ' +
+    'or the selection) is anonymize_lines. filter_text is N-M inclusive. ' +
+    'Do not use edit_line (text editor) and do not use export_lines (new file). ' +
+    'intent=execute. user_message must not claim the lines were opened for editing.' + #13#10 +
     '6b) If user asks to open the Nth file in the Recent Files tab list (e.g. second in the list) -> intent=execute open_recent_file, params.recent_index=N (1-based row as shown in lvRecentFiles).' + #13#10 +
     '7) intent=unknown: cannot map to FastFile (OS commands, format disk, run .exe, malware, unrelated topics).' + #13#10 +
     '10) NEVER return execute for: format/wipe disk, shell/CMD/PowerShell OS, run/launch .exe, ' +
@@ -3672,9 +3743,11 @@ begin
     '8c2) "Gere/escreva um programa/classe/script" in Python/JS/TS/Go/Java/C++/etc ' +
     '(standalone source file) -> compose_document, NOT show_script_engine. ' +
     'Script Engine is only for running transform(line) on the open file.' + #13#10 +
-    '8v) "Validar fonte" / "carregar o fonte pra validar" / check syntax of .py/.js/.ts/.tsx ' +
+    '8v) "Validar fonte" / "carregar o fonte pra validar" / check syntax of ' +
+    '.py/.js/.jsx/.ts/.tsx/.json/.html/.sql/.java/.go/.cs ' +
     '-> validate_source (syntax only; never run). Unsupported extensions: explain supported ' +
-    'list (Python/JS/JSX/TS/TSX). "Quais linguagens valida?" -> intent=explain with that list.' + #13#10 +
+    'list (Python/JS/JSX/TS/TSX/JSON/HTML/SQL/Java/Go/C#). "Quais linguagens valida?" -> ' +
+    'intent=explain with that list.' + #13#10 +
     '8d) Path + filter/grep lines by a needle -> apply_filter. Path + split into N equal parts -> split_equal_parts. ' +
     'Path + merge/join files (incl. reassemble .part001+) -> show_tab_merge_files with params.path. ' +
     'Optional merge mode: start/beginning, after line N, end. Path + compare files -> show_tab_compare.' + #13#10 +
@@ -4060,6 +4133,11 @@ begin
   begin
     if Trim(APlan.FilterText) = '' then
       Result := TrText('Assistant.Error.LineRangeRequired');
+    APlan.NeedConfirm := False;
+    Exit;
+  end;
+  if SameText(APlan.ActionId, 'anonymize_lines') then
+  begin
     APlan.NeedConfirm := False;
     Exit;
   end;
@@ -4669,6 +4747,7 @@ end;
 destructor TFastFileAssistantCtrl.Destroy;
 begin
   AgentBridgeSetListener(nil);
+  AssistantBridgeRun := nil;
   EndAssistantWait;
   FTmrWaitCancel := nil;
   FreeAndNil(FRecentQuestions);
@@ -4680,7 +4759,7 @@ end;
 procedure TFastFileAssistantCtrl.SyncDontShowStartupCheckbox;
 begin
   if not Assigned(ChkDontShowAgain) then Exit;
-  ChkDontShowAgain.Visible := True;
+  ChkDontShowAgain.Visible := False;
   if FIniPath <> '' then
     ChkDontShowAgain.Checked := not ShouldShowAssistantOnStartup(FIniPath);
 end;
@@ -4705,6 +4784,8 @@ begin
     BtnHide.Hint := TrText('Close');
     BtnHide.ShowHint := True;
   end;
+  if Assigned(BtnCapsTop) then
+    BtnCapsTop.Hint := TrText('AICaps.Button') + ' ' + TrText('AICaps.ButtonHint.Assistant');
   SyncFloatAction;
   ApplyHeaderDragChrome;
   if Assigned(FGripInputBot) then
@@ -4790,6 +4871,13 @@ begin
     BtnPython.Hint := TrText('Assistant.PythonHint');
     BtnPython.ShowHint := True;
     SizeQuestionToolBtn(BtnPython, ASSISTANT_PYTHON_BTN_W);
+  end;
+  if Assigned(BtnSourceHelp) then
+  begin
+    BtnSourceHelp.Caption := TrText('SrcHelp.Button');
+    BtnSourceHelp.Hint := TrText('SrcHelp.ButtonHint');
+    BtnSourceHelp.ShowHint := True;
+    SizeQuestionToolBtn(BtnSourceHelp, ASSISTANT_PYTHON_BTN_W);
   end;
   if Assigned(BtnComposeFormats) then
   begin
@@ -5670,6 +5758,14 @@ begin
     BtnHide.Font.Style := [];
     BtnHide.Font.Color := FChromeMuted;
   end;
+  if Assigned(BtnCapsTop) then
+  begin
+    BtnCapsTop.ParentFont := False;
+    BtnCapsTop.Font.Name := UiFont;
+    BtnCapsTop.Font.Size := 11;
+    BtnCapsTop.Font.Style := [fsBold];
+    BtnCapsTop.Font.Color := FChromeMuted;
+  end;
   if Assigned(BtnFloat) then
   begin
     BtnFloat.ParentFont := False;
@@ -6318,8 +6414,7 @@ var
   NeedBar: Boolean;
 begin
   if not Assigned(AMemo) then Exit;
-  if (AMemo = MemoQuestion) and (AMemo is TAssistantMemo) and
-     TAssistantMemo(AMemo).AllowVertScroll then
+  if (AMemo is TAssistantMemo) and TAssistantMemo(AMemo).AllowVertScroll then
   begin
     NeedBar := False;
     if AMemo.HandleAllocated and (AMemo.Text <> '') then
@@ -6368,6 +6463,7 @@ var
   ComboW, MemoH, QuestionH, ToolX, ToolY, ToolsBarH, CharW, HintH: Integer;
   PromptTextW, ToolsTop, HintBtnX, HintMemoW, HintBtnColW: Integer;
   ToolsBelow: Boolean;
+  RowMinH, Reserve, OfferH, Extra, OfferCut, MaxInput: Integer;
   PromptTitle: string;
 
   function S(const A: Integer): Integer;
@@ -6389,7 +6485,9 @@ var
     Inc(ToolX, ABtn.Width + 4);
   end;
 begin
-  if not Assigned(PnlInput) then Exit;
+  if FInputLayoutBusy or not Assigned(PnlInput) then Exit;
+  FInputLayoutBusy := True;
+  try
   W := PnlInput.ClientWidth - 2 * S(ASSISTANT_PAD);
   if W < 120 then Exit;
 
@@ -6407,6 +6505,12 @@ begin
     if PromptToolsW > 0 then
       PromptToolsW := PromptToolsW + ToolsGap;
     PromptToolsW := PromptToolsW + BadgeW;
+  end;
+  if Assigned(BtnCapsTop) then
+  begin
+    if PromptToolsW > 0 then
+      PromptToolsW := PromptToolsW + ToolsGap;
+    PromptToolsW := PromptToolsW + HideW;
   end;
   if PromptToolsW > 0 then
     PromptToolsW := PromptToolsW + ToolsGap;
@@ -6458,6 +6562,12 @@ begin
     PnlShortcutBadgeShell.Align := alNone;
     PnlShortcutBadgeShell.SetBounds(ToolX - BadgeW, ToolsTop, BadgeW, PromptH);
     PnlShortcutBadgeShell.BringToFront;
+    ToolX := PnlShortcutBadgeShell.Left - ToolsGap;
+  end;
+  if Assigned(BtnCapsTop) then
+  begin
+    BtnCapsTop.SetBounds(ToolX - HideW, ToolsTop, HideW, PromptH);
+    BtnCapsTop.BringToFront;
   end;
   if Assigned(BtnHide) then
     BtnHide.BringToFront;
@@ -6553,9 +6663,11 @@ begin
   PlaceTool(BtnTranslate, ASSISTANT_TRANSLATE_BTN_W);
   PlaceTool(BtnRewrite, ASSISTANT_REWRITE_BTN_W);
   PlaceTool(BtnAgentMode, ASSISTANT_AGENT_BTN_W);
+  PlaceTool(BtnCapabilities, ASSISTANT_AGENT_BTN_W);
   PlaceTool(BtnClearReply, ASSISTANT_CLEAR_TOOL_BTN_W);
   PlaceTool(BtnCopyReply, ASSISTANT_COPY_TOOL_BTN_W);
   PlaceTool(BtnPython, ASSISTANT_PYTHON_BTN_W);
+  PlaceTool(BtnSourceHelp, ASSISTANT_PYTHON_BTN_W);
   if Assigned(BtnComposeFormats) then
   begin
     if (ToolX > 6) and Assigned(PnlQuestionTools) and
@@ -6574,10 +6686,49 @@ begin
   if Assigned(PnlQuestionTools) then
     PnlQuestionTools.Height := ToolsBarH;
   QuestionH := S(ASSISTANT_QUESTION_FRAME_H) + ToolsBarH;
+  { The reply pane is alClient. A 300px input floor plus the offer banner leaves
+    it a few pixels tall, so the answer shows up as a row of dots. }
+  Reserve := S(ASSISTANT_REPLY_MIN_H);
+  if Assigned(PnlHeader) and PnlHeader.Visible then
+    Inc(Reserve, PnlHeader.Height);
+  if Assigned(PnlHeaderSep) and (PnlHeaderSep.Height > 0) then
+    Inc(Reserve, PnlHeaderSep.Height);
+  if Assigned(PnlFileNotice) and PnlFileNotice.Visible then
+    Inc(Reserve, PnlFileNotice.Height);
+  if Assigned(FGripInputBot) then
+    Inc(Reserve, FGripInputBot.Height);
+  OfferH := 0;
+  if Assigned(PnlOfferNext) and PnlOfferNext.Visible then
+    OfferH := PnlOfferNext.Height;
+  if ClientHeight > Reserve + S(80) then
+  begin
+    Extra := (MemoTop + QuestionH + 12 + BH + 8) + OfferH - (ClientHeight - Reserve);
+    if Extra > 0 then
+    begin
+      if Assigned(PnlOfferNext) and PnlOfferNext.Visible and (OfferH > S(72)) then
+      begin
+        OfferCut := Extra;
+        if OfferH - OfferCut < S(72) then
+          OfferCut := OfferH - S(72);
+        if OfferCut > 0 then
+        begin
+          PnlOfferNext.Height := OfferH - OfferCut;
+          Dec(Extra, OfferCut);
+          Dec(OfferH, OfferCut);
+        end;
+      end;
+      if Extra > 0 then
+      begin
+        QuestionH := QuestionH - Extra;
+        if QuestionH < ToolsBarH + S(48) then
+          QuestionH := ToolsBarH + S(48);
+      end;
+    end;
+  end;
   if Assigned(PnlQuestionShell) then
     PnlQuestionShell.SetBounds(S(ASSISTANT_PAD), MemoTop, W, QuestionH);
 
-  ShellInner := S(ASSISTANT_QUESTION_FRAME_H) - (SHELL_BORDER * 2);
+  ShellInner := QuestionH - ToolsBarH - (SHELL_BORDER * 2);
   if ShellInner < 40 then
     ShellInner := 40;
   FrameInnerW := W - (SHELL_BORDER * 2) - (FRAME_PAD * 2) - ClearSlot;
@@ -6591,8 +6742,8 @@ begin
       FRAME_PAD, ASSISTANT_CLEAR_BTN_W, ASSISTANT_CLEAR_BTN_W);
 
   MemoH := ShellInner - (FRAME_PAD * 2) - S(ASSISTANT_CHAR_COUNT_H);
-  if MemoH < S(56) then
-    MemoH := S(56);
+  if MemoH < S(32) then
+    MemoH := S(32);
   { Own strip under the memo — never clips the last typed line. }
   CharW := S(56);
   if Assigned(LblQuestionCharCount) and Assigned(PnlQuestionFrame) then
@@ -6623,29 +6774,12 @@ begin
     BtnExecute.SetBounds(ASSISTANT_PAD + W - BtnExecute.Width, BtnRowTop, BtnExecute.Width, BH);
 
   ChkTop := BtnRowTop + BH + CHK_ROW_GAP;
-  ChkBlockH := 17;
-  LblChkW := W - ASSISTANT_CHK_GLYPH_W;
-  if LblChkW < 40 then
-    LblChkW := 40;
-
+  { The "don't show at startup" option no longer applies: the chat is a pane of the agent. }
+  ChkBlockH := 0;
   if Assigned(LblDontShowAgain) then
-  begin
-    LblChkH := MeasureAssistantWrappedTextHeight(LblDontShowAgain, LblDontShowAgain.Caption,
-      LblChkW, 14);
-    if LblChkH < 14 then
-      LblChkH := 14;
-    if Assigned(ChkDontShowAgain) then
-      ChkDontShowAgain.SetBounds(ASSISTANT_PAD, ChkTop, ASSISTANT_CHK_GLYPH_W, 17);
-    LblDontShowAgain.SetBounds(ASSISTANT_PAD + ASSISTANT_CHK_GLYPH_W, ChkTop, LblChkW, LblChkH);
-    if LblChkH > ChkBlockH then
-      ChkBlockH := LblChkH;
-  end
-  else if Assigned(ChkDontShowAgain) then
-  begin
-    ChkBlockH := MeasureAssistantWrappedTextHeight(ChkDontShowAgain, ChkDontShowAgain.Caption,
-      W - ASSISTANT_CHK_GLYPH_W, 17);
-    ChkDontShowAgain.SetBounds(ASSISTANT_PAD, ChkTop, W, ChkBlockH);
-  end;
+    LblDontShowAgain.Visible := False;
+  if Assigned(ChkDontShowAgain) then
+    ChkDontShowAgain.Visible := False;
 
   StatusTop := ChkTop + ChkBlockH + STATUS_GAP;
   StatusH := 14;
@@ -6658,11 +6792,28 @@ begin
     LblStatus.SetBounds(ASSISTANT_PAD, StatusTop, W, StatusH);
   end;
 
-  PnlInput.Constraints.MinHeight := S(ASSISTANT_INPUT_MIN_H);
-  if PnlInput.Height < S(ASSISTANT_INPUT_MIN_H) then
-    PnlInput.Height := S(ASSISTANT_INPUT_MIN_H);
+  { Keep Send / Execute on screen, but never by eating the reply pane. }
+  RowMinH := BtnRowTop + BH + 8;
+  MaxInput := ClientHeight - Reserve - OfferH;
+  if MaxInput < S(80) then
+    MaxInput := S(80);
+  if RowMinH > MaxInput then
+    RowMinH := MaxInput;
+  PnlInput.Constraints.MinHeight := RowMinH;
+  if PnlInput.Height < RowMinH then
+    PnlInput.Height := RowMinH
+  else if PnlInput.Height > MaxInput then
+    PnlInput.Height := MaxInput;
+  if Assigned(FGripInputBot) then
+  begin
+    FGripInputBot.MinSize := RowMinH;
+    FGripInputBot.MaxSize := Max(RowMinH, MaxInput);
+  end;
   PlaceAssistantGrips;
   SyncAssistantMemoScrollBars;
+  finally
+    FInputLayoutBusy := False;
+  end;
 end;
 
 procedure TFastFileAssistantCtrl.StyleFileNoticeHyperlink(ALbl: TLabel);
@@ -7184,6 +7335,10 @@ begin
     Result := TrText('Assistant.Agent.Chip.Review')
   else if SameText(AActionId, AGENT_CHIP_REJECT) then
     Result := TrText('Assistant.Agent.Chip.Reject')
+  else if SameText(AActionId, OFFER_CHIP_FIX_SOURCE) then
+    Result := TrText('Assistant.FixAi.Chip')
+  else if SameText(AActionId, OFFER_CHIP_SOURCE_HELP) then
+    Result := TrText('SrcHelp.Button')
   else
     Result := AActionId;
 end;
@@ -7236,6 +7391,16 @@ begin
   if SameText(ActionId, AGENT_CHIP_REVIEW) then
   begin
     if Assigned(AgentBridgeReview) then AgentBridgeReview;
+    Exit;
+  end;
+  if SameText(ActionId, OFFER_CHIP_FIX_SOURCE) then
+  begin
+    StartSourceFixWithAi;
+    Exit;
+  end;
+  if SameText(ActionId, OFFER_CHIP_SOURCE_HELP) then
+  begin
+    ShowSourceHelp;
     Exit;
   end;
 
@@ -7536,7 +7701,8 @@ begin
     begin
       Id := Trim(Parts[I]);
       if Id = '' then Continue;
-      if not SameText(Id, 'ask_ai') and not IsAgentChipId(Id) and not CatalogIsAllowedActionId(Id) then
+      if not SameText(Id, 'ask_ai') and not IsAgentChipId(Id) and not CatalogIsAllowedActionId(Id) and
+         not SameText(Id, OFFER_CHIP_FIX_SOURCE) and not SameText(Id, OFFER_CHIP_SOURCE_HELP) then
         Continue;
       Btn := TsSpeedButton.Create(Self);
       Btn.Parent := PnlOfferActions;
@@ -7726,9 +7892,9 @@ begin
     else
       Report := TrText('Assistant.Validate.Failed');
   end
-  else if AOk and ((Report = 'OK') or (Copy(Report, 1, 2) = 'OK')) then
+  else if AOk then
     Report := TrText('Assistant.Validate.Ok') + #13#10 + Report
-  else if not AOk then
+  else
     Report := TrText('Assistant.Validate.Failed') + #13#10 + Report;
   Result := APath + #13#10 + Report;
 end;
@@ -7763,6 +7929,9 @@ begin
   if Assigned(BtnFileNoticeValidate) then
     BtnFileNoticeValidate.Enabled := True;
   Result := FormatValidateSourceReport(APath, Ok, Report);
+  if FValidateReplyPrefix <> '' then
+    Result := FValidateReplyPrefix + #13#10#13#10 + Result;
+  FValidateReplyPrefix := '';
   FLastReplyBody := Result;
   if Assigned(MemoReply) then
     MemoReply.Lines.Text := Result;
@@ -7771,6 +7940,21 @@ begin
   else
     SetStatusCaption(TrText('Assistant.Validate.Failed'));
   AssistantWriteLog('validate-source: ' + APath + ' ok=' + BoolToStr(Ok, True));
+  { Offer "Fix with AI" only when the checker really ran (not for a missing compiler). }
+  if (not Ok) and (not FFromAgent) and FileExists(APath) and SourceValidatorAvailable(APath) and
+     (Pos(Format(TrText('Assistant.Validate.ExeMissing'), [SCRIPTENGINE]), Report) = 0) and
+     (Pos(Format(TrText('Assistant.Validate.ExeMissing'), [CODECHECK]), Report) = 0) and
+     (Pos(TrText('Assistant.Validate.Timeout'), Report) = 0) then
+  begin
+    FFixSourcePath := APath;
+    FFixSourceErrors := Trim(Report);
+    if Length(FFixSourceErrors) > FIX_SOURCE_MAX_ERROR_CHARS then
+      FFixSourceErrors := Copy(FFixSourceErrors, 1, FIX_SOURCE_MAX_ERROR_CHARS) + #13#10 + '...';
+    ShowOfferNext(Format(TrText('Assistant.FixAi.Offer'), [ExtractFileName(APath)]),
+      OFFER_CHIP_FIX_SOURCE + ',' + OFFER_CHIP_SOURCE_HELP);
+  end
+  else if not Ok and not FFromAgent then
+    ShowOfferNext(TrText('Assistant.Validate.Failed'), OFFER_CHIP_SOURCE_HELP);
 end;
 
 function TFastFileAssistantCtrl.TryHandleValidateSourceChat: Boolean;
@@ -7893,12 +8077,13 @@ begin
   BtnFloat.ShowHint := True;
   BtnFloat.TabStop := False;
   BtnFloat.OnClick := BtnFloatClick;
+  { Hosted inside the AI agent: no floating / tear-off. }
+  BtnFloat.Visible := False;
 
   FPopDock := TPopupMenu.Create(Self);
   FMiFloat := TMenuItem.Create(FPopDock);
   FMiFloat.OnClick := BtnFloatClick;
   FPopDock.Items.Add(FMiFloat);
-  PnlHeader.PopupMenu := FPopDock;
 
   LblTitle := TLabel.Create(Self);
   LblTitle.Parent := PnlHeader;
@@ -8013,6 +8198,17 @@ begin
   BtnHide.ShowHint := True;
   BtnHide.TabStop := False;
   BtnHide.OnClick := BtnHideClick;
+
+  BtnCapsTop := TButton.Create(Self);
+  BtnCapsTop.Parent := PnlInput;
+  BtnCapsTop.Align := alNone;
+  BtnCapsTop.Width := ASSISTANT_HIDE_BTN_W;
+  BtnCapsTop.Height := 24;
+  BtnCapsTop.Caption := '?';
+  BtnCapsTop.Hint := TrText('AICaps.Button') + ' ' + TrText('AICaps.ButtonHint.Assistant');
+  BtnCapsTop.ShowHint := True;
+  BtnCapsTop.TabStop := False;
+  BtnCapsTop.OnClick := BtnCapabilitiesClick;
 
   LblRecentQuestions := TLabel.Create(Self);
   LblRecentQuestions.Parent := PnlInput;
@@ -8152,6 +8348,13 @@ begin
   StyleQuestionToolBtn(BtnAgentMode);
   LocalizeAgentModeBtn;
   AgentBridgeSetListener(AgentBridgeEvent);
+  AssistantBridgeRun := RunFromAgent;
+
+  BtnCapabilities := TsSpeedButton.Create(Self);
+  BtnCapabilities.Parent := PnlQuestionTools;
+  BtnCapabilities.OnClick := BtnCapabilitiesClick;
+  StyleQuestionToolBtn(BtnCapabilities);
+  LocalizeAgentModeBtn;
 
   BtnClearReply := TsSpeedButton.Create(Self);
   BtnClearReply.Parent := PnlQuestionTools;
@@ -8177,6 +8380,15 @@ begin
   BtnPython.OnClick := BtnPythonClick;
   StyleQuestionToolBtn(BtnPython);
   SizeQuestionToolBtn(BtnPython, ASSISTANT_PYTHON_BTN_W);
+
+  BtnSourceHelp := TsSpeedButton.Create(Self);
+  BtnSourceHelp.Parent := PnlQuestionTools;
+  BtnSourceHelp.Caption := TrText('SrcHelp.Button');
+  BtnSourceHelp.Hint := TrText('SrcHelp.ButtonHint');
+  BtnSourceHelp.ShowHint := True;
+  BtnSourceHelp.OnClick := BtnSourceHelpClick;
+  StyleQuestionToolBtn(BtnSourceHelp);
+  SizeQuestionToolBtn(BtnSourceHelp, ASSISTANT_PYTHON_BTN_W);
 
   BtnComposeFormats := TsSpeedButton.Create(Self);
   BtnComposeFormats.Parent := PnlQuestionTools;
@@ -8269,7 +8481,7 @@ begin
   FGripInputBot.Align := alTop;
   FGripInputBot.Height := ASSISTANT_INPUT_SPLIT_H;
   FGripInputBot.ResizeTarget := PnlInput;
-  FGripInputBot.MinSize := FfPx(ASSISTANT_INPUT_MIN_H);
+  FGripInputBot.MinSize := FfPx(120);
   FGripInputBot.MaxSize := 700;
   FGripInputBot.Hint := TrText('Assistant.SplitHint');
   FGripInputBot.OnResized := AssistantGripResized;
@@ -8389,6 +8601,7 @@ begin
   PnlReplySurface.Padding.Bottom := 6;
 
   MemoReply := TAssistantMemo.Create(Self);
+  TAssistantMemo(MemoReply).AllowVertScroll := True;
   MemoReply.Parent := PnlReplySurface;
   MemoReply.Align := alClient;
   MemoReply.ReadOnly := True;
@@ -8450,35 +8663,8 @@ begin
 end;
 
 procedure TFastFileAssistantCtrl.ApplyHeaderDragChrome;
-var
-  HintTxt: string;
 begin
-  if FFloating then
-    HintTxt := TrText('Panel.DragDockHint')
-  else
-    HintTxt := TrText('Panel.DragUndockHint');
-  if Assigned(PnlHeader) then
-  begin
-    PnlHeader.Cursor := crSizeAll;
-    PnlHeader.ShowHint := True;
-    PnlHeader.Hint := HintTxt;
-    PnlHeader.OnMouseDown := HeaderMouseDown;
-    PnlHeader.OnMouseMove := HeaderMouseMove;
-    PnlHeader.OnMouseUp := HeaderMouseUp;
-    PnlHeader.OnDblClick := HeaderDblClick;
-  end;
-  if Assigned(LblTitle) then
-  begin
-    LblTitle.Cursor := crSizeAll;
-    LblTitle.ShowHint := True;
-    LblTitle.Hint := HintTxt;
-    LblTitle.OnMouseDown := HeaderMouseDown;
-    LblTitle.OnMouseMove := HeaderMouseMove;
-    LblTitle.OnMouseUp := HeaderMouseUp;
-    LblTitle.OnDblClick := HeaderDblClick;
-  end;
-  AttachPanelDrag(Self, HeaderMouseDown, HeaderMouseMove, HeaderMouseUp,
-    HeaderDblClick, HintTxt);
+  { Embedded in the AI agent: the header is not a tear-off / drag handle. }
 end;
 
 procedure TFastFileAssistantCtrl.RestoreDockedStack;
@@ -8520,7 +8706,7 @@ begin
   end;
   if Assigned(PnlInput) then
   begin
-    if PnlInput.Height < FfPx(ASSISTANT_INPUT_MIN_H) then
+    if PnlInput.Height < FfPx(120) then
       PnlInput.Height := FfPx(ASSISTANT_INPUT_DEFAULT_H);
   end;
   ApplyAssistantSoftChrome;
@@ -8591,13 +8777,15 @@ begin
   finally
     Ini.Free;
   end;
-  if H < FfPx(ASSISTANT_INPUT_MIN_H) then Exit;
+  if H < FfPx(120) then Exit;
   { Old builds locked this at 336+; start compact and let the user grow it. }
   if H >= FfPx(336) then
     H := FfPx(ASSISTANT_INPUT_DEFAULT_H);
-  MaxH := ClientHeight - FfPx(160);
-  if MaxH < FfPx(ASSISTANT_INPUT_MIN_H) then
-    MaxH := FfPx(ASSISTANT_INPUT_MIN_H);
+  MaxH := ClientHeight - FfPx(ASSISTANT_REPLY_MIN_H + ASSISTANT_HEADER_H + ASSISTANT_INPUT_SPLIT_H);
+  if Assigned(PnlOfferNext) and PnlOfferNext.Visible then
+    Dec(MaxH, PnlOfferNext.Height);
+  if MaxH < FfPx(120) then
+    MaxH := FfPx(120);
   if H > MaxH then
     H := MaxH;
   PnlInput.Height := H;
@@ -8610,8 +8798,8 @@ var
 begin
   if (FIniPath = '') or not Assigned(PnlInput) then Exit;
   H := PnlInput.Height;
-  if H < FfPx(ASSISTANT_INPUT_MIN_H) then
-    H := FfPx(ASSISTANT_INPUT_MIN_H);
+  if H < FfPx(120) then
+    H := FfPx(120);
   Ini := TIniFile.Create(FIniPath);
   try
     Ini.WriteInteger(APPLICATION_NAME, 'AssistantInputHeight', H);
@@ -8736,15 +8924,15 @@ begin
   try
     C.Control := ABtn;
     C.Font.Assign(ABtn.Font);
-    NeedW := C.TextWidth(Cap) + 20;
+    NeedW := C.TextWidth(Cap) + FfPx(28);
   finally
     C.Free;
   end;
   if NeedW < AMinW then
     NeedW := AMinW;
-  Inc(NeedW, 8);
-  if NeedW > 160 then
-    NeedW := 160;
+  Inc(NeedW, FfPx(8));
+  if NeedW > FfPx(260) then
+    NeedW := FfPx(260);
   ABtn.Width := NeedW;
   ABtn.Height := ASSISTANT_TOOL_BTN_H;
 end;
@@ -8941,6 +9129,13 @@ begin
     PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
     Exit;
   end;
+  if AJob = ATJ_ASK_CAPS then
+  begin
+    ReceiveDelegatedReply(Body, False);
+    SetStatusCaption(TrText('AICaps.AskDone'));
+    PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
+    Exit;
+  end;
   if Assigned(MemoQuestion) then
   begin
     if FTextJobReplaceSel and (MemoQuestion.SelLength > 0) then
@@ -9014,6 +9209,65 @@ begin
   BtnAgentMode.Hint := TrText('Assistant.AgentModeHint');
   BtnAgentMode.ShowHint := True;
   SizeQuestionToolBtn(BtnAgentMode, ASSISTANT_AGENT_BTN_W);
+  if Assigned(BtnCapabilities) then
+  begin
+    BtnCapabilities.Caption := TrText('AICaps.Button');
+    BtnCapabilities.Hint := TrText('AICaps.ButtonHint.Assistant');
+    BtnCapabilities.ShowHint := True;
+    SizeQuestionToolBtn(BtnCapabilities, ASSISTANT_AGENT_BTN_W);
+  end;
+end;
+
+procedure TFastFileAssistantCtrl.BtnCapabilitiesClick(Sender: TObject);
+begin
+  ShowCapabilities;
+end;
+
+procedure TFastFileAssistantCtrl.ShowCapabilities;
+var
+  Ex, Q: string;
+  Choice: TAICapsChoice;
+begin
+  Choice := ShowAICapabilities(ackAssistant, Ex, Q);
+  if Choice = accNone then Exit;
+  if FBusy then
+  begin
+    SetStatusCaption(TrText('AICaps.Busy'));
+    Exit;
+  end;
+  if Choice = accAsk then
+  begin
+    StartCapsAskJob(Ex, Q);
+    Exit;
+  end;
+  AssistantPrefillQuestion(Ex);
+  SetStatusCaption(TrText('AICaps.ExampleReady'));
+end;
+
+procedure TFastFileAssistantCtrl.StartCapsAskJob(const AContent, AQuestion: string);
+var
+  PromptW: WideString;
+  Th: TFastFileAssistantTextJobThread;
+begin
+  if FBusy then Exit;
+  PromptW :=
+    WideString('You are the AI Assistant inside FastFile, a viewer/editor for very large text files.') + #13#10 +
+    WideString('The user is reading the "What can I do?" list of the assistant and asks about it.') + #13#10 +
+    WideString('Answer only from the list below; do not invent menus, shortcuts or features.') + #13#10 +
+    WideString('Reply in ' + AssistantLangPromptName(GetCurrentLanguage) +
+      ' (the app UI language) unless the question asks for a specific language.') + #13#10 +
+    WideString('Reply with ONE JSON object only (no markdown): {"resposta":"<answer as plain text>"}') + #13#10#13#10 +
+    WideString('LIST:') + #13#10 + WideString(AContent) + #13#10#13#10 +
+    WideString('QUESTION:') + #13#10 + WideString(AQuestion);
+  FBusy := True;
+  FAiCancelled := False;
+  if Assigned(BtnSend) then
+    BtnSend.Enabled := False;
+  UpdateQuestionToolButtons;
+  SetStatusCaption(TrText('Assistant.Thinking'));
+  BeginAssistantWait(TrText('Assistant.Thinking'));
+  Th := TFastFileAssistantTextJobThread.Create(Self, PromptW, ATJ_ASK_CAPS);
+  Th.Resume;
 end;
 
 procedure TFastFileAssistantCtrl.BtnAgentModeClick(Sender: TObject);
@@ -9031,6 +9285,15 @@ var
   Path, Why: string;
 begin
   Result := False;
+  if FFromAgent then
+  begin
+    FLastReplyBody := TrText('Assistant.Agent.FromAgent');
+    MemoReply.Lines.Text := FLastReplyBody;
+    SetStatusCaption(TrText('Assistant.ReplyReady'));
+    BtnExecute.Enabled := False;
+    PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
+    Exit;
+  end;
   if FAgentRunning or not AgentBridgeAvailable then Exit;
   Path := Trim(AssistantHostGetOpenFilePath);
   if (Path = '') or not FileExists(Path) then
@@ -9068,6 +9331,40 @@ begin
     Exit;
   end;
   Result := True;
+end;
+
+function TFastFileAssistantCtrl.RunFromAgent(const ARequest: string; out AWhy: string): Boolean;
+begin
+  Result := False;
+  AWhy := '';
+  if FBusy or FAgentRunning or FFromAgent then
+  begin
+    AWhy := TrText('Agent.Assistant.Busy');
+    Exit;
+  end;
+  if Trim(ARequest) = '' then Exit;
+  AssistantPrefillQuestion(ARequest);
+  if not Assigned(MemoQuestion) or (Trim(MemoQuestion.Text) = '') then
+  begin
+    AWhy := TrText('Agent.Assistant.Unavailable');
+    Exit;
+  end;
+  AssistantWriteLog('agent -> assistant: ' + ARequest);
+  FFromAgent := True;
+  FLastReplyBody := '';
+  BtnSendClick(nil);
+  { Answered without a background request (local command, refusal): report now. }
+  if not FBusy then
+    FinishAgentDelegate;
+  Result := True;
+end;
+
+procedure TFastFileAssistantCtrl.FinishAgentDelegate;
+begin
+  if not FFromAgent then Exit;
+  FFromAgent := False;
+  AssistantWriteLog('assistant -> agent reply');
+  AssistantBridgeNotifyReply(FLastReplyBody);
 end;
 
 procedure TFastFileAssistantCtrl.ShowAgentProposals(ACount: Integer);
@@ -9229,9 +9526,11 @@ procedure TFastFileAssistantCtrl.ShowComposeFormatsDialog(const AUnsupportedExt:
 var
   F: TForm;
   Memo: TMemo;
-  Btn: TButton;
+  Btn, BtnMore: TButton;
   Body, Ext: string;
+  WantHelp: Boolean;
 begin
+  WantHelp := False;
   Body := '';
   Ext := Trim(AUnsupportedExt);
   if Ext <> '' then
@@ -9274,9 +9573,71 @@ begin
     Btn.Default := True;
     Btn.ModalResult := mrOk;
     Btn.SetBounds(F.ClientWidth - 100, F.ClientHeight - 36, 88, 26);
-    F.ShowModal;
+    BtnMore := TButton.Create(F);
+    BtnMore.Parent := F;
+    BtnMore.Caption := TrText('SrcHelp.Button');
+    BtnMore.Hint := TrText('SrcHelp.ButtonHint');
+    BtnMore.ShowHint := True;
+    BtnMore.ModalResult := mrYes;
+    F.Canvas.Font.Assign(F.Font);
+    BtnMore.SetBounds(12, F.ClientHeight - 36,
+      Max(120, F.Canvas.TextWidth(BtnMore.Caption) + 28), 26);
+    WantHelp := F.ShowModal = mrYes;
   finally
     F.Free;
+  end;
+  if WantHelp then
+    ShowSourceHelp;
+end;
+
+procedure TFastFileAssistantCtrl.BtnSourceHelpClick(Sender: TObject);
+begin
+  ShowSourceHelp;
+end;
+
+procedure TFastFileAssistantCtrl.ShowSourceHelp;
+var
+  Ex: string;
+begin
+  if not ShowSourceCodeHelp(Ex) then Exit;
+  if FBusy then
+  begin
+    SetStatusCaption(TrText('AICaps.Busy'));
+    Exit;
+  end;
+  AssistantPrefillQuestion(Ex);
+  SetStatusCaption(TrText('AICaps.ExampleReady'));
+end;
+
+procedure TFastFileAssistantCtrl.StartSourceFixWithAi;
+var
+  Path: string;
+begin
+  if FBusy then
+  begin
+    SetStatusCaption(TrText('AICaps.Busy'));
+    Exit;
+  end;
+  Path := Trim(FFixSourcePath);
+  if (Path = '') or not FileExists(Path) then
+  begin
+    SetStatusCaption(TrText('Assistant.Validate.FileMissing'));
+    Exit;
+  end;
+  HideOfferNext;
+  if Assigned(MemoQuestion) then
+  begin
+    MemoQuestion.Text := Format(TrText('Assistant.FixAi.Question'), [Path]);
+    UpdateClearQuestionBtn;
+    UpdateQuestionCharCount;
+  end;
+  FLastReplyBody := TrText('Assistant.FixAi.Running');
+  FFixFromValidation := True;
+  AssistantWriteLog('fix-with-ai: ' + Path);
+  if not StartComposeGeneration then
+  begin
+    FFixFromValidation := False;
+    PostMessage(Handle, WM_FF_ASSISTANT_RESET_BUSY, 0, 0);
   end;
 end;
 
@@ -9286,6 +9647,7 @@ begin
   if Assigned(BtnSend) then BtnSend.Enabled := True;
   if Assigned(BtnHide) then BtnHide.Enabled := True;
   UpdateQuestionToolButtons;
+  FinishAgentDelegate;
 end;
 
 procedure TFastFileAssistantCtrl.WMDeferFocus(var Msg: TMessage);
@@ -10679,6 +11041,19 @@ begin
     WideString('or OS-destructive scripts. If asked, put a short refusal in resposta.') + #13#10 +
     WideString('When KNOWN_FACTS is present: use those dates/sizes/line counts verbatim. ') +
     WideString('NEVER claim you cannot access the open file or its metadata.') + #13#10#13#10;
+  if FComposeIsFix and FFixFromValidation then
+  begin
+    Result := Result +
+      WideString('TASK: fix the source file below so it passes the syntax/compiler check. ') +
+      WideString('Fix EVERY error listed in VALIDATION_ERRORS. Keep the same language, file type, ') +
+      WideString('names, behavior, comments and formatting; change only what the errors require. ') +
+      WideString('resposta must be the WHOLE corrected file (never a diff, never only the changed lines, ') +
+      WideString('no markdown fences, no explanations).') + #13#10 +
+      WideString('FILE_NAME: ') + WideString(ExtractFileName(FFixSourcePath)) + #13#10#13#10 +
+      WideString('VALIDATION_ERRORS:') + #13#10 + WideString(FFixSourceErrors) + #13#10#13#10 +
+      WideString('CURRENT_FILE:') + #13#10 + WideString(FComposeSourceBody);
+    Exit;
+  end;
   if FComposeIsFix then
   begin
     Result := Result +
@@ -10835,7 +11210,7 @@ begin
       Exit;
     end;
   end;
-  FComposeIsFix := UserWantsFixComposedDocument(UserQ) or
+  FComposeIsFix := FFixFromValidation or UserWantsFixComposedDocument(UserQ) or
     ((GLastComposePath <> '') and UserWantsShortComposeFix(UserQ));
   FComposeSourceBody := '';
   FComposeAppendBody := '';
@@ -10844,7 +11219,10 @@ begin
   FComposePipelineWord := False;
   if FComposeIsFix then
   begin
-    Dest := ResolveComposeFixPath(UserQ, GLastComposePath);
+    if FFixFromValidation then
+      Dest := FFixSourcePath
+    else
+      Dest := ResolveComposeFixPath(UserQ, GLastComposePath);
     if Trim(Dest) = '' then
     begin
       FLastReplyBody := TrText('Assistant.Error.ComposeNothingToFix');
@@ -11222,14 +11600,26 @@ end;
 
 procedure TFastFileAssistantCtrl.FinishComposeWithBody(const ABody: string);
 var
-  Body, Err, Saved, Facts, Doc, SrcName, Dump: string;
+  Body, Err, Saved, Facts, Doc, SrcName, Dump, FixPath: string;
+  FixRun: Boolean;
 begin
-  Dump := BuildComposeKnownFactsBlock(Trim(MemoQuestion.Text));
-  Body := StripComposeHostFactsEcho(ExtractComposeAnswerText(ABody), Dump);
-  if ComposeBodyLooksLikeAccessRefusal(Body) then
-    Body := '';
-  EnsureComposeFilteredAppendBody;
-  Facts := BuildOpenFileLocalFactsText(Trim(MemoQuestion.Text));
+  FixRun := FFixFromValidation;
+  FFixFromValidation := False;
+  if FixRun then
+  begin
+    { Source fix: write exactly what the AI returned (no facts block, no summary title). }
+    Body := ExtractComposeAnswerText(ABody);
+    Facts := '';
+  end
+  else
+  begin
+    Dump := BuildComposeKnownFactsBlock(Trim(MemoQuestion.Text));
+    Body := StripComposeHostFactsEcho(ExtractComposeAnswerText(ABody), Dump);
+    if ComposeBodyLooksLikeAccessRefusal(Body) then
+      Body := '';
+    EnsureComposeFilteredAppendBody;
+    Facts := BuildOpenFileLocalFactsText(Trim(MemoQuestion.Text));
+  end;
   if (Trim(Body) = '') and (Trim(Facts) = '') and (Trim(FComposeAppendBody) = '') then
   begin
     FLastReplyBody := TrText('Assistant.Error.ComposeEmpty');
@@ -11249,8 +11639,8 @@ begin
     SrcName := ExtractFileName(ExtractPathFromUserText(Trim(MemoQuestion.Text)));
   if SrcName = '' then
     SrcName := 'arquivo';
-  if (Facts <> '') or FComposePipelineWord or
-     QuestionSignalsSavedRichDocument(Trim(MemoQuestion.Text)) then
+  if (not FixRun) and ((Facts <> '') or FComposePipelineWord or
+     QuestionSignalsSavedRichDocument(Trim(MemoQuestion.Text))) then
   begin
     Doc := TrText('Assistant.Compose.SummaryDocTitle') + ' ' + SrcName + #13#10#13#10;
     if Facts <> '' then
@@ -11283,7 +11673,8 @@ begin
   end;
   Saved := Format(TrText('Assistant.Status.ComposeSavedDetail'),
     [FComposeDestPath]);
-  AppendSiblingComposeWrites(FComposeDestPath, Body, Trim(MemoQuestion.Text), Saved);
+  if not FixRun then
+    AppendSiblingComposeWrites(FComposeDestPath, Body, Trim(MemoQuestion.Text), Saved);
   if IsRichComposeExtension(ExtractFileExt(FComposeDestPath)) then
     Saved := Saved + #13#10#13#10 + TrText('Assistant.Status.ComposeOpenInWord');
   FLastReplyBody := MergeComposeChatParts(Facts, ExtractComposeAnswerText(ABody), Saved);
@@ -11297,6 +11688,7 @@ begin
   AssistantHostNotifyGeneratedFile(FComposeDestPath);
   ShowGeneratedFileNotice(FComposeDestPath);
   AssistantWriteLog('compose: ' + FComposeDestPath);
+  FixPath := FComposeDestPath;
   FComposeDestPath := '';
   FComposeIsFix := False;
   FComposeSourceBody := '';
@@ -11304,6 +11696,13 @@ begin
   FComposeAppendFiltered := False;
   FComposePipelineWord := False;
   FComposeSummarizePhase := False;
+  if FixRun then
+    TThread.ForceQueue(nil,
+      procedure
+      begin
+        FValidateReplyPrefix := TrText('Assistant.FixAi.Revalidated');
+        RunValidateSourcePath(FixPath, False);
+      end);
 end;
 
 function TFastFileAssistantCtrl.TryHandleLocalSendQuery: Boolean;
@@ -11394,6 +11793,7 @@ var
   UserQ, BindErr: string;
 begin
   if FBusy then Exit;
+  FFixFromValidation := False;
   UserQ := Trim(MemoQuestion.Text);
   if UserQ = '' then
   begin
@@ -11406,6 +11806,17 @@ begin
     Exit;
   RememberQuestion(UserQ);
   PipelineRememberUser(UserQ);
+  if IsSearchCommand(UserQ) then
+  begin
+    FHasPlan := False;
+    BtnExecute.Enabled := False;
+    FLastReplyBody := Format(TrText('SearchCmd.LaunchQueued'), [UserQ]);
+    MemoReply.Lines.Text := FLastReplyBody;
+    PipelineRememberAssistant(FLastReplyBody);
+    SetStatusCaption(TrText('Assistant.ReplyReady'));
+    AssistantHostApplyFilter(UserQ, True);
+    Exit;
+  end;
   if UserQuestionIsOutOfScopeOrHarmful(UserQ) then
   begin
     FLastReplyBody := TrText('Assistant.Error.OutOfScopeHarmful');
@@ -11415,7 +11826,7 @@ begin
     BtnExecute.Enabled := False;
     Exit;
   end;
-  if Assigned(BtnAgentMode) and BtnAgentMode.Down and AgentBridgeAvailable then
+  if Assigned(BtnAgentMode) and BtnAgentMode.Down and AgentBridgeAvailable and not FFromAgent then
   begin
     StartAgentTask(UserQ);
     Exit;
@@ -11504,6 +11915,7 @@ begin
     FComposeAwaitingBody := False;
     FComposeDestPath := '';
     FComposeIsFix := False;
+    FFixFromValidation := False;
     FComposeSourceBody := '';
     FComposeAppendBody := '';
     FComposeAppendFiltered := False;
@@ -11519,6 +11931,7 @@ begin
     FComposeAwaitingBody := False;
     if not Ok then
     begin
+      FFixFromValidation := False;
       EndAssistantWait;
       SetStatusCaption(TrText('Assistant.Error.ComposeGatewayEmpty'));
       if Err <> '' then
@@ -11875,6 +12288,33 @@ begin
   GAssistantCtrl.RequestInputFocus;
 end;
 
+procedure AssistantCopyRecentQuestions(ADest: TStrings);
+begin
+  if not Assigned(ADest) then Exit;
+  ADest.Clear;
+  if Assigned(GAssistantCtrl) and Assigned(GAssistantCtrl.FRecentQuestions) then
+    ADest.Assign(GAssistantCtrl.FRecentQuestions);
+end;
+
+procedure AssistantRemoveRecentQuestion(const AText: string);
+begin
+  if Assigned(GAssistantCtrl) then
+    GAssistantCtrl.AssistantMruRemove(nil, AText);
+end;
+
+procedure AssistantClearRecentQuestions;
+begin
+  if Assigned(GAssistantCtrl) then
+    GAssistantCtrl.AssistantMruClearAll(nil);
+end;
+
+procedure FastFileAssistantShowCapabilities;
+begin
+  ShowFastFileAssistantPanel;
+  if Assigned(GAssistantCtrl) then
+    GAssistantCtrl.ShowCapabilities;
+end;
+
 procedure AssistantSubmitQuestion;
 begin
   if not Assigned(GAssistantCtrl) then Exit;
@@ -12014,6 +12454,11 @@ var
 begin
   Result := Assigned(GAssistantHostPanel) and GAssistantHostPanel.Visible;
   if not Result then Exit;
+  if Assigned(GAssistantHostPanel.Parent) and not GAssistantHostPanel.Parent.Visible then
+  begin
+    Result := False;
+    Exit;
+  end;
   HostForm := HostFormOf(GAssistantHostPanel);
   if Assigned(HostForm) and (HostForm <> Application.MainForm) then
     Result := HostForm.Visible;

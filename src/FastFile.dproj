@@ -26,14 +26,20 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <DCC_DcuOutput>Dcu\$(Platform)\</DCC_DcuOutput>
         <DCC_ExeOutput>Build\$(Platform)\</DCC_ExeOutput>
-        <DCC_PreBuildEvent>if not exist &quot;$(PROJECTDIR)Build\$(Platform)&quot; mkdir &quot;$(PROJECTDIR)Build\$(Platform)&quot;if not exist &quot;$(PROJECTDIR)Dcu\$(Platform)&quot; mkdir &quot;$(PROJECTDIR)Dcu\$(Platform)&quot;</DCC_PreBuildEvent>
-        <DCC_PostBuildEvent>if not exist &quot;$(PROJECTDIR)Build\$(Platform)\Skins&quot; mkdir &quot;$(PROJECTDIR)Build\$(Platform)\Skins&quot;if exist &quot;$(PROJECTDIR)Skins&quot; xcopy /E /I /Y /Q &quot;$(PROJECTDIR)Skins\*.*&quot; &quot;$(PROJECTDIR)Build\$(Platform)\Skins\&quot;if exist &quot;$(PROJECTDIR)Build\ConsumerAI.exe&quot; copy /y &quot;$(PROJECTDIR)Build\ConsumerAI.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;if exist &quot;$(PROJECTDIR)Build\ConsumerRAG.exe&quot; copy /y &quot;$(PROJECTDIR)Build\ConsumerRAG.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;if exist &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerAI.exe&quot; copy /y &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerAI.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;if exist &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerRAG.exe&quot; copy /y &quot;$(PROJECTDIR)data-lake-duckdb-main\dist\ConsumerRAG.exe&quot; &quot;$(PROJECTDIR)Build\$(Platform)\&quot;</DCC_PostBuildEvent>
+        <PreBuildEvent><![CDATA[if not exist "$(MSBuildProjectDirectory)\Build\$(Platform)" mkdir "$(MSBuildProjectDirectory)\Build\$(Platform)"if not exist "$(MSBuildProjectDirectory)\Dcu\$(Platform)" mkdir "$(MSBuildProjectDirectory)\Dcu\$(Platform)"
+$(PreBuildEvent)]]></PreBuildEvent>
+        <PostBuildEvent><![CDATA[if not exist "$(MSBuildProjectDirectory)\Build\$(Platform)\Skins" mkdir "$(MSBuildProjectDirectory)\Build\$(Platform)\Skins"if exist "$(MSBuildProjectDirectory)\Skins" xcopy /E /I /Y /Q "$(MSBuildProjectDirectory)\Skins\*.*" "$(MSBuildProjectDirectory)\Build\$(Platform)\Skins"if exist "$(MSBuildProjectDirectory)\..\Images\Logo\package_highres_mpanlryw\color1\icon\color1_icon_transparent_background.png" copy /y "$(MSBuildProjectDirectory)\..\Images\Logo\package_highres_mpanlryw\color1\icon\color1_icon_transparent_background.png" "$(MSBuildProjectDirectory)\Build\$(Platform)\"if exist "$(MSBuildProjectDirectory)\Build\ConsumerAI.exe" copy /y "$(MSBuildProjectDirectory)\Build\ConsumerAI.exe" "$(MSBuildProjectDirectory)\Build\$(Platform)\"if exist "$(MSBuildProjectDirectory)\Build\ConsumerRAG.exe" copy /y "$(MSBuildProjectDirectory)\Build\ConsumerRAG.exe" "$(MSBuildProjectDirectory)\Build\$(Platform)\"if exist "$(MSBuildProjectDirectory)\data-lake-duckdb-main\dist\ConsumerAI.exe" copy /y "$(MSBuildProjectDirectory)\data-lake-duckdb-main\dist\ConsumerAI.exe" "$(MSBuildProjectDirectory)\Build\$(Platform)\"if exist "$(MSBuildProjectDirectory)\data-lake-duckdb-main\dist\ConsumerRAG.exe" copy /y "$(MSBuildProjectDirectory)\data-lake-duckdb-main\dist\ConsumerRAG.exe" "$(MSBuildProjectDirectory)\Build\$(Platform)\"
+$(PostBuildEvent)]]></PostBuildEvent>
         <DCC_UnitSearchPath>FastMM4-master;FastCode.Libraries-0.6.4;..\..\acnt_reg;..\..\Findfile;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>FastFile</SanitizedProjectName>
         <UsePackages>false</UsePackages>
         <VerInfo_Locale>1046</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.2.0;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.2.0;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
+        <VerInfo_MajorVer>3</VerInfo_MajorVer>
+        <VerInfo_MinorVer>0</VerInfo_MinorVer>
+        <VerInfo_Release>5</VerInfo_Release>
+        <VerInfo_Build>244</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.5.244;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.5.244;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Icon_MainIcon>FastFile.ico</Icon_MainIcon>
     </PropertyGroup>
@@ -90,9 +96,11 @@
         <DCCReference Include="uTemporaryFileStream.pas"/>
         <DCCReference Include="uZeroScanBlockIndex.pas"/>
         <DCCReference Include="uLineIndexScan.pas"/>
+        <DCCReference Include="uFastLineEdit.pas"/>
         <DCCReference Include="uSmoothLoading.pas">
             <Form>frmSmoothLoadingForm</Form>
         </DCCReference>
+        <DCCReference Include="uFfOverlayButton.pas"/>
         <DCCReference Include="uDeltaEditor.pas">
             <Form>frmDeltaEditor</Form>
         </DCCReference>
@@ -112,6 +120,11 @@
         <DCCReference Include="uEmEditorFeatures.pas"/>
         <DCCReference Include="uAnonymize.pas"/>
         <DCCReference Include="uAnonymizeDialog.pas"/>
+        <DCCReference Include="uLineExtract.pas"/>
+        <DCCReference Include="uLinesChangePreview.pas"/>
+        <DCCReference Include="uScriptRunPreview.pas"/>
+        <DCCReference Include="uSourceValidators.pas"/>
+        <DCCReference Include="uSourceCodeHelpDlg.pas"/>
         <DCCReference Include="uAgentPrefs.pas"/>
         <DCCReference Include="uAgentProtocol.pas"/>
         <DCCReference Include="uAgentTools.pas"/>
@@ -120,9 +133,17 @@
         <DCCReference Include="uAgentSql.pas"/>
         <DCCReference Include="uExportDoneDlg.pas"/>
         <DCCReference Include="uAgentBridge.pas"/>
+        <DCCReference Include="uAICapabilitiesDlg.pas"/>
         <DCCReference Include="uAgentLoop.pas"/>
+        <DCCReference Include="uAgentTargets.pas"/>
+        <DCCReference Include="uAgentDescribe.pas"/>
         <DCCReference Include="uAgentActions.pas"/>
         <DCCReference Include="uAgentWorkspace.pas"/>
+        <DCCReference Include="uAgentHubModel.pas"/>
+        <DCCReference Include="uAgentDiscovery.pas"/>
+        <DCCReference Include="uAgentHub.pas"/>
+        <DCCReference Include="uAgentHubWorkspace.pas"/>
+        <DCCReference Include="uFolderPickDlg.pas"/>
         <DCCReference Include="uFastFileAssistantHost.pas"/>
         <DCCReference Include="uFastFileAssistantMap.pas"/>
         <DCCReference Include="uFastFileAssistantRAG.pas"/>
@@ -142,6 +163,9 @@
         <DCCReference Include="uFilterBar.pas"/>
         <DCCReference Include="uFindOccurrencesBar.pas"/>
         <DCCReference Include="uBookmarkBar.pas"/>
+        <DCCReference Include="uSearchCommands.pas"/>
+        <DCCReference Include="uDelimOrder.pas"/>
+        <DCCReference Include="uSearchCommandDialog.pas"/>
         <DCCReference Include="uMruFind.pas"/>
         <DCCReference Include="uUserPrefs.pas"/>
         <DCCReference Include="uPrefsDialog.pas"/>

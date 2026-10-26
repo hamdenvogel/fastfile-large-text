@@ -181,6 +181,7 @@ object FormPopupMruList: TFormPopupMruList
     AddedTitle.Font.Height = -13
     AddedTitle.Font.Name = 'Tahoma'
     AddedTitle.Font.Style = []
+    AllowExtBorders = False
     SkinData.SkinSection = 'FORM'
     TitleButtons = <>
     Left = 300

@@ -504,6 +504,13 @@ begin
     'eliminar linea|supprimer la ligne|zeile loeschen|elimina riga|usun linie|' +
     'sterge linia|sor torlese|smazat radek|last line|ultima linea|derniere ligne',
     'line_no (0=last)');
+  AddCap('anonymize_lines', 'EDIT', '',
+    'anonymize lines|descaracterizar|descaracterizar linhas|anonimizar|anonymise lines|' +
+    'enmascarar lineas|anonymiser lignes|zeilen anonymisieren|anonimizza righe|' +
+    'anonimizuj linie|anonimizare linii|sorok anonimizalasa|anonymizovat radky|' +
+    'mask lines|redact lines|mascarar dados',
+    'filter_text=N-M');
+  CapAnti('exportar|export lines|exportar linhas|nuevo archivo|new file|nouveau fichier');
   AddCap('insert_multiple_lines', 'EDIT', 'Ctrl+Shift+N',
     'ctrl+shift+n|multiplas linhas|multiple lines|inserir varias linhas|varias linhas|colar varias linhas',
     '');
@@ -530,8 +537,8 @@ begin
     'aplicar filtro|filtrar linhas|filter lines|grep linhas|quero filtrar|filtrar o arquivo|' +
     'filtrar arquivo|mostrar so linhas|so as linhas com|grep no arquivo|filtrar por|' +
     'filtrar lineas|filtrer les lignes|zeilen filtern|filtra righe|filtruj linie|' +
-    'filtreaza linii|filtrovat radky',
-    'filter_text');
+    'filtreaza linii|filtrovat radky|glob|grep|buscar arquivos por curinga|find files by wildcard',
+    'filter_text (plain text or internal glob/grep command)');
   AddCap('clear_filter', 'FILTER', 'Esc',
     'limpar filtro|clear filter|remover filtro|tirar filtro|desativar filtro|' +
     'fechar filtro|desligar filtro|apagar filtro',
@@ -732,6 +739,9 @@ begin
     'csv mod|oszlopok|csv nezet|' +
     'rezim csv|sloupce csv|zobrazeni csv',
     '');
+  CapAnti('ordenar coluna|ordenar por coluna|sort column|sort by column|' +
+    'trier la colonne|spalte sortieren|ordina colonna|sortuj kolumne|' +
+    'sorteaza coloana|oszlop rendez|radit sloupec|limpar ordenacao|clear column sort');
   AddCap('toggle_csv_header', 'VIEW', '',
     'cabecalho csv|csv header|header as data|mostrar cabecalho como dados|' +
     'csv show header|linha de cabecalho csv|header row|' +
@@ -743,6 +753,19 @@ begin
     'antet csv|header ca date|' +
     'csv fejlec|fejlec mint adat|' +
     'csv hlavicka|hlavicka jako data',
+    '');
+  AddCap('sort_csv_column', 'VIEW', '',
+    'ordenar coluna|ordenar por coluna|ordenar a coluna|sort column|sort by column|sort the column|' +
+    'ordenar columna|ordenar la columna|trier la colonne|trier par colonne|' +
+    'spalte sortieren|nach spalte sortieren|ordina colonna|ordina per colonna|' +
+    'sortuj kolumne|sortuj wedlug kolumny|sorteaza coloana|oszlop rendezese|' +
+    'radit sloupec|seradit sloupec',
+    'column index or header name; descending when asked');
+  AddCap('clear_csv_sort', 'VIEW', '',
+    'limpar ordenacao|remover ordenacao da coluna|clear column sort|remove column sort|' +
+    'quitar ordenacion|borrar ordenacion|effacer le tri|tri de colonne|' +
+    'sortierung aufheben|rimuovi ordinamento|usun sortowanie|' +
+    'sterge sortarea|rendezes torlese|zrusit razeni',
     '');
   AddCap('toggle_fullscreen', 'VIEW', 'F11',
     'tela cheia|full screen|fullscreen|f11|ecra completo|maximizar vista|' +
@@ -1024,6 +1047,7 @@ begin
     '');
   AddCap('save_session', 'SESSION', 'Ctrl+Alt+S',
     'ctrl+alt+s|save session|guardar sessao|salvar sessao|gravar sessao|store session|' +
+    'gravar filtro na sessao|save filter in session|guardar codificacao na sessao|' +
     'guardar sesion|salvar sesion|almacenar sesion|' +
     'enregistrer session|sauvegarder session|sauver session|' +
     'sitzung speichern|session speichern|' +
@@ -1334,9 +1358,27 @@ begin
   EnsureMap;
   Result :=
     'FASTFILE CAPABILITY MAP: user words -> one action id; the app EXECUTES it.' + #13#10 +
-    'Never invent action ids. Paths go in params.path. Line range (entre N a M) = export_lines, never goto_line.' + #13#10 +
+    'Never invent action ids. Paths go in params.path. ' +
+    'A line range is export_lines only when the user wants a new file. ' +
+    'Anonymize or mask that range is anonymize_lines (filter_text=N-M), never edit_line and never goto_line.' + #13#10 +
     'Conflicts: "resumo em Word" / "gerar programa .py" = compose_document; ' +
-    '"rodar python nas linhas" = show_script_engine; "pra que serve" = consumer_rag.' + #13#10;
+    '"rodar python nas linhas" = show_script_engine; "pra que serve" = consumer_rag.' + #13#10 +
+    'Internal glob/grep: use apply_filter with params.filter_text containing the complete command. ' +
+    'Bare grep or glob opens the interactive command modal with AI help and suggestions, without scanning. ' +
+    'To open it use apply_filter with params.filter_text="grep" or "glob". ' +
+    'Find, Filter and Bookmarks each have grep and glob buttons. AI suggestions require explicit Run command. ' +
+    'File operand is optional: grep "casa" uses the main filename field before selected sources; ' +
+    'grep "casa" "C:\logs\file.txt" validates and opens the user-specified file before searching. ' +
+    'glob accepts the same optional file operand. Never invent file paths. ' +
+    'GB files use bounded block reading; lines over 16,777,216 decoded characters fail explicitly. ' +
+    'The scan stops immediately at the hit limit, reporting partial results. ' +
+    'glob "*.csv" finds paths in the agent-selected sources, not content. ' +
+    'grep -i -E "error|failure" --glob "**\*.log" searches content in selected log files. ' +
+    'grep defaults to literal case-sensitive text; -i ignores case, -E enables PCRE, -w whole words, -v inverts. ' +
+    '--mark adds bookmarks in the OPEN file only; --bookmarks searches only its bookmarked lines. ' +
+    '--limit 1..10000 bounds results (default 200); partial results are not exact totals. ' +
+    'No shell execution or invented paths. Translate intent from all UI languages, preserve search content ' +
+    'and command syntax, and explain in the UI language. Do not strip quotes or flags from commands.' + #13#10;
   LastCat := '';
   for i := 0 to High(GCaps) do
   begin

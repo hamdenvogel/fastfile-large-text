@@ -4,10 +4,51 @@
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 
-**Data:** 8 de outubro de 2026  
+**Data:** 23 de outubro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64) — editor de arquivos de texto enormes (GB+)  
-**Versão atual:** **3.0.5.232** — agente de IA sobre ficheiros (SQL / linguagem natural, propostas revistas antes de gravar), anonimizar dados, detalhe de eventos do histórico, PPI personalizado (pós-**3.0.5.225** / **★ FastFile 3.0.5.210**)  
+**Versão atual:** **3.0.5.243** — glob/grep com ajuda IA no modal, arquivo opcional e busca por blocos em GB+, mantendo diagnóstico somente leitura, edição segura e índice paralelo Win64.  
 **Objetivo deste documento:** consolidar sugestões técnicas, de UX e de negócio para tornar o FastFile um produto comercialmente competitivo.
+
+---
+
+## ★ Actualização 3.0.5.243 (23/10/2026)
+
+Entrega incremental após **3.0.5.239**, sem repetir os recursos já registrados:
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.240** | Comandos internos `glob` (nomes/caminhos) e `grep` (conteúdo literal/PCRE), modal paginado e cancelável, integração com marcadores; não executa shell. |
+| **3.0.5.241** | IA dentro do modal: pedido livre, explicação, comando editável, até três sugestões; só executa após revisão e clique. Exemplos/manuais funcionam sem IA. |
+| **3.0.5.242** | `grep`/`glob` sem argumentos abrem exemplos; seis botões nas três barras; acesso local pelo Assistente/agente e suporte somente leitura no diagnóstico; 14 idiomas. |
+| **3.0.5.243** | Arquivo opcional usa o campo principal; caminho explícito é validado/carregado antes da busca. Leitura por blocos, cancelamento e parada imediata no limite de resultados. |
+
+**Valor comercial:** reduz a necessidade de dominar sintaxe sem perder o controle
+sobre a execução; combina pesquisa local de dados grandes com assistência IA
+opcional. Somente pedido e comando atual são enviados para gerar sugestões;
+conteúdo/lista de arquivos não são enviados por esse recurso. Ferramentas do
+modelo/diagnóstico continuam restritas às fontes autorizadas.
+
+**Evidência e limites:** regressões com **80 GiB esparsos**, incluindo abertura
+pela interface em Instant Open, glob, grep com limite e cancelamento; não é
+benchmark de leitura integral. Memória limitada por blocos, resultados e linhas
+de até **16.777.216 caracteres decodificados** (erro explícito acima disso).
+A política de abertura existente é preservada; modo indexado pode fazer uma
+varredura completa antes do comando. Validação integral Win64, ajuda F1 e
+metadados sincronizados. Guia: [README técnico](README.md#internal-glob--grep-commands).
+
+## ★ Actualização 3.0.5.239 (outubro/2026)
+
+Entrega incremental após **3.0.5.232** (trilhos internos **.233–.239**):
+
+- **Diagnóstico IA (Ctrl+Alt+U):** revisão somente leitura de ficheiros e pastas, com especialistas (inventário, estrutura, conteúdo, SQL, privacidade, ações). As edições continuam no Agente IA, com Aceitar obrigatório.
+- **Edição segura em ficheiros grandes:** inserir / substituir / apagar a partir de 32 MB pelo índice já existente (no lugar, deslocar ou reescrever), diário `.ffj` se a aplicação parar a meio, e lista antes/depois só das linhas que mudam.
+- **Abertura mais rápida no Win64:** índice de linhas em paralelo a partir de 128 MB, com memória limitada (mapa de bits por bloco).
+- **Extrair e prévia Python:** no editor de linha, extrair dígitos, e-mails, datas, colunas ou regex; a macro Python mostra uma amostra antes da execução completa.
+- **Código-fonte:** JSON / HTML / SQL verificados no próprio FastFile; Java, Go e C# com o compilador já instalado. Ajuda «Código-fonte com IA» e lista «O que posso fazer?» no Assistente, no Agente e no Diagnóstico.
+- **Agente mais preciso:** perfil de cada ficheiro sem o ler por inteiro; o pedido indica quais ficheiros (nome, posição, tipo) nos 14 idiomas; macro Python por linha sem alterar o original.
+- **F1:** bloco **`FF_HELP.RecentFeaturesBlock3`** e atalhos Ctrl+Alt+G / U / E / D.
+
+**Valor comercial:** diagnóstico de pastas de produção sem risco de gravação, edição de GB com recuperação após falha, e validação de código gerado pela IA antes de o entregar.
 
 ---
 

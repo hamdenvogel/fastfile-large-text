@@ -6,7 +6,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, StdCtrls,
-  Math, Buttons, sPanel, sLabel, sButton, uFastFileScale;
+  Math, Buttons, sPanel, sLabel, sButton, uFastFileScale, uSearchCommands;
 
 type
   TBookmarkJumpEvent = procedure(Sender: TObject; AIndex: Integer) of object;
@@ -29,8 +29,10 @@ type
     FBtnNext: TsButton;
     FBtnRemove: TsButton;
     FBtnClear: TsButton;
+    FBtnClose: TsButton;
     FBtnExport: TsButton;
     FBtnCopy: TsButton;
+    FBtnGrep, FBtnGlob: TsButton;
     FBtnHide: TsButton;
     FBtnFloat: TsButton;
     FBtnPagePrev: TsButton;
@@ -43,6 +45,7 @@ type
     FOnClear: TNotifyEvent;
     FOnExport: TNotifyEvent;
     FOnCopy: TNotifyEvent;
+    FOnCommand: TSearchCommandOpenEvent;
     FOnHide: TNotifyEvent;
     FOnFloat: TNotifyEvent;
     FOnTearOff: TNotifyEvent;
@@ -50,6 +53,7 @@ type
     FOnListPagePrev: TNotifyEvent;
     FOnListPageNext: TNotifyEvent;
     FFloating: Boolean;
+    FUserHeight: Integer;
     FHeaderDown: Boolean;
     FHeaderPt: TPoint;
     procedure BuildChrome;
@@ -64,6 +68,7 @@ type
     procedure BtnClearClick(Sender: TObject);
     procedure BtnExportClick(Sender: TObject);
     procedure BtnCopyClick(Sender: TObject);
+    procedure BtnCommandClick(Sender: TObject);
     procedure BtnHideClick(Sender: TObject);
     procedure BtnFloatClick(Sender: TObject);
     procedure BtnPagePrevClick(Sender: TObject);
@@ -89,6 +94,7 @@ type
     procedure SetNavEnabled(APrevEnabled, ANextEnabled: Boolean);
     procedure ClearList;
     function PreferredHeight: Integer;
+    property UserHeight: Integer read FUserHeight write FUserHeight;
     function SelectedIndexAbsolute: Integer;
     procedure SetListPage(ALines: TStrings; APageBase, APageIndex, APageCount,
       ATotal: Integer; ACanPagePrev, ACanPageNext: Boolean);
@@ -98,6 +104,7 @@ type
     property OnClear: TNotifyEvent read FOnClear write FOnClear;
     property OnExport: TNotifyEvent read FOnExport write FOnExport;
     property OnCopy: TNotifyEvent read FOnCopy write FOnCopy;
+    property OnCommand: TSearchCommandOpenEvent read FOnCommand write FOnCommand;
     property OnHide: TNotifyEvent read FOnHide write FOnHide;
     property OnFloat: TNotifyEvent read FOnFloat write FOnFloat;
     property OnTearOff: TNotifyEvent read FOnTearOff write FOnTearOff;
@@ -156,6 +163,7 @@ begin
   inherited Create(AOwner);
   FBuilt := False;
   FFloating := False;
+  FUserHeight := 0;
   FHeaderDown := False;
   FPageBase := 0;
   Align := alTop;
@@ -337,6 +345,11 @@ begin
   FBtnClear.OnClick := BtnClearClick;
   StyleBtn(FBtnClear, UiFont);
 
+  FBtnClose := TsButton.Create(Self);
+  FBtnClose.Parent := FBtnRow;
+  FBtnClose.OnClick := BtnHideClick;
+  StyleBtn(FBtnClose, UiFont);
+
   FBtnExport := TsButton.Create(Self);
   FBtnExport.Parent := FBtnRow;
   FBtnExport.OnClick := BtnExportClick;
@@ -346,6 +359,17 @@ begin
   FBtnCopy.Parent := FBtnRow;
   FBtnCopy.OnClick := BtnCopyClick;
   StyleBtn(FBtnCopy, UiFont);
+
+  FBtnGrep := TsButton.Create(Self);
+  FBtnGrep.Name := 'SearchGrep';
+  FBtnGrep.Parent := FBtnRow;
+  FBtnGrep.OnClick := BtnCommandClick;
+  StyleBtn(FBtnGrep, UiFont);
+  FBtnGlob := TsButton.Create(Self);
+  FBtnGlob.Name := 'SearchGlob';
+  FBtnGlob.Parent := FBtnRow;
+  FBtnGlob.OnClick := BtnCommandClick;
+  StyleBtn(FBtnGlob, UiFont);
 
   FListHost := TsPanel.Create(Self);
   FListHost.Parent := FBody;
@@ -423,9 +447,9 @@ end;
 
 procedure TFastFileBookmarkBar.LayoutChrome;
 var
-  Y, X, Gap, Bw, BodyW, ListH: Integer;
-  Btns: array[0..5] of TsButton;
-  Caps: array[0..5] of string;
+  Y, X, Gap, Bw, BodyW, ListH, ButtonTop: Integer;
+  Btns: array[0..8] of TsButton;
+  Caps: array[0..8] of string;
   I: Integer;
   MeasureBmp: TBitmap;
 begin
@@ -442,10 +466,14 @@ begin
   Btns[1] := FBtnNext; Caps[1] := FBtnNext.Caption;
   Btns[2] := FBtnRemove; Caps[2] := FBtnRemove.Caption;
   Btns[3] := FBtnClear; Caps[3] := FBtnClear.Caption;
-  Btns[4] := FBtnExport; Caps[4] := FBtnExport.Caption;
-  Btns[5] := FBtnCopy; Caps[5] := FBtnCopy.Caption;
+  Btns[4] := FBtnClose; Caps[4] := FBtnClose.Caption;
+  Btns[5] := FBtnExport; Caps[5] := FBtnExport.Caption;
+  Btns[6] := FBtnCopy; Caps[6] := FBtnCopy.Caption;
+  Btns[7] := FBtnGrep; Caps[7] := FBtnGrep.Caption;
+  Btns[8] := FBtnGlob; Caps[8] := FBtnGlob.Caption;
   Gap := FfPx(6);
   X := 0;
+  ButtonTop := FfPx(2);
   MeasureBmp := TBitmap.Create;
   try
     MeasureBmp.SetSize(1, 1);
@@ -455,15 +483,23 @@ begin
       MeasureBmp.Canvas.Font.Assign(Btns[I].Font);
       Bw := MeasureBmp.Canvas.TextWidth(Caps[I]) + FfPx(22);
       if Bw < FfPx(64) then Bw := FfPx(64);
-      if X + Bw > BodyW then
-        Bw := Max(FfPx(52), (BodyW - X - Gap) div Max(1, High(Btns) - I + 1));
-      Btns[I].SetBounds(X, 2, Bw, FfPx(BOOKMARK_BTN_H));
+      if (X > 0) and (X + Bw > BodyW) then
+      begin
+        X := 0;
+        Inc(ButtonTop, FfPx(BOOKMARK_BTN_H) + Gap);
+      end;
+      Btns[I].SetBounds(X, ButtonTop, Bw, FfPx(BOOKMARK_BTN_H));
       Inc(X, Bw + Gap);
     end;
   finally
     MeasureBmp.Free;
   end;
 
+  FBtnRow.Height := ButtonTop + FfPx(BOOKMARK_BTN_H + 4);
+  Y := FBtnRow.Top + FBtnRow.Height + FfPx(6);
+  Constraints.MinHeight := Max(FfPx(140),
+    Y + FfPx(BOOKMARK_LIST_MIN_H) + FBody.Padding.Top + FBody.Padding.Bottom + FfPx(16));
+  Constraints.MaxHeight := 0;
   ListH := FBody.ClientHeight - Y - FBody.Padding.Bottom;
   if ListH < FfPx(BOOKMARK_LIST_MIN_H) then
     ListH := FfPx(BOOKMARK_LIST_MIN_H);
@@ -479,6 +515,9 @@ end;
 procedure TFastFileBookmarkBar.Resize;
 begin
   inherited Resize;
+  if FBuilt and (not FFloating) and (Height >= Constraints.MinHeight) and
+     (Constraints.MinHeight > 0) then
+    FUserHeight := Height;
   if FBuilt then
     LayoutChrome;
 end;
@@ -534,13 +573,21 @@ begin
   FBtnNext.Caption := TrText('BookmarkBar.Next');
   FBtnRemove.Caption := TrText('BookmarkBar.Remove');
   FBtnClear.Caption := TrText('BookmarkBar.ClearAll');
+  if Assigned(FBtnClose) then
+    FBtnClose.Caption := TrText('Close');
   FBtnExport.Caption := TrText('FilterBar.Export');
   FBtnCopy.Caption := TrText('Assistant.CopyReply');
+  FBtnGrep.Caption := 'grep';
+  FBtnGlob.Caption := 'glob';
+  FBtnGrep.Hint := Format(TrText('SearchCmd.LaunchHint'), ['grep']);
+  FBtnGlob.Hint := Format(TrText('SearchCmd.LaunchHint'), ['glob']);
   FBtnHide.Caption := #$00D7;
   FBtnPrev.Hint := TrText('Pr&evious bookmark');
   FBtnNext.Hint := TrText('&Next bookmark');
   FBtnRemove.Hint := TrText('BookmarkBar.RemoveHint');
   FBtnClear.Hint := TrText('Clear a&ll bookmarks');
+  if Assigned(FBtnClose) then
+    FBtnClose.Hint := TrText('BookmarkBar.CloseHint');
   FBtnExport.Hint := TrText('BookmarkBar.ExportHint');
   FBtnCopy.Hint := TrText('BookmarkBar.CopyHint');
   FBtnHide.Hint := TrText('Close');
@@ -548,6 +595,13 @@ begin
   FBtnPageNext.Hint := TrText('BookmarkBar.PageNextHint');
   SyncFloatAction;
   LayoutChrome;
+end;
+
+procedure TFastFileBookmarkBar.BtnCommandClick(Sender: TObject);
+begin
+  if not Assigned(FOnCommand) then Exit;
+  if Sender = FBtnGlob then FOnCommand(Self, 'glob')
+  else FOnCommand(Self, 'grep');
 end;
 
 procedure TFastFileBookmarkBar.SetStatus(const AStatusText: string; AHasItems: Boolean);

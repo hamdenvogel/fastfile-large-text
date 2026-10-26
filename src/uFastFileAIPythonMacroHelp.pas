@@ -27,25 +27,54 @@ implementation
 
 uses
   SysUtils, Windows, Messages, Forms, Controls, Dialogs, ExtCtrls, Graphics,
-  Menus, Clipbrd,
-  UnConsts, uPosBMH, uFastFileAIClient, uFastFileAIScreenHelp, uI18n, uTextEncoding;
+  Menus, Clipbrd, Math, Types,
+  UnConsts, uPosBMH, uFastFileAIClient, uFastFileAIScreenHelp, uI18n, uTextEncoding,
+  uFastFilePaths, uUserPrefs, uMruFind, UnitPopupMruList, uFastFileScale, uSmoothLoading;
 
 const
   WM_FF_PYAI_RESET_BUSY = WM_USER + 429;
   WM_FF_PYAI_FOCUS_NOTE = WM_USER + 430;
+  PYAI_RECENT_FILE = 'PyMacroAIRecent.txt';
+  PYAI_CLR_HEADER = $00FAF3EC;
+  PYAI_CLR_ACCENT = $00703C10;
+  PYAI_CLR_CODEBG = $00FBFBFB;
+  PYAI_UNDO_MAX = 100;
+  PYAI_TYPING_MERGE_MS = 1000;
 
 type
+  TPyAiUndoAction = (pyuTyping, pyuMru, pyuResponse, pyuPaste);
+
+  TPyAiUndoState = record
+    Action: TPyAiUndoAction;
+    Note: string;
+    NoteSel: Integer;
+    Resp: string;
+    Prepared: string;
+    UserNote: string;
+    HasEditor: Boolean;
+    Editor: string;
+    EditorModified: Boolean;
+  end;
+
   TfrmAIPythonMacro = class(TForm)
     PnlTop: TPanel;
-    MemoScope: TMemo;
+    PnlHeader: TPanel;
+    LblTitle: TLabel;
+    LblScope: TLabel;
     LblCtx: TLabel;
     MemoCtx: TMemo;
+    LblNoteTitle: TLabel;
     LblNote: TLabel;
     MemoNote: TMemo;
+    BtnNoteMru: TButton;
     BtnSend: TButton;
     BtnPaste: TButton;
+    BtnApplyClose: TButton;
     BtnCopy: TButton;
+    BtnUndo: TButton;
+    BtnRedo: TButton;
     BtnClose: TButton;
+    LblResp: TLabel;
     MemoResp: TMemo;
     LblStatus: TLabel;
     PnlBtns: TPanel;
@@ -60,6 +89,45 @@ type
     FBusy: Boolean;
     FLastPrepared: string;
     FLastUserNote: string;
+    FRecent: TStringList;
+    FUndo: TArray<TPyAiUndoState>;
+    FRedo: TArray<TPyAiUndoState>;
+    FRestoring: Boolean;
+    FNoteShadow: string;
+    FNoteShadowSel: Integer;
+    FLastTypingTick: Cardinal;
+    FSendState: TPyAiUndoState;
+    FWaitTimer: TTimer;
+    FWaitStart: Cardinal;
+    FThread: TThread;
+    FThreadAlive: Boolean;
+    FIgnoreReply: Boolean;
+    procedure StartAIWait;
+    procedure StopAIWait;
+    procedure WaitTimerTick(Sender: TObject);
+    procedure CancelAIWait;
+    function CaptureState(AAction: TPyAiUndoAction; AWithEditor: Boolean): TPyAiUndoState;
+    procedure RestoreState(const AState: TPyAiUndoState);
+    procedure PushUndo(const AState: TPyAiUndoState);
+    procedure DoUndo;
+    procedure DoRedo;
+    procedure UpdateUndoButtons;
+    procedure SyncNoteShadow;
+    function UndoActionText(AAction: TPyAiUndoAction): string;
+    procedure MemoNoteChange(Sender: TObject);
+    procedure BtnUndoClick(Sender: TObject);
+    procedure BtnRedoClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
+    procedure LoadRecent;
+    procedure SaveRecent;
+    procedure RememberRequest(const S: string);
+    procedure NoteMruClick(Sender: TObject);
+    procedure NoteMruPick(Sender: TObject; const AValue: string; AIndex: Integer);
+    procedure NoteMruRemove(Sender: TObject; const AValue: string);
+    procedure NoteMruClearAll(Sender: TObject);
+    function MakeSectionLabel(const ACaption: string): TLabel;
+    function ButtonWidthFor(AButton: TButton): Integer;
     procedure BuildControlsForm;
     procedure LayoutTopStack;
     procedure RecalcTopPanelHeight;
@@ -67,6 +135,8 @@ type
     procedure BtnCloseClick(Sender: TObject);
     procedure BtnSendClick(Sender: TObject);
     procedure BtnPasteClick(Sender: TObject);
+    procedure BtnApplyCloseClick(Sender: TObject);
+    function ApplyToEditor: Boolean;
     procedure BtnCopyClick(Sender: TObject);
     procedure PopCopyClick(Sender: TObject);
     procedure PopSelectAllClick(Sender: TObject);
@@ -80,9 +150,12 @@ type
     procedure ApplyFinished(const Ok: Boolean; const Ans: WideString; const Err: string);
     procedure AdjustStatusLabelHeight;
     procedure AdjustNoteLabelHeight;
+    function TextLineHeight: Integer;
     function ExtractPythonForEditor(const Body: string): string;
     procedure MemoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure WireMemoShortcuts;
+  public
+    destructor Destroy; override;
   end;
 
   TAIPythonMacroThread = class(TThread)
@@ -186,13 +259,14 @@ var
   C: Char;
 begin
   Result := False;
+  if (S <> '') and ((S[1] = ' ') or (S[1] = #9)) then Exit;
   T := Trim(S);
   if T = '' then Exit;
   U := UpperCase(T);
   if PosBMH('DEF TRANSFORM', U) > 0 then Exit;
   if PosBMH('```', T) > 0 then Exit;
   if BMHStartsWith('IMPORT ', U) or BMHStartsWith('FROM ', U) then Exit;
-  if (PosBMH('RETURN ', U) > 0) or (T[1] = ' ') or (T[1] = #9) then Exit;
+  if PosBMH('RETURN ', U) > 0 then Exit;
   if (Length(T) >= 4) and (U[1] = 'L') and (T[2] >= '0') and (T[2] <= '9') and (T[3] = ':') then
   begin
     Result := True;
@@ -215,18 +289,43 @@ begin
     Result := True;
 end;
 
+{ Linha de codigo Python de nivel superior (import, def, constante, decorador, comentario...). }
+function LineLooksLikeTopLevelPython(const L: string): Boolean;
+var
+  Low: string;
+  I: Integer;
+begin
+  Low := LowerCase(L);
+  Result := BMHStartsWith('import ', Low) or BMHStartsWith('from ', Low) or
+    BMHStartsWith('def ', Low) or BMHStartsWith('class ', Low) or
+    BMHStartsWith('@', Low) or BMHStartsWith('#', Low) or
+    BMHStartsWith('return ', Low) or BMHStartsWith('if ', Low) or
+    BMHStartsWith('for ', Low) or BMHStartsWith('while ', Low) or
+    BMHStartsWith('try:', Low) or BMHStartsWith('with ', Low);
+  if Result then Exit;
+  { NOME = valor / NOME: tipo = valor }
+  I := 1;
+  while (I <= Length(L)) and CharInSet(L[I], ['A'..'Z', 'a'..'z', '0'..'9', '_']) do
+    Inc(I);
+  if I > 1 then
+  begin
+    while (I <= Length(L)) and (L[I] = ' ') do Inc(I);
+    Result := (I <= Length(L)) and CharInSet(L[I], ['=', ':', '[', '.', '(']) and
+      not ((I < Length(L)) and (L[I] = ':') and (L[I + 1] = ' ') and (Pos('=', L) = 0));
+  end;
+end;
+
 function LineLooksLikeAiProse(const S: string): Boolean;
 var
   L: string;
 begin
   Result := False;
+  { Linhas indentadas sao corpo de funcao: nunca prosa. }
+  if (S <> '') and ((S[1] = ' ') or (S[1] = #9)) then Exit;
   L := Trim(S);
   if L = '' then Exit;
-  if PosBMH('def transform', LowerCase(L)) > 0 then Exit;
-  if BMHStartsWith('import ', LowerCase(L)) or BMHStartsWith('from ', LowerCase(L)) then Exit;
   if Copy(L, 1, 3) = '```' then Exit;
-  if (L[1] = ' ') or (L[1] = #9) then Exit;
-  if BMHStartsWith('return ', LowerCase(L)) then Exit;
+  if LineLooksLikeTopLevelPython(L) then Exit;
   Result := Length(L) > 12;
 end;
 
@@ -431,6 +530,30 @@ begin
   Result := '```python' + #13#10 + CanonicalCharFilterMacroScript + #13#10 + '```';
 end;
 
+function UserAskedForSeparator(const Note: string): Boolean;
+const
+  WORDS: array[0..14] of string = ('espa', 'space', 'separ', 'virgul', 'vírgul', 'comma', 'coma',
+    'tab', 'delimit', 'join', 'csv', 'entre cada', 'between each', 'leerzeichen', 'ponto e v');
+var
+  N: string;
+  I: Integer;
+begin
+  N := LowerCase(Note);
+  Result := False;
+  for I := Low(WORDS) to High(WORDS) do
+    if Pos(WORDS[I], N) > 0 then
+      Exit(True);
+end;
+
+{ IA costuma devolver " ".join(...) por conta propria; sem pedido de separador, juntar sem espacos. }
+function DropUnrequestedJoinSeparator(const Code, UserNote: string): string;
+begin
+  Result := Code;
+  if UserAskedForSeparator(UserNote) then Exit;
+  Result := StringReplace(Result, '" ".join(', '"".join(', [rfReplaceAll]);
+  Result := StringReplace(Result, ''' ''.join(', '''''.join(', [rfReplaceAll]);
+end;
+
 function SanitizeSourcePathForDisplay(const S: string): string;
 begin
   Result := Trim(S);
@@ -469,6 +592,15 @@ begin
       end;
       SL.Text := Copy(Body, PDef, MaxInt);
       DefIdx := 0;
+    end;
+    { Incluir imports / constantes / helpers logo acima do def transform. }
+    while DefIdx > 0 do
+    begin
+      L := SL[DefIdx - 1];
+      if (Trim(L) <> '') and
+         (LineStopsPythonExtract(L) or LineLooksLikeFileDataRow(L) or LineLooksLikeAiProse(L)) then
+        Break;
+      Dec(DefIdx);
     end;
     EndIdx := SL.Count - 1;
     for I := DefIdx + 1 to SL.Count - 1 do
@@ -595,35 +727,57 @@ end;
 
 { TfrmAIPythonMacro }
 
+function TfrmAIPythonMacro.MakeSectionLabel(const ACaption: string): TLabel;
+begin
+  Result := TLabel.Create(Self);
+  Result.Parent := PnlTop;
+  Result.AutoSize := False;
+  Result.Layout := tlBottom;
+  Result.Transparent := True;
+  Result.Font.Style := [fsBold];
+  Result.Font.Color := PYAI_CLR_ACCENT;
+  Result.Caption := ACaption;
+end;
+
+function TfrmAIPythonMacro.ButtonWidthFor(AButton: TButton): Integer;
+begin
+  Canvas.Font := Font;
+  Result := Max(FfPx(96), Canvas.TextWidth(StripHotkey(AButton.Caption)) + FfPx(36));
+end;
+
 procedure TfrmAIPythonMacro.BuildControlsForm;
-const
-  H_BTN = 30;
-  H_BTNPANEL = 36;
 var
   MI: TMenuItem;
 begin
-  BorderStyle := bsDialog;
+  BorderStyle := bsSizeable;
+  BorderIcons := [biSystemMenu, biMaximize];
   Position := poScreenCenter;
   Scaled := False;
-  ClientWidth := 720;
-  ClientHeight := 640;
-  Constraints.MinWidth := 560;
-  Constraints.MinHeight := 480;
   Font.Name := 'Segoe UI';
   Font.Size := 9;
+  ClientWidth := FfPx(900);
+  ClientHeight := FfPx(740);
+  Constraints.MinWidth := FfPx(840);
+  Constraints.MinHeight := FfPx(560);
   DoubleBuffered := True;
+
+  FRecent := TStringList.Create;
+  LoadRecent;
 
   { Response first (alClient); top panel fixed height via LayoutTopStack (no Align stack). }
   MemoResp := TMemo.Create(Self);
   MemoResp.Parent := Self;
   MemoResp.Align := alClient;
+  MemoResp.AlignWithMargins := True;
+  MemoResp.Margins.SetBounds(FfPx(14), 0, FfPx(14), FfPx(14));
   MemoResp.ReadOnly := True;
   MemoResp.HideSelection := False;
   MemoResp.WantReturns := True;
   MemoResp.ScrollBars := ssBoth;
-  MemoResp.WordWrap := True;
+  MemoResp.WordWrap := False;
+  MemoResp.Color := PYAI_CLR_CODEBG;
   MemoResp.Font.Name := 'Consolas';
-  MemoResp.Font.Size := 9;
+  MemoResp.Font.Size := 10;
 
   PopResp := TPopupMenu.Create(Self);
   MI := TMenuItem.Create(PopResp);
@@ -648,59 +802,68 @@ begin
   PnlTop.Color := clBtnFace;
   PnlTop.DoubleBuffered := True;
 
-  MemoScope := TMemo.Create(Self);
-  MemoScope.Parent := PnlTop;
-  MemoScope.Align := alNone;
-  MemoScope.ReadOnly := True;
-  MemoScope.TabStop := False;
-  MemoScope.BorderStyle := bsNone;
-  MemoScope.ScrollBars := ssVertical;
-  MemoScope.WordWrap := True;
-  MemoScope.Color := $00EEEEEE;
-  MemoScope.HideSelection := False;
-  MemoScope.PopupMenu := PopResp;
+  PnlHeader := TPanel.Create(Self);
+  PnlHeader.Parent := PnlTop;
+  PnlHeader.BevelOuter := bvNone;
+  PnlHeader.Caption := '';
+  PnlHeader.ParentBackground := False;
+  PnlHeader.Color := PYAI_CLR_HEADER;
 
-  LblCtx := TLabel.Create(Self);
-  LblCtx.Parent := PnlTop;
-  LblCtx.Align := alNone;
-  LblCtx.AutoSize := False;
-  LblCtx.Height := 18;
-  LblCtx.Layout := tlCenter;
-  LblCtx.Transparent := False;
-  LblCtx.ParentColor := True;
+  LblTitle := TLabel.Create(Self);
+  LblTitle.Parent := PnlHeader;
+  LblTitle.AutoSize := False;
+  LblTitle.Transparent := True;
+  LblTitle.Font.Size := 13;
+  LblTitle.Font.Style := [fsBold];
+  LblTitle.Font.Color := PYAI_CLR_ACCENT;
+
+  LblScope := TLabel.Create(Self);
+  LblScope.Parent := PnlHeader;
+  LblScope.AutoSize := False;
+  LblScope.WordWrap := True;
+  LblScope.Transparent := True;
+  LblScope.Font.Color := clGrayText;
+
+  LblCtx := MakeSectionLabel('');
 
   MemoCtx := TMemo.Create(Self);
   MemoCtx.Parent := PnlTop;
-  MemoCtx.Align := alNone;
   MemoCtx.ReadOnly := True;
-  MemoCtx.Color := $00F2F2F2;
-  MemoCtx.ScrollBars := ssVertical;
+  MemoCtx.Color := PYAI_CLR_CODEBG;
+  MemoCtx.Font.Name := 'Consolas';
+  MemoCtx.Font.Size := 9;
+  MemoCtx.ScrollBars := ssBoth;
   MemoCtx.WordWrap := False;
   MemoCtx.HideSelection := False;
   MemoCtx.PopupMenu := PopResp;
 
+  LblNoteTitle := MakeSectionLabel('');
+
   LblNote := TLabel.Create(Self);
   LblNote.Parent := PnlTop;
-  LblNote.Align := alNone;
   LblNote.AutoSize := False;
-  LblNote.Height := 40;
   LblNote.WordWrap := True;
-  LblNote.Transparent := False;
-  LblNote.ParentColor := True;
+  LblNote.Transparent := True;
+  LblNote.Font.Color := clGrayText;
 
   MemoNote := TMemo.Create(Self);
   MemoNote.Parent := PnlTop;
-  MemoNote.Align := alNone;
   MemoNote.ScrollBars := ssVertical;
   MemoNote.WordWrap := True;
   MemoNote.TabStop := True;
   MemoNote.HideSelection := False;
   MemoNote.PopupMenu := PopResp;
 
+  BtnNoteMru := TButton.Create(Self);
+  BtnNoteMru.Parent := PnlTop;
+  BtnNoteMru.Caption := #$25BC;
+  BtnNoteMru.Hint := TrText('Extract.AI.RecentHint');
+  BtnNoteMru.ShowHint := True;
+  BtnNoteMru.TabStop := False;
+  BtnNoteMru.OnClick := NoteMruClick;
+
   PnlBtns := TPanel.Create(Self);
   PnlBtns.Parent := PnlTop;
-  PnlBtns.Align := alNone;
-  PnlBtns.Height := H_BTNPANEL;
   PnlBtns.BevelOuter := bvNone;
   PnlBtns.Caption := '';
   PnlBtns.ParentBackground := False;
@@ -709,122 +872,161 @@ begin
 
   BtnSend := TButton.Create(Self);
   BtnSend.Parent := PnlBtns;
-  BtnSend.Left := 0;
-  BtnSend.Top := (H_BTNPANEL - H_BTN) div 2;
-  BtnSend.Height := H_BTN;
-  BtnSend.Width := 110;
   BtnSend.Caption := TrText('Send');
+  BtnSend.Hint := 'Ctrl+Enter';
+  BtnSend.ShowHint := True;
+  BtnSend.Default := True;
+  BtnSend.Font.Style := [fsBold];
   BtnSend.OnClick := BtnSendClick;
 
   BtnPaste := TButton.Create(Self);
   BtnPaste.Parent := PnlBtns;
-  BtnPaste.Left := 118;
-  BtnPaste.Top := BtnSend.Top;
-  BtnPaste.Height := H_BTN;
-  BtnPaste.Width := 180;
   BtnPaste.Enabled := False;
-  BtnPaste.Caption := TrText('AI_PY_MACRO_PASTE_BTN');
+  if Assigned(BtnApplyClose) then BtnApplyClose.Enabled := False;
+  BtnPaste.Caption := TrText('AI_PY_MACRO_APPLY');
+  BtnPaste.Hint := TrText('AI_PY_MACRO_APPLY_HINT');
+  BtnPaste.ShowHint := True;
   BtnPaste.OnClick := BtnPasteClick;
+
+  BtnApplyClose := TButton.Create(Self);
+  BtnApplyClose.Parent := PnlBtns;
+  BtnApplyClose.Enabled := False;
+  BtnApplyClose.Caption := TrText('AI_PY_MACRO_APPLY_CLOSE');
+  BtnApplyClose.Hint := TrText('AI_PY_MACRO_APPLY_CLOSE_HINT');
+  BtnApplyClose.ShowHint := True;
+  BtnApplyClose.OnClick := BtnApplyCloseClick;
 
   BtnCopy := TButton.Create(Self);
   BtnCopy.Parent := PnlBtns;
-  BtnCopy.Left := 306;
-  BtnCopy.Top := BtnSend.Top;
-  BtnCopy.Height := H_BTN;
-  BtnCopy.Width := 80;
   BtnCopy.Enabled := False;
   BtnCopy.Caption := TrText('Copy');
   BtnCopy.OnClick := BtnCopyClick;
 
+  BtnUndo := TButton.Create(Self);
+  BtnUndo.Parent := PnlBtns;
+  BtnUndo.Enabled := False;
+  BtnUndo.Caption := #$21B6 + ' ' + TrText('AI_PY_MACRO_UNDO');
+  BtnUndo.Hint := TrText('AI_PY_MACRO_UNDO_HINT');
+  BtnUndo.ShowHint := True;
+  BtnUndo.OnClick := BtnUndoClick;
+
+  BtnRedo := TButton.Create(Self);
+  BtnRedo.Parent := PnlBtns;
+  BtnRedo.Enabled := False;
+  BtnRedo.Caption := #$21B7 + ' ' + TrText('AI_PY_MACRO_REDO');
+  BtnRedo.Hint := TrText('AI_PY_MACRO_REDO_HINT');
+  BtnRedo.ShowHint := True;
+  BtnRedo.OnClick := BtnRedoClick;
+
   BtnClose := TButton.Create(Self);
   BtnClose.Parent := PnlBtns;
-  BtnClose.Top := BtnSend.Top;
-  BtnClose.Height := H_BTN;
-  BtnClose.Width := 92;
   BtnClose.Caption := TrText('Close');
   BtnClose.Cancel := True;
   BtnClose.OnClick := BtnCloseClick;
 
   LblStatus := TLabel.Create(Self);
   LblStatus.Parent := PnlTop;
-  LblStatus.Align := alNone;
   LblStatus.AutoSize := False;
-  LblStatus.Height := 20;
   LblStatus.WordWrap := True;
-  LblStatus.Transparent := False;
-  LblStatus.ParentColor := True;
+  LblStatus.Transparent := True;
+  LblStatus.Font.Color := clGrayText;
+
+  LblResp := MakeSectionLabel('');
 
   LayoutTopStack;
 
   OnShow := FormShow;
   OnResize := FormResize;
   OnCloseQuery := FormCloseQuery;
+  KeyPreview := True;
+  OnKeyDown := FormKeyDown;
+  OnKeyPress := FormKeyPress;
+  MemoNote.OnChange := MemoNoteChange;
   WireMemoShortcuts;
 end;
 
 procedure TfrmAIPythonMacro.LayoutTopStack;
-const
-  LR = 10;
-  GAP = 6;
-  H_SCOPE = 48;
-  H_CTXMEMO = 96;
-  H_NOTEMEMO = 64;
-  H_BTNPANEL = 36;
 var
-  Y, InnerW: Integer;
+  Y, X, LR, Gap, InnerW, LineH, CodeLineH, HdrH, BtnH, MruW, R: Integer;
+
+  function WrappedHeight(ALabel: TLabel; AWidth, AMinLines: Integer): Integer;
+  var
+    Rc: TRect;
+  begin
+    Result := LineH * AMinLines;
+    if (ALabel.Caption = '') or (AWidth < 1) then Exit;
+    Canvas.Font := ALabel.Font;
+    Rc := Rect(0, 0, AWidth, 0);
+    DrawText(Canvas.Handle, PChar(ALabel.Caption), -1, Rc,
+      DT_LEFT or DT_WORDBREAK or DT_CALCRECT or DT_NOPREFIX);
+    Result := Max(Result, Rc.Bottom + 2);
+  end;
+
+  function CodeLineHeight: Integer;
+  begin
+    Canvas.Font := MemoCtx.Font;
+    Result := Canvas.TextHeight('Ay');
+  end;
+
 begin
-  if not Assigned(PnlTop) then Exit;
-  InnerW := PnlTop.ClientWidth - (LR * 2);
-  if InnerW < 120 then InnerW := 120;
-  Y := GAP;
+  if not Assigned(PnlTop) or not Assigned(LblResp) then Exit;
+  LR := FfPx(14);
+  Gap := FfPx(8);
+  LineH := TextLineHeight;
+  CodeLineH := CodeLineHeight;
+  BtnH := LineH + FfPx(14);
+  InnerW := Max(FfPx(120), PnlTop.ClientWidth - (LR * 2));
 
-  if Assigned(MemoScope) then
-  begin
-    MemoScope.SetBounds(LR, Y, InnerW, H_SCOPE);
-    Inc(Y, H_SCOPE + GAP);
-  end;
-  if Assigned(LblCtx) then
-  begin
-    LblCtx.SetBounds(LR, Y, InnerW, 18);
-    Inc(Y, 18 + 2);
-  end;
-  if Assigned(MemoCtx) then
-  begin
-    MemoCtx.SetBounds(LR, Y, InnerW, H_CTXMEMO);
-    Inc(Y, H_CTXMEMO + GAP);
-  end;
-  if Assigned(LblNote) then
-  begin
-    if LblNote.Height < 36 then LblNote.Height := 36;
-    LblNote.SetBounds(LR, Y, InnerW, LblNote.Height);
-    Inc(Y, LblNote.Height + 2);
-  end;
-  if Assigned(MemoNote) then
-  begin
-    MemoNote.SetBounds(LR, Y, InnerW, H_NOTEMEMO);
-    Inc(Y, H_NOTEMEMO + GAP);
-  end;
-  if Assigned(PnlBtns) then
-  begin
-    PnlBtns.SetBounds(LR, Y, InnerW, H_BTNPANEL);
-    if Assigned(BtnClose) then
-    begin
-      BtnClose.Left := PnlBtns.ClientWidth - BtnClose.Width;
-      if Assigned(BtnCopy) and (BtnClose.Left < BtnCopy.Left + BtnCopy.Width + 8) then
-        BtnClose.Left := BtnCopy.Left + BtnCopy.Width + 8
-      else if Assigned(BtnPaste) and (BtnClose.Left < BtnPaste.Left + BtnPaste.Width + 8) then
-        BtnClose.Left := BtnPaste.Left + BtnPaste.Width + 8;
-    end;
-    Inc(Y, H_BTNPANEL + 2);
-  end;
-  if Assigned(LblStatus) then
-  begin
-    if LblStatus.Height < 18 then LblStatus.Height := 18;
-    LblStatus.SetBounds(LR, Y, InnerW, LblStatus.Height);
-    Inc(Y, LblStatus.Height + GAP);
-  end;
+  { Cabecalho colorido: titulo + escopo. }
+  Canvas.Font := LblTitle.Font;
+  HdrH := Canvas.TextHeight('Ay');
+  LblTitle.SetBounds(LR, FfPx(10), InnerW, HdrH + 2);
+  Y := LblTitle.Top + LblTitle.Height + FfPx(2);
+  LblScope.SetBounds(LR, Y, InnerW, WrappedHeight(LblScope, InnerW, 1));
+  Inc(Y, LblScope.Height + FfPx(10));
+  PnlHeader.SetBounds(0, 0, PnlTop.ClientWidth, Y);
+  Inc(Y, Gap);
 
-  if Y < 220 then Y := 220;
+  LblCtx.SetBounds(LR, Y, InnerW, LineH + FfPx(4));
+  Inc(Y, LblCtx.Height + FfPx(3));
+  MemoCtx.SetBounds(LR, Y, InnerW, CodeLineH * 6 + GetSystemMetrics(SM_CYHSCROLL) + FfPx(8));
+  Inc(Y, MemoCtx.Height + Gap + FfPx(4));
+
+  LblNoteTitle.SetBounds(LR, Y, InnerW, LineH + FfPx(4));
+  Inc(Y, LblNoteTitle.Height + FfPx(1));
+  LblNote.SetBounds(LR, Y, InnerW, WrappedHeight(LblNote, InnerW, 1));
+  Inc(Y, LblNote.Height + FfPx(3));
+  MruW := FfPx(28);
+  MemoNote.SetBounds(LR, Y, InnerW - MruW - FfPx(4), LineH * 3 + FfPx(10));
+  BtnNoteMru.SetBounds(LR + InnerW - MruW, Y, MruW, MemoNote.Height);
+  Inc(Y, MemoNote.Height + Gap);
+
+  PnlBtns.SetBounds(LR, Y, InnerW, BtnH);
+  X := 0;
+  BtnSend.SetBounds(X, 0, ButtonWidthFor(BtnSend) + FfPx(16), BtnH);
+  Inc(X, BtnSend.Width + FfPx(8));
+  BtnCopy.SetBounds(X, 0, ButtonWidthFor(BtnCopy), BtnH);
+  Inc(X, BtnCopy.Width + FfPx(16));
+  BtnUndo.SetBounds(X, 0, ButtonWidthFor(BtnUndo), BtnH);
+  Inc(X, BtnUndo.Width + FfPx(4));
+  BtnRedo.SetBounds(X, 0, ButtonWidthFor(BtnRedo), BtnH);
+  Inc(X, BtnRedo.Width + FfPx(16));
+  { Grupo da direita, como no Eclipse: Aplicar | Aplicar e fechar | Fechar. }
+  R := Max(X, PnlBtns.ClientWidth - ButtonWidthFor(BtnPaste) - ButtonWidthFor(BtnApplyClose) -
+    ButtonWidthFor(BtnClose) - FfPx(8) * 2);
+  BtnPaste.SetBounds(R, 0, ButtonWidthFor(BtnPaste), BtnH);
+  Inc(R, BtnPaste.Width + FfPx(8));
+  BtnApplyClose.SetBounds(R, 0, ButtonWidthFor(BtnApplyClose), BtnH);
+  Inc(R, BtnApplyClose.Width + FfPx(8));
+  BtnClose.SetBounds(R, 0, ButtonWidthFor(BtnClose), BtnH);
+  Inc(Y, BtnH + FfPx(4));
+
+  LblStatus.SetBounds(LR, Y, InnerW, WrappedHeight(LblStatus, InnerW, 1));
+  Inc(Y, LblStatus.Height + FfPx(2));
+
+  LblResp.SetBounds(LR, Y, InnerW, LineH + FfPx(4));
+  Inc(Y, LblResp.Height + FfPx(3));
+
   PnlTop.Height := Y;
 end;
 
@@ -860,7 +1062,6 @@ end;
 
 procedure TfrmAIPythonMacro.WireMemoShortcuts;
 begin
-  if Assigned(MemoScope) then MemoScope.OnKeyDown := MemoKeyDown;
   if Assigned(MemoCtx) then MemoCtx.OnKeyDown := MemoKeyDown;
   if Assigned(MemoNote) then MemoNote.OnKeyDown := MemoKeyDown;
   if Assigned(MemoResp) then MemoResp.OnKeyDown := MemoKeyDown;
@@ -876,6 +1077,24 @@ begin
   M := TMemo(Sender);
   if not M.HandleAllocated then Exit;
   H := M.Handle;
+
+  if M = MemoNote then
+  begin
+    { Ctrl+Enter: enviar. F4 / Alt+Seta para baixo: pedidos recentes. }
+    if (Key = VK_RETURN) and (ssCtrl in Shift) then
+    begin
+      Key := 0;
+      if BtnSend.Enabled then
+        BtnSendClick(BtnSend);
+      Exit;
+    end;
+    if ((Key = VK_F4) and (Shift = [])) or ((Key = VK_DOWN) and (Shift = [ssAlt])) then
+    begin
+      Key := 0;
+      NoteMruClick(BtnNoteMru);
+      Exit;
+    end;
+  end;
 
   { Ctrl+C / Ctrl+Insert: copy selection }
   if (((ssCtrl in Shift) and not (ssAlt in Shift) and (Key = Ord('C'))) or
@@ -941,15 +1160,18 @@ begin
   if FKind = pyaiTail then
   begin
     Caption := TrText('AI_PY_HELP_TITLE_TAIL');
-    MemoScope.Text := TrText('AI_PY_MACRO_SCOPE_TAIL');
+    LblScope.Caption := TrText('AI_PY_MACRO_SCOPE_TAIL');
   end
   else
   begin
     Caption := TrText('AI_PY_HELP_TITLE_SCRIPT');
-    MemoScope.Text := TrText('AI_PY_MACRO_SCOPE_SCRIPT');
+    LblScope.Caption := TrText('AI_PY_MACRO_SCOPE_SCRIPT');
   end;
+  LblTitle.Caption := Caption;
 
-  LblCtx.Caption := TrText('AI_PY_MACRO_CTX_LABEL');
+  LblCtx.Caption := '1. ' + TrText('AI_PY_MACRO_CTX_LABEL');
+  LblNoteTitle.Caption := '2. ' + TrText('AI_PY_MACRO_NOTE_TITLE');
+  LblResp.Caption := '3. ' + TrText('AI_PY_MACRO_RESP_LABEL');
   MemoCtx.Text := TrText('Source file:') + ' ' + FSrc + #13#10#13#10;
   if Trim(FFileSample) <> '' then
   begin
@@ -987,7 +1209,12 @@ begin
   LblStatus.Caption := '';
   AdjustStatusLabelHeight;
   BtnPaste.Enabled := False;
+  if Assigned(BtnApplyClose) then BtnApplyClose.Enabled := False;
   if Assigned(BtnCopy) then BtnCopy.Enabled := False;
+  SetLength(FUndo, 0);
+  SetLength(FRedo, 0);
+  SyncNoteShadow;
+  UpdateUndoButtons;
   RecalcTopPanelHeight;
 end;
 
@@ -1021,7 +1248,8 @@ begin
     TrText('AI_PY_PROMPT_RULES_P4') + #13#10 +
     TrText('AI_PY_PROMPT_RULES_P5') + #13#10 +
     TrText('AI_PY_PROMPT_RULES_P6') + #13#10 +
-    TrText('AI_PY_PROMPT_RULES_P7') + #13#10#13#10;
+    TrText('AI_PY_PROMPT_RULES_P7') + #13#10 +
+    TrText('AI_PY_PROMPT_RULES_P8') + #13#10#13#10;
 
   FilterMandate := '';
   if UserRequestsKeepOnlyCharsFilter(Note) then
@@ -1042,7 +1270,8 @@ begin
       TrText('AI_PY_MACRO_HDR_EXAMPLES') + #13#10 + Excerpt + #13#10#13#10);
   Result := Result + WideString(
     TrText('AI_PY_MACRO_HDR_FOCUS') + #13#10 + Note + #13#10#13#10 +
-    TrText('AI_PY_PROMPT_RULES_P5') + #13#10);
+    TrText('AI_PY_PROMPT_RULES_P5') + #13#10 +
+    TrText('AI_PY_PROMPT_RULES_P8') + #13#10);
 end;
 
 procedure TfrmAIPythonMacro.BtnSendClick(Sender: TObject);
@@ -1050,6 +1279,11 @@ var
   W: WideString;
 begin
   if FBusy then Exit;
+  if Assigned(FThread) then
+  begin
+    MessageDlg(TrText('AI_PY_MACRO_PREV_PENDING'), mtInformation, [mbOk], 0);
+    Exit;
+  end;
   if Length(Trim(MemoNote.Text)) < FASTFILE_AI_MIN_FOCUS_QUESTION_CHARS then
   begin
     MessageDlg(Format(TrText('AI_PY_MACRO_NOTE_REQUIRED'),
@@ -1057,28 +1291,43 @@ begin
     Exit;
   end;
 
+  FSendState := CaptureState(pyuResponse, False);
   FLastUserNote := MemoNote.Text;
+  RememberRequest(FLastUserNote);
   W := BuildPromptW;
   MemoResp.Text := '';
   FLastPrepared := '';
   BtnPaste.Enabled := False;
+  if Assigned(BtnApplyClose) then BtnApplyClose.Enabled := False;
   if Assigned(BtnCopy) then BtnCopy.Enabled := False;
   LblStatus.Caption := TrText('AI_PY_MACRO_CONTACTING');
   AdjustStatusLabelHeight;
   FBusy := True;
   BtnSend.Enabled := False;
   BtnPaste.Enabled := False;
+  if Assigned(BtnApplyClose) then BtnApplyClose.Enabled := False;
   if Assigned(BtnCopy) then BtnCopy.Enabled := False;
   BtnClose.Enabled := False;
   MemoNote.Enabled := False;
-  Application.ProcessMessages;
-
-  TAIPythonMacroThread.Create(Self, W).Resume;
+  BtnNoteMru.Enabled := False;
+  UpdateUndoButtons;
+  FIgnoreReply := False;
+  FThread := TAIPythonMacroThread.Create(Self, W);
+  StartAIWait;
+  FThread.Start;
 end;
 
 procedure TfrmAIPythonMacro.ApplyFinished(const Ok: Boolean; const Ans: WideString;
   const Err: string);
 begin
+  FThread := nil;
+  if FIgnoreReply then
+  begin
+    FIgnoreReply := False;
+    Exit;
+  end;
+  StopAIWait;
+  PushUndo(FSendState);
   if Ok then
   begin
     FLastPrepared := ApplyCharFilterFallbackIfNeeded(
@@ -1086,6 +1335,7 @@ begin
     FLastPrepared := StripMarkdownFences(FLastPrepared);
     if Trim(FLastPrepared) = '' then
       FLastPrepared := StripMarkdownFences(PrepareAiMemoText(Ans));
+    FLastPrepared := DropUnrequestedJoinSeparator(FLastPrepared, FLastUserNote);
     MemoResp.Lines.BeginUpdate;
     try
       MemoResp.Lines.Text := FLastPrepared;
@@ -1109,45 +1359,156 @@ begin
   PostMessage(Handle, WM_FF_PYAI_RESET_BUSY, 0, 0);
 end;
 
-procedure TfrmAIPythonMacro.AdjustStatusLabelHeight;
-var
-  R: TRect;
-  H: Integer;
+function TfrmAIPythonMacro.TextLineHeight: Integer;
 begin
-  if not Assigned(LblStatus) then Exit;
-  if Trim(LblStatus.Caption) = '' then
+  { Scaled = False: a fonte em pontos cresce com o DPI, as alturas fixas em pixels nao. }
+  Canvas.Font := Font;
+  Result := Canvas.TextHeight('Ay');
+  if Result < 14 then Result := 14;
+end;
+
+destructor TfrmAIPythonMacro.Destroy;
+begin
+  StopAIWait;
+  { Pedido cancelado ainda em andamento: a thread nao pode chamar um form destruido. }
+  if Assigned(FThread) then
+    TAIPythonMacroThread(FThread).FOwnerDlg := nil;
+  if Assigned(FormPopupMruList) and
+     (TMethod(FormPopupMruList.OnPick).Data = Pointer(Self)) then
   begin
-    LblStatus.Height := 18;
-    RecalcTopPanelHeight;
+    FormPopupMruList.OnPick := nil;
+    FormPopupMruList.OnRemove := nil;
+    FormPopupMruList.OnClearAll := nil;
+    if FormPopupMruList.Visible then
+      FormPopupMruList.ClosePopup(False);
+  end;
+  FRecent.Free;
+  inherited;
+end;
+
+procedure TfrmAIPythonMacro.LoadRecent;
+var
+  Path: string;
+  I: Integer;
+begin
+  FRecent.Clear;
+  Path := FastFileExeDirPath(PYAI_RECENT_FILE);
+  if not FileExists(Path) then Exit;
+  try
+    FRecent.LoadFromFile(Path, TEncoding.UTF8);
+  except
+    FRecent.Clear;
+  end;
+  for I := FRecent.Count - 1 downto 0 do
+    if Trim(FRecent[I]) = '' then
+      FRecent.Delete(I);
+  while FRecent.Count > PrefAssistantRecentMax do
+    FRecent.Delete(FRecent.Count - 1);
+end;
+
+procedure TfrmAIPythonMacro.SaveRecent;
+var
+  Path: string;
+begin
+  Path := FastFileExeDirPath(PYAI_RECENT_FILE);
+  try
+    if FRecent.Count = 0 then
+      SysUtils.DeleteFile(Path)
+    else
+      FRecent.SaveToFile(Path, TEncoding.UTF8);
+  except
+  end;
+end;
+
+procedure TfrmAIPythonMacro.RememberRequest(const S: string);
+var
+  Q: string;
+  I: Integer;
+begin
+  Q := Trim(StringReplace(StringReplace(S, #13, ' ', [rfReplaceAll]), #10, ' ', [rfReplaceAll]));
+  if Q = '' then Exit;
+  for I := FRecent.Count - 1 downto 0 do
+    if AnsiSameText(Trim(FRecent[I]), Q) then
+      FRecent.Delete(I);
+  FRecent.Insert(0, Q);
+  while FRecent.Count > PrefAssistantRecentMax do
+    FRecent.Delete(FRecent.Count - 1);
+  SaveRecent;
+end;
+
+procedure TfrmAIPythonMacro.NoteMruClick(Sender: TObject);
+var
+  CR: TRect;
+  OwnerComp: TComponent;
+begin
+  if FBusy then Exit;
+  if Assigned(FormPopupMruList) and FormPopupMruList.Visible then
+  begin
+    FormPopupMruList.ClosePopup(False);
+    if TMethod(FormPopupMruList.OnPick).Data = Pointer(Self) then
+      Exit;
+  end;
+  if FRecent.Count = 0 then
+  begin
+    LblStatus.Caption := TrText('Extract.AI.RecentEmpty');
+    AdjustStatusLabelHeight;
     Exit;
   end;
-  R := Rect(0, 0, LblStatus.ClientWidth, 0);
-  if R.Right < 1 then R.Right := 1;
-  LblStatus.Canvas.Font := LblStatus.Font;
-  H := DrawText(LblStatus.Canvas.Handle, PChar(LblStatus.Caption), -1, R,
-    DT_LEFT or DT_WORDBREAK or DT_CALCRECT or DT_NOPREFIX);
-  if H < 18 then H := 18;
-  if H > 64 then H := 64;
-  LblStatus.Height := H;
+  if not MemoNote.HandleAllocated then Exit;
+  GetWindowRect(MemoNote.Handle, CR);
+  if Assigned(Application.MainForm) then
+    OwnerComp := Application.MainForm
+  else
+    OwnerComp := Self;
+  ShowMruListPopup(OwnerComp, TrText('Extract.AI.Recent'),
+    MruMoreCaption('Assistant.RecentQuestionsMore'), FRecent,
+    BtnNoteMru.BoundsRect.Right - MemoNote.Left, Point(CR.Left, CR.Bottom),
+    NoteMruPick, TrText('Assistant.RecentQuestionsMoreHint'),
+    nil, NoteMruRemove, BtnNoteMru, NoteMruClearAll, Handle);
+end;
+
+procedure TfrmAIPythonMacro.NoteMruPick(Sender: TObject; const AValue: string; AIndex: Integer);
+begin
+  if FBusy or not MemoNote.Enabled then Exit;
+  if MemoNote.Text = AValue then Exit;
+  PushUndo(CaptureState(pyuMru, False));
+  FRestoring := True;
+  try
+    MemoNote.Text := AValue;
+    MemoNote.SelStart := Length(MemoNote.Text);
+  finally
+    FRestoring := False;
+  end;
+  SyncNoteShadow;
+  if MemoNote.CanFocus then
+    MemoNote.SetFocus;
+end;
+
+procedure TfrmAIPythonMacro.NoteMruRemove(Sender: TObject; const AValue: string);
+var
+  I: Integer;
+begin
+  I := FRecent.IndexOf(AValue);
+  if I >= 0 then
+  begin
+    FRecent.Delete(I);
+    SaveRecent;
+  end;
+end;
+
+procedure TfrmAIPythonMacro.NoteMruClearAll(Sender: TObject);
+begin
+  FRecent.Clear;
+  SaveRecent;
+end;
+
+procedure TfrmAIPythonMacro.AdjustStatusLabelHeight;
+begin
   RecalcTopPanelHeight;
 end;
 
 procedure TfrmAIPythonMacro.AdjustNoteLabelHeight;
-var
-  R: TRect;
-  H: Integer;
 begin
-  if not Assigned(LblNote) then Exit;
-  if Trim(LblNote.Caption) = '' then Exit;
-  R := Rect(0, 0, LblNote.ClientWidth, 0);
-  if R.Right < 200 then
-    R.Right := ClientWidth - 24;
-  LblNote.Canvas.Font := LblNote.Font;
-  H := DrawText(LblNote.Canvas.Handle, PChar(LblNote.Caption), -1, R,
-    DT_LEFT or DT_WORDBREAK or DT_CALCRECT or DT_NOPREFIX);
-  if H < 36 then H := 36;
-  if H > 88 then H := 88;
-  LblNote.Height := H;
   RecalcTopPanelHeight;
 end;
 
@@ -1161,6 +1522,8 @@ begin
   HasText := Trim(MemoResp.Text) <> '';
   if Assigned(BtnPaste) then
     BtnPaste.Enabled := Assigned(FTargetEditor) and HasCode and (not FBusy);
+  if Assigned(BtnApplyClose) then
+    BtnApplyClose.Enabled := Assigned(FTargetEditor) and HasCode and (not FBusy);
   if Assigned(BtnCopy) then
     BtnCopy.Enabled := HasText and (not FBusy);
 end;
@@ -1203,10 +1566,26 @@ begin
 end;
 
 procedure TfrmAIPythonMacro.BtnPasteClick(Sender: TObject);
+begin
+  if ApplyToEditor then
+  begin
+    LblStatus.Caption := TrText('AI_PY_MACRO_APPLIED');
+    AdjustStatusLabelHeight;
+  end;
+end;
+
+procedure TfrmAIPythonMacro.BtnApplyCloseClick(Sender: TObject);
+begin
+  if ApplyToEditor then
+    ModalResult := mrOk;
+end;
+
+function TfrmAIPythonMacro.ApplyToEditor: Boolean;
 var
   Code: string;
 begin
-  if not Assigned(FTargetEditor) then Exit;
+  Result := False;
+  if FBusy or not Assigned(FTargetEditor) then Exit;
   Code := ExtractPythonForEditor(FLastPrepared);
   if Trim(Code) = '' then
     Code := ExtractPythonForEditor(MemoResp.Text);
@@ -1219,6 +1598,8 @@ begin
      not PythonMacroHasCharFilterSolution(Code) then
     Code := CanonicalCharFilterMacroScript;
   Code := EnsurePythonStdImports(EnsurePythonTransformIndent(Code));
+  if FTargetEditor.Text <> Code then
+    PushUndo(CaptureState(pyuPaste, True));
   FTargetEditor.Lines.BeginUpdate;
   try
     FTargetEditor.Lines.Text := Code;
@@ -1226,12 +1607,7 @@ begin
   finally
     FTargetEditor.Lines.EndUpdate;
   end;
-  try
-    if FTargetEditor.CanFocus then
-      FTargetEditor.SetFocus;
-  except
-    on E: EInvalidOperation do ;
-  end;
+  Result := True;
 end;
 
 procedure TfrmAIPythonMacro.WMResetBusy(var Msg: TMessage);
@@ -1240,7 +1616,249 @@ begin
   BtnSend.Enabled := True;
   BtnClose.Enabled := True;
   MemoNote.Enabled := True;
+  BtnNoteMru.Enabled := True;
   UpdateActionButtons;
+  UpdateUndoButtons;
+end;
+
+function TfrmAIPythonMacro.CaptureState(AAction: TPyAiUndoAction;
+  AWithEditor: Boolean): TPyAiUndoState;
+begin
+  Result.Action := AAction;
+  Result.Note := MemoNote.Text;
+  Result.NoteSel := MemoNote.SelStart;
+  Result.Resp := MemoResp.Text;
+  Result.Prepared := FLastPrepared;
+  Result.UserNote := FLastUserNote;
+  Result.HasEditor := AWithEditor and Assigned(FTargetEditor);
+  if Result.HasEditor then
+  begin
+    Result.Editor := FTargetEditor.Text;
+    Result.EditorModified := FTargetEditor.Modified;
+  end
+  else
+  begin
+    Result.Editor := '';
+    Result.EditorModified := False;
+  end;
+end;
+
+procedure TfrmAIPythonMacro.RestoreState(const AState: TPyAiUndoState);
+begin
+  FRestoring := True;
+  try
+    if MemoNote.Text <> AState.Note then
+      MemoNote.Text := AState.Note;
+    MemoNote.SelStart := Min(AState.NoteSel, Length(MemoNote.Text));
+    if MemoResp.Text <> AState.Resp then
+    begin
+      MemoResp.Lines.BeginUpdate;
+      try
+        MemoResp.Lines.Text := AState.Resp;
+        MemoResp.SelStart := 0;
+      finally
+        MemoResp.Lines.EndUpdate;
+      end;
+    end;
+    FLastPrepared := AState.Prepared;
+    FLastUserNote := AState.UserNote;
+    if AState.HasEditor and Assigned(FTargetEditor) then
+    begin
+      FTargetEditor.Lines.BeginUpdate;
+      try
+        FTargetEditor.Lines.Text := AState.Editor;
+      finally
+        FTargetEditor.Lines.EndUpdate;
+      end;
+      FTargetEditor.Modified := AState.EditorModified;
+    end;
+  finally
+    FRestoring := False;
+  end;
+  SyncNoteShadow;
+  UpdateActionButtons;
+  UpdateUndoButtons;
+end;
+
+procedure TfrmAIPythonMacro.PushUndo(const AState: TPyAiUndoState);
+begin
+  if Length(FUndo) >= PYAI_UNDO_MAX then
+    Delete(FUndo, 0, 1);
+  SetLength(FUndo, Length(FUndo) + 1);
+  FUndo[High(FUndo)] := AState;
+  SetLength(FRedo, 0);
+  UpdateUndoButtons;
+end;
+
+function TfrmAIPythonMacro.UndoActionText(AAction: TPyAiUndoAction): string;
+begin
+  case AAction of
+    pyuTyping: Result := TrText('AI_PY_MACRO_ACT_TYPING');
+    pyuMru: Result := TrText('AI_PY_MACRO_ACT_MRU');
+    pyuResponse: Result := TrText('AI_PY_MACRO_ACT_RESPONSE');
+  else
+    Result := TrText('AI_PY_MACRO_ACT_PASTE');
+  end;
+end;
+
+procedure TfrmAIPythonMacro.DoUndo;
+var
+  S: TPyAiUndoState;
+begin
+  if FBusy or (Length(FUndo) = 0) then Exit;
+  S := FUndo[High(FUndo)];
+  SetLength(FUndo, Length(FUndo) - 1);
+  SetLength(FRedo, Length(FRedo) + 1);
+  FRedo[High(FRedo)] := CaptureState(S.Action, S.HasEditor);
+  FLastTypingTick := 0;
+  RestoreState(S);
+  LblStatus.Caption := Format(TrText('AI_PY_MACRO_UNDONE'), [UndoActionText(S.Action)]);
+  AdjustStatusLabelHeight;
+end;
+
+procedure TfrmAIPythonMacro.DoRedo;
+var
+  S: TPyAiUndoState;
+begin
+  if FBusy or (Length(FRedo) = 0) then Exit;
+  S := FRedo[High(FRedo)];
+  SetLength(FRedo, Length(FRedo) - 1);
+  SetLength(FUndo, Length(FUndo) + 1);
+  FUndo[High(FUndo)] := CaptureState(S.Action, S.HasEditor);
+  FLastTypingTick := 0;
+  RestoreState(S);
+  LblStatus.Caption := Format(TrText('AI_PY_MACRO_REDONE'), [UndoActionText(S.Action)]);
+  AdjustStatusLabelHeight;
+end;
+
+procedure TfrmAIPythonMacro.UpdateUndoButtons;
+begin
+  if Assigned(BtnUndo) then
+    BtnUndo.Enabled := (not FBusy) and (Length(FUndo) > 0);
+  if Assigned(BtnRedo) then
+    BtnRedo.Enabled := (not FBusy) and (Length(FRedo) > 0);
+end;
+
+procedure TfrmAIPythonMacro.SyncNoteShadow;
+begin
+  FNoteShadow := MemoNote.Text;
+  FNoteShadowSel := MemoNote.SelStart;
+end;
+
+procedure TfrmAIPythonMacro.MemoNoteChange(Sender: TObject);
+var
+  NowTick: Cardinal;
+  S: TPyAiUndoState;
+begin
+  if FRestoring then Exit;
+  if MemoNote.Text = FNoteShadow then Exit;
+  NowTick := GetTickCount;
+  { Digitacao continua vira um unico passo; pausa > 1 s abre um novo passo. }
+  if not ((Length(FUndo) > 0) and (FUndo[High(FUndo)].Action = pyuTyping) and
+          (FLastTypingTick <> 0) and (NowTick - FLastTypingTick < PYAI_TYPING_MERGE_MS)) then
+  begin
+    S := CaptureState(pyuTyping, False);
+    S.Note := FNoteShadow;
+    S.NoteSel := FNoteShadowSel;
+    PushUndo(S);
+  end;
+  FLastTypingTick := NowTick;
+  SyncNoteShadow;
+end;
+
+procedure TfrmAIPythonMacro.BtnUndoClick(Sender: TObject);
+begin
+  DoUndo;
+end;
+
+procedure TfrmAIPythonMacro.BtnRedoClick(Sender: TObject);
+begin
+  DoRedo;
+end;
+
+procedure TfrmAIPythonMacro.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+  if (Key = Ord('Z')) and (Shift = [ssCtrl]) then
+  begin
+    Key := 0;
+    DoUndo;
+  end
+  else if ((Key = Ord('Y')) and (Shift = [ssCtrl])) or
+          ((Key = Ord('Z')) and (Shift = [ssCtrl, ssShift])) then
+  begin
+    Key := 0;
+    DoRedo;
+  end;
+end;
+
+procedure TfrmAIPythonMacro.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  { Ctrl+Z / Ctrl+Y geram #26 / #25: o undo nativo de um nivel do TMemo nao deve rodar. }
+  if (Key = #26) or (Key = #25) then
+    Key := #0;
+end;
+
+procedure TfrmAIPythonMacro.StartAIWait;
+begin
+  FWaitStart := GetTickCount;
+  TfrmSmoothLoading.ResetCancel;
+  TfrmSmoothLoading.ShowLoading(Self, TrText('AI_PY_MACRO_WAIT_TITLE'), True);
+  TfrmSmoothLoading.SnapFullyOpaque;
+  TfrmSmoothLoading.SetWaitTexts(TrText('AI_PY_MACRO_WAIT_TITLE'), TrText('AI_PY_MACRO_WAIT_SENDING'));
+  TfrmSmoothLoading.SetIndeterminate(False);
+  TfrmSmoothLoading.SetCancelVisible(True);
+  TfrmSmoothLoading.UpdateProgress(5);
+  TfrmSmoothLoading.FlushPaint;
+  if not Assigned(FWaitTimer) then
+  begin
+    FWaitTimer := TTimer.Create(Self);
+    FWaitTimer.Interval := 250;
+    FWaitTimer.OnTimer := WaitTimerTick;
+  end;
+  FWaitTimer.Enabled := True;
+end;
+
+procedure TfrmAIPythonMacro.StopAIWait;
+begin
+  if Assigned(FWaitTimer) then
+    FWaitTimer.Enabled := False;
+  if FWaitStart = 0 then Exit;
+  FWaitStart := 0;
+  if TfrmSmoothLoading.IsShowing then
+  begin
+    TfrmSmoothLoading.UpdateProgress(100);
+    TfrmSmoothLoading.HideLoading;
+  end;
+end;
+
+procedure TfrmAIPythonMacro.WaitTimerTick(Sender: TObject);
+var
+  Secs: Cardinal;
+begin
+  if (FWaitStart = 0) or not FBusy then Exit;
+  if TfrmSmoothLoading.CancelRequested then
+  begin
+    CancelAIWait;
+    Exit;
+  end;
+  Secs := (GetTickCount - FWaitStart) div 1000;
+  if Secs < 2 then
+    Exit;
+  { Duracao desconhecida (modelo pensando): a barra avanca devagar sem voltar a 0. }
+  TfrmSmoothLoading.CreepProgress(90);
+  TfrmSmoothLoading.SetWaitTexts(TrText('AI_PY_MACRO_WAIT_TITLE'),
+    Format(TrText('AI_PY_MACRO_WAIT_WAITING'), [Integer(Secs)]));
+end;
+
+procedure TfrmAIPythonMacro.CancelAIWait;
+begin
+  FIgnoreReply := Assigned(FThread);
+  StopAIWait;
+  TfrmSmoothLoading.ResetCancel;
+  RestoreState(FSendState);
+  LblStatus.Caption := TrText('AI_PY_MACRO_CANCELLED');
+  AdjustStatusLabelHeight;
+  PostMessage(Handle, WM_FF_PYAI_RESET_BUSY, 0, 0);
 end;
 
 procedure TfrmAIPythonMacro.BtnCloseClick(Sender: TObject);
@@ -1270,7 +1888,14 @@ begin
     F.FKind := AKind;
     F.BuildControlsForm;
     F.Setup(ASourcePath, ACurrentScript, AExamplesText, AFileSample, ATargetEditor);
-    F.ShowModal;
+    FfFitFormToWorkArea(F);
+    if (F.ShowModal = mrOk) and Assigned(ATargetEditor) then
+    try
+      if ATargetEditor.CanFocus then
+        ATargetEditor.SetFocus;
+    except
+      on E: EInvalidOperation do ;
+    end;
   finally
     F.Free;
   end;

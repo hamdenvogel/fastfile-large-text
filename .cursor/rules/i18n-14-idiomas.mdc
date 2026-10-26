@@ -1,0 +1,35 @@
+---
+description: Todo texto visível ao usuário no FastFile deve ser traduzido para os 14 idiomas
+alwaysApply: true
+---
+
+# Sempre traduzir para os 14 idiomas
+
+Todo texto novo ou alterado que o usuário vê (captions, hints, mensagens, status, diálogos, itens de menu, ajuda, itens de "O que posso fazer?", legendas de propostas do agente) deve ser registrado nos 14 idiomas no mesmo trabalho, nunca só em inglês ou português.
+
+Idiomas, nesta ordem: EN, PT-BR, ES, FR, DE, IT, PL, PT-PT, RO, HU, CZ, JA, ZH-CN, ZH-TW.
+
+## Como
+
+- No código, use chaves: `TrText('Area.Chave')` ou `Format(TrText('Area.Chave'), [...])`; nunca literal solto na UI.
+- Em `src/uI18n.pas` (UTF-8 com BOM), crie ou estenda um procedimento `Add*Translations` com o `Set14` local e registre-o no fim de `FillTranslationDataBody` (antes de `AddTranslationGapFill`). A última registração vence.
+- Cada literal Delphi tem no máximo 255 caracteres/bytes: divida com `+`. Apóstrofo vira `''`.
+- Mantenha os mesmos `%s`/`%d` em todos os idiomas.
+- Itens de `AICaps.Item.*` usam o formato `'Descrição|Exemplo'`.
+
+```pascal
+Set14('Agent.Macro.SelectedOnly',
+  'selected lines only', 'somente as linhas selecionadas', 'solo las líneas seleccionadas',
+  'lignes sélectionnées uniquement', 'nur ausgewählte Zeilen', 'solo le righe selezionate',
+  'tylko zaznaczone linie', 'apenas as linhas selecionadas', 'doar liniile selectate',
+  'csak a kijelölt sorok', 'jen vybrané řádky', '選択した行のみ', '仅选中的行', '僅選取的行');
+```
+
+## Não precisa traduzir
+
+- Textos enviados só para a IA (prompts do agente, saída de ferramentas `error=`/`ok=`), logs e comentários.
+- Documentos internos `.md` (escritos em português).
+
+## Antes de terminar
+
+Confira que nenhuma chave nova ficou sem `Set14`, que o BOM do `uI18n.pas` continua e que nenhum literal passa de 255.

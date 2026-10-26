@@ -90,6 +90,21 @@ begin
     AActions := 'ask_ai,show_script_engine,open_find,export_file';
     AAiDraft := TrText('Assistant.Offer.Draft.Script');
   end
+  else if Id = 'csv_sort' then
+  begin
+    AActions := 'ask_ai,clear_csv_sort,toggle_csv_header,apply_filter,clear_filter';
+    AAiDraft := TrText('Assistant.Offer.Draft.CsvSort');
+  end
+  else if Id = 'grep_groups' then
+  begin
+    AActions := 'ask_ai,apply_filter,export_matching_lines,open_find';
+    AAiDraft := TrText('Assistant.Offer.Draft.GrepGroups');
+  end
+  else if Id = 'session' then
+  begin
+    AActions := 'ask_ai,save_session,load_session,apply_filter,goto_line';
+    AAiDraft := TrText('Assistant.Offer.Draft.Session');
+  end
   else if Id = 'replace' then
   begin
     AActions := 'ask_ai,find_next,open_replace,view_find_occurrences,clear_find';
