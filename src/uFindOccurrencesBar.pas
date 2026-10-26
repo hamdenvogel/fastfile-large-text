@@ -7,7 +7,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, StdCtrls,
-  Math, Buttons, sPanel, sLabel, sButton, uFastFileScale;
+  Math, Buttons, sPanel, sLabel, sButton, uFastFileScale, uSearchCommands;
 
 type
   TFindOccHitEvent = procedure(Sender: TObject; AHitIndex: Int64) of object;
@@ -32,6 +32,8 @@ type
     FEditFrame: TsPanel;
     FEdtFind: TEdit;
     FBtnGo: TsButton;
+    FBtnGrep, FBtnGlob: TsButton;
+    FOnCommand: TSearchCommandOpenEvent;
     FBtnPrev: TsButton;
     FBtnNext: TsButton;
     FBtnCollect: TsButton;
@@ -39,6 +41,7 @@ type
     FBtnExport: TsButton;
     FBtnCopy: TsButton;
     FBtnClear: TsButton;
+    FBtnClose: TsButton;
     FBtnHide: TsButton;
     FBtnFloat: TsButton;
     FBtnPagePrev: TsButton;
@@ -60,6 +63,7 @@ type
     FOnListPagePrev: TNotifyEvent;
     FOnListPageNext: TNotifyEvent;
     FFloating: Boolean;
+    FUserHeight: Integer;
     FHeaderDown: Boolean;
     FHeaderPt: TPoint;
     procedure BuildChrome;
@@ -71,6 +75,7 @@ type
     procedure BtnPrevClick(Sender: TObject);
     procedure BtnNextClick(Sender: TObject);
     procedure BtnGoClick(Sender: TObject);
+    procedure BtnCommandClick(Sender: TObject);
     procedure EdtFindKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure BtnCollectClick(Sender: TObject);
     procedure BtnLoadMoreClick(Sender: TObject);
@@ -104,6 +109,10 @@ type
     procedure SetExpanded(AExpanded: Boolean);
     procedure ClearHitList;
     function PreferredExpandedHeight: Integer;
+    function ChromeHeight: Integer;
+    property Expanded: Boolean read FExpanded;
+    { Last height the user chose while the hit list was open. 0 = not yet. }
+    property UserHeight: Integer read FUserHeight write FUserHeight;
     function GetSearchText: string;
     procedure SetSearchText(const AText: string);
     procedure FocusSearchEdit;
@@ -113,6 +122,7 @@ type
     property OnPrev: TNotifyEvent read FOnPrev write FOnPrev;
     property OnNext: TNotifyEvent read FOnNext write FOnNext;
     property OnSearch: TNotifyEvent read FOnSearch write FOnSearch;
+    property OnCommand: TSearchCommandOpenEvent read FOnCommand write FOnCommand;
     property OnCollect: TNotifyEvent read FOnCollect write FOnCollect;
     property OnLoadMore: TNotifyEvent read FOnLoadMore write FOnLoadMore;
     property OnContinue: TNotifyEvent read FOnLoadMore write FOnLoadMore;
@@ -147,7 +157,7 @@ const
   FIND_OCC_BTN_H = 34;
   FIND_OCC_BTN_PAD_X = 22;
   FIND_OCC_TOP_H = 28;
-  FIND_OCC_SEARCH_H = 32;
+  FIND_OCC_SEARCH_H = 36;
   FIND_OCC_LIST_PAGE_SIZE = 40;
   FIND_OCC_LIST_MIN_H = 64;
 
@@ -186,11 +196,12 @@ begin
   FBuilt := False;
   FExpanded := False;
   FFloating := False;
+  FUserHeight := 0;
   FHeaderDown := False;
   FHitPageBase := 0;
   Align := alTop;
-  Height := FfPx(FIND_OCC_BAR_HEIGHT);
-  Constraints.MinHeight := FfPx(FIND_OCC_BAR_HEIGHT);
+  Height := ChromeHeight;
+  Constraints.MinHeight := ChromeHeight;
   BevelOuter := bvNone;
   Caption := '';
   ParentBackground := False;
@@ -383,6 +394,19 @@ begin
   StyleBtn(FBtnGo, UiFont);
   FBtnGo.Font.Style := [fsBold];
 
+  FBtnGrep := TsButton.Create(Self);
+  FBtnGrep.Name := 'SearchGrep';
+  FBtnGrep.Parent := FSearchRow;
+  FBtnGrep.Caption := 'grep';
+  FBtnGrep.OnClick := BtnCommandClick;
+  StyleBtn(FBtnGrep, UiFont);
+  FBtnGlob := TsButton.Create(Self);
+  FBtnGlob.Name := 'SearchGlob';
+  FBtnGlob.Parent := FSearchRow;
+  FBtnGlob.Caption := 'glob';
+  FBtnGlob.OnClick := BtnCommandClick;
+  StyleBtn(FBtnGlob, UiFont);
+
   FBtnRow := TsPanel.Create(Self);
   FBtnRow.Parent := FBody;
   FBtnRow.Align := alNone;
@@ -429,6 +453,11 @@ begin
   FBtnClear.Parent := FBtnRow;
   FBtnClear.OnClick := BtnClearClick;
   StyleBtn(FBtnClear, UiFont);
+
+  FBtnClose := TsButton.Create(Self);
+  FBtnClose.Parent := FBtnRow;
+  FBtnClose.OnClick := BtnHideClick;
+  StyleBtn(FBtnClose, UiFont);
 
   FListHost := TsPanel.Create(Self);
   FListHost.Parent := FBody;
@@ -509,7 +538,8 @@ end;
 
 procedure TFastFileFindOccBar.LayoutChrome;
 var
-  X, Gap, InnerW, Y, TopH, SearchH, BtnRowH, ListH, NeedH, GoW, EditW, EditTop: Integer;
+  X, Gap, InnerW, Y, TopH, SearchH, BtnRowH, ListH, GoW, EditW, EditTop,
+    GrepW, GlobW: Integer;
   MeasureBmp: TBitmap;
 
   function BtnW(ABtn: TsButton; AMin: Integer): Integer;
@@ -569,17 +599,8 @@ begin
     FListHost.SetBounds(FBody.Padding.Left, Y, InnerW, 0);
   end;
 
-  if FExpanded then
-    NeedH := PreferredExpandedHeight
-  else
-    NeedH := FfPx(FIND_OCC_BAR_HEIGHT);
-  if (not FFloating) and (Height <> NeedH) then
-    Height := NeedH;
-  Constraints.MinHeight := FfPx(FIND_OCC_BAR_HEIGHT);
-  if FExpanded and (not FFloating) then
-    Constraints.MaxHeight := NeedH
-  else
-    Constraints.MaxHeight := 0;
+  Constraints.MinHeight := ChromeHeight;
+  Constraints.MaxHeight := 0;
 
   if Assigned(FBtnHide) then
     FBtnHide.Width := FfPx(28);
@@ -593,13 +614,17 @@ begin
     if Assigned(FSearchRow) and Assigned(FEditShell) and Assigned(FBtnGo) then
     begin
       GoW := BtnW(FBtnGo, 72);
-      EditW := InnerW - GoW - Gap;
+      GrepW := BtnW(FBtnGrep, 60);
+      GlobW := BtnW(FBtnGlob, 60);
+      EditW := InnerW - GoW - GrepW - GlobW - 3 * Gap;
       if EditW < FfPx(120) then
         EditW := FfPx(120);
       EditTop := Max(0, (SearchH - FfPx(28)) div 2);
       FEditShell.SetBounds(0, EditTop, EditW, FfPx(28));
       FBtnGo.SetBounds(EditW + Gap, Max(0, (SearchH - FfPx(FIND_OCC_BTN_H)) div 2),
         GoW, FfPx(FIND_OCC_BTN_H));
+      FBtnGrep.SetBounds(FBtnGo.Left + GoW + Gap, FBtnGo.Top, GrepW, FBtnGo.Height);
+      FBtnGlob.SetBounds(FBtnGrep.Left + GrepW + Gap, FBtnGo.Top, GlobW, FBtnGo.Height);
     end;
 
     X := 0;
@@ -610,6 +635,7 @@ begin
     PlaceLeft(FBtnExport, 90);
     PlaceLeft(FBtnCopy, 78);
     PlaceLeft(FBtnClear, 78);
+    PlaceLeft(FBtnClose, 78);
   finally
     MeasureBmp.Free;
   end;
@@ -623,6 +649,9 @@ end;
 procedure TFastFileFindOccBar.Resize;
 begin
   inherited;
+  if FExpanded and (not FFloating) and
+     (Height > FfPx(FIND_OCC_BAR_HEIGHT) + FfPx(FIND_OCC_LIST_MIN_H)) then
+    FUserHeight := Height;
   LayoutChrome;
 end;
 
@@ -701,6 +730,10 @@ begin
   FBtnExport.Caption := TrText('FindOcc.Export');
   FBtnCopy.Caption := TrText('FindOcc.Copy');
   FBtnClear.Caption := TrText('FindOcc.Clear');
+  if Assigned(FBtnClose) then
+    FBtnClose.Caption := TrText('Close');
+  FBtnGrep.Hint := Format(TrText('SearchCmd.LaunchHint'), ['grep']);
+  FBtnGlob.Hint := Format(TrText('SearchCmd.LaunchHint'), ['glob']);
   if Assigned(FBtnGo) then
     FBtnGo.Caption := TrText('FindOcc.Go');
   FBtnHide.Caption := #$00D7;
@@ -713,18 +746,27 @@ begin
   FBtnExport.Hint := TrText('FindOcc.ExportHint');
   FBtnCopy.Hint := TrText('FindOcc.CopyHint');
   FBtnClear.Hint := TrText('FindOcc.ClearHint');
+  if Assigned(FBtnClose) then
+    FBtnClose.Hint := TrText('FindOcc.CloseHint');
   if Assigned(FBtnGo) then
     FBtnGo.Hint := TrText('FindOcc.GoHint');
   if Assigned(FEdtFind) then
   begin
-    FEdtFind.TextHint := TrText('FindOcc.SearchHint');
-    FEdtFind.Hint := TrText('FindOcc.SearchHint');
+    FEdtFind.TextHint := TrText('SearchCmd.Hint');
+    FEdtFind.Hint := TrText('FindOcc.SearchHint') + #13#10 + TrText('SearchCmd.Hint');
   end;
   FBtnHide.Hint := TrText('Close');
   FBtnPagePrev.Hint := TrText('FindOcc.ListPagePrevHint');
   FBtnPageNext.Hint := TrText('FindOcc.ListPageNextHint');
   SyncFloatAction;
   LayoutChrome;
+end;
+
+procedure TFastFileFindOccBar.BtnCommandClick(Sender: TObject);
+begin
+  if not Assigned(FOnCommand) then Exit;
+  if Sender = FBtnGlob then FOnCommand(Self, 'glob')
+  else FOnCommand(Self, 'grep');
 end;
 
 procedure TFastFileFindOccBar.SetStatus(const AStatusText: string; ABusy, AHasHits, APartial: Boolean);
@@ -774,21 +816,39 @@ begin
     FBtnCollect.Enabled := AEnabled;
 end;
 
+function TFastFileFindOccBar.ChromeHeight: Integer;
+begin
+  { Title + search + buttons + the bottom resize grip. No empty band. }
+  Result := FfPx(8 + FIND_OCC_TOP_H + 6 + FIND_OCC_SEARCH_H + 6 +
+    FIND_OCC_BTN_H + 6 + 8 + 16);
+end;
+
 procedure TFastFileFindOccBar.SetExpanded(AExpanded: Boolean);
+var
+  Coming, Collapsed: Integer;
 begin
   EnsureBuilt;
-  FExpanded := AExpanded;
+  Collapsed := ChromeHeight;
+  Constraints.MaxHeight := 0;
+  Constraints.MinHeight := Collapsed;
   if AExpanded then
   begin
-    Constraints.MaxHeight := 0;
-    Height := PreferredExpandedHeight;
-    if not FFloating then
-      Constraints.MaxHeight := Height;
+    Coming := Ord(not FExpanded);
+    FExpanded := True;
+    { First open of the hit list uses the saved drag height, not a fixed cap. }
+    if (Coming <> 0) and (not FFloating) then
+    begin
+      if FUserHeight > Collapsed + FfPx(8) then
+        Height := FUserHeight
+      else
+        Height := PreferredExpandedHeight;
+    end;
   end
   else
   begin
-    Constraints.MaxHeight := 0;
-    Height := FfPx(FIND_OCC_BAR_HEIGHT);
+    FExpanded := False;
+    if not FFloating then
+      Height := Collapsed;
   end;
   LayoutChrome;
 end;

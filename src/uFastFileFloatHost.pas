@@ -29,8 +29,10 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure GripMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure GripMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      Shift: TShiftState; X: Integer; Y: Integer);
     function ResizeHost: TControl;
+  protected
+    procedure Paint; override;
   public
     constructor CreateGrip(AOwner: TComponent; AParent: TWinControl;
       AKind: TFastFileGripKind);
@@ -159,6 +161,7 @@ begin
   Color := $00E6E0DA;
   Cursor := crVSplit;
   ShowHint := True;
+  ControlStyle := ControlStyle + [csDoubleClicks];
   OnMouseDown := GripMouseDown;
   OnMouseMove := GripMouseMove;
   OnMouseUp := GripMouseUp;
@@ -249,6 +252,33 @@ begin
   SetCaptureControl(nil);
   if Assigned(FOnResized) then
     FOnResized(Self);
+end;
+
+procedure TFastFileEdgeGrip.Paint;
+var
+  MidY, CX, I: Integer;
+begin
+  Canvas.Brush.Color := Color;
+  Canvas.FillRect(ClientRect);
+  if ClientHeight < 10 then
+  begin
+    Canvas.Pen.Color := TColor($00B7AEA4);
+    Canvas.MoveTo(0, ClientHeight div 2);
+    Canvas.LineTo(ClientWidth, ClientHeight div 2);
+    Exit;
+  end;
+  Canvas.Pen.Color := TColor($00A89E93);
+  Canvas.Pen.Width := 1;
+  Canvas.MoveTo(8, 1);
+  Canvas.LineTo(ClientWidth - 8, 1);
+  Canvas.MoveTo(8, ClientHeight - 2);
+  Canvas.LineTo(ClientWidth - 8, ClientHeight - 2);
+  MidY := ClientHeight div 2;
+  CX := ClientWidth div 2;
+  Canvas.Brush.Color := TColor($005C554E);
+  Canvas.Pen.Color := TColor($005C554E);
+  for I := -3 to 3 do
+    Canvas.Ellipse(CX + I * 8 - 2, MidY - 2, CX + I * 8 + 3, MidY + 3);
 end;
 
 { TFastFileFloatForm }

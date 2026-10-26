@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, StdCtrls, Buttons, DateUtils, Math, ClipBrd, CommCtrl,
-  uLineEditor, uMMF, UnBufferedTextWriter, uPosBMH;
+  uLineEditor, uMMF, UnBufferedTextWriter, uPosBMH, uFfOverlayButton,
+  uTemporaryFileStream, uZeroScanBlockIndex, uFastLineEdit;
 
 type
   TfrmSmoothLoadingForm = class(TForm)
@@ -15,7 +16,6 @@ type
     lblDetail: TLabel;
     tmrAnimation: TTimer;
     pbProgressBar: TPaintBox;
-    btnCancel: TBitBtn;
     procedure tmrAnimationTimer(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -63,6 +63,7 @@ type
     procedure ForceFullScreen;
     procedure SnapFullyOpaque;
   public
+    btnCancel: TFfOverlayButton;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ApplyDetailLabelLook;
@@ -182,6 +183,16 @@ type
   end;
 
 type
+  { Escritores e ficheiros de indice de uma leitura (TReadFileThread.Execute). }
+  TReadIndexWriters = record
+    Dense: TBufferedTextWriter;          { temp.txt: inicio de todas as linhas; nil acima de 2 GB }
+    Ckpt: TBufferedTextWriter;           { temp_ckpt.txt: inicio de 1 a cada CKPT_INTERVAL linhas }
+    Blocks: TZeroScanBlockIndexWriter;   { indice por blocos; so Zero Scan sob demanda }
+    DenseTemp: TTemporaryFileStream;     { Zero Scan: temporario do denso }
+    CkptTemp: TTemporaryFileStream;      { Zero Scan: temporario do checkpoint }
+    CkptTempPath: string;                { Modo normal: temporario do checkpoint (ckpti) }
+  end;
+
   TReadFileThread = class(TThread)
   private
     FAutoHide: Boolean;
@@ -201,14 +212,13 @@ type
     totalCharacters: Int64;
     FAutoDeleteDenseIndex: Boolean;  // if file > 2GB, auto-delete temp.txt after indexing
     FIsUltraLargeFile: Boolean;
-    // if file > 500GB, disable word wrap
-    FHitLineLimit: Boolean;
+    { Acima de 2 GB o indice denso nao e gravado; o checkpoint esparso segue ate o fim. }
     FSkipDenseIndex: Boolean;       { > DENSE_INDEX_MAX_BYTES: ckpt esparso; nao e Zero Scan. }
     FZeroScanOnDemandIndex: Boolean; { True: indexacao sob demanda apos abertura instantanea }
     FIndexFailed: Boolean;
     FIndexErrorMsg: string;
+    FReadWorkerCount: Integer;
 
-    procedure SyncShowAirbagWarning;
     procedure SyncOfferReadFallback;
     procedure SyncReadCancelled;
     procedure SyncShowLoading;
@@ -218,6 +228,14 @@ type
     procedure SyncFinishFileNameRead;
     procedure FinishThreadExecution;
     procedure SyncProgress;
+    { Passos de Execute (ver DOC_TREADFILETHREAD_EXECUTE.md). }
+    function ReadStopRequested: Boolean;
+    procedure ResetReadState;
+    procedure DeleteOldIndexFiles;
+    procedure DetectFileLayout(out ATermByte: Byte);
+    procedure PrepareIndexWriters(var W: TReadIndexWriters);
+    procedure ScanLineFeeds(const W: TReadIndexWriters; const ATermByte: Byte);
+    procedure FinalizeIndexFiles(var W: TReadIndexWriters);
   protected
     procedure Execute; override;
   public
@@ -253,12 +271,20 @@ type
     CharCount: Integer;
     FFileName: String;
     FDeltaFileName: String;
+    { Caminho rapido (uFastLineEdit.TryFastMultiReplace). }
+    FFastAttempted: Boolean;
+    FFastMode: TFastEditMode;
+    FFastIndexReady: Boolean;
+    FFastLineCount: Int64;
     FTotalSize: Int64;
     FCurrentPercent: Integer;
     FPercentToSync: Integer;
     FSuccess: Boolean;
     FErrorMsg: String;
     FTempFileName: String;
+    { Codificacao do arquivo: o texto novo e gravado com ela (como na edicao de uma linha). }
+    FEncHint: String;
+    FEnc: String;
     
     procedure SyncShowLoading;
     procedure SyncHideLoading;
@@ -266,6 +292,9 @@ type
     procedure SyncProgress;
     procedure SyncError;
     procedure FinishThread;
+  private
+    function EncodeDeltaText(const S: string): AnsiString;
+    function TryFastMerge(const ADelta: TDeltaArray; const ACount: Integer): Boolean;
   protected
     procedure Execute; override;
   public
@@ -328,7 +357,14 @@ type
     FOutputLineCount: Int64;
     { Linhas efectivamente escritas (memo multilinha / WriteContentLines). }
     FWrittenLineCount: Integer;
+    { Caminho rapido (uFastLineEdit): femNone = caminho completo abaixo. }
+    FFastMode: TFastEditMode;
+    FFastLineCount: Int64;
+    FFastIndexReady: Boolean;
 
+    function TryFastEdit: Boolean;
+    function BuildEditPayload: RawByteString;
+    procedure ReportEditProgress(const ADone, ATotal: Int64);
     function ResolveEditEncoding: string;
     function ShouldOmitLineForDelete(const ACurrentLine: Int64): Boolean;
     function WriteInsertLines(DestWriter: TBufferedTextWriter): Integer;
@@ -768,8 +804,9 @@ implementation
 uses
   MainUnit, ThreadFileLog, uI18n, UnUtils, uFileSessionHistory, uFastFilePaths,
   uFastFileNotice, uFastFileMsgDlg, uExportDialog, uExportDoneDlg,
-  uTemporaryFileStream, uZeroScanBlockIndex, UnConsts, uFileOpenPolicy, uDiskSpaceCheck,
-  uTextEncoding, uLineIndexScan, uEolPolicy, ComObj, ActiveX;
+  UnConsts, uFileOpenPolicy, uDiskSpaceCheck,
+  uTextEncoding, uLineIndexScan, uEolPolicy, ComObj, ActiveX,
+  System.Generics.Collections, System.Generics.Defaults;
 
 type
   TReplaceAllBMHShiftTable = array[0..255] of Integer;
@@ -1056,11 +1093,6 @@ begin
   inherited Create(CreateSuspended, AFileName, AutoHide, {ShowUI=}False);
 end;
 
-procedure TReadFileThread.SyncShowAirbagWarning;
-begin
-  Windows.MessageBox(0, PChar(TrText('Memory Airbag activated! The file has more than 2 billion lines, exceeding the 32-bit Windows safe limit. Reading was automatically aborted to protect the system from crashing.')), PChar(TrText('Protection Activated (FastFile)')), 48); // 48 = MB_ICONWARNING
-end;
-
 procedure TReadFileThread.SyncShowLoading;
 begin
   TfrmSmoothLoading.ShowLoading(FLoadingMsg);
@@ -1088,235 +1120,327 @@ begin
     TfrmSmoothLoading.UpdateProgress(FPercentToSync);
 end;
 
-{ Leitura sequencial indexada (BeginRead / F5 / reindex pos-edicao / indexacao sob demanda).
+{ ============================================================================
+  TReadFileThread.Execute - leitura indexada (BeginRead / F5 / reindex pos-edicao /
+  indexacao sob demanda). Le o ficheiro do inicio ao fim, conta as linhas e grava:
+    - indice denso      (temp.txt):      inicio de todas as linhas (ficheiros ate 2 GB)
+    - indice checkpoint (temp_ckpt.txt): inicio de 1 a cada CKPT_INTERVAL linhas
+    - indice por blocos (so Zero Scan sob demanda)
+  Explicacao completa: DOC_TREADFILETHREAD_EXECUTE.md.
   Abertura Instant Zero Scan (>= MaxGbFileIndexed) NAO passa aqui: MainUnit.BeginRead chama
-  finishFileNameRead directamente sem TReadFileThread. }
-procedure TReadFileThread.Execute;
-  var MMF: TMMFReader; P: PByte; Contiguous: Cardinal; AbsOffset: Int64;
-    IndexWriter, CkptWriter: TBufferedTextWriter;
-    IdxW: TBufferedTextWriter;
-    CkptW: TBufferedTextWriter;
-    BlkW: TZeroScanBlockIndexWriter;
-    IndexFileName, CkptFileName, CkptTempName, DenseTempPath, RenameErr: string;
-    CkptTempFile, DenseTempFile: TTemporaryFileStream;
-    BlockWriter: TZeroScanBlockIndexWriter;
-    LastUIUpdateTick: DWORD;
-    LastProgressOffset: Int64;
-    FCurrentPermille: Integer;
-    ScanSliceOffset: Int64;
-    RegionBase, RegionSize, SliceLen: Integer;
-    CkptBufSize: Integer;
-    LineOff: Int64;
-    FSparseCkptOnly: Boolean;
-    OnLf: TLineFeedFoundProc;
-    UsedParallel: Boolean;
-    Bundle: TLineIndexWriterBundle;
-    DoProgress: TIndexScanProgressEvent;
-    TermByte: Byte;
-  begin
-    inherited;
-    totalLines := 0; FBytesRead := 0; FHitLineLimit := False; FIndexFailed := False;
-    FIndexErrorMsg := ''; FCurrentPercent := 0; FCurrentPermille := 0;
-    IndexFileName := FastFileExeDirPath(TEMPFILE);
-    CkptFileName  := FastFileExeDirPath(TEMP_CKPT_FILE);
-    CkptTempName := '';
-    DenseTempPath := '';
-    MMF := nil; IndexWriter := nil; CkptWriter := nil;
-    CkptTempFile := nil; DenseTempFile := nil;
-    BlockWriter := nil;
-    try
-      try
-      begin
-        UnUtils.TryDeleteFileWithRetry(IndexFileName, 3, 20);
-        UnUtils.TryDeleteFileWithRetry(CkptFileName, 3, 20);
-        UnUtils.TryDeleteFileWithRetry(FastFileExeDirPath(TEMP_INDEX_META), 3, 20);
-        if FZeroScanOnDemandIndex then
-          ZeroScanDeleteBlockIndex;
-        FTotalSize := UnUtils.GetFileSize(fileName);
-        TermByte := LineTermByteForFile(fileName);
-        { Keep dense index (temp.txt) whenever it is built: Find/Replace, filter and
-          segmented heavy ops rely on it. Previously files >1GB deleted the dense
-          index after load, which broke search while the ListView still looked loaded. }
-        FAutoDeleteDenseIndex := False;
-        FSkipDenseIndex := (FTotalSize > DENSE_INDEX_MAX_BYTES);
-        { Alinhado a MAX_GB_FILE_INDEXED (abertura Zero Scan quando > este tamanho). }
-        FIsUltraLargeFile := (FTotalSize >= MaxBytesFileIndexed);
-        if FZeroScanOnDemandIndex then
-        begin
-          CkptTempFile := TTemporaryFileStream.CreateForIndex('zsckpt');
-          CkptTempName := CkptTempFile.FilePath;
-          if FSkipDenseIndex then
-            CkptBufSize := 16 * 1024 * 1024
-          else
-            CkptBufSize := 2 * 1024 * 1024;
-          CkptWriter := TBufferedTextWriter.CreateFromHandle(CkptTempFile.Handle, CkptBufSize);
-          if not FSkipDenseIndex then
-          begin
-            DenseTempFile := TTemporaryFileStream.CreateForIndex('zsdense');
-            DenseTempPath := DenseTempFile.FilePath;
-            IndexWriter := TBufferedTextWriter.CreateFromHandle(DenseTempFile.Handle, 16 * 1024 * 1024);
-          end;
-        end
-        else
-        begin
-          CkptTempName := NewFastFileTemp('ckpti');
-          UnUtils.TryDeleteFileWithRetry(CkptTempName, 12, 80);
-          if not FSkipDenseIndex then
-            IndexWriter := TBufferedTextWriter.Create(IndexFileName, 16 * 1024 * 1024);
-          if FSkipDenseIndex then
-            CkptBufSize := 32 * 1024 * 1024
-          else
-            CkptBufSize := 8 * 1024 * 1024;
-          CkptWriter := TBufferedTextWriter.Create(CkptTempName, CkptBufSize);
-        end;
-        if FZeroScanOnDemandIndex then
-          BlockWriter := TZeroScanBlockIndexWriter.Create;
-        IdxW := IndexWriter;
-        CkptW := CkptWriter;
-        BlkW := BlockWriter;
-        FSparseCkptOnly := FSkipDenseIndex and (IdxW = nil) and (BlkW = nil);
-        if FTotalSize > 0 then
-        begin
-          if IdxW <> nil then IdxW.WriteOffsetDirect(1);
-          CkptW.WriteOffsetDirect(1);
-        end;
-        AbsOffset := 0;
-        LastUIUpdateTick := GetTickCount;
-        LastProgressOffset := 0;
-        DoProgress := procedure(const AtOffset: Int64)
-        const
-          READ_PROGRESS_INTERVAL_MS = 45;
-          READ_PROGRESS_PERMILLE_CATCHUP = 12;
-        var
-          NewPermille: Integer;
-        begin
-          if not FShowLoadingUI then Exit;
-          if FTotalSize <= 0 then Exit;
-          NewPermille := Integer((AtOffset * 990) div FTotalSize);
-          if NewPermille <= FCurrentPermille then Exit;
-          if (NewPermille - FCurrentPermille < READ_PROGRESS_PERMILLE_CATCHUP) and
-             (GetTickCount - LastUIUpdateTick < READ_PROGRESS_INTERVAL_MS) then Exit;
-          FCurrentPermille := NewPermille;
-          FCurrentPercent := NewPermille div 10;
-          LastProgressOffset := AtOffset;
-          LastUIUpdateTick := GetTickCount;
-          TfrmSmoothLoading.PostProgressFineFromWorker(NewPermille);
-          TfrmSmoothLoading.PostDetailFromWorker(
-            Format('%s %s', [TrText('Total lines:'), FormatFloat('#,##0', totalLines)]));
-        end;
-        OnLf := procedure(const ALfPos0: Int64)
-        begin
-          Inc(totalLines);
-          if FSparseCkptOnly then
-          begin
-            if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
-              CkptW.WriteOffsetDirect(ALfPos0 + 2);
-          end
-          else
-          begin
-            LineOff := ALfPos0 + 2;
-            if IdxW <> nil then IdxW.WriteOffsetDirect(LineOff);
-            if BlkW <> nil then BlkW.NoteLineStart1Based(LineOff, ALfPos0);
-            if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
-              CkptW.WriteOffsetDirect(LineOff);
-          end;
-        end;
-        UsedParallel := False;
-        if FSparseCkptOnly and (FTotalSize > 0) then
-        begin
-          Bundle.IdxW := nil;
-          Bundle.CkptW := CkptW;
-          Bundle.BlkW := nil;
-          Bundle.SparseCkptOnly := True;
-          UsedParallel := TryParallelLineIndexScan(fileName, FTotalSize, totalLines,
-            FHitLineLimit, Bundle,
-            function: Boolean
-            begin
-              Result := Terminated or TfrmSmoothLoading.IndexReadShouldStop;
-            end,
-            DoProgress, TermByte);
-        end;
-        if not UsedParallel then
-        begin
-        MMF := TMMFReader.Create(fileName);
-        while (AbsOffset < FTotalSize) and (not Terminated)
-          and (not TfrmSmoothLoading.IndexReadShouldStop) do
-        begin
-          P := MMF.PtrAt(AbsOffset, 1, Contiguous);
-          if (P = nil) or (Contiguous = 0) then Break;
-          RegionSize := Integer(Contiguous);
-          RegionBase := 0;
-          while RegionBase < RegionSize do
-          begin
-            SliceLen := RegionSize - RegionBase;
-            { 64 MB: AVX2/SWAR numa passagem; progresso da overlay ainda actualiza. }
-            if SliceLen > 64 * 1024 * 1024 then
-              SliceLen := 64 * 1024 * 1024;
-            ScanSliceOffset := AbsOffset + Int64(RegionBase);
-            ScanBufferForLineFeeds(PByte(PAnsiChar(P) + RegionBase), SliceLen,
-              ScanSliceOffset, OnLf, TermByte);
-            Inc(RegionBase, SliceLen);
-            DoProgress(AbsOffset + Int64(RegionBase));
-            if totalLines >= 2000000000 then
-              Break;
-          end;
-          AbsOffset := AbsOffset + Int64(Contiguous);
+  finishFileNameRead directamente sem TReadFileThread.
+  ============================================================================ }
 
-          if totalLines >= 2000000000 then
-          begin
-            FHitLineLimit := True;
-            Break;
-          end;
-        end;
-      end;
-      DoProgress(FTotalSize);
-      end;
-      // Application.ProcessMessages removed to avoid hangs
-      { Delphi 7: ProcessMessages nao despacha TThread.Synchronize; FinishThreadExecution is enough }
-      except
-        on E: Exception do
+const
+  { Fatia maxima por chamada a ScanBufferForLineFeeds: AVX2/SWAR numa passagem e a
+    barra de progresso continua a actualizar entre fatias. }
+  READ_SCAN_SLICE_BYTES = 64 * 1024 * 1024;
+  READ_DENSE_BUF_BYTES = 16 * 1024 * 1024;
+
+{ Fecha um temporario do Zero Scan e, se ACommit, move-o para ATarget.
+  Sem ACommit o proprio Destroy apaga o temporario; se a renomeacao falhar,
+  TryRenameTempOverTarget tambem o apaga. }
+procedure CommitTempIndexFile(var ATemp: TTemporaryFileStream; const ATarget: string;
+  const ACommit: Boolean);
+var
+  TempPath, RenameErr: string;
+begin
+  if ATemp = nil then Exit;
+  TempPath := ATemp.FilePath;
+  ATemp.DeleteFileOnDestroy := not ACommit;
+  FreeAndNil(ATemp);
+  if ACommit and FileExists(TempPath) then
+    UnUtils.TryRenameTempOverTarget(TempPath, ATarget, RenameErr);
+end;
+
+function TReadFileThread.ReadStopRequested: Boolean;
+begin
+  Result := Terminated or TfrmSmoothLoading.IndexReadShouldStop;
+end;
+
+procedure TReadFileThread.ResetReadState;
+begin
+  totalLines := 0;
+  FBytesRead := 0;
+  FIndexFailed := False;
+  FIndexErrorMsg := '';
+  FCurrentPercent := 0;
+end;
+
+{ Apaga os indices da leitura anterior antes de gravar os novos. }
+procedure TReadFileThread.DeleteOldIndexFiles;
+begin
+  UnUtils.TryDeleteFileWithRetry(FastFileExeDirPath(TEMPFILE), 3, 20);
+  UnUtils.TryDeleteFileWithRetry(FastFileExeDirPath(TEMP_CKPT_FILE), 3, 20);
+  UnUtils.TryDeleteFileWithRetry(FastFileExeDirPath(TEMP_INDEX_META), 3, 20);
+  if FZeroScanOnDemandIndex then
+    ZeroScanDeleteBlockIndex;
+end;
+
+{ Mede o ficheiro e decide quais indices gravar. }
+procedure TReadFileThread.DetectFileLayout(out ATermByte: Byte);
+begin
+  FTotalSize := UnUtils.GetFileSize(fileName);
+  { LF (10) normalmente; CR (13) em ficheiros Mac classico. }
+  ATermByte := LineTermByteForFile(fileName);
+  { Keep dense index (temp.txt) whenever it is built: Find/Replace, filter and
+    segmented heavy ops rely on it. Previously files >1GB deleted the dense
+    index after load, which broke search while the ListView still looked loaded. }
+  FAutoDeleteDenseIndex := False;
+  { Acima de DENSE_INDEX_MAX_BYTES so se grava o checkpoint. }
+  FSkipDenseIndex := (FTotalSize > DENSE_INDEX_MAX_BYTES);
+  { Alinhado a MAX_GB_FILE_INDEXED (abertura Zero Scan quando > este tamanho). }
+  FIsUltraLargeFile := (FTotalSize >= MaxBytesFileIndexed);
+end;
+
+{ Abre os escritores dos indices. Em caso de excepcao a meio, o que ja foi criado
+  fica em W e e libertado por FinalizeIndexFiles. }
+procedure TReadFileThread.PrepareIndexWriters(var W: TReadIndexWriters);
+var
+  CkptBufSize: Integer;
+begin
+  if FZeroScanOnDemandIndex then
+  begin
+    { Zero Scan sob demanda: tudo em temporarios na pasta temp do FastFile;
+      FinalizeIndexFiles move-os para temp.txt / temp_ckpt.txt no fim. }
+    W.CkptTemp := TTemporaryFileStream.CreateForIndex('zsckpt');
+    if FSkipDenseIndex then
+      CkptBufSize := 16 * 1024 * 1024
+    else
+      CkptBufSize := 2 * 1024 * 1024;
+    W.Ckpt := TBufferedTextWriter.CreateFromHandle(W.CkptTemp.Handle, CkptBufSize);
+    if not FSkipDenseIndex then
+    begin
+      W.DenseTemp := TTemporaryFileStream.CreateForIndex('zsdense');
+      W.Dense := TBufferedTextWriter.CreateFromHandle(W.DenseTemp.Handle, READ_DENSE_BUF_BYTES);
+    end;
+    W.Blocks := TZeroScanBlockIndexWriter.Create;
+  end
+  else
+  begin
+    { Modo normal: denso directo em temp.txt; checkpoint num temporario (ckpti)
+      renomeado para temp_ckpt.txt no fim. }
+    W.CkptTempPath := NewFastFileTemp('ckpti');
+    UnUtils.TryDeleteFileWithRetry(W.CkptTempPath, 12, 80);
+    if not FSkipDenseIndex then
+      W.Dense := TBufferedTextWriter.Create(FastFileExeDirPath(TEMPFILE), READ_DENSE_BUF_BYTES);
+    if FSkipDenseIndex then
+      CkptBufSize := 32 * 1024 * 1024
+    else
+      CkptBufSize := 8 * 1024 * 1024;
+    W.Ckpt := TBufferedTextWriter.Create(W.CkptTempPath, CkptBufSize);
+  end;
+  { Offsets em base 1: a linha 1 comeca sempre no byte 1. }
+  if FTotalSize > 0 then
+  begin
+    if W.Dense <> nil then W.Dense.WriteOffsetDirect(1);
+    W.Ckpt.WriteOffsetDirect(1);
+  end;
+end;
+
+{ Varre o ficheiro a procura do terminador de linha e grava os offsets nos indices. }
+procedure TReadFileThread.ScanLineFeeds(const W: TReadIndexWriters; const ATermByte: Byte);
+const
+  READ_PROGRESS_INTERVAL_MS = 45;
+  READ_PROGRESS_PERMILLE_CATCHUP = 12;
+var
+  { Locais capturadas pelos procedimentos anonimos. OnLf corre uma vez por linha:
+    locais capturadas evitam a indireccao extra de campos via Self. }
+  IdxW, CkptW: TBufferedTextWriter;
+  BlkW: TZeroScanBlockIndexWriter;
+  SparseCkptOnly: Boolean;
+  LineOff: Int64;
+  CurrentPermille: Integer;
+  LastUIUpdateTick: DWORD;
+  OnLf: TLineFeedFoundProc;
+  DoProgress: TIndexScanProgressEvent;
+  Bundle: TLineIndexWriterBundle;
+  UsedParallel: Boolean;
+  ReadWorkers: Integer;
+  MMF: TMMFReader;
+  P: PByte;
+  Contiguous: Cardinal;
+  AbsOffset: Int64;
+  RegionBase, RegionSize, SliceLen: Integer;
+  StartTick: UInt64;
+  PathName: string;
+begin
+  StartTick := GetTickCount64;
+  IdxW := W.Dense;
+  CkptW := W.Ckpt;
+  BlkW := W.Blocks;
+  { So checkpoint (ficheiros > 2 GB, modo normal): OnLf grava 1 linha em CKPT_INTERVAL. }
+  SparseCkptOnly := FSkipDenseIndex and (IdxW = nil) and (BlkW = nil);
+  CurrentPermille := 0;
+  LastUIUpdateTick := GetTickCount;
+
+  { Progresso em milesimos ate 990; os 100% sao enviados em SyncFinishFileNameRead.
+    So envia se avancou READ_PROGRESS_PERMILLE_CATCHUP milesimos ou se passaram
+    READ_PROGRESS_INTERVAL_MS, para nao inundar a overlay de mensagens. }
+  DoProgress := procedure(const AtOffset: Int64)
+  var
+    NewPermille: Integer;
+  begin
+    if not FShowLoadingUI then Exit;
+    if FTotalSize <= 0 then Exit;
+    NewPermille := Integer((AtOffset * 990) div FTotalSize);
+    if NewPermille <= CurrentPermille then Exit;
+    if (NewPermille - CurrentPermille < READ_PROGRESS_PERMILLE_CATCHUP) and
+       (GetTickCount - LastUIUpdateTick < READ_PROGRESS_INTERVAL_MS) then Exit;
+    CurrentPermille := NewPermille;
+    FCurrentPercent := NewPermille div 10;
+    LastUIUpdateTick := GetTickCount;
+    TfrmSmoothLoading.PostProgressFineFromWorker(NewPermille);
+    TfrmSmoothLoading.PostDetailFromWorker(
+      Format('%s %s', [TrText('Total lines:'), FormatFloat('#,##0', totalLines)]));
+  end;
+
+  { Chamado uma vez por terminador de linha: manter o mais leve possivel.
+    ALfPos0 = posicao do terminador em base 0; a linha seguinte comeca em
+    ALfPos0 + 2 (base 1). (n and (CKPT_INTERVAL - 1)) = 0 equivale a
+    "n multiplo de CKPT_INTERVAL" (potencia de 2), sem divisao. }
+  OnLf := procedure(const ALfPos0: Int64)
+  begin
+    Inc(totalLines);
+    if SparseCkptOnly then
+    begin
+      if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
+        CkptW.WriteOffsetDirect(ALfPos0 + 2);
+    end
+    else
+    begin
+      LineOff := ALfPos0 + 2;
+      if IdxW <> nil then IdxW.WriteOffsetDirect(LineOff);
+      if BlkW <> nil then BlkW.NoteLineStart1Based(LineOff, ALfPos0);
+      if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
+        CkptW.WriteOffsetDirect(LineOff);
+    end;
+  end;
+
+  { Caminho rapido (Win64, ficheiros >= LINE_INDEX_PARALLEL_MIN_BYTES): pipeline
+    multi-thread por blocos, para todos os indices (denso, checkpoint, blocos).
+    Devolve False sem escrever nada se nao se aplicar; segue-se o caminho sequencial. }
+  UsedParallel := False;
+  ReadWorkers := 0;
+  if FTotalSize > 0 then
+  begin
+    Bundle.IdxW := IdxW;
+    Bundle.CkptW := CkptW;
+    Bundle.BlkW := BlkW;
+    Bundle.SparseCkptOnly := SparseCkptOnly;
+    UsedParallel := TryParallelLineIndexScan(fileName, FTotalSize, totalLines,
+      Bundle,
+      function: Boolean
+      begin
+        Result := ReadStopRequested;
+      end,
+      DoProgress, ReadWorkers, ATermByte);
+  end;
+
+  if UsedParallel then
+    FReadWorkerCount := ReadWorkers
+  else
+    FReadWorkerCount := 1;
+
+  if not UsedParallel then
+  begin
+    { Caminho sequencial: ficheiro mapeado em memoria, percorrido por regioes
+      contiguas e, dentro de cada regiao, por fatias de READ_SCAN_SLICE_BYTES. }
+    MMF := TMMFReader.Create(fileName);
+    try
+      AbsOffset := 0;
+      while (AbsOffset < FTotalSize) and (not ReadStopRequested) do
+      begin
+        P := MMF.PtrAt(AbsOffset, 1, Contiguous);
+        if (P = nil) or (Contiguous = 0) then Break;
+        RegionSize := Integer(Contiguous);
+        RegionBase := 0;
+        while RegionBase < RegionSize do
         begin
-          FIndexFailed := True;
-          FIndexErrorMsg := E.Message;
+          SliceLen := RegionSize - RegionBase;
+          if SliceLen > READ_SCAN_SLICE_BYTES then
+            SliceLen := READ_SCAN_SLICE_BYTES;
+          ScanBufferForLineFeeds(PByte(PAnsiChar(P) + RegionBase), SliceLen,
+            AbsOffset + Int64(RegionBase), OnLf, ATermByte);
+          Inc(RegionBase, SliceLen);
+          DoProgress(AbsOffset + Int64(RegionBase));
         end;
+        AbsOffset := AbsOffset + Int64(Contiguous);
       end;
     finally
-      if Assigned(IndexWriter) then FreeAndNil(IndexWriter);
-      if Assigned(CkptWriter) then FreeAndNil(CkptWriter);
-      if Assigned(MMF) then FreeAndNil(MMF);
-      if (not Terminated) and (not TfrmSmoothLoading.IndexReadShouldStop) then
+      MMF.Free;
+    end;
+  end;
+  DoProgress(FTotalSize);
+  if UsedParallel then
+    PathName := 'parallel'
+  else
+    PathName := 'sequential';
+  LogAsync(FastFileRuntimeLogPath, Format('[ReadIndex] path=%s workers=%d bytes=%d lines=%d ms=%d',
+    [PathName, FReadWorkerCount, FTotalSize, totalLines, Int64(GetTickCount64 - StartTick)]));
+end;
+
+{ Fecha os escritores e coloca os indices nos nomes finais. Corre sempre
+  (finally de Execute), tambem apos erro ou cancelamento. }
+procedure TReadFileThread.FinalizeIndexFiles(var W: TReadIndexWriters);
+var
+  Completed: Boolean;
+  RenameErr: string;
+begin
+  Completed := not ReadStopRequested;
+  { Libertar os escritores despeja os buffers no disco; tem de vir antes de
+    fechar os temporarios do Zero Scan, que sao o destino desses escritores. }
+  FreeAndNil(W.Dense);
+  FreeAndNil(W.Ckpt);
+  if FZeroScanOnDemandIndex then
+  begin
+    { Indice incompleto (erro a meio) nao e publicado. }
+    CommitTempIndexFile(W.DenseTemp, FastFileExeDirPath(TEMPFILE),
+      Completed and not FIndexFailed);
+    CommitTempIndexFile(W.CkptTemp, FastFileExeDirPath(TEMP_CKPT_FILE),
+      Completed and not FIndexFailed);
+  end
+  else if (W.CkptTempPath <> '') and FileExists(W.CkptTempPath) then
+  begin
+    RenameErr := '';
+    if (not Completed) or
+       (not UnUtils.TryRenameTempOverTarget(W.CkptTempPath,
+          FastFileExeDirPath(TEMP_CKPT_FILE), RenameErr)) then
+      UnUtils.TryDeleteFileWithRetry(W.CkptTempPath, 12, 80);
+  end;
+  if Assigned(W.Blocks) then
+  begin
+    if Completed then
+      W.Blocks.FinalizeIndex;
+    FreeAndNil(W.Blocks);
+  end;
+end;
+
+procedure TReadFileThread.Execute;
+var
+  W: TReadIndexWriters;
+  TermByte: Byte;
+begin
+  inherited;
+  ResetReadState;
+  W := Default(TReadIndexWriters);
+  try
+    try
+      DeleteOldIndexFiles;
+      DetectFileLayout(TermByte);
+      PrepareIndexWriters(W);
+      ScanLineFeeds(W, TermByte);
+    except
+      { A excepcao nao termina a thread: FinishThreadExecution trata FIndexFailed. }
+      on E: Exception do
       begin
-        if FZeroScanOnDemandIndex then
-        begin
-          if (DenseTempPath <> '') and FileExists(DenseTempPath) then
-          begin
-            RenameErr := '';
-            if UnUtils.TryRenameTempOverTarget(DenseTempPath, IndexFileName, RenameErr) then
-              DenseTempPath := '';
-          end;
-          if (CkptTempName <> '') and FileExists(CkptTempName) then
-          begin
-            RenameErr := '';
-            if UnUtils.TryRenameTempOverTarget(CkptTempName, CkptFileName, RenameErr) then
-              CkptTempName := '';
-          end;
-        end
-        else if (CkptTempName <> '') and FileExists(CkptTempName) then
-        begin
-          RenameErr := '';
-          if not UnUtils.TryRenameTempOverTarget(CkptTempName, CkptFileName, RenameErr) then
-            UnUtils.TryDeleteFileWithRetry(CkptTempName, 12, 80);
-        end;
-      end;
-      FreeAndNil(DenseTempFile);
-      FreeAndNil(CkptTempFile);
-      if Assigned(BlockWriter) then
-      begin
-        if (not Terminated) and (not TfrmSmoothLoading.IndexReadShouldStop) then
-          BlockWriter.FinalizeIndex;
-        FreeAndNil(BlockWriter);
+        FIndexFailed := True;
+        FIndexErrorMsg := E.Message;
       end;
     end;
+  finally
+    FinalizeIndexFiles(W);
+  end;
   FinishThreadExecution;
 end;
 
@@ -1335,9 +1459,9 @@ begin
     Exit;
   end;
   sw.Stop;
-  if FHitLineLimit then
-    Synchronize(SyncShowAirbagWarning);
-  if (FIndexFailed or FHitLineLimit) and (not FZeroScanOnDemandIndex) then
+  { O indice segue ate o fim do ficheiro. Nao ha corte aos 2 mil milhoes de
+    linhas nem desvio para Zero Scan por esse motivo. }
+  if FIndexFailed and (not FZeroScanOnDemandIndex) then
     Synchronize(SyncOfferReadFallback)
   else if Assigned(frmMain) then
     Synchronize(SyncFinishFileNameRead);
@@ -1350,10 +1474,7 @@ var
   Detail: string;
 begin
   if not Assigned(frmMain) then Exit;
-  if FHitLineLimit then
-    Detail := TrText('Open.IndexFailed.TooManyLines')
-  else
-    Detail := FIndexErrorMsg;
+  Detail := FIndexErrorMsg;
   TfrmMain(frmMain).HandleReadIndexFailure(fileName, Detail);
 end;
 
@@ -1374,7 +1495,7 @@ begin
     ActualLineCount := 0;
   if FShowLoadingUI then
     TfrmSmoothLoading.PostProgressFineFromWorker(1000);
-  if (not FIndexFailed) and (not FHitLineLimit) and (FTotalSize > 0) and
+  if (not FIndexFailed) and (FTotalSize > 0) and
      (ActualLineCount > 0) and FileExists(fileName) then
   begin
     UnUtils.GetFileSizeAndWriteTime(fileName, DummySize, Wt);
@@ -1382,8 +1503,9 @@ begin
   end;
   if Assigned(frmMain) then
   begin
-    frmMain.RememberFileReadTimer(TimerResult, ActualLineCount);
-    frmMain.finishFileNameRead(Format(TrText(INFO_FILE_TIME), [TimerResult, ActualLineCount]),
+    frmMain.RememberFileReadTimer(TimerResult, ActualLineCount, FReadWorkerCount);
+    frmMain.finishFileNameRead(frmMain.FileTimerCaption(1, TimerResult, ActualLineCount,
+      FReadWorkerCount),
       ActualLineCount, FTotalSize);
     frmMain.DeleteDenseIndexIfNeeded(FAutoDeleteDenseIndex);
   end;
@@ -1628,6 +1750,159 @@ begin
   end;
 end;
 
+{ Os mesmos bytes que WriteInsertLines / WriteContentLines gravariam. }
+function TEditFileThread.BuildEditPayload: RawByteString;
+var
+  M: TMemoryStream;
+  Eol: AnsiString;
+  SL: TStringList;
+  I: Integer;
+
+  procedure AddLine(const ALine: string);
+  var
+    B: AnsiString;
+  begin
+    B := EncodeEditText(ALine);
+    if Length(B) > 0 then
+      M.WriteBuffer(B[1], Length(B));
+    M.WriteBuffer(Eol[1], Length(Eol));
+  end;
+
+begin
+  Result := '';
+  if FOperation = otDelete then Exit;
+  Eol := OutputEolForFile(FFileName);
+  M := TMemoryStream.Create;
+  try
+    if (FOperation = otInsert) and Assigned(FInsertLines) and (FInsertLines.Count > 0) then
+    begin
+      for I := 0 to FInsertLines.Count - 1 do
+        AddLine(FInsertLines[I]);
+      FWrittenLineCount := FInsertLines.Count;
+    end
+    else if (Pos(#10, FContent) = 0) and (Pos(#13, FContent) = 0) then
+    begin
+      AddLine(FContent);
+      FWrittenLineCount := 1;
+    end
+    else
+    begin
+      SL := TStringList.Create;
+      try
+        SL.Text := FContent;
+        if SL.Count = 0 then
+          AddLine('')
+        else
+          for I := 0 to SL.Count - 1 do
+            AddLine(SL[I]);
+        FWrittenLineCount := Max(1, SL.Count);
+      finally
+        SL.Free;
+      end;
+    end;
+    SetLength(Result, M.Size);
+    if M.Size > 0 then
+      Move(M.Memory^, Result[1], M.Size);
+  finally
+    M.Free;
+  end;
+end;
+
+procedure TEditFileThread.ReportEditProgress(const ADone, ATotal: Int64);
+var
+  NewTh: Integer;
+begin
+  if ATotal <= 0 then Exit;
+  NewTh := Integer(Min(Int64(1000), (ADone * 1000) div ATotal));
+  { ~0,4% de ficheiro por passo: mais suave que saltos de 1% em ficheiros grandes. }
+  if (NewTh < FLastProgressThousandths + 4) and (NewTh < 1000) then Exit;
+  FLastProgressThousandths := NewTh;
+  FCurrentPercent := NewTh div 10;
+  FPercentToSync := FCurrentPercent;
+  if FShowLoadingUI then
+    Synchronize(SyncProgress)
+  else if Assigned(frmSmoothLoading) then
+    { Merge/RunEditWait na main: evita Synchronize + fila; PostMessage nao bloqueia a worker. }
+    TfrmSmoothLoading.PostProgressFromWorker(FPercentToSync);
+end;
+
+{ Edicao pelo indice de linhas (uFastLineEdit): sem varrer o ficheiro desde o byte 0
+  e sem reindexar depois. False = usar o caminho completo de Execute. }
+function TEditFileThread.TryFastEdit: Boolean;
+var
+  Req: TFastEditRequest;
+  Res: TFastEditResult;
+begin
+  Result := False;
+  FFastMode := femNone;
+  if not (FOperation in [otInsert, otDelete, otEdit, otReplace]) then Exit;
+  if UnUtils.GetFileSize(FFileName) < FAST_EDIT_MIN_BYTES then Exit;
+  { UTF-16: terminador de 2 bytes; o indice por byte nao se aplica. }
+  if (not FIsRawContent) and (Pos('16', ResolveEditEncoding) > 0) then Exit;
+  Req.FileName := FFileName;
+  case FOperation of
+    otInsert: Req.Kind := fekInsert;
+    otDelete: Req.Kind := fekDelete;
+  else
+    Req.Kind := fekReplace;
+  end;
+  Req.TargetLine := FTargetLine;
+  Req.SpanLines := FSpanLineCount;
+  Req.Payload := BuildEditPayload;
+  Req.TermByte := Byte(LineTermCharForFile(FFileName));
+  FCurrentPercent := 0;
+  FLastProgressThousandths := -100;
+  try
+    if not TryFastLineEdit(Req, Res,
+      function: Boolean
+      begin
+        Result := Terminated or TfrmSmoothLoading.CancelRequested;
+      end,
+      procedure(const ADone, ATotal: Int64)
+      begin
+        ReportEditProgress(ADone, ATotal);
+      end) then
+      Exit;
+  except
+    on E: EFastEditCancelled do
+    begin
+      FSuccess := False;
+      FErrorMsg := '';
+      TfrmSmoothLoading.ResetCancel;
+      Exit(True);
+    end;
+    on E: Exception do
+    begin
+      FSuccess := False;
+      FErrorMsg := DiskOperationFailureMessage(E);
+      LogAsync(FastFileRuntimeLogPath, '[EditFast] ' + E.Message);
+      Exit(True);
+    end;
+  end;
+  Result := True;
+  FFileSizeBefore := Res.SizeBefore;
+  FFileSizeAfter := Res.SizeBefore;
+  if FOperation <> otInsert then
+    FOldLineText := RawBytesToDisplayString(Res.OldFirstLine);
+  if Res.Mode = femNone then
+  begin
+    FSuccess := False;
+    FErrorMsg := Format(TrText('Line %d does not exist in the file. Valid range: 1..%d.'),
+      [FTargetLine, Res.ExistingLines]);
+    Exit;
+  end;
+  FSuccess := True;
+  FFastMode := Res.Mode;
+  FFastIndexReady := Res.IndexReady;
+  FFastLineCount := Res.LineCountAfter;
+  FOutputLineCount := Res.LineCountAfter;
+  FFileSizeAfter := Res.SizeAfter;
+  LogAsync(FastFileRuntimeLogPath, Format(
+    '[EditFast] op=%d line=%d mode=%d bytes=%d->%d lines=%d index=%s locateMs=%d dataMs=%d',
+    [Ord(FOperation), FTargetLine, Ord(Res.Mode), Res.SizeBefore, Res.SizeAfter,
+     Res.LineCountAfter, BoolToStr(Res.IndexReady, True), Res.LocateMs, Res.DataMs]));
+end;
+
 constructor TEditFileThread.Create(const AFileName: String; const Op: TOperationType; const LineNum: Int64; const Txt: String;
     const AutoHide: Boolean = True; const ShowUI: Boolean = True;
     const AFreeOnTerminate: Boolean = True; const AQuietFinish: Boolean = False;
@@ -1761,7 +2036,18 @@ begin
       LightSpan := FSpanLineCount;
       if FWrittenLineCount > LightSpan then
         LightSpan := FWrittenLineCount;
-      if not frmMain.TryScheduleLightPostEditRefresh(FOperation, FTargetLine,
+      if FFastMode = femInPlace then
+        { Mesmo tamanho e mesmos inicios de linha: indices continuam validos. }
+        frmMain.ApplyMetadataOnlyPostEdit(0)
+      else if FFastMode <> femNone then
+      begin
+        { Indices ja reconstruidos pela edicao: so reabrir, sem reindexar. }
+        if FFastIndexReady then
+          frmMain.ApplyPostBatchInsertRefresh(FFileName, FFastLineCount, False, False)
+        else
+          frmMain.BeginPostEditReindex;
+      end
+      else if not frmMain.TryScheduleLightPostEditRefresh(FOperation, FTargetLine,
         LightSpan, FInsertLines, FFileSizeBefore, FFileSizeAfter) then
       begin
         if FOperation = otDelete then
@@ -1870,9 +2156,6 @@ var
   Contiguous: Cardinal;
   AbsOffset: Int64;
   CurrentLine: Int64;
-  NewPercent: Integer;
-  NewTh: Integer;
-  ThScaled: Int64;
   i, LineLen, InsN, CkptI: Integer;
   FinalErr: string;
   RawOld: AnsiString;
@@ -1912,7 +2195,11 @@ var
 
 begin
   inherited;
-  // CloseFileStreams removed
+  if TryFastEdit then
+  begin
+    Synchronize(FinishThread);
+    Exit;
+  end;
   TermCh := LineTermCharForFile(FFileName);
   FTempFileName := NewFastFileTemp('edit');
   ForceDeleteFile(FTempFileName);
@@ -2063,26 +2350,7 @@ begin
         end;
       end;
 
-      if FTotalSize > 0 then
-      begin
-        ThScaled := (AbsOffset * 1000) div FTotalSize;
-        if ThScaled > 1000 then ThScaled := 1000;
-        NewTh := Integer(ThScaled);
-        { ~0,4% de ficheiro por passo: mais suave que saltos de 1% em ficheiros grandes. }
-        if (NewTh >= FLastProgressThousandths + 4) or (NewTh >= 1000) then
-        begin
-          FLastProgressThousandths := NewTh;
-          NewPercent := NewTh div 10;
-          if NewPercent > 100 then NewPercent := 100;
-          FCurrentPercent := NewPercent;
-          FPercentToSync := FCurrentPercent;
-          if FShowLoadingUI then
-            Synchronize(SyncProgress)
-          else if Assigned(frmSmoothLoading) then
-            { Merge/RunEditWait na main: evita Synchronize + fila; PostMessage nao bloqueia a worker. }
-            TfrmSmoothLoading.PostProgressFromWorker(FPercentToSync);
-        end;
-      end;
+      ReportEditProgress(AbsOffset, FTotalSize);
     end;
 
     if TfrmSmoothLoading.CancelRequested then
@@ -2165,6 +2433,9 @@ begin
     if (CkptTempName <> '') and FileExists(CkptTempName) then
       UnUtils.TryDeleteFileWithRetry(CkptTempName, 12, 80);
   end;
+  LogAsync(FastFileRuntimeLogPath, Format('[EditFull] op=%d line=%d bytes=%d->%d ok=%s ms=%d',
+    [Ord(FOperation), FTargetLine, FFileSizeBefore, FFileSizeAfter,
+     BoolToStr(FSuccess, True), sw.ElapsedMilliseconds]));
   Synchronize(FinishThread);
 end;
 
@@ -2180,6 +2451,8 @@ begin
   FDeltaFileName := ADeltaFileName;
   FAutoHide := AutoHide;
   FShowLoadingUI := ShowUI;
+  if Assigned(frmMain) then
+    FEncHint := frmMain.CurrentViewEncoding;
   if FShowLoadingUI then
   begin
     FLoadingMsg := TrText('Merging ...');
@@ -2210,6 +2483,7 @@ var
   LineNum: Int64;
   LineText: String;
   TermCh: AnsiChar;
+  Seen: TDictionary<Int64, Integer>;
 
   function ForceDeleteFile(const FileName: string): Boolean;
   var
@@ -2239,10 +2513,9 @@ var
 
 begin
   inherited;
-  // CloseFileStreams removed
-  FTempFileName := NewFastFileTemp('merge');
-  ForceDeleteFile(FTempFileName);
-
+  FTempFileName := '';
+  FEnc := ResolveTextEncoding(FFileName, FEncHint);
+  Seen := TDictionary<Int64, Integer>.Create;
   DeltaLines := TStringList.Create;
   DeltaCount := 0;
   SetLength(DeltaArr, 0);
@@ -2253,8 +2526,9 @@ begin
       SetLength(DeltaArr, DeltaLines.Count);
       for i := 0 to DeltaLines.Count - 1 do
       begin
-        sLine := Trim(DeltaLines[i]);
-        if sLine = '' then Continue;
+        { So o inicio e' aparado: espacos/tabs no fim fazem parte do texto da linha. }
+        sLine := TrimLeft(DeltaLines[i]);
+        if Trim(sLine) = '' then Continue;
 
         ColonPos := PosBMH(':', sLine);
         if ColonPos > 0 then
@@ -2266,27 +2540,30 @@ begin
             if (Length(LineText) > 0) and (LineText[1] = ' ') then
               LineText := Copy(LineText, 2, Length(LineText));
 
-            DeltaArr[DeltaCount].LineNumber := LineNum;
-            DeltaArr[DeltaCount].NewText := LineText;
-            Inc(DeltaCount);
+            { Linha repetida no delta: vale a ultima ocorrencia. }
+            if Seen.TryGetValue(LineNum, dIndex) then
+              DeltaArr[dIndex].NewText := LineText
+            else
+            begin
+              Seen.Add(LineNum, DeltaCount);
+              DeltaArr[DeltaCount].LineNumber := LineNum;
+              DeltaArr[DeltaCount].NewText := LineText;
+              Inc(DeltaCount);
+            end;
           end;
         end;
       end;
       SetLength(DeltaArr, DeltaCount);
-      for i := 0 to DeltaCount - 2 do
-      begin
-        for dIndex := i + 1 to DeltaCount - 1 do
+      TArray.Sort<TDeltaEntry>(DeltaArr, TComparer<TDeltaEntry>.Construct(
+        function(const A, B: TDeltaEntry): Integer
         begin
-          if DeltaArr[i].LineNumber > DeltaArr[dIndex].LineNumber then
-          begin
-            LineNum := DeltaArr[i].LineNumber;
-            LineText := DeltaArr[i].NewText;
-            DeltaArr[i] := DeltaArr[dIndex];
-            DeltaArr[dIndex].LineNumber := LineNum;
-            DeltaArr[dIndex].NewText := LineText;
-          end;
-        end;
-      end;
+          if A.LineNumber < B.LineNumber then
+            Result := -1
+          else if A.LineNumber > B.LineNumber then
+            Result := 1
+          else
+            Result := 0;
+        end));
     end
     else
     begin
@@ -2297,7 +2574,16 @@ begin
     end;
   finally
     FreeAndNil(DeltaLines);
+    FreeAndNil(Seen);
   end;
+
+  if TryFastMerge(DeltaArr, DeltaCount) then
+  begin
+    Synchronize(FinishThread);
+    Exit;
+  end;
+  FTempFileName := NewReplaceScratchTemp(FFileName, 'merge');
+  ForceDeleteFile(FTempFileName);
 
   MMF := nil;
   DestWriter := nil;
@@ -2330,7 +2616,7 @@ begin
 
             if (dIndex < DeltaCount) and (CurrentLine = DeltaArr[dIndex].LineNumber) then
             begin
-              DestWriter.WriteLine(AnsiToUtf8(DeltaArr[dIndex].NewText));
+              DestWriter.WriteLine(EncodeDeltaText(DeltaArr[dIndex].NewText));
               Inc(dIndex);
             end
             else
@@ -2353,7 +2639,7 @@ begin
           begin
             if (dIndex < DeltaCount) and (CurrentLine = DeltaArr[dIndex].LineNumber) then
             begin
-              DestWriter.WriteLine(AnsiToUtf8(DeltaArr[dIndex].NewText));
+              DestWriter.WriteLine(EncodeDeltaText(DeltaArr[dIndex].NewText));
               Inc(dIndex);
             end
             else
@@ -2392,7 +2678,7 @@ begin
           DestWriter.WriteLine('');
           Inc(CurrentLine);
         end;
-        DestWriter.WriteLine(AnsiToUtf8(DeltaArr[dIndex].NewText));
+        DestWriter.WriteLine(EncodeDeltaText(DeltaArr[dIndex].NewText));
         Inc(CurrentLine);
         Inc(dIndex);
       end;
@@ -2424,6 +2710,89 @@ begin
       ForceDeleteFile(FTempFileName);
   end;
   Synchronize(FinishThread);
+end;
+
+{ Mescla pelo indice de linhas (uFastLineEdit): sem varrer o ficheiro inteiro quando
+  as linhas estao no fim, e sem reindexar depois. False = caminho completo. }
+function TMergeDeltaThread.EncodeDeltaText(const S: string): AnsiString;
+begin
+  if (FEnc = '') or IsUtf8Encoding(FEnc) then
+    Result := AnsiToUtf8(S)
+  else
+    Result := UnicodeTextToFileBytes(S, FEnc);
+end;
+
+function TMergeDeltaThread.TryFastMerge(const ADelta: TDeltaArray; const ACount: Integer): Boolean;
+var
+  Entries: TFastReplaceEntries;
+  Res: TFastEditResult;
+  Eol, A: AnsiString;
+  I: Integer;
+begin
+  Result := False;
+  FFastMode := femNone;
+  if ACount <= 0 then Exit;
+  if UnUtils.GetFileSize(FFileName) < FAST_EDIT_MIN_BYTES then Exit;
+  { UTF-16: terminador de 2 bytes; o indice por byte nao se aplica. }
+  if Pos('16', ResolveTextEncoding(FFileName, '')) > 0 then Exit;
+  Eol := OutputEolForFile(FFileName);
+  SetLength(Entries, ACount);
+  for I := 0 to ACount - 1 do
+  begin
+    Entries[I].Line := ADelta[I].LineNumber;
+    { Mesma conversao que o caminho completo (EncodeDeltaText). }
+    A := EncodeDeltaText(ADelta[I].NewText);
+    Entries[I].Payload := A + Eol;
+  end;
+  FCurrentPercent := 0;
+  try
+    if not TryFastMultiReplace(FFileName, Byte(LineTermCharForFile(FFileName)), Eol, Entries,
+      Res,
+      function: Boolean
+      begin
+        Result := Terminated or TfrmSmoothLoading.CancelRequested;
+      end,
+      procedure(const ADone, ATotal: Int64)
+      var
+        Pct: Integer;
+      begin
+        Pct := Integer((ADone * 100) div ATotal);
+        if Pct > FCurrentPercent then
+        begin
+          FCurrentPercent := Pct;
+          FPercentToSync := Pct;
+          TfrmSmoothLoading.PostProgressFromWorker(FPercentToSync);
+        end;
+      end) then
+      Exit;
+  except
+    on E: EFastEditCancelled do
+    begin
+      FFastAttempted := True;
+      FSuccess := False;
+      TfrmSmoothLoading.ResetCancel;
+      Exit(True);
+    end;
+    on E: Exception do
+    begin
+      FFastAttempted := True;
+      FSuccess := False;
+      FErrorMsg := DiskOperationFailureMessage(E);
+      LogAsync(FastFileRuntimeLogPath, '[MergeDeltaThread] ' + E.Message);
+      Synchronize(SyncError);
+      Exit(True);
+    end;
+  end;
+  Result := True;
+  FFastAttempted := True;
+  FSuccess := True;
+  FFastMode := Res.Mode;
+  FFastIndexReady := Res.IndexReady;
+  FFastLineCount := Res.LineCountAfter;
+  LogAsync(FastFileRuntimeLogPath, Format(
+    '[MergeFast] lines=%d mode=%d bytes=%d->%d total=%d index=%s locateMs=%d dataMs=%d',
+    [ACount, Ord(Res.Mode), Res.SizeBefore, Res.SizeAfter, Res.LineCountAfter,
+     BoolToStr(Res.IndexReady, True), Res.LocateMs, Res.DataMs]));
 end;
 
 destructor TMergeDeltaThread.Destroy;
@@ -2477,11 +2846,23 @@ begin
     begin
       frmMain.CommitPendingMergeDeltaUndoIfNeeded(True);
       frmMain.AppendOperationTimerLog(TimeStr);
-      frmMain.RefreshFile;
+      if FFastMode = femInPlace then
+        { Mesmos inicios de linha: indices continuam validos. }
+        frmMain.ApplyMetadataOnlyPostEdit(0)
+      else if (FFastMode <> femNone) and FFastIndexReady then
+        { Indices ja reconstruidos pela mescla: so reabrir, sem reindexar. }
+        frmMain.ApplyPostBatchInsertRefresh(FFileName, FFastLineCount, False, False)
+      else
+        frmMain.RefreshFile;
     end;
   end
   else if Assigned(frmMain) then
+  begin
     frmMain.CommitPendingMergeDeltaUndoIfNeeded(False);
+    { Caminho rapido falhou ou foi cancelado: ficheiro e indices intactos; reabrir. }
+    if FFastAttempted then
+      frmMain.ApplyMetadataOnlyPostEdit(0);
+  end;
 end;
 
 function SortDeltaLines(Item1, Item2: Pointer): Integer;
@@ -3205,6 +3586,11 @@ begin
   FFadeStartAlpha := 220;
   FFadeEndAlpha   := 255;
   FFormCornerRadius := 48;
+  btnCancel := TFfOverlayButton.Create(Self);
+  btnCancel.Parent := pnlContainer;
+  btnCancel.Caption := 'Cancel';
+  btnCancel.Cursor := crHandPoint;
+  btnCancel.OnClick := btnCancelClick;
 end;
 
 destructor TfrmSmoothLoadingForm.Destroy;
@@ -3660,13 +4046,13 @@ begin
   finally
     SelectObject(Canvas.Handle, OldFont);
   end;
-  BtnW := (R.Right - R.Left) + 28;
-  if BtnW < 100 then
-    BtnW := 100;
+  BtnW := (R.Right - R.Left) + 56;
+  if BtnW < 132 then
+    BtnW := 132;
   if BtnW > pnlContainer.ClientWidth - 32 then
     BtnW := pnlContainer.ClientWidth - 32;
   btnCancel.Width := BtnW;
-  btnCancel.Height := 26;
+  btnCancel.Height := 32;
   btnCancel.Left := (pnlContainer.ClientWidth - BtnW) div 2;
   { TBitBtn bkCustom sem glyph pode pintar lixo � forcar repintura so com Caption. }
   btnCancel.Invalidate;
@@ -4052,6 +4438,8 @@ begin
         TranslateMessage(Msg);
         DispatchMessage(Msg);
       end;
+    if Assigned(frmSmoothLoading.btnCancel) then
+      frmSmoothLoading.btnCancel.SyncHover;
     while PeekMessage(Msg, 0, WM_KEYFIRST, WM_KEYLAST, PM_REMOVE) do
       if CancelUsable and (Msg.message = WM_KEYDOWN) and (Msg.wParam = VK_ESCAPE) then
         frmSmoothLoading.btnCancelClick(frmSmoothLoading.btnCancel);
@@ -4193,13 +4581,10 @@ begin
     Exit;
   { Estilo link: este TBitBtn (Delphi 7) n�o publica Color/Ctl3D/Flat � s� tipografia. }
   btnCancel.ParentFont := False;
-  btnCancel.Font.Name := 'Segoe UI';
-  btnCancel.Font.Height := -12;
-  btnCancel.Font.Style := [fsUnderline];
-  if btnCancel.Enabled then
-    btnCancel.Font.Color := $0098ECFF
-  else
-    btnCancel.Font.Color := $00687888;
+  btnCancel.Font.Name := 'Segoe UI Semibold';
+  btnCancel.Font.Height := -13;
+  btnCancel.Font.Style := [];
+  btnCancel.Invalidate;
 end;
 
 procedure TfrmSmoothLoadingForm.ApplyDetailLabelLook;
@@ -4289,6 +4674,11 @@ begin
     frmSmoothLoading.tmrAnimation.Enabled := False;
     FreeAndNil(frmSmoothLoading);
   end;
+  { Freeing the loading form returns focus to whichever control had it before
+    the overlay. That can switch pgMain to Agente / Diagnóstico. Rearm after
+    the free so the read tab is restored once this form is gone. }
+  if Assigned(frmMain) then
+    TfrmMain(frmMain).RearmKeepReadTabAfterLoadingClosed;
 end;
 
 procedure TfrmSmoothLoadingForm.FormShow(Sender: TObject);

@@ -45,6 +45,11 @@ procedure RememberAgentPrompt(AList: TStrings; const APrompt: string);
 procedure LoadAgentRootRecent(AList: TStrings);
 procedure SaveAgentRootRecent(AList: TStrings);
 procedure RememberAgentRoot(AList: TStrings; const APath: string);
+{ Recent folders for the folder picker. Same file and shape as the root list.
+  The first time, copies the folders already stored in the root recent list. }
+procedure LoadAgentFolderRecent(AList: TStrings);
+procedure SaveAgentFolderRecent(AList: TStrings);
+procedure RememberAgentFolder(AList: TStrings; const APath: string);
 { What the workspace shows, restored on the next start. Caller frees Roots and Included. }
 function LoadAgentSession: TAgentSession;
 procedure SaveAgentSession(const ASession: TAgentSession);
@@ -55,6 +60,7 @@ const
   AGENT_RECENT_SECTION = 'AgentRecent';
   AGENT_ROOTS_SECTION = 'AgentRoots';
   AGENT_ROOT_RECENT_SECTION = 'AgentRootsRecent';
+  AGENT_FOLDER_RECENT_SECTION = 'AgentFolderRecent';
   AGENT_INCLUDED_SECTION = 'AgentFilesFound';
   AGENT_STATE_SECTION = 'AgentState';
   AGENT_MAX_TURNS = 12;
@@ -163,6 +169,7 @@ end;
 procedure LoadAgentRecent(AList: TStrings);
 var
   Ini: TMemIniFile;
+  I: Integer;
 begin
   try
     Ini := OpenSessionIni;
@@ -171,6 +178,9 @@ begin
     finally
       Ini.Free;
     end;
+    for I := AList.Count - 1 downto 0 do
+      if SameText(Trim(AList[I]), 'memPrompt') then
+        AList.Delete(I);
   except
     AList.Clear;
   end;
@@ -208,6 +218,8 @@ begin
       ReadList(Ini, AGENT_ROOTS_SECTION, 'R', 20000, Result.Roots);
       ReadList(Ini, AGENT_INCLUDED_SECTION, 'F', 20000, Result.Included);
       Result.Prompt := DecodeRecent(Ini.ReadString(AGENT_STATE_SECTION, 'Prompt', ''));
+      if SameText(Trim(Result.Prompt), 'memPrompt') then
+        Result.Prompt := '';
       Result.Answer := DecodeRecent(Ini.ReadString(AGENT_STATE_SECTION, 'Answer', ''));
       Result.Revised := DecodeRecent(Ini.ReadString(AGENT_STATE_SECTION, 'Revised', ''));
       Result.Tab := Ini.ReadInteger(AGENT_STATE_SECTION, 'Tab', 0);
@@ -244,7 +256,7 @@ var
   I: Integer;
   Key: string;
 begin
-  if Trim(APrompt) = '' then Exit;
+  if (Trim(APrompt) = '') or SameText(Trim(APrompt), 'memPrompt') then Exit;
   Key := RecentKey(APrompt);
   for I := AList.Count - 1 downto 0 do
     if RecentKey(AList[I]) = Key then
@@ -304,6 +316,70 @@ begin
   AList.Insert(0, P);
   while AList.Count > RootRecentMax do
     AList.Delete(AList.Count - 1);
+end;
+
+procedure LoadAgentFolderRecent(AList: TStrings);
+var
+  Ini: TMemIniFile;
+  Roots: TStringList;
+  I: Integer;
+  P: string;
+begin
+  AList.Clear;
+  try
+    Ini := OpenSessionIni;
+    try
+      if Ini.ValueExists(AGENT_FOLDER_RECENT_SECTION, 'Count') then
+        ReadList(Ini, AGENT_FOLDER_RECENT_SECTION, 'D', RootRecentMax, AList)
+      else
+      begin
+        { First run: the agent already remembers folders inside the mixed list. }
+        Roots := TStringList.Create;
+        try
+          ReadList(Ini, AGENT_ROOT_RECENT_SECTION, 'R', RootRecentMax, Roots);
+          for I := 0 to Roots.Count - 1 do
+          begin
+            P := ExcludeTrailingPathDelimiter(Trim(Roots[I]));
+            if (P <> '') and DirectoryExists(P) then
+              AList.Add(P);
+          end;
+        finally
+          Roots.Free;
+        end;
+        WriteList(Ini, AGENT_FOLDER_RECENT_SECTION, 'D', RootRecentMax, AList);
+        Ini.UpdateFile;
+      end;
+    finally
+      Ini.Free;
+    end;
+  except
+    AList.Clear;
+  end;
+end;
+
+procedure SaveAgentFolderRecent(AList: TStrings);
+var
+  Ini: TMemIniFile;
+begin
+  try
+    Ini := OpenSessionIni;
+    try
+      WriteList(Ini, AGENT_FOLDER_RECENT_SECTION, 'D', RootRecentMax, AList);
+      Ini.UpdateFile;
+    finally
+      Ini.Free;
+    end;
+  except
+  end;
+end;
+
+procedure RememberAgentFolder(AList: TStrings; const APath: string);
+var
+  P: string;
+begin
+  P := ExcludeTrailingPathDelimiter(Trim(APath));
+  if (P = '') or not DirectoryExists(P) then Exit;
+  RememberAgentRoot(AList, P);
 end;
 
 function ClampAgentInt(AValue, AMin, AMax, ADefault: Integer): Integer;

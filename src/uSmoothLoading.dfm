@@ -79,25 +79,6 @@ object frmSmoothLoadingForm: TfrmSmoothLoadingForm
       Height = 6
       OnPaint = pbProgressBarPaint
     end
-    object btnCancel: TBitBtn
-      Left = 165
-      Top = 340
-      Width = 130
-      Height = 26
-      Cursor = crHandPoint
-      Caption = 'Cancel'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = 10022143
-      Font.Height = -12
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsUnderline]
-      ParentFont = False
-      ParentShowHint = False
-      ShowHint = False
-      Spacing = 0
-      TabOrder = 0
-      OnClick = btnCancelClick
-    end
   end
   object tmrAnimation: TTimer
     Enabled = False

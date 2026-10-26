@@ -65,11 +65,22 @@ function CleanupFastFileTempWorkFiles: Integer;
 { Remove line index files beside the executable (temp.txt, temp_ckpt.txt).
   Call only after CloseFileStreams / handles released. }
 function CleanupFastFileLineIndexFiles: Integer;
+{ Drop durable index cache for one source (.ffckpt/.ffmeta and, when the
+  working index beside the exe belongs to it, temp.txt / temp_ckpt.txt / meta).
+  Next open of that path scans from scratch. }
+function DeleteSourceLineIndexCache(const ASourcePath: string;
+  ADropUnownedWorkingIndex: Boolean = False): Integer;
+{ True when temp_index.meta beside the exe describes ASourcePath. }
+function LineIndexWorkingCacheMatches(const ASourcePath: string): Boolean;
 function SaveLineIndexCache(const ASourcePath: string; AFileSize, ALineCount: Int64;
   const AWriteTime: TFileTime): Boolean;
 function LoadLineIndexCache(const ASourcePath: string; AFileSize: Int64;
   const AWriteTime: TFileTime; out ALineCount: Int64): Boolean;
 function LineIndexCacheFilesReady(AFileSize: Int64): Boolean;
+function LineIndexCachePath: string;
+{ True quando AMetaPath descreve exatamente AExpectedPath (caminho, tamanho e data). }
+function ReadLineIndexMetaFile(const AMetaPath, AExpectedPath: string;
+  AFileSize: Int64; const AWriteTime: TFileTime; out ALineCount: Int64): Boolean;
 
 implementation
 
@@ -1139,6 +1150,73 @@ begin
   TryDeleteIndexInDir(ExtractFilePath(ParamStr(0)));
   if CompareText(ExtractFilePath(ParamStr(0)), ExtractFilePath(Application.ExeName)) <> 0 then
     TryDeleteIndexInDir(ExtractFilePath(Application.ExeName));
+end;
+
+function LineIndexMetaRecordedPath(const AMetaPath: string): string;
+var
+  SL: TStringList;
+begin
+  Result := '';
+  if (AMetaPath = '') or (not FileExists(AMetaPath)) then Exit;
+  SL := TStringList.Create;
+  try
+    try
+      SL.LoadFromFile(AMetaPath);
+      if (SL.Count >= 2) and (Trim(SL[0]) = 'V1') then
+        Result := Trim(SL[1]);
+    except
+      Result := '';
+    end;
+  finally
+    SL.Free;
+  end;
+end;
+
+function LineIndexWorkingCacheMatches(const ASourcePath: string): Boolean;
+var
+  Path, Recorded: string;
+begin
+  Result := False;
+  Path := ExpandFileName(Trim(ASourcePath));
+  if Path = '' then Exit;
+  Recorded := LineIndexMetaRecordedPath(LineIndexCachePath);
+  if Recorded = '' then Exit;
+  Result := SameFileName(ExpandFileName(Recorded), Path);
+end;
+
+function TryDeleteCacheFile(const APath: string): Boolean;
+begin
+  Result := (APath <> '') and FileExists(APath) and
+    UnUtils.TryDeleteFileWithRetry(APath, 8, 40);
+end;
+
+function DeleteSourceLineIndexCache(const ASourcePath: string;
+  ADropUnownedWorkingIndex: Boolean): Integer;
+var
+  Path, Owner: string;
+begin
+  Result := 0;
+  Path := ExpandFileName(Trim(ASourcePath));
+  if Path = '' then Exit;
+  if SameFileName(GLineCountMem.Path, Path) then
+  begin
+    GLineCountMem.Path := '';
+    GLineCountMem.Size := 0;
+    GLineCountMem.Count := 0;
+    FillChar(GLineCountMem.WriteTime, SizeOf(GLineCountMem.WriteTime), 0);
+  end;
+  if TryDeleteCacheFile(SourceSidecarCkptPath(Path)) then Inc(Result);
+  if TryDeleteCacheFile(SourceSidecarMetaPath(Path)) then Inc(Result);
+  if TryDeleteCacheFile(LegacyBesideSourceCkptPath(Path)) then Inc(Result);
+  if TryDeleteCacheFile(LegacyBesideSourceMetaPath(Path)) then Inc(Result);
+  Owner := LineIndexMetaRecordedPath(LineIndexCachePath);
+  if Owner <> '' then
+    Owner := ExpandFileName(Owner);
+  { Working index is one slot beside the exe. Remove it when it belongs to
+    this path, or when this open file has no meta (orphan temp.txt / ckpt). }
+  if ((Owner <> '') and SameFileName(Owner, Path)) or
+     (ADropUnownedWorkingIndex and (Owner = '')) then
+    Inc(Result, CleanupFastFileLineIndexFiles);
 end;
 
 end.

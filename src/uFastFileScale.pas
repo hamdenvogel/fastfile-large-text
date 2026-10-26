@@ -172,6 +172,10 @@ begin
   if FAdjusting then Exit;
   ActiveForm := Screen.ActiveForm;
   if not Assigned(ActiveForm) or not ActiveForm.Visible then Exit;
+  { Embedded forms (Agent / Diagnóstico / Compare host) are TForm with Parent <> nil.
+    Fitting them to the work area SetBounds's them to ~full-screen size and grows the
+    main window over the Windows taskbar. Only top-level windows are fitted. }
+  if ActiveForm.Parent <> nil then Exit;
   FAdjusting := True;
   try
     FfFitFormToWorkArea(ActiveForm);
@@ -522,8 +526,11 @@ function FfCurrentPPI: Integer;
 var
   F: TCustomForm;
 begin
+  { Prefer the active form PPI (follows skin custom PPI / Per-Monitor V2), then Screen. }
   Result := 96;
-  F := Application.MainForm;
+  F := Screen.ActiveCustomForm;
+  if (F = nil) or (F.CurrentPPI <= 0) then
+    F := Application.MainForm;
   if Assigned(F) and (F.CurrentPPI > 0) then
     Result := F.CurrentPPI
   else if Screen.PixelsPerInch > 0 then
@@ -572,6 +579,9 @@ begin
     AForm.Constraints.MinWidth := MaxW;
   if (AForm.Constraints.MinHeight > 0) and (AForm.Constraints.MinHeight > MaxH) then
     AForm.Constraints.MinHeight := MaxH;
+  { Never assign Width/Height while maximized — that fights the work-area snap and
+    can leave the main window painted over the Windows taskbar after skin PPI. }
+  if AForm.WindowState = wsMaximized then Exit;
   if AForm.Width > MaxW then
     AForm.Width := MaxW;
   if AForm.Height > MaxH then
@@ -586,6 +596,8 @@ var
   NeedsScroll: Boolean;
 begin
   if not Assigned(AForm) then Exit;
+  { Child/embedded forms must keep Align/parent geometry; never size them to the monitor. }
+  if AForm.Parent <> nil then Exit;
   FfWorkAreaOf(AForm, R);
   MaxW := (R.Right - R.Left) - 8;
   MaxH := (R.Bottom - R.Top) - 8;

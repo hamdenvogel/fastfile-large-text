@@ -21,6 +21,9 @@ type
     constructor CreateForIndex(const ATag: string);
     destructor Destroy; override;
     property FilePath: string read FFilePath;
+    { False: Destroy so fecha o handle e mantem o ficheiro (para renomear depois).
+      O ficheiro e aberto sem partilha, por isso so pode ser renomeado apos Free. }
+    property DeleteFileOnDestroy: Boolean read FDeleteFileOnDestroy write FDeleteFileOnDestroy;
   end;
 
 implementation
@@ -44,7 +47,10 @@ end;
 
 destructor TTemporaryFileStream.Destroy;
 begin
-  { THandleStream.Destroy fecha o handle; depois apagamos o ficheiro temp se pedido. }
+  { THandleStream nao fecha o handle (so TFileStream o faz): fechamos aqui,
+    senao o ficheiro fica bloqueado e nao pode ser renomeado nem apagado. }
+  if (Handle <> 0) and (Handle <> INVALID_HANDLE_VALUE) then
+    FileClose(Handle);
   inherited Destroy;
   if FDeleteFileOnDestroy and (FFilePath <> '') and FileExists(FFilePath) then
     SysUtils.DeleteFile(FFilePath);

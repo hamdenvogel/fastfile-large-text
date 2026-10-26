@@ -146,7 +146,7 @@ function AssistantHostGetLastExportPath: string;
 implementation
 
 uses
-  UnConsts;
+  UnConsts, uI18n;
 
 var
   GHost: TFastFileAssistantHost;
@@ -171,13 +171,19 @@ function ValidatableSourceOpenDialogFilter: string;
 begin
   { No *.* — chat "carregar o fonte pra validar" must pick a supported type first. }
   Result :=
-    'Python / JavaScript / TypeScript / JSX / TSX' +
-    '|*.py;*.js;*.jsx;*.ts;*.tsx;*.mjs;*.cjs|' +
+    'Python / JS / TS / JSON / HTML / SQL / Java / Go / C#' +
+    '|*.py;*.js;*.jsx;*.ts;*.tsx;*.mjs;*.cjs;*.json;*.html;*.htm;*.sql;*.java;*.go;*.cs|' +
     'Python (*.py)|*.py|' +
     'JavaScript (*.js;*.mjs;*.cjs)|*.js;*.mjs;*.cjs|' +
     'JSX (*.jsx)|*.jsx|' +
     'TypeScript (*.ts)|*.ts|' +
-    'TSX (*.tsx)|*.tsx';
+    'TSX (*.tsx)|*.tsx|' +
+    'JSON (*.json)|*.json|' +
+    'HTML (*.html;*.htm)|*.html;*.htm|' +
+    'SQL (*.sql)|*.sql|' +
+    'Java (*.java)|*.java|' +
+    'Go (*.go)|*.go|' +
+    'C# (*.cs)|*.cs';
 end;
 
 procedure SetFastFileAssistantHost(const AHost: TFastFileAssistantHost);
@@ -484,7 +490,15 @@ begin
   AReport := '';
   Result := False;
   if not Assigned(GHost.ValidateComposedSource) then Exit;
-  Result := GHost.ValidateComposedSource(APath, AReport);
+  try
+    Result := GHost.ValidateComposedSource(APath, AReport);
+  except
+    on E: Exception do
+    begin
+      Result := False;
+      AReport := Format(TrText('SrcVal.Unexpected'), [E.Message]);
+    end;
+  end;
 end;
 
 procedure AssistantHostSetLastExportPath(const APath: string);

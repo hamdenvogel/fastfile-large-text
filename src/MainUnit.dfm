@@ -3222,6 +3222,7 @@ object frmMain: TfrmMain
     ActivePage = tabReadFile
     Align = alClient
     TabOrder = 5
+    AllowAnimSwitching = False
     SkinData.SkinSection = 'BUTTON'
     OnCloseBtnClick = pgMainCloseBtnClick
     object tabReadFile: TsTabSheet
@@ -3230,9 +3231,10 @@ object frmMain: TfrmMain
         Left = 0
         Top = 200
         Width = 1030
-        Height = -1
+        Height = 0
         Cursor = crVSplit
         Align = alTop
+        Visible = False
         ExplicitTop = 158
         ExplicitWidth = 1330
       end
@@ -3250,7 +3252,6 @@ object frmMain: TfrmMain
           Height = 90
           Align = alLeft
           TabOrder = 0
-          ExplicitHeight = 48
           object sSplitter4: TsSplitter
             Left = 1
             Top = 22
@@ -3378,6 +3379,7 @@ object frmMain: TfrmMain
               TabOrder = 0
               OnChange = edtFileNameChange
               OnKeyPress = edtFileNameKeyPress
+              OnMouseDown = edtFileNameMouseDown
               AddedGlyph.Images = CharImageList16
               AddedGlyph.ImageIndex = 38
               BoundLabel.MaxWidth = 110
@@ -3399,7 +3401,6 @@ object frmMain: TfrmMain
             Align = alLeft
             BevelOuter = bvNone
             TabOrder = 1
-            ExplicitHeight = 21
           end
           object pnlCheck: TsPanel
             Left = 3
@@ -3488,7 +3489,6 @@ object frmMain: TfrmMain
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 3
-            ExplicitHeight = 21
             object btnSearch: TsSpeedButton
               Left = 55
               Top = 1
@@ -3553,12 +3553,11 @@ object frmMain: TfrmMain
           Color = clWindow
           ParentBackground = False
           TabOrder = 1
-          ExplicitHeight = 48
           object mmTimer: TListBox
             Left = 0
             Top = 0
             Width = 390
-            Height = 48
+            Height = 90
             TabStop = False
             Align = alClient
             BorderStyle = bsNone
@@ -3575,19 +3574,17 @@ object frmMain: TfrmMain
       end
       object pnlMain: TsPanel
         Left = 0
-        Top = 199
+        Top = 200
         Width = 1030
-        Height = 184
+        Height = 183
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitTop = 157
-        ExplicitHeight = 226
         object splListview: TsSplitter
           Left = 1011
           Top = 0
           Width = 2
-          Height = 165
+          Height = 164
           Align = alRight
           Visible = False
           ExplicitLeft = 1311
@@ -3595,7 +3592,7 @@ object frmMain: TfrmMain
         end
         object sSplitter12: TsSplitter
           Left = 0
-          Top = 182
+          Top = 181
           Width = 1030
           Height = 2
           Cursor = crVSplit
@@ -3608,10 +3605,9 @@ object frmMain: TfrmMain
           Left = 0
           Top = 0
           Width = 1011
-          Height = 165
+          Height = 164
           Align = alClient
           TabOrder = 0
-          ExplicitHeight = 207
           object sListBox1: TsListBox
             Left = 1184
             Top = 368
@@ -3716,7 +3712,7 @@ object frmMain: TfrmMain
             Left = 1
             Top = 1
             Width = 1009
-            Height = 163
+            Height = 162
             Align = alClient
             Columns = <
               item
@@ -3750,25 +3746,23 @@ object frmMain: TfrmMain
             OnMouseMove = ListView1MouseMove
             OnMouseUp = ListView1MouseUp
             OnResize = ListView1Resize
-            ExplicitHeight = 205
           end
         end
         object ScrollBarVertical: TScrollBar
           Left = 1013
           Top = 0
           Width = 17
-          Height = 165
+          Height = 164
           Align = alRight
           Kind = sbVertical
           PageSize = 0
           TabOrder = 1
           OnChange = ScrollBarVerticalChange
           OnScroll = ScrollBarVerticalScroll
-          ExplicitHeight = 207
         end
         object ScrollBarHorizontal: TScrollBar
           Left = 0
-          Top = 165
+          Top = 164
           Width = 1030
           Height = 17
           Align = alBottom
@@ -3776,7 +3770,6 @@ object frmMain: TfrmMain
           TabOrder = 2
           OnChange = ScrollBarHorizontalChange
           OnScroll = ScrollBarHorizontalScroll
-          ExplicitTop = 207
         end
       end
       object sPageControl2: TsPageControl

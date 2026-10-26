@@ -31,6 +31,7 @@ type
     TotalLines: Int64;
     TotalLinesExact: Boolean;
     InitialScope: TAnonScope;
+    InitialFromLine, InitialToLine: Int64;
     CsvDelimiter: Char;
     CsvHasHeader: Boolean;
   end;
@@ -56,6 +57,9 @@ procedure AnonStartApply(const ATarget, AJournal: string; const AOptions: TAnonO
 procedure AnonStartSwap(AKind: TAnonJobKind; const ATarget, AJournal: string;
   AOnDone: TAnonJobDoneEvent);
 function AnonJobRunning: Boolean;
+{ Opcoes do ultimo dialogo confirmado; sem ele, as padrao. A chave fica fixa na
+  sessao para o mesmo valor gerar a mesma substituicao fora do dialogo. }
+function AnonLastOptions: TAnonOptions;
 
 implementation
 
@@ -624,6 +628,12 @@ begin
       EdTo.Text := IntToStr(FParams.TotalLines)
     else
       EdTo.Text := '1';
+    if (FParams.InitialScope = ascLineRange) and (FParams.InitialFromLine >= 1) and
+       (FParams.InitialToLine >= FParams.InitialFromLine) then
+    begin
+      EdFrom.Text := IntToStr(FParams.InitialFromLine);
+      EdTo.Text := IntToStr(FParams.InitialToLine);
+    end;
     RbSel.Enabled := FParams.SelectedCount > 0;
     case FParams.InitialScope of
       ascSelection:
@@ -1214,6 +1224,16 @@ end;
 function AnonJobRunning: Boolean;
 begin
   Result := GJobRunning;
+end;
+
+function AnonLastOptions: TAnonOptions;
+begin
+  if not GLastValid then
+  begin
+    GLastOptions := AnonDefaultOptions;
+    GLastValid := True;
+  end;
+  Result := GLastOptions;
 end;
 
 end.

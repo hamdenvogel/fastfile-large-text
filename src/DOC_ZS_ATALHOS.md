@@ -3,7 +3,7 @@
 **Nome curto deste ficheiro:** `DOC_ZS_ATALHOS.md` (alias de `DOC_ZERO_SCAN_ATALHOS_E_FUNCIONALIDADES.md`)
 
 **Documento de referência para utilizadores e QA**  
-Versão de referência: **`3.0.5.232`** (FastFile 3.0.5; agente de IA Ctrl+Alt+G, anonimizar Ctrl+Alt+D, detalhe do evento do histórico **v3.0.5.226–232**; barras de ocorrências/marcadores, editor de linha, histórico de sessão com filtro de datas **v3.0.5.211–225**; **14 idiomas** UI + lazy-load i18n **v3.0.5.207–210**; FilterBar/status toggles v3.0.5.100, compose/assistente v3.0.5.0, Chat IA avançado GB+ v3.0.4.x, indexação SWAR Win64 v3.0.3.x, Zero Scan `2.1.7.25+`, bloco coluna v3.0.2.x)  
+Versão de referência: **`3.0.5.243`** (FastFile 3.0.5; glob/grep com IA no modal e arquivo opcional **v3.0.5.240–243**; diagnóstico IA Ctrl+Alt+U, edição rápida, índice paralelo Win64, Extrair / prévia Python, validar código **v3.0.5.233–239**; agente de IA Ctrl+Alt+G, anonimizar Ctrl+Alt+D **v3.0.5.226–232**; barras de ocorrências/marcadores, editor de linha **v3.0.5.211–225**; **14 idiomas** UI; FilterBar v3.0.5.100, Zero Scan `2.1.7.25+`)
 Ambiente: Delphi 7 / Win32 · Delphi 10.4.2 / Win64  
 Código principal: `MainUnit.pas`, `uSmoothLoading.pas`, `uLineIndexScan.pas`, `uFastFileAssistant.pas`
 
@@ -37,6 +37,47 @@ Código principal: `MainUnit.pas`, `uSmoothLoading.pas`, `uLineIndexScan.pas`, `
 17. [FilterBar, status bar e count_matching (v3.0.5.100+)](#17-filterbar-status-count)
 18. [Assistente IA — Validar fonte (v3.0.5.136+)](#18-assistente-validar-fonte)
 19. [Ocorrências, marcadores, editor de linha e histórico de sessão (v3.0.5.211+)](#19-novidades-3-0-5-225)
+20. [glob / grep, IA no modal e arquivos gigantes (v3.0.5.240–243)](#20-glob-grep)
+
+---
+
+## 20. glob / grep, IA no modal e arquivos gigantes (v3.0.5.240–243) {#20-glob-grep}
+
+| Entrada | Comportamento com Zero Scan |
+|---|---|
+| Botões **grep** / **glob** em **Localizar/Ocorrências**, **Filtro/Grep** e **Marcadores** | Abrem o modal compartilhado, sem diálogo intermediário. |
+| Apenas `grep` ou `glob` | Abre ajuda/exemplos e sugestões, sem iniciar varredura nem exigir fontes. |
+| `grep "casa"` | Usa primeiro o campo de nome do arquivo principal; não depende de índice para ler o conteúdo. Se precisar abrir o arquivo, respeita a política de abertura atual. |
+| `glob "*.txt"` | Mesma resolução de arquivo; compara o caminho, não o conteúdo. |
+| `grep "casa" "C:\dados\arquivo grande.txt"` | Valida arquivo/acesso, carrega e só depois executa; caminho relativo usa o diretório de trabalho. Arquivo inválido gera erro, sem trocar silenciosamente a fonte. |
+| **Gerar com IA** | Retorna explicação, comando editável e até três sugestões; exige revisão e **Executar comando**. Comando manual/exemplos funcionam sem rede. |
+| **Parar** durante a busca | Cancelamento cooperativo entre blocos de leitura de 64K caracteres decodificados. |
+| `--limit 1..10000` | Limite global (padrão 200); interrompe grep imediatamente e sinaliza resultado parcial, não total exato. |
+| `grep --mark "casa"` / `grep --bookmarks "casa"` | **Exigem arquivo aberto indexado**; não usam linhas estimadas do Zero Scan como marcadores físicos. |
+
+Sem operando, o campo principal tem prioridade sobre outro arquivo previamente
+carregado e sobre as fontes do agente. Se vazio, usa arquivo atual e depois fontes
+selecionadas. O diagnóstico mantém suas próprias fontes e é somente leitura;
+ferramentas do modelo não ganham acesso a arquivos fora da seleção.
+
+**Arquivos gigantes:** o comando lê blocos, não o arquivo inteiro em RAM.
+Linhas individuais acima de **16.777.216 caracteres decodificados** produzem
+erro explícito. CR/LF, UTF-8 e UTF-16 são tratados por caracteres decodificados;
+UTF-32 é recusado por esse leitor. Regex tem limites de trabalho/recursão PCRE.
+
+**Abertura ≠ busca:** com **Instant Open / Forçar Zero Scan**, a abertura evita
+a indexação inicial. No modo automático/indexado pode ocorrer indexação completa
+antes do comando; a busca não altera essa preferência. O mecanismo de checkpoints
+permanece o descrito em [DOC_INDICE_CKPT_EXEMPLO.md](DOC_INDICE_CKPT_EXEMPLO.md).
+F1 geral reutiliza a ajuda localizada dos comandos; F1 nas abas IA mantém a
+lista contextual «O que posso fazer?».
+
+**QA:** regressões do núcleo e VCL com arquivo esparso de **80 GiB** verificam
+offsets de 64 bits, glob, grep com limite e cancelamento; a interface também é
+testada em Instant Open. Não equivalem a uma medição de leitura integral de
+80 GiB nem garantem navegação acima dos limites existentes da lista/marcadores.
+Histórico incremental: **.240** comandos, **.241** IA no modal, **.242** acessos,
+**.243** arquivo opcional/GB. [Guia completo e exemplos](README.md#internal-glob--grep-commands).
 
 ---
 
@@ -245,6 +286,28 @@ Aplicam-se em modo normal; em Zero Scan valem as regras de §4 para Ctrl+F / F3 
 | **Último ficheiro gerado** | Reabre o último ficheiro criado (menu + barra da Resposta) |
 
 Ajuda F1: **`FF_HELP.RecentFeaturesBlock2`** (v3.0.5.226–232) + **`FF_HELP.RecentFeaturesBlock`** (14 idiomas). Ver **`CHANGELOG_IMPLEMENTACOES.md`** secções **3.0.5.211–232**.
+
+### 19.8 Edição rápida, Extrair, índice paralelo (v3.0.5.233–235)
+
+| Tecla / acção | Comportamento |
+|---------------|---------------|
+| Inserir / substituir / apagar (ficheiros ≥ 32 MB) | Usa o índice de linhas: no lugar, deslocar o sufixo ou reescrever. Diário `.ffj` repõe o ficheiro se a aplicação parar a meio |
+| Antes de gravar linhas seleccionadas | Lista antes / depois só das linhas que mudam |
+| Editor de linha → **Extrair** | Dígitos, e-mails, datas, colunas, CPF/CNPJ ou regex própria; prévia; pedir padrão à IA |
+| Macro Python | Amostra curta (ok / ignorada / erro) antes da saída completa |
+| F5 / abertura no Win64 (≥ 128 MB) | Índice de linhas em paralelo, memória limitada a mapas de bloco. Ver `DOC_TREADFILETHREAD_EXECUTE.md` |
+
+### 19.9 Código-fonte, agente e Diagnóstico IA (v3.0.5.236–239)
+
+| Tecla / acção | Comportamento |
+|---------------|---------------|
+| **Código-fonte com IA** | JSON / HTML / SQL no FastFile; Java / Go / C# com o compilador deste PC. O código não é executado |
+| **Ctrl+Alt+G** (agente) | Além de 19.7: perfil de cada ficheiro; o pedido indica quais ficheiros (nome, posição, tipo, 14 idiomas); macro Python por linha após Aceitar, sem alterar o original |
+| **O que posso fazer?** | Assistente, Agente IA e Diagnóstico IA. F1 nessas abas abre a lista. **Usar exemplo** / **Perguntar à IA** |
+| **Ctrl+Alt+U** | Diagnóstico IA (barra e menu Ferramentas): somente leitura. Especialistas de inventário, estrutura, conteúdo, SQL, privacidade e ações. Edições no Agente IA |
+| **Ctrl+Alt+E** | Painel de macro Python |
+
+Ajuda F1: **`FF_HELP.RecentFeaturesBlock3`** (v3.0.5.233–239, 14 idiomas).
 
 ---
 
@@ -600,6 +663,7 @@ Garantir que o modo indexado **não** regrediu (ver também §0).
 | 2026-09-06 | **v3.0.5.100:** §17 FilterBar dockada (MRU 20, Aplicar/Continuar/Limpar/Ocultar), toggles na status bar, `count_matching_lines`; Ctrl+L actualizado em §4.3 / §12. |
 | 2026-09-09 | **v3.0.5.136–137:** §18 Validar fonte (Python/JS/JSX/TS/TSX); chat carregar/validar; `DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`; `CodeCheck.exe`. |
 | 2026-09-16 | **v3.0.5.210:** 14 idiomas UI (JA + zh-CN/zh-TW); lazy-load i18n; Version History / F1 / docs sync. |
+| 2026-10-22 | **v3.0.5.233–239:** §19.8 edição rápida + Extrair + índice paralelo Win64; §19.9 código-fonte, perfil/alvos/macro do agente, «O que posso fazer?», Diagnóstico IA (Ctrl+Alt+U); F1 `FF_HELP.RecentFeaturesBlock3`. |
 | 2026-10-08 | **v3.0.5.226–232:** §19.5 detalhe do evento do histórico (Enter, F3/Shift+F3), §19.6 anonimizar (Ctrl+Alt+D), §19.7 agente de IA (Ctrl+Alt+G, prazo para aceitar, botões por conteúdo); F1 `FF_HELP.RecentFeaturesBlock2`. |
 | 2026-09-27 | **v3.0.5.211–225:** §19 barra de ocorrências (Ctrl+F/F3), barra de marcadores (Ctrl+B), abas reordenáveis, Opções, atalhos do editor de linha, histórico de sessão (checkboxes, ordenar, filtro De/Até, exportar, Perguntar à IA), diff sincronizado; F1 `FF_HELP.RecentFeaturesBlock`. |
 

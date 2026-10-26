@@ -49,6 +49,10 @@ type
     procedure WaitTimer(Sender: TObject);
     procedure SizeToolButtons;
     procedure RunCoreActions(AList: TObjectList);
+    { Hands ARequest to the Assistant panel; its reply is appended to the answer (AssistantReplied). }
+    procedure PromptHelpClick(Sender: TObject);
+    procedure RunAssistantRequest(const ARequest: string);
+    procedure AssistantReplied(const AText: string);
     procedure AcceptAction(AIndex: Integer);
     procedure RecentComboClick(Sender: TObject);
     procedure OpenRecentPopup;
@@ -90,6 +94,7 @@ type
     procedure SetGuideFont(AFont: TFont; ACompact: Boolean);
     { Short screens: hide or fold secondary parts, level by level, until the lists and memos keep a usable height. }
     procedure FitHeights;
+    procedure LayoutOptions;
     procedure SetCompact(ALevel: Integer);
     procedure OptionsLinkClick(Sender: TObject);
     procedure OptionsPopupClose(Sender: TObject; var Action: TCloseAction);
@@ -106,6 +111,7 @@ type
     procedure SaveSession;
     procedure SendClick(Sender: TObject);
     procedure StopClick(Sender: TObject);
+    procedure ChatToggleClick(Sender: TObject);
     procedure AcceptClick(Sender: TObject);
     procedure RejectClick(Sender: TObject);
     procedure AcceptAllClick(Sender: TObject);
@@ -258,6 +264,10 @@ type
     btnRemove: TsButton;
     btnSend: TsButton;
     btnStop: TsButton;
+    { Chat pane (right side): hosts the Assistant conversation inside the agent. }
+    pnlChat: TsPanel;
+    splChat: TsSplitter;
+    btnChat: TsButton;
     btnAccept: TsButton;
     btnReject: TsButton;
     btnAcceptAll: TsButton;
@@ -286,7 +296,7 @@ type
     btnPromptNew, btnPromptClear, btnPromptCopy, btnPromptAsk: TsSpeedButton;
     btnRootsNew, btnRootsClear, btnRootsCopy, btnRootsAsk: TsSpeedButton;
     btnAnswerNew, btnAnswerClear, btnAnswerCopy, btnAnswerAsk: TsSpeedButton;
-    btnPromptTranslate, btnPromptSuggest: TsSpeedButton;
+    btnPromptTranslate, btnPromptSuggest, btnPromptHelp: TsSpeedButton;
     btnAnswerLastFile: TsSpeedButton;
     mnuTranslate: TPopupMenu;
     FAskLink: TObject;
@@ -324,19 +334,27 @@ type
     procedure RejectAllExternal;
     procedure StopExternal;
     procedure ShowEditsPage;
+    { "What can I do?" list (button and F1 on this tab); a chosen example replaces the prompt. }
+    procedure ShowCapabilities;
+    procedure CopySearchSources(ARoots: TStrings; out APrefs: TAgentPrefs);
     { True while accepted edits are being written: closing now could leave a file half written. }
     function IsApplying: Boolean;
+    procedure ShowChat;
+    procedure HideChat;
+    function ChatVisible: Boolean;
+    { Wheel over a memo / list of this tab scrolls it, even without focus. }
+    function TryScrollWheelAt(const AScreenPt: TPoint; AWheelDelta: Integer): Boolean;
     class function ExecuteEmbedded(AOwner: TComponent; AHost: TWinControl): TfrmAgentWorkspace;
   end;
 
 implementation
 
 uses
-  Types, Dialogs, FileCtrl, Math, ShellAPI, Generics.Collections, Clipbrd,
-  StrUtils, uI18n, uAgentLoop, uFastFileMsgDlg, uLineDiffCore, uFastFilePaths,
+  Types, Dialogs, Math, ShellAPI, Generics.Collections, Clipbrd,
+  StrUtils, uI18n, uAgentLoop, uFastFileMsgDlg, uLineDiffCore, uFastFilePaths, uSearchCommands,
   uCompareMergeUI, uMergeApply, UnitPopupMruList, uMruFind, uAgentActions, uFastFileAssistantHost,
   uFastFileAIClient, uAgentProtocol, uFastFileAssistant, uSmoothLoading, sSkinProvider, GraphUtil, uAnonymize,
-  uExportDoneDlg, uAgentBridge, uUserPrefs;
+  uExportDoneDlg, uAgentBridge, uUserPrefs, uAICapabilitiesDlg, uFastFileScale, uFolderPickDlg;
 
 const
   WM_AGENT_STATUS = WM_APP + 40;
@@ -522,7 +540,8 @@ begin
   Err := '';
   try
     try
-      AgentExpandRoots(Roots, Prefs, Files, ScanTick);
+      if not IsSearchCommandLauncher(Prompt) then
+        AgentExpandRoots(Roots, Prefs, Files, ScanTick);
       Note := TAgentNote.Create;
       Note.Files := TStringList.Create;
       for I := 0 to Files.Count - 1 do
@@ -531,7 +550,7 @@ begin
       PostNote(Link.Wnd, WM_AGENT_FILES, Note);
       if Link.Cancel <> 0 then
         Err := 'stopped'
-      else if Files.Count = 0 then
+      else if (Files.Count = 0) and (Roots.Count > 0) and not IsSearchCommandLauncher(Prompt) then
         Err := 'nofiles'
       else
       begin
@@ -723,6 +742,7 @@ var
     begin
       btnPromptTranslate := MakeToolBtn(Bar, ATag, PromptTranslateClick);
       btnPromptSuggest := MakeToolBtn(Bar, ATag, PromptSuggestClick);
+      btnPromptHelp := MakeToolBtn(Bar, ATag, PromptHelpClick);
     end;
     ANew := MakeToolBtn(Bar, ATag, ToolNewClick);
     AClear := MakeToolBtn(Bar, ATag, ToolClearClick);
@@ -735,9 +755,9 @@ var
   procedure FieldRow(AParent: TWinControl; ALabelWidth, AEditWidth: Integer;
     out ALabel: TsLabel; out AEdit: TsEdit);
   begin
-    Line := MakePanel(AParent, alTop, 28);
+    Line := MakePanel(AParent, alTop, Dpi(28));
     Line.AlignWithMargins := True;
-    Line.Margins.SetBounds(0, 4, 0, 0);
+    Line.Margins.SetBounds(0, Dpi(4), 0, 0);
     ALabel := TsLabel.Create(Self);
     ALabel.Parent := Line;
     ALabel.AutoSize := False;
@@ -796,13 +816,13 @@ begin
   pnlLeft := MakePanel(Self, alLeft, 380);
   pnlLeft.Constraints.MinWidth := 300;
 
-  grpOptions := MakeGroup(pnlLeft, alBottom, 168);
-  grpOptions.Margins.SetBounds(10, 4, 4, 8);
+  grpOptions := MakeGroup(pnlLeft, alBottom, Dpi(168));
+  grpOptions.Margins.SetBounds(Dpi(10), Dpi(4), Dpi(4), Dpi(8));
   Host := GroupHost(grpOptions);
   chkSubdirs := TsCheckBox.Create(Self);
   chkSubdirs.Parent := Host;
   chkSubdirs.AutoSize := False;
-  chkSubdirs.Height := 24;
+  chkSubdirs.Height := Dpi(24);
   Stack(chkSubdirs, alTop);
   FieldRow(Host, 120, 0, lblMask, edtMask);
   edtMask.ShowHint := True;
@@ -955,6 +975,17 @@ begin
 
   pnlClient := MakePanel(Self, alClient, 0);
 
+  pnlChat := MakePanel(Self, alRight, 460);
+  pnlChat.Constraints.MinWidth := 300;
+  pnlChat.Visible := False;
+  splChat := TsSplitter.Create(Self);
+  splChat.Parent := Self;
+  splChat.Width := 6;
+  splChat.Align := alRight;
+  splChat.Left := pnlChat.Left - 1;
+  splChat.MinSize := 280;
+  splChat.Visible := False;
+
   { Step 2: the request. Send sits right under the text box. }
   grpPrompt := MakeGroup(pnlClient, alTop, 204 + Dpi(24) + 2 * Dpi(4) + 1);
   grpPrompt.Margins.SetBounds(4, 6, 10, 4);
@@ -965,7 +996,12 @@ begin
   btnStop.AlignWithMargins := True;
   btnStop.Margins.SetBounds(6, 6, 0, 2);
   btnStop.Align := alRight;
+  btnChat := MakeButton(pnlSendBar, 110, ChatToggleClick);
+  btnChat.AlignWithMargins := True;
+  btnChat.Margins.SetBounds(6, 6, 0, 2);
+  btnChat.Align := alRight;
   btnSend := MakeButton(pnlSendBar, 140, SendClick);
+  btnSend.Name := 'btnSend';
   btnSend.AlignWithMargins := True;
   btnSend.Margins.SetBounds(6, 6, 0, 2);
   btnSend.Left := 0;
@@ -1025,6 +1061,9 @@ begin
   lblRecentCombo.OnClick := RecentComboClick;
 
   memPrompt := MakeMemo(Host, False, True);
+  memPrompt.Name := 'memPrompt';
+  { SetName copies the name into Text while both are still empty. }
+  memPrompt.Clear;
   memPrompt.OnKeyDown := PromptKeyDown;
   memPrompt.OnChange := PromptChange;
 
@@ -1172,6 +1211,7 @@ begin
   OnDestroy := FormDestroy;
   OnResize := FormResize;
   AddLastGeneratedFileListener(LastFileChanged);
+  AssistantBridgeSetReplyListener(AssistantReplied);
   LoadOptions;
   ApplyLanguage;
   SetBusy(False);
@@ -1266,6 +1306,7 @@ begin
 
   btnSend.Width := BtnW(btnSend, 120);
   btnStop.Width := BtnW(btnStop, 96);
+  btnChat.Width := BtnW(btnChat, 96);
 
   Gap := Dpi(6);
   X := Gap;
@@ -1312,7 +1353,76 @@ begin
     pnlLeft.Width := W;
   splLeft.MinSize := W;
   SourceButtonsResize(nil);
+  LayoutOptions;
   FitWrapped;
+  if HandleAllocated then
+  begin
+    Realign;
+    if (lstRoots <> nil) and (lstRoots.Parent <> nil) then
+    begin
+      lstRoots.Align := alClient;
+      lstRoots.Parent.Realign;
+    end;
+  end;
+end;
+
+procedure TfrmAgentWorkspace.LayoutOptions;
+var
+  Host: TWinControl;
+  RowH, NeedHost, FrameChrome: Integer;
+  R: TRect;
+  Bmp: TBitmap;
+  MaskRow, DepthRow, MaxRow: TControl;
+
+  function RowSpace(C: TControl): Integer;
+  begin
+    if C = nil then
+      Result := 0
+    else
+      Result := C.Height + C.Margins.Top + C.Margins.Bottom;
+  end;
+
+begin
+  { Match Diagnóstico IA: size option rows from the live font, then grow the group
+    so Máx. arquivos is never clipped at custom PPI / short work areas. }
+  if (grpOptions = nil) or (chkSubdirs = nil) or (lblMaxFiles = nil) then Exit;
+  if grpOptions.Parent <> pnlLeft then Exit;
+
+  Host := chkSubdirs.Parent;
+  if (Host = nil) or (lblMask = nil) or (lblDepth = nil) then Exit;
+  MaskRow := lblMask.Parent;
+  DepthRow := lblDepth.Parent;
+  MaxRow := lblMaxFiles.Parent;
+
+  Bmp := TBitmap.Create;
+  try
+    Bmp.Canvas.Font.Assign(chkSubdirs.Font);
+    RowH := Max(Dpi(26), Bmp.Canvas.TextHeight('Hg') + Dpi(8));
+  finally
+    Bmp.Free;
+  end;
+
+  chkSubdirs.AutoSize := False;
+  chkSubdirs.Height := RowH;
+  if MaskRow <> nil then
+    MaskRow.Height := RowH;
+  if DepthRow <> nil then
+    DepthRow.Height := RowH;
+  if MaxRow <> nil then
+    MaxRow.Height := RowH;
+
+  NeedHost := chkSubdirs.Height + RowSpace(MaskRow) + RowSpace(DepthRow) + RowSpace(MaxRow) + Dpi(8);
+
+  R := grpOptions.ClientRect;
+  TFrameAccess(grpOptions).AdjustClientRect(R);
+  FrameChrome := grpOptions.Height - (R.Bottom - R.Top);
+  if FrameChrome < Dpi(20) then
+    FrameChrome := Dpi(28);
+
+  FOptH := FrameChrome + Host.Margins.Top + Host.Margins.Bottom + NeedHost;
+  FOptH := Max(FOptH, Dpi(140));
+  if grpOptions.Height <> FOptH then
+    grpOptions.Height := FOptH;
 end;
 
 { Height of the word-wrapped guide line follows the text and the width. }
@@ -1528,8 +1638,8 @@ begin
       SetCompact(L);
     if L >= 3 then
       Dec(PromptFixed, RecentH);
-    { The prompt box takes up to ~5 lines; the rest goes to the results. }
-    grpPrompt.Height := PromptFixed + Max(Dpi(36), Min(Dpi(90), RightFree));
+    { The prompt box stays a few lines; the rest goes to the result field. }
+    grpPrompt.Height := PromptFixed + Max(Dpi(36), Min(Dpi(60), RightFree));
   finally
     FFitting := False;
   end;
@@ -1703,6 +1813,7 @@ begin
   if tmrDecision <> nil then
     tmrDecision.Enabled := False;
   RemoveLastGeneratedFileListener(LastFileChanged);
+  AssistantBridgeSetReplyListener(nil);
   if FExternal then
     AgentBridgeNotify(abeEditsChanged, '', '', 0);
   EndWait;
@@ -1930,7 +2041,7 @@ end;
 
 function TfrmAgentWorkspace.Dpi(AValue: Integer): Integer;
 begin
-  Result := MulDiv(AValue, Screen.PixelsPerInch, 96);
+  Result := FfPx(AValue);
 end;
 
 procedure TfrmAgentWorkspace.RootFindBoxMouseDown(Sender: TObject; Button: TMouseButton;
@@ -2029,6 +2140,7 @@ procedure TfrmAgentWorkspace.SizeToolButtons;
 begin
   Fit(btnPromptTranslate);
   Fit(btnPromptSuggest);
+  Fit(btnPromptHelp);
   Fit(btnPromptNew);
   Fit(btnPromptClear);
   Fit(btnPromptCopy);
@@ -2494,7 +2606,7 @@ begin
     end;
     FRestoringSession := False;
     lstIncluded.Items.Assign(S.Included);
-    if Trim(memPrompt.Text) = '' then
+    if (Trim(memPrompt.Text) = '') and not SameText(Trim(S.Prompt), 'memPrompt') then
       memPrompt.Text := MemoText(S.Prompt);
     PromptChange(nil);
     { Older builds could save the raw model JSON as the answer; keep only its text. }
@@ -2537,7 +2649,10 @@ begin
         S.Roots.Add('F|' + Root.Path);
     end;
     S.Included.Assign(lstIncluded.Items);
-    S.Prompt := memPrompt.Text;
+    if SameText(Trim(memPrompt.Text), 'memPrompt') then
+      S.Prompt := ''
+    else
+      S.Prompt := memPrompt.Text;
     S.Answer := memAnswer.Text;
     S.Revised := memRevised.Text;
     S.Tab := pgResults.ActivePageIndex;
@@ -2579,41 +2694,33 @@ end;
 
 procedure TfrmAgentWorkspace.AddFolderClick(Sender: TObject);
 var
-  Dlg: TFileOpenDialog;
-  Dir: string;
+  Picked: TStringList;
+  Start: string;
   I: Integer;
 begin
-  { Vista+ shell picker: our title/labels are translated; the shell chrome follows Windows. }
-  if Win32MajorVersion < 6 then
-  begin
-    Dir := '';
-    if SelectDirectory(TrText('Agent.PickFolderTitle'), '', Dir, [sdNewUI, sdNewFolder], Self) then
-      AddRoot(arkFolder, Dir);
-    Exit;
-  end;
-  Dlg := TFileOpenDialog.Create(Self);
+  if FBusy then Exit;
+  Start := '';
+  for I := FRoots.Count - 1 downto 0 do
+    if TAgentRoot(FRoots[I]).Kind = arkFolder then
+    begin
+      Start := TAgentRoot(FRoots[I]).Path;
+      Break;
+    end;
+  Picked := TStringList.Create;
   try
-    Dlg.Options := [fdoPickFolders, fdoAllowMultiSelect, fdoPathMustExist, fdoForceFileSystem];
-    Dlg.Title := TrText('Agent.PickFolderTitle');
-    Dlg.OkButtonLabel := TrText('Agent.PickFolderOk');
-    Dlg.FileNameLabel := TrText('Agent.PickFolderLabel');
-    if (FRoots.Count > 0) and (TAgentRoot(FRoots[FRoots.Count - 1]).Kind = arkFolder) then
-      Dlg.DefaultFolder := ExtractFileDir(ExcludeTrailingPathDelimiter(TAgentRoot(FRoots[FRoots.Count - 1]).Path));
-    if not Dlg.Execute(Handle) then Exit;
+    if not PickFolders(Self, fpkAgent, Picked, Start) then Exit;
     FLoadingSession := True;
     try
-      if Dlg.Files.Count > 0 then
-        for I := 0 to Dlg.Files.Count - 1 do
-          AddRoot(arkFolder, Dlg.Files[I])
-      else if Dlg.FileName <> '' then
-        AddRoot(arkFolder, Dlg.FileName);
+      for I := 0 to Picked.Count - 1 do
+        AddRoot(arkFolder, Picked[I]);
     finally
       FLoadingSession := False;
     end;
     RefreshRootList;
     SaveSession;
+    FlushRootRecent;
   finally
-    Dlg.Free;
+    Picked.Free;
   end;
 end;
 
@@ -2937,16 +3044,32 @@ begin
     Result := FIndexPath;
 end;
 
+procedure TfrmAgentWorkspace.CopySearchSources(ARoots: TStrings; out APrefs: TAgentPrefs);
+var
+  I: Integer;
+  Root: TAgentRoot;
+begin
+  APrefs := ReadOptions;
+  ARoots.Clear;
+  for I := 0 to FRoots.Count - 1 do
+  begin
+    Root := TAgentRoot(FRoots[I]);
+    if Root.Kind = arkFolder then ARoots.Add('D|' + Root.Path)
+    else ARoots.Add('F|' + Root.Path);
+  end;
+end;
+
 procedure TfrmAgentWorkspace.SendClick(Sender: TObject);
 var
   Roots: TStringList;
   I: Integer;
   Root: TAgentRoot;
+  OpenNow: string;
 begin
   if FBusy or FAskBusy then Exit;
-  if FRoots.Count = 0 then
+  if IsSearchCommand(memPrompt.Text) then
   begin
-    lblStatus.Caption := TrText('Select a file or folder first.');
+    AssistantHostApplyFilter(Trim(memPrompt.Text), True);
     Exit;
   end;
   if Trim(memPrompt.Text) = '' then
@@ -2956,6 +3079,16 @@ begin
   end;
   { Plain strings: FRoots entries can be freed while the thread still scans. }
   Roots := TStringList.Create;
+  { No sources: work on the file open in the main window, or with no file at all (questions about
+    FastFile, view actions, the assistant tool). }
+  if FRoots.Count = 0 then
+  begin
+    OpenNow := '';
+    if Assigned(OnGetOpenFile) then
+      OpenNow := Trim(OnGetOpenFile());
+    if (OpenNow <> '') and FileExists(OpenNow) then
+      Roots.Add('F|' + ExpandFileName(OpenNow));
+  end;
   for I := 0 to FRoots.Count - 1 do
   begin
     Root := TAgentRoot(FRoots[I]);
@@ -3121,9 +3254,70 @@ begin
   SetBusy(False);
 end;
 
+procedure TfrmAgentWorkspace.ShowChat;
+begin
+  if pnlChat = nil then Exit;
+  if not pnlChat.Visible then
+  begin
+    splChat.Visible := True;
+    pnlChat.Visible := True;
+    splChat.Left := pnlChat.Left - 1;
+  end;
+end;
+
+procedure TfrmAgentWorkspace.HideChat;
+begin
+  if pnlChat = nil then Exit;
+  splChat.Visible := False;
+  pnlChat.Visible := False;
+end;
+
+function TfrmAgentWorkspace.ChatVisible: Boolean;
+begin
+  Result := (pnlChat <> nil) and pnlChat.Visible;
+end;
+
+procedure TfrmAgentWorkspace.ChatToggleClick(Sender: TObject);
+begin
+  if ChatVisible then
+    HideChat
+  else
+    ShowChat;
+end;
+
 function TfrmAgentWorkspace.IsApplying: Boolean;
 begin
   Result := FApplyRunning;
+end;
+
+function TfrmAgentWorkspace.TryScrollWheelAt(const AScreenPt: TPoint; AWheelDelta: Integer): Boolean;
+var
+  C: TWinControl;
+  Steps, I: Integer;
+begin
+  Result := False;
+  if (AWheelDelta = 0) or not HandleAllocated or not IsWindowVisible(Handle) then Exit;
+  C := FindVCLWindow(AScreenPt);
+  while Assigned(C) and (C <> Self) and
+        not (C.HandleAllocated and ((GetWindowLong(C.Handle, GWL_STYLE) and WS_VSCROLL) <> 0)) do
+    C := C.Parent;
+  if (C = nil) or (C = Self) or not ContainsControl(C) then Exit;
+  Steps := Abs(AWheelDelta) div WHEEL_DELTA;
+  if Steps < 1 then Steps := 1;
+  if C is TCustomMemo then
+  begin
+    if AWheelDelta > 0 then
+      SendMessage(C.Handle, EM_LINESCROLL, 0, -Steps * 3)
+    else
+      SendMessage(C.Handle, EM_LINESCROLL, 0, Steps * 3);
+  end
+  else
+    for I := 1 to Steps * 3 do
+      if AWheelDelta > 0 then
+        C.Perform(WM_VSCROLL, SB_LINEUP, 0)
+      else
+        C.Perform(WM_VSCROLL, SB_LINEDOWN, 0);
+  Result := True;
 end;
 
 { Same overlay as the Assistant: never steal an overlay another operation already shows. }
@@ -3277,6 +3471,15 @@ var
   Id: string;
 begin
   Id := LowerCase(S.ActionId);
+  if Id = AGENT_PYTHON_MACRO then
+  begin
+    Result := TrText('Agent.Macro.Caption');
+    if Trim(S.ReplaceText) <> '' then
+      Result := Result + ': ' + Trim(S.ReplaceText);
+    if S.Parts = 1 then
+      Result := Result + ' (' + TrText('Agent.Macro.SelectedOnly') + ')';
+    Exit;
+  end;
   Result := TrText('Agent.Action') + ': ' + Id;
   if Id = 'replace_all' then
     Result := Result + ' ' + ShortQuoted(S.FilterText) + ' -> ' + ShortQuoted(S.ReplaceText)
@@ -3393,6 +3596,11 @@ begin
   for I := 0 to AList.Count - 1 do
   begin
     E := TAgentEdit(AList[I]);
+    if SameText(E.Action.ActionId, AGENT_ASSISTANT_REQUEST) then
+    begin
+      RunAssistantRequest(E.Action.FilterText);
+      Continue;
+    end;
     if AgentActionIsExtra(E.Action.ActionId) then
     begin
       if Assigned(OnRunExtraAction) then
@@ -3425,6 +3633,74 @@ begin
     AgentLog('run action ' + E.Action.ActionId + ' needle=' + E.Action.FilterText);
     AssistantHostExecuteAction(E.Action);
   end;
+end;
+
+procedure TfrmAgentWorkspace.PromptHelpClick(Sender: TObject);
+begin
+  ShowCapabilities;
+end;
+
+procedure TfrmAgentWorkspace.ShowCapabilities;
+var
+  Ex, Q: string;
+begin
+  case ShowAICapabilities(ackAgent, Ex, Q) of
+    accExample: ;
+    accAsk:
+      begin
+        if FBusy or FAskBusy then
+        begin
+          lblStatus.Caption := TrText('AICaps.Busy');
+          Exit;
+        end;
+        AskAiAbout(Ex, 'the "What can I do?" list of the FastFile AI agent (what the agent can do, with examples)', Q);
+        Exit;
+      end;
+  else
+    Exit;
+  end;
+  memPrompt.Text := MemoText(Ex);
+  PromptChange(nil);
+  memPrompt.SelStart := Length(memPrompt.Text);
+  if memPrompt.CanFocus then
+    memPrompt.SetFocus;
+  lblStatus.Caption := TrText('AICaps.ExampleReady');
+end;
+
+procedure TfrmAgentWorkspace.RunAssistantRequest(const ARequest: string);
+var
+  Why: string;
+begin
+  AgentLog('agent -> assistant: ' + ARequest);
+  if not AssistantBridgeAvailable then
+    Why := TrText('Agent.Assistant.Unavailable')
+  else if AssistantBridgeRun(ARequest, Why) then
+  begin
+    ShowChat;
+    lblStatus.Caption := TrText('Agent.Assistant.Working');
+    Exit;
+  end
+  else if Trim(Why) = '' then
+    Why := TrText('Agent.Assistant.Unavailable');
+  AssistantReplied(Why);
+end;
+
+procedure TfrmAgentWorkspace.AssistantReplied(const AText: string);
+var
+  S: string;
+begin
+  if (csDestroying in ComponentState) or (memAnswer = nil) then Exit;
+  S := Trim(AText);
+  if S = '' then
+    S := TrText('Agent.Assistant.NoReply');
+  S := TrText('Agent.Assistant.ReplyHeader') + #13#10 + S;
+  if Trim(memAnswer.Text) <> '' then
+    S := TrimRight(memAnswer.Text) + #13#10#13#10 + S;
+  memAnswer.Text := MemoText(S);
+  pgResults.ActivePage := tabAnswer;
+  lblStatus.Caption := TrText('Agent.Assistant.Done');
+  AgentLog('assistant -> agent reply: ' + Copy(StringReplace(AText, #10, ' ', [rfReplaceAll]), 1, 300));
+  SaveSession;
 end;
 
 procedure TfrmAgentWorkspace.AcceptAction(AIndex: Integer);
@@ -3629,7 +3905,19 @@ begin
     SL.LineBreak := #10;
     case E.Kind of
       aekAction:
-        PvRow(SL, PV_INFO, '', TrText('Agent.ActionPreview'));
+        if SameText(E.Action.ActionId, AGENT_PYTHON_MACRO) then
+        begin
+          PvRow(SL, PV_INFO, '', TrText('Agent.Macro.Preview'));
+          RightL := AgentSplitLines(E.Action.FilterText);
+          try
+            for I := 0 to RightL.Count - 1 do
+              PvRow(SL, PV_ADD, IntToStr(I + 1), RightL[I]);
+          finally
+            RightL.Free;
+          end;
+        end
+        else
+          PvRow(SL, PV_INFO, '', TrText('Agent.ActionPreview'));
       aekInsert:
         begin
           if E.LineStart > 1 then
@@ -3829,6 +4117,8 @@ end;
 
 procedure TfrmAgentWorkspace.ShowPreview;
 var
+  Lines: TStringList;
+  I: Integer;
   E: TAgentEdit;
   Key: string;
   Link: TAgentLink;
@@ -3851,7 +4141,19 @@ begin
   PvAdd(PV_HEAD, '', EditCaption(E));
   if E.Kind = aekAction then
   begin
-    PvAdd(PV_INFO, '', TrText('Agent.ActionPreview'));
+    if SameText(E.Action.ActionId, AGENT_PYTHON_MACRO) then
+    begin
+      PvAdd(PV_INFO, '', TrText('Agent.Macro.Preview'));
+      Lines := AgentSplitLines(E.Action.FilterText);
+      try
+        for I := 0 to Lines.Count - 1 do
+          PvAdd(PV_ADD, IntToStr(I + 1), Lines[I]);
+      finally
+        Lines.Free;
+      end;
+    end
+    else
+      PvAdd(PV_INFO, '', TrText('Agent.ActionPreview'));
     FillPreview(lstPreview);
     Exit;
   end;
@@ -4961,6 +5263,9 @@ begin
   btnSend.ShowHint := True;
   btnSend.Hint := TrText('Agent.SendHint');
   btnStop.Caption := TrText('Stop');
+  btnChat.Caption := TrText('Agent.Chat.Button');
+  btnChat.ShowHint := True;
+  btnChat.Hint := TrText('Agent.Chat.Hint');
   btnAccept.Caption := #$2713 + '  ' + TrText('Accept');
   btnReject.Caption := #$2715 + '  ' + TrText('Reject');
   btnAcceptAll.Caption := #$2713#$2713 + '  ' + TrText('Accept all');
@@ -4992,6 +5297,8 @@ begin
   btnPromptTranslate.Hint := TrText('Assistant.TranslateHint');
   btnPromptSuggest.Caption := TrText('Assistant.RewriteBtn');
   btnPromptSuggest.Hint := TrText('Assistant.RewriteHint');
+  btnPromptHelp.Caption := TrText('AICaps.Button');
+  btnPromptHelp.Hint := TrText('AICaps.ButtonHint.Agent');
   btnPromptNew.Caption := TrText('Agent.ToolNew');
   btnRootsNew.Caption := btnPromptNew.Caption;
   btnAnswerNew.Caption := btnPromptNew.Caption;
@@ -5032,11 +5339,16 @@ class function TfrmAgentWorkspace.ExecuteEmbedded(AOwner: TComponent; AHost: TWi
 begin
   { CreateNew skips the DFM resource. This form is built in code. }
   Result := TfrmAgentWorkspace.CreateNew(AOwner);
-  Result.BuildUi;
+  { Parent/BorderStyle BEFORE BuildUi — otherwise the first child Parent:=Self
+    allocates a top-level HWND that later paints through Ler Arquivo. }
   Result.BorderStyle := bsNone;
-  Result.Parent := AHost;
-  Result.Align := alClient;
-  Result.Visible := True;
+  Result.Visible := False;
+  if AHost <> nil then
+  begin
+    Result.Parent := AHost;
+    Result.Align := alClient;
+  end;
+  Result.BuildUi;
   Result.FitTexts;
   Result.PromptChange(nil);
 end;

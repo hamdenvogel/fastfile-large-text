@@ -32,7 +32,7 @@ type
   TAgentRawLines = TArray<TAgentRawLine>;
 
 function AgentExpandRoots(ARoots: TStrings; const APrefs: TAgentPrefs;
-  AFiles: TStrings; AOnProgress: TAgentScanNotify): Boolean;
+  AFiles: TStrings; AOnProgress: TAgentScanNotify; AStrictErrors: Boolean = False): Boolean;
 function AgentFileAllowed(const APath: string; AFiles: TStrings): Boolean;
 function AgentToolList(AFiles: TStrings; AMaxChars: Integer): string;
 { AIndexPath: working line index of APath, or '' when APath is not the open file.
@@ -56,13 +56,16 @@ function AgentLineOffset(const APath: string; ALine: Int64; const AIndexPath: st
 function AgentReadRawLines(const APath: string; AStart: Int64; ACount: Integer;
   const AIndexPath: string; ACancelFlag: PInteger): TAgentRawLines;
 function AgentIndexPathFor(const APrefs: TAgentPrefs; const APath: string): string;
+{ Last ACount lines as text, without counting the lines of the file: ALastLineNo is the number of the last line
+  when FastFile already knows the line count, otherwise 0. }
+function AgentReadTailTexts(const APath: string; ACount: Integer; out ALastLineNo: Int64): TArray<string>;
 { A line from FastFileForEachRawLine with the UTF-16 BOM, stray 00 and CR units removed. }
 function AlignWideLine(const ARaw: AnsiString; const AEnc: string): AnsiString;
 
 implementation
 
 uses
-  SysUtils, Masks, Types, Character, Generics.Collections, UnConsts, uFastFilePaths, uTextEncoding, uEolPolicy;
+  Windows, SysUtils, Masks, Types, Character, Generics.Collections, UnConsts, uFastFilePaths, uTextEncoding, uEolPolicy;
 
 const
   SCAN_BUF = 4 * 1024 * 1024;
@@ -417,7 +420,9 @@ end;
 
 { Last ACount lines, scanning backwards from the end of the file: cost depends on the tail size,
   not on the file size. ALastLineNo is the number of the last line (0 when the file is empty). }
-function ReadTailLines(const APath, AEnc: string; ACount: Integer; out ALastLineNo: Int64): TArray<AnsiString>;
+{ ACountLines=False: ALastLineNo is the known line count, or 0 (no full pass to count the lines). }
+function ReadTailLines(const APath, AEnc: string; ACount: Integer; out ALastLineNo: Int64;
+  ACountLines: Boolean = True): TArray<AnsiString>;
 const
   CHUNK = 64 * 1024;
   MAX_TAIL = 8 * 1024 * 1024;
@@ -582,11 +587,29 @@ begin
     List.Free;
   end;
 
+  if not ACountLines then
+  begin
+    ALastLineNo := FastFileKnownLineCount(APath);
+    Exit;
+  end;
   // FastFileCountLines counts terminators (+1 when the last byte is not one). A UTF-16 LE file that ends
   // in 0A 00 ends on 00, so it is counted once more than its real lines.
   ALastLineNo := FastFileCountLines(APath);
   if LE and EndsWithTerm then
     Dec(ALastLineNo);
+end;
+
+function AgentReadTailTexts(const APath: string; ACount: Integer; out ALastLineNo: Int64): TArray<string>;
+var
+  Enc: string;
+  Raw: TArray<AnsiString>;
+  I: Integer;
+begin
+  Enc := DetectTextFileEncoding(APath);
+  Raw := ReadTailLines(APath, Enc, ACount, ALastLineNo, False);
+  SetLength(Result, Length(Raw));
+  for I := 0 to High(Raw) do
+    Result[I] := FileBytesToUnicodeText(Raw[I], Enc);
 end;
 
 function AgentToolReadLines(const APath: string; AStart: Int64; ACount: Integer;
@@ -997,19 +1020,21 @@ end;
 { --- folder expansion ------------------------------------------------------------ }
 
 function AgentExpandRoots(ARoots: TStrings; const APrefs: TAgentPrefs;
-  AFiles: TStrings; AOnProgress: TAgentScanNotify): Boolean;
+  AFiles: TStrings; AOnProgress: TAgentScanNotify; AStrictErrors: Boolean): Boolean;
 var
-  Listed: Integer;
-  Truncated: Boolean;
+  Listed, Visited: Integer;
+  Truncated, EndCancel: Boolean;
 
   function WantStop: Boolean;
   var
     Cancel: Boolean;
   begin
     Cancel := False;
-    if Assigned(AOnProgress) and ((Listed mod 25) = 0) then
+    Inc(Visited);
+    if Assigned(AOnProgress) and ((Visited mod 25) = 1) then
       AOnProgress(Listed, Cancel);
-    Result := Cancel or Truncated or (Listed >= APrefs.MaxFiles);
+    if Cancel then Truncated := True;
+    Result := Truncated or (Listed >= APrefs.MaxFiles);
     if Listed >= APrefs.MaxFiles then
       Truncated := True;
   end;
@@ -1030,26 +1055,40 @@ var
   var
     SR: TSearchRec;
     Spec, Full, Name: string;
+    Error: Integer;
+    function NextEntry: Boolean;
+    begin
+      Error := FindNext(SR);
+      if AStrictErrors and (Error <> 0) and (Error <> ERROR_NO_MORE_FILES) then
+        raise EFOpenError.CreateFmt('%s: %s', [ADir, SysErrorMessage(Error)]);
+      Result := Error <> 0;
+    end;
   begin
     if Truncated or WantStop then Exit;
     Spec := IncludeTrailingPathDelimiter(ADir) + '*';
-    if FindFirst(Spec, faAnyFile, SR) <> 0 then Exit;
+    Error := FindFirst(Spec, faAnyFile, SR);
+    if Error <> 0 then
+    begin
+      if AStrictErrors and (Error <> ERROR_FILE_NOT_FOUND) and (Error <> ERROR_NO_MORE_FILES) then
+        raise EFOpenError.CreateFmt('%s: %s', [ADir, SysErrorMessage(Error)]);
+      Exit;
+    end;
     try
       repeat
-        if Truncated then Break;
+        if WantStop then Break;
         Name := SR.Name;
         if (Name = '.') or (Name = '..') then Continue;
         Full := IncludeTrailingPathDelimiter(ADir) + Name;
+        if (SR.Attr and faSymLink) <> 0 then Continue;
         if (SR.Attr and faDirectory) <> 0 then
         begin
-          if (SR.Attr and faSymLink) <> 0 then Continue;
           if SkipDirName(Name) then Continue;
           if APrefs.IncludeSubdirs and (ADepth < APrefs.MaxDepth) then
             Walk(Full, ADepth + 1);
         end
         else if MaskAllows(Name, APrefs.Mask) then
           AddFile(Full);
-      until FindNext(SR) <> 0;
+      until NextEntry;
     finally
       FindClose(SR);
     end;
@@ -1062,6 +1101,7 @@ var
 begin
   Result := False;
   Listed := 0;
+  Visited := 0;
   Truncated := False;
   if AFiles = nil then Exit;
   for I := 0 to ARoots.Count - 1 do
@@ -1107,10 +1147,10 @@ begin
       AddFile(Path);
     if WantStop then Break;
   end;
-  Truncated := False;
+  EndCancel := False;
   if Assigned(AOnProgress) then
-    AOnProgress(Listed, Truncated);
-  Result := not Truncated;
+    AOnProgress(Listed, EndCancel);
+  Result := not Truncated and not EndCancel;
 end;
 
 end.

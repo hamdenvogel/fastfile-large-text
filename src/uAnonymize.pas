@@ -2057,8 +2057,12 @@ type
     FCancel: TAnonCancelQuery;
     FEngine: TAnonEngine;
     FFile: TFileStream;
+    FReadFile: TFileStream;
     FJ: TAnonJournalWriter;
     FIn, FOut: PByte;
+    FIn2, FOut2: PByte;
+    FCommitTask: ITask;
+    FCommitError: string;
     FCtxs: array of TAnonCtx;
     FRanges: TAnonRanges;
     FResult: TAnonJobResult;
@@ -2072,8 +2076,12 @@ type
     procedure ReadExact(APos: Int64; ABuf: PByte; ALen: Integer);
     procedure NormalizeRanges(AFileSize: Int64; ASkipHeader: Boolean);
     function FirstLineEnd(AFrom, AFileSize: Int64): Int64;
-    procedure CommitWindow(ABase: Int64; ALen: Integer);
-    procedure ProcessParallel(ABase: Int64; ALen: Integer);
+    procedure CommitWindow(ABase: Int64; ALen: Integer); overload;
+    procedure CommitWindow(AIn, AOut: PByte; ABase: Int64; ALen: Integer); overload;
+    procedure StartCommit(AIn, AOut: PByte; ABase: Int64; ALen: Integer);
+    procedure WaitCommit;
+    procedure WaitCommitQuiet;
+    procedure ProcessParallel(AIn, AOut: PByte; ABase: Int64; ALen: Integer);
     procedure DoSpan(AFirst, ALast: Integer);
     procedure DoLargeRange(const R: TAnonRange);
     function SwapJournal(J, F: TFileStream; AFrom, ATo: Int64): Boolean;
@@ -2164,9 +2172,15 @@ begin
 end;
 
 procedure TAnonRunner.ReadExact(APos: Int64; ABuf: PByte; ALen: Integer);
+var
+  S: TFileStream;
 begin
-  FFile.Position := APos;
-  if FFile.Read(ABuf^, ALen) <> ALen then
+  { handle proprio: le a janela seguinte enquanto FFile grava a anterior }
+  S := FReadFile;
+  if S = nil then
+    S := FFile;
+  S.Position := APos;
+  if S.Read(ABuf^, ALen) <> ALen then
     raise EInOutError.CreateFmt('Read error at offset %d', [APos]);
 end;
 
@@ -2267,6 +2281,47 @@ begin
 end;
 
 procedure TAnonRunner.CommitWindow(ABase: Int64; ALen: Integer);
+begin
+  CommitWindow(FIn, FOut, ABase, ALen);
+end;
+
+procedure TAnonRunner.StartCommit(AIn, AOut: PByte; ABase: Int64; ALen: Integer);
+begin
+  FCommitError := '';
+  FCommitTask := TTask.Run(
+    procedure
+    begin
+      try
+        CommitWindow(AIn, AOut, ABase, ALen);
+      except
+        on E: Exception do
+          FCommitError := E.Message;
+      end;
+    end);
+end;
+
+procedure TAnonRunner.WaitCommit;
+var
+  Err: string;
+begin
+  if FCommitTask = nil then Exit;
+  FCommitTask.Wait;
+  FCommitTask := nil;
+  Err := FCommitError;
+  FCommitError := '';
+  if Err <> '' then
+    raise EInOutError.Create(Err);
+end;
+
+procedure TAnonRunner.WaitCommitQuiet;
+begin
+  try
+    WaitCommit;
+  except
+  end;
+end;
+
+procedure TAnonRunner.CommitWindow(AIn, AOut: PByte; ABase: Int64; ALen: Integer);
 var
   I, K, RunStart, RunEnd, FirstDiff, LastDiff: Integer;
   JEnd: Int64;
@@ -2276,9 +2331,9 @@ begin
   I := 0;
   while I < ALen do
   begin
-    while (I + 8 <= ALen) and (PUInt64(FIn + I)^ = PUInt64(FOut + I)^) do
+    while (I + 8 <= ALen) and (PUInt64(AIn + I)^ = PUInt64(AOut + I)^) do
       Inc(I, 8);
-    while (I < ALen) and (FIn[I] = FOut[I]) do
+    while (I < ALen) and (AIn[I] = AOut[I]) do
       Inc(I);
     if I >= ALen then Break;
     RunStart := I;
@@ -2287,7 +2342,7 @@ begin
     K := I + 1;
     while (K < ALen) and (K - RunStart < ANON_MAX_RUN) do
     begin
-      if FIn[K] <> FOut[K] then
+      if AIn[K] <> AOut[K] then
       begin
         RunEnd := K + 1;
         Inc(FResult.BytesChanged);
@@ -2297,8 +2352,8 @@ begin
       Inc(K);
     end;
     if Assigned(FJ) then
-      FJ.AddRun(ABase + RunStart, FIn + RunStart, RunEnd - RunStart,
-        Fnv32(FOut + RunStart, RunEnd - RunStart));
+      FJ.AddRun(ABase + RunStart, AIn + RunStart, RunEnd - RunStart,
+        Fnv32(AOut + RunStart, RunEnd - RunStart));
     Inc(FResult.RunCount);
     if FirstDiff < 0 then FirstDiff := RunStart;
     LastDiff := RunEnd;
@@ -2312,12 +2367,12 @@ begin
     JEnd := FJ.Stream.Size;
   end;
   FFile.Position := ABase + FirstDiff;
-  FFile.WriteBuffer((FOut + FirstDiff)^, LastDiff - FirstDiff);
+  FFile.WriteBuffer((AOut + FirstDiff)^, LastDiff - FirstDiff);
   if Assigned(FJ) then
     FCommitted := JEnd;
 end;
 
-procedure TAnonRunner.ProcessParallel(ABase: Int64; ALen: Integer);
+procedure TAnonRunner.ProcessParallel(AIn, AOut: PByte; ABase: Int64; ALen: Integer);
 var
   Starts: TArray<Integer>;
   Cnt, P, B: Integer;
@@ -2325,7 +2380,7 @@ var
 begin
   if (Length(FCtxs) <= 1) or (ALen < ANON_PARALLEL_MIN) then
   begin
-    FEngine.ProcessSpan(FCtxs[0], FIn, FOut, ALen, ABase);
+    FEngine.ProcessSpan(FCtxs[0], AIn, AOut, ALen, ABase);
     Exit;
   end;
   SetLength(Starts, Length(FCtxs) + 1);
@@ -2333,7 +2388,7 @@ begin
   Cnt := 1;
   for P := 1 to High(FCtxs) do
   begin
-    B := FEngine.NextLineStart(FIn, Integer(Int64(ALen) * P div Length(FCtxs)), ALen);
+    B := FEngine.NextLineStart(AIn, Integer(Int64(ALen) * P div Length(FCtxs)), ALen);
     if (B > Starts[Cnt - 1]) and (B < ALen) then
     begin
       Starts[Cnt] := B;
@@ -2343,13 +2398,13 @@ begin
   Starts[Cnt] := ALen;
   if Cnt = 1 then
   begin
-    FEngine.ProcessSpan(FCtxs[0], FIn, FOut, ALen, ABase);
+    FEngine.ProcessSpan(FCtxs[0], AIn, AOut, ALen, ABase);
     Exit;
   end;
   Work :=
     procedure(AIdx: Integer)
     begin
-      FEngine.ProcessSpan(FCtxs[AIdx], FIn + Starts[AIdx], FOut + Starts[AIdx],
+      FEngine.ProcessSpan(FCtxs[AIdx], AIn + Starts[AIdx], AOut + Starts[AIdx],
         Starts[AIdx + 1] - Starts[AIdx], ABase + Starts[AIdx]);
     end;
   TParallel.For(0, Cnt - 1, Work);
@@ -2379,25 +2434,46 @@ procedure TAnonRunner.DoLargeRange(const R: TAnonRange);
 var
   Pos_, EndPos: Int64;
   Want, Cut: Integer;
+  CurIn, CurOut: PByte;
 begin
   Pos_ := R.Start;
   EndPos := R.Start + R.Len;
-  while Pos_ < EndPos do
-  begin
-    CheckCancel;
-    Want := Integer(Min(Int64(ANON_WINDOW), EndPos - Pos_));
-    ReadExact(Pos_, FIn, Want);
-    if Pos_ + Want < EndPos then
-      Cut := FEngine.FindCut(FIn, Want)
-    else
-      Cut := Want;
-    if Cut <= 0 then Cut := Want;
-    Move(FIn^, FOut^, Cut);
-    ProcessParallel(Pos_, Cut);
-    CommitWindow(Pos_, Cut);
-    Inc(Pos_, Cut);
-    Inc(FDone, Cut);
-    Report(False);
+  CurIn := FIn;
+  CurOut := FOut;
+  try
+    while Pos_ < EndPos do
+    begin
+      CheckCancel;
+      Want := Integer(Min(Int64(ANON_WINDOW), EndPos - Pos_));
+      ReadExact(Pos_, CurIn, Want);
+      if Pos_ + Want < EndPos then
+        Cut := FEngine.FindCut(CurIn, Want)
+      else
+        Cut := Want;
+      if Cut <= 0 then Cut := Want;
+      Move(CurIn^, CurOut^, Cut);
+      ProcessParallel(CurIn, CurOut, Pos_, Cut);
+      { a janela anterior (outro par de buffers) grava enquanto esta e lida/processada }
+      WaitCommit;
+      StartCommit(CurIn, CurOut, Pos_, Cut);
+      Inc(Pos_, Cut);
+      Inc(FDone, Cut);
+      Report(False);
+      if CurIn = FIn then
+      begin
+        CurIn := FIn2;
+        CurOut := FOut2;
+      end
+      else
+      begin
+        CurIn := FIn;
+        CurOut := FOut;
+      end;
+    end;
+    WaitCommit;
+  except
+    WaitCommitQuiet;
+    raise;
   end;
 end;
 
@@ -2413,12 +2489,17 @@ begin
   FPhase := 0;
   FEngine := TAnonEngine.Create(AOptions, AEncoding);
   FFile := nil;
+  FReadFile := nil;
   FJ := nil;
   FIn := nil;
   FOut := nil;
+  FIn2 := nil;
+  FOut2 := nil;
+  FCommitTask := nil;
   try
     try
       FFile := TFileStream.Create(ATarget, fmOpenReadWrite or fmShareDenyNone);
+      FReadFile := TFileStream.Create(ATarget, fmOpenRead or fmShareDenyNone);
       FileSize := FFile.Size;
       if Length(ARanges) = 0 then
       begin
@@ -2438,6 +2519,8 @@ begin
       FCommitted := ANON_JOURNAL_HEADER;
       GetMem(FIn, ANON_WINDOW);
       GetMem(FOut, ANON_WINDOW);
+      GetMem(FIn2, ANON_WINDOW);
+      GetMem(FOut2, ANON_WINDOW);
       P := Max(1, Min(TThread.ProcessorCount, ANON_MAX_PARTS));
       SetLength(FCtxs, P);
       for I := 0 to P - 1 do
@@ -2475,6 +2558,7 @@ begin
       except
         on E: Exception do
         begin
+          WaitCommitQuiet;
           FResult.Cancelled := E is EAnonCancelled;
           if not FResult.Cancelled then
             FResult.ErrorMsg := E.Message;
@@ -2508,9 +2592,13 @@ begin
     for I := 0 to High(FCtxs) do
       FCtxs[I].Free;
     SetLength(FCtxs, 0);
+    WaitCommitQuiet;
     if Assigned(FIn) then FreeMem(FIn);
     if Assigned(FOut) then FreeMem(FOut);
+    if Assigned(FIn2) then FreeMem(FIn2);
+    if Assigned(FOut2) then FreeMem(FOut2);
     FJ.Free;
+    FReadFile.Free;
     FFile.Free;
     FEngine.Free;
   end;

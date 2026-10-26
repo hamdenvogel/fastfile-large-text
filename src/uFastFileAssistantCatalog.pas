@@ -2491,6 +2491,50 @@ begin
      ContainsAnyToken(L, 'arquivo|arquivos|ficheiro|ficheiros|file|files'));
 end;
 
+function QuestionAsksDescendingSort(const AQuestion: string): Boolean;
+var
+  L: string;
+begin
+  L := LowerCase(AQuestion);
+  Result :=
+    (Pos('descending', L) > 0) or (Pos('decrescente', L) > 0) or
+    (Pos('descendente', L) > 0) or (Pos('decroissant', L) > 0) or
+    (Pos('absteigend', L) > 0) or (Pos('malejaco', L) > 0) or
+    (Pos('malejąco', L) > 0) or (Pos('descrescator', L) > 0) or
+    (Pos('descrescător', L) > 0) or (Pos('csokkeno', L) > 0) or
+    (Pos('csökkenő', L) > 0) or (Pos('sestupne', L) > 0) or
+    (Pos('sestupně', L) > 0) or (Pos('降順', L) > 0) or
+    (Pos('降序', L) > 0) or (Pos('由大到小', L) > 0);
+end;
+
+function ColumnIndexFromQuestion(const AQuestion: string): Integer;
+const
+  Keys: array[0..9] of string = (
+    'coluna ', 'column ', 'columna ', 'colonne ', 'spalte ',
+    'colonna ', 'kolumne ', 'coloana ', 'oszlop ', 'sloupec ');
+var
+  L, W: string;
+  I, P, K: Integer;
+begin
+  Result := 0;
+  L := LowerCase(AQuestion);
+  P := 0;
+  for K := 0 to High(Keys) do
+  begin
+    I := Pos(Keys[K], L);
+    if (I > 0) and ((P = 0) or (I < P)) then
+      P := I + Length(Keys[K]);
+  end;
+  if P = 0 then Exit;
+  W := '';
+  while (P <= Length(L)) and CharInSet(L[P], ['0'..'9']) do
+  begin
+    W := W + L[P];
+    Inc(P);
+  end;
+  Result := StrToIntDef(W, 0);
+end;
+
 function TryCatalogResolveAction(const AQuestion: string;
   var AActionId: string; var AStep: TAssistantChainStep): Boolean;
 { Local-shortcut / offline path ONLY — never use to override an LLM ActionId.
@@ -3276,6 +3320,36 @@ begin
     Exit;
   end;
 
+  if ContainsAnyToken(L, 'limpar ordenacao|remover ordenacao da coluna|clear column sort|' +
+    'remove column sort|quitar ordenacion|effacer le tri|sortierung aufheben|' +
+    'rimuovi ordinamento|usun sortowanie|sterge sortarea|rendezes torlese|zrusit razeni') then
+  begin
+    AActionId := 'clear_csv_sort';
+    AStep.ActionId := AActionId;
+    Result := True;
+    Exit;
+  end;
+
+  if ContainsAnyToken(L, 'ordenar coluna|ordenar por coluna|ordenar a coluna|sort column|' +
+    'sort by column|sort the column|ordenar columna|ordenar la columna|trier la colonne|' +
+    'spalte sortieren|ordina colonna|sortuj kolumne|sorteaza coloana|oszlop rendezese|' +
+    'radit sloupec|seradit sloupec') then
+  begin
+    AActionId := 'sort_csv_column';
+    AStep.ActionId := AActionId;
+    AStep.LineNo := ColumnIndexFromQuestion(AQuestion);
+    if QuestionAsksDescendingSort(AQuestion) then
+      AStep.CaseSensitive := True;
+    if (AStep.LineNo <= 0) and (Trim(AStep.FilterText) = '') then
+    begin
+      AStep.FilterText := ExtractQuotedNeedlesFromText(AQuestion);
+      if Pos('|', AStep.FilterText) > 0 then
+        AStep.FilterText := Copy(AStep.FilterText, 1, Pos('|', AStep.FilterText) - 1);
+    end;
+    Result := True;
+    Exit;
+  end;
+
   if TryScoreCapabilityMap(AQuestion, MappedId, BestSc, SecondSc) then
   begin
     if SameText(MappedId, 'compose_document') and
@@ -3366,8 +3440,8 @@ begin
     end;
   end;
 
-  if SameText(AActionId, 'export_lines') and (Trim(AStep.FilterText) = '') and
-     TryParseLineRangeParams(AQuestion, RangeParams) then
+  if (SameText(AActionId, 'export_lines') or SameText(AActionId, 'anonymize_lines')) and
+     (Trim(AStep.FilterText) = '') and TryParseLineRangeParams(AQuestion, RangeParams) then
   begin
     AStep.FilterText := RangeParams;
     Result := True;
@@ -3435,6 +3509,32 @@ begin
   end;
 
   AStep.CaseSensitive := UserRequestedCaseSensitive(AQuestion);
+
+  if SameText(AActionId, 'sort_csv_column') then
+  begin
+    if AStep.LineNo <= 0 then
+    begin
+      LineN := ColumnIndexFromQuestion(AQuestion);
+      if LineN > 0 then
+      begin
+        AStep.LineNo := LineN;
+        Result := True;
+      end;
+    end;
+    if (AStep.LineNo <= 0) and (Trim(AStep.FilterText) = '') then
+    begin
+      Joined := ExtractQuotedNeedlesFromText(AQuestion);
+      if Pos('|', Joined) > 0 then
+        Joined := Copy(Joined, 1, Pos('|', Joined) - 1);
+      if Joined <> '' then
+      begin
+        AStep.FilterText := Joined;
+        Result := True;
+      end;
+    end;
+    if QuestionAsksDescendingSort(AQuestion) then
+      AStep.CaseSensitive := True;
+  end;
 
   if AStep.MaxLines < 1 then
   begin

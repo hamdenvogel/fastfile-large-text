@@ -10,7 +10,7 @@ const
   APPLICATION_NAME = 'FastFile';
   APPLICATION_EDITION = 'Professional';
   APPLICATION_DISPLAY_NAME = APPLICATION_NAME + ' ' + APPLICATION_EDITION;
-  APPLICATION_VERSION = '3.0.5.232';
+  APPLICATION_VERSION = '3.0.5.244';
   APPLICATION_FULLNAME = 'Professional editor for huge text files';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
@@ -56,8 +56,10 @@ const
   SCRIPTENGINE_REL_DIST_SIDECAR = DATALAKE_DIR + '\' + DATALAKE_DIST_DIR + '\';
   { One-shot validate timeout for ScriptEngine --validate / CodeCheck.exe. }
   CODECHECK_VALIDATE_TIMEOUT_MS = 120000;
-  { Extensions accepted by Assistente "Validar fonte" / validate_source. }
-  VALIDATABLE_SOURCE_EXTS = '.py;.js;.jsx;.ts;.tsx;.mjs;.cjs';
+  { Extensions accepted by Assistente "Validar fonte" / validate_source.
+    .py -> ScriptEngine; .js/.jsx/.ts/.tsx/.mjs/.cjs -> CodeCheck; .json/.html/.htm/.sql
+    built in (uSourceValidators); .java/.go/.cs -> javac / gofmt / csc found on the PC. }
+  VALIDATABLE_SOURCE_EXTS = '.py;.js;.jsx;.ts;.tsx;.mjs;.cjs;.json;.html;.htm;.sql;.java;.go;.cs';
   TEXTURE = 'texture.bmp';
   LOGO = 'logo.bmp';
   ICON_HELP_PNG = 'icon_help.png';
@@ -232,6 +234,8 @@ const
   MAIN_TB_ICON_TOOLS_GALLERY = 'Tools.bmp';
   MAIN_TB_ICON_HELP = 'Help.bmp';
   MAIN_TB_ICON_FILE_AGENT = 'wizard.bmp';
+  MAIN_TB_ICON_AGENT_HUB = 'report.bmp';
+  MAIN_TB_ICON_PYTHON_MACRO = 'command prompt.bmp';
   FILEBAR_ICON_READ_F5 = 'insert file-2.bmp';
 
   { Read toolbar quick buttons (16x16 glyphs, ~30px hit target) }
@@ -356,8 +360,6 @@ const
   IDLE_LOGO_SOURCE_MIN_PX = 1024;
   IDLE_LOGO_SOURCE_MAX_PX = 2048;
   IDLE_LOGO_SOURCE_LORES_PX = 512;
-  IDLE_LOGO_PNG_HIRES_REL =
-    '..\..\Images\Logo\package_highres_mpanlryw\color1\icon\color1_icon_transparent_background.png';
   IDLE_LOGO_BG_SIZE_FRAC = 1.0;
   IDLE_LOGO_BG_ALPHA = 255;
   IDLE_LOGO_PROCESS_REV = 30;
@@ -431,7 +433,174 @@ const
     '*******************************************************'#13#10 +
     ''#13#10 +
     '-------------------------------------------------------'#13#10 +
-    '  v3.0.5.232  (2026-10-08)  (current)'#13#10 +
+    '  v3.0.5.244  (2026-10-24)  (current)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Column sort, grep named groups, session filter/encoding:'#13#10 +
+    '    CSV/column mode: click a column to sort. The order is a'#13#10 +
+    '      temp index; the file is not loaded or rewritten.'#13#10 +
+    '      Esc cancels. Click Line # to clear the sort.'#13#10 +
+    '    grep -E named groups (?<name>...) show a result table.'#13#10 +
+    '    .ffsession also stores the active filter and view encoding.'#13#10 +
+    '    The AI agent can sort a column, use named grep groups and'#13#10 +
+    '      save or load that session. Ask the AI is on those screens.'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.243  (2026-10-23)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Optional file operands and bounded large-file searches:'#13#10 +
+    '    grep "casa" and glob "*.txt" use the main filename'#13#10 +
+    '      field first. One optional quoted file after the pattern'#13#10 +
+    '      is validated and loaded before GUI execution; invalid'#13#10 +
+    '      files never fall back silently to another source.'#13#10 +
+    '    Modal-edited commands use the same loading bridge.'#13#10 +
+    '      Model/diagnosis tools remain inside authorized sources.'#13#10 +
+    '    Block reading, cancellation between blocks, immediate'#13#10 +
+    '      stop at the hit cap (partial results), 64-bit positions.'#13#10 +
+    '      Lines over 16,777,216 decoded characters fail explicitly.'#13#10 +
+    '    80 GiB sparse-file tests: offsets, glob, early-limit grep,'#13#10 +
+    '      cancellation and GUI Instant Open. Not a full-scan'#13#10 +
+    '      benchmark; the existing opening/index policy is kept.'#13#10 +
+    '    F1, Version History, changelog, docs and EXE metadata'#13#10 +
+    '      synced to 3.0.5.243; help/errors cover 14 languages.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.242  (2026-10-23)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Direct grep/glob entry points and AI surfaces:'#13#10 +
+    '    Bare grep or glob opens help/examples without scanning'#13#10 +
+    '      or requiring sources. Find, Filter and Bookmarks each'#13#10 +
+    '      have separate grep and glob buttons.'#13#10 +
+    '    Assistant and agent launch locally without a provider.'#13#10 +
+    '      Diagnosis keeps its own sources/settings, read-only'#13#10 +
+    '      tools and inventory path-only restriction.'#13#10 +
+    '    Capability discovery and layouts checked in 14 languages.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.241  (2026-10-23)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  AI helper inside the search modal:'#13#10 +
+    '    Natural-language request, Generate with AI, explanation,'#13#10 +
+    '      editable command and up to three suggestions.'#13#10 +
+    '      Generating never executes: review, then Run command.'#13#10 +
+    '    Existing gateway; only request/current command sent,'#13#10 +
+    '      not file contents or source lists. Strict JSON/command'#13#10 +
+    '      validation, clarification, visible provider errors.'#13#10 +
+    '    Built-in examples/manual commands work without AI.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.240  (2026-10-23)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Internal glob/grep commands, not shell execution:'#13#10 +
+    '    glob matches paths (* ? **); grep searches content,'#13#10 +
+    '      literal/case-sensitive by default, optional PCRE regex.'#13#10 +
+    '    Shared cancellable, paginated results: Open, Copy,'#13#10 +
+    '      add bookmarks, search bookmarked lines. Existing'#13#10 +
+    '      plain-text Find/Filter behavior is preserved.'#13#10 +
+    '    Bounded previews/results, encoding-aware reading and'#13#10 +
+    '      PCRE work limits. AI command contracts and localized'#13#10 +
+    '      examples/help/errors for all 14 UI languages.'#13#10 +
+    '    Units: uSearchCommands + uSearchCommandDialog.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.239  (2026-10-22)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  AI diagnosis (toolbar, Tools menu, Ctrl+Alt+U):'#13#10 +
+    '    Read-only review of files and folders. Specialists cover'#13#10 +
+    '      inventory, structure, content, SQL, privacy and actions.'#13#10 +
+    '      Pipeline: Discovery, Plan, Delegate, Evaluate,'#13#10 +
+    '      Aggregate, Synthesize. Nothing is written; use the AI'#13#10 +
+    '      agent to apply edits.'#13#10 +
+    '    "What can I do?" on this tab (F1) lists examples.'#13#10 +
+    '    Version History / F1 / CHANGELOG / README / ROADMAP /'#13#10 +
+    '      DOC_ZS_ATALHOS / DOCUMENTACAO_MODELOS_IA synced to'#13#10 +
+    '      3.0.5.239.'#13#10 +
+    '    Internal v3.0.5.239: uAgentHub + uAgentHubWorkspace +'#13#10 +
+    '      uAgentDiscovery + uAgentHubModel.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.238  (2026-10-20)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Folder picker and "What can I do?":'#13#10 +
+    '    The AI agent and AI diagnosis can pick several folders'#13#10 +
+    '      from different drives, with a recent list.'#13#10 +
+    '    "What can I do?" on the Assistant, the AI agent and AI'#13#10 +
+    '      diagnosis: one example per capability. Use example puts'#13#10 +
+    '      it in the prompt; Ask the AI asks about the item. F1 on'#13#10 +
+    '      those tabs opens the same list.'#13#10 +
+    '    The loading-overlay Cancel button uses the overlay style.'#13#10 +
+    '    Internal v3.0.5.238: uFolderPickDlg + uAICapabilitiesDlg +'#13#10 +
+    '      uFfOverlayButton.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.237  (2026-10-18)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  AI agent - file profile, which files, Python per line:'#13#10 +
+    '    describe_files profiles each file (size, date, encoding,'#13#10 +
+    '      line ending, delimiter or fixed width, samples) from a'#13#10 +
+    '      short read, not the whole file.'#13#10 +
+    '    The request can name files by name, by position ("the last'#13#10 +
+    '      two", "file 2"), by type, or "all but the last", in the'#13#10 +
+    '      14 UI languages.'#13#10 +
+    '    A Python macro runs on each line after Accept, with a'#13#10 +
+    '      preview of the first lines. Output stays in the macro'#13#10 +
+    '      panel; the original file is not changed.'#13#10 +
+    '    Internal v3.0.5.237: uAgentDescribe + uAgentTargets +'#13#10 +
+    '      tool macro.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.236  (2026-10-16)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Source check without the ScriptEngine companions:'#13#10 +
+    '    JSON, HTML and SQL are checked inside FastFile'#13#10 +
+    '      (structure only). Java, Go and C# use the compiler'#13#10 +
+    '      already on this PC (javac, gofmt, csc). User code is'#13#10 +
+    '      not executed.'#13#10 +
+    '    "Source code: learn more" (Assistant </> and "What can I'#13#10 +
+    '      do?") explains what can be generated, which languages'#13#10 +
+    '      are validated, the fix-with-AI loop and which compilers'#13#10 +
+    '      this PC has.'#13#10 +
+    '    Internal v3.0.5.236: uSourceValidators +'#13#10 +
+    '      uSourceCodeHelpDlg.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.235  (2026-10-14)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Line editor Extract + Python preview:'#13#10 +
+    '    Extract digits, letters, e-mails, dates, columns, CPF,'#13#10 +
+    '      CNPJ or your own regular expression from the selection'#13#10 +
+    '      or the whole line. Live preview; Ask AI for a pattern.'#13#10 +
+    '    A Python transform shows a short sample (ok / skip /'#13#10 +
+    '      error) before the full output is generated.'#13#10 +
+    '    Internal v3.0.5.235: uLineExtract + uScriptRunPreview.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.234  (2026-10-12)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Win64 line index in parallel (files from 128 MB):'#13#10 +
+    '    Workers scan chunks with SSE2 and a bit map of line'#13#10 +
+    '      breaks. The caller writes the index in order. Memory'#13#10 +
+    '      stays bounded to a few chunk maps, whatever the file'#13#10 +
+    '      size. Below 128 MB, and on Win32, the scan stays'#13#10 +
+    '      sequential (SWAR).'#13#10 +
+    '    Index temps use a file stream with no RAM cap.'#13#10 +
+    '    See DOC_TREADFILETHREAD_EXECUTE.md.'#13#10 +
+    '    Internal v3.0.5.234: uLineIndexScan parallel pipeline.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.233  (2026-10-10)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Fast line edit on large files + preview before save:'#13#10 +
+    '    Insert, replace and delete (from 32 MB) use the existing'#13#10 +
+    '      line index. Same-size text is written in place; a short'#13#10 +
+    '      tail is shifted inside the file; otherwise a temp on the'#13#10 +
+    '      same volume is renamed over the original. Indexes are'#13#10 +
+    '      rebuilt in the same pass. A journal (.ffj) restores the'#13#10 +
+    '      file if the app stops mid-edit (recovered at startup).'#13#10 +
+    '    Before selected lines are saved, a before/after list shows'#13#10 +
+    '      only the lines that change.'#13#10 +
+    '    Internal v3.0.5.233: uFastLineEdit + uLinesChangePreview.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.232  (2026-10-08)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  AI agent - time to decide + safer answers:'#13#10 +
     '    Proposed edits wait 20 s for Accept / Reject / Accept all'#13#10 +
@@ -2404,4 +2573,3 @@ const
 implementation
 
 end.
-

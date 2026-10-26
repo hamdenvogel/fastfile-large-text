@@ -320,8 +320,48 @@ begin
     Result := UnescapeJsonUnicodeWide(Result);
 end;
 
-function FastFileAIInvokePrompt(const APrompt: WideString; out AAnswer: WideString;
-  out AErrMsg: string; AOnProgress: TFastFileAIProgressEvent): Boolean;
+{ WinInet codes (12000..12175) are not in the system message table: SysErrorMessage returns ''. }
+function InetErrorText(ACode: DWORD): string;
+var
+  Buf: array[0..511] of Char;
+  N: DWORD;
+begin
+  Result := '';
+  if (ACode >= 12000) and (ACode <= 12175) then
+  begin
+    N := FormatMessage(FORMAT_MESSAGE_FROM_HMODULE or FORMAT_MESSAGE_IGNORE_INSERTS,
+      Pointer(GetModuleHandle('wininet.dll')), ACode, 0, @Buf[0], Length(Buf), nil);
+    if N > 0 then
+    begin
+      SetString(Result, PChar(@Buf[0]), N);
+      Result := Trim(Result);
+    end;
+  end
+  else
+    Result := Trim(SysErrorMessage(ACode));
+  if Result = '' then
+    case ACode of
+      12002: Result := 'The operation timed out';
+      12007: Result := 'The server name could not be resolved';
+      12029: Result := 'A connection with the server could not be established';
+      12030: Result := 'The connection with the server was terminated abnormally';
+      12031: Result := 'The connection with the server was reset';
+      12152: Result := 'The server returned an invalid or unrecognized response';
+      12157: Result := 'Secure channel error';
+      12175: Result := 'Security error (TLS)';
+    end;
+  Result := Format('%s (WinInet %u)', [Result, ACode]);
+end;
+
+function InetErrorIsTransient(ACode: DWORD): Boolean;
+begin
+  { 12002 (timeout) fica de fora: cada tentativa ja esperou FASTFILE_AI_GATEWAY_TIMEOUT_MS. }
+  Result := (ACode = 12029) or (ACode = 12030) or
+    (ACode = 12031) or (ACode = 12152) or (ACode = 12157) or (ACode = 12175);
+end;
+
+function FastFileAIInvokePromptOnce(const APrompt: WideString; out AAnswer: WideString;
+  out AErrMsg: string; AOnProgress: TFastFileAIProgressEvent; out AInetErr: DWORD): Boolean;
 var
   hInet, hConn, hReq: HINTERNET;
   Body: AnsiString;
@@ -358,6 +398,7 @@ begin
   Result := False;
   AAnswer := '';
   AErrMsg := '';
+  AInetErr := 0;
   PreMsg := '';
   Body := BuildJsonPromptPayload(APrompt);
   PrevProgress := GFastFileAIProgress;
@@ -386,7 +427,8 @@ begin
       nil, nil, INTERNET_SERVICE_HTTP, 0, 0);
     if hConn = nil then
     begin
-      AErrMsg := 'InternetConnect: ' + SysErrorMessage(GetLastError);
+      AInetErr := GetLastError;
+      AErrMsg := 'InternetConnect: ' + InetErrorText(AInetErr);
       Exit;
     end;
     try
@@ -409,7 +451,8 @@ begin
         if not HttpSendRequestA(hReq, PAnsiChar(Headers), Length(Headers),
           PAnsiChar(Body), Length(Body)) then
         begin
-          AErrMsg := 'HttpSendRequest: ' + SysErrorMessage(GetLastError);
+          AInetErr := GetLastError;
+          AErrMsg := 'HttpSendRequest: ' + InetErrorText(AInetErr);
           Exit;
         end;
         Report(36, 'wait');
@@ -490,6 +533,24 @@ begin
     InternetSetStatusCallback(hInet, nil);
     InternetCloseHandle(hInet);
     GFastFileAIProgress := PrevProgress;
+  end;
+end;
+
+function FastFileAIInvokePrompt(const APrompt: WideString; out AAnswer: WideString;
+  out AErrMsg: string; AOnProgress: TFastFileAIProgressEvent): Boolean;
+const
+  MAX_ATTEMPTS = 3;
+var
+  Attempt: Integer;
+  InetErr: DWORD;
+begin
+  Result := False;
+  for Attempt := 1 to MAX_ATTEMPTS do
+  begin
+    Result := FastFileAIInvokePromptOnce(APrompt, AAnswer, AErrMsg, AOnProgress, InetErr);
+    if Result or not InetErrorIsTransient(InetErr) or (Attempt = MAX_ATTEMPTS) then
+      Exit;
+    Sleep(800 * Attempt);
   end;
 end;
 

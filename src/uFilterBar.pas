@@ -7,7 +7,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, ExtCtrls, StdCtrls,
   Menus, Buttons, IniFiles, sPanel, sLabel, sButton, sSpeedButton, ImgList,
-  uFastFileFloatHost, uFastFileScale;
+  uFastFileFloatHost, uFastFileScale, uSearchCommands;
 
 type
   TFilterBarApplyEvent = procedure(Sender: TObject; const APattern: string) of object;
@@ -30,10 +30,13 @@ type
     FBtnRecentFindClear: TsSpeedButton;
     FEdtPattern: TEdit;
     FBtnApply: TsButton;
+    FBtnGrep, FBtnGlob: TsButton;
+    FOnCommand: TSearchCommandOpenEvent;
     FBtnContinue: TsButton;
     FBtnExport: TsButton;
     FBtnCopy: TsButton;
     FBtnClear: TsButton;
+    FBtnClose: TsButton;
     FBtnHide: TsButton;
     FBtnFloat: TsButton;
     FPopDock: TPopupMenu;
@@ -64,6 +67,7 @@ type
     procedure ForceColor(APnl: TsPanel; AColor: TColor);
     procedure LayoutChrome;
     procedure BtnApplyClick(Sender: TObject);
+    procedure BtnCommandClick(Sender: TObject);
     procedure BtnClearClick(Sender: TObject);
     procedure BtnContinueClick(Sender: TObject);
     procedure BtnExportClick(Sender: TObject);
@@ -131,6 +135,7 @@ type
     property OnTearOff: TNotifyEvent read FOnTearOff write FOnTearOff;
     property OnHeightChanged: TNotifyEvent read FOnHeightChanged write FOnHeightChanged;
     property OnApply: TFilterBarApplyEvent read FOnApply write FOnApply;
+    property OnCommand: TSearchCommandOpenEvent read FOnCommand write FOnCommand;
     property OnClear: TNotifyEvent read FOnClear write FOnClear;
     property OnContinue: TNotifyEvent read FOnContinue write FOnContinue;
     property OnExport: TNotifyEvent read FOnExport write FOnExport;
@@ -165,7 +170,7 @@ const
 implementation
 
 uses
-  uI18n, uUserPrefs, uMruFind, UnitPopupMruList;
+  Math, uI18n, uUserPrefs, uMruFind, UnitPopupMruList;
 
 const
   CAccent = TColor($00BFAF9C);
@@ -468,6 +473,28 @@ begin
   FBtnClear.Width := 72;
   FBtnClear.OnClick := BtnClearClick;
 
+  FBtnClose := TsButton.Create(Self);
+  FBtnClose.Parent := FBody;
+  FBtnClose.ParentFont := False;
+  FBtnClose.Font.Name := UiFont;
+  FBtnClose.Font.Size := 9;
+  FBtnClose.Height := 26;
+  FBtnClose.Width := 72;
+  FBtnClose.OnClick := BtnHideClick;
+
+  FBtnGrep := TsButton.Create(Self);
+  FBtnGrep.Name := 'SearchGrep';
+  FBtnGrep.Parent := FBody;
+  FBtnGrep.Font.Assign(FBtnApply.Font);
+  FBtnGrep.Caption := 'grep';
+  FBtnGrep.OnClick := BtnCommandClick;
+  FBtnGlob := TsButton.Create(Self);
+  FBtnGlob.Name := 'SearchGlob';
+  FBtnGlob.Parent := FBody;
+  FBtnGlob.Font.Assign(FBtnApply.Font);
+  FBtnGlob.Caption := 'glob';
+  FBtnGlob.OnClick := BtnCommandClick;
+
   FBtnHide := TsButton.Create(Self);
   FBtnHide.Parent := FBody;
   FBtnHide.ParentFont := False;
@@ -516,7 +543,8 @@ end;
 procedure TFastFileFilterBar.LayoutChrome;
 var
   X, EditTop, RecentTop, EditW, RightEdge, EditLeft, StatusW: Integer;
-  BtnGap, Tw, ModeH, RecentH, BtnH: Integer;
+  BtnGap, Tw, ModeH, RecentH, BtnH, ButtonTop, ButtonsW, NeedH: Integer;
+  Stacked: Boolean;
   ComboW: Integer;
   MeasureCanvas: TControlCanvas;
 
@@ -548,10 +576,21 @@ var
     ABtn.Height := BtnH;
   end;
 
+  procedure PlaceRight(ABtn: TsButton);
+  begin
+    if not ABtn.Visible then Exit;
+    if Stacked and (RightEdge - ABtn.Width < EditLeft) then
+    begin
+      RightEdge := FBody.ClientWidth - FBody.Padding.Right;
+      Inc(ButtonTop, BtnH + FfPx(4));
+    end;
+    Dec(RightEdge, ABtn.Width);
+    ABtn.SetBounds(RightEdge, ButtonTop, ABtn.Width, BtnH);
+    Dec(RightEdge, BtnGap);
+  end;
+
 begin
   if not FBuilt or not Assigned(FBody) then Exit;
-  if Self.Height < FfPx(FILTER_BAR_HEIGHT) then
-    Self.Height := FfPx(FILTER_BAR_HEIGHT);
 
   BtnGap := 5;
   BtnH := FfPx(28);
@@ -570,6 +609,9 @@ begin
     SizeBtn(FBtnExport, 80);
     SizeBtn(FBtnCopy, 72);
     SizeBtn(FBtnClear, 68);
+    SizeBtn(FBtnClose, 72);
+    SizeBtn(FBtnGrep, 60);
+    SizeBtn(FBtnGlob, 60);
     { Close (×) is fixed square like Assistente IA — not SizeBtn text width. }
     FBtnHide.Width := FfPx(28);
     FBtnHide.Height := BtnH;
@@ -621,45 +663,49 @@ begin
       FBtnRecentFind.Visible := False;
 
     EditTop := RecentTop + FILTER_RECENT_CMB_H + 6;
+    ButtonsW := FBtnHide.Width + FBtnClose.Width + FBtnFloat.Width + FBtnClear.Width +
+      FBtnContinue.Width + FBtnGlob.Width + FBtnGrep.Width + FBtnApply.Width + 8 * BtnGap;
+    if FBtnCopy.Visible then Inc(ButtonsW, FBtnCopy.Width + BtnGap);
+    if FBtnExport.Visible then Inc(ButtonsW, FBtnExport.Width + BtnGap);
+    Stacked := RightEdge - EditLeft - ButtonsW < FfPx(120);
+    ButtonTop := EditTop;
+    if Stacked then Inc(ButtonTop, BtnH + FfPx(4));
     { × close outermost (right), then float — same corner role as Assistente. }
-    Dec(RightEdge, FBtnHide.Width);
-    FBtnHide.SetBounds(RightEdge, EditTop, FBtnHide.Width, FBtnHide.Height);
-    Dec(RightEdge, BtnGap);
-    if Assigned(FBtnFloat) then
-    begin
-      Dec(RightEdge, FBtnFloat.Width);
-      FBtnFloat.SetBounds(RightEdge, EditTop, FBtnFloat.Width, FBtnFloat.Height);
-      Dec(RightEdge, BtnGap);
-    end;
-    Dec(RightEdge, BtnGap + FBtnClear.Width);
-    FBtnClear.SetBounds(RightEdge, EditTop, FBtnClear.Width, FBtnClear.Height);
-    if Assigned(FBtnCopy) and FBtnCopy.Visible then
-    begin
-      Dec(RightEdge, BtnGap + FBtnCopy.Width);
-      FBtnCopy.SetBounds(RightEdge, EditTop, FBtnCopy.Width, FBtnCopy.Height);
-    end;
-    if Assigned(FBtnExport) and FBtnExport.Visible then
-    begin
-      Dec(RightEdge, BtnGap + FBtnExport.Width);
-      FBtnExport.SetBounds(RightEdge, EditTop, FBtnExport.Width, FBtnExport.Height);
-    end;
-    Dec(RightEdge, BtnGap + FBtnContinue.Width);
-    FBtnContinue.SetBounds(RightEdge, EditTop, FBtnContinue.Width, FBtnContinue.Height);
-    Dec(RightEdge, BtnGap + FBtnApply.Width);
-    FBtnApply.SetBounds(RightEdge, EditTop, FBtnApply.Width, FBtnApply.Height);
-    Dec(RightEdge, BtnGap);
+    PlaceRight(FBtnHide);
+    PlaceRight(FBtnFloat);
+    PlaceRight(FBtnClose);
+    PlaceRight(FBtnClear);
+    PlaceRight(FBtnCopy);
+    PlaceRight(FBtnExport);
+    PlaceRight(FBtnContinue);
+    PlaceRight(FBtnGlob);
+    PlaceRight(FBtnGrep);
+    PlaceRight(FBtnApply);
 
     EditW := RightEdge - EditLeft;
-    if EditW < 120 then
-      EditW := 120;
+    if Stacked then EditW := FBody.ClientWidth - FBody.Padding.Right - EditLeft;
+    if EditW < FfPx(120) then EditW := FfPx(120);
     FEditShell.SetBounds(EditLeft, EditTop, EditW, BtnH);
 
     StatusW := FBody.ClientWidth - FBody.Padding.Right - EditLeft;
     if StatusW < 80 then
       StatusW := 80;
     FLblStatus.AutoSize := False;
-    FLblStatus.SetBounds(EditLeft, EditTop + BtnH + 4, StatusW, ModeH);
+    FLblStatus.SetBounds(EditLeft, ButtonTop + BtnH + 4, StatusW, ModeH);
     FLblStatus.Hint := FLblStatus.Caption;
+    { Bar height follows the last control. Extra space below the buttons is blank. }
+    NeedH := FBody.Top + FLblStatus.Top + FLblStatus.Height + FBody.Padding.Bottom + 2;
+    { Room for the bottom resize grip, which sits outside FBody. }
+    Inc(NeedH, FfPx(16));
+    if NeedH < FfPx(64) then
+      NeedH := FfPx(64);
+    Constraints.MinHeight := NeedH;
+    Constraints.MaxHeight := 0;
+    if (not FFloating) and (Height < NeedH) then
+    begin
+      Height := NeedH;
+      if Assigned(FOnHeightChanged) then FOnHeightChanged(Self);
+    end;
   finally
     MeasureCanvas.Free;
   end;
@@ -765,6 +811,12 @@ begin
   if Assigned(FBtnCopy) then
     FBtnCopy.Caption := TrText('FilterBar.Copy');
   FBtnClear.Caption := TrText('FilterBar.Clear');
+  if Assigned(FBtnClose) then
+    FBtnClose.Caption := TrText('Close');
+  FBtnGrep.Hint := Format(TrText('SearchCmd.LaunchHint'), ['grep']);
+  FBtnGlob.Hint := Format(TrText('SearchCmd.LaunchHint'), ['glob']);
+  FBtnGrep.ShowHint := True;
+  FBtnGlob.ShowHint := True;
   FBtnHide.Caption := #$00D7; { × }
   SyncFloatAction;
   ApplyTitleDragChrome;
@@ -781,6 +833,11 @@ begin
     FBtnCopy.ShowHint := True;
   end;
   FBtnClear.Hint := TrText('FilterBar.ClearHint');
+  if Assigned(FBtnClose) then
+  begin
+    FBtnClose.Hint := TrText('FilterBar.CloseHint');
+    FBtnClose.ShowHint := True;
+  end;
   FBtnHide.Hint := TrText('Close');
   FBtnApply.ShowHint := True;
   FBtnContinue.ShowHint := True;
@@ -809,12 +866,19 @@ begin
   end;
   if Assigned(FEdtPattern) then
   begin
-    FEdtPattern.TextHint := TrText('FilterBar.PatternHint');
-    FEdtPattern.Hint := TrText('FilterBar.PatternHint');
+    FEdtPattern.TextHint := TrText('SearchCmd.Hint');
+    FEdtPattern.Hint := TrText('FilterBar.PatternHint') + #13#10 + TrText('SearchCmd.Hint');
     FEdtPattern.ShowHint := True;
   end;
   RefreshRecentCombo;
   LayoutChrome;
+end;
+
+procedure TFastFileFilterBar.BtnCommandClick(Sender: TObject);
+begin
+  if not Assigned(FOnCommand) then Exit;
+  if Sender = FBtnGlob then FOnCommand(Self, 'glob')
+  else FOnCommand(Self, 'grep');
 end;
 
 procedure TFastFileFilterBar.FocusPattern;
@@ -1266,8 +1330,7 @@ procedure TFastFileFilterBar.RelayoutAfterDock;
 begin
   Align := alTop;
   Constraints.MinHeight := FfPx(FILTER_BAR_HEIGHT);
-  Constraints.MaxHeight := FfPx(FILTER_BAR_MAX_HEIGHT);
-  Height := FfPx(FILTER_BAR_DEFAULT);
+  Constraints.MaxHeight := 0;
   ApplySoftChrome;
   LayoutChrome;
 end;

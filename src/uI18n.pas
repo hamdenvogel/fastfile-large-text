@@ -18677,20 +18677,546 @@ begin
     '聯絡助理中...');
   Set14(
     'AI_PY_MACRO_FINISHED',
-    'Finished. You can paste the code into the editor or close.',
-    'Conclu'#237'do. Pode colar o c'#243'digo no editor ou fechar.',
-    'Finalizado. Puede pegar el c'#243'digo en el editor o cerrar.',
-    'Termin'#233'. Vous pouvez coller le code dans l'''#233'diteur ou fermer.',
-    'Fertig. Code in den Editor einf'#252'gen oder schliessen.',
-    'Completato. Incolla il codice nell''editor o chiudi.',
-    'Zakonczono. Wklej kod do edytora lub zamknij.',
-    'Conclu'#237'do. Pode colar o c'#243'digo no editor ou fechar.',
-    'Finalizat. Puteți lipi codul in editor sau închide.',
-    'Kész. Illesztheti a kodot a szerkesztobe vagy bezarhat.',
-    'Hotovo. Můžete vložit kod do editoru nebo zavřít.',
-    '完了しました。コードをエディターに貼り付けるか、閉じることができます。',
-    '完成。你可以将代码粘贴到编辑器中或关闭。',
-    '完成。您可以將程式碼貼到編輯器中或關閉。');
+    'Finished. Click Apply to use the code in the script editor, or Apply and Close.',
+    'Concluído. Clique em Aplicar para usar o código no editor de script, ou em Aplicar e fechar.',
+    'Finalizado. Haga clic en Aplicar para usar el código en el editor de script, o en Aplicar y cerrar.',
+    'Terminé. Cliquez sur Appliquer pour utiliser le code dans l''éditeur de script, ou sur Appliquer et fermer.',
+    'Fertig. Klicken Sie auf Übernehmen, um den Code im Skript-Editor zu verwenden, oder auf Übernehmen und schließen.',
+    'Completato. Fai clic su Applica per usare il codice nell''editor script, oppure su Applica e chiudi.',
+    'Zakończono. Kliknij Zastosuj, aby użyć kodu w edytorze skryptu, lub Zastosuj i zamknij.',
+    'Concluído. Clique em Aplicar para usar o código no editor de script, ou em Aplicar e fechar.',
+    'Finalizat. Faceți clic pe Aplică pentru a folosi codul în editorul de script, sau pe Aplică și închide.',
+    'Kész. Kattintson az Alkalmaz gombra a kód szkriptszerkesztőben való használatához, vagy az Alkalmaz és bezárás gombra.',
+    'Hotovo. Klikněte na Použít pro vložení kódu do editoru skriptu, nebo na Použít a zavřít.',
+    '完了しました。「適用」でコードをスクリプトエディターに反映するか、「適用して閉じる」をクリックしてください。',
+    '完成。单击“应用”将代码用于脚本编辑器，或单击“应用并关闭”。',
+    '完成。按一下「套用」將程式碼用於指令碼編輯器，或按一下「套用並關閉」。');
+  Set14('AI_PY_MACRO_APPLY',
+    'Apply', 'Aplicar', 'Aplicar', 'Appliquer', 'Übernehmen', 'Applica', 'Zastosuj', 'Aplicar',
+    'Aplică', 'Alkalmaz', 'Použít', '適用', '应用', '套用');
+  Set14('AI_PY_MACRO_APPLY_CLOSE',
+    'Apply and Close', 'Aplicar e fechar', 'Aplicar y cerrar', 'Appliquer et fermer',
+    'Übernehmen und schließen', 'Applica e chiudi', 'Zastosuj i zamknij', 'Aplicar e fechar',
+    'Aplică și închide', 'Alkalmaz és bezárás', 'Použít a zavřít', '適用して閉じる', '应用并关闭',
+    '套用並關閉');
+  Set14('AI_PY_MACRO_APPLY_HINT',
+    'Put the generated code into the script editor and keep this window open (Ctrl+Z undoes it)',
+    'Coloca o código gerado no editor de script e mantém esta janela aberta (Ctrl+Z desfaz)',
+    'Coloca el código generado en el editor de script y mantiene esta ventana abierta (Ctrl+Z lo deshace)',
+    'Place le code généré dans l''éditeur de script et garde cette fenêtre ouverte (Ctrl+Z annule)',
+    'Übernimmt den erzeugten Code in den Skript-Editor und lässt dieses Fenster geöffnet (Strg+Z macht es rückgängig)',
+    'Inserisce il codice generato nell''editor script e mantiene aperta questa finestra (Ctrl+Z annulla)',
+    'Wstawia wygenerowany kod do edytora skryptu i pozostawia to okno otwarte (Ctrl+Z cofa)',
+    'Coloca o código gerado no editor de script e mantém esta janela aberta (Ctrl+Z anula)',
+    'Pune codul generat în editorul de script și păstrează fereastra deschisă (Ctrl+Z anulează)',
+    'A létrehozott kódot a szkriptszerkesztőbe teszi, és nyitva hagyja ezt az ablakot (Ctrl+Z visszavonja)',
+    'Vloží vygenerovaný kód do editoru skriptu a ponechá toto okno otevřené (Ctrl+Z vrátí zpět)',
+    '生成されたコードをスクリプトエディターに反映し、このウィンドウを開いたままにします（Ctrl+Z で元に戻す）',
+    '将生成的代码放入脚本编辑器并保持此窗口打开（Ctrl+Z 可撤销）',
+    '將產生的程式碼放入指令碼編輯器並保持此視窗開啟（Ctrl+Z 可復原）');
+  Set14('AI_PY_MACRO_APPLY_CLOSE_HINT',
+    'Put the generated code into the script editor and close this window',
+    'Coloca o código gerado no editor de script e fecha esta janela',
+    'Coloca el código generado en el editor de script y cierra esta ventana',
+    'Place le code généré dans l''éditeur de script et ferme cette fenêtre',
+    'Übernimmt den erzeugten Code in den Skript-Editor und schließt dieses Fenster',
+    'Inserisce il codice generato nell''editor script e chiude questa finestra',
+    'Wstawia wygenerowany kod do edytora skryptu i zamyka to okno',
+    'Coloca o código gerado no editor de script e fecha esta janela',
+    'Pune codul generat în editorul de script și închide fereastra',
+    'A létrehozott kódot a szkriptszerkesztőbe teszi, és bezárja ezt az ablakot',
+    'Vloží vygenerovaný kód do editoru skriptu a zavře toto okno',
+    '生成されたコードをスクリプトエディターに反映し、このウィンドウを閉じます',
+    '将生成的代码放入脚本编辑器并关闭此窗口',
+    '將產生的程式碼放入指令碼編輯器並關閉此視窗');
+  Set14('AI_PY_MACRO_WAIT_TITLE',
+    'Generating the Python macro with AI', 'Gerando a macro Python com IA',
+    'Generando la macro Python con IA', 'Génération de la macro Python avec l''IA',
+    'Python-Makro wird mit KI erstellt', 'Generazione della macro Python con l''IA',
+    'Generowanie makra Python przez AI', 'A gerar a macro Python com IA',
+    'Se generează macro-ul Python cu AI', 'Python-makró létrehozása MI-vel',
+    'Generování makra Python pomocí AI', 'AI で Python マクロを生成しています',
+    '正在使用 AI 生成 Python 宏', '正在使用 AI 產生 Python 巨集');
+  Set14('AI_PY_MACRO_WAIT_SENDING',
+    'Sending the request to the AI...', 'Enviando o pedido para a IA...',
+    'Enviando la petición a la IA...', 'Envoi de la demande à l''IA...',
+    'Anfrage wird an die KI gesendet...', 'Invio della richiesta all''IA...',
+    'Wysyłanie prośby do AI...', 'A enviar o pedido para a IA...',
+    'Se trimite cererea către AI...', 'Kérés küldése az MI-nek...',
+    'Odesílání požadavku AI...', 'AI に依頼を送信しています...',
+    '正在向 AI 发送请求...', '正在向 AI 傳送請求...');
+  Set14('AI_PY_MACRO_WAIT_WAITING',
+    'Waiting for the AI response... %d s (Cancel stops waiting)',
+    'Aguardando a resposta da IA... %d s (Cancelar interrompe a espera)',
+    'Esperando la respuesta de la IA... %d s (Cancelar detiene la espera)',
+    'En attente de la réponse de l''IA... %d s (Annuler arrête l''attente)',
+    'Warte auf die KI-Antwort... %d s (Abbrechen beendet das Warten)',
+    'In attesa della risposta dell''IA... %d s (Annulla interrompe l''attesa)',
+    'Oczekiwanie na odpowiedź AI... %d s (Anuluj przerywa oczekiwanie)',
+    'A aguardar a resposta da IA... %d s (Cancelar interrompe a espera)',
+    'Se așteaptă răspunsul AI... %d s (Anulare oprește așteptarea)',
+    'Várakozás az MI válaszára... %d mp (a Mégse leállítja a várakozást)',
+    'Čekání na odpověď AI... %d s (Zrušit ukončí čekání)',
+    'AI の回答を待っています... %d 秒（キャンセルで待機を中止）',
+    '正在等待 AI 回复... %d 秒（取消可停止等待）',
+    '正在等待 AI 回覆... %d 秒（取消可停止等待）');
+  Set14('AI_PY_MACRO_CANCELLED',
+    'Request cancelled. The previous response was kept.',
+    'Pedido cancelado. A resposta anterior foi mantida.',
+    'Petición cancelada. Se conservó la respuesta anterior.',
+    'Demande annulée. La réponse précédente a été conservée.',
+    'Anfrage abgebrochen. Die vorherige Antwort wurde beibehalten.',
+    'Richiesta annullata. La risposta precedente è stata mantenuta.',
+    'Prośba anulowana. Poprzednia odpowiedź została zachowana.',
+    'Pedido cancelado. A resposta anterior foi mantida.',
+    'Cerere anulată. Răspunsul anterior a fost păstrat.',
+    'Kérés megszakítva. Az előző válasz megmaradt.',
+    'Požadavek zrušen. Předchozí odpověď byla zachována.',
+    '依頼をキャンセルしました。前の回答はそのまま残っています。',
+    '请求已取消。已保留之前的回复。',
+    '請求已取消。已保留先前的回覆。');
+  Set14('AI_PY_MACRO_PREV_PENDING',
+    'The cancelled request is still finishing in the background. Please wait a few seconds and try again.',
+    'O pedido cancelado ainda está terminando em segundo plano. Aguarde alguns segundos e tente novamente.',
+    'La petición cancelada aún está terminando en segundo plano. Espere unos segundos e inténtelo de nuevo.',
+    'La demande annulée se termine encore en arrière-plan. Patientez quelques secondes puis réessayez.',
+    'Die abgebrochene Anfrage wird noch im Hintergrund beendet. Bitte warten Sie einige Sekunden und versuchen Sie es erneut.',
+    'La richiesta annullata è ancora in chiusura in background. Attendi qualche secondo e riprova.',
+    'Anulowana prośba wciąż kończy się w tle. Odczekaj kilka sekund i spróbuj ponownie.',
+    'O pedido cancelado ainda está a terminar em segundo plano. Aguarde alguns segundos e tente novamente.',
+    'Cererea anulată încă se încheie în fundal. Așteptați câteva secunde și încercați din nou.',
+    'A megszakított kérés még befejeződik a háttérben. Várjon néhány másodpercet, majd próbálja újra.',
+    'Zrušený požadavek se ještě dokončuje na pozadí. Počkejte několik sekund a zkuste to znovu.',
+    'キャンセルした依頼がまだバックグラウンドで終了処理中です。数秒待ってからもう一度お試しください。',
+    '已取消的请求仍在后台结束中。请稍等几秒后重试。',
+    '已取消的請求仍在背景結束中。請稍候幾秒後再試一次。');
+  Set14('ScriptRun.PreviewTitle',
+    'Generating the script preview (sample of %d lines)...',
+    'Gerando a prévia do script (amostra de %d linhas)...',
+    'Generando la vista previa del script (muestra de %d líneas)...',
+    'Génération de l''aperçu du script (échantillon de %d lignes)...',
+    'Skriptvorschau wird erstellt (Stichprobe von %d Zeilen)...',
+    'Generazione dell''anteprima dello script (campione di %d righe)...',
+    'Generowanie podglądu skryptu (próbka %d wierszy)...',
+    'A gerar a pré-visualização do script (amostra de %d linhas)...',
+    'Se generează previzualizarea scriptului (eșantion de %d linii)...',
+    'Szkript előnézetének készítése (%d soros minta)...',
+    'Generování náhledu skriptu (vzorek %d řádků)...',
+    'スクリプトのプレビューを生成しています（%d 行のサンプル）...',
+    '正在生成脚本预览（%d 行样本）...',
+    '正在產生指令碼預覽（%d 行樣本）...');
+  Set14('ScriptRun.SendingLines',
+    'Sending lines to the script engine: %s of %s',
+    'Enviando linhas ao motor de script: %s de %s',
+    'Enviando líneas al motor de script: %s de %s',
+    'Envoi des lignes au moteur de script : %s sur %s',
+    'Zeilen werden an die Skript-Engine gesendet: %s von %s',
+    'Invio delle righe al motore script: %s di %s',
+    'Wysyłanie wierszy do silnika skryptów: %s z %s',
+    'A enviar linhas ao motor de script: %s de %s',
+    'Se trimit liniile către motorul de script: %s din %s',
+    'Sorok küldése a szkriptmotornak: %s / %s',
+    'Odesílání řádků do skriptovacího modulu: %s z %s',
+    'スクリプトエンジンに行を送信中：%s / %s',
+    '正在向脚本引擎发送行：%s / %s',
+    '正在向指令碼引擎傳送行：%s / %s');
+  Set14('ScriptRun.ProcessedOf',
+    'Processed %s of %s lines (%s errors)',
+    'Processadas %s de %s linhas (%s erros)',
+    'Procesadas %s de %s líneas (%s errores)',
+    '%s lignes traitées sur %s (%s erreurs)',
+    '%s von %s Zeilen verarbeitet (%s Fehler)',
+    'Elaborate %s di %s righe (%s errori)',
+    'Przetworzono %s z %s wierszy (%s błędów)',
+    'Processadas %s de %s linhas (%s erros)',
+    'Procesate %s din %s linii (%s erori)',
+    'Feldolgozva: %s / %s sor (%s hiba)',
+    'Zpracováno %s z %s řádků (%s chyb)',
+    '%s / %s 行を処理済み（エラー %s 件）',
+    '已处理 %s / %s 行（%s 个错误）',
+    '已處理 %s / %s 行（%s 個錯誤）');
+  Set14('ScriptOut.DoneDetail',
+    '%s skipped, %s errors', '%s ignoradas, %s erros', '%s omitidas, %s errores',
+    '%s ignorées, %s erreurs', '%s übersprungen, %s Fehler', '%s saltate, %s errori',
+    '%s pominiętych, %s błędów', '%s ignoradas, %s erros', '%s omise, %s erori',
+    '%s kihagyva, %s hiba', '%s přeskočeno, %s chyb', 'スキップ %s、エラー %s',
+    '跳过 %s，错误 %s', '略過 %s，錯誤 %s');
+  Set14('AI_PY_MACRO_APPLIED',
+    'Code applied to the script editor. Ctrl+Z undoes it.',
+    'Código aplicado no editor de script. Ctrl+Z desfaz.',
+    'Código aplicado en el editor de script. Ctrl+Z lo deshace.',
+    'Code appliqué dans l''éditeur de script. Ctrl+Z annule.',
+    'Code in den Skript-Editor übernommen. Strg+Z macht es rückgängig.',
+    'Codice applicato nell''editor script. Ctrl+Z annulla.',
+    'Kod zastosowany w edytorze skryptu. Ctrl+Z cofa.',
+    'Código aplicado no editor de script. Ctrl+Z anula.',
+    'Cod aplicat în editorul de script. Ctrl+Z anulează.',
+    'A kód bekerült a szkriptszerkesztőbe. Ctrl+Z visszavonja.',
+    'Kód použit v editoru skriptu. Ctrl+Z vrátí zpět.',
+    'コードをスクリプトエディターに適用しました。Ctrl+Z で元に戻せます。',
+    '代码已应用到脚本编辑器。Ctrl+Z 可撤销。',
+    '程式碼已套用到指令碼編輯器。Ctrl+Z 可復原。');
+  Set14(
+    'AI_PY_MACRO_NOTE_TITLE',
+    'What should the macro do?',
+    'O que a macro deve fazer?',
+    #191'Qu'#233' debe hacer la macro?',
+    'Que doit faire la macro ?',
+    'Was soll das Makro tun?',
+    'Cosa deve fare la macro?',
+    'Co ma robi'#263' makro?',
+    'O que deve fazer a macro?',
+    'Ce trebuie s'#259' fac'#259' macro?',
+    'Mit csin'#225'ljon a makr'#243'?',
+    'Co m'#225' makro d'#283'lat?',
+    'マクロで何をしますか？',
+    '宏应该做什么？',
+    '巨集應該做什麼？');
+  Set14(
+    'AI_PY_MACRO_RESP_LABEL',
+    'Generated Python code',
+    'C'#243'digo Python gerado',
+    'C'#243'digo Python generado',
+    'Code Python g'#233'n'#233'r'#233,
+    'Erzeugter Python-Code',
+    'Codice Python generato',
+    'Wygenerowany kod Python',
+    'C'#243'digo Python gerado',
+    'Cod Python generat',
+    'Gener'#225'lt Python-k'#243'd',
+    'Vygenerovan'#253' k'#243'd Python',
+    '生成された Python コード',
+    '生成的 Python 代码',
+    '產生的 Python 程式碼');
+  Set14('AI_PY_MACRO_UNDO',
+    'Undo', 'Desfazer', 'Deshacer', 'Annuler', 'Rückgängig', 'Annulla', 'Cofnij', 'Anular',
+    'Anulează', 'Visszavonás', 'Zpět', '元に戻す', '撤销', '復原');
+  Set14('AI_PY_MACRO_REDO',
+    'Redo', 'Refazer', 'Rehacer', 'Rétablir', 'Wiederholen', 'Ripeti', 'Ponów', 'Refazer',
+    'Refă', 'Mégis', 'Znovu', 'やり直し', '重做', '重做');
+  Set14('AI_PY_MACRO_UNDO_HINT',
+    'Undo the last change on this screen (Ctrl+Z): request text, recent request, AI response or code pasted into the editor',
+    'Desfaz a última alteração desta tela (Ctrl+Z): texto do pedido, pedido recente, resposta da IA ou código colado no editor',
+    'Deshace el último cambio de esta pantalla (Ctrl+Z): texto de la petición, petición reciente, respuesta de la IA o código pegado en el editor',
+    'Annule la dernière modification de cet écran (Ctrl+Z) : texte de la demande, demande récente, réponse de l''IA ou code collé dans l''éditeur',
+    'Macht die letzte Änderung in diesem Fenster rückgängig (Strg+Z): Anfragetext, letzte Anfrage, KI-Antwort oder in den Editor eingefügter Code',
+    'Annulla l''ultima modifica di questa schermata (Ctrl+Z): testo della richiesta, richiesta recente, risposta dell''IA o codice incollato nell''editor',
+    'Cofa ostatnią zmianę na tym ekranie (Ctrl+Z): tekst prośby, ostatnia prośba, odpowiedź AI lub kod wklejony do edytora',
+    'Anula a última alteração deste ecrã (Ctrl+Z): texto do pedido, pedido recente, resposta da IA ou código colado no editor',
+    'Anulează ultima modificare din acest ecran (Ctrl+Z): textul cererii, cerere recentă, răspunsul AI sau codul lipit în editor',
+    'Visszavonja a képernyő utolsó módosítását (Ctrl+Z): kérés szövege, legutóbbi kérés, MI-válasz vagy a szerkesztőbe beillesztett kód',
+    'Vrátí poslední změnu na této obrazovce (Ctrl+Z): text požadavku, nedávný požadavek, odpověď AI nebo kód vložený do editoru',
+    'この画面の最後の変更を元に戻します (Ctrl+Z)：依頼文、最近の依頼、AI の回答、エディターに貼り付けたコード',
+    '撤销此界面的最后一次更改 (Ctrl+Z)：请求文本、最近的请求、AI 回复或粘贴到编辑器的代码',
+    '復原此畫面的最後一次變更 (Ctrl+Z)：請求文字、最近的請求、AI 回覆或貼到編輯器的程式碼');
+  Set14('AI_PY_MACRO_REDO_HINT',
+    'Redo the change that was undone (Ctrl+Y or Ctrl+Shift+Z)',
+    'Refaz a alteração desfeita (Ctrl+Y ou Ctrl+Shift+Z)',
+    'Rehace el cambio deshecho (Ctrl+Y o Ctrl+Mayús+Z)',
+    'Rétablit la modification annulée (Ctrl+Y ou Ctrl+Maj+Z)',
+    'Stellt die rückgängig gemachte Änderung wieder her (Strg+Y oder Strg+Umschalt+Z)',
+    'Ripete la modifica annullata (Ctrl+Y o Ctrl+Maiusc+Z)',
+    'Ponawia cofniętą zmianę (Ctrl+Y lub Ctrl+Shift+Z)',
+    'Refaz a alteração anulada (Ctrl+Y ou Ctrl+Shift+Z)',
+    'Reface modificarea anulată (Ctrl+Y sau Ctrl+Shift+Z)',
+    'Visszaállítja a visszavont módosítást (Ctrl+Y vagy Ctrl+Shift+Z)',
+    'Znovu provede vrácenou změnu (Ctrl+Y nebo Ctrl+Shift+Z)',
+    '元に戻した変更をやり直します (Ctrl+Y または Ctrl+Shift+Z)',
+    '重做已撤销的更改 (Ctrl+Y 或 Ctrl+Shift+Z)',
+    '重做已復原的變更 (Ctrl+Y 或 Ctrl+Shift+Z)');
+  Set14('AI_PY_MACRO_UNDONE',
+    'Undone: %s.', 'Desfeito: %s.', 'Deshecho: %s.', 'Annulé : %s.', 'Rückgängig gemacht: %s.',
+    'Annullato: %s.', 'Cofnięto: %s.', 'Anulado: %s.', 'Anulat: %s.', 'Visszavonva: %s.',
+    'Vráceno: %s.', '元に戻しました：%s。', '已撤销：%s。', '已復原：%s。');
+  Set14('AI_PY_MACRO_REDONE',
+    'Redone: %s.', 'Refeito: %s.', 'Rehecho: %s.', 'Rétabli : %s.', 'Wiederhergestellt: %s.',
+    'Ripetuto: %s.', 'Ponowiono: %s.', 'Refeito: %s.', 'Refăcut: %s.', 'Visszaállítva: %s.',
+    'Znovu provedeno: %s.', 'やり直しました：%s。', '已重做：%s。', '已重做：%s。');
+  Set14('AI_PY_MACRO_ACT_TYPING',
+    'request text edit', 'edição do texto do pedido', 'edición del texto de la petición',
+    'modification du texte de la demande', 'Bearbeitung des Anfragetexts',
+    'modifica del testo della richiesta', 'edycja tekstu prośby', 'edição do texto do pedido',
+    'editarea textului cererii', 'a kérés szövegének szerkesztése', 'úprava textu požadavku',
+    '依頼文の編集', '请求文本编辑', '請求文字編輯');
+  Set14('AI_PY_MACRO_ACT_MRU',
+    'recent request selected', 'pedido recente selecionado', 'petición reciente seleccionada',
+    'demande récente sélectionnée', 'letzte Anfrage ausgewählt', 'richiesta recente selezionata',
+    'wybrana ostatnia prośba', 'pedido recente selecionado', 'cerere recentă selectată',
+    'kiválasztott legutóbbi kérés', 'vybraný nedávný požadavek', '最近の依頼の選択',
+    '选择最近的请求', '選擇最近的請求');
+  Set14('AI_PY_MACRO_ACT_RESPONSE',
+    'AI response', 'resposta da IA', 'respuesta de la IA', 'réponse de l''IA', 'KI-Antwort',
+    'risposta dell''IA', 'odpowiedź AI', 'resposta da IA', 'răspunsul AI', 'MI-válasz',
+    'odpověď AI', 'AI の回答', 'AI 回复', 'AI 回覆');
+  Set14('AI_PY_MACRO_ACT_PASTE',
+    'code pasted into the editor', 'código colado no editor', 'código pegado en el editor',
+    'code collé dans l''éditeur', 'in den Editor eingefügter Code', 'codice incollato nell''editor',
+    'kod wklejony do edytora', 'código colado no editor', 'cod lipit în editor',
+    'a szerkesztőbe beillesztett kód', 'kód vložený do editoru', 'エディターへのコード貼り付け',
+    '粘贴到编辑器的代码', '貼到編輯器的程式碼');
+  Set14('Toolbar.PythonMacro',
+    'Python macro', 'Macro Python', 'Macro Python', 'Macro Python', 'Python-Makro', 'Macro Python',
+    'Makro Python', 'Macro Python', 'Macro Python', 'Python-makró', 'Makro Python',
+    'Python マクロ', 'Python 宏', 'Python 巨集');
+  Set14('Toolbar.PythonMacroHint',
+    'Open the Python macros panel to transform the file lines with a script (Ctrl+Alt+E)',
+    'Abre o painel de macros Python para transformar as linhas do arquivo com um script (Ctrl+Alt+E)',
+    'Abre el panel de macros Python para transformar las líneas del archivo con un script (Ctrl+Alt+E)',
+    'Ouvre le panneau des macros Python pour transformer les lignes du fichier avec un script (Ctrl+Alt+E)',
+    'Öffnet den Python-Makrobereich, um die Dateizeilen mit einem Skript umzuwandeln (Strg+Alt+E)',
+    'Apre il pannello delle macro Python per trasformare le righe del file con uno script (Ctrl+Alt+E)',
+    'Otwiera panel makr Python, aby przekształcić wiersze pliku skryptem (Ctrl+Alt+E)',
+    'Abre o painel de macros Python para transformar as linhas do ficheiro com um script (Ctrl+Alt+E)',
+    'Deschide panoul de macro-uri Python pentru a transforma liniile fișierului cu un script (Ctrl+Alt+E)',
+    'Megnyitja a Python-makrók panelt, hogy szkripttel alakítsa át a fájl sorait (Ctrl+Alt+E)',
+    'Otevře panel maker Python pro převod řádků souboru pomocí skriptu (Ctrl+Alt+E)',
+    'Python マクロパネルを開き、スクリプトでファイルの行を変換します (Ctrl+Alt+E)',
+    '打开 Python 宏面板，用脚本转换文件中的行 (Ctrl+Alt+E)',
+    '開啟 Python 巨集面板，用指令碼轉換檔案中的行 (Ctrl+Alt+E)');
+  Set14('ScriptPreview.Title',
+    'Script result preview', 'Prévia do resultado do script', 'Vista previa del resultado del script',
+    'Aperçu du résultat du script', 'Vorschau des Skriptergebnisses', 'Anteprima del risultato dello script',
+    'Podgląd wyniku skryptu', 'Pré-visualização do resultado do script', 'Previzualizare rezultat script',
+    'Szkript eredményének előnézete', 'Náhled výsledku skriptu', 'スクリプト結果のプレビュー',
+    '脚本结果预览', '指令碼結果預覽');
+  Set14('ScriptPreview.Summary',
+    'Sample of %d lines (of %s to process): %d OK, %d skipped, %d errors',
+    'Amostra de %d linhas (de %s a processar): %d OK, %d ignoradas, %d erros',
+    'Muestra de %d líneas (de %s a procesar): %d OK, %d omitidas, %d errores',
+    'Échantillon de %d lignes (sur %s à traiter) : %d OK, %d ignorées, %d erreurs',
+    'Stichprobe von %d Zeilen (von %s zu verarbeiten): %d OK, %d übersprungen, %d Fehler',
+    'Campione di %d righe (su %s da elaborare): %d OK, %d saltate, %d errori',
+    'Próbka %d wierszy (z %s do przetworzenia): %d OK, %d pominiętych, %d błędów',
+    'Amostra de %d linhas (de %s a processar): %d OK, %d ignoradas, %d erros',
+    'Eșantion de %d linii (din %s de procesat): %d OK, %d omise, %d erori',
+    '%d soros minta (%s feldolgozandóból): %d OK, %d kihagyva, %d hiba',
+    'Vzorek %d řádků (z %s ke zpracování): %d OK, %d přeskočeno, %d chyb',
+    '%d 行のサンプル（処理対象 %s 行）：OK %d、スキップ %d、エラー %d',
+    '%d 行样本（共 %s 行待处理）：成功 %d，跳过 %d，错误 %d',
+    '%d 行樣本（共 %s 行待處理）：成功 %d，略過 %d，錯誤 %d');
+  Set14('ScriptPreview.NoteFile',
+    'The full result will be written to a new file next to the source file.',
+    'O resultado completo será gravado em um novo arquivo ao lado do arquivo de origem.',
+    'El resultado completo se escribirá en un nuevo archivo junto al archivo de origen.',
+    'Le résultat complet sera écrit dans un nouveau fichier à côté du fichier source.',
+    'Das vollständige Ergebnis wird in eine neue Datei neben der Quelldatei geschrieben.',
+    'Il risultato completo verrà scritto in un nuovo file accanto al file di origine.',
+    'Pełny wynik zostanie zapisany w nowym pliku obok pliku źródłowego.',
+    'O resultado completo será gravado num novo ficheiro junto ao ficheiro de origem.',
+    'Rezultatul complet va fi scris într-un fișier nou lângă fișierul sursă.',
+    'A teljes eredmény egy új fájlba kerül a forrásfájl mellé.',
+    'Úplný výsledek bude zapsán do nového souboru vedle zdrojového souboru.',
+    '完全な結果はソースファイルの隣の新しいファイルに書き込まれます。',
+    '完整结果将写入源文件旁的新文件。',
+    '完整結果將寫入來源檔案旁的新檔案。');
+  Set14('ScriptPreview.NoteMemo',
+    'The full result will be shown in the script output panel.',
+    'O resultado completo será exibido no painel de saída do script.',
+    'El resultado completo se mostrará en el panel de salida del script.',
+    'Le résultat complet sera affiché dans le panneau de sortie du script.',
+    'Das vollständige Ergebnis wird im Skript-Ausgabebereich angezeigt.',
+    'Il risultato completo verrà mostrato nel pannello di output dello script.',
+    'Pełny wynik zostanie wyświetlony w panelu wyjścia skryptu.',
+    'O resultado completo será mostrado no painel de saída do script.',
+    'Rezultatul complet va fi afișat în panoul de ieșire al scriptului.',
+    'A teljes eredmény a szkript kimeneti paneljén jelenik meg.',
+    'Úplný výsledek se zobrazí v panelu výstupu skriptu.',
+    '完全な結果はスクリプト出力パネルに表示されます。',
+    '完整结果将显示在脚本输出面板中。',
+    '完整結果將顯示在指令碼輸出面板中。');
+  Set14('ScriptPreview.AllErrors',
+    'Every sampled line failed. Fix the script before generating the output.',
+    'Todas as linhas da amostra falharam. Corrija o script antes de gerar a saída.',
+    'Todas las líneas de la muestra fallaron. Corrija el script antes de generar la salida.',
+    'Toutes les lignes de l''échantillon ont échoué. Corrigez le script avant de générer la sortie.',
+    'Alle Zeilen der Stichprobe sind fehlgeschlagen. Korrigieren Sie das Skript vor der Ausgabe.',
+    'Tutte le righe del campione sono fallite. Correggi lo script prima di generare l''output.',
+    'Wszystkie wiersze próbki zakończyły się błędem. Popraw skrypt przed wygenerowaniem wyniku.',
+    'Todas as linhas da amostra falharam. Corrija o script antes de gerar a saída.',
+    'Toate liniile eșantionului au eșuat. Corectați scriptul înainte de a genera ieșirea.',
+    'A minta minden sora hibás. Javítsa a szkriptet a kimenet előállítása előtt.',
+    'Všechny řádky vzorku selhaly. Před generováním výstupu opravte skript.',
+    'サンプルのすべての行でエラーが発生しました。出力前にスクリプトを修正してください。',
+    '样本中的所有行都失败了。请先修正脚本再生成输出。',
+    '樣本中的所有行都失敗了。請先修正指令碼再產生輸出。');
+  Set14('ScriptPreview.AllSkipped',
+    'No sampled line produced output (transform returned None for all of them).',
+    'Nenhuma linha da amostra gerou saída (transform retornou None para todas).',
+    'Ninguna línea de la muestra generó salida (transform devolvió None en todas).',
+    'Aucune ligne de l''échantillon n''a produit de sortie (transform a renvoyé None partout).',
+    'Keine Zeile der Stichprobe erzeugte Ausgabe (transform gab überall None zurück).',
+    'Nessuna riga del campione ha prodotto output (transform ha restituito None per tutte).',
+    'Żaden wiersz próbki nie dał wyniku (transform zwróciło None dla wszystkich).',
+    'Nenhuma linha da amostra gerou saída (transform devolveu None para todas).',
+    'Nicio linie din eșantion nu a produs ieșire (transform a returnat None pentru toate).',
+    'A minta egyik sora sem adott kimenetet (a transform mindenhol None-t adott).',
+    'Žádný řádek vzorku nevytvořil výstup (transform vrátil u všech None).',
+    'サンプルのどの行も出力されませんでした（transform がすべて None を返しました）。',
+    '样本中没有任何行产生输出（transform 全部返回 None）。',
+    '樣本中沒有任何行產生輸出（transform 全部傳回 None）。');
+  Set14('ScriptPreview.Back',
+    'Back', 'Voltar', 'Volver', 'Retour', 'Zurück', 'Indietro', 'Wstecz', 'Voltar', 'Înapoi',
+    'Vissza', 'Zpět', '戻る', '返回', '返回');
+  Set14('ScriptPreview.Generate',
+    'Generate output', 'Gerar saída', 'Generar salida', 'Générer la sortie', 'Ausgabe erzeugen',
+    'Genera output', 'Generuj wynik', 'Gerar saída', 'Generează ieșirea', 'Kimenet létrehozása',
+    'Vytvořit výstup', '出力を生成', '生成输出', '產生輸出');
+  Set14('ScriptPreview.ColLine',
+    'Line', 'Linha', 'Línea', 'Ligne', 'Zeile', 'Riga', 'Wiersz', 'Linha', 'Linie', 'Sor', 'Řádek',
+    '行', '行', '行');
+  Set14('ScriptPreview.ColStatus',
+    'Status', 'Status', 'Estado', 'Statut', 'Status', 'Stato', 'Status', 'Estado', 'Stare', 'Állapot',
+    'Stav', '状態', '状态', '狀態');
+  Set14('ScriptPreview.ColOriginal',
+    'Original', 'Original', 'Original', 'Original', 'Original', 'Originale', 'Oryginał', 'Original',
+    'Original', 'Eredeti', 'Původní', '元の行', '原始', '原始');
+  Set14('ScriptPreview.ColResult',
+    'Result', 'Resultado', 'Resultado', 'Résultat', 'Ergebnis', 'Risultato', 'Wynik', 'Resultado',
+    'Rezultat', 'Eredmény', 'Výsledek', '結果', '结果', '結果');
+  Set14('ScriptPreview.StOk',
+    'Output', 'Gerada', 'Generada', 'Générée', 'Ausgabe', 'Generata', 'Wynik', 'Gerada', 'Generată',
+    'Kimenet', 'Výstup', '出力', '输出', '輸出');
+  Set14('ScriptPreview.StSkip',
+    'Skipped', 'Ignorada', 'Omitida', 'Ignorée', 'Übersprungen', 'Saltata', 'Pominięta', 'Ignorada',
+    'Omisă', 'Kihagyva', 'Přeskočeno', 'スキップ', '跳过', '略過');
+  Set14('ScriptPreview.StErr',
+    'Error', 'Erro', 'Error', 'Erreur', 'Fehler', 'Errore', 'Błąd', 'Erro', 'Eroare', 'Hiba', 'Chyba',
+    'エラー', '错误', '錯誤');
+  Set14('ScriptPreview.SkipDetail',
+    '(transform returned None: this line will not appear in the output)',
+    '(transform retornou None: esta linha não aparecerá na saída)',
+    '(transform devolvió None: esta línea no aparecerá en la salida)',
+    '(transform a renvoyé None : cette ligne n''apparaîtra pas dans la sortie)',
+    '(transform gab None zurück: diese Zeile erscheint nicht in der Ausgabe)',
+    '(transform ha restituito None: questa riga non apparirà nell''output)',
+    '(transform zwróciło None: ten wiersz nie pojawi się w wyniku)',
+    '(transform devolveu None: esta linha não aparecerá na saída)',
+    '(transform a returnat None: această linie nu va apărea în ieșire)',
+    '(a transform None-t adott: ez a sor nem kerül a kimenetbe)',
+    '(transform vrátil None: tento řádek se ve výstupu neobjeví)',
+    '（transform が None を返しました：この行は出力されません）',
+    '（transform 返回 None：此行不会出现在输出中）',
+    '（transform 傳回 None：此行不會出現在輸出中）');
+  Set14('ScriptPreview.Running',
+    'Running the script on a sample of %d lines for preview...',
+    'Executando o script em uma amostra de %d linhas para a prévia...',
+    'Ejecutando el script en una muestra de %d líneas para la vista previa...',
+    'Exécution du script sur un échantillon de %d lignes pour l''aperçu...',
+    'Skript wird für die Vorschau auf %d Zeilen ausgeführt...',
+    'Esecuzione dello script su un campione di %d righe per l''anteprima...',
+    'Uruchamianie skryptu na próbce %d wierszy do podglądu...',
+    'A executar o script numa amostra de %d linhas para a pré-visualização...',
+    'Se rulează scriptul pe un eșantion de %d linii pentru previzualizare...',
+    'A szkript futtatása %d soros mintán az előnézethez...',
+    'Spouštění skriptu na vzorku %d řádků pro náhled...',
+    'プレビュー用に %d 行のサンプルでスクリプトを実行しています...',
+    '正在对 %d 行样本运行脚本以生成预览...',
+    '正在對 %d 行樣本執行指令碼以產生預覽...');
+  Set14('ScriptPreview.SampleDone',
+    'Preview sample: %d lines - %d OK, %d skipped, %d errors.',
+    'Amostra da prévia: %d linhas - %d OK, %d ignoradas, %d erros.',
+    'Muestra de vista previa: %d líneas - %d OK, %d omitidas, %d errores.',
+    'Échantillon d''aperçu : %d lignes - %d OK, %d ignorées, %d erreurs.',
+    'Vorschau-Stichprobe: %d Zeilen - %d OK, %d übersprungen, %d Fehler.',
+    'Campione anteprima: %d righe - %d OK, %d saltate, %d errori.',
+    'Próbka podglądu: %d wierszy - %d OK, %d pominiętych, %d błędów.',
+    'Amostra da pré-visualização: %d linhas - %d OK, %d ignoradas, %d erros.',
+    'Eșantion previzualizare: %d linii - %d OK, %d omise, %d erori.',
+    'Előnézeti minta: %d sor - %d OK, %d kihagyva, %d hiba.',
+    'Vzorek náhledu: %d řádků - %d OK, %d přeskočeno, %d chyb.',
+    'プレビューサンプル：%d 行 - OK %d、スキップ %d、エラー %d。',
+    '预览样本：%d 行 - 成功 %d，跳过 %d，错误 %d。',
+    '預覽樣本：%d 行 - 成功 %d，略過 %d，錯誤 %d。');
+  Set14('ScriptPreview.Cancelled',
+    'Output generation cancelled after the preview.',
+    'Geração da saída cancelada após a prévia.',
+    'Generación de la salida cancelada tras la vista previa.',
+    'Génération de la sortie annulée après l''aperçu.',
+    'Ausgabe nach der Vorschau abgebrochen.',
+    'Generazione dell''output annullata dopo l''anteprima.',
+    'Generowanie wyniku anulowane po podglądzie.',
+    'Geração da saída cancelada após a pré-visualização.',
+    'Generarea ieșirii anulată după previzualizare.',
+    'A kimenet létrehozása az előnézet után megszakítva.',
+    'Generování výstupu zrušeno po náhledu.',
+    'プレビュー後に出力の生成をキャンセルしました。',
+    '预览后已取消生成输出。',
+    '預覽後已取消產生輸出。');
+  Set14('ScriptOut.ResultTitle',
+    'Script result', 'Resultado do script', 'Resultado del script', 'Résultat du script',
+    'Skriptergebnis', 'Risultato dello script', 'Wynik skryptu', 'Resultado do script',
+    'Rezultat script', 'Szkript eredménye', 'Výsledek skriptu', 'スクリプトの結果', '脚本结果', '指令碼結果');
+  Set14('ScriptOut.Counts',
+    'Lines generated: %s   |   Skipped: %s   |   Errors: %s',
+    'Linhas geradas: %s   |   Ignoradas: %s   |   Erros: %s',
+    'Líneas generadas: %s   |   Omitidas: %s   |   Errores: %s',
+    'Lignes générées : %s   |   Ignorées : %s   |   Erreurs : %s',
+    'Erzeugte Zeilen: %s   |   Übersprungen: %s   |   Fehler: %s',
+    'Righe generate: %s   |   Saltate: %s   |   Errori: %s',
+    'Wygenerowane wiersze: %s   |   Pominięte: %s   |   Błędy: %s',
+    'Linhas geradas: %s   |   Ignoradas: %s   |   Erros: %s',
+    'Linii generate: %s   |   Omise: %s   |   Erori: %s',
+    'Létrehozott sorok: %s   |   Kihagyva: %s   |   Hibák: %s',
+    'Vytvořené řádky: %s   |   Přeskočeno: %s   |   Chyby: %s',
+    '生成された行：%s   |   スキップ：%s   |   エラー：%s',
+    '生成行数：%s   |   跳过：%s   |   错误：%s',
+    '產生行數：%s   |   略過：%s   |   錯誤：%s');
+  Set14('ScriptOut.ErrorLine',
+    '[ERROR line %s] %s', '[ERRO linha %s] %s', '[ERROR línea %s] %s', '[ERREUR ligne %s] %s',
+    '[FEHLER Zeile %s] %s', '[ERRORE riga %s] %s', '[BŁĄD wiersz %s] %s', '[ERRO linha %s] %s',
+    '[EROARE linia %s] %s', '[HIBA %s. sor] %s', '[CHYBA řádek %s] %s', '[エラー %s 行目] %s',
+    '[错误 第 %s 行] %s', '[錯誤 第 %s 行] %s');
+  Set14('ScriptOut.AtScriptLine',
+    ' (script line %s)', ' (linha %s do script)', ' (línea %s del script)', ' (ligne %s du script)',
+    ' (Skriptzeile %s)', ' (riga %s dello script)', ' (wiersz %s skryptu)', ' (linha %s do script)',
+    ' (linia %s din script)', ' (szkript %s. sora)', ' (řádek skriptu %s)', '（スクリプト %s 行目）',
+    '（脚本第 %s 行）', '（指令碼第 %s 行）');
+  Set14('ScriptOut.MoreErrors',
+    '... and %s more errors (not listed).', '... e mais %s erros (não listados).',
+    '... y %s errores más (no listados).', '... et %s autres erreurs (non listées).',
+    '... und %s weitere Fehler (nicht aufgeführt).', '... e altri %s errori (non elencati).',
+    '... i jeszcze %s błędów (niewymienionych).', '... e mais %s erros (não listados).',
+    '... și încă %s erori (nelistate).', '... és további %s hiba (nincs listázva).',
+    '... a dalších %s chyb (neuvedeno).', '...ほか %s 件のエラー（一覧なし）。',
+    '……另有 %s 个错误（未列出）。', '……另有 %s 個錯誤（未列出）。');
+  Set14('ScriptOut.TopError',
+    'Most frequent error (%s lines): %s', 'Erro mais frequente (%s linhas): %s',
+    'Error más frecuente (%s líneas): %s', 'Erreur la plus fréquente (%s lignes) : %s',
+    'Häufigster Fehler (%s Zeilen): %s', 'Errore più frequente (%s righe): %s',
+    'Najczęstszy błąd (%s wierszy): %s', 'Erro mais frequente (%s linhas): %s',
+    'Cea mai frecventă eroare (%s linii): %s', 'Leggyakoribb hiba (%s sor): %s',
+    'Nejčastější chyba (%s řádků): %s', '最も多いエラー（%s 行）：%s',
+    '最常见的错误（%s 行）：%s', '最常見的錯誤（%s 行）：%s');
+  Set14('ScriptOut.NoOutputHint',
+    'No line was generated. Review the error above, fix the script (or ask the AI again) and run it again.',
+    'Nenhuma linha foi gerada. Veja o erro acima, corrija o script (ou peça de novo à IA) e execute novamente.',
+    'No se generó ninguna línea. Revise el error anterior, corrija el script (o pida de nuevo a la IA) y ejecute otra vez.',
+    'Aucune ligne générée. Consultez l''erreur ci-dessus, corrigez le script (ou redemandez à l''IA) et relancez.',
+    'Keine Zeile erzeugt. Prüfen Sie den Fehler oben, korrigieren Sie das Skript (oder fragen Sie die KI erneut) und starten Sie neu.',
+    'Nessuna riga generata. Controlla l''errore sopra, correggi lo script (o chiedi di nuovo all''IA) ed esegui di nuovo.',
+    'Nie wygenerowano żadnego wiersza. Sprawdź błąd powyżej, popraw skrypt (lub zapytaj ponownie AI) i uruchom ponownie.',
+    'Nenhuma linha foi gerada. Veja o erro acima, corrija o script (ou peça novamente à IA) e execute de novo.',
+    'Nu s-a generat nicio linie. Verificați eroarea de mai sus, corectați scriptul (sau întrebați din nou AI) și rulați din nou.',
+    'Egy sor sem jött létre. Nézze meg a fenti hibát, javítsa a szkriptet (vagy kérdezze újra az MI-t), és futtassa újra.',
+    'Nebyl vytvořen žádný řádek. Zkontrolujte chybu výše, opravte skript (nebo se znovu zeptejte AI) a spusťte znovu.',
+    '行は生成されませんでした。上のエラーを確認し、スクリプトを修正して（または AI に再度依頼して）再実行してください。',
+    '未生成任何行。请查看上面的错误，修正脚本（或重新询问 AI）后再次运行。',
+    '未產生任何行。請查看上方的錯誤，修正指令碼（或重新詢問 AI）後再次執行。');
+  Set14('ScriptOut.EmptyFileRemoved',
+    'The output file was empty and has been removed.',
+    'O arquivo de saída ficou vazio e foi removido.',
+    'El archivo de salida estaba vacío y se eliminó.',
+    'Le fichier de sortie était vide et a été supprimé.',
+    'Die Ausgabedatei war leer und wurde entfernt.',
+    'Il file di output era vuoto ed è stato rimosso.',
+    'Plik wyjściowy był pusty i został usunięty.',
+    'O ficheiro de saída ficou vazio e foi removido.',
+    'Fișierul de ieșire era gol și a fost eliminat.',
+    'A kimeneti fájl üres volt, ezért törölve lett.',
+    'Výstupní soubor byl prázdný a byl odstraněn.',
+    '出力ファイルが空だったため削除しました。',
+    '输出文件为空，已删除。',
+    '輸出檔案為空，已刪除。');
   Set14(
     'AI_PY_MACRO_WAIT_CLOSE',
     'Please wait for the assistant to finish before closing.',
@@ -18920,6 +19446,36 @@ begin
     '1つのPythonブロックでのみ返信—散文なし、L 1 ：/ L 2 ：行なし、サンプルデータなし、質問なし。''ユーザーが位置または部分文字列を明示的に要求しない限り、行[: N]または行[i]を使用しないでください。',
     '仅回复一个 ```python 块 — 不要写说明、不用 L1:/L2: 行、不提供示例数据、不提问。除非用户明确要求位置或子字符串，否则不要使用 line[:N] 或 line[i]。',
     '僅回覆一個 ```python 區塊 — 不要寫說明文字、L1:/L2: 行、範例資料或提問。除非使用者明確要求位置或子字串，否則切勿使用 line[:N] 或 line[i]。');
+  Set14(
+    'AI_PY_PROMPT_RULES_P8',
+    'Output format: keep the original order and shape of the line. When keeping/extracting characters, join them with '''' (empty string, e.g. "".join(...)). ' +
+    'NEVER add spaces, commas, tabs, quotes or labels between values unless the user explicitly asks for a separator.',
+    'Formato da saída: mantenha a ordem e o formato original da linha. Ao manter/extrair caracteres, junte-os com '''' (string vazia, ex.: "".join(...)). ' +
+    'NUNCA acrescente espaços, vírgulas, tabs, aspas ou rótulos entre os valores, a não ser que o usuário peça explicitamente um separador.',
+    'Formato de salida: mantenga el orden y la forma original de la línea. Al conservar/extraer caracteres, únalos con '''' (cadena vacía, ej.: "".join(...)). ' +
+    'NUNCA agregue espacios, comas, tabulaciones, comillas ni etiquetas entre los valores, salvo que el usuario pida explícitamente un separador.',
+    'Format de sortie : conservez l''ordre et la forme d''origine de la ligne. Pour garder/extraire des caractères, joignez-les avec '''' (chaîne vide, ex. "".join(...)). ' +
+    'N''ajoutez JAMAIS d''espaces, virgules, tabulations, guillemets ou libellés entre les valeurs, sauf si l''utilisateur demande explicitement un séparateur.',
+    'Ausgabeformat: Reihenfolge und Form der Zeile beibehalten. Beim Behalten/Extrahieren von Zeichen mit '''' verbinden (leerer String, z. B. "".join(...)). ' +
+    'NIEMALS Leerzeichen, Kommas, Tabs, Anführungszeichen oder Beschriftungen zwischen Werte setzen, außer der Benutzer verlangt ausdrücklich ein Trennzeichen.',
+    'Formato di output: mantieni l''ordine e la forma originali della riga. Per mantenere/estrarre caratteri, uniscili con '''' (stringa vuota, es. "".join(...)). ' +
+    'MAI aggiungere spazi, virgole, tabulazioni, virgolette o etichette tra i valori, salvo che l''utente chieda esplicitamente un separatore.',
+    'Format wyniku: zachowaj oryginalną kolejność i kształt wiersza. Przy zachowywaniu/wyodrębnianiu znaków łącz je przez '''' (pusty ciąg, np. "".join(...)). ' +
+    'NIGDY nie dodawaj spacji, przecinków, tabulatorów, cudzysłowów ani etykiet między wartościami, chyba że użytkownik wyraźnie poprosi o separator.',
+    'Formato da saída: mantenha a ordem e o formato original da linha. Ao manter/extrair caracteres, junte-os com '''' (string vazia, ex.: "".join(...)). ' +
+    'NUNCA acrescente espaços, vírgulas, tabulações, aspas ou rótulos entre os valores, salvo se o utilizador pedir explicitamente um separador.',
+    'Format ieșire: păstrați ordinea și forma originală a liniei. La păstrarea/extragerea caracterelor, uniți-le cu '''' (șir gol, ex. "".join(...)). ' +
+    'NU adăugați NICIODATĂ spații, virgule, tab-uri, ghilimele sau etichete între valori, decât dacă utilizatorul cere explicit un separator.',
+    'Kimeneti formátum: tartsa meg a sor eredeti sorrendjét és alakját. Karakterek megtartásakor/kinyerésekor fűzze össze őket '''' segítségével (üres sztring, pl. "".join(...)). ' +
+    'SOHA ne tegyen szóközt, vesszőt, tabulátort, idézőjelet vagy címkét az értékek közé, kivéve, ha a felhasználó kifejezetten elválasztót kér.',
+    'Formát výstupu: zachovejte původní pořadí a tvar řádku. Při ponechání/extrakci znaků je spojte pomocí '''' (prázdný řetězec, např. "".join(...)). ' +
+    'NIKDY nepřidávejte mezery, čárky, tabulátory, uvozovky ani popisky mezi hodnoty, pokud uživatel výslovně nepožádá o oddělovač.',
+    '出力形式：行の元の順序と形を保ってください。文字を残す/抽出する場合は ''''（空文字列、例: "".join(...)）で連結します。' +
+    'ユーザーが区切り文字を明示的に求めない限り、値の間にスペース、カンマ、タブ、引用符、ラベルを絶対に追加しないでください。',
+    '输出格式：保持行的原始顺序和形式。保留/提取字符时，用 ''''（空字符串，例如 "".join(...)）连接。' +
+    '除非用户明确要求分隔符，否则绝不要在值之间添加空格、逗号、制表符、引号或标签。',
+    '輸出格式：保持行的原始順序與形式。保留/擷取字元時，用 ''''（空字串，例如 "".join(...)）連接。' +
+    '除非使用者明確要求分隔符號，否則絕不要在值之間加入空格、逗號、定位字元、引號或標籤。');
   Set14(
     'AI_PY_PROMPT_FILTER_MANDATE',
     'MANDATORY for this request: keep only digits 0-9, semicolon ; and #. ' +
@@ -28446,6 +29002,22 @@ begin
     '行编辑器已打开。',
     '行編輯器已開啟。');
   Set14(
+    'Assistant.Status.AnonymizeLines',
+    'Anonymize dialog opened.',
+    'Diálogo de descaracterização aberto.',
+    'Diálogo de anonimización abierto.',
+    'Fenêtre d''anonymisation ouverte.',
+    'Anonymisieren-Dialog geöffnet.',
+    'Finestra di anonimizzazione aperta.',
+    'Okno anonimizacji otwarte.',
+    'Diálogo de anonimização aberto.',
+    'Dialog de anonimizare deschis.',
+    'Anonimizáló ablak megnyitva.',
+    'Dialog anonymizace otevřen.',
+    '匿名化ダイアログを開きました。',
+    '已打开脱敏对话框。',
+    '已開啟去識別化對話方塊。');
+  Set14(
     'Assistant.Popup.PasteLinesFile',
     'Paste lines into file',
     'Colar linhas no arquivo',
@@ -32654,6 +33226,22 @@ begin
     '接受/拒绝建议编辑的时间（秒）',
     '接受/拒絕建議編輯的時間（秒）');
   Set14(
+    'Prefs.AgentSampleLines',
+    'Lines analyzed to describe a file',
+    'Linhas analisadas para descrever um arquivo',
+    'Líneas analizadas para describir un archivo',
+    'Lignes analysées pour décrire un fichier',
+    'Analysierte Zeilen zur Beschreibung einer Datei',
+    'Righe analizzate per descrivere un file',
+    'Linie analizowane do opisu pliku',
+    'Linhas analisadas para descrever um ficheiro',
+    'Linii analizate pentru descrierea unui fișier',
+    'Fájl leírásához elemzett sorok',
+    'Řádky analyzované pro popis souboru',
+    'ファイルの説明に分析する行数',
+    '描述文件时分析的行数',
+    '描述檔案時分析的行數');
+  Set14(
     'Prefs.Section.Display',
     'Display',
     'Exibição',
@@ -32952,6 +33540,22 @@ begin
     'UIをクリア（ディスク上のファイルは削除しません）',
     '清除界面（不会删除磁盘上的文件）',
     '清除介面（不會刪除磁碟上的檔案）');
+  Set14(
+    'FileBar.ClearFileNameHint',
+    'Clear the file name and its read cache (next read loads from scratch)',
+    'Limpar o nome do arquivo e o cache de leitura (a pr'#243'xima leitura carrega do zero)',
+    'Borrar el nombre del archivo y su cach'#233' de lectura (la pr'#243'xima lectura carga desde cero)',
+    'Effacer le nom du fichier et son cache de lecture (la prochaine lecture recharge depuis z'#233'ro)',
+    'Dateinamen und Lesecache l'#246'schen (n'#228'chstes Lesen l'#228'dt neu)',
+    'Cancella il nome del file e la cache di lettura (la prossima lettura ricarica da zero)',
+    'Wyczy'#347#263' nazw'#281' pliku i cache odczytu (nast'#281'pne czytanie '#322'aduje od zera)',
+    'Limpar o nome do ficheiro e a cache de leitura (a pr'#243'xima leitura carrega do zero)',
+    #350'terge numele fi'#351'ierului '#351'i cache-ul de citire (urmatoarea citire incarca de la zero)',
+    'F'#225'jln'#233'v '#233's olvas'#225'si gyors'#237't'#243't'#225'r t'#246'rl'#233'se (a k'#246'vetkez'#337' olvas'#225's el'#246'lr'#337'l t'#246'lt)',
+    'Vymazat n'#225'zev souboru a mezipam'#283#357' '#269'ten'#237' (dal'#353#237' '#269'ten'#237' na'#269'te znovu)',
+    'ファイル名と読み込みキャッシュをクリア（次回は最初から読み込みます）',
+    '清除文件名及其读取缓存（下次读取将重新完整加载）',
+    '清除檔案名稱及其讀取快取（下次讀取將重新完整載入）');
   Set14(
     'Open.AskReadAfterBrowse',
     'File selected: %s' + #13#10 + #13#10 + 'Do you want to read it now?',
@@ -33569,20 +34173,100 @@ begin
     '拖到原始邊緣或雙擊標題以停靠');
   Set14(
     'FilterBar.ResizeHint',
-    'Drag to change the Filter / Grep height',
-    'Arraste para alterar a altura do Filtro / Grep',
-    'Arrastre para cambiar la altura de Filtro / Grep',
-    'Faites glisser pour changer la hauteur du Filtre / Grep',
-    'Ziehen, um die H'#246'he von Filter / Grep zu '#228'ndern',
-    'Trascina per cambiare l''altezza di Filtro / Grep',
-    'Przeci'#261'gnij, aby zmieni'#263' wysoko'#347#263' Filtr / Grep',
-    'Arraste para alterar a altura do Filtro / Grep',
-    'Trage'#355'i pentru a schimba '#238'n'#259'l'#355'imea Filtru / Grep',
-    'H'#250'zza a Sz'#369'r'#337' / Grep magass'#225'g'#225'hoz',
-    'T'#225'hn'#283'te pro zm'#283'nu v'#253#353'ky Filtr / Grep',
-    'フィルター / グレップの高さを変更するにはドラッグしてください',
-    '拖动以更改滤波器 / Grep 高度',
-    '拖動以更改篩選器 / Grep 高度');
+    'Drag to resize the filter. Double-click toggles the default height and half the window.',
+    'Arraste para redimensionar o filtro. Duplo clique alterna a altura padr'#227'o e metade da janela.',
+    'Arrastre para cambiar el filtro. Doble clic alterna la altura predeterminada y la mitad de la ventana.',
+    'Glissez pour redimensionner le filtre. Double-clic : hauteur par d'#233'faut ou moiti'#233' de la fen'#234'tre.',
+    'Ziehen, um den Filter anzupassen. Doppelklick: Standardh'#246'he oder halbes Fenster.',
+    'Trascina per ridimensionare il filtro. Doppio clic: altezza predefinita o met'#224' finestra.',
+    'Przeci'#261'gnij, aby zmieni'#263' filtr. Dwuklik: wysoko'#347#263' domy'#347'lna lub po'#322'owa okna.',
+    'Arraste para redimensionar o filtro. Duplo clique alterna a altura predefinida e metade da janela.',
+    'Trage'#355'i pentru a redimensiona filtrul. Dublu-clic: '#238'n'#259'l'#355'ime implicit'#259' sau jum'#259'tate din fereastr'#259'.',
+    'H'#250'zza a sz'#369'r'#337' m'#233'ret'#233'hez. Dupla kattint'#225's: alapmagass'#225'g vagy az ablak fele.',
+    'T'#225'hn'#283'te pro zm'#283'nu filtru. Poklep'#225'n'#237': v'#253'choz'#237' v'#253#353'ka nebo polovina okna.',
+    'ドラッグでフィルターの高さを変更。ダブルクリックで標準の高さと画面の半分を切り替えます。',
+    '拖动以调整筛选高度。双击在默认高度和窗口一半之间切换。',
+    '拖動以調整篩選高度。雙擊在預設高度與視窗一半之間切換。');
+  Set14(
+    'FindOcc.ResizeHint',
+    'Drag to resize the occurrences list. Double-click toggles the default height and half the window.',
+    'Arraste para redimensionar a lista de ocorr'#234'ncias. Duplo clique alterna a altura padr'#227'o e metade da janela.',
+    'Arrastre para cambiar la lista de ocurrencias. Doble clic alterna la altura predeterminada y la mitad de la ventana.',
+    'Glissez pour redimensionner la liste. Double-clic : hauteur par d'#233'faut ou moiti'#233' de la fen'#234'tre.',
+    'Ziehen, um die Trefferliste anzupassen. Doppelklick: Standardh'#246'he oder halbes Fenster.',
+    'Trascina per ridimensionare l''elenco. Doppio clic: altezza predefinita o met'#224' finestra.',
+    'Przeci'#261'gnij, aby zmieni'#263' list'#281' wyst'#261'pie'#324'. Dwuklik: wysoko'#347#263' domy'#347'lna lub po'#322'owa okna.',
+    'Arraste para redimensionar a lista de ocorr'#234'ncias. Duplo clique alterna a altura predefinida e metade da janela.',
+    'Trage'#355'i pentru a redimensiona lista. Dublu-clic: '#238'n'#259'l'#355'ime implicit'#259' sau jum'#259'tate din fereastr'#259'.',
+    'H'#250'zza a tal'#225'lati lista m'#233'ret'#233'hez. Dupla kattint'#225's: alapmagass'#225'g vagy az ablak fele.',
+    'T'#225'hn'#283'te pro zm'#283'nu v'#253#353'ky seznamu. Poklep'#225'n'#237': v'#253'choz'#237' v'#253#353'ka nebo polovina okna.',
+    'ドラッグで検索結果の高さを変更。ダブルクリックで標準の高さと画面の半分を切り替えます。',
+    '拖动以调整匹配列表高度。双击在默认高度和窗口一半之间切换。',
+    '拖動以調整相符清單高度。雙擊在預設高度與視窗一半之間切換。');
+  Set14(
+    'FindOcc.CloseHint',
+    'Close the occurrences panel',
+    'Fechar o painel de ocorr'#234'ncias',
+    'Cerrar el panel de ocurrencias',
+    'Fermer le panneau des occurrences',
+    'Trefferbereich schlie'#223'en',
+    'Chiudi il riquadro delle occorrenze',
+    'Zamknij panel wyst'#261'pie'#324,
+    'Fechar o painel de ocorr'#234'ncias',
+    #206'nchide panoul de apari'#355'ii',
+    'A tal'#225'latok panel bez'#225'r'#225'sa',
+    'Zav'#345#237't panel v'#253'skyt'#367,
+    '検索結果パネルを閉じる',
+    '关闭匹配面板',
+    '關閉相符面板');
+  Set14(
+    'FilterBar.CloseHint',
+    'Close the filter panel',
+    'Fechar o painel de filtro',
+    'Cerrar el panel de filtro',
+    'Fermer le panneau de filtre',
+    'Filterbereich schlie'#223'en',
+    'Chiudi il riquadro del filtro',
+    'Zamknij panel filtra',
+    'Fechar o painel de filtro',
+    #206'nchide panoul de filtrare',
+    'A sz'#369'r'#337'panel bez'#225'r'#225'sa',
+    'Zav'#345#237't panel filtru',
+    'フィルターパネルを閉じる',
+    '关闭筛选面板',
+    '關閉篩選面板');
+  Set14(
+    'BookmarkBar.CloseHint',
+    'Close the bookmarks panel',
+    'Fechar o painel de marcadores',
+    'Cerrar el panel de marcadores',
+    'Fermer le panneau des signets',
+    'Lesezeichenbereich schlie'#223'en',
+    'Chiudi il riquadro dei segnalibri',
+    'Zamknij panel zak'#322'adek',
+    'Fechar o painel de marcadores',
+    #206'nchide panoul de marcaje',
+    'A k'#246'nyvjelz'#337'k panel bez'#225'r'#225'sa',
+    'Zav'#345#237't panel z'#225'lo'#382'ek',
+    'ブックマークパネルを閉じる',
+    '关闭书签面板',
+    '關閉書籤面板');
+  Set14(
+    'BookmarkBar.ResizeHint',
+    'Drag to resize the bookmarks list. Double-click toggles the default height and half the window.',
+    'Arraste para redimensionar a lista de marcadores. Duplo clique alterna a altura padr'#227'o e metade da janela.',
+    'Arrastre para cambiar la lista de marcadores. Doble clic alterna la altura predeterminada y la mitad de la ventana.',
+    'Glissez pour redimensionner les signets. Double-clic : hauteur par d'#233'faut ou moiti'#233' de la fen'#234'tre.',
+    'Ziehen, um die Lesezeichenliste anzupassen. Doppelklick: Standardh'#246'he oder halbes Fenster.',
+    'Trascina per ridimensionare i segnalibri. Doppio clic: altezza predefinita o met'#224' finestra.',
+    'Przeci'#261'gnij, aby zmieni'#263' list'#281' zak'#322'adek. Dwuklik: wysoko'#347#263' domy'#347'lna lub po'#322'owa okna.',
+    'Arraste para redimensionar a lista de marcadores. Duplo clique alterna a altura predefinida e metade da janela.',
+    'Trage'#355'i pentru a redimensiona marcajele. Dublu-clic: '#238'n'#259'l'#355'ime implicit'#259' sau jum'#259'tate din fereastr'#259'.',
+    'H'#250'zza a k'#246'nyvjelz'#337'k m'#233'ret'#233'hez. Dupla kattint'#225's: alapmagass'#225'g vagy az ablak fele.',
+    'T'#225'hn'#283'te pro zm'#283'nu z'#225'lo'#382'ek. Poklep'#225'n'#237': v'#253'choz'#237' v'#253#353'ka nebo polovina okna.',
+    'ドラッグでブックマークの高さを変更。ダブルクリックで標準の高さと画面の半分を切り替えます。',
+    '拖动以调整书签列表高度。双击在默认高度和窗口一半之间切换。',
+    '拖動以調整書籤清單高度。雙擊在預設高度與視窗一半之間切換。');
   Set14(
     'Assistant.SplitHint',
     'Drag to resize the question area vs the reply',
@@ -45936,6 +46620,738 @@ begin
     'Anonimizza dati: intero file', 'Anonimizacja danych: cały plik', 'Anonimizar dados: ficheiro inteiro',
     'Anonimizare date: fișier întreg', 'Adatok anonimizálása: teljes fájl', 'Anonymizace dat: celý soubor',
     'データの匿名化: ファイル全体', '数据脱敏: 整个文件', '資料去識別化: 整個檔案');
+  Set14('LineEditor.Anon',
+    'Anonymize', 'Descaracterizar', 'Anonimizar', 'Anonymiser', 'Anonymisieren', 'Anonimizza',
+    'Anonimizuj', 'Anonimizar', 'Anonimizare', 'Anonimizálás', 'Anonymizovat', '匿名化',
+    '脱敏', '去識別化');
+  Set14('LineEditor.AnonHint',
+    'Anonymize the selected text (or the whole content) with the options and key of the last anonymization.',
+    'Descaracteriza o texto selecionado (ou todo o conteúdo) com as opções e a chave da última descaracterização.',
+    'Anonimiza el texto seleccionado (o todo el contenido) con las opciones y la clave de la última anonimización.',
+    'Anonymise le texte sélectionné (ou tout le contenu) avec les options et la clé de la dernière anonymisation.',
+    'Anonymisiert den markierten Text (oder den gesamten Inhalt) mit den Optionen und dem Schlüssel der letzten Anonymisierung.',
+    'Anonimizza il testo selezionato (o tutto il contenuto) con le opzioni e la chiave dell''ultima anonimizzazione.',
+    'Anonimizuje zaznaczony tekst (lub całą treść) z opcjami i kluczem ostatniej anonimizacji.',
+    'Anonimiza o texto selecionado (ou todo o conteúdo) com as opções e a chave da última anonimização.',
+    'Anonimizează textul selectat (sau tot conținutul) cu opțiunile și cheia ultimei anonimizări.',
+    'Anonimizálja a kijelölt szöveget (vagy a teljes tartalmat) az utolsó anonimizálás beállításaival és kulcsával.',
+    'Anonymizuje vybraný text (nebo celý obsah) s možnostmi a klíčem poslední anonymizace.',
+    '選択したテキスト（または内容全体）を前回の匿名化のオプションとキーで匿名化します。',
+    '使用上次脱敏的选项和密钥对所选文本（或全部内容）进行脱敏。',
+    '使用上次去識別化的選項與金鑰處理所選文字（或全部內容）。');
+  Set14('LineEditor.AnonNoChange',
+    'Nothing to anonymize with the current options.',
+    'Nada a descaracterizar com as opções atuais.',
+    'Nada que anonimizar con las opciones actuales.',
+    'Rien à anonymiser avec les options actuelles.',
+    'Mit den aktuellen Optionen gibt es nichts zu anonymisieren.',
+    'Niente da anonimizzare con le opzioni attuali.',
+    'Brak danych do anonimizacji przy bieżących opcjach.',
+    'Nada a anonimizar com as opções atuais.',
+    'Nimic de anonimizat cu opțiunile curente.',
+    'A jelenlegi beállításokkal nincs mit anonimizálni.',
+    'S aktuálními možnostmi není co anonymizovat.',
+    '現在のオプションでは匿名化する対象がありません。',
+    '按当前选项没有需要脱敏的内容。',
+    '依目前選項沒有需要去識別化的內容。');
+
+  { Editor de linha: dialogo Extrair (uLineExtract) }
+  Set14('Extract.Button',
+    'Extract...', 'Extrair...', 'Extraer...', 'Extraire...', 'Extrahieren...', 'Estrai...',
+    'Wyodrębnij...', 'Extrair...', 'Extrage...', 'Kinyerés...', 'Extrahovat...', '抽出...',
+    '提取...', '擷取...');
+  Set14('Extract.Hint',
+    'Extract digits, letters, e-mails, dates, columns or regular expression matches from the selected text (or the whole content).',
+    'Extrai dígitos, letras, e-mails, datas, colunas ou ocorrências de expressão regular do texto selecionado (ou de todo o conteúdo).',
+    'Extrae dígitos, letras, correos, fechas, columnas o coincidencias de expresión regular del texto seleccionado (o de todo el contenido).',
+    'Extrait chiffres, lettres, e-mails, dates, colonnes ou correspondances d''expression régulière du texte sélectionné (ou de tout le contenu).',
+    'Extrahiert Ziffern, Buchstaben, E-Mails, Datumsangaben, Spalten oder Treffer eines regulären Ausdrucks aus dem markierten Text (oder dem gesamten Inhalt).',
+    'Estrae cifre, lettere, e-mail, date, colonne o corrispondenze di espressioni regolari dal testo selezionato (o da tutto il contenuto).',
+    'Wyodrębnia cyfry, litery, e-maile, daty, kolumny lub dopasowania wyrażenia regularnego z zaznaczonego tekstu (lub całej treści).',
+    'Extrai dígitos, letras, e-mails, datas, colunas ou correspondências de expressão regular do texto selecionado (ou de todo o conteúdo).',
+    'Extrage cifre, litere, e-mailuri, date, coloane sau potriviri de expresii regulate din textul selectat (sau din tot conținutul).',
+    'Számjegyeket, betűket, e-maileket, dátumokat, oszlopokat vagy reguláris kifejezés találatait nyeri ki a kijelölt szövegből (vagy a teljes tartalomból).',
+    'Extrahuje číslice, písmena, e-maily, data, sloupce nebo shody regulárního výrazu z vybraného textu (nebo z celého obsahu).',
+    '選択したテキスト（または内容全体）から数字、文字、メール、日付、列、正規表現の一致を抽出します。',
+    '从所选文本（或全部内容）中提取数字、字母、电子邮件、日期、列或正则表达式匹配项。',
+    '從所選文字（或全部內容）中擷取數字、字母、電子郵件、日期、欄或規則運算式相符項目。');
+  Set14('Extract.Title',
+    'Extract from content', 'Extrair do conteúdo', 'Extraer del contenido', 'Extraire du contenu',
+    'Aus dem Inhalt extrahieren', 'Estrai dal contenuto', 'Wyodrębnij z treści', 'Extrair do conteúdo',
+    'Extrage din conținut', 'Kinyerés a tartalomból', 'Extrahovat z obsahu', '内容から抽出',
+    '从内容中提取', '從內容擷取');
+  Set14('Extract.SourceSel',
+    'Source: selected text (%d characters)', 'Origem: texto selecionado (%d caracteres)',
+    'Origen: texto seleccionado (%d caracteres)', 'Source : texte sélectionné (%d caractères)',
+    'Quelle: markierter Text (%d Zeichen)', 'Origine: testo selezionato (%d caratteri)',
+    'Źródło: zaznaczony tekst (%d znaków)', 'Origem: texto selecionado (%d caracteres)',
+    'Sursă: textul selectat (%d caractere)', 'Forrás: kijelölt szöveg (%d karakter)',
+    'Zdroj: vybraný text (%d znaků)', 'ソース: 選択したテキスト（%d 文字）',
+    '来源：所选文本（%d 个字符）', '來源：所選文字（%d 個字元）');
+  Set14('Extract.SourceAll',
+    'Source: whole content (%d characters)', 'Origem: todo o conteúdo (%d caracteres)',
+    'Origen: todo el contenido (%d caracteres)', 'Source : tout le contenu (%d caractères)',
+    'Quelle: gesamter Inhalt (%d Zeichen)', 'Origine: tutto il contenuto (%d caratteri)',
+    'Źródło: cała treść (%d znaków)', 'Origem: todo o conteúdo (%d caracteres)',
+    'Sursă: tot conținutul (%d caractere)', 'Forrás: teljes tartalom (%d karakter)',
+    'Zdroj: celý obsah (%d znaků)', 'ソース: 内容全体（%d 文字）',
+    '来源：全部内容（%d 个字符）', '來源：全部內容（%d 個字元）');
+  Set14('Extract.What',
+    'What to extract:', 'O que extrair:', 'Qué extraer:', 'Quoi extraire :', 'Was extrahieren:',
+    'Cosa estrarre:', 'Co wyodrębnić:', 'O que extrair:', 'Ce se extrage:', 'Mit nyerjen ki:',
+    'Co extrahovat:', '抽出する内容:', '提取内容：', '擷取內容：');
+  Set14('Extract.Kind.Digits',
+    'Only digits (0-9)', 'Somente dígitos (0-9)', 'Solo dígitos (0-9)', 'Chiffres uniquement (0-9)',
+    'Nur Ziffern (0-9)', 'Solo cifre (0-9)', 'Tylko cyfry (0-9)', 'Apenas dígitos (0-9)',
+    'Doar cifre (0-9)', 'Csak számjegyek (0-9)', 'Pouze číslice (0-9)', '数字のみ (0-9)',
+    '仅数字 (0-9)', '僅數字 (0-9)');
+  Set14('Extract.Kind.Letters',
+    'Only letters', 'Somente letras', 'Solo letras', 'Lettres uniquement', 'Nur Buchstaben',
+    'Solo lettere', 'Tylko litery', 'Apenas letras', 'Doar litere', 'Csak betűk', 'Pouze písmena',
+    '文字のみ', '仅字母', '僅字母');
+  Set14('Extract.Kind.AlNum',
+    'Only letters and digits', 'Somente letras e dígitos', 'Solo letras y dígitos',
+    'Lettres et chiffres uniquement', 'Nur Buchstaben und Ziffern', 'Solo lettere e cifre',
+    'Tylko litery i cyfry', 'Apenas letras e dígitos', 'Doar litere și cifre',
+    'Csak betűk és számjegyek', 'Pouze písmena a číslice', '文字と数字のみ', '仅字母和数字',
+    '僅字母和數字');
+  Set14('Extract.Kind.Special',
+    'Only special characters', 'Somente caracteres especiais', 'Solo caracteres especiales',
+    'Caractères spéciaux uniquement', 'Nur Sonderzeichen', 'Solo caratteri speciali',
+    'Tylko znaki specjalne', 'Apenas caracteres especiais', 'Doar caractere speciale',
+    'Csak speciális karakterek', 'Pouze speciální znaky', '記号のみ', '仅特殊字符', '僅特殊字元');
+  Set14('Extract.Kind.NoDigits',
+    'Remove digits', 'Remover dígitos', 'Quitar dígitos', 'Supprimer les chiffres',
+    'Ziffern entfernen', 'Rimuovi cifre', 'Usuń cyfry', 'Remover dígitos', 'Elimină cifrele',
+    'Számjegyek eltávolítása', 'Odstranit číslice', '数字を削除', '删除数字', '刪除數字');
+  Set14('Extract.Kind.NoSpecial',
+    'Remove special characters', 'Remover caracteres especiais', 'Quitar caracteres especiales',
+    'Supprimer les caractères spéciaux', 'Sonderzeichen entfernen', 'Rimuovi caratteri speciali',
+    'Usuń znaki specjalne', 'Remover caracteres especiais', 'Elimină caracterele speciale',
+    'Speciális karakterek eltávolítása', 'Odstranit speciální znaky', '記号を削除',
+    '删除特殊字符', '刪除特殊字元');
+  Set14('Extract.Kind.Numbers',
+    'Numbers (integers and decimals)', 'Números (inteiros e decimais)',
+    'Números (enteros y decimales)', 'Nombres (entiers et décimaux)',
+    'Zahlen (ganze und Dezimalzahlen)', 'Numeri (interi e decimali)',
+    'Liczby (całkowite i dziesiętne)', 'Números (inteiros e decimais)',
+    'Numere (întregi și zecimale)', 'Számok (egész és tizedes)', 'Čísla (celá a desetinná)',
+    '数値（整数と小数）', '数字（整数和小数）', '數字（整數和小數）');
+  Set14('Extract.Kind.Words',
+    'Words', 'Palavras', 'Palabras', 'Mots', 'Wörter', 'Parole', 'Słowa', 'Palavras', 'Cuvinte',
+    'Szavak', 'Slova', '単語', '单词', '單字');
+  Set14('Extract.Kind.Urls',
+    'URLs / links', 'URLs / links', 'URL / enlaces', 'URL / liens', 'URLs / Links', 'URL / link',
+    'Adresy URL / linki', 'URLs / ligações', 'URL-uri / linkuri', 'URL-ek / hivatkozások',
+    'URL / odkazy', 'URL / リンク', 'URL / 链接', 'URL / 連結');
+  Set14('Extract.Kind.Cpf',
+    'CPF (Brazil)', 'CPF', 'CPF (Brasil)', 'CPF (Brésil)', 'CPF (Brasilien)', 'CPF (Brasile)',
+    'CPF (Brazylia)', 'CPF (Brasil)', 'CPF (Brazilia)', 'CPF (Brazília)', 'CPF (Brazílie)',
+    'CPF（ブラジル）', 'CPF（巴西）', 'CPF（巴西）');
+  Set14('Extract.Kind.Cnpj',
+    'CNPJ (Brazil)', 'CNPJ', 'CNPJ (Brasil)', 'CNPJ (Brésil)', 'CNPJ (Brasilien)', 'CNPJ (Brasile)',
+    'CNPJ (Brazylia)', 'CNPJ (Brasil)', 'CNPJ (Brazilia)', 'CNPJ (Brazília)', 'CNPJ (Brazílie)',
+    'CNPJ（ブラジル）', 'CNPJ（巴西）', 'CNPJ（巴西）');
+  Set14('Extract.Kind.Dates',
+    'Dates', 'Datas', 'Fechas', 'Dates', 'Datumsangaben', 'Date', 'Daty', 'Datas', 'Date',
+    'Dátumok', 'Data', '日付', '日期', '日期');
+  Set14('Extract.Kind.Times',
+    'Times', 'Horas', 'Horas', 'Heures', 'Uhrzeiten', 'Orari', 'Godziny', 'Horas', 'Ore',
+    'Időpontok', 'Časy', '時刻', '时间', '時間');
+  Set14('Extract.Kind.Phones',
+    'Phone numbers', 'Telefones', 'Teléfonos', 'Numéros de téléphone', 'Telefonnummern',
+    'Numeri di telefono', 'Numery telefonów', 'Telefones', 'Numere de telefon', 'Telefonszámok',
+    'Telefonní čísla', '電話番号', '电话号码', '電話號碼');
+  Set14('Extract.Kind.Ips',
+    'IP addresses (IPv4)', 'Endereços IP (IPv4)', 'Direcciones IP (IPv4)', 'Adresses IP (IPv4)',
+    'IP-Adressen (IPv4)', 'Indirizzi IP (IPv4)', 'Adresy IP (IPv4)', 'Endereços IP (IPv4)',
+    'Adrese IP (IPv4)', 'IP-címek (IPv4)', 'IP adresy (IPv4)', 'IP アドレス (IPv4)',
+    'IP 地址 (IPv4)', 'IP 位址 (IPv4)');
+  Set14('Extract.Kind.Cep',
+    'CEP (Brazilian postal code)', 'CEP', 'CEP (código postal de Brasil)',
+    'CEP (code postal brésilien)', 'CEP (brasilianische Postleitzahl)', 'CEP (CAP brasiliano)',
+    'CEP (brazylijski kod pocztowy)', 'CEP (código postal brasileiro)',
+    'CEP (cod poștal brazilian)', 'CEP (brazil irányítószám)', 'CEP (brazilské PSČ)',
+    'CEP（ブラジルの郵便番号）', 'CEP（巴西邮政编码）', 'CEP（巴西郵遞區號）');
+  Set14('Extract.Kind.Money',
+    'Money amounts (R$, US$, €, £)', 'Valores monetários (R$, US$, €, £)',
+    'Importes (R$, US$, €, £)', 'Montants (R$, US$, €, £)', 'Geldbeträge (R$, US$, €, £)',
+    'Importi (R$, US$, €, £)', 'Kwoty (R$, US$, €, £)', 'Valores monetários (R$, US$, €, £)',
+    'Sume de bani (R$, US$, €, £)', 'Pénzösszegek (R$, US$, €, £)',
+    'Peněžní částky (R$, US$, €, £)', '金額 (R$, US$, €, £)', '金额 (R$, US$, €, £)',
+    '金額 (R$, US$, €, £)');
+  Set14('Extract.Kind.Quoted',
+    'Text between quotes', 'Texto entre aspas', 'Texto entre comillas', 'Texte entre guillemets',
+    'Text in Anführungszeichen', 'Testo tra virgolette', 'Tekst w cudzysłowie', 'Texto entre aspas',
+    'Text între ghilimele', 'Idézőjelek közötti szöveg', 'Text v uvozovkách', '引用符内のテキスト',
+    '引号中的文本', '引號中的文字');
+  Set14('Extract.Kind.Columns',
+    'Columns / fields (delimited text)', 'Colunas / campos (texto delimitado)',
+    'Columnas / campos (texto delimitado)', 'Colonnes / champs (texte délimité)',
+    'Spalten / Felder (getrennter Text)', 'Colonne / campi (testo delimitato)',
+    'Kolumny / pola (tekst rozdzielany)', 'Colunas / campos (texto delimitado)',
+    'Coloane / câmpuri (text delimitat)', 'Oszlopok / mezők (tagolt szöveg)',
+    'Sloupce / pole (oddělený text)', '列 / フィールド（区切りテキスト）', '列 / 字段（分隔文本）',
+    '欄 / 欄位（分隔文字）');
+  Set14('Extract.Kind.Custom',
+    'Custom regular expression', 'Expressão regular personalizada', 'Expresión regular personalizada',
+    'Expression régulière personnalisée', 'Eigener regulärer Ausdruck',
+    'Espressione regolare personalizzata', 'Własne wyrażenie regularne',
+    'Expressão regular personalizada', 'Expresie regulată personalizată',
+    'Egyéni reguláris kifejezés', 'Vlastní regulární výraz', 'カスタム正規表現',
+    '自定义正则表达式', '自訂規則運算式');
+  Set14('Extract.Regex',
+    'Regular expression:', 'Expressão regular:', 'Expresión regular:', 'Expression régulière :',
+    'Regulärer Ausdruck:', 'Espressione regolare:', 'Wyrażenie regularne:', 'Expressão regular:',
+    'Expresie regulată:', 'Reguláris kifejezés:', 'Regulární výraz:', '正規表現:', '正则表达式：',
+    '規則運算式：');
+  Set14('Extract.MatchCase',
+    'Match case', 'Diferenciar maiúsculas/minúsculas', 'Distinguir mayúsculas/minúsculas',
+    'Respecter la casse', 'Groß-/Kleinschreibung beachten', 'Maiuscole/minuscole',
+    'Uwzględniaj wielkość liter', 'Diferenciar maiúsculas/minúsculas',
+    'Potrivire majuscule/minuscule', 'Kis- és nagybetű megkülönböztetése',
+    'Rozlišovat velikost písmen', '大文字と小文字を区別', '区分大小写', '區分大小寫');
+  Set14('Extract.Group1',
+    'Use capture group 1', 'Usar o grupo de captura 1', 'Usar el grupo de captura 1',
+    'Utiliser le groupe de capture 1', 'Erfassungsgruppe 1 verwenden', 'Usa il gruppo di cattura 1',
+    'Użyj grupy przechwytującej 1', 'Usar o grupo de captura 1', 'Folosește grupul de captură 1',
+    '1. rögzítő csoport használata', 'Použít zachytávací skupinu 1', 'キャプチャグループ 1 を使用',
+    '使用捕获组 1', '使用擷取群組 1');
+  Set14('Extract.Unique',
+    'Remove duplicates', 'Remover duplicados', 'Quitar duplicados', 'Supprimer les doublons',
+    'Duplikate entfernen', 'Rimuovi duplicati', 'Usuń duplikaty', 'Remover duplicados',
+    'Elimină duplicatele', 'Ismétlődések eltávolítása', 'Odstranit duplicity', '重複を削除',
+    '删除重复项', '移除重複項目');
+  Set14('Extract.KeepSpaces',
+    'Keep spaces', 'Manter espaços', 'Mantener espacios', 'Conserver les espaces',
+    'Leerzeichen behalten', 'Mantieni gli spazi', 'Zachowaj spacje', 'Manter espaços',
+    'Păstrează spațiile', 'Szóközök megtartása', 'Zachovat mezery', 'スペースを保持', '保留空格',
+    '保留空格');
+  Set14('Extract.Separator',
+    'Separator:', 'Separador:', 'Separador:', 'Séparateur :', 'Trennzeichen:', 'Separatore:',
+    'Separator:', 'Separador:', 'Separator:', 'Elválasztó:', 'Oddělovač:', '区切り文字:',
+    '分隔符：', '分隔符號：');
+  Set14('Extract.Sep.Space',
+    'Space', 'Espaço', 'Espacio', 'Espace', 'Leerzeichen', 'Spazio', 'Spacja', 'Espaço', 'Spațiu',
+    'Szóköz', 'Mezera', 'スペース', '空格', '空格');
+  Set14('Extract.Sep.NewLine',
+    'New line', 'Nova linha', 'Nueva línea', 'Nouvelle ligne', 'Neue Zeile', 'Nuova riga',
+    'Nowy wiersz', 'Nova linha', 'Linie nouă', 'Új sor', 'Nový řádek', '改行', '换行', '換行');
+  Set14('Extract.Sep.None',
+    'None', 'Nenhum', 'Ninguno', 'Aucun', 'Keines', 'Nessuno', 'Brak', 'Nenhum', 'Niciunul',
+    'Nincs', 'Žádný', 'なし', '无', '無');
+  Set14('Extract.Columns.Hint',
+    'Column numbers, e.g. 3 or 2,4-6', 'Números das colunas, ex.: 3 ou 2,4-6',
+    'Números de columna, p. ej. 3 o 2,4-6', 'Numéros de colonnes, ex. 3 ou 2,4-6',
+    'Spaltennummern, z. B. 3 oder 2,4-6', 'Numeri di colonna, es. 3 o 2,4-6',
+    'Numery kolumn, np. 3 lub 2,4-6', 'Números das colunas, ex.: 3 ou 2,4-6',
+    'Numerele coloanelor, ex.: 3 sau 2,4-6', 'Oszlopszámok, pl. 3 vagy 2,4-6',
+    'Čísla sloupců, např. 3 nebo 2,4-6', '列番号（例: 3 または 2,4-6）', '列号，例如 3 或 2,4-6',
+    '欄號，例如 3 或 2,4-6');
+  Set14('Extract.Delimiter',
+    'Delimiter:', 'Delimitador:', 'Delimitador:', 'Délimiteur :', 'Feldtrenner:', 'Delimitatore:',
+    'Ogranicznik:', 'Delimitador:', 'Delimitator:', 'Határoló:', 'Oddělovač polí:', '列の区切り:',
+    '字段分隔符：', '欄位分隔符號：');
+  Set14('Extract.Delim.Auto',
+    'Automatic', 'Automático', 'Automático', 'Automatique', 'Automatisch', 'Automatico',
+    'Automatycznie', 'Automático', 'Automat', 'Automatikus', 'Automaticky', '自動', '自动', '自動');
+  Set14('Extract.Example',
+    'Example:', 'Exemplo:', 'Ejemplo:', 'Exemple :', 'Beispiel:', 'Esempio:', 'Przykład:',
+    'Exemplo:', 'Exemplu:', 'Példa:', 'Příklad:', '例:', '示例：', '範例：');
+  Set14('Extract.Result',
+    'Result:', 'Resultado:', 'Resultado:', 'Résultat :', 'Ergebnis:', 'Risultato:', 'Wynik:',
+    'Resultado:', 'Rezultat:', 'Eredmény:', 'Výsledek:', '結果:', '结果：', '結果：');
+  Set14('Extract.Count',
+    '%d occurrence(s) · %d character(s)', '%d ocorrência(s) · %d caractere(s)',
+    '%d coincidencia(s) · %d carácter(es)', '%d occurrence(s) · %d caractère(s)',
+    '%d Treffer · %d Zeichen', '%d occorrenza/e · %d carattere/i', '%d wystąpień · %d znaków',
+    '%d ocorrência(s) · %d carácter(es)', '%d potrivire/i · %d caracter(e)',
+    '%d találat · %d karakter', '%d výskytů · %d znaků', '%d 件 · %d 文字', '%d 处 · %d 个字符',
+    '%d 處 · %d 個字元');
+  Set14('Extract.CountChars',
+    '%d character(s)', '%d caractere(s)', '%d carácter(es)', '%d caractère(s)', '%d Zeichen',
+    '%d carattere/i', '%d znaków', '%d carácter(es)', '%d caracter(e)', '%d karakter',
+    '%d znaků', '%d 文字', '%d 个字符', '%d 個字元');
+  Set14('Extract.BadRegex',
+    'Invalid regular expression: %s', 'Expressão regular inválida: %s',
+    'Expresión regular no válida: %s', 'Expression régulière non valide : %s',
+    'Ungültiger regulärer Ausdruck: %s', 'Espressione regolare non valida: %s',
+    'Nieprawidłowe wyrażenie regularne: %s', 'Expressão regular inválida: %s',
+    'Expresie regulată nevalidă: %s', 'Érvénytelen reguláris kifejezés: %s',
+    'Neplatný regulární výraz: %s', '無効な正規表現: %s', '无效的正则表达式：%s',
+    '無效的規則運算式：%s');
+  Set14('Extract.NotFound',
+    'Nothing found.', 'Nada encontrado.', 'No se encontró nada.', 'Rien trouvé.', 'Nichts gefunden.',
+    'Nessun risultato.', 'Nic nie znaleziono.', 'Nada encontrado.', 'Nu s-a găsit nimic.',
+    'Nincs találat.', 'Nic nenalezeno.', '見つかりません。', '未找到任何内容。', '找不到任何內容。');
+  Set14('Extract.PreviewCut',
+    '(showing the first %d characters)', '(mostrando os primeiros %d caracteres)',
+    '(se muestran los primeros %d caracteres)', '(affichage des %d premiers caractères)',
+    '(die ersten %d Zeichen werden angezeigt)', '(vengono mostrati i primi %d caratteri)',
+    '(wyświetlono pierwsze %d znaków)', '(a mostrar os primeiros %d caracteres)',
+    '(se afișează primele %d caractere)', '(az első %d karakter látható)',
+    '(zobrazeno prvních %d znaků)', '（最初の %d 文字を表示）', '（显示前 %d 个字符）',
+    '（顯示前 %d 個字元）');
+  Set14('Extract.Replace',
+    'Replace content', 'Substituir conteúdo', 'Reemplazar contenido', 'Remplacer le contenu',
+    'Inhalt ersetzen', 'Sostituisci contenuto', 'Zastąp treść', 'Substituir conteúdo',
+    'Înlocuiește conținutul', 'Tartalom cseréje', 'Nahradit obsah', '内容を置換', '替换内容',
+    '取代內容');
+  Set14('Extract.ReplaceSel',
+    'Replace selection', 'Substituir seleção', 'Reemplazar selección', 'Remplacer la sélection',
+    'Auswahl ersetzen', 'Sostituisci selezione', 'Zastąp zaznaczenie', 'Substituir seleção',
+    'Înlocuiește selecția', 'Kijelölés cseréje', 'Nahradit výběr', '選択範囲を置換',
+    '替换所选内容', '取代所選內容');
+  Set14('Extract.Copied',
+    'Copied to the clipboard.', 'Copiado para a área de transferência.', 'Copiado al portapapeles.',
+    'Copié dans le presse-papiers.', 'In die Zwischenablage kopiert.', 'Copiato negli appunti.',
+    'Skopiowano do schowka.', 'Copiado para a área de transferência.', 'Copiat în clipboard.',
+    'Vágólapra másolva.', 'Zkopírováno do schránky.', 'クリップボードにコピーしました。',
+    '已复制到剪贴板。', '已複製到剪貼簿。');
+  Set14('Extract.CustomHint',
+    'Type a regular expression, or describe what you want in "Ask the AI" and click "Generate with AI".',
+    'Digite uma expressão regular ou descreva o que quer em "Pedir à IA" e clique em "Gerar com IA".',
+    'Escriba una expresión regular o describa lo que desea en "Preguntar a la IA" y haga clic en "Generar con IA".',
+    'Saisissez une expression régulière ou décrivez ce que vous voulez dans « Demander à l''IA » puis cliquez sur « Générer avec l''IA ».',
+    'Geben Sie einen regulären Ausdruck ein oder beschreiben Sie unter „KI fragen“, was Sie möchten, und klicken Sie auf „Mit KI erzeugen“.',
+    'Digita un''espressione regolare oppure descrivi ciò che vuoi in "Chiedi all''IA" e fai clic su "Genera con l''IA".',
+    'Wpisz wyrażenie regularne albo opisz, czego potrzebujesz, w polu „Zapytaj AI” i kliknij „Generuj z AI”.',
+    'Escreva uma expressão regular ou descreva o que pretende em "Pedir à IA" e clique em "Gerar com IA".',
+    'Introduceți o expresie regulată sau descrieți ce doriți la „Întreabă IA” și faceți clic pe „Generează cu IA”.',
+    'Írjon be egy reguláris kifejezést, vagy írja le a „Kérdezze az AI-t” mezőben, mit szeretne, majd kattintson a „Generálás AI-val” gombra.',
+    'Zadejte regulární výraz nebo popište, co chcete, v poli „Zeptat se AI“ a klikněte na „Vytvořit pomocí AI“.',
+    '正規表現を入力するか、「AI に質問」に目的を書いて「AI で生成」をクリックしてください。',
+    '输入正则表达式，或在“询问 AI”中描述需求后点击“用 AI 生成”。',
+    '輸入規則運算式，或在「詢問 AI」中描述需求後按「用 AI 產生」。');
+  Set14('Extract.AI.Label',
+    'Ask the AI:', 'Pedir à IA:', 'Preguntar a la IA:', 'Demander à l''IA :', 'KI fragen:',
+    'Chiedi all''IA:', 'Zapytaj AI:', 'Pedir à IA:', 'Întreabă IA:', 'Kérdezze az AI-t:',
+    'Zeptat se AI:', 'AI に質問:', '询问 AI：', '詢問 AI：');
+  Set14('Extract.AI.Button',
+    'Generate with AI', 'Gerar com IA', 'Generar con IA', 'Générer avec l''IA', 'Mit KI erzeugen',
+    'Genera con l''IA', 'Generuj z AI', 'Gerar com IA', 'Generează cu IA', 'Generálás AI-val',
+    'Vytvořit pomocí AI', 'AI で生成', '用 AI 生成', '用 AI 產生');
+  Set14('Extract.AI.Placeholder',
+    'Describe what to extract, e.g. order numbers that start with PED-',
+    'Descreva o que extrair, ex.: números de pedido que começam com PED-',
+    'Describa qué extraer, p. ej. números de pedido que empiezan por PED-',
+    'Décrivez quoi extraire, ex. les numéros de commande commençant par PED-',
+    'Beschreiben Sie, was extrahiert werden soll, z. B. Bestellnummern, die mit PED- beginnen',
+    'Descrivi cosa estrarre, es. numeri d''ordine che iniziano con PED-',
+    'Opisz, co wyodrębnić, np. numery zamówień zaczynające się od PED-',
+    'Descreva o que extrair, ex.: números de encomenda que começam por PED-',
+    'Descrieți ce să se extragă, ex.: numere de comandă care încep cu PED-',
+    'Írja le, mit nyerjen ki, pl. a PED- kezdetű rendelésszámokat',
+    'Popište, co extrahovat, např. čísla objednávek začínající PED-',
+    '抽出したい内容を記述（例: PED- で始まる注文番号）',
+    '描述要提取的内容，例如以 PED- 开头的订单号',
+    '描述要擷取的內容，例如以 PED- 開頭的訂單編號');
+  Set14('Extract.AI.Hint',
+    'The AI suggests a regular expression from your description and a sample of the content (up to 3,000 characters are sent).',
+    'A IA sugere uma expressão regular a partir da sua descrição e de uma amostra do conteúdo (são enviados até 3.000 caracteres).',
+    'La IA sugiere una expresión regular a partir de su descripción y de una muestra del contenido (se envían hasta 3.000 caracteres).',
+    'L''IA propose une expression régulière à partir de votre description et d''un extrait du contenu (jusqu''à 3 000 caractères envoyés).',
+    'Die KI schlägt anhand Ihrer Beschreibung und eines Ausschnitts des Inhalts einen regulären Ausdruck vor (bis zu 3.000 Zeichen werden gesendet).',
+    'L''IA suggerisce un''espressione regolare in base alla descrizione e a un campione del contenuto (vengono inviati fino a 3.000 caratteri).',
+    'AI proponuje wyrażenie regularne na podstawie opisu i próbki treści (wysyłanych jest do 3000 znaków).',
+    'A IA sugere uma expressão regular a partir da sua descrição e de uma amostra do conteúdo (são enviados até 3.000 caracteres).',
+    'IA sugerează o expresie regulată pe baza descrierii și a unui eșantion din conținut (se trimit până la 3.000 de caractere).',
+    'Az AI a leírás és a tartalom egy mintája alapján reguláris kifejezést javasol (legfeljebb 3000 karakter kerül elküldésre).',
+    'AI navrhne regulární výraz podle vašeho popisu a ukázky obsahu (odesílá se až 3 000 znaků).',
+    'AI が説明と内容のサンプル（最大 3,000 文字を送信）から正規表現を提案します。',
+    'AI 根据您的描述和内容样本（最多发送 3,000 个字符）建议正则表达式。',
+    'AI 會依據您的描述與內容樣本（最多傳送 3,000 個字元）建議規則運算式。');
+  Set14('Extract.AI.NeedText',
+    'Describe what you want to extract first.', 'Descreva primeiro o que quer extrair.',
+    'Describa primero qué desea extraer.', 'Décrivez d''abord ce que vous voulez extraire.',
+    'Beschreiben Sie zuerst, was Sie extrahieren möchten.', 'Descrivi prima cosa vuoi estrarre.',
+    'Najpierw opisz, co chcesz wyodrębnić.', 'Descreva primeiro o que pretende extrair.',
+    'Descrieți mai întâi ce doriți să extrageți.', 'Először írja le, mit szeretne kinyerni.',
+    'Nejprve popište, co chcete extrahovat.', 'まず抽出したい内容を記述してください。',
+    '请先描述要提取的内容。', '請先描述要擷取的內容。');
+  Set14('Extract.AI.Failed',
+    'The AI could not answer: %s', 'A IA não conseguiu responder: %s', 'La IA no pudo responder: %s',
+    'L''IA n''a pas pu répondre : %s', 'Die KI konnte nicht antworten: %s',
+    'L''IA non è riuscita a rispondere: %s', 'AI nie mogła odpowiedzieć: %s',
+    'A IA não conseguiu responder: %s', 'IA nu a putut răspunde: %s', 'Az AI nem tudott válaszolni: %s',
+    'AI nemohla odpovědět: %s', 'AI が応答できませんでした: %s', 'AI 无法回答：%s', 'AI 無法回答：%s');
+  Set14('Extract.AI.NoRegex',
+    'The AI did not return a valid regular expression. Try describing it in another way.',
+    'A IA não devolveu uma expressão regular válida. Tente descrever de outra forma.',
+    'La IA no devolvió una expresión regular válida. Intente describirlo de otra manera.',
+    'L''IA n''a pas renvoyé d''expression régulière valide. Essayez de la décrire autrement.',
+    'Die KI hat keinen gültigen regulären Ausdruck geliefert. Beschreiben Sie es anders.',
+    'L''IA non ha restituito un''espressione regolare valida. Prova a descriverla in un altro modo.',
+    'AI nie zwróciła prawidłowego wyrażenia regularnego. Spróbuj opisać to inaczej.',
+    'A IA não devolveu uma expressão regular válida. Tente descrever de outra forma.',
+    'IA nu a returnat o expresie regulată validă. Încercați să descrieți altfel.',
+    'Az AI nem adott vissza érvényes reguláris kifejezést. Próbálja meg másképp leírni.',
+    'AI nevrátila platný regulární výraz. Zkuste to popsat jinak.',
+    'AI から有効な正規表現が返されませんでした。別の言い方で説明してください。',
+    'AI 未返回有效的正则表达式。请换一种方式描述。',
+    'AI 未傳回有效的規則運算式。請換個方式描述。');
+  Set14('TabCtx.Close',
+    'Close tab', 'Fechar aba', 'Cerrar pestaña', 'Fermer l''onglet', 'Tab schließen',
+    'Chiudi scheda', 'Zamknij kartę', 'Fechar separador', 'Închide fila', 'Lap bezárása',
+    'Zavřít kartu', 'タブを閉じる', '关闭标签页', '關閉分頁');
+  Set14('TabCtx.CloseOthers',
+    'Close all but this tab', 'Fechar todas menos esta', 'Cerrar todas menos esta',
+    'Fermer tous les autres onglets', 'Alle anderen Tabs schließen', 'Chiudi tutte tranne questa',
+    'Zamknij wszystkie oprócz tej', 'Fechar todos menos este', 'Închide toate celelalte file',
+    'Az összes többi lap bezárása', 'Zavřít všechny kromě této', 'このタブ以外をすべて閉じる',
+    '关闭其他所有标签页', '關閉其他所有分頁');
+  Set14('TabCtx.CloseLeft',
+    'Close tabs to the left', 'Fechar abas à esquerda', 'Cerrar pestañas a la izquierda',
+    'Fermer les onglets à gauche', 'Tabs links schließen', 'Chiudi schede a sinistra',
+    'Zamknij karty po lewej', 'Fechar separadores à esquerda', 'Închide filele din stânga',
+    'Bal oldali lapok bezárása', 'Zavřít karty vlevo', '左側のタブを閉じる',
+    '关闭左侧标签页', '關閉左側分頁');
+  Set14('TabCtx.CloseRight',
+    'Close tabs to the right', 'Fechar abas à direita', 'Cerrar pestañas a la derecha',
+    'Fermer les onglets à droite', 'Tabs rechts schließen', 'Chiudi schede a destra',
+    'Zamknij karty po prawej', 'Fechar separadores à direita', 'Închide filele din dreapta',
+    'Jobb oldali lapok bezárása', 'Zavřít karty vpravo', '右側のタブを閉じる',
+    '关闭右侧标签页', '關閉右側分頁');
+  Set14('TabCtx.CloseAll',
+    'Close all tabs', 'Fechar todas as abas', 'Cerrar todas las pestañas',
+    'Fermer tous les onglets', 'Alle Tabs schließen', 'Chiudi tutte le schede',
+    'Zamknij wszystkie karty', 'Fechar todos os separadores', 'Închide toate filele',
+    'Az összes lap bezárása', 'Zavřít všechny karty', 'すべてのタブを閉じる',
+    '关闭所有标签页', '關閉所有分頁');
+  Set14('TabCtx.Reopen',
+    'Reopen closed tab', 'Reabrir aba fechada', 'Reabrir pestaña cerrada',
+    'Rouvrir l''onglet fermé', 'Geschlossenen Tab wieder öffnen', 'Riapri scheda chiusa',
+    'Otwórz ponownie zamkniętą kartę', 'Reabrir separador fechado', 'Redeschide fila închisă',
+    'Bezárt lap újranyitása', 'Znovu otevřít zavřenou kartu', '閉じたタブを再度開く',
+    '重新打开已关闭的标签页', '重新開啟已關閉的分頁');
+  Set14('TabCtx.ReopenNamed',
+    'Reopen closed tab: %s', 'Reabrir aba fechada: %s', 'Reabrir pestaña cerrada: %s',
+    'Rouvrir l''onglet fermé : %s', 'Geschlossenen Tab wieder öffnen: %s',
+    'Riapri scheda chiusa: %s', 'Otwórz ponownie zamkniętą kartę: %s',
+    'Reabrir separador fechado: %s', 'Redeschide fila închisă: %s',
+    'Bezárt lap újranyitása: %s', 'Znovu otevřít zavřenou kartu: %s',
+    '閉じたタブを再度開く: %s', '重新打开已关闭的标签页：%s', '重新開啟已關閉的分頁：%s');
+  Set14('TabCtx.ClosedList',
+    'Recently closed tabs', 'Abas fechadas recentemente', 'Pestañas cerradas recientemente',
+    'Onglets récemment fermés', 'Kürzlich geschlossene Tabs', 'Schede chiuse di recente',
+    'Ostatnio zamknięte karty', 'Separadores fechados recentemente', 'File închise recent',
+    'Nemrég bezárt lapok', 'Nedávno zavřené karty', '最近閉じたタブ',
+    '最近关闭的标签页', '最近關閉的分頁');
+  Set14('TabCtx.MenuButtonHint',
+    'Tab options: open tabs, reopen closed tab, save / restore tabs, close tabs (also by right-clicking a tab)',
+    'Opções das abas: abas abertas, reabrir aba fechada, salvar / restaurar abas, fechar abas (também com o botão direito sobre uma aba)',
+    'Opciones de pestañas: pestañas abiertas, reabrir pestaña cerrada, guardar / restaurar pestañas, cerrar pestañas (también con clic derecho sobre una pestaña)',
+    'Options des onglets : onglets ouverts, rouvrir l''onglet fermé, enregistrer / restaurer les onglets, fermer des onglets (aussi par clic droit sur un onglet)',
+    'Tab-Optionen: geöffnete Tabs, geschlossenen Tab wieder öffnen, Tabs speichern / wiederherstellen, Tabs schließen (auch per Rechtsklick auf einen Tab)',
+    'Opzioni schede: schede aperte, riapri scheda chiusa, salva / ripristina schede, chiudi schede (anche con clic destro su una scheda)',
+    'Opcje kart: otwarte karty, ponowne otwarcie zamkniętej karty, zapis / przywracanie kart, zamykanie kart (także prawym przyciskiem na karcie)',
+    'Opções dos separadores: separadores abertos, reabrir separador fechado, guardar / restaurar separadores, fechar separadores (também com o botão direito sobre um separador)',
+    'Opțiuni file: file deschise, redeschide fila închisă, salvează / restaurează filele, închide file (și cu clic dreapta pe o filă)',
+    'Lapbeállítások: megnyitott lapok, bezárt lap újranyitása, lapok mentése / visszaállítása, lapok bezárása (jobb kattintással is egy lapon)',
+    'Možnosti karet: otevřené karty, znovu otevřít zavřenou kartu, uložit / obnovit karty, zavřít karty (také pravým tlačítkem na kartě)',
+    'タブのオプション: 開いているタブ、閉じたタブを再度開く、タブの保存 / 復元、タブを閉じる (タブの右クリックでも可)',
+    '标签页选项：打开的标签页、重新打开已关闭的标签页、保存 / 恢复标签页、关闭标签页（也可右键单击标签页）',
+    '分頁選項：開啟的分頁、重新開啟已關閉的分頁、儲存 / 還原分頁、關閉分頁（也可在分頁上按右鍵）');
+  Set14('TabCtx.OpenTabs',
+    'Open tabs', 'Abas abertas', 'Pestañas abiertas', 'Onglets ouverts', 'Geöffnete Tabs',
+    'Schede aperte', 'Otwarte karty', 'Separadores abertos', 'File deschise', 'Megnyitott lapok',
+    'Otevřené karty', '開いているタブ', '打开的标签页', '開啟的分頁');
+  Set14('TabCtx.CloseOthersActive',
+    'Close all but the active tab', 'Fechar todas menos a aba ativa',
+    'Cerrar todas menos la pestaña activa', 'Fermer tous les onglets sauf l''actif',
+    'Alle außer dem aktiven Tab schließen', 'Chiudi tutte tranne la scheda attiva',
+    'Zamknij wszystkie oprócz aktywnej karty', 'Fechar todos menos o separador ativo',
+    'Închide toate în afară de fila activă', 'Az aktív lap kivételével az összes bezárása',
+    'Zavřít všechny kromě aktivní karty', 'アクティブなタブ以外をすべて閉じる',
+    '关闭除当前标签页外的所有标签页', '關閉目前分頁以外的所有分頁');
+  Set14('TabCtx.SaveOpen',
+    'Save open tabs', 'Salvar abas abertas', 'Guardar pestañas abiertas',
+    'Enregistrer les onglets ouverts', 'Geöffnete Tabs speichern', 'Salva schede aperte',
+    'Zapisz otwarte karty', 'Guardar separadores abertos', 'Salvează filele deschise',
+    'Megnyitott lapok mentése', 'Uložit otevřené karty', '開いているタブを保存',
+    '保存打开的标签页', '儲存開啟的分頁');
+  Set14('TabCtx.SavedOpen',
+    'Open tabs saved', 'Abas abertas salvas', 'Pestañas abiertas guardadas',
+    'Onglets ouverts enregistrés', 'Geöffnete Tabs gespeichert', 'Schede aperte salvate',
+    'Otwarte karty zapisane', 'Separadores abertos guardados', 'Filele deschise au fost salvate',
+    'Megnyitott lapok mentve', 'Otevřené karty uloženy', '開いているタブを保存しました',
+    '已保存打开的标签页', '已儲存開啟的分頁');
+  Set14('TabCtx.SavedOpenDetail',
+    '%d tab(s). Use "Restore last session tabs" to reopen them.',
+    '%d aba(s). Use "Restaurar abas da última sessão" para reabri-las.',
+    '%d pestaña(s). Use "Restaurar pestañas de la última sesión" para reabrirlas.',
+    '%d onglet(s). Utilisez « Restaurer les onglets de la dernière session » pour les rouvrir.',
+    '%d Tab(s). Mit „Tabs der letzten Sitzung wiederherstellen“ wieder öffnen.',
+    '%d scheda/e. Usa "Ripristina schede dell''ultima sessione" per riaprirle.',
+    '%d kart(y). Użyj „Przywróć karty z ostatniej sesji”, aby je ponownie otworzyć.',
+    '%d separador(es). Use "Restaurar separadores da última sessão" para os reabrir.',
+    '%d filă(e). Folosiți „Restaurează filele ultimei sesiuni” pentru a le redeschide.',
+    '%d lap. Az „Utolsó munkamenet lapjainak visszaállítása” paranccsal nyithatók meg újra.',
+    '%d karet. Znovu je otevřete pomocí „Obnovit karty poslední relace“.',
+    '%d 個のタブ。「前回のセッションのタブを復元」で再度開けます。',
+    '%d 个标签页。使用“恢复上次会话的标签页”重新打开。',
+    '%d 個分頁。使用「還原上次工作階段的分頁」重新開啟。');
+  Set14('TabCtx.NoClosed',
+    'No closed tabs in this session', 'Nenhuma aba fechada nesta sessão',
+    'Ninguna pestaña cerrada en esta sesión', 'Aucun onglet fermé dans cette session',
+    'Keine geschlossenen Tabs in dieser Sitzung', 'Nessuna scheda chiusa in questa sessione',
+    'Brak zamkniętych kart w tej sesji', 'Nenhum separador fechado nesta sessão',
+    'Nicio filă închisă în această sesiune', 'Ebben a munkamenetben nincs bezárt lap',
+    'V této relaci nejsou žádné zavřené karty', 'このセッションで閉じたタブはありません',
+    '本次会话中没有已关闭的标签页', '本次工作階段中沒有已關閉的分頁');
+  Set14('Extract.CopyRegex',
+    'Copy regex', 'Copiar regex', 'Copiar regex', 'Copier la regex', 'Regex kopieren',
+    'Copia regex', 'Kopiuj regex', 'Copiar regex', 'Copiază regex', 'Regex másolása',
+    'Kopírovat regex', '正規表現をコピー', '复制正则', '複製規則運算式');
+  Set14('Extract.CopyRegexHint',
+    'Copy the regular expression to the clipboard',
+    'Copiar a expressão regular para a área de transferência',
+    'Copiar la expresión regular al portapapeles',
+    'Copier l''expression régulière dans le presse-papiers',
+    'Regulären Ausdruck in die Zwischenablage kopieren',
+    'Copia l''espressione regolare negli appunti',
+    'Kopiuj wyrażenie regularne do schowka',
+    'Copiar a expressão regular para a área de transferência',
+    'Copiază expresia regulată în clipboard',
+    'A reguláris kifejezés másolása a vágólapra',
+    'Zkopírovat regulární výraz do schránky',
+    '正規表現をクリップボードにコピー', '将正则表达式复制到剪贴板', '將規則運算式複製到剪貼簿');
+  Set14('Extract.RegexCopied',
+    'Regular expression copied to the clipboard.', 'Expressão regular copiada para a área de transferência.',
+    'Expresión regular copiada al portapapeles.', 'Expression régulière copiée dans le presse-papiers.',
+    'Regulärer Ausdruck in die Zwischenablage kopiert.', 'Espressione regolare copiata negli appunti.',
+    'Wyrażenie regularne skopiowano do schowka.', 'Expressão regular copiada para a área de transferência.',
+    'Expresia regulată a fost copiată în clipboard.', 'A reguláris kifejezés a vágólapra került.',
+    'Regulární výraz zkopírován do schránky.', '正規表現をクリップボードにコピーしました。',
+    '已将正则表达式复制到剪贴板。', '已將規則運算式複製到剪貼簿。');
+  { --- barra da lista: editar / descaracterizar linhas selecionadas, limite --- }
+  Set14('ListView.EditLines',
+    'Edit lines', 'Editar linhas', 'Editar líneas', 'Modifier les lignes', 'Zeilen bearbeiten',
+    'Modifica righe', 'Edytuj wiersze', 'Editar linhas', 'Editează liniile', 'Sorok szerkesztése',
+    'Upravit řádky', '行を編集', '编辑行', '編輯列');
+  Set14('ListView.EditLinesHint',
+    'Edit the selected lines (1 to %d) in the line editor (Ctrl+Shift+E): find/replace, AI, anonymize, extract. A preview is shown before saving to the file.',
+    'Editar as linhas selecionadas (1 a %d) no editor de linhas (Ctrl+Shift+E): localizar/substituir, IA, descaracterizar, extrair. Uma prévia é exibida antes de salvar no arquivo.',
+    'Editar las líneas seleccionadas (1 a %d) en el editor de líneas (Ctrl+Shift+E): buscar/reemplazar, IA, anonimizar, extraer. Se muestra una vista previa antes de guardar en el archivo.',
+    'Modifier les lignes sélectionnées (1 à %d) dans l''éditeur de lignes (Ctrl+Shift+E) : rechercher/remplacer, IA, anonymiser, extraire. Un aperçu s''affiche avant l''enregistrement dans le fichier.',
+    'Die ausgewählten Zeilen (1 bis %d) im Zeileneditor bearbeiten (Strg+Umschalt+E): Suchen/Ersetzen, KI, Anonymisieren, Extrahieren. Vor dem Speichern in die Datei wird eine Vorschau angezeigt.',
+    'Modifica le righe selezionate (da 1 a %d) nell''editor di righe (Ctrl+Shift+E): trova/sostituisci, IA, anonimizza, estrai. Prima di salvare nel file viene mostrata un''anteprima.',
+    'Edytuj zaznaczone wiersze (od 1 do %d) w edytorze wierszy (Ctrl+Shift+E): znajdź/zamień, AI, anonimizacja, wyodrębnianie. Przed zapisaniem w pliku wyświetlany jest podgląd.',
+    'Editar as linhas selecionadas (1 a %d) no editor de linhas (Ctrl+Shift+E): localizar/substituir, IA, anonimizar, extrair. É mostrada uma pré-visualização antes de guardar no ficheiro.',
+    'Editați liniile selectate (de la 1 la %d) în editorul de linii (Ctrl+Shift+E): căutare/înlocuire, IA, anonimizare, extragere. Înainte de salvarea în fișier se afișează o previzualizare.',
+    'A kijelölt sorok (1–%d) szerkesztése a sorszerkesztőben (Ctrl+Shift+E): keresés/csere, AI, anonimizálás, kinyerés. Mentés előtt előnézet jelenik meg.',
+    'Upravit vybrané řádky (1 až %d) v editoru řádků (Ctrl+Shift+E): najít/nahradit, AI, anonymizace, extrakce. Před uložením do souboru se zobrazí náhled.',
+    '選択した行 (1～%d 行) を行エディター (Ctrl+Shift+E) で編集します: 検索/置換、AI、匿名化、抽出。ファイルに保存する前にプレビューが表示されます。',
+    '在行编辑器 (Ctrl+Shift+E) 中编辑所选行 (1 至 %d 行)：查找/替换、AI、脱敏、提取。保存到文件前会显示预览。',
+    '在列編輯器 (Ctrl+Shift+E) 中編輯所選列 (1 至 %d 列)：尋找/取代、AI、去識別化、擷取。儲存到檔案前會顯示預覽。');
+  Set14('ListView.AnonymizeHint',
+    'Anonymize the selected lines (1 to %d): choose the options, check the preview and confirm; only then are the lines changed and saved in the file on disk.',
+    'Descaracterizar as linhas selecionadas (1 a %d): escolha as opções, confira a prévia e confirme; só então as linhas são alteradas e salvas no arquivo em disco.',
+    'Anonimizar las líneas seleccionadas (1 a %d): elija las opciones, revise la vista previa y confirme; solo entonces las líneas se modifican y se guardan en el archivo en disco.',
+    'Anonymiser les lignes sélectionnées (1 à %d) : choisissez les options, vérifiez l''aperçu et confirmez ; ce n''est qu''alors que les lignes sont modifiées et enregistrées dans le fichier sur le disque.',
+    'Die ausgewählten Zeilen (1 bis %d) anonymisieren: Optionen wählen, Vorschau prüfen und bestätigen; erst dann werden die Zeilen geändert und in der Datei auf dem Datenträger gespeichert.',
+    'Anonimizza le righe selezionate (da 1 a %d): scegli le opzioni, controlla l''anteprima e conferma; solo allora le righe vengono modificate e salvate nel file su disco.',
+    'Anonimizuj zaznaczone wiersze (od 1 do %d): wybierz opcje, sprawdź podgląd i potwierdź; dopiero wtedy wiersze zostaną zmienione i zapisane w pliku na dysku.',
+    'Anonimizar as linhas selecionadas (1 a %d): escolha as opções, verifique a pré-visualização e confirme; só então as linhas são alteradas e guardadas no ficheiro em disco.',
+    'Anonimizați liniile selectate (de la 1 la %d): alegeți opțiunile, verificați previzualizarea și confirmați; abia apoi liniile sunt modificate și salvate în fișierul de pe disc.',
+    'A kijelölt sorok (1–%d) anonimizálása: válassza ki a beállításokat, ellenőrizze az előnézetet, és erősítse meg; csak ezután módosulnak a sorok és mentődnek a lemezen lévő fájlba.',
+    'Anonymizovat vybrané řádky (1 až %d): zvolte možnosti, zkontrolujte náhled a potvrďte; teprve pak se řádky změní a uloží do souboru na disku.',
+    '選択した行 (1～%d 行) を匿名化します: オプションを選び、プレビューを確認して確定すると、行が変更されディスク上のファイルに保存されます。',
+    '对所选行 (1 至 %d 行) 进行脱敏：选择选项、检查预览并确认后，才会修改这些行并保存到磁盘上的文件。',
+    '將所選列 (1 至 %d 列) 去識別化：選擇選項、檢查預覽並確認後，才會修改這些列並儲存到磁碟上的檔案。');
+  Set14('ListView.SelLimitExceeded',
+    '%d lines are selected, but the limit per action is %d lines. Select fewer lines or change the limit in Preferences.',
+    'Há %d linhas selecionadas, mas o limite por ação é de %d linhas. Selecione menos linhas ou altere o limite em Preferências.',
+    'Hay %d líneas seleccionadas, pero el límite por acción es de %d líneas. Seleccione menos líneas o cambie el límite en Preferencias.',
+    '%d lignes sont sélectionnées, mais la limite par action est de %d lignes. Sélectionnez moins de lignes ou modifiez la limite dans Préférences.',
+    'Es sind %d Zeilen ausgewählt, das Limit pro Aktion liegt aber bei %d Zeilen. Wählen Sie weniger Zeilen aus oder ändern Sie das Limit in den Einstellungen.',
+    'Sono selezionate %d righe, ma il limite per azione è di %d righe. Seleziona meno righe o modifica il limite in Preferenze.',
+    'Zaznaczono %d wierszy, ale limit na jedną akcję wynosi %d wierszy. Zaznacz mniej wierszy lub zmień limit w Preferencjach.',
+    'Há %d linhas selecionadas, mas o limite por ação é de %d linhas. Selecione menos linhas ou altere o limite em Preferências.',
+    'Sunt selectate %d linii, dar limita pe acțiune este de %d linii. Selectați mai puține linii sau modificați limita în Preferințe.',
+    '%d sor van kijelölve, de a műveletenkénti korlát %d sor. Jelöljön ki kevesebb sort, vagy módosítsa a korlátot a Beállításokban.',
+    'Je vybráno %d řádků, ale limit na jednu akci je %d řádků. Vyberte méně řádků nebo změňte limit v Předvolbách.',
+    '%d 行が選択されていますが、1 回の操作の上限は %d 行です。選択する行を減らすか、設定で上限を変更してください。',
+    '已选择 %d 行，但每次操作的上限为 %d 行。请减少所选行数，或在首选项中修改上限。',
+    '已選取 %d 列，但每次操作的上限為 %d 列。請減少選取的列數，或在偏好設定中修改上限。');
+  Set14('ListView.LinesSaving',
+    'Saving %d changed line(s) to the file...',
+    'Gravando %d linha(s) alterada(s) no arquivo...',
+    'Guardando %d línea(s) modificada(s) en el archivo...',
+    'Enregistrement de %d ligne(s) modifiée(s) dans le fichier...',
+    '%d geänderte Zeile(n) werden in der Datei gespeichert...',
+    'Salvataggio di %d riga/righe modificate nel file...',
+    'Zapisywanie zmienionych wierszy w pliku: %d...',
+    'A guardar %d linha(s) alterada(s) no ficheiro...',
+    'Se salvează în fișier liniile modificate: %d...',
+    '%d módosított sor mentése a fájlba...',
+    'Ukládání změněných řádků do souboru: %d...',
+    '変更した %d 行をファイルに保存しています...',
+    '正在将 %d 个已修改的行保存到文件...',
+    '正在將 %d 個已修改的列儲存到檔案...');
+
+  { --- editor de linhas: modo de varias linhas --- }
+  Set14('LineEditor.MultiCaption',
+    'Edit selected lines (%d)', 'Editar linhas selecionadas (%d)', 'Editar líneas seleccionadas (%d)',
+    'Modifier les lignes sélectionnées (%d)', 'Ausgewählte Zeilen bearbeiten (%d)',
+    'Modifica righe selezionate (%d)', 'Edytuj zaznaczone wiersze (%d)', 'Editar linhas selecionadas (%d)',
+    'Editează liniile selectate (%d)', 'Kijelölt sorok szerkesztése (%d)', 'Upravit vybrané řádky (%d)',
+    '選択した行の編集 (%d)', '编辑所选行 (%d)', '編輯所選列 (%d)');
+  Set14('LineEditor.MultiOp',
+    'Edit selected lines', 'Editar linhas selecionadas', 'Editar líneas seleccionadas',
+    'Modifier les lignes sélectionnées', 'Ausgewählte Zeilen bearbeiten', 'Modifica righe selezionate',
+    'Edytuj zaznaczone wiersze', 'Editar linhas selecionadas', 'Editează liniile selectate',
+    'Kijelölt sorok szerkesztése', 'Upravit vybrané řádky', '選択した行の編集', '编辑所选行', '編輯所選列');
+  Set14('LineEditor.MultiLinesLabel',
+    'Lines:', 'Linhas:', 'Líneas:', 'Lignes :', 'Zeilen:', 'Righe:', 'Wiersze:', 'Linhas:', 'Linii:',
+    'Sorok:', 'Řádky:', '行:', '行：', '列：');
+  Set14('LineEditor.MultiContent',
+    'Content (each row is one file line - do not join or split rows):',
+    'Conteúdo (cada linha aqui é uma linha do arquivo - não junte nem quebre linhas):',
+    'Contenido (cada fila es una línea del archivo; no una ni divida filas):',
+    'Contenu (chaque ligne correspond à une ligne du fichier ; ne fusionnez ni ne coupez de lignes) :',
+    'Inhalt (jede Zeile entspricht einer Dateizeile – Zeilen nicht zusammenführen oder teilen):',
+    'Contenuto (ogni riga è una riga del file: non unire né dividere le righe):',
+    'Treść (każdy wiersz to jeden wiersz pliku – nie łącz ani nie dziel wierszy):',
+    'Conteúdo (cada linha aqui é uma linha do ficheiro – não junte nem divida linhas):',
+    'Conținut (fiecare rând este o linie din fișier – nu uniți și nu împărțiți rândurile):',
+    'Tartalom (minden sor a fájl egy sora – ne vonjon össze és ne bontson sorokat):',
+    'Obsah (každý řádek je jeden řádek souboru – řádky nespojujte ani nerozdělujte):',
+    '内容 (各行がファイルの 1 行に対応します。行を結合・分割しないでください):',
+    '内容（每一行对应文件中的一行，请勿合并或拆分行）：',
+    '內容（每一列對應檔案中的一列，請勿合併或分割列）：');
+  Set14('LineEditor.MultiCountMismatch',
+    'The content must have exactly %d lines (one for each selected line), but it has %d. Do not join or split lines.',
+    'O conteúdo precisa ter exatamente %d linhas (uma para cada linha selecionada), mas tem %d. Não junte nem quebre linhas.',
+    'El contenido debe tener exactamente %d líneas (una por cada línea seleccionada), pero tiene %d. No una ni divida líneas.',
+    'Le contenu doit comporter exactement %d lignes (une par ligne sélectionnée), mais il en compte %d. Ne fusionnez ni ne coupez de lignes.',
+    'Der Inhalt muss genau %d Zeilen haben (eine pro ausgewählter Zeile), hat aber %d. Zeilen nicht zusammenführen oder teilen.',
+    'Il contenuto deve avere esattamente %d righe (una per ogni riga selezionata), ma ne ha %d. Non unire né dividere le righe.',
+    'Treść musi mieć dokładnie %d wierszy (po jednym na każdy zaznaczony wiersz), a ma %d. Nie łącz ani nie dziel wierszy.',
+    'O conteúdo tem de ter exatamente %d linhas (uma por cada linha selecionada), mas tem %d. Não junte nem divida linhas.',
+    'Conținutul trebuie să aibă exact %d linii (câte una pentru fiecare linie selectată), dar are %d. Nu uniți și nu împărțiți liniile.',
+    'A tartalomnak pontosan %d sorból kell állnia (kijelölt soronként egy), de %d sora van. Ne vonjon össze és ne bontson sorokat.',
+    'Obsah musí mít přesně %d řádků (jeden pro každý vybraný řádek), ale má %d. Řádky nespojujte ani nerozdělujte.',
+    '内容はちょうど %d 行 (選択した行ごとに 1 行) である必要がありますが、%d 行あります。行を結合・分割しないでください。',
+    '内容必须正好有 %d 行（每个所选行对应一行），但现在有 %d 行。请勿合并或拆分行。',
+    '內容必須正好有 %d 列（每個所選列對應一列），但現在有 %d 列。請勿合併或分割列。');
+  Set14('LineEditor.MultiNoChange',
+    'No line was changed.', 'Nenhuma linha foi alterada.', 'No se modificó ninguna línea.',
+    'Aucune ligne n''a été modifiée.', 'Es wurde keine Zeile geändert.', 'Nessuna riga è stata modificata.',
+    'Żaden wiersz nie został zmieniony.', 'Nenhuma linha foi alterada.', 'Nicio linie nu a fost modificată.',
+    'Egyetlen sor sem módosult.', 'Žádný řádek nebyl změněn.', '変更された行はありません。',
+    '没有任何行被修改。', '沒有任何列被修改。');
+  Set14('LineEditor.PreviewConfirm',
+    'Preview and save', 'Pré-visualizar e salvar', 'Vista previa y guardar', 'Aperçu et enregistrer',
+    'Vorschau und speichern', 'Anteprima e salva', 'Podgląd i zapis', 'Pré-visualizar e guardar',
+    'Previzualizare și salvare', 'Előnézet és mentés', 'Náhled a uložení', 'プレビューして保存',
+    '预览并保存', '預覽並儲存');
+
+  { --- pre-visualizacao antes de gravar as linhas --- }
+  Set14('LinesPreview.Caption',
+    'Preview changes before saving', 'Prévia das alterações antes de salvar',
+    'Vista previa de los cambios antes de guardar', 'Aperçu des modifications avant l''enregistrement',
+    'Vorschau der Änderungen vor dem Speichern', 'Anteprima delle modifiche prima del salvataggio',
+    'Podgląd zmian przed zapisaniem', 'Pré-visualização das alterações antes de guardar',
+    'Previzualizarea modificărilor înainte de salvare', 'Módosítások előnézete mentés előtt',
+    'Náhled změn před uložením', '保存前の変更のプレビュー', '保存前预览更改', '儲存前預覽變更');
+  Set14('LinesPreview.Summary',
+    '%d of %d selected lines will be changed and saved in the file on disk. Review them before confirming.',
+    '%d de %d linhas selecionadas serão alteradas e salvas no arquivo em disco. Revise antes de confirmar.',
+    '%d de %d líneas seleccionadas se modificarán y guardarán en el archivo en disco. Revíselas antes de confirmar.',
+    '%d des %d lignes sélectionnées seront modifiées et enregistrées dans le fichier sur le disque. Vérifiez-les avant de confirmer.',
+    '%d von %d ausgewählten Zeilen werden geändert und in der Datei auf dem Datenträger gespeichert. Vor dem Bestätigen prüfen.',
+    '%d di %d righe selezionate verranno modificate e salvate nel file su disco. Controllale prima di confermare.',
+    '%d z %d zaznaczonych wierszy zostanie zmienionych i zapisanych w pliku na dysku. Sprawdź je przed potwierdzeniem.',
+    '%d de %d linhas selecionadas serão alteradas e guardadas no ficheiro em disco. Reveja antes de confirmar.',
+    '%d din %d linii selectate vor fi modificate și salvate în fișierul de pe disc. Verificați-le înainte de a confirma.',
+    '%d / %d kijelölt sor módosul és mentődik a lemezen lévő fájlba. Megerősítés előtt ellenőrizze.',
+    '%d z %d vybraných řádků bude změněno a uloženo do souboru na disku. Před potvrzením je zkontrolujte.',
+    '選択した %1:d 行のうち %0:d 行が変更され、ディスク上のファイルに保存されます。確定する前に確認してください。',
+    '所选 %1:d 行中的 %0:d 行将被修改并保存到磁盘上的文件。确认前请检查。',
+    '所選 %1:d 列中的 %0:d 列將被修改並儲存到磁碟上的檔案。確認前請檢查。');
+  Set14('LinesPreview.UndoNote',
+    'Only changed lines are listed. After saving, you can undo with Ctrl+Z.',
+    'Somente as linhas alteradas aparecem na lista. Depois de salvar, você pode desfazer com Ctrl+Z.',
+    'Solo se muestran las líneas modificadas. Después de guardar, puede deshacer con Ctrl+Z.',
+    'Seules les lignes modifiées sont listées. Après l''enregistrement, vous pouvez annuler avec Ctrl+Z.',
+    'Nur geänderte Zeilen werden aufgeführt. Nach dem Speichern können Sie mit Strg+Z rückgängig machen.',
+    'Sono elencate solo le righe modificate. Dopo il salvataggio puoi annullare con Ctrl+Z.',
+    'Wyświetlane są tylko zmienione wiersze. Po zapisaniu możesz cofnąć zmiany klawiszami Ctrl+Z.',
+    'Só as linhas alteradas aparecem na lista. Depois de guardar, pode anular com Ctrl+Z.',
+    'Sunt listate doar liniile modificate. După salvare, puteți anula cu Ctrl+Z.',
+    'Csak a módosított sorok jelennek meg. Mentés után a Ctrl+Z billentyűkkel visszavonhatja.',
+    'Zobrazují se jen změněné řádky. Po uložení můžete změny vrátit klávesami Ctrl+Z.',
+    '変更された行だけが表示されます。保存後は Ctrl+Z で元に戻せます。',
+    '仅列出已修改的行。保存后可按 Ctrl+Z 撤销。',
+    '僅列出已修改的列。儲存後可按 Ctrl+Z 復原。');
+  Set14('LinesPreview.ColLine',
+    'Line', 'Linha', 'Línea', 'Ligne', 'Zeile', 'Riga', 'Wiersz', 'Linha', 'Linie', 'Sor', 'Řádek',
+    '行', '行', '列');
+  Set14('LinesPreview.ColBefore',
+    'Before', 'Antes', 'Antes', 'Avant', 'Vorher', 'Prima', 'Przed', 'Antes', 'Înainte', 'Előtte',
+    'Před', '変更前', '修改前', '修改前');
+  Set14('LinesPreview.ColAfter',
+    'After', 'Depois', 'Después', 'Après', 'Nachher', 'Dopo', 'Po', 'Depois', 'După', 'Utána', 'Po',
+    '変更後', '修改后', '修改後');
+  Set14('LinesPreview.Save',
+    'Save to file', 'Salvar no arquivo', 'Guardar en el archivo', 'Enregistrer dans le fichier',
+    'In Datei speichern', 'Salva nel file', 'Zapisz w pliku', 'Guardar no ficheiro', 'Salvează în fișier',
+    'Mentés a fájlba', 'Uložit do souboru', 'ファイルに保存', '保存到文件', '儲存到檔案');
+  Set14('LinesPreview.Back',
+    'Back', 'Voltar', 'Volver', 'Retour', 'Zurück', 'Indietro', 'Wstecz', 'Voltar', 'Înapoi', 'Vissza',
+    'Zpět', '戻る', '返回', '返回');
+
+  { --- preferencias: limite de linhas selecionadas --- }
+  Set14('Prefs.Section.SelLines',
+    'Selected lines', 'Linhas selecionadas', 'Líneas seleccionadas', 'Lignes sélectionnées',
+    'Ausgewählte Zeilen', 'Righe selezionate', 'Zaznaczone wiersze', 'Linhas selecionadas',
+    'Linii selectate', 'Kijelölt sorok', 'Vybrané řádky', '選択した行', '所选行', '所選列');
+  Set14('Prefs.SelectedLinesActionMax',
+    'Maximum selected lines per action', 'Máximo de linhas selecionadas por ação',
+    'Máximo de líneas seleccionadas por acción', 'Nombre maximal de lignes sélectionnées par action',
+    'Maximale Anzahl ausgewählter Zeilen pro Aktion', 'Numero massimo di righe selezionate per azione',
+    'Maksymalna liczba zaznaczonych wierszy na akcję', 'Máximo de linhas selecionadas por ação',
+    'Număr maxim de linii selectate pe acțiune', 'Kijelölt sorok maximális száma műveletenként',
+    'Maximální počet vybraných řádků na akci', '1 回の操作で選択できる最大行数',
+    '每次操作的最大所选行数', '每次操作的最大選取列數');
+
+  Set14('Extract.AI.Recent',
+    'Recent AI requests', 'Pedidos recentes à IA', 'Peticiones recientes a la IA',
+    'Demandes récentes à l''IA', 'Letzte KI-Anfragen', 'Richieste recenti all''IA',
+    'Ostatnie zapytania do AI', 'Pedidos recentes à IA', 'Cereri recente către IA',
+    'Legutóbbi AI-kérések', 'Nedávné dotazy na AI', '最近の AI への依頼',
+    '最近的 AI 请求', '最近的 AI 請求');
+  Set14('Extract.AI.RecentHint',
+    'Recent AI requests (F4 or Alt+Down)', 'Pedidos recentes à IA (F4 ou Alt+Seta para baixo)',
+    'Peticiones recientes a la IA (F4 o Alt+Flecha abajo)',
+    'Demandes récentes à l''IA (F4 ou Alt+Flèche bas)',
+    'Letzte KI-Anfragen (F4 oder Alt+Pfeil nach unten)',
+    'Richieste recenti all''IA (F4 o Alt+Freccia giù)',
+    'Ostatnie zapytania do AI (F4 lub Alt+Strzałka w dół)',
+    'Pedidos recentes à IA (F4 ou Alt+Seta para baixo)',
+    'Cereri recente către IA (F4 sau Alt+Săgeată jos)',
+    'Legutóbbi AI-kérések (F4 vagy Alt+Le nyíl)',
+    'Nedávné dotazy na AI (F4 nebo Alt+Šipka dolů)',
+    '最近の AI への依頼 (F4 または Alt+↓)',
+    '最近的 AI 请求（F4 或 Alt+↓）', '最近的 AI 請求（F4 或 Alt+↓）');
+  Set14('Extract.AI.RecentEmpty',
+    'No recent AI requests yet.', 'Ainda não há pedidos recentes à IA.',
+    'Todavía no hay peticiones recientes a la IA.', 'Aucune demande récente à l''IA pour l''instant.',
+    'Noch keine letzten KI-Anfragen.', 'Non ci sono ancora richieste recenti all''IA.',
+    'Brak jeszcze ostatnich zapytań do AI.', 'Ainda não há pedidos recentes à IA.',
+    'Nu există încă cereri recente către IA.', 'Még nincsenek legutóbbi AI-kérések.',
+    'Zatím nejsou žádné nedávné dotazy na AI.', 'AI への最近の依頼はまだありません。',
+    '还没有最近的 AI 请求。', '還沒有最近的 AI 請求。');
+  Set14('Extract.AI.Generated',
+    'Regex generated by the AI: %s', 'Regex gerada pela IA: %s', 'Regex generada por la IA: %s',
+    'Regex générée par l''IA : %s', 'Von der KI erzeugte Regex: %s', 'Regex generata dall''IA: %s',
+    'Regex wygenerowany przez AI: %s', 'Regex gerada pela IA: %s', 'Regex generat de IA: %s',
+    'Az AI által generált regex: %s', 'Regex vytvořený AI: %s', 'AI が生成した正規表現: %s',
+    'AI 生成的正则表达式：%s', 'AI 產生的規則運算式：%s');
+  Set14('Extract.AI.Explanation',
+    'AI: %s', 'IA: %s', 'IA: %s', 'IA : %s', 'KI: %s', 'IA: %s', 'AI: %s', 'IA: %s', 'IA: %s',
+    'AI: %s', 'AI: %s', 'AI: %s', 'AI：%s', 'AI：%s');
 end;
 
 { Janela de detalhe do historico (duplo clique em "Eventos da sessao"). }
@@ -46349,6 +47765,2677 @@ begin
     '%d evento(s) exportado(s) para %s', 'Evenimente exportate (%d) în %s',
     '%d esemény exportálva ide: %s', 'Exportováno událostí: %d do %s',
     '%d 件のイベントを %s にエクスポートしました', '已将 %d 个事件导出到 %s', '已將 %d 個事件匯出到 %s');
+end;
+
+{ "What can I do?" list (uAICapabilitiesDlg). Items are "description|example". }
+procedure AddAICapabilitiesTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('AICaps.Button', 'What can I do?', 'O que posso fazer?', '¿Qué puedo hacer?', 'Que puis-je faire ?',
+    'Was kann ich?', 'Cosa posso fare?', 'Co potrafię?', 'O que posso fazer?', 'Ce pot face?', 'Mit tudok?',
+    'Co umím?', 'できること', '我能做什么？', '我能做什麼？');
+  Set14('AICaps.ButtonHint.Agent',
+    'Everything the AI agent can do, with examples. F1 on this tab also opens it.',
+    'Tudo o que o Agente IA sabe fazer, com exemplos. F1 nesta aba também abre.',
+    'Todo lo que el Agente IA puede hacer, con ejemplos. F1 en esta pestaña también lo abre.',
+    'Tout ce que l''Agent IA sait faire, avec des exemples. F1 dans cet onglet l''ouvre aussi.',
+    'Alles, was der KI-Agent kann, mit Beispielen. F1 in diesem Tab öffnet es ebenfalls.',
+    'Tutto ciò che l''Agente IA sa fare, con esempi. Anche F1 in questa scheda lo apre.',
+    'Wszystko, co potrafi Agent AI, z przykładami. F1 na tej karcie też to otwiera.',
+    'Tudo o que o Agente IA sabe fazer, com exemplos. F1 neste separador também abre.',
+    'Tot ce poate face Agentul IA, cu exemple. F1 în această filă îl deschide și el.',
+    'Minden, amire a MI-ügynök képes, példákkal. Ezen a lapon az F1 is megnyitja.',
+    'Vše, co Agent AI umí, s příklady. Na této kartě to otevře i F1.',
+    'AI エージェントにできることの一覧（例付き）。このタブで F1 を押しても開きます。',
+    'AI 智能体能做的所有事情（附示例）。在此选项卡按 F1 也可打开。',
+    'AI 智慧體能做的所有事情（附範例）。在此索引標籤按 F1 也可開啟。');
+  Set14('AICaps.ButtonHint.Assistant',
+    'Everything the AI Assistant can do, with examples. F1 in this panel also opens it.',
+    'Tudo o que o Assistente IA sabe fazer, com exemplos. F1 neste painel também abre.',
+    'Todo lo que el Asistente IA puede hacer, con ejemplos. F1 en este panel también lo abre.',
+    'Tout ce que l''Assistant IA sait faire, avec des exemples. F1 dans ce panneau l''ouvre aussi.',
+    'Alles, was der KI-Assistent kann, mit Beispielen. F1 in diesem Bereich öffnet es ebenfalls.',
+    'Tutto ciò che l''Assistente IA sa fare, con esempi. Anche F1 in questo pannello lo apre.',
+    'Wszystko, co potrafi Asystent AI, z przykładami. F1 w tym panelu też to otwiera.',
+    'Tudo o que o Assistente IA sabe fazer, com exemplos. F1 neste painel também abre.',
+    'Tot ce poate face Asistentul IA, cu exemple. F1 în acest panou îl deschide și el.',
+    'Minden, amire a MI-asszisztens képes, példákkal. Ebben a panelben az F1 is megnyitja.',
+    'Vše, co Asistent AI umí, s příklady. V tomto panelu to otevře i F1.',
+    'AI アシスタントにできることの一覧（例付き）。このパネルで F1 を押しても開きます。',
+    'AI 助手能做的所有事情（附示例）。在此面板按 F1 也可打开。',
+    'AI 助理能做的所有事情（附範例）。在此面板按 F1 也可開啟。');
+  Set14('AICaps.Title.Agent', 'AI agent: what can I do?', 'Agente IA: o que posso fazer?',
+    'Agente IA: ¿qué puedo hacer?', 'Agent IA : que puis-je faire ?', 'KI-Agent: Was kann ich?',
+    'Agente IA: cosa posso fare?', 'Agent AI: co potrafię?', 'Agente IA: o que posso fazer?',
+    'Agent IA: ce pot face?', 'MI-ügynök: mit tudok?', 'Agent AI: co umím?',
+    'AI エージェント：できること', 'AI 智能体：我能做什么？', 'AI 智慧體：我能做什麼？');
+  Set14('AICaps.Title.Assistant', 'AI Assistant: what can I do?', 'Assistente IA: o que posso fazer?',
+    'Asistente IA: ¿qué puedo hacer?', 'Assistant IA : que puis-je faire ?', 'KI-Assistent: Was kann ich?',
+    'Assistente IA: cosa posso fare?', 'Asystent AI: co potrafię?', 'Assistente IA: o que posso fazer?',
+    'Asistent IA: ce pot face?', 'MI-asszisztens: mit tudok?', 'Asistent AI: co umím?',
+    'AI アシスタント：できること', 'AI 助手：我能做什么？', 'AI 助理：我能做什麼？');
+  Set14('AICaps.Intro.Agent',
+    'I read the files you choose, answer with exact data and propose edits that you review before anything is saved. ' +
+      'Pick an item and click "Use example" to try it.',
+    'Leio os arquivos que você escolher, respondo com dados exatos e proponho edições que você revisa antes de gravar. ' +
+      'Escolha um item e clique em "Usar exemplo" para testar.',
+    'Leo los archivos que elija, respondo con datos exactos y propongo ediciones que revisa antes de guardar. ' +
+      'Elija un elemento y haga clic en "Usar ejemplo" para probarlo.',
+    'Je lis les fichiers choisis, réponds avec des données exactes et propose des modifications à vérifier avant l''enregistrement. ' +
+      'Choisissez un élément et cliquez sur « Utiliser l''exemple ».',
+    'Ich lese die gewählten Dateien, antworte mit exakten Daten und schlage Änderungen vor, die Sie vor dem Speichern prüfen. ' +
+      'Wählen Sie einen Eintrag und klicken Sie auf „Beispiel verwenden“.',
+    'Leggo i file che scegli, rispondo con dati esatti e propongo modifiche da controllare prima del salvataggio. ' +
+      'Scegli una voce e fai clic su "Usa esempio" per provarla.',
+    'Czytam wybrane pliki, odpowiadam dokładnymi danymi i proponuję zmiany, które sprawdzasz przed zapisem. ' +
+      'Wybierz pozycję i kliknij „Użyj przykładu”, aby spróbować.',
+    'Leio os ficheiros que escolher, respondo com dados exatos e proponho edições que revê antes de gravar. ' +
+      'Escolha um item e clique em "Usar exemplo" para experimentar.',
+    'Citesc fișierele alese, răspund cu date exacte și propun editări pe care le verificați înainte de salvare. ' +
+      'Alegeți un element și faceți clic pe „Folosește exemplul”.',
+    'Elolvasom a kiválasztott fájlokat, pontos adatokkal válaszolok, és módosításokat javaslok, amelyeket mentés előtt átnéz. ' +
+      'Válasszon egy elemet, és kattintson a „Példa használata” gombra.',
+    'Čtu vybrané soubory, odpovídám přesnými daty a navrhuji úpravy, které před uložením zkontrolujete. ' +
+      'Vyberte položku a klikněte na „Použít příklad“.',
+    '選んだファイルを読み、正確なデータで回答し、保存前に確認できる編集案を提示します。' +
+      '項目を選んで［例を使う］をクリックしてください。',
+    '我会读取您选择的文件，用精确数据回答，并提出保存前可审核的修改。选择一项后点击“使用示例”即可试用。',
+    '我會讀取您選擇的檔案，用精確資料回答，並提出儲存前可審核的修改。選擇一項後按「使用範例」即可試用。');
+  Set14('AICaps.Intro.Assistant',
+    'I work on the open file and run FastFile features for you, step by step. ' +
+      'Pick an item and click "Use example" to try it.',
+    'Trabalho no arquivo aberto e executo os recursos do FastFile para você, passo a passo. ' +
+      'Escolha um item e clique em "Usar exemplo" para testar.',
+    'Trabajo con el archivo abierto y ejecuto las funciones de FastFile por usted, paso a paso. ' +
+      'Elija un elemento y haga clic en "Usar ejemplo" para probarlo.',
+    'Je travaille sur le fichier ouvert et lance les fonctions de FastFile pour vous, étape par étape. ' +
+      'Choisissez un élément et cliquez sur « Utiliser l''exemple ».',
+    'Ich arbeite mit der geöffneten Datei und führe FastFile-Funktionen Schritt für Schritt für Sie aus. ' +
+      'Wählen Sie einen Eintrag und klicken Sie auf „Beispiel verwenden“.',
+    'Lavoro sul file aperto ed eseguo per te le funzioni di FastFile, passo dopo passo. ' +
+      'Scegli una voce e fai clic su "Usa esempio" per provarla.',
+    'Pracuję na otwartym pliku i krok po kroku uruchamiam za Ciebie funkcje FastFile. ' +
+      'Wybierz pozycję i kliknij „Użyj przykładu”, aby spróbować.',
+    'Trabalho no ficheiro aberto e executo as funcionalidades do FastFile por si, passo a passo. ' +
+      'Escolha um item e clique em "Usar exemplo" para experimentar.',
+    'Lucrez cu fișierul deschis și rulez pentru dvs. funcțiile FastFile, pas cu pas. ' +
+      'Alegeți un element și faceți clic pe „Folosește exemplul”.',
+    'A megnyitott fájllal dolgozom, és lépésről lépésre futtatom Ön helyett a FastFile funkcióit. ' +
+      'Válasszon egy elemet, és kattintson a „Példa használata” gombra.',
+    'Pracuji s otevřeným souborem a krok za krokem za vás spouštím funkce FastFile. ' +
+      'Vyberte položku a klikněte na „Použít příklad“.',
+    '開いているファイルを対象に、FastFile の機能を順番に実行します。項目を選んで［例を使う］をクリックしてください。',
+    '我处理当前打开的文件，并逐步为您执行 FastFile 功能。选择一项后点击“使用示例”即可试用。',
+    '我處理目前開啟的檔案，並逐步為您執行 FastFile 功能。選擇一項後按「使用範例」即可試用。');
+  Set14('AICaps.Filter', 'Type to filter the list...', 'Digite para filtrar a lista...',
+    'Escriba para filtrar la lista...', 'Tapez pour filtrer la liste...', 'Tippen, um die Liste zu filtern...',
+    'Digita per filtrare l''elenco...', 'Wpisz, aby filtrować listę...', 'Escreva para filtrar a lista...',
+    'Tastați pentru a filtra lista...', 'Gépeljen a lista szűréséhez...', 'Pište pro filtrování seznamu...',
+    '入力して一覧を絞り込み...', '输入以筛选列表...', '輸入以篩選清單...');
+  Set14('AICaps.UseExample', 'Use example', 'Usar exemplo', 'Usar ejemplo', 'Utiliser l''exemple',
+    'Beispiel verwenden', 'Usa esempio', 'Użyj przykładu', 'Usar exemplo', 'Folosește exemplul',
+    'Példa használata', 'Použít příklad', '例を使う', '使用示例', '使用範例');
+  Set14('AICaps.UseExampleHint',
+    'Puts the example in the request box; you can edit it before sending.',
+    'Coloca o exemplo na caixa do pedido; você pode editar antes de enviar.',
+    'Coloca el ejemplo en el cuadro de la solicitud; puede editarlo antes de enviar.',
+    'Place l''exemple dans la zone de demande ; vous pouvez le modifier avant l''envoi.',
+    'Fügt das Beispiel in das Eingabefeld ein; Sie können es vor dem Senden bearbeiten.',
+    'Inserisce l''esempio nella casella della richiesta; puoi modificarlo prima dell''invio.',
+    'Wstawia przykład do pola prośby; możesz go edytować przed wysłaniem.',
+    'Coloca o exemplo na caixa do pedido; pode editá-lo antes de enviar.',
+    'Pune exemplul în caseta cererii; îl puteți edita înainte de trimitere.',
+    'A példát a kérés mezőbe teszi; küldés előtt szerkesztheti.',
+    'Vloží příklad do pole požadavku; před odesláním ho můžete upravit.',
+    '例を依頼欄に入れます。送信前に編集できます。',
+    '将示例放入请求框；发送前可以编辑。',
+    '將範例放入請求方塊；傳送前可以編輯。');
+  Set14('AICaps.ExamplePrefix', 'Example:', 'Exemplo:', 'Ejemplo:', 'Exemple :', 'Beispiel:', 'Esempio:',
+    'Przykład:', 'Exemplo:', 'Exemplu:', 'Példa:', 'Příklad:', '例：', '示例：', '範例：');
+  Set14('AICaps.NoMatch', 'No item matches the filter.', 'Nenhum item corresponde ao filtro.',
+    'Ningún elemento coincide con el filtro.', 'Aucun élément ne correspond au filtre.',
+    'Kein Eintrag passt zum Filter.', 'Nessuna voce corrisponde al filtro.',
+    'Żadna pozycja nie pasuje do filtra.', 'Nenhum item corresponde ao filtro.',
+    'Niciun element nu corespunde filtrului.', 'Egyetlen elem sem felel meg a szűrőnek.',
+    'Filtru neodpovídá žádná položka.', 'フィルターに一致する項目はありません。',
+    '没有与筛选条件匹配的项目。', '沒有符合篩選條件的項目。');
+  Set14('AICaps.ExampleReady',
+    'Example placed in the request box: adjust it if needed and click Send.',
+    'Exemplo colocado na caixa do pedido: ajuste se precisar e clique em Enviar.',
+    'Ejemplo colocado en el cuadro de la solicitud: ajústelo si hace falta y haga clic en Enviar.',
+    'Exemple placé dans la zone de demande : ajustez-le si besoin et cliquez sur Envoyer.',
+    'Beispiel ins Eingabefeld übernommen: bei Bedarf anpassen und auf Senden klicken.',
+    'Esempio inserito nella casella della richiesta: modificalo se serve e fai clic su Invia.',
+    'Przykład wstawiono do pola prośby: dostosuj go w razie potrzeby i kliknij Wyślij.',
+    'Exemplo colocado na caixa do pedido: ajuste se necessário e clique em Enviar.',
+    'Exemplul a fost pus în caseta cererii: ajustați-l dacă e nevoie și faceți clic pe Trimite.',
+    'A példa bekerült a kérés mezőbe: szükség esetén módosítsa, majd kattintson a Küldés gombra.',
+    'Příklad byl vložen do pole požadavku: podle potřeby ho upravte a klikněte na Odeslat.',
+    '例を依頼欄に入れました。必要に応じて修正し、［送信］をクリックしてください。',
+    '示例已放入请求框：如有需要请调整，然后点击“发送”。',
+    '範例已放入請求方塊：如有需要請調整，然後按「傳送」。');
+
+  Set14('AICaps.CopyHint',
+    'Copies the selected item; with no item selected, copies the whole list.',
+    'Copia o item selecionado; sem item selecionado, copia a lista inteira.',
+    'Copia el elemento seleccionado; sin selección, copia la lista completa.',
+    'Copie l''élément sélectionné ; sans sélection, copie toute la liste.',
+    'Kopiert den ausgewählten Eintrag; ohne Auswahl die ganze Liste.',
+    'Copia la voce selezionata; senza selezione, copia l''intero elenco.',
+    'Kopiuje zaznaczoną pozycję; bez zaznaczenia kopiuje całą listę.',
+    'Copia o item selecionado; sem item selecionado, copia a lista inteira.',
+    'Copiază elementul selectat; fără selecție, copiază toată lista.',
+    'A kijelölt elemet másolja; kijelölés nélkül a teljes listát.',
+    'Zkopíruje vybranou položku; bez výběru celý seznam.',
+    '選択した項目をコピーします。選択がない場合は一覧全体をコピーします。',
+    '复制所选项目；未选择时复制整个列表。',
+    '複製所選項目；未選擇時複製整個清單。');
+  Set14('AICaps.Copied', 'Copied!', 'Copiado!', '¡Copiado!', 'Copié !', 'Kopiert!', 'Copiato!', 'Skopiowano!',
+    'Copiado!', 'Copiat!', 'Másolva!', 'Zkopírováno!', 'コピーしました', '已复制！', '已複製！');
+  Set14('AICaps.Export', 'Export...', 'Exportar...', 'Exportar...', 'Exporter...', 'Exportieren...', 'Esporta...',
+    'Eksportuj...', 'Exportar...', 'Exportă...', 'Exportálás...', 'Exportovat...', 'エクスポート...', '导出...',
+    '匯出...');
+  Set14('AICaps.ExportHint',
+    'Saves the whole list with the examples to a text (.txt) or Markdown (.md) file.',
+    'Salva a lista inteira com os exemplos em um arquivo de texto (.txt) ou Markdown (.md).',
+    'Guarda la lista completa con los ejemplos en un archivo de texto (.txt) o Markdown (.md).',
+    'Enregistre toute la liste avec les exemples dans un fichier texte (.txt) ou Markdown (.md).',
+    'Speichert die ganze Liste mit den Beispielen als Text- (.txt) oder Markdown-Datei (.md).',
+    'Salva l''intero elenco con gli esempi in un file di testo (.txt) o Markdown (.md).',
+    'Zapisuje całą listę z przykładami do pliku tekstowego (.txt) lub Markdown (.md).',
+    'Grava a lista inteira com os exemplos num ficheiro de texto (.txt) ou Markdown (.md).',
+    'Salvează toată lista cu exemple într-un fișier text (.txt) sau Markdown (.md).',
+    'A teljes listát a példákkal szöveges (.txt) vagy Markdown (.md) fájlba menti.',
+    'Uloží celý seznam s příklady do textového souboru (.txt) nebo Markdown (.md).',
+    '例を含む一覧全体をテキスト (.txt) または Markdown (.md) ファイルに保存します。',
+    '将包含示例的整个列表保存为文本 (.txt) 或 Markdown (.md) 文件。',
+    '將包含範例的整個清單儲存為文字 (.txt) 或 Markdown (.md) 檔案。');
+  Set14('AICaps.ExportFilter',
+    'Text file (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Arquivo de texto (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Archivo de texto (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Fichier texte (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Textdatei (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'File di testo (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Plik tekstowy (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Ficheiro de texto (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Fișier text (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Szövegfájl (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'Textový soubor (*.txt)|*.txt|Markdown (*.md)|*.md',
+    'テキスト ファイル (*.txt)|*.txt|Markdown (*.md)|*.md',
+    '文本文件 (*.txt)|*.txt|Markdown (*.md)|*.md',
+    '文字檔 (*.txt)|*.txt|Markdown (*.md)|*.md');
+  Set14('AICaps.Saved', 'Saved!', 'Salvo!', '¡Guardado!', 'Enregistré !', 'Gespeichert!', 'Salvato!', 'Zapisano!',
+    'Gravado!', 'Salvat!', 'Mentve!', 'Uloženo!', '保存しました', '已保存！', '已儲存！');
+  Set14('Hub.ExportAnswerHint',
+    'Save the diagnosis answer as a UTF-8 text (.txt) or Markdown (.md) file.',
+    'Salva a resposta do diagnóstico em um arquivo de texto UTF-8 (.txt) ou Markdown (.md).',
+    'Guarda la respuesta del diagnóstico en un archivo de texto UTF-8 (.txt) o Markdown (.md).',
+    'Enregistre la réponse du diagnostic dans un fichier texte UTF-8 (.txt) ou Markdown (.md).',
+    'Speichert die Diagnoseantwort als UTF-8-Textdatei (.txt) oder Markdown-Datei (.md).',
+    'Salva la risposta della diagnosi in un file di testo UTF-8 (.txt) o Markdown (.md).',
+    'Zapisuje odpowiedź diagnozy w pliku tekstowym UTF-8 (.txt) lub Markdown (.md).',
+    'Grava a resposta do diagnóstico num ficheiro de texto UTF-8 (.txt) ou Markdown (.md).',
+    'Salvează răspunsul diagnosticului într-un fișier text UTF-8 (.txt) sau Markdown (.md).',
+    'A diagnózis válaszát UTF-8 szövegfájlba (.txt) vagy Markdown-fájlba (.md) menti.',
+    'Uloží odpověď diagnostiky do textového souboru UTF-8 (.txt) nebo Markdown (.md).',
+    '診断の回答を UTF-8 テキスト (.txt) または Markdown (.md) ファイルに保存します。',
+    '将诊断回答保存为 UTF-8 文本 (.txt) 或 Markdown (.md) 文件。',
+    '將診斷回答儲存為 UTF-8 文字 (.txt) 或 Markdown (.md) 檔案。');
+  Set14('AICaps.AskHint',
+    'Ask the AI about the selected item (or the whole list, with no item selected). The answer appears in the answer area.',
+    'Pergunte à IA sobre o item selecionado (ou a lista inteira, sem item selecionado). A resposta aparece na área de resposta.',
+    'Pregunte a la IA sobre el elemento seleccionado (o toda la lista, sin selección). La respuesta aparece en el área de respuesta.',
+    'Interrogez l''IA sur l''élément sélectionné (ou toute la liste, sans sélection). La réponse s''affiche dans la zone de réponse.',
+    'Fragen Sie die KI zum ausgewählten Eintrag (ohne Auswahl zur ganzen Liste). Die Antwort erscheint im Antwortbereich.',
+    'Chiedi all''IA della voce selezionata (o dell''intero elenco, senza selezione). La risposta appare nell''area della risposta.',
+    'Zapytaj AI o zaznaczoną pozycję (lub całą listę, bez zaznaczenia). Odpowiedź pojawi się w obszarze odpowiedzi.',
+    'Pergunte à IA sobre o item selecionado (ou a lista inteira, sem item selecionado). A resposta aparece na área de resposta.',
+    'Întrebați IA despre elementul selectat (sau toată lista, fără selecție). Răspunsul apare în zona de răspuns.',
+    'Kérdezze a MI-t a kijelölt elemről (kijelölés nélkül a teljes listáról). A válasz a választerületen jelenik meg.',
+    'Zeptejte se AI na vybranou položku (bez výběru na celý seznam). Odpověď se zobrazí v oblasti odpovědi.',
+    '選択した項目（選択がない場合は一覧全体）について AI に質問します。回答は回答欄に表示されます。',
+    '就所选项目（未选择时为整个列表）向 AI 提问。回答显示在回答区域。',
+    '就所選項目（未選擇時為整個清單）向 AI 提問。回答顯示在回答區域。');
+  Set14('AICaps.AskPrompt',
+    'Your question about the selected item (or about the whole list):',
+    'Sua pergunta sobre o item selecionado (ou sobre a lista inteira):',
+    'Su pregunta sobre el elemento seleccionado (o sobre toda la lista):',
+    'Votre question sur l''élément sélectionné (ou sur toute la liste) :',
+    'Ihre Frage zum ausgewählten Eintrag (oder zur ganzen Liste):',
+    'La tua domanda sulla voce selezionata (o sull''intero elenco):',
+    'Twoje pytanie o zaznaczoną pozycję (lub o całą listę):',
+    'A sua pergunta sobre o item selecionado (ou sobre a lista inteira):',
+    'Întrebarea dvs. despre elementul selectat (sau despre toată lista):',
+    'Kérdése a kijelölt elemről (vagy a teljes listáról):',
+    'Vaše otázka k vybrané položce (nebo k celému seznamu):',
+    '選択した項目（または一覧全体）についての質問：',
+    '关于所选项目（或整个列表）的问题：',
+    '關於所選項目（或整個清單）的問題：');
+  Set14('AICaps.AskDone',
+    'Answer about the "What can I do?" list is ready.',
+    'Resposta sobre a lista "O que posso fazer?" pronta.',
+    'Respuesta sobre la lista "¿Qué puedo hacer?" lista.',
+    'Réponse sur la liste « Que puis-je faire ? » prête.',
+    'Antwort zur Liste „Was kann ich?“ ist fertig.',
+    'Risposta sull''elenco "Cosa posso fare?" pronta.',
+    'Odpowiedź dotycząca listy „Co potrafię?” jest gotowa.',
+    'Resposta sobre a lista "O que posso fazer?" pronta.',
+    'Răspunsul despre lista „Ce pot face?” este gata.',
+    'Elkészült a válasz a „Mit tudok?” listáról.',
+    'Odpověď k seznamu „Co umím?“ je hotová.',
+    '「できること」一覧についての回答ができました。',
+    '关于“我能做什么？”列表的回答已就绪。',
+    '關於「我能做什麼？」清單的回答已就緒。');
+  Set14('AICaps.Busy',
+    'The AI is busy with another request. Try again when it finishes.',
+    'A IA está ocupada com outro pedido. Tente de novo quando terminar.',
+    'La IA está ocupada con otra solicitud. Inténtelo de nuevo cuando termine.',
+    'L''IA est occupée par une autre demande. Réessayez quand elle aura terminé.',
+    'Die KI bearbeitet gerade eine andere Anfrage. Versuchen Sie es danach erneut.',
+    'L''IA è occupata con un''altra richiesta. Riprova quando ha finito.',
+    'AI jest zajęta inną prośbą. Spróbuj ponownie, gdy skończy.',
+    'A IA está ocupada com outro pedido. Tente novamente quando terminar.',
+    'IA este ocupată cu o altă cerere. Încercați din nou după ce termină.',
+    'A MI éppen egy másik kérésen dolgozik. Próbálja újra, ha végzett.',
+    'AI zpracovává jiný požadavek. Zkuste to znovu, až skončí.',
+    'AI は別の依頼を処理中です。終わってからもう一度お試しください。',
+    'AI 正在处理另一个请求，请在完成后重试。',
+    'AI 正在處理另一個請求，請在完成後重試。');
+
+  Set14('AICaps.Sec.AgentOnly', 'Analysis and edits on your files', 'Análise e edição dos seus arquivos',
+    'Análisis y edición de sus archivos', 'Analyse et modification de vos fichiers',
+    'Analyse und Bearbeitung Ihrer Dateien', 'Analisi e modifica dei tuoi file', 'Analiza i edycja Twoich plików',
+    'Análise e edição dos seus ficheiros', 'Analiza și editarea fișierelor dvs.', 'Fájljai elemzése és szerkesztése',
+    'Analýza a úpravy vašich souborů', 'ファイルの分析と編集', '分析和编辑您的文件', '分析和編輯您的檔案');
+  Set14('AICaps.Sec.View', 'Open, navigate and view', 'Abrir, navegar e visualizar', 'Abrir, navegar y ver',
+    'Ouvrir, naviguer et afficher', 'Öffnen, navigieren und anzeigen', 'Aprire, navigare e visualizzare',
+    'Otwieranie, nawigacja i widok', 'Abrir, navegar e visualizar', 'Deschidere, navigare și afișare',
+    'Megnyitás, navigálás és nézet', 'Otevírání, navigace a zobrazení', '開く・移動・表示', '打开、导航和查看',
+    '開啟、瀏覽和檢視');
+  Set14('AICaps.Sec.Tools', 'File tools', 'Ferramentas de arquivo', 'Herramientas de archivo', 'Outils de fichier',
+    'Dateiwerkzeuge', 'Strumenti per i file', 'Narzędzia plików', 'Ferramentas de ficheiro',
+    'Instrumente pentru fișiere', 'Fájleszközök', 'Nástroje pro soubory', 'ファイル ツール', '文件工具', '檔案工具');
+  Set14('AICaps.Sec.AI', 'AI, documents and help', 'IA, documentos e ajuda', 'IA, documentos y ayuda',
+    'IA, documents et aide', 'KI, Dokumente und Hilfe', 'IA, documenti e guida', 'AI, dokumenty i pomoc',
+    'IA, documentos e ajuda', 'IA, documente și ajutor', 'MI, dokumentumok és súgó', 'AI, dokumenty a nápověda',
+    'AI・ドキュメント・ヘルプ', 'AI、文档和帮助', 'AI、文件和說明');
+  Set14('AICaps.Sec.AssistantOnly', 'Hand over to the AI agent', 'Passar para o Agente IA', 'Pasar al Agente IA',
+    'Confier à l''Agent IA', 'An den KI-Agenten übergeben', 'Passare all''Agente IA', 'Przekazanie Agentowi AI',
+    'Passar ao Agente IA', 'Transmitere către Agentul IA', 'Átadás a MI-ügynöknek', 'Předání Agentovi AI',
+    'AI エージェントに渡す', '交给 AI 智能体', '交給 AI 智慧體');
+
+  Set14('AICaps.Item.Multi',
+    'Works on several files and folders at once: search, compare and change them in one request.|' +
+      'In all the .log files, which ones contain the word timeout?',
+    'Trabalha em vários arquivos e pastas de uma vez: busca, compara e altera tudo num só pedido.|' +
+      'Em todos os arquivos .log, quais contêm a palavra timeout?',
+    'Trabaja con varios archivos y carpetas a la vez: busca, compara y modifica en una sola solicitud.|' +
+      'En todos los archivos .log, ¿cuáles contienen la palabra timeout?',
+    'Travaille sur plusieurs fichiers et dossiers à la fois : recherche, compare et modifie en une seule demande.|' +
+      'Dans tous les fichiers .log, lesquels contiennent le mot timeout ?',
+    'Arbeitet mit mehreren Dateien und Ordnern gleichzeitig: suchen, vergleichen und ändern in einer Anfrage.|' +
+      'Welche .log-Dateien enthalten das Wort timeout?',
+    'Lavora su più file e cartelle insieme: cerca, confronta e modifica con una sola richiesta.|' +
+      'Tra tutti i file .log, quali contengono la parola timeout?',
+    'Pracuje na wielu plikach i folderach naraz: wyszukuje, porównuje i zmienia w jednej prośbie.|' +
+      'Które pliki .log zawierają słowo timeout?',
+    'Trabalha em vários ficheiros e pastas de uma vez: pesquisa, compara e altera tudo num só pedido.|' +
+      'Em todos os ficheiros .log, quais contêm a palavra timeout?',
+    'Lucrează cu mai multe fișiere și foldere deodată: caută, compară și modifică într-o singură cerere.|' +
+      'Care fișiere .log conțin cuvântul timeout?',
+    'Egyszerre több fájllal és mappával dolgozik: keres, összehasonlít és módosít egyetlen kérésben.|' +
+      'Mely .log fájlok tartalmazzák a timeout szót?',
+    'Pracuje s více soubory a složkami najednou: hledá, porovnává a mění v jednom požadavku.|' +
+      'Které soubory .log obsahují slovo timeout?',
+    '複数のファイルやフォルダーをまとめて扱います。1 回の依頼で検索・比較・変更ができます。|' +
+      'すべての .log ファイルのうち、timeout という語を含むのはどれ？',
+    '同时处理多个文件和文件夹：一次请求即可搜索、比较和修改。|' +
+      '所有 .log 文件中，哪些包含 timeout 这个词？',
+    '同時處理多個檔案和資料夾：一次請求即可搜尋、比較和修改。|' +
+      '所有 .log 檔案中，哪些包含 timeout 這個字？');
+  Set14('AICaps.Item.Count',
+    'Exact counts read from the file itself (lines, occurrences, totals), never estimates.|' +
+      'How many lines contain ERROR?',
+    'Contagens exatas lidas do próprio arquivo (linhas, ocorrências, totais), nunca estimativas.|' +
+      'Quantas linhas contêm ERROR?',
+    'Conteos exactos leídos del propio archivo (líneas, apariciones, totales), nunca estimaciones.|' +
+      '¿Cuántas líneas contienen ERROR?',
+    'Comptages exacts lus dans le fichier lui-même (lignes, occurrences, totaux), jamais d''estimations.|' +
+      'Combien de lignes contiennent ERROR ?',
+    'Exakte Zählungen direkt aus der Datei (Zeilen, Vorkommen, Summen), nie Schätzungen.|' +
+      'Wie viele Zeilen enthalten ERROR?',
+    'Conteggi esatti letti dal file stesso (righe, occorrenze, totali), mai stime.|' +
+      'Quante righe contengono ERROR?',
+    'Dokładne liczby odczytane z samego pliku (wiersze, wystąpienia, sumy), nigdy szacunki.|' +
+      'Ile wierszy zawiera ERROR?',
+    'Contagens exatas lidas do próprio ficheiro (linhas, ocorrências, totais), nunca estimativas.|' +
+      'Quantas linhas contêm ERROR?',
+    'Numărători exacte citite din fișier (linii, apariții, totaluri), niciodată estimări.|' +
+      'Câte linii conțin ERROR?',
+    'Pontos számlálás magából a fájlból (sorok, előfordulások, összegek), soha nem becslés.|' +
+      'Hány sor tartalmazza az ERROR szót?',
+    'Přesné počty načtené přímo ze souboru (řádky, výskyty, součty), nikdy odhady.|' +
+      'Kolik řádků obsahuje ERROR?',
+    'ファイルそのものから読み取った正確な件数（行数・出現回数・合計）。推測はしません。|' +
+      'ERROR を含む行はいくつ？',
+    '直接从文件读取的精确计数（行数、出现次数、合计），绝不估算。|' +
+      '有多少行包含 ERROR？',
+    '直接從檔案讀取的精確計數（行數、出現次數、合計），絕不估算。|' +
+      '有多少行包含 ERROR？');
+  Set14('AICaps.Item.Analyze',
+    'Reads and analyzes the content: summaries, patterns, explanations and comparisons.|' +
+      'Summarize the main errors in this log and say which one happens most.',
+    'Lê e analisa o conteúdo: resumos, padrões, explicações e comparações.|' +
+      'Resuma os principais erros deste log e diga qual acontece mais.',
+    'Lee y analiza el contenido: resúmenes, patrones, explicaciones y comparaciones.|' +
+      'Resume los principales errores de este log y di cuál ocurre más.',
+    'Lit et analyse le contenu : résumés, tendances, explications et comparaisons.|' +
+      'Résume les principales erreurs de ce log et dis laquelle revient le plus.',
+    'Liest und analysiert den Inhalt: Zusammenfassungen, Muster, Erklärungen und Vergleiche.|' +
+      'Fasse die wichtigsten Fehler in diesem Log zusammen und sag, welcher am häufigsten ist.',
+    'Legge e analizza il contenuto: riassunti, schemi ricorrenti, spiegazioni e confronti.|' +
+      'Riassumi i principali errori di questo log e indica quale si ripete di più.',
+    'Czyta i analizuje treść: podsumowania, wzorce, wyjaśnienia i porównania.|' +
+      'Podsumuj główne błędy w tym logu i powiedz, który występuje najczęściej.',
+    'Lê e analisa o conteúdo: resumos, padrões, explicações e comparações.|' +
+      'Resuma os principais erros deste log e diga qual acontece mais.',
+    'Citește și analizează conținutul: rezumate, tipare, explicații și comparații.|' +
+      'Rezumă principalele erori din acest log și spune care apare cel mai des.',
+    'Elolvassa és elemzi a tartalmat: összefoglalók, minták, magyarázatok és összehasonlítások.|' +
+      'Foglald össze a log fő hibáit, és mondd meg, melyik fordul elő a legtöbbször.',
+    'Čte a analyzuje obsah: shrnutí, vzorce, vysvětlení a porovnání.|' +
+      'Shrň hlavní chyby v tomto logu a řekni, která se opakuje nejčastěji.',
+    '内容を読んで分析します：要約、傾向、説明、比較。|' +
+      'このログの主なエラーを要約し、最も多いものを教えて。',
+    '读取并分析内容：摘要、规律、解释和比较。|' +
+      '总结这个日志中的主要错误，并说明哪个最常出现。',
+    '讀取並分析內容：摘要、規律、解釋和比較。|' +
+      '總結這個記錄檔中的主要錯誤，並說明哪個最常出現。');
+  Set14('AICaps.Item.Sql',
+    'SQL queries on CSV and delimited files: filters, totals, groupings and rankings.|' +
+      'With SQL, show the 10 customers with the highest total in sales.csv.',
+    'Consultas SQL em arquivos CSV e delimitados: filtros, totais, agrupamentos e rankings.|' +
+      'Com SQL, mostre os 10 clientes com maior total em vendas.csv.',
+    'Consultas SQL en archivos CSV y delimitados: filtros, totales, agrupaciones y rankings.|' +
+      'Con SQL, muestra los 10 clientes con mayor total en ventas.csv.',
+    'Requêtes SQL sur des fichiers CSV et délimités : filtres, totaux, regroupements et classements.|' +
+      'En SQL, affiche les 10 clients au total le plus élevé dans ventes.csv.',
+    'SQL-Abfragen auf CSV- und Trennzeichen-Dateien: Filter, Summen, Gruppierungen und Ranglisten.|' +
+      'Zeige per SQL die 10 Kunden mit dem höchsten Gesamtbetrag in umsatz.csv.',
+    'Query SQL su file CSV e delimitati: filtri, totali, raggruppamenti e classifiche.|' +
+      'Con SQL, mostra i 10 clienti con il totale più alto in vendite.csv.',
+    'Zapytania SQL do plików CSV i rozdzielanych: filtry, sumy, grupowanie i rankingi.|' +
+      'Za pomocą SQL pokaż 10 klientów z najwyższą sumą w sprzedaz.csv.',
+    'Consultas SQL em ficheiros CSV e delimitados: filtros, totais, agrupamentos e rankings.|' +
+      'Com SQL, mostre os 10 clientes com maior total em vendas.csv.',
+    'Interogări SQL pe fișiere CSV și delimitate: filtre, totaluri, grupări și clasamente.|' +
+      'Cu SQL, arată cei 10 clienți cu cel mai mare total din vanzari.csv.',
+    'SQL-lekérdezések CSV- és tagolt fájlokon: szűrők, összegek, csoportosítások és rangsorok.|' +
+      'SQL-lel mutasd meg a 10 legnagyobb összegű ügyfelet az eladasok.csv fájlban.',
+    'SQL dotazy nad soubory CSV a s oddělovači: filtry, součty, seskupení a žebříčky.|' +
+      'Pomocí SQL ukaž 10 zákazníků s nejvyšším součtem v prodeje.csv.',
+    'CSV や区切り文字ファイルへの SQL クエリ：絞り込み、合計、グループ化、ランキング。|' +
+      'SQL で sales.csv の合計が多い顧客トップ 10 を表示して。',
+    '对 CSV 和分隔符文件执行 SQL 查询：筛选、合计、分组和排名。|' +
+      '用 SQL 显示 sales.csv 中合计最高的 10 位客户。',
+    '對 CSV 和分隔符號檔案執行 SQL 查詢：篩選、合計、分組和排名。|' +
+      '用 SQL 顯示 sales.csv 中合計最高的 10 位客戶。');
+  Set14('AICaps.Item.SqlChange',
+    'Changes data with SQL (UPDATE, DELETE) as edits you review before anything is saved.|' +
+      'Change the city of Bianca to São Paulo in clientes.csv.',
+    'Altera dados com SQL (UPDATE, DELETE) como edições que você revisa antes de gravar.|' +
+      'Mude a cidade da Bianca para São Paulo em clientes.csv.',
+    'Modifica datos con SQL (UPDATE, DELETE) como ediciones que revisa antes de guardar.|' +
+      'Cambia la ciudad de Bianca a São Paulo en clientes.csv.',
+    'Modifie les données en SQL (UPDATE, DELETE) sous forme de modifications à vérifier avant l''enregistrement.|' +
+      'Change la ville de Bianca en São Paulo dans clientes.csv.',
+    'Ändert Daten per SQL (UPDATE, DELETE) als Änderungen, die Sie vor dem Speichern prüfen.|' +
+      'Ändere die Stadt von Bianca in clientes.csv auf São Paulo.',
+    'Modifica i dati con SQL (UPDATE, DELETE) come modifiche da controllare prima del salvataggio.|' +
+      'Cambia la città di Bianca in São Paulo in clientes.csv.',
+    'Zmienia dane przez SQL (UPDATE, DELETE) jako zmiany, które sprawdzasz przed zapisem.|' +
+      'Zmień miasto Bianki na São Paulo w clientes.csv.',
+    'Altera dados com SQL (UPDATE, DELETE) como edições que revê antes de gravar.|' +
+      'Mude a cidade da Bianca para São Paulo em clientes.csv.',
+    'Modifică datele cu SQL (UPDATE, DELETE) ca editări pe care le verificați înainte de salvare.|' +
+      'Schimbă orașul Biancăi în São Paulo în clientes.csv.',
+    'SQL-lel módosít adatokat (UPDATE, DELETE), mentés előtt átnézhető módosításként.|' +
+      'Változtasd Bianca városát São Paulóra a clientes.csv fájlban.',
+    'Mění data pomocí SQL (UPDATE, DELETE) jako úpravy, které před uložením zkontrolujete.|' +
+      'Změň v clientes.csv město u Biancy na São Paulo.',
+    'SQL（UPDATE、DELETE）でデータを変更します。保存前に確認できる編集案として提示されます。|' +
+      'clientes.csv で Bianca の都市を São Paulo に変更して。',
+    '用 SQL（UPDATE、DELETE）修改数据，以修改建议形式呈现，保存前可先审核。|' +
+      '在 clientes.csv 中把 Bianca 的城市改为 São Paulo。',
+    '用 SQL（UPDATE、DELETE）修改資料，以修改建議形式呈現，儲存前可先審核。|' +
+      '在 clientes.csv 中把 Bianca 的城市改為 São Paulo。');
+  Set14('AICaps.Item.Edits',
+    'Proposes edits (replace, insert or delete lines) that you accept or reject one by one before saving.|' +
+      'Remove the blank lines at the end of the file.',
+    'Propõe edições (substituir, inserir ou excluir linhas) que você aceita ou rejeita uma a uma antes de gravar.|' +
+      'Remova as linhas em branco do final do arquivo.',
+    'Propone ediciones (reemplazar, insertar o eliminar líneas) que acepta o rechaza una a una antes de guardar.|' +
+      'Elimina las líneas en blanco al final del archivo.',
+    'Propose des modifications (remplacer, insérer ou supprimer des lignes) à accepter ou refuser une par une.|' +
+      'Supprime les lignes vides à la fin du fichier.',
+    'Schlägt Änderungen vor (Zeilen ersetzen, einfügen, löschen), die Sie vor dem Speichern einzeln annehmen oder ablehnen.|' +
+      'Entferne die Leerzeilen am Ende der Datei.',
+    'Propone modifiche (sostituire, inserire o eliminare righe) da accettare o rifiutare una per una prima di salvare.|' +
+      'Rimuovi le righe vuote alla fine del file.',
+    'Proponuje zmiany (zamiana, wstawianie, usuwanie wierszy), które akceptujesz lub odrzucasz pojedynczo przed zapisem.|' +
+      'Usuń puste wiersze na końcu pliku.',
+    'Propõe edições (substituir, inserir ou eliminar linhas) que aceita ou rejeita uma a uma antes de gravar.|' +
+      'Remova as linhas em branco do fim do ficheiro.',
+    'Propune editări (înlocuire, inserare, ștergere de linii) pe care le acceptați sau respingeți una câte una.|' +
+      'Elimină liniile goale de la sfârșitul fișierului.',
+    'Módosításokat javasol (sorok cseréje, beszúrása, törlése), amelyeket mentés előtt egyenként elfogadhat vagy elutasíthat.|' +
+      'Töröld az üres sorokat a fájl végéről.',
+    'Navrhuje úpravy (nahrazení, vložení, smazání řádků), které před uložením jednotlivě přijmete nebo odmítnete.|' +
+      'Odstraň prázdné řádky na konci souboru.',
+    '編集案（行の置換・挿入・削除）を提示し、保存前に 1 件ずつ承認または却下できます。|' +
+      'ファイル末尾の空行を削除して。',
+    '提出修改建议（替换、插入或删除行），保存前可逐条接受或拒绝。|' +
+      '删除文件末尾的空行。',
+    '提出修改建議（取代、插入或刪除行），儲存前可逐條接受或拒絕。|' +
+      '刪除檔案結尾的空行。');
+  Set14('AICaps.Item.Anon',
+    'Anonymizes personal data such as names, e-mails, phone numbers and document numbers.|' +
+      'Anonymize the e-mails and phone numbers in this file.',
+    'Anonimiza dados pessoais como nomes, e-mails, telefones e documentos (CPF, RG).|' +
+      'Anonimize os e-mails e telefones deste arquivo.',
+    'Anonimiza datos personales como nombres, correos, teléfonos y documentos.|' +
+      'Anonimiza los correos y teléfonos de este archivo.',
+    'Anonymise les données personnelles : noms, e-mails, téléphones et numéros de documents.|' +
+      'Anonymise les e-mails et les téléphones de ce fichier.',
+    'Anonymisiert personenbezogene Daten wie Namen, E-Mails, Telefon- und Ausweisnummern.|' +
+      'Anonymisiere die E-Mails und Telefonnummern in dieser Datei.',
+    'Anonimizza dati personali come nomi, e-mail, telefoni e documenti.|' +
+      'Anonimizza le e-mail e i telefoni di questo file.',
+    'Anonimizuje dane osobowe: imiona i nazwiska, e-maile, telefony i numery dokumentów.|' +
+      'Zanonimizuj e-maile i numery telefonów w tym pliku.',
+    'Anonimiza dados pessoais como nomes, e-mails, telefones e documentos.|' +
+      'Anonimize os e-mails e telefones deste ficheiro.',
+    'Anonimizează date personale precum nume, e-mailuri, telefoane și acte.|' +
+      'Anonimizează e-mailurile și telefoanele din acest fișier.',
+    'Anonimizálja a személyes adatokat: nevek, e-mailek, telefonszámok és okmányszámok.|' +
+      'Anonimizáld az e-maileket és telefonszámokat ebben a fájlban.',
+    'Anonymizuje osobní údaje: jména, e-maily, telefony a čísla dokladů.|' +
+      'Anonymizuj e-maily a telefonní čísla v tomto souboru.',
+    '氏名、メールアドレス、電話番号、各種番号などの個人情報を匿名化します。|' +
+      'このファイルのメールアドレスと電話番号を匿名化して。',
+    '对姓名、电子邮件、电话和证件号等个人数据进行匿名化。|' +
+      '将此文件中的电子邮件和电话号码匿名化。',
+    '對姓名、電子郵件、電話和證件號碼等個人資料進行匿名化。|' +
+      '將此檔案中的電子郵件和電話號碼匿名化。');
+  Set14('AICaps.Item.Exact',
+    'Exact search with line numbers and reading of any line range, even in huge files.|' +
+      'Show lines 120 to 140.',
+    'Busca exata com número de linha e leitura de qualquer intervalo de linhas, mesmo em arquivos enormes.|' +
+      'Mostre as linhas 120 a 140.',
+    'Búsqueda exacta con número de línea y lectura de cualquier rango de líneas, incluso en archivos enormes.|' +
+      'Muestra las líneas 120 a 140.',
+    'Recherche exacte avec numéros de ligne et lecture de n''importe quelle plage, même dans d''énormes fichiers.|' +
+      'Affiche les lignes 120 à 140.',
+    'Exakte Suche mit Zeilennummern und Lesen beliebiger Zeilenbereiche, auch in riesigen Dateien.|' +
+      'Zeige die Zeilen 120 bis 140.',
+    'Ricerca esatta con numeri di riga e lettura di qualsiasi intervallo di righe, anche in file enormi.|' +
+      'Mostra le righe da 120 a 140.',
+    'Dokładne wyszukiwanie z numerami wierszy i odczyt dowolnego zakresu wierszy, nawet w ogromnych plikach.|' +
+      'Pokaż wiersze od 120 do 140.',
+    'Pesquisa exata com número de linha e leitura de qualquer intervalo de linhas, mesmo em ficheiros enormes.|' +
+      'Mostre as linhas 120 a 140.',
+    'Căutare exactă cu numere de linie și citirea oricărui interval de linii, chiar și în fișiere uriașe.|' +
+      'Arată liniile de la 120 la 140.',
+    'Pontos keresés sorszámokkal és bármely sortartomány olvasása, akár óriási fájlokban is.|' +
+      'Mutasd meg a 120. és 140. közötti sorokat.',
+    'Přesné hledání s čísly řádků a čtení libovolného rozsahu řádků, i v obřích souborech.|' +
+      'Ukaž řádky 120 až 140.',
+    '行番号付きの正確な検索と、巨大ファイルでも任意の行範囲を読み取れます。|' +
+      '120 行目から 140 行目を表示して。',
+    '带行号的精确搜索，可读取任意行范围，即使是超大文件。|' +
+      '显示第 120 到 140 行。',
+    '帶行號的精確搜尋，可讀取任意行範圍，即使是超大檔案。|' +
+      '顯示第 120 到 140 行。');
+
+  Set14('AICaps.Item.Open',
+    'Opens files (also recent ones), reloads the file and shows the open dialog.|' +
+      'Open the file C:\logs\app.log.',
+    'Abre arquivos (inclusive recentes), recarrega o arquivo e mostra a janela de abrir.|' +
+      'Abra o arquivo C:\logs\app.log.',
+    'Abre archivos (también recientes), recarga el archivo y muestra el diálogo de apertura.|' +
+      'Abre el archivo C:\logs\app.log.',
+    'Ouvre des fichiers (y compris récents), recharge le fichier et affiche la boîte d''ouverture.|' +
+      'Ouvre le fichier C:\logs\app.log.',
+    'Öffnet Dateien (auch zuletzt verwendete), lädt die Datei neu und zeigt den Öffnen-Dialog.|' +
+      'Öffne die Datei C:\logs\app.log.',
+    'Apre file (anche recenti), ricarica il file e mostra la finestra di apertura.|' +
+      'Apri il file C:\logs\app.log.',
+    'Otwiera pliki (także ostatnie), wczytuje plik ponownie i pokazuje okno otwierania.|' +
+      'Otwórz plik C:\logs\app.log.',
+    'Abre ficheiros (incluindo recentes), recarrega o ficheiro e mostra a janela de abrir.|' +
+      'Abra o ficheiro C:\logs\app.log.',
+    'Deschide fișiere (inclusiv recente), reîncarcă fișierul și afișează dialogul de deschidere.|' +
+      'Deschide fișierul C:\logs\app.log.',
+    'Fájlokat nyit meg (a legutóbbiakat is), újratölti a fájlt és megjeleníti a megnyitási ablakot.|' +
+      'Nyisd meg a C:\logs\app.log fájlt.',
+    'Otevírá soubory (i nedávné), znovu načte soubor a zobrazí dialog otevření.|' +
+      'Otevři soubor C:\logs\app.log.',
+    'ファイルを開く（最近使ったファイルも）、再読み込み、［開く］ダイアログの表示。|' +
+      'C:\logs\app.log を開いて。',
+    '打开文件（包括最近的文件）、重新加载文件、显示打开对话框。|' +
+      '打开文件 C:\logs\app.log。',
+    '開啟檔案（包括最近的檔案）、重新載入檔案、顯示開啟對話方塊。|' +
+      '開啟檔案 C:\logs\app.log。');
+  Set14('AICaps.Item.Goto',
+    'Goes to a line, byte offset, start or end of the file, and manages bookmarks.|' +
+      'Go to line 5000.',
+    'Vai para uma linha, posição em bytes, início ou fim do arquivo, e gerencia marcadores.|' +
+      'Vá para a linha 5000.',
+    'Va a una línea, posición en bytes, inicio o final del archivo, y gestiona marcadores.|' +
+      'Ve a la línea 5000.',
+    'Va à une ligne, à une position en octets, au début ou à la fin du fichier, et gère les signets.|' +
+      'Va à la ligne 5000.',
+    'Springt zu einer Zeile, Byte-Position, zum Anfang oder Ende der Datei und verwaltet Lesezeichen.|' +
+      'Gehe zu Zeile 5000.',
+    'Va a una riga, a una posizione in byte, all''inizio o alla fine del file, e gestisce i segnalibri.|' +
+      'Vai alla riga 5000.',
+    'Przechodzi do wiersza, pozycji w bajtach, początku lub końca pliku oraz zarządza zakładkami.|' +
+      'Przejdź do wiersza 5000.',
+    'Vai para uma linha, posição em bytes, início ou fim do ficheiro, e gere marcadores.|' +
+      'Vá para a linha 5000.',
+    'Merge la o linie, la o poziție în octeți, la începutul sau sfârșitul fișierului și gestionează marcajele.|' +
+      'Mergi la linia 5000.',
+    'Sorra, bájtpozícióra, a fájl elejére vagy végére ugrik, és kezeli a könyvjelzőket.|' +
+      'Ugorj az 5000. sorra.',
+    'Přejde na řádek, bajtovou pozici, začátek nebo konec souboru a spravuje záložky.|' +
+      'Přejdi na řádek 5000.',
+    '指定行・バイト位置・ファイルの先頭/末尾へ移動し、ブックマークを管理します。|' +
+      '5000 行目へ移動して。',
+    '跳转到指定行、字节位置、文件开头或结尾，并管理书签。|' +
+      '跳到第 5000 行。',
+    '跳到指定行、位元組位置、檔案開頭或結尾，並管理書籤。|' +
+      '跳到第 5000 行。');
+  Set14('AICaps.Item.Find',
+    'Finds text in the open file (next, previous, all occurrences) and searches in other files.|' +
+      'Find all occurrences of timeout.',
+    'Localiza texto no arquivo aberto (próxima, anterior, todas as ocorrências) e busca em outros arquivos.|' +
+      'Localize todas as ocorrências de timeout.',
+    'Busca texto en el archivo abierto (siguiente, anterior, todas las apariciones) y en otros archivos.|' +
+      'Busca todas las apariciones de timeout.',
+    'Recherche du texte dans le fichier ouvert (suivant, précédent, toutes les occurrences) et dans d''autres fichiers.|' +
+      'Trouve toutes les occurrences de timeout.',
+    'Sucht Text in der geöffneten Datei (nächstes, vorheriges, alle Vorkommen) und in anderen Dateien.|' +
+      'Finde alle Vorkommen von timeout.',
+    'Cerca testo nel file aperto (successiva, precedente, tutte le occorrenze) e in altri file.|' +
+      'Trova tutte le occorrenze di timeout.',
+    'Wyszukuje tekst w otwartym pliku (następne, poprzednie, wszystkie wystąpienia) i w innych plikach.|' +
+      'Znajdź wszystkie wystąpienia timeout.',
+    'Localiza texto no ficheiro aberto (seguinte, anterior, todas as ocorrências) e pesquisa noutros ficheiros.|' +
+      'Localize todas as ocorrências de timeout.',
+    'Caută text în fișierul deschis (următoarea, anterioara, toate aparițiile) și în alte fișiere.|' +
+      'Găsește toate aparițiile lui timeout.',
+    'Szöveget keres a megnyitott fájlban (következő, előző, összes előfordulás) és más fájlokban.|' +
+      'Keresd meg a timeout összes előfordulását.',
+    'Hledá text v otevřeném souboru (další, předchozí, všechny výskyty) i v jiných souborech.|' +
+      'Najdi všechny výskyty timeout.',
+    '開いているファイル内のテキスト検索（次・前・すべて）と、他のファイルでの検索。|' +
+      'timeout をすべて検索して。',
+    '在打开的文件中查找文本（下一个、上一个、全部），也可在其他文件中搜索。|' +
+      '查找 timeout 的所有出现位置。',
+    '在開啟的檔案中尋找文字（下一個、上一個、全部），也可在其他檔案中搜尋。|' +
+      '尋找 timeout 的所有出現位置。');
+  Set14('AICaps.Item.Filter',
+    'Shows only the lines that match (contains, starts with or regex) and copies the result.|' +
+      'Show only the lines with WARN.',
+    'Mostra só as linhas que combinam (contém, começa com ou regex) e copia o resultado.|' +
+      'Mostre só as linhas com WARN.',
+    'Muestra solo las líneas que coinciden (contiene, empieza por o regex) y copia el resultado.|' +
+      'Muestra solo las líneas con WARN.',
+    'Affiche uniquement les lignes correspondantes (contient, commence par ou regex) et copie le résultat.|' +
+      'Affiche seulement les lignes avec WARN.',
+    'Zeigt nur passende Zeilen (enthält, beginnt mit oder Regex) und kopiert das Ergebnis.|' +
+      'Zeige nur die Zeilen mit WARN.',
+    'Mostra solo le righe corrispondenti (contiene, inizia con o regex) e copia il risultato.|' +
+      'Mostra solo le righe con WARN.',
+    'Pokazuje tylko pasujące wiersze (zawiera, zaczyna się od lub regex) i kopiuje wynik.|' +
+      'Pokaż tylko wiersze z WARN.',
+    'Mostra só as linhas correspondentes (contém, começa por ou regex) e copia o resultado.|' +
+      'Mostre só as linhas com WARN.',
+    'Afișează doar liniile potrivite (conține, începe cu sau regex) și copiază rezultatul.|' +
+      'Arată doar liniile cu WARN.',
+    'Csak az illeszkedő sorokat mutatja (tartalmaz, ezzel kezdődik vagy regex), és másolja az eredményt.|' +
+      'Csak a WARN-t tartalmazó sorokat mutasd.',
+    'Zobrazí jen odpovídající řádky (obsahuje, začíná na nebo regex) a zkopíruje výsledek.|' +
+      'Zobraz jen řádky s WARN.',
+    '一致する行だけを表示（含む・前方一致・正規表現）し、結果をコピーできます。|' +
+      'WARN を含む行だけを表示して。',
+    '只显示匹配的行（包含、开头为或正则），并可复制结果。|' +
+      '只显示包含 WARN 的行。',
+    '只顯示符合的行（包含、開頭為或規則運算式），並可複製結果。|' +
+      '只顯示包含 WARN 的行。');
+  Set14('AICaps.Item.View',
+    'Changes the view: word wrap, zoom, whitespace marks, CSV mode, full screen.|' +
+      'Turn on word wrap and zoom in.',
+    'Muda a visualização: quebra de linha, zoom, marcas de espaço, modo CSV, tela cheia.|' +
+      'Ligue a quebra de linha e aumente o zoom.',
+    'Cambia la vista: ajuste de línea, zoom, marcas de espacios, modo CSV, pantalla completa.|' +
+      'Activa el ajuste de línea y aumenta el zoom.',
+    'Change l''affichage : retour à la ligne, zoom, marques d''espaces, mode CSV, plein écran.|' +
+      'Active le retour à la ligne et agrandis le zoom.',
+    'Ändert die Ansicht: Zeilenumbruch, Zoom, Leerzeichenmarken, CSV-Modus, Vollbild.|' +
+      'Schalte den Zeilenumbruch ein und vergrößere die Ansicht.',
+    'Cambia la vista: a capo automatico, zoom, segni di spazio, modalità CSV, schermo intero.|' +
+      'Attiva l''a capo automatico e aumenta lo zoom.',
+    'Zmienia widok: zawijanie wierszy, powiększenie, znaczniki spacji, tryb CSV, pełny ekran.|' +
+      'Włącz zawijanie wierszy i powiększ widok.',
+    'Muda a visualização: quebra de linha, zoom, marcas de espaço, modo CSV, ecrã inteiro.|' +
+      'Ative a quebra de linha e aumente o zoom.',
+    'Schimbă afișarea: încadrare text, zoom, marcaje de spații, mod CSV, ecran complet.|' +
+      'Activează încadrarea textului și mărește zoomul.',
+    'Módosítja a nézetet: sortörés, nagyítás, szóközjelek, CSV mód, teljes képernyő.|' +
+      'Kapcsold be a sortörést, és nagyíts.',
+    'Mění zobrazení: zalamování řádků, lupa, značky mezer, režim CSV, celá obrazovka.|' +
+      'Zapni zalamování řádků a zvětši zobrazení.',
+    '表示を変更：折り返し、ズーム、空白記号、CSV モード、全画面。|' +
+      '折り返しをオンにして拡大して。',
+    '更改视图：自动换行、缩放、空白标记、CSV 模式、全屏。|' +
+      '打开自动换行并放大。',
+    '變更檢視：自動換行、縮放、空白標記、CSV 模式、全螢幕。|' +
+      '開啟自動換行並放大。');
+  Set14('AICaps.Item.Tail',
+    'Follows the file in real time (tail) and pauses it.|' +
+      'Follow this log in real time.',
+    'Acompanha o arquivo em tempo real (tail) e pausa o acompanhamento.|' +
+      'Acompanhe este log em tempo real.',
+    'Sigue el archivo en tiempo real (tail) y lo pausa.|' +
+      'Sigue este log en tiempo real.',
+    'Suit le fichier en temps réel (tail) et met le suivi en pause.|' +
+      'Suis ce log en temps réel.',
+    'Verfolgt die Datei in Echtzeit (Tail) und pausiert die Verfolgung.|' +
+      'Verfolge dieses Log in Echtzeit.',
+    'Segue il file in tempo reale (tail) e lo mette in pausa.|' +
+      'Segui questo log in tempo reale.',
+    'Śledzi plik na bieżąco (tail) i wstrzymuje śledzenie.|' +
+      'Śledź ten log na bieżąco.',
+    'Acompanha o ficheiro em tempo real (tail) e pausa o acompanhamento.|' +
+      'Acompanhe este log em tempo real.',
+    'Urmărește fișierul în timp real (tail) și pune urmărirea pe pauză.|' +
+      'Urmărește acest log în timp real.',
+    'Valós időben követi a fájlt (tail), és szünetelteti a követést.|' +
+      'Kövesd ezt a logot valós időben.',
+    'Sleduje soubor v reálném čase (tail) a pozastaví sledování.|' +
+      'Sleduj tento log v reálném čase.',
+    'ファイルをリアルタイムで追跡（tail）し、一時停止もできます。|' +
+      'このログをリアルタイムで追跡して。',
+    '实时跟踪文件（tail），也可暂停。|' +
+      '实时跟踪这个日志。',
+    '即時追蹤檔案（tail），也可暫停。|' +
+      '即時追蹤這個記錄檔。');
+
+  Set14('AICaps.Item.Split',
+    'Splits big files into equal parts or by pattern, or extracts parts of them.|' +
+      'Split this file into 4 equal parts.',
+    'Divide arquivos grandes em partes iguais ou por padrão, ou extrai partes deles.|' +
+      'Divida este arquivo em 4 partes iguais.',
+    'Divide archivos grandes en partes iguales o por patrón, o extrae partes de ellos.|' +
+      'Divide este archivo en 4 partes iguales.',
+    'Découpe les gros fichiers en parts égales ou selon un motif, ou en extrait des parties.|' +
+      'Découpe ce fichier en 4 parties égales.',
+    'Teilt große Dateien in gleiche Teile oder nach Muster oder extrahiert Teile daraus.|' +
+      'Teile diese Datei in 4 gleiche Teile.',
+    'Divide file grandi in parti uguali o per schema, oppure ne estrae parti.|' +
+      'Dividi questo file in 4 parti uguali.',
+    'Dzieli duże pliki na równe części lub według wzorca albo wyodrębnia ich fragmenty.|' +
+      'Podziel ten plik na 4 równe części.',
+    'Divide ficheiros grandes em partes iguais ou por padrão, ou extrai partes deles.|' +
+      'Divida este ficheiro em 4 partes iguais.',
+    'Împarte fișiere mari în părți egale sau după tipar ori extrage părți din ele.|' +
+      'Împarte acest fișier în 4 părți egale.',
+    'Nagy fájlokat egyenlő részekre vagy minta szerint darabol, illetve részeket emel ki belőlük.|' +
+      'Oszd fel ezt a fájlt 4 egyenlő részre.',
+    'Rozdělí velké soubory na stejné části nebo podle vzoru, případně z nich vyjme části.|' +
+      'Rozděl tento soubor na 4 stejné části.',
+    '大きなファイルを均等に、またはパターンで分割し、一部を抽出します。|' +
+      'このファイルを 4 等分して。',
+    '将大文件等分或按模式拆分，或提取其中部分。|' +
+      '把这个文件拆分成 4 个相等的部分。',
+    '將大檔案等分或依模式分割，或擷取其中部分。|' +
+      '把這個檔案分割成 4 個相等的部分。');
+  Set14('AICaps.Item.Export',
+    'Exports lines, matching lines or the filter result to a new file; removes duplicate lines.|' +
+      'Export the lines that contain ERROR to a new file.',
+    'Exporta linhas, linhas que combinam ou o resultado do filtro para um novo arquivo; remove linhas duplicadas.|' +
+      'Exporte as linhas que contêm ERROR para um novo arquivo.',
+    'Exporta líneas, líneas coincidentes o el resultado del filtro a un archivo nuevo; elimina líneas duplicadas.|' +
+      'Exporta las líneas que contienen ERROR a un archivo nuevo.',
+    'Exporte des lignes, les lignes correspondantes ou le résultat du filtre vers un nouveau fichier ; supprime les doublons.|' +
+      'Exporte les lignes contenant ERROR vers un nouveau fichier.',
+    'Exportiert Zeilen, passende Zeilen oder das Filterergebnis in eine neue Datei; entfernt doppelte Zeilen.|' +
+      'Exportiere die Zeilen mit ERROR in eine neue Datei.',
+    'Esporta righe, righe corrispondenti o il risultato del filtro in un nuovo file; rimuove le righe duplicate.|' +
+      'Esporta le righe che contengono ERROR in un nuovo file.',
+    'Eksportuje wiersze, pasujące wiersze lub wynik filtra do nowego pliku; usuwa zduplikowane wiersze.|' +
+      'Wyeksportuj wiersze zawierające ERROR do nowego pliku.',
+    'Exporta linhas, linhas correspondentes ou o resultado do filtro para um novo ficheiro; remove linhas duplicadas.|' +
+      'Exporte as linhas que contêm ERROR para um novo ficheiro.',
+    'Exportă linii, liniile potrivite sau rezultatul filtrului într-un fișier nou; elimină liniile duplicate.|' +
+      'Exportă liniile care conțin ERROR într-un fișier nou.',
+    'Sorokat, illeszkedő sorokat vagy a szűrés eredményét új fájlba exportálja; eltávolítja az ismétlődő sorokat.|' +
+      'Exportáld az ERROR-t tartalmazó sorokat egy új fájlba.',
+    'Exportuje řádky, odpovídající řádky nebo výsledek filtru do nového souboru; odstraní duplicitní řádky.|' +
+      'Exportuj řádky obsahující ERROR do nového souboru.',
+    '行、一致する行、フィルター結果を新しいファイルへエクスポート。重複行の削除も可能。|' +
+      'ERROR を含む行を新しいファイルにエクスポートして。',
+    '将行、匹配的行或筛选结果导出到新文件；删除重复行。|' +
+      '把包含 ERROR 的行导出到新文件。',
+    '將行、符合的行或篩選結果匯出到新檔案；刪除重複行。|' +
+      '把包含 ERROR 的行匯出到新檔案。');
+  Set14('AICaps.Item.Replace',
+    'Replaces text in the whole file.|' +
+      'Replace http:// with https:// in the whole file.',
+    'Substitui texto no arquivo inteiro.|' +
+      'Substitua http:// por https:// no arquivo inteiro.',
+    'Reemplaza texto en todo el archivo.|' +
+      'Reemplaza http:// por https:// en todo el archivo.',
+    'Remplace du texte dans tout le fichier.|' +
+      'Remplace http:// par https:// dans tout le fichier.',
+    'Ersetzt Text in der gesamten Datei.|' +
+      'Ersetze http:// durch https:// in der ganzen Datei.',
+    'Sostituisce testo in tutto il file.|' +
+      'Sostituisci http:// con https:// in tutto il file.',
+    'Zamienia tekst w całym pliku.|' +
+      'Zamień http:// na https:// w całym pliku.',
+    'Substitui texto no ficheiro inteiro.|' +
+      'Substitua http:// por https:// no ficheiro inteiro.',
+    'Înlocuiește text în tot fișierul.|' +
+      'Înlocuiește http:// cu https:// în tot fișierul.',
+    'Szöveget cserél az egész fájlban.|' +
+      'Cseréld a http:// részt https://-re az egész fájlban.',
+    'Nahrazuje text v celém souboru.|' +
+      'Nahraď http:// za https:// v celém souboru.',
+    'ファイル全体のテキストを置換します。|' +
+      'ファイル全体の http:// を https:// に置換して。',
+    '在整个文件中替换文本。|' +
+      '在整个文件中把 http:// 替换为 https://。',
+    '在整個檔案中取代文字。|' +
+      '在整個檔案中把 http:// 取代為 https://。');
+  Set14('AICaps.Item.Undo',
+    'Undoes and redoes changes, duplicates and pastes lines, edits a line.|' +
+      'Undo the last change.',
+    'Desfaz e refaz alterações, duplica e cola linhas, edita uma linha.|' +
+      'Desfaça a última alteração.',
+    'Deshace y rehace cambios, duplica y pega líneas, edita una línea.|' +
+      'Deshaz el último cambio.',
+    'Annule et rétablit les modifications, duplique et colle des lignes, modifie une ligne.|' +
+      'Annule la dernière modification.',
+    'Macht Änderungen rückgängig oder wiederholt sie, dupliziert und fügt Zeilen ein, bearbeitet eine Zeile.|' +
+      'Mach die letzte Änderung rückgängig.',
+    'Annulla e ripete le modifiche, duplica e incolla righe, modifica una riga.|' +
+      'Annulla l''ultima modifica.',
+    'Cofa i ponawia zmiany, duplikuje i wkleja wiersze, edytuje wiersz.|' +
+      'Cofnij ostatnią zmianę.',
+    'Anula e refaz alterações, duplica e cola linhas, edita uma linha.|' +
+      'Anule a última alteração.',
+    'Anulează și refă modificările, duplică și lipește linii, editează o linie.|' +
+      'Anulează ultima modificare.',
+    'Visszavonja és újra végrehajtja a módosításokat, sorokat duplikál és beilleszt, sort szerkeszt.|' +
+      'Vond vissza az utolsó módosítást.',
+    'Vrací a opakuje změny, duplikuje a vkládá řádky, upravuje řádek.|' +
+      'Vrať poslední změnu.',
+    '変更の元に戻す/やり直し、行の複製と貼り付け、行の編集。|' +
+      '直前の変更を元に戻して。',
+    '撤销和重做更改、复制和粘贴行、编辑一行。|' +
+      '撤销上一次更改。',
+    '復原和重做變更、複製和貼上行、編輯一行。|' +
+      '復原上一次變更。');
+  Set14('AICaps.Item.Tabs',
+    'Opens the Compare, Merge lines, Merge files and Recent tabs, sessions and preferences.|' +
+      'Open the compare files tab.',
+    'Abre as abas Comparar, Mesclar linhas, Mesclar arquivos e Recentes, sessões e preferências.|' +
+      'Abra a aba de comparar arquivos.',
+    'Abre las pestañas Comparar, Combinar líneas, Combinar archivos y Recientes, sesiones y preferencias.|' +
+      'Abre la pestaña de comparar archivos.',
+    'Ouvre les onglets Comparer, Fusionner des lignes, Fusionner des fichiers et Récents, les sessions et les préférences.|' +
+      'Ouvre l''onglet de comparaison de fichiers.',
+    'Öffnet die Tabs Vergleichen, Zeilen zusammenführen, Dateien zusammenführen und Zuletzt, Sitzungen und Einstellungen.|' +
+      'Öffne den Tab zum Vergleichen von Dateien.',
+    'Apre le schede Confronta, Unisci righe, Unisci file e Recenti, le sessioni e le preferenze.|' +
+      'Apri la scheda per confrontare i file.',
+    'Otwiera karty Porównaj, Scal wiersze, Scal pliki i Ostatnie, sesje oraz preferencje.|' +
+      'Otwórz kartę porównywania plików.',
+    'Abre os separadores Comparar, Juntar linhas, Juntar ficheiros e Recentes, sessões e preferências.|' +
+      'Abra o separador de comparar ficheiros.',
+    'Deschide filele Comparare, Îmbinare linii, Îmbinare fișiere și Recente, sesiunile și preferințele.|' +
+      'Deschide fila de comparare a fișierelor.',
+    'Megnyitja az Összehasonlítás, Sorok egyesítése, Fájlok egyesítése és Legutóbbiak lapot, a munkameneteket és a beállításokat.|' +
+      'Nyisd meg a fájlösszehasonlítás lapot.',
+    'Otevře karty Porovnat, Sloučit řádky, Sloučit soubory a Nedávné, relace a předvolby.|' +
+      'Otevři kartu porovnání souborů.',
+    '［比較］［行の結合］［ファイルの結合］［最近使用］タブ、セッション、設定を開きます。|' +
+      'ファイル比較タブを開いて。',
+    '打开“比较”“合并行”“合并文件”“最近”选项卡、会话和首选项。|' +
+      '打开比较文件选项卡。',
+    '開啟「比較」「合併行」「合併檔案」「最近」索引標籤、工作階段和喜好設定。|' +
+      '開啟比較檔案索引標籤。');
+
+  Set14('AICaps.Item.Doc',
+    'Creates documents from the file content: PDF, Word, HTML, Markdown, reports.|' +
+      'Create a PDF report with the errors of this log.',
+    'Cria documentos a partir do conteúdo do arquivo: PDF, Word, HTML, Markdown, relatórios.|' +
+      'Crie um relatório PDF com os erros deste log.',
+    'Crea documentos a partir del contenido del archivo: PDF, Word, HTML, Markdown, informes.|' +
+      'Crea un informe PDF con los errores de este log.',
+    'Crée des documents à partir du contenu du fichier : PDF, Word, HTML, Markdown, rapports.|' +
+      'Crée un rapport PDF avec les erreurs de ce log.',
+    'Erstellt Dokumente aus dem Dateiinhalt: PDF, Word, HTML, Markdown, Berichte.|' +
+      'Erstelle einen PDF-Bericht mit den Fehlern aus diesem Log.',
+    'Crea documenti dal contenuto del file: PDF, Word, HTML, Markdown, report.|' +
+      'Crea un report PDF con gli errori di questo log.',
+    'Tworzy dokumenty z treści pliku: PDF, Word, HTML, Markdown, raporty.|' +
+      'Utwórz raport PDF z błędami z tego logu.',
+    'Cria documentos a partir do conteúdo do ficheiro: PDF, Word, HTML, Markdown, relatórios.|' +
+      'Crie um relatório PDF com os erros deste log.',
+    'Creează documente din conținutul fișierului: PDF, Word, HTML, Markdown, rapoarte.|' +
+      'Creează un raport PDF cu erorile din acest log.',
+    'Dokumentumokat készít a fájl tartalmából: PDF, Word, HTML, Markdown, jelentések.|' +
+      'Készíts PDF-jelentést a log hibáiból.',
+    'Vytváří dokumenty z obsahu souboru: PDF, Word, HTML, Markdown, zprávy.|' +
+      'Vytvoř PDF zprávu s chybami z tohoto logu.',
+    'ファイルの内容からドキュメントを作成：PDF、Word、HTML、Markdown、レポート。|' +
+      'このログのエラーをまとめた PDF レポートを作成して。',
+    '根据文件内容创建文档：PDF、Word、HTML、Markdown、报告。|' +
+      '用这个日志中的错误创建一份 PDF 报告。',
+    '根據檔案內容建立文件：PDF、Word、HTML、Markdown、報告。|' +
+      '用這個記錄檔中的錯誤建立一份 PDF 報告。');
+  Set14('AICaps.Item.Code',
+    'Generates source code (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) ' +
+      'from the file or a description, validates its syntax, fixes errors with the AI and explains what code ' +
+      'does.|Create a Python script that reads clientes.csv and shows the e-mails.',
+    'Gera código-fonte (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) a ' +
+      'partir do arquivo ou de uma descrição, valida a sintaxe, corrige erros com a IA e explica o que o código ' +
+      'faz.|Crie um script Python que leia o clientes.csv e mostre os e-mails.',
+    'Genera código fuente (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) a ' +
+      'partir del archivo o de una descripción, valida la sintaxis, corrige errores con la IA y explica qué ' +
+      'hace el código.|Crea un script Python que lea clientes.csv y muestre los correos.',
+    'Génère du code source (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) à ' +
+      'partir du fichier ou d''une description, valide la syntaxe, corrige les erreurs avec l''IA et explique ' +
+      'ce que fait le code.|Crée un script Python qui lit clientes.csv et affiche les e-mails.',
+    'Erzeugt Quellcode (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) aus ' +
+      'der Datei oder einer Beschreibung, prüft die Syntax, behebt Fehler mit der KI und erklärt, was der Code ' +
+      'tut.|Erstelle ein Python-Skript, das clientes.csv liest und die E-Mails anzeigt.',
+    'Genera codice sorgente (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) ' +
+      'dal file o da una descrizione, ne convalida la sintassi, corregge gli errori con l''IA e spiega cosa fa ' +
+      'il codice.|Crea uno script Python che legga clientes.csv e mostri le e-mail.',
+    'Generuje kod źródłowy (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) ' +
+      'na podstawie pliku lub opisu, sprawdza składnię, poprawia błędy z pomocą AI i wyjaśnia, co robi kod.|' +
+      'Utwórz skrypt Python, który czyta clientes.csv i pokazuje e-maile.',
+    'Gera código-fonte (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) a ' +
+      'partir do ficheiro ou de uma descrição, valida a sintaxe, corrige erros com a IA e explica o que o ' +
+      'código faz.|Cria um script Python que leia o clientes.csv e mostre os e-mails.',
+    'Generează cod sursă (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) din ' +
+      'fișier sau dintr-o descriere, validează sintaxa, corectează erorile cu IA și explică ce face codul.|' +
+      'Creează un script Python care citește clientes.csv și afișează e-mailurile.',
+    'Forráskódot készít (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) a ' +
+      'fájlból vagy leírásból, ellenőrzi a szintaxist, MI-vel javítja a hibákat, és elmagyarázza, mit csinál ' +
+      'a kód.|Készíts egy Python-szkriptet, amely beolvassa a clientes.csv-t és kiírja az e-maileket.',
+    'Generuje zdrojový kód (Python, JavaScript, TypeScript/React, Java, Go, C#, Pascal, SQL, JSON, HTML...) ze ' +
+      'souboru nebo z popisu, ověřuje syntaxi, opravuje chyby pomocí AI a vysvětluje, co kód dělá.|' +
+      'Vytvoř skript v Pythonu, který načte clientes.csv a vypíše e-maily.',
+    'ファイルや説明からソースコード（Python、JavaScript、TypeScript/React、Java、Go、C#、Pascal、SQL、JSON、HTML など）を' +
+      '生成し、構文を検証し、AI でエラーを修正し、コードの処理内容を説明します。|' +
+      'clientes.csv を読み込んでメールアドレスを表示する Python スクリプトを作成して。',
+    '根据文件或描述生成源代码（Python、JavaScript、TypeScript/React、Java、Go、C#、Pascal、SQL、JSON、HTML 等），' +
+      '校验语法，用 AI 修复错误，并解释代码的作用。|创建一个读取 clientes.csv 并显示电子邮件的 Python 脚本。',
+    '根據檔案或描述產生原始碼（Python、JavaScript、TypeScript/React、Java、Go、C#、Pascal、SQL、JSON、HTML 等），' +
+      '驗證語法，用 AI 修正錯誤，並解釋程式碼的作用。|建立一個讀取 clientes.csv 並顯示電子郵件的 Python 指令碼。');
+  Set14('AICaps.Item.Consumer',
+    'Answers questions about the file content with the AI chat (SQL chat and advanced chat).|' +
+      'Open the SQL chat on clientes.csv and ask how many customers there are per city.',
+    'Responde perguntas sobre o conteúdo do arquivo com o chat de IA (chat SQL e chat avançado).|' +
+      'Abra o chat SQL no clientes.csv e pergunte quantos clientes há por cidade.',
+    'Responde preguntas sobre el contenido del archivo con el chat de IA (chat SQL y chat avanzado).|' +
+      'Abre el chat SQL en clientes.csv y pregunta cuántos clientes hay por ciudad.',
+    'Répond aux questions sur le contenu du fichier avec le chat IA (chat SQL et chat avancé).|' +
+      'Ouvre le chat SQL sur clientes.csv et demande combien de clients il y a par ville.',
+    'Beantwortet Fragen zum Dateiinhalt mit dem KI-Chat (SQL-Chat und erweiterter Chat).|' +
+      'Öffne den SQL-Chat für clientes.csv und frage, wie viele Kunden es pro Stadt gibt.',
+    'Risponde a domande sul contenuto del file con la chat IA (chat SQL e chat avanzata).|' +
+      'Apri la chat SQL su clientes.csv e chiedi quanti clienti ci sono per città.',
+    'Odpowiada na pytania o treść pliku za pomocą czatu AI (czat SQL i czat zaawansowany).|' +
+      'Otwórz czat SQL dla clientes.csv i zapytaj, ilu jest klientów w każdym mieście.',
+    'Responde a perguntas sobre o conteúdo do ficheiro com o chat de IA (chat SQL e chat avançado).|' +
+      'Abre o chat SQL no clientes.csv e pergunta quantos clientes há por cidade.',
+    'Răspunde la întrebări despre conținutul fișierului cu chatul IA (chat SQL și chat avansat).|' +
+      'Deschide chatul SQL pe clientes.csv și întreabă câți clienți sunt în fiecare oraș.',
+    'MI-csevegéssel válaszol a fájl tartalmára vonatkozó kérdésekre (SQL-csevegés és speciális csevegés).|' +
+      'Nyisd meg az SQL-csevegést a clientes.csv-hez, és kérdezd meg, hány ügyfél van városonként.',
+    'Odpovídá na otázky o obsahu souboru pomocí AI chatu (SQL chat a pokročilý chat).|' +
+      'Otevři SQL chat pro clientes.csv a zeptej se, kolik je zákazníků v každém městě.',
+    'AI チャット（SQL チャットと高度なチャット）でファイル内容に関する質問に答えます。|' +
+      'clientes.csv で SQL チャットを開き、都市ごとの顧客数を聞いて。',
+    '通过 AI 聊天（SQL 聊天和高级聊天）回答有关文件内容的问题。|' +
+      '在 clientes.csv 上打开 SQL 聊天，询问每个城市有多少客户。',
+    '透過 AI 聊天（SQL 聊天和進階聊天）回答有關檔案內容的問題。|' +
+      '在 clientes.csv 上開啟 SQL 聊天，詢問每個城市有多少客戶。');
+  Set14('AICaps.Item.HowTo',
+    'Explains how to use FastFile: menus, shortcuts and features.|' +
+      'How do I compare two files?',
+    'Explica como usar o FastFile: menus, atalhos e recursos.|' +
+      'Como comparo dois arquivos?',
+    'Explica cómo usar FastFile: menús, atajos y funciones.|' +
+      '¿Cómo comparo dos archivos?',
+    'Explique comment utiliser FastFile : menus, raccourcis et fonctionnalités.|' +
+      'Comment comparer deux fichiers ?',
+    'Erklärt die Bedienung von FastFile: Menüs, Tastenkürzel und Funktionen.|' +
+      'Wie vergleiche ich zwei Dateien?',
+    'Spiega come usare FastFile: menu, scorciatoie e funzioni.|' +
+      'Come confronto due file?',
+    'Wyjaśnia, jak korzystać z FastFile: menu, skróty i funkcje.|' +
+      'Jak porównać dwa pliki?',
+    'Explica como usar o FastFile: menus, atalhos e funcionalidades.|' +
+      'Como comparo dois ficheiros?',
+    'Explică cum se folosește FastFile: meniuri, comenzi rapide și funcții.|' +
+      'Cum compar două fișiere?',
+    'Elmagyarázza a FastFile használatát: menük, billentyűparancsok és funkciók.|' +
+      'Hogyan hasonlíthatok össze két fájlt?',
+    'Vysvětluje, jak používat FastFile: nabídky, zkratky a funkce.|' +
+      'Jak porovnám dva soubory?',
+    'FastFile の使い方（メニュー、ショートカット、機能）を説明します。|' +
+      '2 つのファイルを比較するには？',
+    '讲解 FastFile 的用法：菜单、快捷键和功能。|' +
+      '如何比较两个文件？',
+    '說明 FastFile 的用法：選單、快速鍵和功能。|' +
+      '如何比較兩個檔案？');
+  Set14('AICaps.Item.Chain',
+    'Chains several steps in one request (filter, export, create a document...).|' +
+      'Filter the lines with ERROR, export them to a new file and create a PDF with them.',
+    'Encadeia vários passos num só pedido (filtrar, exportar, criar documento...).|' +
+      'Filtre as linhas com ERROR, exporte para um novo arquivo e crie um PDF com elas.',
+    'Encadena varios pasos en una sola solicitud (filtrar, exportar, crear un documento...).|' +
+      'Filtra las líneas con ERROR, expórtalas a un archivo nuevo y crea un PDF con ellas.',
+    'Enchaîne plusieurs étapes en une seule demande (filtrer, exporter, créer un document...).|' +
+      'Filtre les lignes avec ERROR, exporte-les vers un nouveau fichier et crée un PDF avec.',
+    'Verkettet mehrere Schritte in einer Anfrage (filtern, exportieren, Dokument erstellen...).|' +
+      'Filtere die Zeilen mit ERROR, exportiere sie in eine neue Datei und erstelle daraus ein PDF.',
+    'Concatena più passaggi in una sola richiesta (filtrare, esportare, creare un documento...).|' +
+      'Filtra le righe con ERROR, esportale in un nuovo file e crea un PDF con esse.',
+    'Łączy kilka kroków w jednej prośbie (filtrowanie, eksport, tworzenie dokumentu...).|' +
+      'Odfiltruj wiersze z ERROR, wyeksportuj je do nowego pliku i utwórz z nich PDF.',
+    'Encadeia vários passos num só pedido (filtrar, exportar, criar documento...).|' +
+      'Filtre as linhas com ERROR, exporte-as para um novo ficheiro e crie um PDF com elas.',
+    'Înlănțuie mai mulți pași într-o singură cerere (filtrare, export, creare document...).|' +
+      'Filtrează liniile cu ERROR, exportă-le într-un fișier nou și creează un PDF cu ele.',
+    'Több lépést fűz össze egy kérésben (szűrés, exportálás, dokumentum készítése...).|' +
+      'Szűrd ki az ERROR-t tartalmazó sorokat, exportáld őket új fájlba, és készíts belőlük PDF-et.',
+    'Spojí několik kroků do jednoho požadavku (filtrování, export, vytvoření dokumentu...).|' +
+      'Vyfiltruj řádky s ERROR, exportuj je do nového souboru a vytvoř z nich PDF.',
+    '複数の手順を 1 回の依頼でつなげます（絞り込み、エクスポート、ドキュメント作成など）。|' +
+      'ERROR を含む行で絞り込み、新しいファイルにエクスポートして PDF も作成して。',
+    '在一次请求中串联多个步骤（筛选、导出、创建文档……）。|' +
+      '筛选包含 ERROR 的行，导出到新文件，并用它们创建 PDF。',
+    '在一次請求中串連多個步驟（篩選、匯出、建立文件……）。|' +
+      '篩選包含 ERROR 的行，匯出到新檔案，並用它們建立 PDF。');
+  Set14('AICaps.Item.AgentMode',
+    'Agent button: hands the request to the AI agent for several files, exact counts, SQL and edits you review.|' +
+      'In all the .csv files of C:\dados, how many lines have an empty e-mail?',
+    'Botão Agente: passa o pedido ao Agente IA para vários arquivos, contagens exatas, SQL e edições que você revisa.|' +
+      'Em todos os arquivos .csv de C:\dados, quantas linhas têm e-mail vazio?',
+    'Botón Agente: pasa la solicitud al Agente IA para varios archivos, conteos exactos, SQL y ediciones que revisa.|' +
+      'En todos los archivos .csv de C:\dados, ¿cuántas líneas tienen el correo vacío?',
+    'Bouton Agent : confie la demande à l''Agent IA pour plusieurs fichiers, comptages exacts, SQL et modifications à vérifier.|' +
+      'Dans tous les fichiers .csv de C:\dados, combien de lignes ont un e-mail vide ?',
+    'Schaltfläche Agent: übergibt die Anfrage an den KI-Agenten für mehrere Dateien, exakte Zählungen, SQL und prüfbare Änderungen.|' +
+      'Wie viele Zeilen in allen .csv-Dateien von C:\dados haben eine leere E-Mail?',
+    'Pulsante Agente: passa la richiesta all''Agente IA per più file, conteggi esatti, SQL e modifiche da controllare.|' +
+      'In tutti i file .csv di C:\dados, quante righe hanno l''e-mail vuota?',
+    'Przycisk Agent: przekazuje prośbę Agentowi AI dla wielu plików, dokładnych liczb, SQL i zmian do sprawdzenia.|' +
+      'Ile wierszy we wszystkich plikach .csv w C:\dados ma pusty e-mail?',
+    'Botão Agente: passa o pedido ao Agente IA para vários ficheiros, contagens exatas, SQL e edições que revê.|' +
+      'Em todos os ficheiros .csv de C:\dados, quantas linhas têm e-mail vazio?',
+    'Butonul Agent: trimite cererea Agentului IA pentru mai multe fișiere, numărători exacte, SQL și editări de verificat.|' +
+      'În toate fișierele .csv din C:\dados, câte linii au e-mailul gol?',
+    'Ügynök gomb: átadja a kérést a MI-ügynöknek több fájlhoz, pontos számláláshoz, SQL-hez és átnézhető módosításokhoz.|' +
+      'A C:\dados összes .csv fájljában hány sorban üres az e-mail?',
+    'Tlačítko Agent: předá požadavek Agentovi AI pro více souborů, přesné počty, SQL a úpravy ke kontrole.|' +
+      'Kolik řádků ve všech souborech .csv v C:\dados má prázdný e-mail?',
+    '［エージェント］ボタン：複数ファイル、正確な件数、SQL、確認できる編集が必要な依頼を AI エージェントに渡します。|' +
+      'C:\dados のすべての .csv で、メールが空の行はいくつ？',
+    '“智能体”按钮：将请求交给 AI 智能体，处理多个文件、精确计数、SQL 和可审核的修改。|' +
+      'C:\dados 中所有 .csv 文件里，有多少行的电子邮件为空？',
+    '「智慧體」按鈕：將請求交給 AI 智慧體，處理多個檔案、精確計數、SQL 和可審核的修改。|' +
+      'C:\dados 中所有 .csv 檔案裡，有多少行的電子郵件為空？');
+end;
+
+{ Source-code help modal (uSourceCodeHelpDlg), built-in / compiler validation (uSourceValidators)
+  and "Fix with AI". Help items are "title|description|example". Runs after the older Assistant
+  keys, so the validate hint, the supported-languages list and ExeMissing are replaced here. }
+procedure AddSourceCodeHelpTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+  function It(const ATitle, ADesc, AExample: string): string;
+  begin
+    Result := ATitle + '|' + ADesc + '|' + AExample;
+  end;
+
+  function SupLang(const AHead, ABuiltIn, AInstalled, AChat: string): string;
+  begin
+    Result := AHead + #13#10 +
+      '- Python (.py)' + #13#10 +
+      '- JavaScript (.js, .mjs, .cjs), JSX (.jsx)' + #13#10 +
+      '- TypeScript (.ts), TSX / React (.tsx)' + #13#10 +
+      '- JSON (.json), HTML (.html, .htm), SQL (.sql): ' + ABuiltIn + #13#10 +
+      '- Java (.java), Go (.go), C# (.cs): ' + AInstalled + #13#10 +
+      AChat;
+  end;
+
+begin
+  { ---- entry points ---- }
+  Set14('SrcHelp.Button', '</> Code: learn more', '</> Código: saiba mais', '</> Código: más info',
+    '</> Code : en savoir plus', '</> Code: mehr erfahren', '</> Codice: scopri di più',
+    '</> Kod: dowiedz się więcej', '</> Código: saber mais', '</> Cod: află mai multe',
+    '</> Kód: további információ', '</> Kód: více informací', '</> コード: 詳しく', '</> 代码：了解更多',
+    '</> 程式碼：了解更多');
+  Set14('SrcHelp.ButtonHint',
+    'What the AI can generate, which languages are validated, how to fix errors with the AI and where each feature is.',
+    'O que a IA pode gerar, quais linguagens são validadas, como corrigir erros com a IA e onde fica cada recurso.',
+    'Qué puede generar la IA, qué lenguajes se validan, cómo corregir errores con la IA y dónde está cada función.',
+    'Ce que l''IA peut générer, les langages validés, comment corriger les erreurs avec l''IA et où se trouve chaque fonction.',
+    'Was die KI erzeugen kann, welche Sprachen geprüft werden, wie Fehler mit der KI behoben werden und wo jede Funktion ist.',
+    'Cosa può generare l''IA, quali linguaggi vengono convalidati, come correggere gli errori con l''IA e dove si trova ogni funzione.',
+    'Co może wygenerować AI, które języki są sprawdzane, jak poprawiać błędy z pomocą AI i gdzie jest każda funkcja.',
+    'O que a IA pode gerar, que linguagens são validadas, como corrigir erros com a IA e onde fica cada funcionalidade.',
+    'Ce poate genera IA, ce limbaje sunt validate, cum corectați erorile cu IA și unde se află fiecare funcție.',
+    'Mit tud létrehozni az MI, mely nyelveket ellenőrzi, hogyan javíthatók a hibák az MI-vel, és hol találhatók a funkciók.',
+    'Co umí AI vygenerovat, které jazyky se ověřují, jak opravit chyby pomocí AI a kde je každá funkce.',
+    'AI が生成できるもの、検証できる言語、AI でエラーを修正する方法、各機能の場所。',
+    'AI 可以生成什么、验证哪些语言、如何用 AI 修复错误，以及各功能所在位置。',
+    'AI 可以產生什麼、驗證哪些語言、如何用 AI 修正錯誤，以及各功能所在位置。');
+  Set14('SrcHelp.CapsButton', 'Source code...', 'Código-fonte...', 'Código fuente...', 'Code source...',
+    'Quellcode...', 'Codice sorgente...', 'Kod źródłowy...', 'Código-fonte...', 'Cod sursă...', 'Forráskód...',
+    'Zdrojový kód...', 'ソースコード...', '源代码...', '原始碼...');
+  Set14('SrcHelp.Title',
+    'Source code with AI: generate, validate and fix', 'Código-fonte com IA: gerar, validar e corrigir',
+    'Código fuente con IA: generar, validar y corregir', 'Code source avec l''IA : générer, valider et corriger',
+    'Quellcode mit KI: erzeugen, prüfen und korrigieren', 'Codice sorgente con l''IA: generare, convalidare e correggere',
+    'Kod źródłowy z AI: generowanie, sprawdzanie i poprawianie', 'Código-fonte com IA: gerar, validar e corrigir',
+    'Cod sursă cu IA: generare, validare și corectare', 'Forráskód MI-vel: létrehozás, ellenőrzés és javítás',
+    'Zdrojový kód s AI: generování, ověření a oprava', 'AI によるソースコード: 生成・検証・修正',
+    '使用 AI 处理源代码：生成、验证和修复', '使用 AI 處理原始碼：產生、驗證和修正');
+  Set14('SrcHelp.Intro',
+    'The AI Assistant (Ctrl+Alt+A) writes a complete source file from your request and saves it in the fastfile_assistant ' +
+      'folder. Then it can check the syntax and, if there are errors, fix the file with the AI. ' +
+      'Double-click an example to put it in the question box.',
+    'O Assistente IA (Ctrl+Alt+A) escreve um arquivo-fonte completo a partir do seu pedido e grava-o na pasta ' +
+      'fastfile_assistant. Depois, pode verificar a sintaxe e, se houver erros, corrigir o arquivo com a IA. ' +
+      'Dê duplo clique em um exemplo para colocá-lo no campo da pergunta.',
+    'El Asistente IA (Ctrl+Alt+A) escribe un archivo fuente completo a partir de su solicitud y lo guarda en la carpeta ' +
+      'fastfile_assistant. Después puede comprobar la sintaxis y, si hay errores, corregir el archivo con la IA. ' +
+      'Haga doble clic en un ejemplo para ponerlo en el cuadro de la pregunta.',
+    'L''Assistant IA (Ctrl+Alt+A) écrit un fichier source complet à partir de votre demande et l''enregistre dans le dossier ' +
+      'fastfile_assistant. Il peut ensuite vérifier la syntaxe et, en cas d''erreurs, corriger le fichier avec l''IA. ' +
+      'Double-cliquez sur un exemple pour le placer dans la zone de question.',
+    'Der KI-Assistent (Ctrl+Alt+A) schreibt aus Ihrer Anfrage eine vollständige Quelldatei und speichert sie im Ordner ' +
+      'fastfile_assistant. Danach kann er die Syntax prüfen und die Datei bei Fehlern mit der KI korrigieren. ' +
+      'Doppelklicken Sie auf ein Beispiel, um es in das Fragefeld zu übernehmen.',
+    'L''Assistente IA (Ctrl+Alt+A) scrive un file sorgente completo dalla tua richiesta e lo salva nella cartella ' +
+      'fastfile_assistant. Poi può controllarne la sintassi e, in caso di errori, correggere il file con l''IA. ' +
+      'Fai doppio clic su un esempio per inserirlo nella casella della domanda.',
+    'Asystent AI (Ctrl+Alt+A) tworzy kompletny plik źródłowy na podstawie Twojej prośby i zapisuje go w folderze ' +
+      'fastfile_assistant. Następnie może sprawdzić składnię, a w razie błędów poprawić plik za pomocą AI. ' +
+      'Kliknij dwukrotnie przykład, aby wstawić go do pola pytania.',
+    'O Assistente IA (Ctrl+Alt+A) escreve um ficheiro-fonte completo a partir do seu pedido e grava-o na pasta ' +
+      'fastfile_assistant. Depois, pode verificar a sintaxe e, se houver erros, corrigir o ficheiro com a IA. ' +
+      'Faça duplo clique num exemplo para o colocar no campo da pergunta.',
+    'Asistentul IA (Ctrl+Alt+A) scrie un fișier sursă complet pe baza cererii și îl salvează în folderul ' +
+      'fastfile_assistant. Apoi poate verifica sintaxa și, dacă există erori, poate corecta fișierul cu IA. ' +
+      'Faceți dublu clic pe un exemplu pentru a-l pune în caseta întrebării.',
+    'Az MI-asszisztens (Ctrl+Alt+A) a kérés alapján teljes forrásfájlt ír, és a fastfile_assistant mappába menti. ' +
+      'Ezután ellenőrizheti a szintaxist, hiba esetén pedig az MI-vel kijavíthatja a fájlt. ' +
+      'Kattintson duplán egy példára, hogy a kérdésmezőbe kerüljön.',
+    'Asistent AI (Ctrl+Alt+A) podle vašeho požadavku napíše kompletní zdrojový soubor a uloží ho do složky ' +
+      'fastfile_assistant. Poté může zkontrolovat syntaxi a při chybách soubor opravit pomocí AI. ' +
+      'Dvojitým kliknutím na příklad ho vložíte do pole dotazu.',
+    'AI アシスタント (Ctrl+Alt+A) は依頼内容から完全なソースファイルを作成し、fastfile_assistant フォルダーに保存します。' +
+      'その後、構文をチェックし、エラーがあれば AI でファイルを修正できます。例をダブルクリックすると質問欄に入力されます。',
+    'AI 助手 (Ctrl+Alt+A) 根据您的请求编写完整的源文件，并保存到 fastfile_assistant 文件夹。' +
+      '之后可以检查语法，如有错误，可用 AI 修复文件。双击示例即可将其放入问题框。',
+    'AI 助理 (Ctrl+Alt+A) 會依您的要求撰寫完整的原始檔，並儲存到 fastfile_assistant 資料夾。' +
+      '之後可以檢查語法，若有錯誤，可用 AI 修正檔案。按兩下範例即可將其放入問題方塊。');
+  Set14('SrcHelp.CopyHint', 'Copy this whole help as text.', 'Copiar toda esta ajuda como texto.',
+    'Copiar toda esta ayuda como texto.', 'Copier toute cette aide en texte.', 'Diese gesamte Hilfe als Text kopieren.',
+    'Copia tutta questa guida come testo.', 'Skopiuj całą tę pomoc jako tekst.', 'Copiar toda esta ajuda como texto.',
+    'Copiați tot acest ajutor ca text.', 'A teljes súgó másolása szövegként.', 'Zkopírovat celou nápovědu jako text.',
+    'このヘルプ全体をテキストとしてコピーします。', '将整个帮助复制为文本。', '將整個說明複製為文字。');
+  Set14('SrcHelp.UseExampleHint',
+    'Put the selected example in the question box (then click Send).',
+    'Coloca o exemplo selecionado no campo da pergunta (depois clique em Enviar).',
+    'Pone el ejemplo seleccionado en el cuadro de la pregunta (luego pulse Enviar).',
+    'Place l''exemple sélectionné dans la zone de question (puis cliquez sur Envoyer).',
+    'Übernimmt das gewählte Beispiel in das Fragefeld (dann auf Senden klicken).',
+    'Inserisce l''esempio selezionato nella casella della domanda (poi fai clic su Invia).',
+    'Wstawia wybrany przykład do pola pytania (potem kliknij Wyślij).',
+    'Coloca o exemplo selecionado no campo da pergunta (depois clique em Enviar).',
+    'Pune exemplul selectat în caseta întrebării (apoi faceți clic pe Trimite).',
+    'A kijelölt példát a kérdésmezőbe teszi (utána kattintson a Küldés gombra).',
+    'Vloží vybraný příklad do pole dotazu (pak klikněte na Odeslat).',
+    '選択した例を質問欄に入力します（その後「送信」をクリック）。',
+    '将所选示例放入问题框（然后单击“发送”）。',
+    '將所選範例放入問題方塊（然後按一下「傳送」）。');
+
+  { ---- sections ---- }
+  Set14('SrcHelp.Sec.Where', 'Where to use it', 'Onde usar', 'Dónde usarlo', 'Où l''utiliser', 'Wo Sie es finden',
+    'Dove usarlo', 'Gdzie tego używać', 'Onde usar', 'Unde se folosește', 'Hol használható', 'Kde to použít',
+    '使用場所', '在哪里使用', '在哪裡使用');
+  Set14('SrcHelp.Sec.Generate', 'Generate source code (AI)', 'Gerar código-fonte (IA)', 'Generar código fuente (IA)',
+    'Générer du code source (IA)', 'Quellcode erzeugen (KI)', 'Generare codice sorgente (IA)',
+    'Generowanie kodu źródłowego (AI)', 'Gerar código-fonte (IA)', 'Generare cod sursă (IA)',
+    'Forráskód létrehozása (MI)', 'Generování zdrojového kódu (AI)', 'ソースコードの生成 (AI)', '生成源代码 (AI)',
+    '產生原始碼 (AI)');
+  Set14('SrcHelp.Sec.Validate', 'Validate (syntax only; the code is never run)',
+    'Validar (só sintaxe; o código nunca é executado)', 'Validar (solo sintaxis; el código nunca se ejecuta)',
+    'Valider (syntaxe uniquement ; le code n''est jamais exécuté)', 'Prüfen (nur Syntax; der Code wird nie ausgeführt)',
+    'Convalidare (solo sintassi; il codice non viene mai eseguito)',
+    'Sprawdzanie (tylko składnia; kod nigdy nie jest uruchamiany)',
+    'Validar (só sintaxe; o código nunca é executado)', 'Validare (doar sintaxa; codul nu este rulat niciodată)',
+    'Ellenőrzés (csak szintaxis; a kód sosem fut le)', 'Ověření (jen syntaxe; kód se nikdy nespouští)',
+    '検証（構文のみ。コードは実行されません）', '验证（仅语法；从不运行代码）', '驗證（僅語法；從不執行程式碼）');
+  Set14('SrcHelp.Sec.Fix', 'Fix with AI', 'Corrigir com a IA', 'Corregir con la IA', 'Corriger avec l''IA',
+    'Mit KI korrigieren', 'Correggere con l''IA', 'Poprawianie z AI', 'Corrigir com a IA', 'Corectare cu IA',
+    'Javítás MI-vel', 'Oprava pomocí AI', 'AI で修正', '用 AI 修复', '用 AI 修正');
+  Set14('SrcHelp.Sec.Status', 'On this computer (external tools)', 'Neste computador (ferramentas externas)',
+    'En este equipo (herramientas externas)', 'Sur cet ordinateur (outils externes)',
+    'Auf diesem Computer (externe Werkzeuge)', 'Su questo computer (strumenti esterni)',
+    'Na tym komputerze (narzędzia zewnętrzne)', 'Neste computador (ferramentas externas)',
+    'Pe acest computer (instrumente externe)', 'Ezen a számítógépen (külső eszközök)',
+    'Na tomto počítači (externí nástroje)', 'このコンピューター（外部ツール）', '本机（外部工具）', '本機（外部工具）');
+  Set14('SrcHelp.Sec.Limits', 'Not supported (yet)', 'Ainda não suportado', 'Aún no compatible',
+    'Pas encore pris en charge', 'Noch nicht unterstützt', 'Non ancora supportato', 'Jeszcze nieobsługiwane',
+    'Ainda não suportado', 'Încă nu este acceptat', 'Még nem támogatott', 'Zatím nepodporováno', '未対応の機能',
+    '暂不支持', '尚不支援');
+
+  { ---- where ---- }
+  Set14('SrcHelp.Where.Assistant',
+    It('AI Assistant (Ctrl+Alt+A)', 'Type the request in the question box and click Send. The file is saved in the ' +
+      'fastfile_assistant folder (or in the path you give) and a green card offers to open it, show the folder and validate it.',
+      'create a JavaScript class Person with name, age and a toString method'),
+    It('Assistente IA (Ctrl+Alt+A)', 'Escreva o pedido no campo da pergunta e clique em Enviar. O arquivo é gravado na pasta ' +
+      'fastfile_assistant (ou no caminho que você indicar) e um cartão verde permite abri-lo, ver a pasta e validá-lo.',
+      'crie uma classe JavaScript Pessoa com nome, idade e um método toString'),
+    It('Asistente IA (Ctrl+Alt+A)', 'Escriba la solicitud en el cuadro de la pregunta y pulse Enviar. El archivo se guarda en ' +
+      'la carpeta fastfile_assistant (o en la ruta que indique) y una tarjeta verde permite abrirlo, ver la carpeta y validarlo.',
+      'crea una clase JavaScript Persona con nombre, edad y un método toString'),
+    It('Assistant IA (Ctrl+Alt+A)', 'Saisissez la demande dans la zone de question et cliquez sur Envoyer. Le fichier est ' +
+      'enregistré dans le dossier fastfile_assistant (ou dans le chemin indiqué) et une carte verte permet de l''ouvrir, ' +
+      'd''afficher le dossier et de le valider.',
+      'crée une classe JavaScript Personne avec nom, âge et une méthode toString'),
+    It('KI-Assistent (Ctrl+Alt+A)', 'Anfrage in das Fragefeld schreiben und auf Senden klicken. Die Datei wird im Ordner ' +
+      'fastfile_assistant (oder im angegebenen Pfad) gespeichert; eine grüne Karte bietet Öffnen, Ordner anzeigen und Prüfen an.',
+      'erstelle eine JavaScript-Klasse Person mit Name, Alter und einer Methode toString'),
+    It('Assistente IA (Ctrl+Alt+A)', 'Scrivi la richiesta nella casella della domanda e fai clic su Invia. Il file viene ' +
+      'salvato nella cartella fastfile_assistant (o nel percorso indicato) e una scheda verde permette di aprirlo, vedere la ' +
+      'cartella e convalidarlo.',
+      'crea una classe JavaScript Persona con nome, età e un metodo toString'),
+    It('Asystent AI (Ctrl+Alt+A)', 'Wpisz prośbę w polu pytania i kliknij Wyślij. Plik zostanie zapisany w folderze ' +
+      'fastfile_assistant (lub w podanej ścieżce), a zielona karta pozwoli go otworzyć, pokazać folder i sprawdzić.',
+      'utwórz klasę JavaScript Osoba z imieniem, wiekiem i metodą toString'),
+    It('Assistente IA (Ctrl+Alt+A)', 'Escreva o pedido no campo da pergunta e clique em Enviar. O ficheiro é gravado na pasta ' +
+      'fastfile_assistant (ou no caminho que indicar) e um cartão verde permite abri-lo, ver a pasta e validá-lo.',
+      'crie uma classe JavaScript Pessoa com nome, idade e um método toString'),
+    It('Asistent IA (Ctrl+Alt+A)', 'Scrieți cererea în caseta întrebării și faceți clic pe Trimite. Fișierul se salvează în ' +
+      'folderul fastfile_assistant (sau în calea indicată), iar un card verde permite deschiderea, afișarea folderului și validarea.',
+      'creează o clasă JavaScript Persoana cu nume, vârstă și o metodă toString'),
+    It('MI-asszisztens (Ctrl+Alt+A)', 'Írja a kérést a kérdésmezőbe, és kattintson a Küldés gombra. A fájl a fastfile_assistant ' +
+      'mappába (vagy a megadott útvonalra) kerül, egy zöld kártyáról pedig megnyitható, a mappája megjeleníthető és ellenőrizhető.',
+      'hozz létre egy Szemely JavaScript osztályt névvel, életkorral és toString metódussal'),
+    It('Asistent AI (Ctrl+Alt+A)', 'Napište požadavek do pole dotazu a klikněte na Odeslat. Soubor se uloží do složky ' +
+      'fastfile_assistant (nebo do zadané cesty) a zelená karta umožní ho otevřít, zobrazit složku a ověřit.',
+      'vytvoř třídu JavaScript Osoba se jménem, věkem a metodou toString'),
+    It('AI アシスタント (Ctrl+Alt+A)', '質問欄に依頼を入力して「送信」をクリックします。ファイルは fastfile_assistant ' +
+      'フォルダー（または指定したパス）に保存され、緑色のカードから開く・フォルダー表示・検証ができます。',
+      '名前と年齢と toString メソッドを持つ JavaScript の Person クラスを作成して'),
+    It('AI 助手 (Ctrl+Alt+A)', '在问题框中输入请求并单击“发送”。文件保存在 fastfile_assistant 文件夹（或您指定的路径），' +
+      '绿色卡片可用于打开文件、显示文件夹和验证。',
+      '创建一个 JavaScript 类 Person，包含姓名、年龄和 toString 方法'),
+    It('AI 助理 (Ctrl+Alt+A)', '在問題方塊輸入要求並按一下「傳送」。檔案會儲存在 fastfile_assistant 資料夾（或您指定的路徑），' +
+      '綠色卡片可用來開啟檔案、顯示資料夾和驗證。',
+      '建立一個 JavaScript 類別 Person，包含姓名、年齡和 toString 方法'));
+  Set14('SrcHelp.Where.Agent',
+    It('AI agent', 'Ask the agent as usual: it hands generating, validating and fixing source files to the Assistant, and the ' +
+      'result appears below the agent''s answer (nothing to accept).', 'validate the syntax of C:\projects\app\src\App.tsx'),
+    It('Agente IA', 'Peça ao agente normalmente: ele repassa ao Assistente a geração, a validação e a correção de fontes, e o ' +
+      'resultado aparece abaixo da resposta do agente (nada para aceitar).', 'valide a sintaxe de C:\projetos\app\src\App.tsx'),
+    It('Agente IA', 'Pida al agente como siempre: delega en el Asistente la generación, validación y corrección de fuentes, y el ' +
+      'resultado aparece debajo de la respuesta del agente (nada que aceptar).', 'valida la sintaxis de C:\proyectos\app\src\App.tsx'),
+    It('Agent IA', 'Demandez à l''agent comme d''habitude : il confie à l''Assistant la génération, la validation et la correction ' +
+      'des sources, et le résultat s''affiche sous sa réponse (rien à accepter).', 'vérifie la syntaxe de C:\projets\app\src\App.tsx'),
+    It('KI-Agent', 'Fragen Sie den Agenten wie gewohnt: Er übergibt Erzeugen, Prüfen und Korrigieren von Quelldateien an den ' +
+      'Assistenten; das Ergebnis erscheint unter seiner Antwort (nichts zu übernehmen).', 'prüfe die Syntax von C:\projekte\app\src\App.tsx'),
+    It('Agente IA', 'Chiedi all''agente come sempre: affida all''Assistente la generazione, la convalida e la correzione dei ' +
+      'sorgenti, e il risultato compare sotto la sua risposta (niente da accettare).', 'convalida la sintassi di C:\progetti\app\src\App.tsx'),
+    It('Agent AI', 'Poproś agenta jak zwykle: przekazuje Asystentowi generowanie, sprawdzanie i poprawianie plików źródłowych, ' +
+      'a wynik pojawia się pod odpowiedzią agenta (nic do akceptowania).', 'zwaliduj składnię C:\projekty\app\src\App.tsx'),
+    It('Agente IA', 'Peça ao agente normalmente: ele passa ao Assistente a geração, a validação e a correção de fontes, e o ' +
+      'resultado aparece abaixo da resposta do agente (nada para aceitar).', 'valide a sintaxe de C:\projetos\app\src\App.tsx'),
+    It('Agent IA', 'Cereți agentului ca de obicei: el predă Asistentului generarea, validarea și corectarea surselor, iar ' +
+      'rezultatul apare sub răspunsul agentului (nimic de acceptat).', 'validează sintaxa pentru C:\proiecte\app\src\App.tsx'),
+    It('MI-ügynök', 'Kérdezze az ügynököt a szokásos módon: a forrásfájlok létrehozását, ellenőrzését és javítását átadja az ' +
+      'asszisztensnek, az eredmény az ügynök válasza alatt jelenik meg (nincs mit elfogadni).',
+      'ellenőrizd a C:\projektek\app\src\App.tsx szintaxisát'),
+    It('Agent AI', 'Zeptejte se agenta jako obvykle: generování, ověření a opravu zdrojových souborů předá Asistentovi a výsledek ' +
+      'se zobrazí pod jeho odpovědí (nic k přijetí).', 'ověř syntaxi C:\projekty\app\src\App.tsx'),
+    It('AI エージェント', 'いつも通りエージェントに依頼してください。ソースの生成・検証・修正はアシスタントに引き継がれ、' +
+      '結果はエージェントの回答の下に表示されます（承認は不要）。', 'C:\projects\app\src\App.tsx の構文を検証して'),
+    It('AI 代理', '像平常一样向代理提出请求：它会把源文件的生成、验证和修复交给助手，结果显示在代理回答的下方（无需接受）。',
+      '验证 C:\projects\app\src\App.tsx 的语法'),
+    It('AI 代理', '像平常一樣向代理提出要求：它會把原始檔的產生、驗證和修正交給助理，結果顯示在代理回答的下方（無需接受）。',
+      '驗證 C:\projects\app\src\App.tsx 的語法'));
+  Set14('SrcHelp.Where.Card',
+    It('Buttons and links', 'The </> button (next to ? in the Assistant) and "Source code..." in "What can I do?" open this ' +
+      'help. After a failed validation the panel offers "Fix with AI" and "</> Code: learn more".', ''),
+    It('Botões e links', 'O botão </> (ao lado do ? no Assistente) e "Código-fonte..." em "O que posso fazer?" abrem esta ' +
+      'ajuda. Após uma validação com erro, o painel oferece "Corrigir com a IA" e "</> Código: saiba mais".', ''),
+    It('Botones y enlaces', 'El botón </> (junto a ? en el Asistente) y "Código fuente..." en "¿Qué puedo hacer?" abren esta ' +
+      'ayuda. Tras una validación con errores, el panel ofrece "Corregir con la IA" y "</> Código: más info".', ''),
+    It('Boutons et liens', 'Le bouton </> (à côté de ? dans l''Assistant) et « Code source... » dans « Que puis-je faire ? » ' +
+      'ouvrent cette aide. Après une validation en échec, le panneau propose « Corriger avec l''IA » et « </> Code : en savoir plus ».', ''),
+    It('Schaltflächen und Links', 'Die Schaltfläche </> (neben ? im Assistenten) und „Quellcode...“ in „Was kann ich?“ öffnen ' +
+      'diese Hilfe. Nach einer fehlgeschlagenen Prüfung bietet das Panel „Mit KI korrigieren“ und „</> Code: mehr erfahren“ an.', ''),
+    It('Pulsanti e link', 'Il pulsante </> (accanto a ? nell''Assistente) e "Codice sorgente..." in "Cosa posso fare?" aprono ' +
+      'questa guida. Dopo una convalida non riuscita il pannello propone "Correggi con l''IA" e "</> Codice: scopri di più".', ''),
+    It('Przyciski i linki', 'Przycisk </> (obok ? w Asystencie) oraz „Kod źródłowy...” w „Co potrafię?” otwierają tę pomoc. ' +
+      'Po nieudanej walidacji panel proponuje „Popraw z AI” i „</> Kod: dowiedz się więcej”.', ''),
+    It('Botões e ligações', 'O botão </> (ao lado do ? no Assistente) e "Código-fonte..." em "O que posso fazer?" abrem esta ' +
+      'ajuda. Após uma validação com erro, o painel oferece "Corrigir com a IA" e "</> Código: saber mais".', ''),
+    It('Butoane și linkuri', 'Butonul </> (lângă ? în Asistent) și „Cod sursă...” din „Ce pot face?” deschid acest ajutor. ' +
+      'După o validare eșuată, panoul oferă „Corectează cu IA” și „</> Cod: află mai multe”.', ''),
+    It('Gombok és hivatkozások', 'A </> gomb (az asszisztensben a ? mellett) és a „Mit tudok?” lista „Forráskód...” gombja ' +
+      'nyitja meg ezt a súgót. Sikertelen ellenőrzés után a panel felajánlja a „Javítás MI-vel” és a „</> Kód: további információ” lehetőséget.', ''),
+    It('Tlačítka a odkazy', 'Tlačítko </> (vedle ? v Asistentovi) a „Zdrojový kód...“ v „Co umím?“ otevírají tuto nápovědu. ' +
+      'Po neúspěšném ověření panel nabídne „Opravit pomocí AI“ a „</> Kód: více informací“.', ''),
+    It('ボタンとリンク', 'アシスタントの ? の横にある </> ボタンと、「できること」の「ソースコード...」でこのヘルプが開きます。' +
+      '検証に失敗すると、パネルに「AI で修正」と「</> コード: 詳しく」が表示されます。', ''),
+    It('按钮和链接', '助手中 ? 旁边的 </> 按钮，以及“我能做什么？”中的“源代码...”都会打开此帮助。' +
+      '验证失败后，面板会提供“用 AI 修复”和“</> 代码：了解更多”。', ''),
+    It('按鈕和連結', '助理中 ? 旁邊的 </> 按鈕，以及「我能做什麼？」中的「原始碼...」都會開啟此說明。' +
+      '驗證失敗後，面板會提供「用 AI 修正」和「</> 程式碼：了解更多」。', ''));
+
+  { ---- generate ---- }
+  Set14('SrcHelp.Gen.Js',
+    It('JavaScript (.js)', 'Classes, functions and Node.js scripts. Say "JavaScript" or ".js".',
+      'create a JavaScript function that validates an e-mail address'),
+    It('JavaScript (.js)', 'Classes, funções e scripts Node.js. Diga "JavaScript" ou ".js".',
+      'crie uma função JavaScript que valida um endereço de e-mail'),
+    It('JavaScript (.js)', 'Clases, funciones y scripts de Node.js. Diga "JavaScript" o ".js".',
+      'crea una función JavaScript que valide una dirección de correo electrónico'),
+    It('JavaScript (.js)', 'Classes, fonctions et scripts Node.js. Dites « JavaScript » ou « .js ».',
+      'crée une fonction JavaScript qui valide une adresse e-mail'),
+    It('JavaScript (.js)', 'Klassen, Funktionen und Node.js-Skripte. Sagen Sie „JavaScript“ oder „.js“.',
+      'erstelle eine JavaScript-Funktion, die eine E-Mail-Adresse prüft'),
+    It('JavaScript (.js)', 'Classi, funzioni e script Node.js. Scrivi "JavaScript" o ".js".',
+      'crea una funzione JavaScript che convalida un indirizzo e-mail'),
+    It('JavaScript (.js)', 'Klasy, funkcje i skrypty Node.js. Napisz „JavaScript” lub „.js”.',
+      'utwórz funkcję JavaScript, która sprawdza adres e-mail'),
+    It('JavaScript (.js)', 'Classes, funções e scripts Node.js. Diga "JavaScript" ou ".js".',
+      'crie uma função JavaScript que valida um endereço de e-mail'),
+    It('JavaScript (.js)', 'Clase, funcții și scripturi Node.js. Spuneți „JavaScript” sau „.js”.',
+      'creează o funcție JavaScript care validează o adresă de e-mail'),
+    It('JavaScript (.js)', 'Osztályok, függvények és Node.js szkriptek. Írja: „JavaScript” vagy „.js”.',
+      'írj egy JavaScript függvényt, amely ellenőriz egy e-mail-címet'),
+    It('JavaScript (.js)', 'Třídy, funkce a skripty Node.js. Napište „JavaScript“ nebo „.js“.',
+      'vytvoř funkci JavaScript, která ověří e-mailovou adresu'),
+    It('JavaScript (.js)', 'クラス、関数、Node.js スクリプト。「JavaScript」または「.js」と指定します。',
+      'メールアドレスを検証する JavaScript 関数を作成して'),
+    It('JavaScript (.js)', '类、函数和 Node.js 脚本。请说明“JavaScript”或“.js”。', '编写一个验证电子邮件地址的 JavaScript 函数'),
+    It('JavaScript (.js)', '類別、函式和 Node.js 指令碼。請註明「JavaScript」或「.js」。', '撰寫一個驗證電子郵件地址的 JavaScript 函式'));
+  Set14('SrcHelp.Gen.Ts',
+    It('TypeScript / Angular (.ts)', 'Interfaces, types, classes and services. Say "TypeScript", "Angular" or ".ts".',
+      'create a TypeScript interface Customer and a class CustomerService with add and find methods'),
+    It('TypeScript / Angular (.ts)', 'Interfaces, tipos, classes e serviços. Diga "TypeScript", "Angular" ou ".ts".',
+      'crie uma interface TypeScript Cliente e uma classe ClienteService com os métodos adicionar e buscar'),
+    It('TypeScript / Angular (.ts)', 'Interfaces, tipos, clases y servicios. Diga "TypeScript", "Angular" o ".ts".',
+      'crea una interfaz TypeScript Cliente y una clase ClienteService con los métodos agregar y buscar'),
+    It('TypeScript / Angular (.ts)', 'Interfaces, types, classes et services. Dites « TypeScript », « Angular » ou « .ts ».',
+      'crée une interface TypeScript Client et une classe ClientService avec les méthodes ajouter et chercher'),
+    It('TypeScript / Angular (.ts)', 'Interfaces, Typen, Klassen und Services. Sagen Sie „TypeScript“, „Angular“ oder „.ts“.',
+      'erstelle ein TypeScript-Interface Kunde und eine Klasse KundeService mit den Methoden hinzufuegen und suchen'),
+    It('TypeScript / Angular (.ts)', 'Interfacce, tipi, classi e servizi. Scrivi "TypeScript", "Angular" o ".ts".',
+      'crea un''interfaccia TypeScript Cliente e una classe ClienteService con i metodi aggiungi e cerca'),
+    It('TypeScript / Angular (.ts)', 'Interfejsy, typy, klasy i serwisy. Napisz „TypeScript”, „Angular” lub „.ts”.',
+      'utwórz interfejs TypeScript Klient i klasę KlientService z metodami dodaj i znajdz'),
+    It('TypeScript / Angular (.ts)', 'Interfaces, tipos, classes e serviços. Diga "TypeScript", "Angular" ou ".ts".',
+      'crie uma interface TypeScript Cliente e uma classe ClienteService com os métodos adicionar e procurar'),
+    It('TypeScript / Angular (.ts)', 'Interfețe, tipuri, clase și servicii. Spuneți „TypeScript”, „Angular” sau „.ts”.',
+      'creează o interfață TypeScript Client și o clasă ClientService cu metodele adauga și cauta'),
+    It('TypeScript / Angular (.ts)', 'Interfészek, típusok, osztályok és szolgáltatások. Írja: „TypeScript”, „Angular” vagy „.ts”.',
+      'hozz létre egy Ugyfel TypeScript interfészt és egy UgyfelService osztályt hozzaad és keres metódussal'),
+    It('TypeScript / Angular (.ts)', 'Rozhraní, typy, třídy a služby. Napište „TypeScript“, „Angular“ nebo „.ts“.',
+      'vytvoř rozhraní TypeScript Zakaznik a třídu ZakaznikService s metodami pridat a najit'),
+    It('TypeScript / Angular (.ts)', 'インターフェイス、型、クラス、サービス。「TypeScript」「Angular」または「.ts」と指定します。',
+      'TypeScript の Customer インターフェイスと、add と find メソッドを持つ CustomerService クラスを作成して'),
+    It('TypeScript / Angular (.ts)', '接口、类型、类和服务。请说明“TypeScript”“Angular”或“.ts”。',
+      '创建 TypeScript 接口 Customer 和包含 add、find 方法的 CustomerService 类'),
+    It('TypeScript / Angular (.ts)', '介面、型別、類別和服務。請註明「TypeScript」「Angular」或「.ts」。',
+      '建立 TypeScript 介面 Customer 和包含 add、find 方法的 CustomerService 類別'));
+  Set14('SrcHelp.Gen.React',
+    It('React (.tsx) and JSX (.jsx)', 'Components and hooks. "React" produces .tsx; ask for ".jsx" for plain JavaScript.',
+      'generate a React component for a to-do list in TSX'),
+    It('React (.tsx) e JSX (.jsx)', 'Componentes e hooks. "React" gera .tsx; peça ".jsx" para JavaScript puro.',
+      'gere um componente React de lista de tarefas em TSX'),
+    It('React (.tsx) y JSX (.jsx)', 'Componentes y hooks. "React" genera .tsx; pida ".jsx" para JavaScript puro.',
+      'genera un componente React de lista de tareas en TSX'),
+    It('React (.tsx) et JSX (.jsx)', 'Composants et hooks. « React » produit du .tsx ; demandez « .jsx » pour du JavaScript simple.',
+      'génère un composant React de liste de tâches en TSX'),
+    It('React (.tsx) und JSX (.jsx)', 'Komponenten und Hooks. „React“ erzeugt .tsx; für reines JavaScript „.jsx“ angeben.',
+      'erzeuge eine React-Komponente für eine Aufgabenliste in TSX'),
+    It('React (.tsx) e JSX (.jsx)', 'Componenti e hook. "React" produce .tsx; chiedi ".jsx" per JavaScript puro.',
+      'genera un componente React per una lista di attività in TSX'),
+    It('React (.tsx) i JSX (.jsx)', 'Komponenty i hooki. „React” tworzy .tsx; dla czystego JavaScriptu poproś o „.jsx”.',
+      'wygeneruj komponent React listy zadań w TSX'),
+    It('React (.tsx) e JSX (.jsx)', 'Componentes e hooks. "React" gera .tsx; peça ".jsx" para JavaScript simples.',
+      'gere um componente React de lista de tarefas em TSX'),
+    It('React (.tsx) și JSX (.jsx)', 'Componente și hooks. „React” produce .tsx; cereți „.jsx” pentru JavaScript simplu.',
+      'generează o componentă React pentru o listă de sarcini în TSX'),
+    It('React (.tsx) és JSX (.jsx)', 'Komponensek és hookok. A „React” .tsx fájlt hoz létre; sima JavaScripthez kérjen „.jsx”-et.',
+      'készíts egy teendőlista React komponenst TSX-ben'),
+    It('React (.tsx) a JSX (.jsx)', 'Komponenty a hooky. „React“ vytvoří .tsx; pro čistý JavaScript požádejte o „.jsx“.',
+      'vygeneruj komponentu React pro seznam úkolů v TSX'),
+    It('React (.tsx) と JSX (.jsx)', 'コンポーネントとフック。「React」では .tsx を生成します。素の JavaScript には「.jsx」を指定します。',
+      'TSX で ToDo リストの React コンポーネントを生成して'),
+    It('React (.tsx) 和 JSX (.jsx)', '组件和 Hook。“React”生成 .tsx；纯 JavaScript 请指定“.jsx”。',
+      '用 TSX 生成一个待办事项列表的 React 组件'),
+    It('React (.tsx) 和 JSX (.jsx)', '元件和 Hook。「React」會產生 .tsx；純 JavaScript 請指定「.jsx」。',
+      '用 TSX 產生一個待辦清單的 React 元件'));
+  Set14('SrcHelp.Gen.Py',
+    It('Python (.py)', 'Scripts, classes and functions. To transform the lines of the open file, use the Python macro ' +
+      '(Ctrl+Alt+E) instead.', 'generate a Python script that reads a CSV file and sums the value column'),
+    It('Python (.py)', 'Scripts, classes e funções. Para transformar as linhas do arquivo aberto, use a macro com Python ' +
+      '(Ctrl+Alt+E).', 'gere um script Python que lê um arquivo CSV e soma a coluna valor'),
+    It('Python (.py)', 'Scripts, clases y funciones. Para transformar las líneas del archivo abierto, use la macro con Python ' +
+      '(Ctrl+Alt+E).', 'genera un script Python que lea un archivo CSV y sume la columna valor'),
+    It('Python (.py)', 'Scripts, classes et fonctions. Pour transformer les lignes du fichier ouvert, utilisez plutôt la macro ' +
+      'Python (Ctrl+Alt+E).', 'génère un script Python qui lit un fichier CSV et additionne la colonne valeur'),
+    It('Python (.py)', 'Skripte, Klassen und Funktionen. Um die Zeilen der geöffneten Datei umzuwandeln, nutzen Sie stattdessen ' +
+      'das Python-Makro (Ctrl+Alt+E).', 'erzeuge ein Python-Skript, das eine CSV-Datei liest und die Spalte Wert summiert'),
+    It('Python (.py)', 'Script, classi e funzioni. Per trasformare le righe del file aperto usa invece la macro Python ' +
+      '(Ctrl+Alt+E).', 'genera uno script Python che legge un file CSV e somma la colonna valore'),
+    It('Python (.py)', 'Skrypty, klasy i funkcje. Aby przekształcić wiersze otwartego pliku, użyj makra Python (Ctrl+Alt+E).',
+      'wygeneruj skrypt Python, który czyta plik CSV i sumuje kolumnę wartosc'),
+    It('Python (.py)', 'Scripts, classes e funções. Para transformar as linhas do ficheiro aberto, use a macro com Python ' +
+      '(Ctrl+Alt+E).', 'gere um script Python que lê um ficheiro CSV e soma a coluna valor'),
+    It('Python (.py)', 'Scripturi, clase și funcții. Pentru a transforma liniile fișierului deschis, folosiți macro-ul Python ' +
+      '(Ctrl+Alt+E).', 'generează un script Python care citește un fișier CSV și însumează coloana valoare'),
+    It('Python (.py)', 'Szkriptek, osztályok és függvények. A megnyitott fájl sorainak átalakításához használja inkább a Python ' +
+      'makrót (Ctrl+Alt+E).', 'készíts egy Python szkriptet, amely beolvas egy CSV-fájlt és összegzi az ertek oszlopot'),
+    It('Python (.py)', 'Skripty, třídy a funkce. Pro úpravu řádků otevřeného souboru použijte raději makro Python (Ctrl+Alt+E).',
+      'vygeneruj skript Python, který načte soubor CSV a sečte sloupec hodnota'),
+    It('Python (.py)', 'スクリプト、クラス、関数。開いているファイルの行を変換するには Python マクロ (Ctrl+Alt+E) を使用します。',
+      'CSV ファイルを読み込んで value 列を合計する Python スクリプトを生成して'),
+    It('Python (.py)', '脚本、类和函数。若要转换已打开文件的行，请改用 Python 宏 (Ctrl+Alt+E)。',
+      '生成一个读取 CSV 文件并对 value 列求和的 Python 脚本'),
+    It('Python (.py)', '指令碼、類別和函式。若要轉換已開啟檔案的行，請改用 Python 巨集 (Ctrl+Alt+E)。',
+      '產生一個讀取 CSV 檔案並加總 value 欄的 Python 指令碼'));
+  Set14('SrcHelp.Gen.Java',
+    It('Java (.java)', 'Classes, interfaces and enums. One public class per file, with the same name as the file.',
+      'create a Java class Product with name and price, getters and setters'),
+    It('Java (.java)', 'Classes, interfaces e enums. Uma classe pública por arquivo, com o mesmo nome do arquivo.',
+      'crie uma classe Java Produto com nome e preço, getters e setters'),
+    It('Java (.java)', 'Clases, interfaces y enums. Una clase pública por archivo, con el mismo nombre que el archivo.',
+      'crea una clase Java Producto con nombre y precio, getters y setters'),
+    It('Java (.java)', 'Classes, interfaces et enums. Une classe publique par fichier, du même nom que le fichier.',
+      'crée une classe Java Produit avec nom et prix, getters et setters'),
+    It('Java (.java)', 'Klassen, Interfaces und Enums. Eine öffentliche Klasse pro Datei, mit demselben Namen wie die Datei.',
+      'erstelle eine Java-Klasse Produkt mit Name und Preis, Gettern und Settern'),
+    It('Java (.java)', 'Classi, interfacce ed enum. Una classe pubblica per file, con lo stesso nome del file.',
+      'crea una classe Java Prodotto con nome e prezzo, getter e setter'),
+    It('Java (.java)', 'Klasy, interfejsy i enumy. Jedna klasa publiczna na plik, o tej samej nazwie co plik.',
+      'utwórz klasę Java Produkt z nazwą i ceną, getterami i setterami'),
+    It('Java (.java)', 'Classes, interfaces e enums. Uma classe pública por ficheiro, com o mesmo nome do ficheiro.',
+      'crie uma classe Java Produto com nome e preço, getters e setters'),
+    It('Java (.java)', 'Clase, interfețe și enum-uri. O clasă publică per fișier, cu același nume ca fișierul.',
+      'creează o clasă Java Produs cu nume și preț, getteri și setteri'),
+    It('Java (.java)', 'Osztályok, interfészek és enumok. Fájlonként egy publikus osztály, a fájllal azonos névvel.',
+      'hozz létre egy Termek Java osztályt névvel és árral, getterekkel és setterekkel'),
+    It('Java (.java)', 'Třídy, rozhraní a enumy. Jedna veřejná třída na soubor se stejným názvem jako soubor.',
+      'vytvoř třídu Java Produkt s názvem a cenou, gettery a settery'),
+    It('Java (.java)', 'クラス、インターフェイス、列挙型。1 ファイルに public クラスは 1 つで、ファイル名と同じ名前にします。',
+      '名前と価格、getter と setter を持つ Java の Product クラスを作成して'),
+    It('Java (.java)', '类、接口和枚举。每个文件一个 public 类，且与文件同名。',
+      '创建一个包含名称和价格以及 getter、setter 的 Java 类 Product'),
+    It('Java (.java)', '類別、介面和列舉。每個檔案一個 public 類別，且與檔案同名。',
+      '建立一個包含名稱和價格以及 getter、setter 的 Java 類別 Product'));
+  Set14('SrcHelp.Gen.Cs',
+    It('C# (.cs)', 'Classes, records, interfaces and services.', 'create a C# class BankAccount with Deposit and Withdraw methods'),
+    It('C# (.cs)', 'Classes, records, interfaces e serviços.', 'crie uma classe C# ContaBancaria com os métodos Depositar e Sacar'),
+    It('C# (.cs)', 'Clases, records, interfaces y servicios.', 'crea una clase C# CuentaBancaria con los métodos Depositar y Retirar'),
+    It('C# (.cs)', 'Classes, records, interfaces et services.', 'crée une classe C# CompteBancaire avec les méthodes Deposer et Retirer'),
+    It('C# (.cs)', 'Klassen, Records, Interfaces und Services.', 'erstelle eine C#-Klasse Bankkonto mit den Methoden Einzahlen und Abheben'),
+    It('C# (.cs)', 'Classi, record, interfacce e servizi.', 'crea una classe C# ContoBancario con i metodi Deposita e Preleva'),
+    It('C# (.cs)', 'Klasy, rekordy, interfejsy i serwisy.', 'utwórz klasę C# KontoBankowe z metodami Wplac i Wyplac'),
+    It('C# (.cs)', 'Classes, records, interfaces e serviços.', 'crie uma classe C# ContaBancaria com os métodos Depositar e Levantar'),
+    It('C# (.cs)', 'Clase, records, interfețe și servicii.', 'creează o clasă C# ContBancar cu metodele Depune și Retrage'),
+    It('C# (.cs)', 'Osztályok, recordok, interfészek és szolgáltatások.', 'hozz létre egy Bankszamla C# osztályt Befizet és Kivesz metódussal'),
+    It('C# (.cs)', 'Třídy, záznamy, rozhraní a služby.', 'vytvoř třídu C# BankovniUcet s metodami Vlozit a Vybrat'),
+    It('C# (.cs)', 'クラス、レコード、インターフェイス、サービス。', 'Deposit と Withdraw メソッドを持つ C# の BankAccount クラスを作成して'),
+    It('C# (.cs)', '类、record、接口和服务。', '创建一个包含 Deposit 和 Withdraw 方法的 C# 类 BankAccount'),
+    It('C# (.cs)', '類別、record、介面和服務。', '建立一個包含 Deposit 和 Withdraw 方法的 C# 類別 BankAccount'));
+  Set14('SrcHelp.Gen.Go',
+    It('Go (.go)', 'Packages, structs and functions.', 'write a Go program (.go) that counts the lines of a text file'),
+    It('Go (.go)', 'Pacotes, structs e funções.', 'escreva um programa em Go (.go) que conta as linhas de um arquivo de texto'),
+    It('Go (.go)', 'Paquetes, structs y funciones.', 'escribe un programa en Go (.go) que cuente las líneas de un archivo de texto'),
+    It('Go (.go)', 'Packages, structs et fonctions.', 'écris un programme Go (.go) qui compte les lignes d''un fichier texte'),
+    It('Go (.go)', 'Pakete, Structs und Funktionen.', 'schreibe ein Go-Programm (.go), das die Zeilen einer Textdatei zählt'),
+    It('Go (.go)', 'Package, struct e funzioni.', 'scrivi un programma Go (.go) che conta le righe di un file di testo'),
+    It('Go (.go)', 'Pakiety, struktury i funkcje.', 'napisz program w Go (.go), który liczy wiersze pliku tekstowego'),
+    It('Go (.go)', 'Pacotes, structs e funções.', 'escreva um programa em Go (.go) que conta as linhas de um ficheiro de texto'),
+    It('Go (.go)', 'Pachete, structuri și funcții.', 'scrie un program Go (.go) care numără liniile unui fișier text'),
+    It('Go (.go)', 'Csomagok, structok és függvények.', 'írj egy Go programot (.go), amely megszámolja egy szövegfájl sorait'),
+    It('Go (.go)', 'Balíčky, struktury a funkce.', 'napiš program v Go (.go), který spočítá řádky textového souboru'),
+    It('Go (.go)', 'パッケージ、構造体、関数。', 'テキストファイルの行数を数える Go プログラム (.go) を書いて'),
+    It('Go (.go)', '包、结构体和函数。', '编写一个统计文本文件行数的 Go 程序 (.go)'),
+    It('Go (.go)', '套件、結構和函式。', '撰寫一個計算文字檔行數的 Go 程式 (.go)'));
+  Set14('SrcHelp.Gen.Pas',
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Units, classes, procedures and functions.',
+      'create a Delphi unit with a function that formats a phone number'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Units, classes, procedures e funções.',
+      'crie uma unit Delphi com uma função que formata um número de telefone'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Units, clases, procedimientos y funciones.',
+      'crea una unit Delphi con una función que formatee un número de teléfono'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Units, classes, procédures et fonctions.',
+      'crée une unit Delphi avec une fonction qui formate un numéro de téléphone'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Units, Klassen, Prozeduren und Funktionen.',
+      'erstelle eine Delphi-Unit mit einer Funktion, die eine Telefonnummer formatiert'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Unit, classi, procedure e funzioni.',
+      'crea una unit Delphi con una funzione che formatta un numero di telefono'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Moduły (unit), klasy, procedury i funkcje.',
+      'utwórz moduł Delphi z funkcją formatującą numer telefonu'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Units, classes, procedimentos e funções.',
+      'crie uma unit Delphi com uma função que formata um número de telefone'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Unit-uri, clase, proceduri și funcții.',
+      'creează un unit Delphi cu o funcție care formatează un număr de telefon'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Unitok, osztályok, eljárások és függvények.',
+      'hozz létre egy Delphi unitot egy telefonszámot formázó függvénnyel'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'Unity, třídy, procedury a funkce.',
+      'vytvoř unit Delphi s funkcí, která formátuje telefonní číslo'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', 'ユニット、クラス、手続き、関数。', '電話番号を整形する関数を持つ Delphi ユニットを作成して'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', '单元、类、过程和函数。', '创建一个 Delphi 单元，其中包含格式化电话号码的函数'),
+    It('Delphi / Pascal (.pas, .dpr, .inc)', '單元、類別、程序和函式。', '建立一個 Delphi 單元，其中包含格式化電話號碼的函式'));
+  Set14('SrcHelp.Gen.Other',
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Generated the same way (.cpp, .c, .rs, .php, .rb, .kt, .swift), but not ' +
+      'validated yet.', 'write a C++ function that reverses a string'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Gerados da mesma forma (.cpp, .c, .rs, .php, .rb, .kt, .swift), mas ainda ' +
+      'sem validação.', 'escreva uma função C++ que inverte uma string'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Se generan igual (.cpp, .c, .rs, .php, .rb, .kt, .swift), pero aún no se ' +
+      'validan.', 'escribe una función C++ que invierta una cadena'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Générés de la même façon (.cpp, .c, .rs, .php, .rb, .kt, .swift), mais pas ' +
+      'encore validés.', 'écris une fonction C++ qui inverse une chaîne'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Werden genauso erzeugt (.cpp, .c, .rs, .php, .rb, .kt, .swift), aber noch ' +
+      'nicht geprüft.', 'schreibe eine C++-Funktion, die eine Zeichenkette umkehrt'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Generati allo stesso modo (.cpp, .c, .rs, .php, .rb, .kt, .swift), ma non ' +
+      'ancora convalidati.', 'scrivi una funzione C++ che inverte una stringa'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Generowane tak samo (.cpp, .c, .rs, .php, .rb, .kt, .swift), ale jeszcze ' +
+      'niesprawdzane.', 'napisz funkcję C++, która odwraca ciąg znaków'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Gerados da mesma forma (.cpp, .c, .rs, .php, .rb, .kt, .swift), mas ainda ' +
+      'sem validação.', 'escreva uma função C++ que inverte uma string'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Generate la fel (.cpp, .c, .rs, .php, .rb, .kt, .swift), dar încă ' +
+      'nevalidate.', 'scrie o funcție C++ care inversează un șir'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Ugyanígy jönnek létre (.cpp, .c, .rs, .php, .rb, .kt, .swift), de ' +
+      'ellenőrzés még nincs.', 'írj egy C++ függvényt, amely megfordít egy karakterláncot'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', 'Generují se stejně (.cpp, .c, .rs, .php, .rb, .kt, .swift), ale zatím se ' +
+      'neověřují.', 'napiš funkci C++, která obrátí řetězec'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', '同じ方法で生成できます (.cpp, .c, .rs, .php, .rb, .kt, .swift) が、' +
+      '検証にはまだ対応していません。', '文字列を反転する C++ 関数を書いて'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', '生成方式相同（.cpp、.c、.rs、.php、.rb、.kt、.swift），但暂不支持验证。',
+      '编写一个反转字符串的 C++ 函数'),
+    It('C / C++, Rust, PHP, Ruby, Kotlin, Swift', '產生方式相同（.cpp、.c、.rs、.php、.rb、.kt、.swift），但尚不支援驗證。',
+      '撰寫一個反轉字串的 C++ 函式'));
+  Set14('SrcHelp.Gen.Data',
+    It('SQL, JSON, HTML, Markdown, TXT', 'Scripts, configuration files, pages and texts. Write the extension (.sql, .json, ' +
+      '.html, .md, .txt) in the request.', 'generate a .sql script that creates the customers table with id, name and e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Scripts, arquivos de configuração, páginas e textos. Escreva a extensão (.sql, ' +
+      '.json, .html, .md, .txt) no pedido.', 'gere um script .sql que cria a tabela clientes com id, nome e e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Scripts, archivos de configuración, páginas y textos. Escriba la extensión (.sql, ' +
+      '.json, .html, .md, .txt) en la solicitud.', 'genera un script .sql que cree la tabla clientes con id, nombre y e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Scripts, fichiers de configuration, pages et textes. Indiquez l''extension (.sql, ' +
+      '.json, .html, .md, .txt) dans la demande.', 'génère un script .sql qui crée la table clients avec id, nom et e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Skripte, Konfigurationsdateien, Seiten und Texte. Schreiben Sie die Endung (.sql, ' +
+      '.json, .html, .md, .txt) in die Anfrage.', 'erzeuge ein .sql-Skript, das die Tabelle kunden mit id, name und email anlegt'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Script, file di configurazione, pagine e testi. Indica l''estensione (.sql, .json, ' +
+      '.html, .md, .txt) nella richiesta.', 'genera uno script .sql che crea la tabella clienti con id, nome ed e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Skrypty, pliki konfiguracyjne, strony i teksty. Podaj rozszerzenie (.sql, .json, ' +
+      '.html, .md, .txt) w prośbie.', 'wygeneruj skrypt .sql, który tworzy tabelę klienci z polami id, nazwa i e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Scripts, ficheiros de configuração, páginas e textos. Escreva a extensão (.sql, ' +
+      '.json, .html, .md, .txt) no pedido.', 'gere um script .sql que cria a tabela clientes com id, nome e e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Scripturi, fișiere de configurare, pagini și texte. Scrieți extensia (.sql, .json, ' +
+      '.html, .md, .txt) în cerere.', 'generează un script .sql care creează tabela clienti cu id, nume și e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Szkriptek, konfigurációs fájlok, oldalak és szövegek. Írja a kiterjesztést (.sql, ' +
+      '.json, .html, .md, .txt) a kérésbe.', 'készíts egy .sql szkriptet, amely létrehozza az ugyfelek táblát id, nev és email oszlopokkal'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'Skripty, konfigurační soubory, stránky a texty. Uveďte v požadavku příponu (.sql, ' +
+      '.json, .html, .md, .txt).', 'vygeneruj skript .sql, který vytvoří tabulku zakaznici s id, jmeno a e-mail'),
+    It('SQL, JSON, HTML, Markdown, TXT', 'スクリプト、設定ファイル、ページ、テキスト。依頼に拡張子 (.sql, .json, .html, ' +
+      '.md, .txt) を書いてください。', 'id、name、email を持つ customers テーブルを作成する .sql スクリプトを生成して'),
+    It('SQL, JSON, HTML, Markdown, TXT', '脚本、配置文件、页面和文本。请在请求中写明扩展名（.sql、.json、.html、.md、.txt）。',
+      '生成一个 .sql 脚本，创建包含 id、name、email 的 customers 表'),
+    It('SQL, JSON, HTML, Markdown, TXT', '指令碼、設定檔、頁面和文字。請在要求中寫明副檔名（.sql、.json、.html、.md、.txt）。',
+      '產生一個 .sql 指令碼，建立包含 id、name、email 的 customers 資料表'));
+  Set14('SrcHelp.Gen.Docs',
+    It('Documents: PDF, DOCX, ODT, RTF (Word)', 'Summaries and reports, also from the open file.', 'summarize the open file in PDF'),
+    It('Documentos: PDF, DOCX, ODT, RTF (Word)', 'Resumos e relatórios, inclusive do arquivo aberto.', 'resuma o arquivo aberto em PDF'),
+    It('Documentos: PDF, DOCX, ODT, RTF (Word)', 'Resúmenes e informes, también del archivo abierto.', 'resume el archivo abierto en PDF'),
+    It('Documents : PDF, DOCX, ODT, RTF (Word)', 'Résumés et rapports, y compris du fichier ouvert.', 'résume le fichier ouvert en PDF'),
+    It('Dokumente: PDF, DOCX, ODT, RTF (Word)', 'Zusammenfassungen und Berichte, auch aus der geöffneten Datei.',
+      'fasse die geöffnete Datei als PDF zusammen'),
+    It('Documenti: PDF, DOCX, ODT, RTF (Word)', 'Riepiloghi e report, anche dal file aperto.', 'riassumi il file aperto in PDF'),
+    It('Dokumenty: PDF, DOCX, ODT, RTF (Word)', 'Podsumowania i raporty, także z otwartego pliku.', 'podsumuj otwarty plik w PDF'),
+    It('Documentos: PDF, DOCX, ODT, RTF (Word)', 'Resumos e relatórios, incluindo do ficheiro aberto.', 'resuma o ficheiro aberto em PDF'),
+    It('Documente: PDF, DOCX, ODT, RTF (Word)', 'Rezumate și rapoarte, inclusiv din fișierul deschis.', 'rezumă fișierul deschis în PDF'),
+    It('Dokumentumok: PDF, DOCX, ODT, RTF (Word)', 'Összefoglalók és jelentések, a megnyitott fájlból is.',
+      'foglald össze a megnyitott fájlt PDF-ben'),
+    It('Dokumenty: PDF, DOCX, ODT, RTF (Word)', 'Shrnutí a zprávy, i z otevřeného souboru.', 'shrň otevřený soubor do PDF'),
+    It('ドキュメント: PDF, DOCX, ODT, RTF (Word)', '要約やレポート。開いているファイルからも作成できます。',
+      '開いているファイルを PDF で要約して'),
+    It('文档：PDF、DOCX、ODT、RTF (Word)', '摘要和报告，也可基于已打开的文件。', '将已打开的文件总结为 PDF'),
+    It('文件：PDF、DOCX、ODT、RTF (Word)', '摘要和報告，也可根據已開啟的檔案。', '將已開啟的檔案摘要為 PDF'));
+
+  { ---- validate ---- }
+  Set14('SrcHelp.Val.How',
+    It('How to validate', 'Use the validate button on the card of the generated file, or ask in the question box with the ' +
+      'full path. Without a path, a window opens to pick the file.', 'validate the syntax of C:\temp\script.py'),
+    It('Como validar', 'Use o botão de validar no cartão do arquivo gerado, ou peça no campo da pergunta com o caminho ' +
+      'completo. Sem caminho, abre-se uma janela para escolher o arquivo.', 'validar fonte C:\temp\script.py'),
+    It('Cómo validar', 'Use el botón de validar en la tarjeta del archivo generado, o pídalo en el cuadro de la pregunta con ' +
+      'la ruta completa. Sin ruta, se abre una ventana para elegir el archivo.', 'validar la sintaxis de C:\temp\script.py'),
+    It('Comment valider', 'Utilisez le bouton de validation de la carte du fichier généré, ou demandez-le dans la zone de ' +
+      'question avec le chemin complet. Sans chemin, une fenêtre s''ouvre pour choisir le fichier.',
+      'vérifier la syntaxe de C:\temp\script.py'),
+    It('So prüfen Sie', 'Nutzen Sie die Prüfen-Schaltfläche auf der Karte der erzeugten Datei, oder fragen Sie im Fragefeld ' +
+      'mit dem vollständigen Pfad. Ohne Pfad öffnet sich ein Fenster zur Dateiauswahl.', 'Syntax prüfen: C:\temp\script.py'),
+    It('Come convalidare', 'Usa il pulsante di convalida nella scheda del file generato, oppure chiedi nella casella della ' +
+      'domanda con il percorso completo. Senza percorso si apre una finestra per scegliere il file.',
+      'convalida la sintassi di C:\temp\script.py'),
+    It('Jak sprawdzić', 'Użyj przycisku sprawdzania na karcie wygenerowanego pliku albo poproś w polu pytania, podając pełną ' +
+      'ścieżkę. Bez ścieżki otworzy się okno wyboru pliku.', 'zwaliduj składnię C:\temp\script.py'),
+    It('Como validar', 'Use o botão de validar no cartão do ficheiro gerado, ou peça no campo da pergunta com o caminho ' +
+      'completo. Sem caminho, abre-se uma janela para escolher o ficheiro.', 'validar fonte C:\temp\script.py'),
+    It('Cum se validează', 'Folosiți butonul de validare din cardul fișierului generat sau cereți în caseta întrebării cu ' +
+      'calea completă. Fără cale, se deschide o fereastră pentru alegerea fișierului.', 'validează sintaxa pentru C:\temp\script.py'),
+    It('Az ellenőrzés módja', 'Használja az ellenőrzés gombot a létrehozott fájl kártyáján, vagy kérje a kérdésmezőben a teljes ' +
+      'útvonallal. Útvonal nélkül megnyílik egy fájlválasztó ablak.', 'ellenőrizd a szintaxist: C:\temp\script.py'),
+    It('Jak ověřit', 'Použijte tlačítko ověření na kartě vygenerovaného souboru, nebo požádejte v poli dotazu s úplnou cestou. ' +
+      'Bez cesty se otevře okno pro výběr souboru.', 'ověř syntaxi C:\temp\script.py'),
+    It('検証の方法', '生成されたファイルのカードにある検証ボタンを使うか、質問欄でフルパスを指定して依頼します。' +
+      'パスがない場合はファイル選択ウィンドウが開きます。', 'C:\temp\script.py の構文を検証して'),
+    It('如何验证', '使用生成文件卡片上的验证按钮，或在问题框中带完整路径提出请求。没有路径时会打开文件选择窗口。',
+      '验证 C:\temp\script.py 的语法'),
+    It('如何驗證', '使用產生檔案卡片上的驗證按鈕，或在問題方塊中附上完整路徑提出要求。沒有路徑時會開啟檔案選擇視窗。',
+      '驗證 C:\temp\script.py 的語法'));
+  Set14('SrcHelp.Val.Py',
+    It('Python (.py)', 'Checked by ScriptEngine.exe, downloaded automatically on first use.', ''),
+    It('Python (.py)', 'Verificado pelo ScriptEngine.exe, baixado automaticamente no primeiro uso.', ''),
+    It('Python (.py)', 'Comprobado por ScriptEngine.exe, que se descarga automáticamente en el primer uso.', ''),
+    It('Python (.py)', 'Vérifié par ScriptEngine.exe, téléchargé automatiquement à la première utilisation.', ''),
+    It('Python (.py)', 'Geprüft von ScriptEngine.exe, das bei der ersten Nutzung automatisch heruntergeladen wird.', ''),
+    It('Python (.py)', 'Verificato da ScriptEngine.exe, scaricato automaticamente al primo utilizzo.', ''),
+    It('Python (.py)', 'Sprawdzane przez ScriptEngine.exe, pobierany automatycznie przy pierwszym użyciu.', ''),
+    It('Python (.py)', 'Verificado pelo ScriptEngine.exe, transferido automaticamente na primeira utilização.', ''),
+    It('Python (.py)', 'Verificat de ScriptEngine.exe, descărcat automat la prima utilizare.', ''),
+    It('Python (.py)', 'A ScriptEngine.exe ellenőrzi, amely első használatkor automatikusan letöltődik.', ''),
+    It('Python (.py)', 'Kontroluje ScriptEngine.exe, který se při prvním použití stáhne automaticky.', ''),
+    It('Python (.py)', 'ScriptEngine.exe でチェックします（初回使用時に自動ダウンロード）。', ''),
+    It('Python (.py)', '由 ScriptEngine.exe 检查，首次使用时自动下载。', ''),
+    It('Python (.py)', '由 ScriptEngine.exe 檢查，首次使用時自動下載。', ''));
+  Set14('SrcHelp.Val.Js',
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Files .js, .mjs, .cjs, .jsx, .ts and .tsx, checked by CodeCheck.exe ' +
+      '(downloaded automatically on first use).', 'validate the syntax of C:\projects\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Arquivos .js, .mjs, .cjs, .jsx, .ts e .tsx, verificados pelo CodeCheck.exe ' +
+      '(baixado automaticamente no primeiro uso).', 'validar fonte C:\projetos\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Archivos .js, .mjs, .cjs, .jsx, .ts y .tsx, comprobados por CodeCheck.exe ' +
+      '(se descarga automáticamente en el primer uso).', 'validar la sintaxis de C:\proyectos\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Fichiers .js, .mjs, .cjs, .jsx, .ts et .tsx, vérifiés par CodeCheck.exe ' +
+      '(téléchargé automatiquement à la première utilisation).', 'vérifier la syntaxe de C:\projets\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Dateien .js, .mjs, .cjs, .jsx, .ts und .tsx, geprüft von CodeCheck.exe ' +
+      '(wird bei der ersten Nutzung automatisch heruntergeladen).', 'Syntax prüfen: C:\projekte\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'File .js, .mjs, .cjs, .jsx, .ts e .tsx, verificati da CodeCheck.exe ' +
+      '(scaricato automaticamente al primo utilizzo).', 'convalida la sintassi di C:\progetti\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Pliki .js, .mjs, .cjs, .jsx, .ts i .tsx, sprawdzane przez CodeCheck.exe ' +
+      '(pobierany automatycznie przy pierwszym użyciu).', 'zwaliduj składnię C:\projekty\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Ficheiros .js, .mjs, .cjs, .jsx, .ts e .tsx, verificados pelo CodeCheck.exe ' +
+      '(transferido automaticamente na primeira utilização).', 'validar fonte C:\projetos\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Fișiere .js, .mjs, .cjs, .jsx, .ts și .tsx, verificate de CodeCheck.exe ' +
+      '(descărcat automat la prima utilizare).', 'validează sintaxa pentru C:\proiecte\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', '.js, .mjs, .cjs, .jsx, .ts és .tsx fájlok, a CodeCheck.exe ellenőrzi ' +
+      '(első használatkor automatikusan letöltődik).', 'ellenőrizd a szintaxist: C:\projektek\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', 'Soubory .js, .mjs, .cjs, .jsx, .ts a .tsx, kontroluje CodeCheck.exe ' +
+      '(při prvním použití se stáhne automaticky).', 'ověř syntaxi C:\projekty\app\src\api.ts'),
+    It('JavaScript, JSX, TypeScript, TSX / React', '.js、.mjs、.cjs、.jsx、.ts、.tsx ファイル。CodeCheck.exe でチェックします' +
+      '（初回使用時に自動ダウンロード）。', 'C:\projects\app\src\api.ts の構文を検証して'),
+    It('JavaScript, JSX, TypeScript, TSX / React', '.js、.mjs、.cjs、.jsx、.ts 和 .tsx 文件，由 CodeCheck.exe 检查（首次使用时自动下载）。',
+      '验证 C:\projects\app\src\api.ts 的语法'),
+    It('JavaScript, JSX, TypeScript, TSX / React', '.js、.mjs、.cjs、.jsx、.ts 和 .tsx 檔案，由 CodeCheck.exe 檢查（首次使用時自動下載）。',
+      '驗證 C:\projects\app\src\api.ts 的語法'));
+  Set14('SrcHelp.Val.Native',
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Checked by FastFile itself, no extra program: full JSON syntax; HTML tags ' +
+      'opened and closed; SQL quotes, comments, parentheses and BEGIN/CASE...END blocks.', 'validate the syntax of C:\data\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Verificado pelo próprio FastFile, sem programa extra: sintaxe JSON ' +
+      'completa; tags HTML abertas e fechadas; no SQL, aspas, comentários, parênteses e blocos BEGIN/CASE...END.',
+      'validar fonte C:\dados\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Comprobado por el propio FastFile, sin programa adicional: sintaxis JSON ' +
+      'completa; etiquetas HTML abiertas y cerradas; en SQL, comillas, comentarios, paréntesis y bloques BEGIN/CASE...END.',
+      'validar la sintaxis de C:\datos\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Vérifié par FastFile lui-même, sans programme supplémentaire : syntaxe ' +
+      'JSON complète ; balises HTML ouvertes et fermées ; en SQL, guillemets, commentaires, parenthèses et blocs BEGIN/CASE...END.',
+      'vérifier la syntaxe de C:\donnees\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Von FastFile selbst geprüft, ohne Zusatzprogramm: vollständige ' +
+      'JSON-Syntax; geöffnete und geschlossene HTML-Tags; bei SQL Anführungszeichen, Kommentare, Klammern und BEGIN/CASE...END-Blöcke.',
+      'Syntax prüfen: C:\daten\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Verificato da FastFile stesso, senza programmi aggiuntivi: sintassi JSON ' +
+      'completa; tag HTML aperti e chiusi; in SQL virgolette, commenti, parentesi e blocchi BEGIN/CASE...END.',
+      'convalida la sintassi di C:\dati\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Sprawdzane przez sam FastFile, bez dodatkowego programu: pełna składnia ' +
+      'JSON; otwarte i zamknięte znaczniki HTML; w SQL cudzysłowy, komentarze, nawiasy i bloki BEGIN/CASE...END.',
+      'zwaliduj składnię C:\dane\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Verificado pelo próprio FastFile, sem programa extra: sintaxe JSON ' +
+      'completa; etiquetas HTML abertas e fechadas; no SQL, aspas, comentários, parênteses e blocos BEGIN/CASE...END.',
+      'validar fonte C:\dados\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Verificat chiar de FastFile, fără program suplimentar: sintaxa JSON ' +
+      'completă; etichete HTML deschise și închise; în SQL ghilimele, comentarii, paranteze și blocuri BEGIN/CASE...END.',
+      'validează sintaxa pentru C:\date\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Maga a FastFile ellenőrzi, külön program nélkül: teljes JSON-szintaxis; ' +
+      'nyitott és lezárt HTML-címkék; SQL-ben idézőjelek, megjegyzések, zárójelek és BEGIN/CASE...END blokkok.',
+      'ellenőrizd a szintaxist: C:\adatok\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'Kontroluje přímo FastFile bez dalšího programu: úplná syntaxe JSON; ' +
+      'otevřené a uzavřené značky HTML; v SQL uvozovky, komentáře, závorky a bloky BEGIN/CASE...END.',
+      'ověř syntaxi C:\data\config.json'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', 'FastFile 自身がチェックします（追加プログラム不要）: JSON の完全な構文、' +
+      'HTML タグの開始と終了、SQL の引用符・コメント・括弧・BEGIN/CASE...END ブロック。', 'C:\data\config.json の構文を検証して'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', '由 FastFile 自身检查，无需额外程序：完整的 JSON 语法；HTML 标签的打开与关闭；' +
+      'SQL 的引号、注释、括号以及 BEGIN/CASE...END 块。', '验证 C:\data\config.json 的语法'),
+    It('JSON, HTML, SQL (.json, .html, .htm, .sql)', '由 FastFile 本身檢查，無需額外程式：完整的 JSON 語法；HTML 標籤的開啟與關閉；' +
+      'SQL 的引號、註解、括號以及 BEGIN/CASE...END 區塊。', '驗證 C:\data\config.json 的語法'));
+  Set14('SrcHelp.Val.Java',
+    It('Java (.java)', 'Uses javac from the JDK installed on this PC (PATH, JAVA_HOME or the usual folders). It compiles into a ' +
+      'temporary folder, so type errors are reported too. Without a JDK, FastFile says so and does not validate.', ''),
+    It('Java (.java)', 'Usa o javac do JDK instalado neste computador (PATH, JAVA_HOME ou as pastas habituais). Compila numa ' +
+      'pasta temporária, então erros de tipo também aparecem. Sem JDK, o FastFile avisa e não valida.', ''),
+    It('Java (.java)', 'Usa el javac del JDK instalado en este equipo (PATH, JAVA_HOME o las carpetas habituales). Compila en una ' +
+      'carpeta temporal, así que también informa errores de tipo. Sin JDK, FastFile lo indica y no valida.', ''),
+    It('Java (.java)', 'Utilise le javac du JDK installé sur cet ordinateur (PATH, JAVA_HOME ou les dossiers habituels). Il compile ' +
+      'dans un dossier temporaire : les erreurs de type sont aussi signalées. Sans JDK, FastFile le signale et ne valide pas.', ''),
+    It('Java (.java)', 'Verwendet javac aus dem auf diesem PC installierten JDK (PATH, JAVA_HOME oder die üblichen Ordner). ' +
+      'Kompiliert in einen temporären Ordner, daher auch Typfehler. Ohne JDK meldet FastFile das und prüft nicht.', ''),
+    It('Java (.java)', 'Usa javac del JDK installato su questo computer (PATH, JAVA_HOME o le cartelle abituali). Compila in una ' +
+      'cartella temporanea, quindi segnala anche gli errori di tipo. Senza JDK, FastFile lo segnala e non convalida.', ''),
+    It('Java (.java)', 'Używa javac z JDK zainstalowanego na tym komputerze (PATH, JAVA_HOME lub typowe foldery). Kompiluje do ' +
+      'folderu tymczasowego, więc zgłasza też błędy typów. Bez JDK FastFile o tym informuje i nie sprawdza.', ''),
+    It('Java (.java)', 'Usa o javac do JDK instalado neste computador (PATH, JAVA_HOME ou as pastas habituais). Compila numa ' +
+      'pasta temporária, pelo que também indica erros de tipo. Sem JDK, o FastFile avisa e não valida.', ''),
+    It('Java (.java)', 'Folosește javac din JDK-ul instalat pe acest computer (PATH, JAVA_HOME sau folderele obișnuite). ' +
+      'Compilează într-un folder temporar, deci raportează și erorile de tip. Fără JDK, FastFile anunță și nu validează.', ''),
+    It('Java (.java)', 'A gépre telepített JDK javac programját használja (PATH, JAVA_HOME vagy a szokásos mappák). Ideiglenes ' +
+      'mappába fordít, így a típushibákat is jelzi. JDK nélkül a FastFile ezt jelzi, és nem ellenőriz.', ''),
+    It('Java (.java)', 'Používá javac z JDK nainstalovaného na tomto počítači (PATH, JAVA_HOME nebo obvyklé složky). Kompiluje ' +
+      'do dočasné složky, takže hlásí i chyby typů. Bez JDK to FastFile oznámí a neověřuje.', ''),
+    It('Java (.java)', 'この PC にインストールされた JDK の javac を使用します（PATH、JAVA_HOME、または通常のフォルダー）。' +
+      '一時フォルダーにコンパイルするため、型エラーも報告されます。JDK がない場合はその旨を表示し、検証しません。', ''),
+    It('Java (.java)', '使用本机已安装 JDK 中的 javac（PATH、JAVA_HOME 或常用文件夹）。编译到临时文件夹，因此也会报告类型错误。' +
+      '没有 JDK 时，FastFile 会提示且不进行验证。', ''),
+    It('Java (.java)', '使用本機已安裝 JDK 中的 javac（PATH、JAVA_HOME 或常用資料夾）。編譯到暫存資料夾，因此也會回報型別錯誤。' +
+      '沒有 JDK 時，FastFile 會提示且不進行驗證。', ''));
+  Set14('SrcHelp.Val.Go',
+    It('Go (.go)', 'Uses gofmt from the Go installation (PATH, GOROOT or C:\Program Files\Go). Syntax only. Without Go, ' +
+      'FastFile says so and does not validate.', ''),
+    It('Go (.go)', 'Usa o gofmt da instalação do Go (PATH, GOROOT ou C:\Program Files\Go). Só sintaxe. Sem Go, o FastFile ' +
+      'avisa e não valida.', ''),
+    It('Go (.go)', 'Usa gofmt de la instalación de Go (PATH, GOROOT o C:\Program Files\Go). Solo sintaxis. Sin Go, FastFile ' +
+      'lo indica y no valida.', ''),
+    It('Go (.go)', 'Utilise gofmt de l''installation de Go (PATH, GOROOT ou C:\Program Files\Go). Syntaxe uniquement. Sans Go, ' +
+      'FastFile le signale et ne valide pas.', ''),
+    It('Go (.go)', 'Verwendet gofmt aus der Go-Installation (PATH, GOROOT oder C:\Program Files\Go). Nur Syntax. Ohne Go ' +
+      'meldet FastFile das und prüft nicht.', ''),
+    It('Go (.go)', 'Usa gofmt dell''installazione di Go (PATH, GOROOT o C:\Program Files\Go). Solo sintassi. Senza Go, ' +
+      'FastFile lo segnala e non convalida.', ''),
+    It('Go (.go)', 'Używa gofmt z instalacji Go (PATH, GOROOT lub C:\Program Files\Go). Tylko składnia. Bez Go FastFile ' +
+      'o tym informuje i nie sprawdza.', ''),
+    It('Go (.go)', 'Usa o gofmt da instalação do Go (PATH, GOROOT ou C:\Program Files\Go). Só sintaxe. Sem Go, o FastFile ' +
+      'avisa e não valida.', ''),
+    It('Go (.go)', 'Folosește gofmt din instalarea Go (PATH, GOROOT sau C:\Program Files\Go). Doar sintaxa. Fără Go, ' +
+      'FastFile anunță și nu validează.', ''),
+    It('Go (.go)', 'A Go telepítés gofmt programját használja (PATH, GOROOT vagy C:\Program Files\Go). Csak szintaxis. ' +
+      'Go nélkül a FastFile ezt jelzi, és nem ellenőriz.', ''),
+    It('Go (.go)', 'Používá gofmt z instalace Go (PATH, GOROOT nebo C:\Program Files\Go). Pouze syntaxe. Bez Go to ' +
+      'FastFile oznámí a neověřuje.', ''),
+    It('Go (.go)', 'Go のインストールに含まれる gofmt を使用します（PATH、GOROOT、または C:\Program Files\Go）。構文のみ。' +
+      'Go がない場合はその旨を表示し、検証しません。', ''),
+    It('Go (.go)', '使用 Go 安装中的 gofmt（PATH、GOROOT 或 C:\Program Files\Go）。仅检查语法。没有 Go 时，FastFile 会提示且不进行验证。', ''),
+    It('Go (.go)', '使用 Go 安裝中的 gofmt（PATH、GOROOT 或 C:\Program Files\Go）。僅檢查語法。沒有 Go 時，FastFile 會提示且不進行驗證。', ''));
+  Set14('SrcHelp.Val.Cs',
+    It('C# (.cs)', 'Uses csc.exe from Visual Studio / Build Tools (modern C#) or, failing that, the one in the Windows .NET ' +
+      'Framework (C# 5 only). Without csc.exe, FastFile says so and does not validate.', ''),
+    It('C# (.cs)', 'Usa o csc.exe do Visual Studio / Build Tools (C# moderno) ou, na falta dele, o do .NET Framework do ' +
+      'Windows (só C# 5). Sem csc.exe, o FastFile avisa e não valida.', ''),
+    It('C# (.cs)', 'Usa el csc.exe de Visual Studio / Build Tools (C# moderno) o, si no está, el del .NET Framework de ' +
+      'Windows (solo C# 5). Sin csc.exe, FastFile lo indica y no valida.', ''),
+    It('C# (.cs)', 'Utilise le csc.exe de Visual Studio / Build Tools (C# moderne) ou, à défaut, celui du .NET Framework de ' +
+      'Windows (C# 5 uniquement). Sans csc.exe, FastFile le signale et ne valide pas.', ''),
+    It('C# (.cs)', 'Verwendet csc.exe aus Visual Studio / Build Tools (modernes C#) oder ersatzweise das des Windows-.NET-' +
+      'Frameworks (nur C# 5). Ohne csc.exe meldet FastFile das und prüft nicht.', ''),
+    It('C# (.cs)', 'Usa csc.exe di Visual Studio / Build Tools (C# moderno) o, in mancanza, quello del .NET Framework di ' +
+      'Windows (solo C# 5). Senza csc.exe, FastFile lo segnala e non convalida.', ''),
+    It('C# (.cs)', 'Używa csc.exe z Visual Studio / Build Tools (nowoczesny C#), a w razie jego braku tego z .NET Framework ' +
+      'w Windows (tylko C# 5). Bez csc.exe FastFile o tym informuje i nie sprawdza.', ''),
+    It('C# (.cs)', 'Usa o csc.exe do Visual Studio / Build Tools (C# moderno) ou, na sua falta, o do .NET Framework do ' +
+      'Windows (só C# 5). Sem csc.exe, o FastFile avisa e não valida.', ''),
+    It('C# (.cs)', 'Folosește csc.exe din Visual Studio / Build Tools (C# modern) sau, în lipsa lui, pe cel din .NET Framework ' +
+      'al Windows (doar C# 5). Fără csc.exe, FastFile anunță și nu validează.', ''),
+    It('C# (.cs)', 'A Visual Studio / Build Tools csc.exe programját használja (modern C#), ennek hiányában a Windows .NET ' +
+      'Framework változatát (csak C# 5). csc.exe nélkül a FastFile ezt jelzi, és nem ellenőriz.', ''),
+    It('C# (.cs)', 'Používá csc.exe z Visual Studia / Build Tools (moderní C#), jinak ten z .NET Frameworku ve Windows ' +
+      '(pouze C# 5). Bez csc.exe to FastFile oznámí a neověřuje.', ''),
+    It('C# (.cs)', 'Visual Studio / Build Tools の csc.exe（最新の C#）を使用し、ない場合は Windows の .NET Framework のもの' +
+      '（C# 5 のみ）を使用します。csc.exe がない場合はその旨を表示し、検証しません。', ''),
+    It('C# (.cs)', '使用 Visual Studio / Build Tools 中的 csc.exe（现代 C#），若没有则使用 Windows .NET Framework 自带的（仅 C# 5）。' +
+      '没有 csc.exe 时，FastFile 会提示且不进行验证。', ''),
+    It('C# (.cs)', '使用 Visual Studio / Build Tools 中的 csc.exe（新版 C#），若沒有則使用 Windows .NET Framework 內建的（僅 C# 5）。' +
+      '沒有 csc.exe 時，FastFile 會提示且不進行驗證。', ''));
+
+  { ---- fix ---- }
+  Set14('SrcHelp.Fix.Auto',
+    It('Automatic fix after a failed validation', 'Click "Fix with AI": the AI receives the file and the errors, the corrected ' +
+      'file is saved over it (FastFile asks first if it is outside the fastfile_assistant folder) and it is validated again.', ''),
+    It('Correção automática após validação com erro', 'Clique em "Corrigir com a IA": a IA recebe o arquivo e os erros, o arquivo ' +
+      'corrigido é gravado por cima (o FastFile pergunta antes se estiver fora da pasta fastfile_assistant) e é validado de novo.', ''),
+    It('Corrección automática tras una validación fallida', 'Pulse "Corregir con la IA": la IA recibe el archivo y los errores, ' +
+      'el archivo corregido se guarda encima (FastFile pregunta antes si está fuera de la carpeta fastfile_assistant) y se valida de nuevo.', ''),
+    It('Correction automatique après une validation en échec', 'Cliquez sur « Corriger avec l''IA » : l''IA reçoit le fichier et ' +
+      'les erreurs, le fichier corrigé est enregistré par-dessus (FastFile demande d''abord s''il est hors du dossier ' +
+      'fastfile_assistant) puis validé à nouveau.', ''),
+    It('Automatische Korrektur nach fehlgeschlagener Prüfung', 'Klicken Sie auf „Mit KI korrigieren“: Die KI erhält Datei und ' +
+      'Fehler, die korrigierte Datei wird überschrieben (FastFile fragt vorher, wenn sie außerhalb des Ordners fastfile_assistant ' +
+      'liegt) und erneut geprüft.', ''),
+    It('Correzione automatica dopo una convalida non riuscita', 'Fai clic su "Correggi con l''IA": l''IA riceve il file e gli ' +
+      'errori, il file corretto viene salvato sopra (FastFile chiede prima se è fuori dalla cartella fastfile_assistant) e viene ' +
+      'convalidato di nuovo.', ''),
+    It('Automatyczna poprawka po nieudanej walidacji', 'Kliknij „Popraw z AI”: AI otrzymuje plik i błędy, poprawiony plik jest ' +
+      'zapisywany w miejsce starego (FastFile najpierw pyta, jeśli jest poza folderem fastfile_assistant) i ponownie sprawdzany.', ''),
+    It('Correção automática após validação com erro', 'Clique em "Corrigir com a IA": a IA recebe o ficheiro e os erros, o ' +
+      'ficheiro corrigido é gravado por cima (o FastFile pergunta antes se estiver fora da pasta fastfile_assistant) e é validado novamente.', ''),
+    It('Corectare automată după o validare eșuată', 'Faceți clic pe „Corectează cu IA”: IA primește fișierul și erorile, fișierul ' +
+      'corectat se salvează peste cel vechi (FastFile întreabă înainte dacă este în afara folderului fastfile_assistant) și este ' +
+      'validat din nou.', ''),
+    It('Automatikus javítás sikertelen ellenőrzés után', 'Kattintson a „Javítás MI-vel” gombra: az MI megkapja a fájlt és a ' +
+      'hibákat, a javított fájl felülírja a régit (a FastFile előbb rákérdez, ha a fastfile_assistant mappán kívül van), majd ' +
+      'újra ellenőrzi.', ''),
+    It('Automatická oprava po neúspěšném ověření', 'Klikněte na „Opravit pomocí AI“: AI dostane soubor a chyby, opravený soubor ' +
+      'se uloží přes původní (FastFile se nejdřív zeptá, pokud je mimo složku fastfile_assistant) a znovu se ověří.', ''),
+    It('検証失敗後の自動修正', '「AI で修正」をクリックすると、AI がファイルとエラーを受け取り、修正後のファイルで上書き保存し' +
+      '（fastfile_assistant フォルダー外の場合は事前に確認）、再度検証します。', ''),
+    It('验证失败后自动修复', '单击“用 AI 修复”：AI 接收文件和错误，修复后的文件会覆盖原文件（若不在 fastfile_assistant ' +
+      '文件夹中会先询问），然后重新验证。', ''),
+    It('驗證失敗後自動修正', '按一下「用 AI 修正」：AI 會接收檔案和錯誤，修正後的檔案會覆寫原檔（若不在 fastfile_assistant ' +
+      '資料夾中會先詢問），然後重新驗證。', ''));
+  Set14('SrcHelp.Fix.Manual',
+    It('Change the last generated file', 'Ask for changes in the question box; the AI rewrites the last generated file.',
+      'fix the generated file: add error handling'),
+    It('Alterar o último arquivo gerado', 'Peça as alterações no campo da pergunta; a IA reescreve o último arquivo gerado.',
+      'corrija o arquivo gerado: adicione tratamento de erros'),
+    It('Cambiar el último archivo generado', 'Pida los cambios en el cuadro de la pregunta; la IA reescribe el último archivo generado.',
+      'corrige el archivo generado: añade manejo de errores'),
+    It('Modifier le dernier fichier généré', 'Demandez les modifications dans la zone de question ; l''IA réécrit le dernier ' +
+      'fichier généré.', 'corrige le fichier généré : ajoute la gestion des erreurs'),
+    It('Die zuletzt erzeugte Datei ändern', 'Bitten Sie im Fragefeld um Änderungen; die KI schreibt die zuletzt erzeugte Datei neu.',
+      'korrigiere die erzeugte Datei: füge eine Fehlerbehandlung hinzu'),
+    It('Modificare l''ultimo file generato', 'Chiedi le modifiche nella casella della domanda; l''IA riscrive l''ultimo file generato.',
+      'correggi il file generato: aggiungi la gestione degli errori'),
+    It('Zmiana ostatnio wygenerowanego pliku', 'Poproś o zmiany w polu pytania; AI przepisze ostatnio wygenerowany plik.',
+      'popraw wygenerowany plik: dodaj obsługę błędów'),
+    It('Alterar o último ficheiro gerado', 'Peça as alterações no campo da pergunta; a IA reescreve o último ficheiro gerado.',
+      'corrija o ficheiro gerado: adicione tratamento de erros'),
+    It('Modificarea ultimului fișier generat', 'Cereți modificările în caseta întrebării; IA rescrie ultimul fișier generat.',
+      'corectează fișierul generat: adaugă tratarea erorilor'),
+    It('Az utoljára létrehozott fájl módosítása', 'Kérje a módosításokat a kérdésmezőben; az MI újraírja az utoljára létrehozott fájlt.',
+      'javítsd a létrehozott fájlt: adj hozzá hibakezelést'),
+    It('Úprava naposledy vygenerovaného souboru', 'Požádejte o změny v poli dotazu; AI přepíše naposledy vygenerovaný soubor.',
+      'oprav vygenerovaný soubor: přidej ošetření chyb'),
+    It('最後に生成したファイルを変更', '質問欄で変更を依頼すると、AI が最後に生成したファイルを書き直します。',
+      '生成したファイルを修正して: エラー処理を追加'),
+    It('修改最后生成的文件', '在问题框中提出修改要求，AI 会重写最后生成的文件。', '修改生成的文件：添加错误处理'),
+    It('修改最後產生的檔案', '在問題方塊中提出修改要求，AI 會重寫最後產生的檔案。', '修改產生的檔案：加入錯誤處理'));
+
+  { ---- status on this computer ---- }
+  Set14('SrcHelp.Status.Native',
+    It('JSON / HTML / SQL', 'Built into FastFile: always available, no external program.', ''),
+    It('JSON / HTML / SQL', 'Interno do FastFile: sempre disponível, sem programa externo.', ''),
+    It('JSON / HTML / SQL', 'Integrado en FastFile: siempre disponible, sin programa externo.', ''),
+    It('JSON / HTML / SQL', 'Intégré à FastFile : toujours disponible, sans programme externe.', ''),
+    It('JSON / HTML / SQL', 'In FastFile integriert: immer verfügbar, ohne externes Programm.', ''),
+    It('JSON / HTML / SQL', 'Integrato in FastFile: sempre disponibile, senza programmi esterni.', ''),
+    It('JSON / HTML / SQL', 'Wbudowane w FastFile: zawsze dostępne, bez zewnętrznego programu.', ''),
+    It('JSON / HTML / SQL', 'Interno do FastFile: sempre disponível, sem programa externo.', ''),
+    It('JSON / HTML / SQL', 'Integrat în FastFile: mereu disponibil, fără program extern.', ''),
+    It('JSON / HTML / SQL', 'A FastFile része: mindig elérhető, külső program nélkül.', ''),
+    It('JSON / HTML / SQL', 'Součást FastFile: vždy k dispozici, bez externího programu.', ''),
+    It('JSON / HTML / SQL', 'FastFile に内蔵: 外部プログラムなしで常に利用可能。', ''),
+    It('JSON / HTML / SQL', 'FastFile 内置：始终可用，无需外部程序。', ''),
+    It('JSON / HTML / SQL', 'FastFile 內建：隨時可用，無需外部程式。', ''));
+  Set14('SrcHelp.Status.Companions',
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe and CodeCheck.exe are downloaded automatically on first use ' +
+      '(internet needed once). Without them FastFile says so and does not validate.', ''),
+    It('Python / JavaScript / TypeScript', 'O ScriptEngine.exe e o CodeCheck.exe são baixados automaticamente no primeiro uso ' +
+      '(precisa de internet uma vez). Sem eles, o FastFile avisa e não valida.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe y CodeCheck.exe se descargan automáticamente en el primer uso ' +
+      '(se necesita internet una vez). Sin ellos, FastFile lo indica y no valida.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe et CodeCheck.exe sont téléchargés automatiquement à la première ' +
+      'utilisation (Internet requis une fois). Sans eux, FastFile le signale et ne valide pas.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe und CodeCheck.exe werden bei der ersten Nutzung automatisch ' +
+      'heruntergeladen (einmalig Internet nötig). Ohne sie meldet FastFile das und prüft nicht.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe e CodeCheck.exe vengono scaricati automaticamente al primo ' +
+      'utilizzo (serve Internet una volta). Senza di essi FastFile lo segnala e non convalida.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe i CodeCheck.exe są pobierane automatycznie przy pierwszym użyciu ' +
+      '(raz potrzebny internet). Bez nich FastFile o tym informuje i nie sprawdza.', ''),
+    It('Python / JavaScript / TypeScript', 'O ScriptEngine.exe e o CodeCheck.exe são transferidos automaticamente na primeira ' +
+      'utilização (é preciso Internet uma vez). Sem eles, o FastFile avisa e não valida.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe și CodeCheck.exe se descarcă automat la prima utilizare (este ' +
+      'nevoie o dată de internet). Fără ele, FastFile anunță și nu validează.', ''),
+    It('Python / JavaScript / TypeScript', 'A ScriptEngine.exe és a CodeCheck.exe első használatkor automatikusan letöltődik ' +
+      '(egyszer internet kell). Nélkülük a FastFile ezt jelzi, és nem ellenőriz.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe a CodeCheck.exe se při prvním použití stáhnou automaticky ' +
+      '(jednou je potřeba internet). Bez nich to FastFile oznámí a neověřuje.', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe と CodeCheck.exe は初回使用時に自動でダウンロードされます' +
+      '（一度だけインターネットが必要）。ない場合はその旨を表示し、検証しません。', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe 和 CodeCheck.exe 会在首次使用时自动下载（需联网一次）。' +
+      '缺少时，FastFile 会提示且不进行验证。', ''),
+    It('Python / JavaScript / TypeScript', 'ScriptEngine.exe 和 CodeCheck.exe 會在首次使用時自動下載（需連網一次）。' +
+      '缺少時，FastFile 會提示且不進行驗證。', ''));
+  Set14('SrcHelp.Status.Found', 'Installed: %s', 'Instalado: %s', 'Instalado: %s', 'Installé : %s', 'Installiert: %s',
+    'Installato: %s', 'Zainstalowano: %s', 'Instalado: %s', 'Instalat: %s', 'Telepítve: %s', 'Nainstalováno: %s',
+    'インストール済み: %s', '已安装：%s', '已安裝：%s');
+
+  { ---- limits ---- }
+  Set14('SrcHelp.Lim.NoRun',
+    It('Running and building', 'The code is never run and FastFile does not build projects (no package.json, tsconfig, Maven, ' +
+      'npm install, tests or formatting). It creates one file per request.', ''),
+    It('Execução e build', 'O código nunca é executado e o FastFile não faz build de projetos (sem package.json, tsconfig, ' +
+      'Maven, npm install, testes ou formatação). Ele cria um arquivo por pedido.', ''),
+    It('Ejecución y compilación', 'El código nunca se ejecuta y FastFile no compila proyectos (sin package.json, tsconfig, ' +
+      'Maven, npm install, pruebas ni formateo). Crea un archivo por solicitud.', ''),
+    It('Exécution et build', 'Le code n''est jamais exécuté et FastFile ne construit pas de projets (pas de package.json, ' +
+      'tsconfig, Maven, npm install, tests ni formatage). Il crée un fichier par demande.', ''),
+    It('Ausführen und Build', 'Der Code wird nie ausgeführt, und FastFile baut keine Projekte (kein package.json, tsconfig, ' +
+      'Maven, npm install, keine Tests oder Formatierung). Pro Anfrage entsteht eine Datei.', ''),
+    It('Esecuzione e build', 'Il codice non viene mai eseguito e FastFile non compila progetti (niente package.json, tsconfig, ' +
+      'Maven, npm install, test o formattazione). Crea un file per richiesta.', ''),
+    It('Uruchamianie i budowanie', 'Kod nigdy nie jest uruchamiany, a FastFile nie buduje projektów (bez package.json, ' +
+      'tsconfig, Maven, npm install, testów i formatowania). Tworzy jeden plik na prośbę.', ''),
+    It('Execução e build', 'O código nunca é executado e o FastFile não faz build de projetos (sem package.json, tsconfig, ' +
+      'Maven, npm install, testes ou formatação). Cria um ficheiro por pedido.', ''),
+    It('Rulare și build', 'Codul nu este rulat niciodată, iar FastFile nu construiește proiecte (fără package.json, tsconfig, ' +
+      'Maven, npm install, teste sau formatare). Creează câte un fișier per cerere.', ''),
+    It('Futtatás és build', 'A kód sosem fut le, és a FastFile nem buildel projekteket (nincs package.json, tsconfig, Maven, ' +
+      'npm install, teszt vagy formázás). Kérésenként egy fájlt hoz létre.', ''),
+    It('Spouštění a sestavení', 'Kód se nikdy nespouští a FastFile nesestavuje projekty (žádný package.json, tsconfig, Maven, ' +
+      'npm install, testy ani formátování). Na jeden požadavek vytvoří jeden soubor.', ''),
+    It('実行とビルド', 'コードは実行されず、FastFile はプロジェクトのビルドを行いません（package.json、tsconfig、Maven、' +
+      'npm install、テスト、整形なし）。1 回の依頼で 1 ファイルを作成します。', ''),
+    It('运行和构建', '代码从不运行，FastFile 也不构建项目（没有 package.json、tsconfig、Maven、npm install、测试或格式化）。' +
+      '每次请求创建一个文件。', ''),
+    It('執行和建置', '程式碼從不執行，FastFile 也不建置專案（沒有 package.json、tsconfig、Maven、npm install、測試或格式化）。' +
+      '每次要求建立一個檔案。', ''));
+  Set14('SrcHelp.Lim.NotValidated',
+    It('Languages without validation', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift and Delphi / Pascal are generated but not ' +
+      'validated yet.', ''),
+    It('Linguagens sem validação', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift e Delphi / Pascal são gerados, mas ainda não são ' +
+      'validados.', ''),
+    It('Lenguajes sin validación', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift y Delphi / Pascal se generan, pero aún no se ' +
+      'validan.', ''),
+    It('Langages sans validation', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift et Delphi / Pascal sont générés mais pas encore ' +
+      'validés.', ''),
+    It('Sprachen ohne Prüfung', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift und Delphi / Pascal werden erzeugt, aber noch nicht ' +
+      'geprüft.', ''),
+    It('Linguaggi senza convalida', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift e Delphi / Pascal vengono generati ma non ancora ' +
+      'convalidati.', ''),
+    It('Języki bez walidacji', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift i Delphi / Pascal są generowane, ale jeszcze nie ' +
+      'sprawdzane.', ''),
+    It('Linguagens sem validação', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift e Delphi / Pascal são gerados, mas ainda não são ' +
+      'validados.', ''),
+    It('Limbaje fără validare', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift și Delphi / Pascal sunt generate, dar încă nu sunt ' +
+      'validate.', ''),
+    It('Nyelvek ellenőrzés nélkül', 'A C / C++, Rust, PHP, Ruby, Kotlin, Swift és Delphi / Pascal fájlok létrehozhatók, de ' +
+      'ellenőrzésük még nincs.', ''),
+    It('Jazyky bez ověření', 'C / C++, Rust, PHP, Ruby, Kotlin, Swift a Delphi / Pascal se generují, ale zatím se neověřují.', ''),
+    It('検証未対応の言語', 'C / C++、Rust、PHP、Ruby、Kotlin、Swift、Delphi / Pascal は生成できますが、検証にはまだ対応していません。', ''),
+    It('不支持验证的语言', 'C / C++、Rust、PHP、Ruby、Kotlin、Swift 和 Delphi / Pascal 可以生成，但暂不支持验证。', ''),
+    It('不支援驗證的語言', 'C / C++、Rust、PHP、Ruby、Kotlin、Swift 和 Delphi / Pascal 可以產生，但尚不支援驗證。', ''));
+  Set14('SrcHelp.Lim.SingleFile',
+    It('One file at a time', 'Java and C# are checked alone, so references to other classes of your project can show up as ' +
+      'errors. JSON / HTML / SQL checks are structural only.', ''),
+    It('Um arquivo por vez', 'Java e C# são verificados sozinhos, então referências a outras classes do seu projeto podem ' +
+      'aparecer como erro. As verificações de JSON / HTML / SQL são só estruturais.', ''),
+    It('Un archivo a la vez', 'Java y C# se comprueban solos, así que las referencias a otras clases del proyecto pueden ' +
+      'aparecer como error. Las comprobaciones de JSON / HTML / SQL son solo estructurales.', ''),
+    It('Un fichier à la fois', 'Java et C# sont vérifiés seuls : les références à d''autres classes du projet peuvent apparaître ' +
+      'comme des erreurs. Les contrôles JSON / HTML / SQL sont uniquement structurels.', ''),
+    It('Eine Datei nach der anderen', 'Java und C# werden einzeln geprüft, daher können Verweise auf andere Klassen Ihres ' +
+      'Projekts als Fehler erscheinen. JSON-/HTML-/SQL-Prüfungen sind nur strukturell.', ''),
+    It('Un file alla volta', 'Java e C# vengono verificati da soli, quindi i riferimenti ad altre classi del progetto possono ' +
+      'risultare come errori. I controlli JSON / HTML / SQL sono solo strutturali.', ''),
+    It('Jeden plik naraz', 'Java i C# są sprawdzane osobno, więc odwołania do innych klas projektu mogą pojawić się jako błędy. ' +
+      'Kontrole JSON / HTML / SQL są tylko strukturalne.', ''),
+    It('Um ficheiro de cada vez', 'Java e C# são verificados sozinhos, pelo que referências a outras classes do seu projeto ' +
+      'podem aparecer como erro. As verificações de JSON / HTML / SQL são apenas estruturais.', ''),
+    It('Câte un fișier', 'Java și C# sunt verificate separat, deci referințele la alte clase din proiect pot apărea ca erori. ' +
+      'Verificările JSON / HTML / SQL sunt doar structurale.', ''),
+    It('Egyszerre egy fájl', 'A Java és a C# fájlokat önmagukban ellenőrzi, így a projekt más osztályaira mutató hivatkozások ' +
+      'hibaként jelenhetnek meg. A JSON / HTML / SQL ellenőrzés csak szerkezeti.', ''),
+    It('Jeden soubor najednou', 'Java a C# se kontrolují samostatně, takže odkazy na jiné třídy projektu se mohou zobrazit ' +
+      'jako chyby. Kontroly JSON / HTML / SQL jsou pouze strukturální.', ''),
+    It('1 ファイルずつ', 'Java と C# は単独でチェックするため、プロジェクト内の他クラスへの参照がエラーになることがあります。' +
+      'JSON / HTML / SQL のチェックは構造のみです。', ''),
+    It('一次一个文件', 'Java 和 C# 单独检查，因此对项目中其他类的引用可能显示为错误。JSON / HTML / SQL 仅做结构检查。', ''),
+    It('一次一個檔案', 'Java 和 C# 單獨檢查，因此對專案中其他類別的參照可能顯示為錯誤。JSON / HTML / SQL 僅做結構檢查。', ''));
+
+  { ---- validator messages (uSourceValidators) ---- }
+  Set14('SrcVal.LineCol', 'Line %d, column %d: %s', 'Linha %d, coluna %d: %s', 'Línea %d, columna %d: %s',
+    'Ligne %d, colonne %d : %s', 'Zeile %d, Spalte %d: %s', 'Riga %d, colonna %d: %s', 'Wiersz %d, kolumna %d: %s',
+    'Linha %d, coluna %d: %s', 'Linia %d, coloana %d: %s', '%d. sor, %d. oszlop: %s', 'Řádek %d, sloupec %d: %s',
+    '%d 行 %d 列: %s', '第 %d 行，第 %d 列：%s', '第 %d 行，第 %d 欄：%s');
+  Set14('SrcVal.Empty', 'The file is empty.', 'O arquivo está vazio.', 'El archivo está vacío.', 'Le fichier est vide.',
+    'Die Datei ist leer.', 'Il file è vuoto.', 'Plik jest pusty.', 'O ficheiro está vazio.', 'Fișierul este gol.',
+    'A fájl üres.', 'Soubor je prázdný.', 'ファイルが空です。', '文件为空。', '檔案是空的。');
+  Set14('SrcVal.Native', 'Checked by FastFile itself (no external program).',
+    'Verificado pelo próprio FastFile (sem programa externo).', 'Comprobado por el propio FastFile (sin programa externo).',
+    'Vérifié par FastFile lui-même (sans programme externe).', 'Von FastFile selbst geprüft (ohne externes Programm).',
+    'Verificato da FastFile stesso (senza programmi esterni).', 'Sprawdzone przez sam FastFile (bez zewnętrznego programu).',
+    'Verificado pelo próprio FastFile (sem programa externo).', 'Verificat de FastFile însuși (fără program extern).',
+    'Maga a FastFile ellenőrizte (külső program nélkül).', 'Zkontrolováno přímo FastFile (bez externího programu).',
+    'FastFile 自身でチェックしました（外部プログラムなし）。', '由 FastFile 自身检查（无需外部程序）。',
+    '由 FastFile 本身檢查（無需外部程式）。');
+  Set14('SrcVal.Unexpected', 'The validation could not be completed: %s', 'Não foi possível concluir a validação: %s',
+    'No se pudo completar la validación: %s', 'La validation n''a pas pu être terminée : %s',
+    'Die Prüfung konnte nicht abgeschlossen werden: %s', 'Impossibile completare la convalida: %s',
+    'Nie udało się ukończyć walidacji: %s', 'Não foi possível concluir a validação: %s',
+    'Validarea nu a putut fi finalizată: %s', 'Az ellenőrzést nem sikerült befejezni: %s',
+    'Ověření nebylo možné dokončit: %s', '検証を完了できませんでした: %s', '无法完成验证：%s', '無法完成驗證：%s');
+  Set14('SrcVal.Json.UnexpectedEnd', 'unexpected end of file', 'fim de arquivo inesperado', 'fin de archivo inesperado',
+    'fin de fichier inattendue', 'unerwartetes Dateiende', 'fine del file inattesa', 'nieoczekiwany koniec pliku',
+    'fim de ficheiro inesperado', 'sfârșit de fișier neașteptat', 'váratlan fájlvége', 'neočekávaný konec souboru',
+    '予期しないファイルの終わり', '文件意外结束', '檔案意外結束');
+  Set14('SrcVal.Json.Unexpected', 'unexpected character "%s"', 'caractere inesperado "%s"', 'carácter inesperado "%s"',
+    'caractère inattendu « %s »', 'unerwartetes Zeichen "%s"', 'carattere inatteso "%s"', 'nieoczekiwany znak „%s”',
+    'carácter inesperado "%s"', 'caracter neașteptat „%s”', 'váratlan karakter: „%s”', 'neočekávaný znak „%s“',
+    '予期しない文字 "%s"', '意外的字符“%s”', '非預期的字元「%s」');
+  Set14('SrcVal.Json.Expected', 'expected %s, found "%s"', 'esperado %s, encontrado "%s"', 'se esperaba %s y se encontró "%s"',
+    '%s attendu, « %s » trouvé', '%s erwartet, "%s" gefunden', 'previsto %s, trovato "%s"', 'oczekiwano %s, znaleziono „%s”',
+    'esperado %s, encontrado "%s"', 'se aștepta %s, s-a găsit „%s”', '%s várható, de „%s” található',
+    'očekáváno %s, nalezeno „%s“', '%s が必要ですが "%s" があります', '应为 %s，但找到“%s”', '應為 %s，但找到「%s」');
+  Set14('SrcVal.Json.BadEscape', 'invalid escape sequence in a string', 'sequência de escape inválida em uma string',
+    'secuencia de escape no válida en una cadena', 'séquence d''échappement invalide dans une chaîne',
+    'ungültige Escape-Sequenz in einer Zeichenkette', 'sequenza di escape non valida in una stringa',
+    'nieprawidłowa sekwencja ucieczki w ciągu', 'sequência de escape inválida numa string',
+    'secvență de escape invalidă într-un șir', 'érvénytelen escape-szekvencia egy karakterláncban',
+    'neplatná escape sekvence v řetězci', '文字列内の無効なエスケープシーケンス', '字符串中的转义序列无效', '字串中的跳脫序列無效');
+  Set14('SrcVal.Json.CtrlInString', 'line break or control character inside a string (use \n)',
+    'quebra de linha ou caractere de controle dentro de uma string (use \n)',
+    'salto de línea o carácter de control dentro de una cadena (use \n)',
+    'saut de ligne ou caractère de contrôle dans une chaîne (utilisez \n)',
+    'Zeilenumbruch oder Steuerzeichen in einer Zeichenkette (\n verwenden)',
+    'a capo o carattere di controllo in una stringa (usa \n)', 'podział wiersza lub znak sterujący w ciągu (użyj \n)',
+    'quebra de linha ou carácter de controlo dentro de uma string (use \n)',
+    'sfârșit de linie sau caracter de control într-un șir (folosiți \n)',
+    'sortörés vagy vezérlőkarakter egy karakterláncban (használja a \n-t)',
+    'konec řádku nebo řídicí znak v řetězci (použijte \n)', '文字列内に改行または制御文字があります（\n を使用）',
+    '字符串中有换行符或控制字符（请使用 \n）', '字串中有換行或控制字元（請使用 \n）');
+  Set14('SrcVal.Json.UnclosedString', 'string opened here is not closed (missing ")',
+    'string aberta aqui não foi fechada (falta ")', 'la cadena abierta aquí no se cierra (falta ")',
+    'la chaîne ouverte ici n''est pas fermée (" manquant)', 'hier begonnene Zeichenkette wird nicht geschlossen (" fehlt)',
+    'la stringa aperta qui non è chiusa (manca ")', 'ciąg otwarty tutaj nie jest zamknięty (brak ")',
+    'string aberta aqui não foi fechada (falta ")', 'șirul deschis aici nu este închis (lipsește ")',
+    'az itt kezdődő karakterlánc nincs lezárva (hiányzik a ")', 'zde otevřený řetězec není uzavřen (chybí ")',
+    'ここで開始した文字列が閉じられていません（" がありません）', '此处开始的字符串未闭合（缺少 "）', '此處開始的字串未關閉（缺少 "）');
+  Set14('SrcVal.Json.BadNumber', 'invalid number', 'número inválido', 'número no válido', 'nombre invalide', 'ungültige Zahl',
+    'numero non valido', 'nieprawidłowa liczba', 'número inválido', 'număr invalid', 'érvénytelen szám', 'neplatné číslo',
+    '無効な数値', '无效的数字', '無效的數字');
+  Set14('SrcVal.Json.TrailingComma', 'comma before the closing bracket (not allowed in JSON)',
+    'vírgula antes do fechamento (não permitido em JSON)', 'coma antes del cierre (no permitido en JSON)',
+    'virgule avant la fermeture (interdit en JSON)', 'Komma vor der schließenden Klammer (in JSON nicht erlaubt)',
+    'virgola prima della chiusura (non ammessa in JSON)', 'przecinek przed nawiasem zamykającym (niedozwolony w JSON)',
+    'vírgula antes do fecho (não permitido em JSON)', 'virgulă înainte de închidere (nepermisă în JSON)',
+    'vessző a záró zárójel előtt (JSON-ban nem megengedett)', 'čárka před uzavírací závorkou (v JSON není povolena)',
+    '閉じ括弧の前にカンマがあります（JSON では不可）', '右括号前有逗号（JSON 中不允许）', '右括號前有逗號（JSON 不允許）');
+  Set14('SrcVal.Json.Trailing', 'extra content after the end of the JSON', 'conteúdo extra após o fim do JSON',
+    'contenido adicional después del final del JSON', 'contenu supplémentaire après la fin du JSON',
+    'zusätzlicher Inhalt nach dem Ende des JSON', 'contenuto in eccesso dopo la fine del JSON',
+    'dodatkowa treść po końcu JSON', 'conteúdo extra após o fim do JSON', 'conținut suplimentar după sfârșitul JSON',
+    'további tartalom a JSON vége után', 'nadbytečný obsah za koncem JSON', 'JSON の終わりの後に余分な内容があります',
+    'JSON 结束后还有多余内容', 'JSON 結束後還有多餘內容');
+  Set14('SrcVal.Json.TooDeep', 'too many nested levels', 'níveis aninhados demais', 'demasiados niveles anidados',
+    'trop de niveaux imbriqués', 'zu viele verschachtelte Ebenen', 'troppi livelli annidati',
+    'zbyt wiele zagnieżdżonych poziomów', 'demasiados níveis aninhados', 'prea multe niveluri imbricate',
+    'túl sok egymásba ágyazott szint', 'příliš mnoho vnořených úrovní', '入れ子が深すぎます', '嵌套层级过多', '巢狀層級過多');
+  Set14('SrcVal.Html.Comment', 'comment "<!--" is never closed with "-->"', 'comentário "<!--" nunca é fechado com "-->"',
+    'el comentario "<!--" nunca se cierra con "-->"', 'le commentaire « <!-- » n''est jamais fermé par « --> »',
+    'Kommentar "<!--" wird nie mit "-->" geschlossen', 'il commento "<!--" non viene mai chiuso con "-->"',
+    'komentarz „<!--” nigdy nie jest zamknięty przez „-->”', 'comentário "<!--" nunca é fechado com "-->"',
+    'comentariul „<!--” nu este închis niciodată cu „-->”', 'a „<!--” megjegyzés nincs lezárva „-->” jellel',
+    'komentář „<!--“ není nikdy uzavřen pomocí „-->“', 'コメント "<!--" が "-->" で閉じられていません',
+    '注释“<!--”未用“-->”闭合', '註解「<!--」未以「-->」關閉');
+  Set14('SrcVal.Html.Unterminated', 'tag <%s is not closed with ">"', 'a tag <%s não é fechada com ">"',
+    'la etiqueta <%s no se cierra con ">"', 'la balise <%s n''est pas fermée par « > »', 'Tag <%s wird nicht mit ">" geschlossen',
+    'il tag <%s non è chiuso con ">"', 'znacznik <%s nie jest zamknięty znakiem „>”', 'a etiqueta <%s não é fechada com ">"',
+    'eticheta <%s nu este închisă cu „>”', 'a(z) <%s címke nincs lezárva „>” jellel', 'značka <%s není uzavřena znakem „>“',
+    'タグ <%s が ">" で閉じられていません', '标签 <%s 未用“>”闭合', '標籤 <%s 未以「>」關閉');
+  Set14('SrcVal.Html.Stray', '</%s> has no matching opening tag', '</%s> não tem tag de abertura correspondente',
+    '</%s> no tiene etiqueta de apertura correspondiente', '</%s> n''a pas de balise ouvrante correspondante',
+    '</%s> hat kein passendes öffnendes Tag', '</%s> non ha un tag di apertura corrispondente',
+    '</%s> nie ma pasującego znacznika otwierającego', '</%s> não tem etiqueta de abertura correspondente',
+    '</%s> nu are o etichetă de deschidere corespunzătoare', 'a(z) </%s> címkének nincs nyitó párja',
+    '</%s> nemá odpovídající otevírací značku', '</%s> に対応する開始タグがありません', '</%s> 没有对应的开始标签',
+    '</%s> 沒有對應的開始標籤');
+  Set14('SrcVal.Html.Mismatch', '</%s> found, but <%s> opened on line %d is still open',
+    '</%s> encontrado, mas <%s> aberto na linha %d ainda não foi fechado',
+    'se encontró </%s>, pero <%s> abierta en la línea %d sigue sin cerrar',
+    '</%s> trouvé, mais <%s> ouvert à la ligne %d n''est pas encore fermé',
+    '</%s> gefunden, aber <%s> aus Zeile %d ist noch offen',
+    'trovato </%s>, ma <%s> aperto alla riga %d non è ancora chiuso',
+    'znaleziono </%s>, ale <%s> otwarty w wierszu %d nie jest jeszcze zamknięty',
+    '</%s> encontrado, mas <%s> aberto na linha %d ainda não foi fechado',
+    's-a găsit </%s>, dar <%s> deschisă la linia %d nu este încă închisă',
+    '</%0:s> található, de a(z) %2:d. sorban nyitott <%1:s> még nincs lezárva',
+    'nalezeno </%s>, ale <%s> otevřená na řádku %d ještě není uzavřena',
+    '</%0:s> がありますが、%2:d 行目で開いた <%1:s> がまだ閉じられていません',
+    '找到 </%0:s>，但第 %2:d 行打开的 <%1:s> 尚未关闭', '找到 </%0:s>，但第 %2:d 行開啟的 <%1:s> 尚未關閉');
+  Set14('SrcVal.Html.Unclosed', '<%s> is never closed', '<%s> nunca é fechada', '<%s> nunca se cierra',
+    '<%s> n''est jamais fermée', '<%s> wird nie geschlossen', '<%s> non viene mai chiuso', '<%s> nigdy nie jest zamknięty',
+    '<%s> nunca é fechada', '<%s> nu este închisă niciodată', 'a(z) <%s> soha nincs lezárva', '<%s> není nikdy uzavřena',
+    '<%s> が閉じられていません', '<%s> 从未闭合', '<%s> 從未關閉');
+  Set14('SrcVal.Html.Scope',
+    'Checked: tags opened and closed, comments and quotes. Attributes and CSS/JavaScript content are not checked.',
+    'Verificado: tags abertas e fechadas, comentários e aspas. Atributos e o conteúdo CSS/JavaScript não são verificados.',
+    'Comprobado: etiquetas abiertas y cerradas, comentarios y comillas. No se comprueban los atributos ni el contenido CSS/JavaScript.',
+    'Vérifié : balises ouvertes et fermées, commentaires et guillemets. Les attributs et le contenu CSS/JavaScript ne sont pas vérifiés.',
+    'Geprüft: geöffnete und geschlossene Tags, Kommentare und Anführungszeichen. Attribute und CSS-/JavaScript-Inhalte nicht.',
+    'Verificati: tag aperti e chiusi, commenti e virgolette. Attributi e contenuto CSS/JavaScript non vengono verificati.',
+    'Sprawdzono: otwarte i zamknięte znaczniki, komentarze i cudzysłowy. Atrybuty oraz treść CSS/JavaScript nie są sprawdzane.',
+    'Verificado: etiquetas abertas e fechadas, comentários e aspas. Atributos e conteúdo CSS/JavaScript não são verificados.',
+    'Verificat: etichete deschise și închise, comentarii și ghilimele. Atributele și conținutul CSS/JavaScript nu sunt verificate.',
+    'Ellenőrizve: nyitott és lezárt címkék, megjegyzések és idézőjelek. Az attribútumokat és a CSS/JavaScript tartalmat nem.',
+    'Zkontrolováno: otevřené a uzavřené značky, komentáře a uvozovky. Atributy a obsah CSS/JavaScript se nekontrolují.',
+    'チェック内容: タグの開始と終了、コメント、引用符。属性と CSS/JavaScript の内容はチェックしません。',
+    '已检查：标签的打开与关闭、注释和引号。不检查属性和 CSS/JavaScript 内容。',
+    '已檢查：標籤的開啟與關閉、註解和引號。不檢查屬性和 CSS/JavaScript 內容。');
+  Set14('SrcVal.Sql.Comment', 'comment "/*" is never closed with "*/"', 'comentário "/*" nunca é fechado com "*/"',
+    'el comentario "/*" nunca se cierra con "*/"', 'le commentaire « /* » n''est jamais fermé par « */ »',
+    'Kommentar "/*" wird nie mit "*/" geschlossen', 'il commento "/*" non viene mai chiuso con "*/"',
+    'komentarz „/*” nigdy nie jest zamknięty przez „*/”', 'comentário "/*" nunca é fechado com "*/"',
+    'comentariul „/*” nu este închis niciodată cu „*/”', 'a „/*” megjegyzés nincs lezárva „*/” jellel',
+    'komentář „/*“ není nikdy uzavřen pomocí „*/“', 'コメント "/*" が "*/" で閉じられていません',
+    '注释“/*”未用“*/”闭合', '註解「/*」未以「*/」關閉');
+  Set14('SrcVal.Sql.Quote', 'text or name opened with %s is never closed', 'texto ou nome aberto com %s nunca é fechado',
+    'el texto o nombre abierto con %s nunca se cierra', 'le texte ou nom ouvert avec %s n''est jamais fermé',
+    'mit %s begonnener Text oder Name wird nie geschlossen', 'il testo o nome aperto con %s non viene mai chiuso',
+    'tekst lub nazwa otwarta znakiem %s nigdy nie jest zamknięta', 'texto ou nome aberto com %s nunca é fechado',
+    'textul sau numele deschis cu %s nu este închis niciodată', 'a(z) %s jellel kezdett szöveg vagy név nincs lezárva',
+    'text nebo název otevřený znakem %s není nikdy uzavřen', '%s で始まる文字列または名前が閉じられていません',
+    '以 %s 开始的文本或名称从未闭合', '以 %s 開始的文字或名稱從未關閉');
+  Set14('SrcVal.Sql.CloseParen', '")" without a matching "("', '")" sem "(" correspondente', '")" sin "(" correspondiente',
+    '« ) » sans « ( » correspondant', '")" ohne passendes "("', '")" senza "(" corrispondente', '„)” bez pasującego „(”',
+    '")" sem "(" correspondente', '„)” fără „(” corespunzător', '„)” nyitó „(” nélkül', '„)“ bez odpovídající „(“',
+    '対応する "(" のない ")"', '“)”没有匹配的“(”', '「)」沒有對應的「(」');
+  Set14('SrcVal.Sql.OpenParen', '"(" is never closed', '"(" nunca é fechado', '"(" nunca se cierra', '« ( » n''est jamais fermé',
+    '"(" wird nie geschlossen', '"(" non viene mai chiusa', '„(” nigdy nie jest zamknięty', '"(" nunca é fechado',
+    '„(” nu este închisă niciodată', 'a „(” nincs lezárva', '„(“ není nikdy uzavřena', '"(" が閉じられていません',
+    '“(”从未闭合', '「(」從未關閉');
+  Set14('SrcVal.Sql.EndWithoutBegin', 'END without a matching BEGIN or CASE', 'END sem BEGIN ou CASE correspondente',
+    'END sin BEGIN o CASE correspondiente', 'END sans BEGIN ni CASE correspondant', 'END ohne passendes BEGIN oder CASE',
+    'END senza BEGIN o CASE corrispondente', 'END bez pasującego BEGIN lub CASE', 'END sem BEGIN ou CASE correspondente',
+    'END fără BEGIN sau CASE corespunzător', 'END a hozzá tartozó BEGIN vagy CASE nélkül',
+    'END bez odpovídajícího BEGIN nebo CASE', '対応する BEGIN または CASE のない END', 'END 没有匹配的 BEGIN 或 CASE',
+    'END 沒有對應的 BEGIN 或 CASE');
+  Set14('SrcVal.Sql.BlockOpen', '%s is never closed with END', '%s nunca é fechado com END', '%s nunca se cierra con END',
+    '%s n''est jamais fermé par END', '%s wird nie mit END geschlossen', '%s non viene mai chiuso con END',
+    '%s nigdy nie jest zamknięty przez END', '%s nunca é fechado com END', '%s nu este închis niciodată cu END',
+    'a(z) %s nincs lezárva END kulcsszóval', '%s není nikdy uzavřen pomocí END', '%s が END で閉じられていません',
+    '%s 从未用 END 闭合', '%s 從未以 END 關閉');
+  Set14('SrcVal.Sql.Scope',
+    'Checked: quotes, comments, parentheses and BEGIN/CASE...END blocks. Table and column names and dialect-specific ' +
+      'syntax are not checked.',
+    'Verificado: aspas, comentários, parênteses e blocos BEGIN/CASE...END. Nomes de tabelas e colunas e a sintaxe ' +
+      'específica de cada banco não são verificados.',
+    'Comprobado: comillas, comentarios, paréntesis y bloques BEGIN/CASE...END. No se comprueban los nombres de tablas y ' +
+      'columnas ni la sintaxis propia de cada base de datos.',
+    'Vérifié : guillemets, commentaires, parenthèses et blocs BEGIN/CASE...END. Les noms de tables et de colonnes et la ' +
+      'syntaxe propre à chaque base ne sont pas vérifiés.',
+    'Geprüft: Anführungszeichen, Kommentare, Klammern und BEGIN/CASE...END-Blöcke. Tabellen- und Spaltennamen sowie ' +
+      'datenbankspezifische Syntax werden nicht geprüft.',
+    'Verificati: virgolette, commenti, parentesi e blocchi BEGIN/CASE...END. Nomi di tabelle e colonne e sintassi ' +
+      'specifica del database non vengono verificati.',
+    'Sprawdzono: cudzysłowy, komentarze, nawiasy i bloki BEGIN/CASE...END. Nazwy tabel i kolumn oraz składnia ' +
+      'konkretnej bazy nie są sprawdzane.',
+    'Verificado: aspas, comentários, parênteses e blocos BEGIN/CASE...END. Nomes de tabelas e colunas e a sintaxe ' +
+      'específica de cada base de dados não são verificados.',
+    'Verificat: ghilimele, comentarii, paranteze și blocuri BEGIN/CASE...END. Numele tabelelor și coloanelor și sintaxa ' +
+      'specifică bazei de date nu sunt verificate.',
+    'Ellenőrizve: idézőjelek, megjegyzések, zárójelek és BEGIN/CASE...END blokkok. A tábla- és oszlopneveket, valamint ' +
+      'az adatbázis-specifikus szintaxist nem ellenőrzi.',
+    'Zkontrolováno: uvozovky, komentáře, závorky a bloky BEGIN/CASE...END. Názvy tabulek a sloupců ani syntaxe ' +
+      'konkrétní databáze se nekontrolují.',
+    'チェック内容: 引用符、コメント、括弧、BEGIN/CASE...END ブロック。テーブル名・列名やデータベース固有の構文はチェックしません。',
+    '已检查：引号、注释、括号以及 BEGIN/CASE...END 块。不检查表名、列名和特定数据库的语法。',
+    '已檢查：引號、註解、括號以及 BEGIN/CASE...END 區塊。不檢查資料表名稱、欄位名稱和特定資料庫的語法。');
+
+  { ---- external tools: missing / install / result ---- }
+  Set14('SrcVal.Tool.MissingJava',
+    'Cannot validate this Java file: the Java compiler javac (JDK) was not found on this computer.',
+    'Não é possível validar este arquivo Java: o compilador Java javac (JDK) não foi encontrado neste computador.',
+    'No es posible validar este archivo Java: no se encontró el compilador de Java javac (JDK) en este equipo.',
+    'Impossible de valider ce fichier Java : le compilateur Java javac (JDK) est introuvable sur cet ordinateur.',
+    'Diese Java-Datei kann nicht geprüft werden: Der Java-Compiler javac (JDK) wurde auf diesem Computer nicht gefunden.',
+    'Impossibile convalidare questo file Java: il compilatore Java javac (JDK) non è stato trovato su questo computer.',
+    'Nie można sprawdzić tego pliku Java: na tym komputerze nie znaleziono kompilatora Java javac (JDK).',
+    'Não é possível validar este ficheiro Java: o compilador Java javac (JDK) não foi encontrado neste computador.',
+    'Acest fișier Java nu poate fi validat: compilatorul Java javac (JDK) nu a fost găsit pe acest computer.',
+    'Ez a Java-fájl nem ellenőrizhető: a javac Java-fordító (JDK) nem található ezen a számítógépen.',
+    'Tento soubor Java nelze ověřit: kompilátor Java javac (JDK) nebyl na tomto počítači nalezen.',
+    'この Java ファイルは検証できません: Java コンパイラー javac (JDK) がこのコンピューターに見つかりません。',
+    '无法验证此 Java 文件：在此计算机上未找到 Java 编译器 javac (JDK)。',
+    '無法驗證此 Java 檔案：在此電腦上找不到 Java 編譯器 javac (JDK)。');
+  Set14('SrcVal.Tool.MissingGo',
+    'Cannot validate this Go file: the Go validator gofmt (Go installation) was not found on this computer.',
+    'Não é possível validar este arquivo Go: o validador Go gofmt (instalação do Go) não foi encontrado neste computador.',
+    'No es posible validar este archivo Go: no se encontró el validador de Go gofmt (instalación de Go) en este equipo.',
+    'Impossible de valider ce fichier Go : le validateur Go gofmt (installation de Go) est introuvable sur cet ordinateur.',
+    'Diese Go-Datei kann nicht geprüft werden: Das Go-Prüfprogramm gofmt (Go-Installation) wurde auf diesem Computer nicht gefunden.',
+    'Impossibile convalidare questo file Go: il validatore Go gofmt (installazione di Go) non è stato trovato su questo computer.',
+    'Nie można sprawdzić tego pliku Go: na tym komputerze nie znaleziono walidatora Go gofmt (instalacja Go).',
+    'Não é possível validar este ficheiro Go: o validador Go gofmt (instalação do Go) não foi encontrado neste computador.',
+    'Acest fișier Go nu poate fi validat: validatorul Go gofmt (instalarea Go) nu a fost găsit pe acest computer.',
+    'Ez a Go-fájl nem ellenőrizhető: a gofmt Go-ellenőrző (Go-telepítés) nem található ezen a számítógépen.',
+    'Tento soubor Go nelze ověřit: validátor Go gofmt (instalace Go) nebyl na tomto počítači nalezen.',
+    'この Go ファイルは検証できません: Go の検証ツール gofmt（Go のインストール）がこのコンピューターに見つかりません。',
+    '无法验证此 Go 文件：在此计算机上未找到 Go 验证工具 gofmt（Go 安装）。',
+    '無法驗證此 Go 檔案：在此電腦上找不到 Go 驗證工具 gofmt（Go 安裝）。');
+  Set14('SrcVal.Tool.MissingCs',
+    'Cannot validate this C# file: the C# compiler csc.exe (Visual Studio Build Tools or .NET Framework) was not found on ' +
+      'this computer.',
+    'Não é possível validar este arquivo C#: o compilador C# csc.exe (Visual Studio Build Tools ou .NET Framework) não foi ' +
+      'encontrado neste computador.',
+    'No es posible validar este archivo C#: no se encontró el compilador de C# csc.exe (Visual Studio Build Tools o .NET ' +
+      'Framework) en este equipo.',
+    'Impossible de valider ce fichier C# : le compilateur C# csc.exe (Visual Studio Build Tools ou .NET Framework) est ' +
+      'introuvable sur cet ordinateur.',
+    'Diese C#-Datei kann nicht geprüft werden: Der C#-Compiler csc.exe (Visual Studio Build Tools oder .NET Framework) ' +
+      'wurde auf diesem Computer nicht gefunden.',
+    'Impossibile convalidare questo file C#: il compilatore C# csc.exe (Visual Studio Build Tools o .NET Framework) non è ' +
+      'stato trovato su questo computer.',
+    'Nie można sprawdzić tego pliku C#: na tym komputerze nie znaleziono kompilatora C# csc.exe (Visual Studio Build Tools ' +
+      'lub .NET Framework).',
+    'Não é possível validar este ficheiro C#: o compilador C# csc.exe (Visual Studio Build Tools ou .NET Framework) não foi ' +
+      'encontrado neste computador.',
+    'Acest fișier C# nu poate fi validat: compilatorul C# csc.exe (Visual Studio Build Tools sau .NET Framework) nu a fost ' +
+      'găsit pe acest computer.',
+    'Ez a C#-fájl nem ellenőrizhető: a csc.exe C#-fordító (Visual Studio Build Tools vagy .NET Framework) nem található ' +
+      'ezen a számítógépen.',
+    'Tento soubor C# nelze ověřit: kompilátor C# csc.exe (Visual Studio Build Tools nebo .NET Framework) nebyl na tomto ' +
+      'počítači nalezen.',
+    'この C# ファイルは検証できません: C# コンパイラー csc.exe（Visual Studio Build Tools または .NET Framework）が' +
+      'このコンピューターに見つかりません。',
+    '无法验证此 C# 文件：在此计算机上未找到 C# 编译器 csc.exe（Visual Studio Build Tools 或 .NET Framework）。',
+    '無法驗證此 C# 檔案：在此電腦上找不到 C# 編譯器 csc.exe（Visual Studio Build Tools 或 .NET Framework）。');
+  Set14('SrcVal.Tool.InstallJava',
+    'To enable it: install a JDK (for example Eclipse Temurin) and add its bin folder to PATH or set JAVA_HOME.',
+    'Para habilitar: instale um JDK (por exemplo, Eclipse Temurin) e adicione a pasta bin ao PATH ou defina JAVA_HOME.',
+    'Para habilitarlo: instale un JDK (por ejemplo, Eclipse Temurin) y añada su carpeta bin al PATH o defina JAVA_HOME.',
+    'Pour l''activer : installez un JDK (par exemple Eclipse Temurin) et ajoutez son dossier bin au PATH ou définissez JAVA_HOME.',
+    'Zum Aktivieren: ein JDK installieren (z. B. Eclipse Temurin) und dessen bin-Ordner zu PATH hinzufügen oder JAVA_HOME setzen.',
+    'Per abilitarlo: installa un JDK (ad esempio Eclipse Temurin) e aggiungi la sua cartella bin al PATH o imposta JAVA_HOME.',
+    'Aby to włączyć: zainstaluj JDK (np. Eclipse Temurin) i dodaj jego folder bin do PATH lub ustaw JAVA_HOME.',
+    'Para ativar: instale um JDK (por exemplo, Eclipse Temurin) e adicione a pasta bin ao PATH ou defina JAVA_HOME.',
+    'Pentru activare: instalați un JDK (de exemplu Eclipse Temurin) și adăugați folderul bin în PATH sau setați JAVA_HOME.',
+    'Engedélyezéshez telepítsen egy JDK-t (például Eclipse Temurin), és adja hozzá a bin mappáját a PATH-hoz, vagy állítsa be a JAVA_HOME-ot.',
+    'Pro zapnutí nainstalujte JDK (například Eclipse Temurin) a přidejte jeho složku bin do PATH nebo nastavte JAVA_HOME.',
+    '有効にするには: JDK（例: Eclipse Temurin）をインストールし、bin フォルダーを PATH に追加するか JAVA_HOME を設定してください。',
+    '启用方法：安装 JDK（例如 Eclipse Temurin），并将其 bin 文件夹加入 PATH 或设置 JAVA_HOME。',
+    '啟用方法：安裝 JDK（例如 Eclipse Temurin），並將其 bin 資料夾加入 PATH 或設定 JAVA_HOME。');
+  Set14('SrcVal.Tool.InstallGo',
+    'To enable it: install Go from go.dev (gofmt comes with it).',
+    'Para habilitar: instale o Go a partir de go.dev (o gofmt vem junto).',
+    'Para habilitarlo: instale Go desde go.dev (gofmt viene incluido).',
+    'Pour l''activer : installez Go depuis go.dev (gofmt est inclus).',
+    'Zum Aktivieren: Go von go.dev installieren (gofmt ist enthalten).',
+    'Per abilitarlo: installa Go da go.dev (gofmt è incluso).',
+    'Aby to włączyć: zainstaluj Go z go.dev (gofmt jest w zestawie).',
+    'Para ativar: instale o Go a partir de go.dev (o gofmt vem incluído).',
+    'Pentru activare: instalați Go de pe go.dev (gofmt este inclus).',
+    'Engedélyezéshez telepítse a Go-t a go.dev oldalról (a gofmt is benne van).',
+    'Pro zapnutí nainstalujte Go z go.dev (gofmt je součástí).',
+    '有効にするには: go.dev から Go をインストールしてください（gofmt が含まれます）。',
+    '启用方法：从 go.dev 安装 Go（自带 gofmt）。',
+    '啟用方法：從 go.dev 安裝 Go（內含 gofmt）。');
+  Set14('SrcVal.Tool.InstallCs',
+    'To enable it: install the Visual Studio Build Tools (modern C#) or the .NET Framework 4.x (csc.exe, C# 5 only).',
+    'Para habilitar: instale o Visual Studio Build Tools (C# moderno) ou o .NET Framework 4.x (csc.exe, só C# 5).',
+    'Para habilitarlo: instale Visual Studio Build Tools (C# moderno) o .NET Framework 4.x (csc.exe, solo C# 5).',
+    'Pour l''activer : installez Visual Studio Build Tools (C# moderne) ou le .NET Framework 4.x (csc.exe, C# 5 uniquement).',
+    'Zum Aktivieren: die Visual Studio Build Tools (modernes C#) oder das .NET Framework 4.x (csc.exe, nur C# 5) installieren.',
+    'Per abilitarlo: installa Visual Studio Build Tools (C# moderno) o .NET Framework 4.x (csc.exe, solo C# 5).',
+    'Aby to włączyć: zainstaluj Visual Studio Build Tools (nowoczesny C#) lub .NET Framework 4.x (csc.exe, tylko C# 5).',
+    'Para ativar: instale o Visual Studio Build Tools (C# moderno) ou o .NET Framework 4.x (csc.exe, só C# 5).',
+    'Pentru activare: instalați Visual Studio Build Tools (C# modern) sau .NET Framework 4.x (csc.exe, doar C# 5).',
+    'Engedélyezéshez telepítse a Visual Studio Build Tools csomagot (modern C#) vagy a .NET Framework 4.x-et (csc.exe, csak C# 5).',
+    'Pro zapnutí nainstalujte Visual Studio Build Tools (moderní C#) nebo .NET Framework 4.x (csc.exe, pouze C# 5).',
+    '有効にするには: Visual Studio Build Tools（最新の C#）または .NET Framework 4.x（csc.exe、C# 5 のみ）をインストールしてください。',
+    '启用方法：安装 Visual Studio Build Tools（现代 C#）或 .NET Framework 4.x（csc.exe，仅 C# 5）。',
+    '啟用方法：安裝 Visual Studio Build Tools（新版 C#）或 .NET Framework 4.x（csc.exe，僅 C# 5）。');
+  Set14('SrcVal.Tool.StillWorks',
+    'The file was not changed and the rest of FastFile keeps working normally.',
+    'O arquivo não foi alterado e o restante do FastFile continua funcionando normalmente.',
+    'El archivo no se modificó y el resto de FastFile sigue funcionando con normalidad.',
+    'Le fichier n''a pas été modifié et le reste de FastFile continue de fonctionner normalement.',
+    'Die Datei wurde nicht geändert, und der Rest von FastFile funktioniert weiterhin normal.',
+    'Il file non è stato modificato e il resto di FastFile continua a funzionare normalmente.',
+    'Plik nie został zmieniony, a reszta FastFile działa normalnie.',
+    'O ficheiro não foi alterado e o resto do FastFile continua a funcionar normalmente.',
+    'Fișierul nu a fost modificat, iar restul FastFile funcționează în continuare normal.',
+    'A fájl nem változott, a FastFile többi része továbbra is normálisan működik.',
+    'Soubor nebyl změněn a zbytek FastFile funguje normálně dál.',
+    'ファイルは変更されておらず、FastFile のその他の機能は通常どおり動作します。',
+    '文件未被修改，FastFile 的其他功能仍可正常使用。',
+    '檔案未被修改，FastFile 的其他功能仍可正常使用。');
+  Set14('SrcVal.Tool.Using', 'Checked with: %s', 'Verificado com: %s', 'Comprobado con: %s', 'Vérifié avec : %s',
+    'Geprüft mit: %s', 'Verificato con: %s', 'Sprawdzono za pomocą: %s', 'Verificado com: %s', 'Verificat cu: %s',
+    'Ellenőrző program: %s', 'Zkontrolováno pomocí: %s', '使用したツール: %s', '检查工具：%s', '檢查工具：%s');
+  Set14('SrcVal.Tool.LegacyCsc',
+    'Note: this is the old .NET Framework compiler (C# 5). Newer syntax ($"..." strings, => members, records...) is ' +
+      'reported as an error. Install the Visual Studio Build Tools for modern C#.',
+    'Nota: este é o compilador antigo do .NET Framework (C# 5). Sintaxe mais nova (strings $"...", membros =>, records...) ' +
+      'aparece como erro. Instale o Visual Studio Build Tools para C# moderno.',
+    'Nota: es el compilador antiguo de .NET Framework (C# 5). La sintaxis más reciente (cadenas $"...", miembros =>, ' +
+      'records...) aparece como error. Instale Visual Studio Build Tools para C# moderno.',
+    'Remarque : c''est l''ancien compilateur du .NET Framework (C# 5). La syntaxe récente (chaînes $"...", membres =>, ' +
+      'records...) est signalée comme erreur. Installez Visual Studio Build Tools pour le C# moderne.',
+    'Hinweis: Dies ist der alte .NET-Framework-Compiler (C# 5). Neuere Syntax ($"..."-Strings, =>-Member, Records...) ' +
+      'wird als Fehler gemeldet. Installieren Sie die Visual Studio Build Tools für modernes C#.',
+    'Nota: è il vecchio compilatore del .NET Framework (C# 5). La sintassi più recente (stringhe $"...", membri =>, ' +
+      'record...) viene segnalata come errore. Installa Visual Studio Build Tools per il C# moderno.',
+    'Uwaga: to stary kompilator .NET Framework (C# 5). Nowsza składnia (ciągi $"...", składowe =>, rekordy...) jest ' +
+      'zgłaszana jako błąd. Zainstaluj Visual Studio Build Tools dla nowoczesnego C#.',
+    'Nota: este é o compilador antigo do .NET Framework (C# 5). A sintaxe mais recente (strings $"...", membros =>, ' +
+      'records...) aparece como erro. Instale o Visual Studio Build Tools para C# moderno.',
+    'Notă: acesta este compilatorul vechi .NET Framework (C# 5). Sintaxa mai nouă (șiruri $"...", membri =>, records...) ' +
+      'este raportată ca eroare. Instalați Visual Studio Build Tools pentru C# modern.',
+    'Megjegyzés: ez a régi .NET Framework fordító (C# 5). Az újabb szintaxist ($"..." karakterláncok, => tagok, ' +
+      'recordok...) hibaként jelzi. A modern C#-hoz telepítse a Visual Studio Build Tools csomagot.',
+    'Poznámka: jde o starý kompilátor .NET Framework (C# 5). Novější syntaxe (řetězce $"...", členy =>, records...) se ' +
+      'hlásí jako chyba. Pro moderní C# nainstalujte Visual Studio Build Tools.',
+    '注意: これは古い .NET Framework コンパイラー（C# 5）です。新しい構文（$"..." 文字列、=> メンバー、record など）は' +
+      'エラーになります。最新の C# には Visual Studio Build Tools をインストールしてください。',
+    '注意：这是旧版 .NET Framework 编译器（C# 5）。较新的语法（$"..." 字符串、=> 成员、record 等）会报错。' +
+      '如需现代 C#，请安装 Visual Studio Build Tools。',
+    '注意：這是舊版 .NET Framework 編譯器（C# 5）。較新的語法（$"..." 字串、=> 成員、record 等）會回報為錯誤。' +
+      '如需新版 C#，請安裝 Visual Studio Build Tools。');
+  Set14('SrcVal.Tool.LaunchFailed', 'Cannot validate: %s could not be started.', 'Não é possível validar: não foi possível iniciar %s.',
+    'No es posible validar: no se pudo iniciar %s.', 'Impossible de valider : %s n''a pas pu être démarré.',
+    'Prüfung nicht möglich: %s konnte nicht gestartet werden.', 'Impossibile convalidare: non è stato possibile avviare %s.',
+    'Nie można sprawdzić: nie udało się uruchomić %s.', 'Não é possível validar: não foi possível iniciar %s.',
+    'Validarea nu este posibilă: %s nu a putut fi pornit.', 'Az ellenőrzés nem lehetséges: a(z) %s nem indítható el.',
+    'Nelze ověřit: %s se nepodařilo spustit.', '検証できません: %s を起動できませんでした。', '无法验证：无法启动 %s。',
+    '無法驗證：無法啟動 %s。');
+  Set14('SrcVal.Tool.ExitCode', '%s ended with code %d and no message.', '%s terminou com o código %d e sem mensagem.',
+    '%s terminó con el código %d y sin mensaje.', '%s s''est terminé avec le code %d sans message.',
+    '%s wurde mit Code %d ohne Meldung beendet.', '%s è terminato con il codice %d senza messaggi.',
+    '%s zakończył działanie z kodem %d bez komunikatu.', '%s terminou com o código %d e sem mensagem.',
+    '%s s-a încheiat cu codul %d, fără mesaj.', '%0:s %1:d kóddal, üzenet nélkül fejeződött be.',
+    '%s skončil s kódem %d bez zprávy.', '%s がコード %d で終了しました（メッセージなし）。', '%s 以代码 %d 结束，没有消息。',
+    '%s 以代碼 %d 結束，沒有訊息。');
+  Set14('SrcVal.Java.Scope',
+    'javac compiles the file into a temporary folder (nothing is written next to it); type errors are reported too.',
+    'O javac compila o arquivo numa pasta temporária (nada é gravado ao lado dele); erros de tipo também aparecem.',
+    'javac compila el archivo en una carpeta temporal (no se escribe nada junto a él); también se informan errores de tipo.',
+    'javac compile le fichier dans un dossier temporaire (rien n''est écrit à côté) ; les erreurs de type sont aussi signalées.',
+    'javac kompiliert die Datei in einen temporären Ordner (daneben wird nichts geschrieben); auch Typfehler werden gemeldet.',
+    'javac compila il file in una cartella temporanea (non viene scritto nulla accanto); vengono segnalati anche gli errori di tipo.',
+    'javac kompiluje plik do folderu tymczasowego (obok niczego nie zapisuje); zgłaszane są też błędy typów.',
+    'O javac compila o ficheiro numa pasta temporária (nada é gravado ao lado dele); também são indicados erros de tipo.',
+    'javac compilează fișierul într-un folder temporar (nu se scrie nimic lângă el); sunt raportate și erorile de tip.',
+    'A javac ideiglenes mappába fordítja a fájlt (mellé semmit sem ír); a típushibákat is jelzi.',
+    'javac zkompiluje soubor do dočasné složky (vedle něj nic nezapisuje); hlásí i chyby typů.',
+    'javac は一時フォルダーにコンパイルします（元のファイルの横には何も書き込みません）。型エラーも報告されます。',
+    'javac 会将文件编译到临时文件夹（不会在原文件旁写入任何内容）；也会报告类型错误。',
+    'javac 會將檔案編譯到暫存資料夾（不會在原檔旁寫入任何內容）；也會回報型別錯誤。');
+  Set14('SrcVal.Go.Scope', 'gofmt checks the syntax only (types and imports are not checked).',
+    'O gofmt verifica só a sintaxe (tipos e imports não são verificados).',
+    'gofmt solo comprueba la sintaxis (no se comprueban tipos ni imports).',
+    'gofmt vérifie uniquement la syntaxe (types et imports non vérifiés).',
+    'gofmt prüft nur die Syntax (Typen und Imports werden nicht geprüft).',
+    'gofmt verifica solo la sintassi (tipi e import non vengono verificati).',
+    'gofmt sprawdza tylko składnię (typy i importy nie są sprawdzane).',
+    'O gofmt verifica apenas a sintaxe (tipos e imports não são verificados).',
+    'gofmt verifică doar sintaxa (tipurile și importurile nu sunt verificate).',
+    'A gofmt csak a szintaxist ellenőrzi (a típusokat és az importokat nem).',
+    'gofmt kontroluje pouze syntaxi (typy a importy se nekontrolují).',
+    'gofmt は構文のみをチェックします（型と import はチェックしません）。',
+    'gofmt 仅检查语法（不检查类型和导入）。', 'gofmt 僅檢查語法（不檢查型別和匯入）。');
+  Set14('SrcVal.Cs.Scope',
+    'csc compiles the file alone into a temporary folder; references to other files of your project show up as errors.',
+    'O csc compila o arquivo sozinho numa pasta temporária; referências a outros arquivos do seu projeto aparecem como erro.',
+    'csc compila el archivo solo en una carpeta temporal; las referencias a otros archivos del proyecto aparecen como error.',
+    'csc compile le fichier seul dans un dossier temporaire ; les références à d''autres fichiers du projet apparaissent comme des erreurs.',
+    'csc kompiliert die Datei allein in einen temporären Ordner; Verweise auf andere Dateien Ihres Projekts erscheinen als Fehler.',
+    'csc compila il file da solo in una cartella temporanea; i riferimenti ad altri file del progetto risultano come errori.',
+    'csc kompiluje sam plik do folderu tymczasowego; odwołania do innych plików projektu pojawiają się jako błędy.',
+    'O csc compila o ficheiro sozinho numa pasta temporária; referências a outros ficheiros do projeto aparecem como erro.',
+    'csc compilează doar acest fișier într-un folder temporar; referințele la alte fișiere ale proiectului apar ca erori.',
+    'A csc önmagában, ideiglenes mappába fordítja a fájlt; a projekt más fájljaira mutató hivatkozások hibaként jelennek meg.',
+    'csc kompiluje samotný soubor do dočasné složky; odkazy na jiné soubory projektu se zobrazí jako chyby.',
+    'csc はこのファイルだけを一時フォルダーにコンパイルします。プロジェクト内の他ファイルへの参照はエラーになります。',
+    'csc 仅将此文件编译到临时文件夹；对项目中其他文件的引用会显示为错误。',
+    'csc 僅將此檔案編譯到暫存資料夾；對專案中其他檔案的參照會顯示為錯誤。');
+
+  { ---- Assistant: fix with AI ---- }
+  Set14('Assistant.FixAi.Chip', 'Fix with AI', 'Corrigir com a IA', 'Corregir con la IA', 'Corriger avec l''IA',
+    'Mit KI korrigieren', 'Correggi con l''IA', 'Popraw z AI', 'Corrigir com a IA', 'Corectează cu IA', 'Javítás MI-vel',
+    'Opravit pomocí AI', 'AI で修正', '用 AI 修复', '用 AI 修正');
+  Set14('Assistant.FixAi.Question', 'Fix the validation errors of the file %s',
+    'Corrigir os erros de validação do arquivo %s', 'Corregir los errores de validación del archivo %s',
+    'Corriger les erreurs de validation du fichier %s', 'Prüffehler der Datei %s korrigieren',
+    'Correggere gli errori di convalida del file %s', 'Popraw błędy walidacji pliku %s',
+    'Corrigir os erros de validação do ficheiro %s', 'Corectează erorile de validare ale fișierului %s',
+    'A(z) %s fájl ellenőrzési hibáinak javítása', 'Opravit chyby ověření souboru %s', 'ファイル %s の検証エラーを修正',
+    '修复文件 %s 的验证错误', '修正檔案 %s 的驗證錯誤');
+  Set14('Assistant.FixAi.Running', 'Sending the file and the errors to the AI to fix them...',
+    'Enviando o arquivo e os erros para a IA corrigir...', 'Enviando el archivo y los errores a la IA para corregirlos...',
+    'Envoi du fichier et des erreurs à l''IA pour les corriger...', 'Datei und Fehler werden zur Korrektur an die KI gesendet...',
+    'Invio del file e degli errori all''IA per correggerli...', 'Wysyłanie pliku i błędów do AI w celu poprawienia...',
+    'A enviar o ficheiro e os erros para a IA corrigir...', 'Se trimit fișierul și erorile către IA pentru corectare...',
+    'A fájl és a hibák elküldése az MI-nek javításra...', 'Odesílání souboru a chyb AI k opravě...',
+    'ファイルとエラーを AI に送信して修正しています...', '正在将文件和错误发送给 AI 进行修复...',
+    '正在將檔案和錯誤傳送給 AI 進行修正...');
+  Set14('Assistant.FixAi.Offer', 'Validation of %s failed. The AI can fix it.', 'A validação de %s falhou. A IA pode corrigir.',
+    'La validación de %s falló. La IA puede corregirlo.', 'La validation de %s a échoué. L''IA peut le corriger.',
+    'Prüfung von %s fehlgeschlagen. Die KI kann es korrigieren.', 'La convalida di %s non è riuscita. L''IA può correggerlo.',
+    'Walidacja %s nie powiodła się. AI może to poprawić.', 'A validação de %s falhou. A IA pode corrigir.',
+    'Validarea %s a eșuat. IA o poate corecta.', 'A(z) %s ellenőrzése sikertelen. Az MI kijavíthatja.',
+    'Ověření %s selhalo. AI to může opravit.', '%s の検証に失敗しました。AI で修正できます。', '%s 验证失败。AI 可以修复。',
+    '%s 驗證失敗。AI 可以修正。');
+  Set14('Assistant.FixAi.Revalidated', 'File fixed by the AI and validated again:',
+    'Arquivo corrigido pela IA e validado novamente:', 'Archivo corregido por la IA y validado de nuevo:',
+    'Fichier corrigé par l''IA et validé à nouveau :', 'Datei von der KI korrigiert und erneut geprüft:',
+    'File corretto dall''IA e convalidato di nuovo:', 'Plik poprawiony przez AI i ponownie sprawdzony:',
+    'Ficheiro corrigido pela IA e validado novamente:', 'Fișier corectat de IA și validat din nou:',
+    'Az MI kijavította a fájlt, újbóli ellenőrzés:', 'Soubor opraven AI a znovu ověřen:',
+    'AI がファイルを修正し、再検証しました:', '文件已由 AI 修复并重新验证：', '檔案已由 AI 修正並重新驗證：');
+
+  { ---- replaced Assistant keys (validate hint, language list, missing companion) ---- }
+  Set14('Assistant.ValidateHint',
+    'Check the syntax of the source (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). It is never run.',
+    'Verificar a sintaxe do fonte (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Não é executado.',
+    'Comprobar la sintaxis del fuente (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). No se ejecuta.',
+    'Vérifier la syntaxe du source (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Il n''est jamais exécuté.',
+    'Syntax des Quellcodes prüfen (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Er wird nie ausgeführt.',
+    'Controlla la sintassi del sorgente (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Non viene mai eseguito.',
+    'Sprawdź składnię źródła (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Nigdy nie jest uruchamiane.',
+    'Verificar a sintaxe do fonte (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Nunca é executado.',
+    'Verifică sintaxa sursei (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Nu este rulată niciodată.',
+    'A forrás szintaxisának ellenőrzése (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Sosem futtatja.',
+    'Zkontrolovat syntaxi zdroje (Python, JS/TS/React, JSON, HTML, SQL, Java, Go, C#). Nikdy se nespouští.',
+    'ソース（Python、JS/TS/React、JSON、HTML、SQL、Java、Go、C#）の構文をチェックします。実行はしません。',
+    '检查源代码语法（Python、JS/TS/React、JSON、HTML、SQL、Java、Go、C#）。从不运行。',
+    '檢查原始碼語法（Python、JS/TS/React、JSON、HTML、SQL、Java、Go、C#）。從不執行。');
+  Set14('Assistant.Validate.SupportedLanguages',
+    SupLang('Languages validated (syntax only; the code is never run):', 'built into FastFile',
+      'with javac / gofmt / csc installed on this PC (otherwise FastFile says which one is missing)',
+      'In the chat: ask to validate a path, or "load source to validate" to pick the file. The "</> Code: learn more" ' +
+      'button explains everything.'),
+    SupLang('Linguagens validadas (só sintaxe; o código nunca é executado):', 'verificação interna do FastFile',
+      'com javac / gofmt / csc instalados neste computador (senão, o FastFile informa qual está faltando)',
+      'No chat: peça para validar um caminho, ou "carregar o fonte pra validar" para escolher o arquivo. O botão ' +
+      '"</> Código: saiba mais" explica tudo.'),
+    SupLang('Lenguajes validados (solo sintaxis; el código nunca se ejecuta):', 'verificación interna de FastFile',
+      'con javac / gofmt / csc instalados en este equipo (si no, FastFile indica cuál falta)',
+      'En el chat: pida validar una ruta, o "cargar el fuente para validar" para elegir el archivo. El botón ' +
+      '"</> Código: más info" lo explica todo.'),
+    SupLang('Langages validés (syntaxe uniquement ; le code n''est jamais exécuté) :', 'vérification intégrée à FastFile',
+      'avec javac / gofmt / csc installés sur cet ordinateur (sinon FastFile indique lequel manque)',
+      'Dans le chat : demandez de valider un chemin, ou « charger le source pour valider » pour choisir le fichier. ' +
+      'Le bouton « </> Code : en savoir plus » explique tout.'),
+    SupLang('Geprüfte Sprachen (nur Syntax; der Code wird nie ausgeführt):', 'in FastFile integriert',
+      'mit auf diesem PC installiertem javac / gofmt / csc (sonst meldet FastFile, was fehlt)',
+      'Im Chat: einen Pfad prüfen lassen oder „Quelldatei zum Prüfen laden“, um die Datei zu wählen. Die Schaltfläche ' +
+      '„</> Code: mehr erfahren“ erklärt alles.'),
+    SupLang('Linguaggi convalidati (solo sintassi; il codice non viene mai eseguito):', 'controllo integrato in FastFile',
+      'con javac / gofmt / csc installati su questo computer (altrimenti FastFile indica quale manca)',
+      'In chat: chiedi di convalidare un percorso, o "carica il sorgente da validare" per scegliere il file. Il pulsante ' +
+      '"</> Codice: scopri di più" spiega tutto.'),
+    SupLang('Sprawdzane języki (tylko składnia; kod nigdy nie jest uruchamiany):', 'wbudowane w FastFile',
+      'gdy na tym komputerze są javac / gofmt / csc (w przeciwnym razie FastFile informuje, czego brakuje)',
+      'Na czacie: poproś o sprawdzenie ścieżki lub „załaduj źródło do walidacji”, aby wybrać plik. Przycisk ' +
+      '„</> Kod: dowiedz się więcej” wyjaśnia wszystko.'),
+    SupLang('Linguagens validadas (só sintaxe; o código nunca é executado):', 'verificação interna do FastFile',
+      'com javac / gofmt / csc instalados neste computador (caso contrário, o FastFile indica qual falta)',
+      'No chat: peça para validar um caminho, ou "carregar o fonte para validar" para escolher o ficheiro. O botão ' +
+      '"</> Código: saber mais" explica tudo.'),
+    SupLang('Limbaje validate (doar sintaxa; codul nu este rulat niciodată):', 'verificare integrată în FastFile',
+      'cu javac / gofmt / csc instalate pe acest computer (altfel FastFile anunță ce lipsește)',
+      'În chat: cereți validarea unei căi sau „încarcă sursa pentru validare” pentru a alege fișierul. Butonul ' +
+      '„</> Cod: află mai multe” explică totul.'),
+    SupLang('Ellenőrzött nyelvek (csak szintaxis; a kód sosem fut le):', 'a FastFile beépített ellenőrzése',
+      'ha a javac / gofmt / csc telepítve van ezen a gépen (különben a FastFile jelzi, mi hiányzik)',
+      'A chatben: kérje egy útvonal ellenőrzését, vagy „forrás betöltése ellenőrzéshez” a fájl kiválasztásához. A ' +
+      '„</> Kód: további információ” gomb mindent elmagyaráz.'),
+    SupLang('Ověřované jazyky (jen syntaxe; kód se nikdy nespouští):', 'vestavěná kontrola FastFile',
+      's javac / gofmt / csc nainstalovanými na tomto počítači (jinak FastFile oznámí, co chybí)',
+      'V chatu: požádejte o ověření cesty, nebo „načíst zdroj k ověření“ pro výběr souboru. Tlačítko ' +
+      '„</> Kód: více informací“ vše vysvětlí.'),
+    SupLang('検証できる言語（構文のみ。コードは実行されません）:', 'FastFile に内蔵',
+      'この PC に javac / gofmt / csc がインストールされている場合（ない場合は不足しているツールを表示）',
+      'チャット: パスの検証を依頼するか、「検証するためにソースを読み込む」でファイルを選択してください。' +
+      '「</> コード: 詳しく」ボタンで詳細を確認できます。'),
+    SupLang('可验证的语言（仅语法；从不运行代码）：', 'FastFile 内置检查',
+      '需在本机安装 javac / gofmt / csc（否则 FastFile 会提示缺少哪一个）',
+      '聊天：请求验证某个路径，或“加载源以验证”来选择文件。“</> 代码：了解更多”按钮会详细说明。'),
+    SupLang('可驗證的語言（僅語法；從不執行程式碼）：', 'FastFile 內建檢查',
+      '需在本機安裝 javac / gofmt / csc（否則 FastFile 會提示缺少哪一個）',
+      '聊天：要求驗證某個路徑，或「載入原始碼以驗證」來選擇檔案。「</> 程式碼：了解更多」按鈕會詳細說明。'));
+  Set14('Assistant.Validate.ExeMissing',
+    'Cannot validate this file: the validator %s is not available on this computer (it was not found and could not be ' +
+      'downloaded). Check the internet connection and try again; the rest of FastFile keeps working normally.',
+    'Não é possível validar este arquivo: o validador %s não está disponível neste computador (não foi encontrado e não ' +
+      'pôde ser baixado). Verifique a conexão com a internet e tente de novo; o restante do FastFile continua funcionando.',
+    'No es posible validar este archivo: el validador %s no está disponible en este equipo (no se encontró y no se pudo ' +
+      'descargar). Compruebe la conexión a internet e inténtelo de nuevo; el resto de FastFile sigue funcionando.',
+    'Impossible de valider ce fichier : le validateur %s n''est pas disponible sur cet ordinateur (introuvable et ' +
+      'impossible à télécharger). Vérifiez la connexion Internet et réessayez ; le reste de FastFile continue de fonctionner.',
+    'Diese Datei kann nicht geprüft werden: Das Prüfprogramm %s ist auf diesem Computer nicht verfügbar (nicht gefunden ' +
+      'und Download fehlgeschlagen). Internetverbindung prüfen und erneut versuchen; der Rest von FastFile funktioniert weiter.',
+    'Impossibile convalidare questo file: il validatore %s non è disponibile su questo computer (non trovato e impossibile ' +
+      'da scaricare). Controlla la connessione a Internet e riprova; il resto di FastFile continua a funzionare.',
+    'Nie można sprawdzić tego pliku: walidator %s nie jest dostępny na tym komputerze (nie znaleziono go i nie udało się ' +
+      'go pobrać). Sprawdź połączenie z internetem i spróbuj ponownie; reszta FastFile działa normalnie.',
+    'Não é possível validar este ficheiro: o validador %s não está disponível neste computador (não foi encontrado e não ' +
+      'foi possível transferi-lo). Verifique a ligação à Internet e tente novamente; o resto do FastFile continua a funcionar.',
+    'Acest fișier nu poate fi validat: validatorul %s nu este disponibil pe acest computer (nu a fost găsit și nu a putut ' +
+      'fi descărcat). Verificați conexiunea la internet și încercați din nou; restul FastFile funcționează în continuare.',
+    'Ez a fájl nem ellenőrizhető: a(z) %s ellenőrző nem érhető el ezen a számítógépen (nem található, és nem sikerült ' +
+      'letölteni). Ellenőrizze az internetkapcsolatot, majd próbálja újra; a FastFile többi része tovább működik.',
+    'Tento soubor nelze ověřit: validátor %s není na tomto počítači k dispozici (nebyl nalezen a nepodařilo se ho ' +
+      'stáhnout). Zkontrolujte připojení k internetu a zkuste to znovu; zbytek FastFile funguje dál.',
+    'このファイルは検証できません: 検証ツール %s がこのコンピューターで利用できません（見つからず、ダウンロードもできませんでした）。' +
+      'インターネット接続を確認して再試行してください。FastFile のその他の機能は通常どおり動作します。',
+    '无法验证此文件：此计算机上没有验证工具 %s（未找到且无法下载）。请检查网络连接后重试；FastFile 的其他功能仍可正常使用。',
+    '無法驗證此檔案：此電腦上沒有驗證工具 %s（找不到且無法下載）。請檢查網路連線後重試；FastFile 的其他功能仍可正常使用。');
+end;
+
+procedure AddAgentDescribeMacroTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('Agent.Macro.Caption',
+    'Python macro on each line', 'Macro Python em cada linha', 'Macro Python en cada línea',
+    'Macro Python sur chaque ligne', 'Python-Makro für jede Zeile', 'Macro Python su ogni riga',
+    'Makro Python dla każdej linii', 'Macro Python em cada linha', 'Macro Python pe fiecare linie',
+    'Python-makró minden sorra', 'Python makro na každý řádek', '各行に Python マクロ', '对每一行运行 Python 宏',
+    '對每一行執行 Python 巨集');
+  Set14('Agent.Macro.SelectedOnly',
+    'selected lines only', 'somente as linhas selecionadas', 'solo las líneas seleccionadas',
+    'lignes sélectionnées uniquement', 'nur ausgewählte Zeilen', 'solo le righe selezionate',
+    'tylko zaznaczone linie', 'apenas as linhas selecionadas', 'doar liniile selectate',
+    'csak a kijelölt sorok', 'jen vybrané řádky', '選択した行のみ', '仅选中的行', '僅選取的行');
+  Set14('Agent.Macro.Preview',
+    'On Accept, the file opens in the Python macro panel and this script runs on each line, with a preview of ' +
+      'the first lines before the full run. The output goes to the panel; the original file is not changed.',
+    'Ao Aceitar, o arquivo abre no painel de macro Python e este script roda em cada linha, com uma prévia das ' +
+      'primeiras linhas antes da execução completa. A saída vai para o painel; o arquivo original não é alterado.',
+    'Al Aceptar, el archivo se abre en el panel de macro Python y este script se ejecuta en cada línea, con una ' +
+      'vista previa de las primeras líneas. La salida va al panel; el archivo original no se modifica.',
+    'À l''acceptation, le fichier s''ouvre dans le panneau de macro Python et ce script s''exécute sur chaque ' +
+      'ligne, avec un aperçu des premières lignes. La sortie va dans le panneau ; le fichier d''origine reste intact.',
+    'Beim Annehmen wird die Datei im Python-Makro-Bereich geöffnet und dieses Skript läuft für jede Zeile, mit ' +
+      'einer Vorschau der ersten Zeilen. Die Ausgabe geht in den Bereich; die Originaldatei bleibt unverändert.',
+    'Accettando, il file si apre nel pannello macro Python e questo script viene eseguito su ogni riga, con ' +
+      'un''anteprima delle prime righe. L''output va nel pannello; il file originale non viene modificato.',
+    'Po akceptacji plik otworzy się w panelu makr Python, a ten skrypt zostanie uruchomiony dla każdej linii, z ' +
+      'podglądem pierwszych linii. Wynik trafia do panelu; oryginalny plik nie jest zmieniany.',
+    'Ao Aceitar, o ficheiro abre no painel de macro Python e este script corre em cada linha, com uma ' +
+      'pré-visualização das primeiras linhas. A saída vai para o painel; o ficheiro original não é alterado.',
+    'La Acceptare, fișierul se deschide în panoul de macro Python și acest script rulează pe fiecare linie, cu ' +
+      'o previzualizare a primelor linii. Rezultatul apare în panou; fișierul original nu este modificat.',
+    'Elfogadáskor a fájl megnyílik a Python-makró panelen, és ez a szkript minden soron lefut, előbb az első ' +
+      'sorok előnézetével. A kimenet a panelre kerül; az eredeti fájl nem változik.',
+    'Po přijetí se soubor otevře v panelu Python makra a tento skript poběží na každém řádku, s náhledem ' +
+      'prvních řádků. Výstup jde do panelu; původní soubor se nemění.',
+    '承認すると、ファイルが Python マクロパネルで開き、このスクリプトが各行に実行されます（先に最初の行のプレビューを表示）。' +
+      '出力はパネルに表示され、元のファイルは変更されません。',
+    '接受后，文件会在 Python 宏面板中打开，此脚本将对每一行运行（先预览前几行）。输出显示在面板中，原始文件不会被修改。',
+    '接受後，檔案會在 Python 巨集面板中開啟，此指令碼將對每一行執行（先預覽前幾行）。輸出顯示在面板中，原始檔案不會被修改。');
+  Set14('Agent.Macro.FileMissing',
+    'File not found: %s', 'Arquivo não encontrado: %s', 'Archivo no encontrado: %s', 'Fichier introuvable : %s',
+    'Datei nicht gefunden: %s', 'File non trovato: %s', 'Nie znaleziono pliku: %s', 'Ficheiro não encontrado: %s',
+    'Fișierul nu a fost găsit: %s', 'A fájl nem található: %s', 'Soubor nebyl nalezen: %s',
+    'ファイルが見つかりません: %s', '找不到文件：%s', '找不到檔案：%s');
+  Set14('Agent.Macro.Running',
+    'Agent macro: preparing %s...', 'Macro do agente: preparando %s...', 'Macro del agente: preparando %s...',
+    'Macro de l''agent : préparation de %s...', 'Agent-Makro: %s wird vorbereitet...',
+    'Macro dell''agente: preparazione di %s...', 'Makro agenta: przygotowanie %s...',
+    'Macro do agente: a preparar %s...', 'Macro agent: se pregătește %s...', 'Ügynök makró: %s előkészítése...',
+    'Makro agenta: příprava %s...', 'エージェントのマクロ: %s を準備中...', '代理宏：正在准备 %s...',
+    '代理巨集：正在準備 %s...');
+
+  Set14('AICaps.Item.Describe',
+    'Explains what each loaded or selected file is and what it is for: format, encoding, separator and ' +
+      'columns, size, lines, samples, and how the files relate.|What is this file for? What are the selected files?',
+    'Explica o que é cada arquivo carregado ou selecionado e para que serve: formato, codificação, separador e ' +
+      'colunas, tamanho, linhas, amostras e como os arquivos se relacionam.|Para que serve este arquivo?',
+    'Explica qué es cada archivo cargado o seleccionado y para qué sirve: formato, codificación, separador y ' +
+      'columnas, tamaño, líneas, muestras y cómo se relacionan.|¿Para qué sirve este archivo?',
+    'Explique ce qu''est chaque fichier chargé ou sélectionné et à quoi il sert : format, encodage, séparateur ' +
+      'et colonnes, taille, lignes, extraits et liens entre fichiers.|À quoi sert ce fichier ?',
+    'Erklärt, was jede geladene oder ausgewählte Datei ist und wozu sie dient: Format, Kodierung, Trennzeichen ' +
+      'und Spalten, Größe, Zeilen, Beispiele und Zusammenhänge.|Wozu dient diese Datei?',
+    'Spiega cos''è ogni file caricato o selezionato e a cosa serve: formato, codifica, separatore e colonne, ' +
+      'dimensione, righe, esempi e relazioni tra i file.|A cosa serve questo file?',
+    'Wyjaśnia, czym jest każdy wczytany lub zaznaczony plik i do czego służy: format, kodowanie, separator i ' +
+      'kolumny, rozmiar, linie, próbki i powiązania plików.|Do czego służy ten plik?',
+    'Explica o que é cada ficheiro carregado ou selecionado e para que serve: formato, codificação, separador ' +
+      'e colunas, tamanho, linhas, amostras e como se relacionam.|Para que serve este ficheiro?',
+    'Explică ce este fiecare fișier încărcat sau selectat și la ce servește: format, codificare, separator și ' +
+      'coloane, dimensiune, linii, mostre și legăturile dintre fișiere.|La ce servește acest fișier?',
+    'Elmagyarázza, mi az egyes betöltött vagy kijelölt fájl és mire való: formátum, kódolás, elválasztó és ' +
+      'oszlopok, méret, sorok, minták és a fájlok kapcsolata.|Mire való ez a fájl?',
+    'Vysvětlí, co je každý načtený nebo vybraný soubor a k čemu slouží: formát, kódování, oddělovač a sloupce, ' +
+      'velikost, řádky, ukázky a vztahy mezi soubory.|K čemu slouží tento soubor?',
+    '読み込んだ／選択した各ファイルが何で、何に使うものかを説明します：形式、文字コード、区切り文字と列、サイズ、行数、' +
+      'サンプル、ファイル同士の関係。|このファイルは何のためのものですか？',
+    '说明每个已加载或选中的文件是什么、有什么用途：格式、编码、分隔符和列、大小、行数、样例以及文件之间的关系。|这个文件有什么用途？',
+    '說明每個已載入或選取的檔案是什麼、有什麼用途：格式、編碼、分隔符號和欄位、大小、行數、範例以及檔案之間的關係。|這個檔案有什麼用途？');
+  Set14('AICaps.Item.Macro',
+    'Writes a Python macro and runs it on each line of a file or of each selected file, after review and ' +
+      'preview; the output goes to the macro panel.|Run a Python macro on each line of clientes.csv to convert ' +
+      'the dates to yyyy-mm-dd.',
+    'Escreve uma macro Python e a executa em cada linha de um arquivo ou de cada arquivo selecionado, após ' +
+      'revisão e prévia; a saída vai para o painel de macro.|Execute um python em cada linha de clientes.csv ' +
+      'convertendo as datas para aaaa-mm-dd.',
+    'Escribe una macro Python y la ejecuta en cada línea de un archivo o de cada archivo seleccionado, tras ' +
+      'revisión y vista previa; la salida va al panel de macro.|Ejecuta un Python en cada línea de clientes.csv ' +
+      'para convertir las fechas a aaaa-mm-dd.',
+    'Écrit une macro Python et l''exécute sur chaque ligne d''un fichier ou de chaque fichier sélectionné, ' +
+      'après revue et aperçu ; la sortie va dans le panneau de macro.|Exécute un Python sur chaque ligne de ' +
+      'clientes.csv pour convertir les dates en aaaa-mm-jj.',
+    'Schreibt ein Python-Makro und führt es nach Prüfung und Vorschau für jede Zeile einer Datei oder jeder ' +
+      'ausgewählten Datei aus; die Ausgabe geht in den Makro-Bereich.|Führe ein Python für jede Zeile von ' +
+      'clientes.csv aus, um die Datumswerte in JJJJ-MM-TT umzuwandeln.',
+    'Scrive una macro Python e la esegue su ogni riga di un file o di ogni file selezionato, dopo revisione e ' +
+      'anteprima; l''output va nel pannello macro.|Esegui un Python su ogni riga di clientes.csv per convertire ' +
+      'le date in aaaa-mm-gg.',
+    'Pisze makro Python i uruchamia je dla każdej linii pliku lub każdego zaznaczonego pliku, po przeglądzie i ' +
+      'podglądzie; wynik trafia do panelu makr.|Uruchom Pythona dla każdej linii clientes.csv, zamieniając ' +
+      'daty na rrrr-mm-dd.',
+    'Escreve uma macro Python e executa-a em cada linha de um ficheiro ou de cada ficheiro selecionado, após ' +
+      'revisão e pré-visualização; a saída vai para o painel de macro.|Executa um Python em cada linha de ' +
+      'clientes.csv a converter as datas para aaaa-mm-dd.',
+    'Scrie o macrocomandă Python și o rulează pe fiecare linie a unui fișier sau a fiecărui fișier selectat, ' +
+      'după revizuire și previzualizare; rezultatul apare în panoul de macro.|Rulează un Python pe fiecare linie ' +
+      'din clientes.csv pentru a converti datele în aaaa-ll-zz.',
+    'Python-makrót ír, és ellenőrzés és előnézet után lefuttatja egy fájl vagy minden kijelölt fájl minden ' +
+      'során; a kimenet a makró panelre kerül.|Futtass egy Pythont a clientes.csv minden során, hogy a dátumokat ' +
+      'éééé-hh-nn formára alakítsa.',
+    'Napíše Python makro a po kontrole a náhledu ho spustí na každém řádku souboru nebo každého vybraného ' +
+      'souboru; výstup jde do panelu maker.|Spusť Python na každém řádku clientes.csv a převeď data na ' +
+      'rrrr-mm-dd.',
+    'Python マクロを作成し、確認とプレビューの後、ファイル（または選択した各ファイル）の各行に実行します。出力はマクロパネルに表示されます。|' +
+      'clientes.csv の各行に Python を実行して日付を yyyy-mm-dd に変換して。',
+    '编写 Python 宏，并在审阅和预览后对一个文件（或每个选中的文件）的每一行运行；输出显示在宏面板中。|' +
+      '对 clientes.csv 的每一行运行 Python，把日期转换为 yyyy-mm-dd。',
+    '撰寫 Python 巨集，並在審閱和預覽後對一個檔案（或每個選取的檔案）的每一行執行；輸出顯示在巨集面板中。|' +
+      '對 clientes.csv 的每一行執行 Python，把日期轉換為 yyyy-mm-dd。');
 end;
 
 procedure AddAgentWorkspaceTranslations;
@@ -47445,6 +51532,121 @@ begin
     '提案された %d 件の編集を破棄しますか？何も書き込まれません。',
     '放弃 %d 项建议的编辑？不会写入任何内容。',
     '放棄 %d 項建議的編輯？不會寫入任何內容。');
+  Set14('Agent.Assistant.Working', 'The FastFile Assistant is handling the request...',
+    'O Assistente IA está tratando o pedido...',
+    'El Asistente IA está atendiendo la solicitud...',
+    'L''Assistant IA traite la demande...',
+    'Der KI-Assistent bearbeitet die Anfrage...',
+    'L''Assistente IA sta gestendo la richiesta...',
+    'Asystent AI obsługuje prośbę...',
+    'O Assistente IA está a tratar o pedido...',
+    'Asistentul IA se ocupă de cerere...',
+    'A MI-asszisztens feldolgozza a kérést...',
+    'Asistent AI zpracovává požadavek...',
+    'AIアシスタントが依頼を処理しています...',
+    'AI 助手正在处理该请求...',
+    'AI 助理正在處理該請求...');
+  Set14('Agent.Assistant.Done', 'The Assistant replied. Its answer is below the agent''s answer.',
+    'O Assistente IA respondeu. A resposta dele está abaixo da resposta do agente.',
+    'El Asistente IA respondió. Su respuesta está debajo de la del agente.',
+    'L''Assistant IA a répondu. Sa réponse figure sous celle de l''agent.',
+    'Der KI-Assistent hat geantwortet. Seine Antwort steht unter der des Agenten.',
+    'L''Assistente IA ha risposto. La sua risposta è sotto quella dell''agente.',
+    'Asystent AI odpowiedział. Jego odpowiedź jest pod odpowiedzią agenta.',
+    'O Assistente IA respondeu. A resposta dele está abaixo da resposta do agente.',
+    'Asistentul IA a răspuns. Răspunsul lui este sub cel al agentului.',
+    'A MI-asszisztens válaszolt. A válasza az ügynök válasza alatt látható.',
+    'Asistent AI odpověděl. Jeho odpověď je pod odpovědí agenta.',
+    'AIアシスタントが回答しました。回答はエージェントの回答の下にあります。',
+    'AI 助手已回复。其回答位于智能体回答的下方。',
+    'AI 助理已回覆。其回答位於智慧體回答的下方。');
+  Set14('Agent.Assistant.ReplyHeader', '--- FastFile Assistant ---',
+    '--- Assistente IA ---',
+    '--- Asistente IA ---',
+    '--- Assistant IA ---',
+    '--- KI-Assistent ---',
+    '--- Assistente IA ---',
+    '--- Asystent AI ---',
+    '--- Assistente IA ---',
+    '--- Asistent IA ---',
+    '--- MI-asszisztens ---',
+    '--- Asistent AI ---',
+    '--- AIアシスタント ---',
+    '--- AI 助手 ---',
+    '--- AI 助理 ---');
+  Set14('Agent.Assistant.NoReply', 'The Assistant finished without a reply. See the Assistant panel.',
+    'O Assistente IA terminou sem resposta. Veja o painel do Assistente.',
+    'El Asistente IA terminó sin respuesta. Consulte el panel del Asistente.',
+    'L''Assistant IA a terminé sans réponse. Consultez le panneau de l''Assistant.',
+    'Der KI-Assistent hat ohne Antwort beendet. Siehe Assistenten-Bereich.',
+    'L''Assistente IA ha terminato senza risposta. Vedi il pannello dell''Assistente.',
+    'Asystent AI zakończył bez odpowiedzi. Zobacz panel Asystenta.',
+    'O Assistente IA terminou sem resposta. Veja o painel do Assistente.',
+    'Asistentul IA a terminat fără răspuns. Vedeți panoul Asistentului.',
+    'A MI-asszisztens válasz nélkül fejezte be. Nézze meg az asszisztens panelt.',
+    'Asistent AI skončil bez odpovědi. Podívejte se na panel Asistenta.',
+    'AIアシスタントは回答なしで終了しました。アシスタント パネルを確認してください。',
+    'AI 助手未给出回复就结束了。请查看助手面板。',
+    'AI 助理未給出回覆就結束了。請查看助理面板。');
+  Set14('Agent.Assistant.Busy', 'The Assistant is busy with another request. Try again when it finishes.',
+    'O Assistente IA está ocupado com outro pedido. Tente de novo quando ele terminar.',
+    'El Asistente IA está ocupado con otra solicitud. Inténtelo de nuevo cuando termine.',
+    'L''Assistant IA est occupé par une autre demande. Réessayez quand il aura fini.',
+    'Der KI-Assistent bearbeitet gerade eine andere Anfrage. Versuchen Sie es danach erneut.',
+    'L''Assistente IA è occupato con un''altra richiesta. Riprova quando ha finito.',
+    'Asystent AI jest zajęty innym zadaniem. Spróbuj ponownie, gdy skończy.',
+    'O Assistente IA está ocupado com outro pedido. Tente de novo quando ele terminar.',
+    'Asistentul IA este ocupat cu altă cerere. Încercați din nou după ce termină.',
+    'A MI-asszisztens egy másik kérésen dolgozik. Próbálja újra, ha végzett.',
+    'Asistent AI zpracovává jiný požadavek. Zkuste to znovu, až skončí.',
+    'AIアシスタントは別の依頼を処理中です。完了後にもう一度お試しください。',
+    'AI 助手正在处理另一个请求。请在其完成后重试。',
+    'AI 助理正在處理另一個請求。請在其完成後重試。');
+  Set14('Agent.Chat.Button', 'Chat',
+    'Chat', 'Chat', 'Chat', 'Chat', 'Chat', 'Czat', 'Chat', 'Chat', 'Csevegés', 'Chat', 'チャット', '聊天', '聊天');
+  Set14('Agent.Chat.Hint', 'Show or hide the AI chat pane (assistant, documents, source validation, FastFile help).',
+    'Mostra ou oculta o painel de chat IA (assistente, documentos, validação de código, ajuda do FastFile).',
+    'Muestra u oculta el panel de chat IA (asistente, documentos, validación de código, ayuda de FastFile).',
+    'Affiche ou masque le panneau de chat IA (assistant, documents, validation de code, aide FastFile).',
+    'KI-Chat-Bereich ein- oder ausblenden (Assistent, Dokumente, Quellcode-Prüfung, FastFile-Hilfe).',
+    'Mostra o nasconde il pannello chat IA (assistente, documenti, validazione del codice, guida FastFile).',
+    'Pokaż lub ukryj panel czatu AI (asystent, dokumenty, walidacja kodu, pomoc FastFile).',
+    'Mostra ou oculta o painel de chat IA (assistente, documentos, validação de código, ajuda do FastFile).',
+    'Afișează sau ascunde panoul de chat IA (asistent, documente, validarea codului, ajutor FastFile).',
+    'MI-csevegő panel megjelenítése vagy elrejtése (asszisztens, dokumentumok, kódellenőrzés, FastFile súgó).',
+    'Zobrazit nebo skrýt panel AI chatu (asistent, dokumenty, validace kódu, nápověda FastFile).',
+    'AIチャット パネルの表示/非表示（アシスタント、ドキュメント、ソース検証、FastFileヘルプ）。',
+    '显示或隐藏 AI 聊天面板（助手、文档、源码验证、FastFile 帮助）。',
+    '顯示或隱藏 AI 聊天面板（助理、文件、原始碼驗證、FastFile 說明）。');
+  Set14('Agent.Assistant.Unavailable', 'The Assistant panel is not available, so the request could not be handed to it.',
+    'O painel do Assistente IA não está disponível; o pedido não pôde ser repassado.',
+    'El panel del Asistente IA no está disponible; no se pudo pasarle la solicitud.',
+    'Le panneau de l''Assistant IA n''est pas disponible ; la demande n''a pas pu lui être transmise.',
+    'Der KI-Assistent ist nicht verfügbar; die Anfrage konnte nicht übergeben werden.',
+    'Il pannello dell''Assistente IA non è disponibile; non è stato possibile passargli la richiesta.',
+    'Panel Asystenta AI jest niedostępny; nie można było przekazać prośby.',
+    'O painel do Assistente IA não está disponível; o pedido não pôde ser passado.',
+    'Panoul Asistentului IA nu este disponibil; cererea nu a putut fi transmisă.',
+    'A MI-asszisztens panel nem érhető el, így a kérést nem lehetett átadni.',
+    'Panel Asistenta AI není k dispozici, požadavek nebylo možné předat.',
+    'AIアシスタント パネルを利用できないため、依頼を渡せませんでした。',
+    'AI 助手面板不可用，无法转交该请求。',
+    'AI 助理面板無法使用，無法轉交該請求。');
+  Set14('Assistant.Agent.FromAgent',
+    'This request came from the AI agent, so it was not sent back to it. Ask it in the AI agent tab in other words.',
+    'Este pedido veio do Agente IA, por isso não foi devolvido a ele. Peça de outra forma na aba Agente IA.',
+    'Esta solicitud vino del Agente IA, por eso no se le devolvió. Pídala de otra forma en la pestaña Agente IA.',
+    'Cette demande vient de l''Agent IA ; elle ne lui a donc pas été renvoyée. Reformulez-la dans l''onglet Agent IA.',
+    'Diese Anfrage kam vom KI-Agenten und wurde daher nicht an ihn zurückgegeben. Formulieren Sie sie im Tab KI-Agent um.',
+    'Questa richiesta proviene dall''Agente IA, quindi non gli è stata rinviata. Riformulala nella scheda Agente IA.',
+    'Ta prośba pochodzi od Agenta AI, więc nie została mu odesłana. Sformułuj ją inaczej w karcie Agent AI.',
+    'Este pedido veio do Agente IA, por isso não lhe foi devolvido. Peça de outra forma no separador Agente IA.',
+    'Această cerere a venit de la Agentul IA, deci nu i-a fost trimisă înapoi. Reformulați-o în fila Agent IA.',
+    'Ez a kérés a MI-ügynöktől jött, ezért nem került vissza hozzá. Fogalmazza át a MI-ügynök lapon.',
+    'Tento požadavek přišel od Agenta AI, proto mu nebyl vrácen. Zadejte ho jinak na kartě Agent AI.',
+    'この依頼は AI エージェントから来たため、エージェントには戻していません。AI エージェント タブで言い換えてください。',
+    '此请求来自 AI 智能体，因此未再交回给它。请在“AI 智能体”选项卡中换种说法。',
+    '此請求來自 AI 智慧體，因此未再交回給它。請在「AI 智慧體」索引標籤中換種說法。');
   Set14('Assistant.AgentMode', 'Agent', 'Agente', 'Agente', 'Agent', 'Agent', 'Agente', 'Agent', 'Agente', 'Agent',
     'Ügynök', 'Agent', 'エージェント', '智能体', '智慧體');
   Set14('Assistant.AgentModeHint',
@@ -47644,6 +51846,1549 @@ begin
     '何も変更・提案されませんでした。モデルが有効なコマンドを送信しませんでした。依頼を言い換えて、もう一度お試しください。',
     '未更改也未建议任何内容：模型未发送有效命令。请换一种说法后重试。',
     '未變更也未建議任何內容：模型未傳送有效命令。請換個說法後再試一次。');
+end;
+
+procedure AddAgentHubTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('Hub.TabCaption',
+    'AI diagnosis', 'Diagnóstico IA', 'Diagnóstico IA', 'Diagnostic IA',
+    'KI-Diagnose', 'Diagnosi IA', 'Diagnoza AI', 'Diagnóstico IA',
+    'Diagnostic IA', 'MI-diagnózis', 'AI diagnostika', 'AI診断', 'AI 诊断', 'AI 診斷');
+  Set14('Hub.Toolbar',
+    'AI diagnosis', 'Diagnóstico IA', 'Diagnóstico IA', 'Diagnostic IA',
+    'KI-Diagnose', 'Diagnosi IA', 'Diagnoza AI', 'Diagnóstico IA',
+    'Diagnostic IA', 'MI-diagnózis', 'AI diagnostika', 'AI診断', 'AI 诊断', 'AI 診斷');
+  Set14('Hub.Menu',
+    'AI &diagnosis', '&Diagnóstico IA', '&Diagnóstico IA', '&Diagnostic IA',
+    'KI-&Diagnose', '&Diagnosi IA', '&Diagnoza AI', '&Diagnóstico IA',
+    '&Diagnostic IA', 'MI-&diagnózis', '&AI diagnostika', 'AI診断(&D)', 'AI 诊断(&D)', 'AI 診斷(&D)');
+  Set14('Hub.Guide',
+    '1) Choose files or folders  →  2) Describe what to diagnose and click Send  →  3) Review the answer. Read-only; use the AI agent to apply edits.',
+    '1) Escolha arquivos ou pastas  →  2) Descreva o que diagnosticar e clique em Enviar  →  3) Confira a resposta. Somente leitura; use o Agente IA para edições.',
+    '1) Elija archivos o carpetas  →  2) Describa qué diagnosticar y haga clic en Enviar  →  3) Revise la respuesta. Solo lectura; use el Agente IA para ediciones.',
+    '1) Choisissez fichiers ou dossiers  →  2) Décrivez le diagnostic et cliquez sur Envoyer  →  3) Vérifiez la réponse. Lecture seule ; Agent IA pour les modifications.',
+    '1) Dateien oder Ordner wählen  →  2) Diagnose beschreiben und Senden klicken  →  3) Antwort prüfen. Schreibgeschützt; KI-Agent für Änderungen.',
+    '1) Scegli file o cartelle  →  2) Descrivi la diagnosi e fai clic su Invia  →  3) Controlla la risposta. Sola lettura; Agente IA per le modifiche.',
+    '1) Wybierz pliki lub foldery  →  2) Opisz diagnozę i kliknij Wyślij  →  3) Sprawdź odpowiedź. Tylko odczyt; Agent AI do edycji.',
+    '1) Escolha ficheiros ou pastas  →  2) Descreva o que diagnosticar e clique em Enviar  →  3) Verifique a resposta. Só de leitura; use o Agente IA para edições.',
+    '1) Alegeți fișiere sau foldere  →  2) Descrieți diagnosticul și faceți clic pe Trimite  →  3) Verificați răspunsul. Doar citire; Agentul IA pentru editări.',
+    '1) Válasszon fájlokat vagy mappákat  →  2) Írja le a diagnózist, majd Küldés  →  3) Ellenőrizze a választ. Csak olvasható; MI-ügynök a szerkesztéshez.',
+    '1) Vyberte soubory nebo složky  →  2) Popište diagnózu a klikněte na Odeslat  →  3) Zkontrolujte odpověď. Jen pro čtení; AI agent pro úpravy.',
+    '1) ファイルまたはフォルダーを選ぶ  →  2) 診断内容を書いて［送信］  →  3) 回答を確認。読み取り専用。編集はAIエージェントで。',
+    '1) 选择文件或文件夹  →  2) 描述诊断内容并点击“发送”  →  3) 查看回答。只读；请用 AI 智能体应用修改。',
+    '1) 選擇檔案或資料夾  →  2) 描述診斷內容並按「傳送」  →  3) 檢視回答。唯讀；請用 AI 智慧體套用修改。');
+  Set14('Hub.Sources',
+    '1. Choose files or folders', '1. Escolha arquivos ou pastas', '1. Elija archivos o carpetas',
+    '1. Choisissez des fichiers ou des dossiers', '1. Dateien oder Ordner wählen', '1. Scegli file o cartelle',
+    '1. Wybierz pliki lub foldery', '1. Escolha ficheiros ou pastas', '1. Alegeți fișiere sau foldere',
+    '1. Fájlok vagy mappák kiválasztása', '1. Vyberte soubory nebo složky', '1. ファイルまたはフォルダーを選ぶ',
+    '1. 选择文件或文件夹', '1. 選擇檔案或資料夾');
+  Set14('Hub.Step2',
+    '2. Describe what you want', '2. Descreva o que deseja', '2. Describa lo que desea',
+    '2. Décrivez votre demande', '2. Beschreiben, was Sie möchten', '2. Descrivi cosa vuoi',
+    '2. Opisz, czego potrzebujesz', '2. Descreva o que pretende', '2. Descrieți ce doriți',
+    '2. Írja le, mit szeretne', '2. Popište, co chcete', '2. やりたいことを書く',
+    '2. 描述您的需求', '2. 描述您的需求');
+  Set14('Hub.Step3',
+    '3. Review the result', '3. Confira o resultado', '3. Revise el resultado',
+    '3. Vérifiez le résultat', '3. Ergebnis prüfen', '3. Controlla il risultato',
+    '3. Sprawdź wynik', '3. Verifique o resultado', '3. Verificați rezultatul',
+    '3. Az eredmény ellenőrzése', '3. Zkontrolujte výsledek', '3. 結果を確認する',
+    '3. 查看结果', '3. 檢視結果');
+  Set14('Hub.Options',
+    'Options', 'Opções', 'Opciones', 'Options',
+    'Optionen', 'Opzioni', 'Opcje', 'Opções',
+    'Opțiuni', 'Beállítások', 'Možnosti', 'オプション',
+    '选项', '選項');
+  Set14('Hub.Agents',
+    'Specialists', 'Especialistas', 'Especialistas', 'Spécialistes',
+    'Spezialisten', 'Specialisti', 'Specjaliści', 'Especialistas',
+    'Specialiști', 'Szakértők', 'Specialisté', '専門家',
+    '专家', '專家');
+  Set14('Hub.Prompt',
+    'What should we diagnose?', 'O que devemos diagnosticar?', '¿Qué debemos diagnosticar?',
+    'Que devons-nous diagnostiquer ?', 'Was sollen wir diagnostizieren?', 'Cosa dobbiamo diagnosticare?',
+    'Co mamy zdiagnozować?', 'O que devemos diagnosticar?', 'Ce trebuie să diagnosticăm?',
+    'Mit diagnosztizáljunk?', 'Co máme diagnostikovat?', '何を診断しますか？', '要诊断什么？', '要診斷什麼？');
+  Set14('Hub.AddFiles',
+    'Add files...', 'Adicionar arquivos...', 'Agregar archivos...', 'Ajouter des fichiers...',
+    'Dateien hinzufügen...', 'Aggiungi file...', 'Dodaj pliki...', 'Adicionar ficheiros...',
+    'Adăugați fișiere...', 'Fájlok hozzáadása...', 'Přidat soubory...', 'ファイルを追加...',
+    '添加文件...', '新增檔案...');
+  Set14('Hub.AddFolder',
+    'Add folder...', 'Adicionar pasta...', 'Agregar carpeta...', 'Ajouter un dossier...',
+    'Ordner hinzufügen...', 'Aggiungi cartella...', 'Dodaj folder...', 'Adicionar pasta...',
+    'Adăugați folder...', 'Mappa hozzáadása...', 'Přidat složku...', 'フォルダーを追加...',
+    '添加文件夹...', '新增資料夾...');
+  Set14('Hub.OpenFile',
+    'Open file', 'Arquivo aberto', 'Archivo abierto', 'Fichier ouvert',
+    'Geöffnete Datei', 'File aperto', 'Otwarty plik', 'Ficheiro aberto',
+    'Fișier deschis', 'Megnyitott fájl', 'Otevřený soubor', '開いているファイル',
+    '已打开的文件', '已開啟的檔案');
+  Set14('Hub.Remove',
+    'Remove selected', 'Remover selecionados', 'Quitar seleccionados', 'Retirer la sélection',
+    'Auswahl entfernen', 'Rimuovi selezionati', 'Usuń zaznaczone', 'Remover selecionados',
+    'Elimină selecția', 'Kijelöltek eltávolítása', 'Odebrat vybrané', '選択を削除',
+    '移除所选', '移除所選');
+  Set14('Hub.SelectAll',
+    'Select all', 'Selecionar todos', 'Seleccionar todos', 'Tout sélectionner',
+    'Alle auswählen', 'Seleziona tutti', 'Zaznacz wszystkie', 'Selecionar todos',
+    'Selectați tot', 'Összes kijelölése', 'Vybrat vše', 'すべて選択',
+    '全选', '全選');
+  Set14('Hub.RemoveAll',
+    'Remove all', 'Remover todos', 'Quitar todos', 'Tout retirer',
+    'Alle entfernen', 'Rimuovi tutti', 'Usuń wszystkie', 'Remover todos',
+    'Elimină tot', 'Összes eltávolítása', 'Odebrat vše', 'すべて削除',
+    '全部移除', '全部移除');
+  Set14('Hub.Clear',
+    'Clear', 'Limpar', 'Borrar', 'Effacer', 'Leeren', 'Svuota', 'Wyczyść', 'Limpar',
+    'Golește', 'Törlés', 'Vymazat', 'クリア', '清除', '清除');
+  Set14('Hub.Analyze',
+    'Send', 'Enviar', 'Enviar', 'Envoyer', 'Senden', 'Invia', 'Wyślij', 'Enviar',
+    'Trimite', 'Küldés', 'Odeslat', '送信', '发送', '傳送');
+  Set14('Hub.EditsEmpty',
+    'No proposed edits in this diagnosis (read-only). Use the AI agent to apply changes.',
+    'Nenhuma edição proposta neste diagnóstico (somente leitura). Use o Agente IA para aplicar alterações.',
+    'No hay ediciones propuestas en este diagnóstico (solo lectura). Use el Agente IA para aplicar cambios.',
+    'Aucune modification proposée dans ce diagnostic (lecture seule). Utilisez l''Agent IA pour appliquer des changements.',
+    'Keine vorgeschlagenen Änderungen in dieser Diagnose (schreibgeschützt). Nutzen Sie den KI-Agenten für Änderungen.',
+    'Nessuna modifica proposta in questa diagnosi (sola lettura). Usa l''Agente IA per applicare modifiche.',
+    'Brak proponowanych edycji w tej diagnozie (tylko odczyt). Użyj Agenta AI, aby zastosować zmiany.',
+    'Nenhuma edição proposta neste diagnóstico (só de leitura). Use o Agente IA para aplicar alterações.',
+    'Nicio editare propusă în acest diagnostic (doar citire). Folosiți Agentul IA pentru modificări.',
+    'Ebben a diagnózisban nincs javasolt szerkesztés (csak olvasható). Használja az MI-ügynököt a módosításokhoz.',
+    'V této diagnostice nejsou navrženy žádné úpravy (jen pro čtení). Použijte AI agenta pro změny.',
+    'この診断に編集案はありません（読み取り専用）。変更はAIエージェントで。',
+    '此诊断中无建议的修改（只读）。请用 AI 智能体应用更改。',
+    '此診斷中無建議的修改（唯讀）。請用 AI 智慧體套用變更。');
+  Set14('Hub.Stop',
+    'Stop', 'Parar', 'Detener', 'Arrêter', 'Stopp', 'Interrompi', 'Stop', 'Parar',
+    'Oprește', 'Leállítás', 'Stop', '停止', '停止', '停止');
+  Set14('Hub.SendHint',
+    'Ctrl+Enter also starts the analysis.', 'Ctrl+Enter também inicia a análise.',
+    'Ctrl+Enter también inicia el análisis.', 'Ctrl+Entrée lance aussi l''analyse.',
+    'Strg+Eingabe startet die Analyse ebenfalls.', 'Anche Ctrl+Invio avvia l''analisi.',
+    'Ctrl+Enter również uruchamia analizę.', 'Ctrl+Enter também inicia a análise.',
+    'Ctrl+Enter pornește și el analiza.', 'A Ctrl+Enter is elindítja az elemzést.',
+    'Ctrl+Enter také spustí analýzu.', 'Ctrl+Enter でも分析を開始します。',
+    '也可按 Ctrl+Enter 开始分析。', '也可按 Ctrl+Enter 開始分析。');
+  Set14('Hub.IncludeSubdirs',
+    'Include subfolders', 'Incluir subpastas', 'Incluir subcarpetas', 'Inclure les sous-dossiers',
+    'Unterordner einbeziehen', 'Includi sottocartelle', 'Uwzględnij podfoldery', 'Incluir subpastas',
+    'Include subfoldere', 'Almappákkal együtt', 'Včetně podsložek', 'サブフォルダーを含める',
+    '包含子文件夹', '包含子資料夾');
+  Set14('Hub.Mask',
+    'Mask', 'Máscara', 'Máscara', 'Masque', 'Maske', 'Maschera', 'Maska', 'Máscara',
+    'Mască', 'Maszk', 'Maska', 'マスク', '掩码', '遮罩');
+  Set14('Hub.Depth',
+    'Depth', 'Profundidade', 'Profundidad', 'Profondeur', 'Tiefe', 'Profondità', 'Głębokość',
+    'Profundidade', 'Adâncime', 'Mélység', 'Hloubka', '深さ', '深度', '深度');
+  Set14('Hub.MaxFiles',
+    'Max files', 'Máx. arquivos', 'Máx. archivos', 'Fichiers max.', 'Max. Dateien', 'File max.',
+    'Maks. plików', 'Máx. ficheiros', 'Fișiere max.', 'Max. fájl', 'Max. souborů', '最大ファイル数',
+    '最大文件数', '最大檔案數');
+  Set14('Hub.Role.inventory',
+    'Inventory', 'Inventário', 'Inventario', 'Inventaire', 'Inventar', 'Inventario', 'Inwentarz',
+    'Inventário', 'Inventar', 'Leltár', 'Inventář', 'インベントリ', '清单', '清單');
+  Set14('Hub.Role.structure',
+    'Structure', 'Estrutura', 'Estructura', 'Structure', 'Struktur', 'Struttura', 'Struktura',
+    'Estrutura', 'Structură', 'Szerkezet', 'Struktura', '構造', '结构', '結構');
+  Set14('Hub.Role.content',
+    'Content', 'Conteúdo', 'Contenido', 'Contenu', 'Inhalt', 'Contenuto', 'Treść',
+    'Conteúdo', 'Conținut', 'Tartalom', 'Obsah', '内容', '内容', '內容');
+  Set14('Hub.Role.sql',
+    'SQL / tabular', 'SQL / tabular', 'SQL / tabular', 'SQL / tabulaire', 'SQL / tabellarisch',
+    'SQL / tabellare', 'SQL / tabelaryczne', 'SQL / tabular', 'SQL / tabelar', 'SQL / táblázatos',
+    'SQL / tabulární', 'SQL / 表形式', 'SQL / 表格', 'SQL / 表格');
+  Set14('Hub.Role.privacy',
+    'Privacy / PII', 'Privacidade / PII', 'Privacidad / PII', 'Confidentialité / PII',
+    'Datenschutz / PII', 'Privacy / PII', 'Prywatność / PII', 'Privacidade / PII',
+    'Confidențialitate / PII', 'Adatvédelem / PII', 'Soukromí / PII', 'プライバシー / PII',
+    '隐私 / PII', '隱私 / PII');
+  Set14('Hub.Role.actions',
+    'Suggested actions', 'Ações sugeridas', 'Acciones sugeridas', 'Actions suggérées',
+    'Vorgeschlagene Aktionen', 'Azioni suggerite', 'Sugerowane działania', 'Ações sugeridas',
+    'Acțiuni sugerate', 'Javasolt műveletek', 'Navrhované akce', '推奨アクション',
+    '建议操作', '建議操作');
+  { Hub result tabs reuse Answer / Proposed edits / Revised prompt / Files found keys. }
+  Set14('Hub.PickFolder',
+    'Choose a folder to diagnose', 'Escolha uma pasta para diagnosticar',
+    'Elija una carpeta para diagnosticar', 'Choisissez un dossier à diagnostiquer',
+    'Ordner zur Diagnose wählen', 'Scegli una cartella da diagnosticare',
+    'Wybierz folder do diagnozy', 'Escolha uma pasta para diagnosticar',
+    'Alegeți un folder de diagnosticat', 'Válasszon diagnosztizálandó mappát',
+    'Vyberte složku k diagnostice', '診断するフォルダーを選ぶ', '选择要诊断的文件夹', '選擇要診斷的資料夾');
+  Set14('Hub.NeedSources',
+    'Add at least one file or folder.', 'Adicione pelo menos um arquivo ou pasta.',
+    'Agregue al menos un archivo o carpeta.', 'Ajoutez au moins un fichier ou un dossier.',
+    'Fügen Sie mindestens eine Datei oder einen Ordner hinzu.', 'Aggiungi almeno un file o una cartella.',
+    'Dodaj co najmniej jeden plik lub folder.', 'Adicione pelo menos um ficheiro ou pasta.',
+    'Adăugați cel puțin un fișier sau folder.', 'Adjon hozzá legalább egy fájlt vagy mappát.',
+    'Přidejte alespoň jeden soubor nebo složku.', 'ファイルまたはフォルダーを少なくとも1つ追加してください。',
+    '请至少添加一个文件或文件夹。', '請至少新增一個檔案或資料夾。');
+  Set14('Hub.NeedPrompt',
+    'Describe what you want to diagnose.', 'Descreva o que deseja diagnosticar.',
+    'Describa lo que desea diagnosticar.', 'Décrivez ce que vous voulez diagnostiquer.',
+    'Beschreiben Sie, was diagnostiziert werden soll.', 'Descrivi cosa vuoi diagnosticare.',
+    'Opisz, co chcesz zdiagnozować.', 'Descreva o que pretende diagnosticar.',
+    'Descrieți ce doriți să diagnosticați.', 'Írja le, mit szeretne diagnosztizálni.',
+    'Popište, co chcete diagnostikovat.', '診断したい内容を書いてください。',
+    '请描述要诊断的内容。', '請描述要診斷的內容。');
+  Set14('Hub.Status.Ready',
+    'Ready.', 'Pronto.', 'Listo.', 'Prêt.', 'Bereit.', 'Pronto.', 'Gotowe.', 'Pronto.',
+    'Pregătit.', 'Kész.', 'Připraveno.', '準備完了。', '就绪。', '就緒。');
+  Set14('Hub.Status.Starting',
+    'Starting diagnosis...', 'Iniciando diagnóstico...', 'Iniciando diagnóstico...',
+    'Démarrage du diagnostic...', 'Diagnose wird gestartet...', 'Avvio della diagnosi...',
+    'Uruchamianie diagnozy...', 'A iniciar diagnóstico...', 'Se pornește diagnosticul...',
+    'Diagnózis indítása...', 'Spouštění diagnostiky...', '診断を開始しています...',
+    '正在开始诊断...', '正在開始診斷...');
+  Set14('Hub.Status.Running',
+    'Running...', 'Em execução...', 'En ejecución...', 'En cours...', 'Läuft...', 'In esecuzione...',
+    'W toku...', 'Em execução...', 'În curs...', 'Fut...', 'Běží...', '実行中...', '运行中...', '執行中...');
+  Set14('Hub.Status.Stopping',
+    'Stopping...', 'Parando...', 'Deteniendo...', 'Arrêt...', 'Wird gestoppt...', 'Interruzione...',
+    'Zatrzymywanie...', 'A parar...', 'Se oprește...', 'Leállítás...', 'Zastavování...', '停止中...',
+    '正在停止...', '正在停止...');
+  Set14('Hub.Status.Cancelled',
+    'Cancelled.', 'Cancelado.', 'Cancelado.', 'Annulé.', 'Abgebrochen.', 'Annullato.', 'Anulowano.',
+    'Cancelado.', 'Anulat.', 'Megszakítva.', 'Zrušeno.', 'キャンセルしました。', '已取消。', '已取消。');
+  Set14('Hub.Status.Failed',
+    'Diagnosis failed.', 'O diagnóstico falhou.', 'El diagnóstico falló.', 'Échec du diagnostic.',
+    'Diagnose fehlgeschlagen.', 'Diagnosi non riuscita.', 'Diagnoza nie powiodła się.',
+    'O diagnóstico falhou.', 'Diagnosticul a eșuat.', 'A diagnózis sikertelen.',
+    'Diagnostika selhala.', '診断に失敗しました。', '诊断失败。', '診斷失敗。');
+  Set14('Hub.Status.Done',
+    'Done — %d finding(s).', 'Concluído — %d achado(s).', 'Listo — %d hallazgo(s).',
+    'Terminé — %d constatation(s).', 'Fertig — %d Befund(e).', 'Completato — %d risultato/i.',
+    'Gotowe — %d ustalenie/ustaleń.', 'Concluído — %d achado(s).', 'Finalizat — %d constatație/i.',
+    'Kész — %d megállapítás.', 'Hotovo — %d zjištění.', '完了 — 所見 %d 件。',
+    '完成 — %d 条发现。', '完成 — %d 項發現。');
+  Set14('Hub.Phase.idle',
+    'Idle', 'Inativo', 'Inactivo', 'Inactif', 'Leerlauf', 'Inattivo', 'Bezczynny', 'Inativo',
+    'Inactiv', 'Üresjárat', 'Nečinný', '待機', '空闲', '閒置');
+  Set14('Hub.Phase.discovery',
+    'Discovery', 'Descoberta', 'Descubrimiento', 'Découverte', 'Erkennung', 'Scoperta', 'Odkrywanie',
+    'Descoberta', 'Descoperire', 'Felderítés', 'Objevování', '検出', '发现阶段', '探索階段');
+  Set14('Hub.Phase.plan',
+    'Planning', 'Planejamento', 'Planificación', 'Planification', 'Planung', 'Pianificazione',
+    'Planowanie', 'Planeamento', 'Planificare', 'Tervezés', 'Plánování', '計画', '规划', '規劃');
+  Set14('Hub.Phase.delegate',
+    'Delegating', 'Delegando', 'Delegando', 'Délégation', 'Delegierung', 'Delega', 'Delegowanie',
+    'A delegar', 'Delegare', 'Delegálás', 'Delegování', '委任', '委派', '委派');
+  Set14('Hub.Phase.evaluate',
+    'Evaluating', 'Avaliando', 'Evaluando', 'Évaluation', 'Bewertung', 'Valutazione', 'Ocena',
+    'A avaliar', 'Evaluare', 'Értékelés', 'Vyhodnocení', '評価', '评估', '評估');
+  Set14('Hub.Phase.aggregate',
+    'Aggregating', 'Agregando', 'Agregando', 'Agrégation', 'Aggregation', 'Aggregazione', 'Agregacja',
+    'A agregar', 'Agregare', 'Összesítés', 'Agregace', '集約', '汇总', '彙總');
+  Set14('Hub.Phase.synthesize',
+    'Synthesizing', 'Sintetizando', 'Sintetizando', 'Synthèse', 'Synthese', 'Sintesi', 'Synteza',
+    'A sintetizar', 'Sinteză', 'Összegzés', 'Syntéza', '統合', '综合', '綜整');
+  Set14('Hub.Phase.done',
+    'Done', 'Concluído', 'Listo', 'Terminé', 'Fertig', 'Completato', 'Gotowe', 'Concluído',
+    'Finalizat', 'Kész', 'Hotovo', '完了', '完成', '完成');
+  Set14('Hub.Phase.cancelled',
+    'Cancelled', 'Cancelado', 'Cancelado', 'Annulé', 'Abgebrochen', 'Annullato', 'Anulowano',
+    'Cancelado', 'Anulat', 'Megszakítva', 'Zrušeno', 'キャンセル', '已取消', '已取消');
+  Set14('Hub.Phase.failed',
+    'Failed', 'Falhou', 'Falló', 'Échoué', 'Fehlgeschlagen', 'Non riuscito', 'Niepowodzenie',
+    'Falhou', 'Eșuat', 'Sikertelen', 'Selhalo', '失敗', '失败', '失敗');
+
+  { "What can I do?" for Diagnóstico IA (ackHub) — separate from Agente IA. }
+  Set14('AICaps.ButtonHint.Hub',
+    'Everything AI diagnosis can do, with examples. F1 on this tab also opens it.',
+    'Tudo o que o Diagnóstico IA sabe fazer, com exemplos. F1 nesta aba também abre.',
+    'Todo lo que el Diagnóstico IA puede hacer, con ejemplos. F1 en esta pestaña también lo abre.',
+    'Tout ce que le Diagnostic IA sait faire, avec des exemples. F1 dans cet onglet l''ouvre aussi.',
+    'Alles, was die KI-Diagnose kann, mit Beispielen. F1 in diesem Tab öffnet es ebenfalls.',
+    'Tutto ciò che la Diagnosi IA sa fare, con esempi. Anche F1 in questa scheda lo apre.',
+    'Wszystko, co potrafi Diagnoza AI, z przykładami. F1 na tej karcie też to otwiera.',
+    'Tudo o que o Diagnóstico IA sabe fazer, com exemplos. F1 neste separador também abre.',
+    'Tot ce poate face Diagnosticul IA, cu exemple. F1 în această filă îl deschide și el.',
+    'Minden, amire az MI-diagnózis képes, példákkal. Ezen a lapon az F1 is megnyitja.',
+    'Vše, co AI diagnostika umí, s příklady. Na této kartě to otevře i F1.',
+    'AI診断にできることの一覧（例付き）。このタブで F1 を押しても開きます。',
+    'AI 诊断能做的所有事情（附示例）。在此选项卡按 F1 也可打开。',
+    'AI 診斷能做的所有事情（附範例）。在此索引標籤按 F1 也可開啟。');
+  Set14('AICaps.Title.Hub',
+    'AI diagnosis: what can I do?', 'Diagnóstico IA: o que posso fazer?',
+    'Diagnóstico IA: ¿qué puedo hacer?', 'Diagnostic IA : que puis-je faire ?',
+    'KI-Diagnose: Was kann ich?', 'Diagnosi IA: cosa posso fare?',
+    'Diagnoza AI: co potrafię?', 'Diagnóstico IA: o que posso fazer?',
+    'Diagnostic IA: ce pot face?', 'MI-diagnózis: mit tudok?',
+    'AI diagnostika: co umím?', 'AI診断：できること',
+    'AI 诊断：我能做什么？', 'AI 診斷：我能做什麼？');
+  Set14('AICaps.Intro.Hub',
+    'I inventory the folders and files you choose and run specialist analyses (read-only). ' +
+      'Pick an item and click "Use example" to try it.',
+    'Inventario pastas e arquivos que você escolher e executo análises especializadas (somente leitura). ' +
+      'Escolha um item e clique em "Usar exemplo" para testar.',
+    'Inventario carpetas y archivos que elija y ejecuto análisis especializados (solo lectura). ' +
+      'Elija un elemento y haga clic en "Usar ejemplo" para probarlo.',
+    'J''inventorie les dossiers et fichiers choisis et lance des analyses spécialisées (lecture seule). ' +
+      'Choisissez un élément et cliquez sur « Utiliser l''exemple ».',
+    'Ich erfasse die gewählten Ordner und Dateien und führe Spezialanalysen aus (schreibgeschützt). ' +
+      'Wählen Sie einen Eintrag und klicken Sie auf „Beispiel verwenden“.',
+    'Faccio l''inventario di cartelle e file scelti ed eseguo analisi specialistiche (sola lettura). ' +
+      'Scegli una voce e fai clic su "Usa esempio" per provarla.',
+    'Inwentaryzuję wybrane foldery i pliki oraz uruchamiam specjalistyczne analizy (tylko odczyt). ' +
+      'Wybierz pozycję i kliknij „Użyj przykładu”, aby spróbować.',
+    'Inventario pastas e ficheiros que escolher e executo análises especializadas (só de leitura). ' +
+      'Escolha um item e clique em "Usar exemplo" para experimentar.',
+    'Inventariez folderele și fișierele alese și rulez analize specializate (doar citire). ' +
+      'Alegeți un element și faceți clic pe „Folosește exemplul”.',
+    'Leltározom a kiválasztott mappákat és fájlokat, majd szakértői elemzéseket futtatok (csak olvasható). ' +
+      'Válasszon egy elemet, és kattintson a „Példa használata” gombra.',
+    'Prohledám vybrané složky a soubory a spustím specializované analýzy (jen pro čtení). ' +
+      'Vyberte položku a klikněte na „Použít příklad“.',
+    '選んだフォルダーとファイルを一覧し、専門分析を実行します（読み取り専用）。' +
+      '項目を選んで［例を使う］をクリックしてください。',
+    '我会清点您选择的文件夹和文件，并运行专项分析（只读）。选择一项后点击“使用示例”即可试用。',
+    '我會清點您選擇的資料夾和檔案，並執行專項分析（唯讀）。選擇一項後按「使用範例」即可試用。');
+  Set14('AICaps.Sec.HubOnly',
+    'Folder and file diagnosis', 'Diagnóstico de pastas e arquivos',
+    'Diagnóstico de carpetas y archivos', 'Diagnostic de dossiers et fichiers',
+    'Ordner- und Dateidiagnose', 'Diagnosi di cartelle e file',
+    'Diagnoza folderów i plików', 'Diagnóstico de pastas e ficheiros',
+    'Diagnostic foldere și fișiere', 'Mappa- és fájldiagnózis',
+    'Diagnostika složek a souborů', 'フォルダーとファイルの診断',
+    '文件夹与文件诊断', '資料夾與檔案診斷');
+
+  Set14('AICaps.Item.HubInventory',
+    'Builds an inventory of the chosen folders and files: counts, extensions, sizes and top folders.|' +
+      'Inventory this folder: how many files by extension and which folders are largest?',
+    'Monta um inventário das pastas e arquivos escolhidos: contagens, extensões, tamanhos e pastas principais.|' +
+      'Inventarie esta pasta: quantos arquivos por extensão e quais pastas são as maiores?',
+    'Arma un inventario de las carpetas y archivos elegidos: conteos, extensiones, tamaños y carpetas principales.|' +
+      'Inventaría esta carpeta: ¿cuántos archivos por extensión y qué carpetas son las más grandes?',
+    'Dresse un inventaire des dossiers et fichiers choisis : comptes, extensions, tailles et dossiers principaux.|' +
+      'Inventorie ce dossier : combien de fichiers par extension et quels dossiers sont les plus grands ?',
+    'Erstellt ein Inventar der gewählten Ordner und Dateien: Anzahlen, Endungen, Größen und Top-Ordner.|' +
+      'Inventarisiere diesen Ordner: wie viele Dateien je Endung und welche Ordner sind am größten?',
+    'Crea un inventario delle cartelle e dei file scelti: conteggi, estensioni, dimensioni e cartelle principali.|' +
+      'Inventaria questa cartella: quanti file per estensione e quali cartelle sono le più grandi?',
+    'Tworzy inwentarz wybranych folderów i plików: liczby, rozszerzenia, rozmiary i główne foldery.|' +
+      'Zrób inwentarz tego folderu: ile plików wg rozszerzenia i które foldery są największe?',
+    'Monta um inventário das pastas e ficheiros escolhidos: contagens, extensões, tamanhos e pastas principais.|' +
+      'Inventarie esta pasta: quantos ficheiros por extensão e quais pastas são as maiores?',
+    'Construiește un inventar al folderelor și fișierelor alese: numărări, extensii, dimensiuni și foldere principale.|' +
+      'Inventariază acest folder: câte fișiere pe extensie și care foldere sunt cele mai mari?',
+    'Leltárt készít a kiválasztott mappákról és fájlokról: darabszám, kiterjesztés, méret és fő mappák.|' +
+      'Leltározza ezt a mappát: hány fájl kiterjesztésenként, és mely mappák a legnagyobbak?',
+    'Sestaví inventář vybraných složek a souborů: počty, přípony, velikosti a hlavní složky.|' +
+      'Inventarizuj tuto složku: kolik souborů podle přípony a které složky jsou největší?',
+    '選んだフォルダーとファイルの一覧を作ります：件数、拡張子、サイズ、主なフォルダー。|' +
+      'このフォルダーを一覧して。拡張子別の件数と一番大きいフォルダーは？',
+    '为所选文件夹和文件建立清单：数量、扩展名、大小和主要文件夹。|' +
+      '清点此文件夹：按扩展名有多少文件，哪些文件夹最大？',
+    '為所選資料夾和檔案建立清單：數量、副檔名、大小和主要資料夾。|' +
+      '清點此資料夾：依副檔名有多少檔案，哪些資料夾最大？');
+
+  Set14('AICaps.Item.HubStructure',
+    'Maps the folder tree and structure: depth, empty folders, naming patterns and odd layout.|' +
+      'Describe the structure of this project folder and flag anything unusual.',
+    'Mapeia a árvore e a estrutura das pastas: profundidade, pastas vazias, padrões de nome e layout estranho.|' +
+      'Descreva a estrutura desta pasta de projeto e aponte o que for incomum.',
+    'Mapea el árbol y la estructura de carpetas: profundidad, carpetas vacías, patrones de nombre y diseño raro.|' +
+      'Describa la estructura de esta carpeta de proyecto y señale lo inusual.',
+    'Cartographie l''arborescence : profondeur, dossiers vides, motifs de noms et organisation inhabituelle.|' +
+      'Décrivez la structure de ce dossier de projet et signalez ce qui est inhabituel.',
+    'Kartiert die Ordnerstruktur: Tiefe, leere Ordner, Namensmuster und ungewöhnliche Anordnung.|' +
+      'Beschreibe die Struktur dieses Projektordners und markiere Ungewöhnliches.',
+    'Mappa l''albero delle cartelle: profondità, cartelle vuote, schemi di nomi e layout insoliti.|' +
+      'Descrivi la struttura di questa cartella di progetto e segnala ciò che è insolito.',
+    'Mapuje drzewo folderów: głębokość, puste foldery, wzorce nazw i nietypowy układ.|' +
+      'Opisz strukturę tego folderu projektu i wskaż, co jest nietypowe.',
+    'Mapeia a árvore e a estrutura das pastas: profundidade, pastas vazias, padrões de nome e layout estranho.|' +
+      'Descreva a estrutura desta pasta de projeto e assinale o que for invulgar.',
+    'Mapează arborele de foldere: adâncime, foldere goale, tipare de nume și structură neobișnuită.|' +
+      'Descrieți structura acestui folder de proiect și semnalați ce e neobișnuit.',
+    'Feltérképezi a mappafát: mélység, üres mappák, elnevezési minták és szokatlan elrendezés.|' +
+      'Írja le ennek a projektmappának a szerkezetét, és jelezze a szokatlan részeket.',
+    'Zmapuje strom složek: hloubka, prázdné složky, vzory názvů a neobvyklé uspořádání.|' +
+      'Popište strukturu této projektové složky a označte, co je neobvyklé.',
+    'フォルダー構造を調べます：深さ、空フォルダー、命名パターン、不自然な配置。|' +
+      'このプロジェクトフォルダーの構造を説明し、変な点を指摘して。',
+    '梳理文件夹树与结构：深度、空文件夹、命名模式和异常布局。|' +
+      '描述此项目文件夹的结构，并标出异常之处。',
+    '梳理資料夾樹與結構：深度、空資料夾、命名模式和異常配置。|' +
+      '描述此專案資料夾的結構，並標出異常之處。');
+
+  Set14('AICaps.Item.HubContent',
+    'Scans file contents for themes, errors, duplicates and recurring patterns across the selection.|' +
+      'In these .log files, what are the most common errors and where do they cluster?',
+    'Varre o conteúdo em busca de temas, erros, duplicatas e padrões recorrentes na seleção.|' +
+      'Nestes arquivos .log, quais são os erros mais comuns e onde se concentram?',
+    'Examina el contenido en busca de temas, errores, duplicados y patrones recurrentes.|' +
+      'En estos archivos .log, ¿cuáles son los errores más comunes y dónde se agrupan?',
+    'Analyse le contenu : thèmes, erreurs, doublons et motifs récurrents dans la sélection.|' +
+      'Dans ces fichiers .log, quelles sont les erreurs les plus fréquentes et où se regroupent-elles ?',
+    'Durchsucht Inhalte nach Themen, Fehlern, Duplikaten und wiederkehrenden Mustern.|' +
+      'In diesen .log-Dateien: welche Fehler sind am häufigsten und wo häufen sie sich?',
+    'Analizza i contenuti: temi, errori, duplicati e schemi ricorrenti nella selezione.|' +
+      'In questi file .log, quali sono gli errori più comuni e dove si concentrano?',
+    'Przeszukuje treść pod kątem tematów, błędów, duplikatów i powtarzających się wzorców.|' +
+      'W tych plikach .log jakie błędy są najczęstsze i gdzie się skupiają?',
+    'Varre o conteúdo em busca de temas, erros, duplicados e padrões recorrentes na seleção.|' +
+      'Nestes ficheiros .log, quais são os erros mais comuns e onde se concentram?',
+    'Scanează conținutul: teme, erori, duplicate și tipare recurente în selecție.|' +
+      'În aceste fișiere .log, care sunt cele mai frecvente erori și unde se grupează?',
+    'Átvizsgálja a tartalmat: témák, hibák, ismétlődések és visszatérő minták.|' +
+      'Ezekben a .log fájlokban mik a leggyakoribb hibák, és hol csoportosulnak?',
+    'Prohledá obsah: témata, chyby, duplicity a opakující se vzory ve výběru.|' +
+      'V těchto .log souborech: jaké chyby jsou nejčastější a kde se shlukují?',
+    '内容を調べ、テーマ・エラー・重複・繰り返しパターンを見つけます。|' +
+      'これらの .log で多いエラーは？どこに集中していますか？',
+    '扫描内容中的主题、错误、重复和反复出现的模式。|' +
+      '在这些 .log 文件中，最常见的错误是什么，集中在哪里？',
+    '掃描內容中的主題、錯誤、重複和反覆出現的模式。|' +
+      '在這些 .log 檔案中，最常見的錯誤是什麼，集中在哪裡？');
+
+  Set14('AICaps.Item.HubSql',
+    'Diagnoses CSV and tabular files: columns, separators, types and sample SQL questions.|' +
+      'Which CSV files look tabular here, and what columns do they have?',
+    'Diagnostica CSV e arquivos tabulares: colunas, separadores, tipos e perguntas SQL de exemplo.|' +
+      'Quais arquivos CSV parecem tabulares aqui e quais colunas têm?',
+    'Diagnostica CSV y archivos tabulares: columnas, separadores, tipos y preguntas SQL de ejemplo.|' +
+      '¿Qué archivos CSV parecen tabulares aquí y qué columnas tienen?',
+    'Diagnostique CSV et fichiers tabulaires : colonnes, séparateurs, types et questions SQL types.|' +
+      'Quels fichiers CSV semblent tabulaires ici et quelles colonnes ont-ils ?',
+    'Diagnostiziert CSV und Tabellendateien: Spalten, Trenner, Typen und Beispiel-SQL.|' +
+      'Welche CSV-Dateien wirken hier tabellarisch und welche Spalten haben sie?',
+    'Diagnostica CSV e file tabulari: colonne, separatori, tipi e domande SQL di esempio.|' +
+      'Quali file CSV sembrano tabulari qui e quali colonne hanno?',
+    'Diagnozuje CSV i pliki tabelaryczne: kolumny, separatory, typy i przykładowe SQL.|' +
+      'Które pliki CSV wyglądają tu na tabelaryczne i jakie mają kolumny?',
+    'Diagnostica CSV e ficheiros tabulares: colunas, separadores, tipos e perguntas SQL de exemplo.|' +
+      'Que ficheiros CSV parecem tabulares aqui e que colunas têm?',
+    'Diagnostică CSV și fișiere tabelare: coloane, separatori, tipuri și întrebări SQL exemplu.|' +
+      'Care fișiere CSV par tabelare aici și ce coloane au?',
+    'CSV és táblázatos fájlokat diagnosztizál: oszlopok, elválasztók, típusok és minta SQL.|' +
+      'Mely CSV fájlok tűnnek táblázatosnak, és milyen oszlopaik vannak?',
+    'Diagnostikuje CSV a tabulární soubory: sloupce, oddělovače, typy a ukázkové SQL.|' +
+      'Které CSV soubory tu vypadají tabulárně a jaké mají sloupce?',
+    'CSV／表形式ファイルを診断：列、区切り、型、サンプル SQL。|' +
+      'ここにある表形式っぽい CSV と、その列は？',
+    '诊断 CSV 和表格文件：列、分隔符、类型和示例 SQL 问题。|' +
+      '这里哪些 CSV 像表格，它们有哪些列？',
+    '診斷 CSV 和表格檔案：欄位、分隔符號、型別和範例 SQL 問題。|' +
+      '這裡哪些 CSV 像表格，它們有哪些欄位？');
+
+  Set14('AICaps.Item.HubPrivacy',
+    'Looks for personal data (PII) such as e-mails, phones and document numbers across the selection.|' +
+      'Scan these folders for e-mails, phones and CPF/SSN-like numbers.',
+    'Procura dados pessoais (PII) como e-mails, telefones e documentos na seleção.|' +
+      'Varra estas pastas em busca de e-mails, telefones e CPF.',
+    'Busca datos personales (PII) como correos, teléfonos y documentos en la selección.|' +
+      'Explore estas carpetas en busca de correos, teléfonos y números tipo CPF/SSN.',
+    'Cherche des données personnelles (PII) : e-mails, téléphones, numéros de documents.|' +
+      'Parcourez ces dossiers pour e-mails, téléphones et numéros de type CPF/SSN.',
+    'Sucht personenbezogene Daten (PII): E-Mails, Telefone, Ausweisnummern.|' +
+      'Durchsuche diese Ordner nach E-Mails, Telefonen und CPF/SSN-ähnlichen Nummern.',
+    'Cerca dati personali (PII): e-mail, telefoni e numeri di documenti nella selezione.|' +
+      'Cerca in queste cartelle e-mail, telefoni e numeri tipo CPF/SSN.',
+    'Szuka danych osobowych (PII): e-maile, telefony i numery dokumentów.|' +
+      'Przeszukaj te foldery pod kątem e-maili, telefonów i numerów typu CPF/SSN.',
+    'Procura dados pessoais (PII) como e-mails, telefones e documentos na seleção.|' +
+      'Varra estas pastas em busca de e-mails, telefones e números tipo CPF/SSN.',
+    'Caută date personale (PII): e-mailuri, telefoane și numere de documente.|' +
+      'Scanează aceste foldere pentru e-mailuri, telefoane și numere tip CPF/SSN.',
+    'Személyes adatokat (PII) keres: e-mailek, telefonok, okmányszámok.|' +
+      'Keressen ezekben a mappákban e-maileket, telefonokat és CPF/SSN-szerű számokat.',
+    'Hledá osobní údaje (PII): e-maily, telefony a čísla dokladů.|' +
+      'Prohledejte tyto složky kvůli e-mailům, telefonům a číslům typu CPF/SSN.',
+    '個人情報（PII）を探します：メール、電話、書類番号など。|' +
+      'これらのフォルダーでメール・電話・個人番号らしき値を探して。',
+    '查找个人数据（PII）：电子邮件、电话和证件号码等。|' +
+      '扫描这些文件夹中的电子邮件、电话和类似证件号。',
+    '查找個人資料（PII）：電子郵件、電話和證件號碼等。|' +
+      '掃描這些資料夾中的電子郵件、電話和類似證件號。');
+
+  Set14('AICaps.Item.HubActions',
+    'Suggests concrete next steps (read-only): what to clean, export, anonymize or send to the AI agent.|' +
+      'Based on this folder, what should I do next?',
+    'Sugere próximos passos concretos (somente leitura): limpar, exportar, anonimizar ou enviar ao Agente IA.|' +
+      'Com base nesta pasta, o que devo fazer em seguida?',
+    'Sugiere pasos siguientes concretos (solo lectura): limpiar, exportar, anonimizar o enviar al Agente IA.|' +
+      'Según esta carpeta, ¿qué debo hacer a continuación?',
+    'Suggère des actions concrètes (lecture seule) : nettoyer, exporter, anonymiser ou passer à l''Agent IA.|' +
+      'D''après ce dossier, que dois-je faire ensuite ?',
+    'Schlägt konkrete nächste Schritte vor (schreibgeschützt): bereinigen, exportieren, anonymisieren oder KI-Agent.|' +
+      'Was sollte ich als Nächstes mit diesem Ordner tun?',
+    'Suggerisce passi successivi concreti (sola lettura): pulire, esportare, anonimizzare o passare all''Agente IA.|' +
+      'In base a questa cartella, cosa dovrei fare dopo?',
+    'Sugeruje konkretne kolejne kroki (tylko odczyt): czyścić, eksportować, anonimizować lub Agent AI.|' +
+      'Na podstawie tego folderu, co powinienem zrobić dalej?',
+    'Sugere próximos passos concretos (só de leitura): limpar, exportar, anonimizar ou enviar ao Agente IA.|' +
+      'Com base nesta pasta, o que devo fazer a seguir?',
+    'Sugerează pași concreți următori (doar citire): curățare, export, anonimizare sau Agentul IA.|' +
+      'Pe baza acestui folder, ce ar trebui să fac în continuare?',
+    'Konkrét következő lépéseket javasol (csak olvasható): tisztítás, export, anonimizálás vagy MI-ügynök.|' +
+      'Ezen mappa alapján mit tegyek ezután?',
+    'Navrhne konkrétní další kroky (jen pro čtení): úklid, export, anonymizace nebo AI agent.|' +
+      'Na základě této složky: co mám udělat dál?',
+    '次の具体的な手順を提案します（読み取り専用）：整理、書き出し、匿名化、AIエージェントへ。|' +
+      'このフォルダーを踏まえて、次に何をすべき？',
+    '建议具体的下一步（只读）：清理、导出、匿名化或交给 AI 智能体。|' +
+      '根据此文件夹，我接下来该做什么？',
+    '建議具體的下一步（唯讀）：清理、匯出、匿名化或交給 AI 智慧體。|' +
+      '根據此資料夾，我接下來該做什麼？');
+
+  Set14('AICaps.Item.HubMulti',
+    'Works on several folders and files at once with the same diagnosis request.|' +
+      'Compare these two folders: what differs in file types and sizes?',
+    'Trabalha em várias pastas e arquivos de uma vez com o mesmo pedido de diagnóstico.|' +
+      'Compare estas duas pastas: o que difere em tipos e tamanhos de arquivo?',
+    'Trabaja en varias carpetas y archivos a la vez con la misma solicitud de diagnóstico.|' +
+      'Compare estas dos carpetas: ¿qué difiere en tipos y tamaños de archivo?',
+    'Travaille sur plusieurs dossiers et fichiers à la fois avec la même demande de diagnostic.|' +
+      'Comparez ces deux dossiers : quelles différences de types et de tailles ?',
+    'Arbeitet mit mehreren Ordnern und Dateien zugleich bei derselben Diagnoseanfrage.|' +
+      'Vergleiche diese beiden Ordner: was unterscheidet sich bei Typen und Größen?',
+    'Lavora su più cartelle e file insieme con la stessa richiesta di diagnosi.|' +
+      'Confronta queste due cartelle: cosa cambia per tipi e dimensioni dei file?',
+    'Pracuje na wielu folderach i plikach naraz przy tym samym żądaniu diagnozy.|' +
+      'Porównaj te dwa foldery: co różni się typami i rozmiarami plików?',
+    'Trabalha em várias pastas e ficheiros de uma vez com o mesmo pedido de diagnóstico.|' +
+      'Compare estas duas pastas: o que difere em tipos e tamanhos de ficheiro?',
+    'Lucrează pe mai multe foldere și fișiere odată cu aceeași cerere de diagnostic.|' +
+      'Comparați aceste două foldere: ce diferă la tipuri și dimensiuni?',
+    'Egyszerre több mappán és fájlon dolgozik ugyanazzal a diagnóziskéréssel.|' +
+      'Hasonlítsa össze ezt a két mappát: mi tér el típusban és méretben?',
+    'Pracuje s více složkami a soubory najednou se stejným požadavkem na diagnostiku.|' +
+      'Porovnejte tyto dvě složky: co se liší typy a velikostmi souborů?',
+    '同じ診断依頼で複数のフォルダーとファイルをまとめて扱います。|' +
+      'この2つのフォルダーを比較して。種類とサイズの違いは？',
+    '用同一诊断请求同时处理多个文件夹和文件。|' +
+      '比较这两个文件夹：文件类型和大小有何不同？',
+    '用同一診斷要求同時處理多個資料夾和檔案。|' +
+      '比較這兩個資料夾：檔案類型和大小有何不同？');
+
+  Set14('AICaps.Item.HubReport',
+    'Produces a readable diagnosis report: summary, findings by severity and limitations.|' +
+      'Write an executive summary of the risks and findings in this folder.',
+    'Gera um relatório de diagnóstico legível: resumo, achados por gravidade e limitações.|' +
+      'Escreva um resumo executivo dos riscos e achados nesta pasta.',
+    'Produce un informe de diagnóstico legible: resumen, hallazgos por gravedad y limitaciones.|' +
+      'Escriba un resumen ejecutivo de riesgos y hallazgos en esta carpeta.',
+    'Produit un rapport de diagnostic lisible : résumé, constatations par gravité et limites.|' +
+      'Rédigez un résumé exécutif des risques et constatations de ce dossier.',
+    'Erstellt einen lesbaren Diagnosebericht: Kurzfassung, Befunde nach Schwere und Grenzen.|' +
+      'Schreibe eine Kurzfassung der Risiken und Befunde in diesem Ordner.',
+    'Produce un report di diagnosi leggibile: riepilogo, risultati per gravità e limiti.|' +
+      'Scrivi un riepilogo esecutivo dei rischi e dei risultati in questa cartella.',
+    'Tworzy czytelny raport diagnozy: podsumowanie, ustalenia wg ważności i ograniczenia.|' +
+      'Napisz streszczenie ryzyk i ustaleń w tym folderze.',
+    'Gera um relatório de diagnóstico legível: resumo, achados por gravidade e limitações.|' +
+      'Escreva um resumo executivo dos riscos e achados nesta pasta.',
+    'Produce un raport de diagnostic lizibil: rezumat, constatări pe severitate și limitări.|' +
+      'Scrieți un rezumat executiv al riscurilor și constatărilor din acest folder.',
+    'Olvasható diagnózisjelentést készít: összefoglaló, súlyosság szerinti megállapítások, korlátok.|' +
+      'Írjon vezetői összefoglalót a mappa kockázatairól és megállapításairól.',
+    'Vytvoří čitelnou diagnostickou zprávu: shrnutí, zjištění podle závažnosti a omezení.|' +
+      'Napište stručné shrnutí rizik a zjištění v této složce.',
+    '読みやすい診断レポートを作成：要約、重大度別の所見、制限事項。|' +
+      'このフォルダーのリスクと所見の要約を書いて。',
+    '生成可读的诊断报告：摘要、按严重程度的发现和限制说明。|' +
+      '写一份此文件夹风险与发现的执行摘要。',
+    '產生可讀的診斷報告：摘要、依嚴重程度的發現和限制說明。|' +
+      '寫一份此資料夾風險與發現的執行摘要。');
+
+  Set14('AICaps.Item.HubToAgent',
+    'Diagnosis is read-only; for applying edits, anonymization or macros, continue in the AI agent tab.|' +
+      'After this diagnosis, open the AI agent to anonymize the e-mails found.',
+    'O diagnóstico é somente leitura; para aplicar edições, anonimização ou macros, continue no Agente IA.|' +
+      'Após este diagnóstico, abra o Agente IA para anonimizar os e-mails encontrados.',
+    'El diagnóstico es de solo lectura; para aplicar ediciones, anonimización o macros, siga en el Agente IA.|' +
+      'Tras este diagnóstico, abra el Agente IA para anonimizar los correos encontrados.',
+    'Le diagnostic est en lecture seule ; pour appliquer des modifications, anonymisation ou macros, passez à l''Agent IA.|' +
+      'Après ce diagnostic, ouvrez l''Agent IA pour anonymiser les e-mails trouvés.',
+    'Die Diagnose ist schreibgeschützt; für Änderungen, Anonymisierung oder Makros weiter im KI-Agenten.|' +
+      'Nach dieser Diagnose den KI-Agenten öffnen, um gefundene E-Mails zu anonymisieren.',
+    'La diagnosi è in sola lettura; per applicare modifiche, anonimizzazione o macro, continua nell''Agente IA.|' +
+      'Dopo questa diagnosi, apri l''Agente IA per anonimizzare le e-mail trovate.',
+    'Diagnoza jest tylko do odczytu; edycje, anonimizację lub makra kontynuuj w Agencie AI.|' +
+      'Po tej diagnozie otwórz Agenta AI, aby zanonimizować znalezione e-maile.',
+    'O diagnóstico é só de leitura; para aplicar edições, anonimização ou macros, continue no Agente IA.|' +
+      'Após este diagnóstico, abra o Agente IA para anonimizar os e-mails encontrados.',
+    'Diagnosticul este doar citire; pentru editări, anonimizare sau macrouri continuați în Agentul IA.|' +
+      'După acest diagnostic, deschideți Agentul IA pentru a anonimiza e-mailurile găsite.',
+    'A diagnózis csak olvasható; szerkesztéshez, anonimizáláshoz vagy makróhoz az MI-ügynököt használja.|' +
+      'A diagnózis után nyissa meg az MI-ügynököt a talált e-mailek anonimizálásához.',
+    'Diagnostika je jen pro čtení; úpravy, anonymizaci nebo makra proveďte v AI agentovi.|' +
+      'Po této diagnostice otevřete AI agenta a anonymizujte nalezené e-maily.',
+    '診断は読み取り専用です。編集・匿名化・マクロは AI エージェントで続けてください。|' +
+      'この診断のあと、見つかったメールを匿名化するため AI エージェントを開いて。',
+    '诊断为只读；要应用修改、匿名化或宏，请到 AI 智能体选项卡继续。|' +
+      '诊断完成后，打开 AI 智能体以匿名化找到的电子邮件。',
+    '診斷為唯讀；要套用修改、匿名化或巨集，請到 AI 智慧體索引標籤繼續。|' +
+      '診斷完成後，開啟 AI 智慧體以匿名化找到的電子郵件。');
+end;
+
+procedure AddFolderPickTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('FolderPick.Title.Agent',
+    'Add folders', 'Adicionar pastas', 'Agregar carpetas', 'Ajouter des dossiers',
+    'Ordner hinzufügen', 'Aggiungi cartelle', 'Dodaj foldery', 'Adicionar pastas',
+    'Adăugați foldere', 'Mappák hozzáadása', 'Přidat složky', 'フォルダーを追加',
+    '添加文件夹', '新增資料夾');
+  Set14('FolderPick.Title.Hub',
+    'Folders to diagnose', 'Pastas para diagnosticar', 'Carpetas para diagnosticar',
+    'Dossiers à diagnostiquer', 'Ordner zur Diagnose', 'Cartelle da diagnosticare',
+    'Foldery do diagnozy', 'Pastas para diagnosticar', 'Foldere de diagnosticat',
+    'Diagnosztizálandó mappák', 'Složky k diagnostice', '診断するフォルダー',
+    '要诊断的文件夹', '要診斷的資料夾');
+  Set14('FolderPick.Sub',
+    'Double-click opens a folder. Add it, or the ones you select, to the list on the right.',
+    'Duplo clique abre a pasta. Adicione-a, ou as que selecionar, à lista da direita.',
+    'Doble clic abre la carpeta. Agréguela, o las que seleccione, a la lista de la derecha.',
+    'Le double-clic ouvre le dossier. Ajoutez-le, ou la sélection, à la liste de droite.',
+    'Doppelklick öffnet den Ordner. Fügen Sie ihn oder die Auswahl der Liste rechts hinzu.',
+    'Doppio clic apre la cartella. Aggiungila, o quelle selezionate, all''elenco a destra.',
+    'Dwuklik otwiera folder. Dodaj go albo zaznaczone do listy po prawej.',
+    'Duplo clique abre a pasta. Adicione-a, ou as que selecionar, à lista da direita.',
+    'Dublu clic deschide folderul. Adăugați-l, sau selecția, în lista din dreapta.',
+    'A dupla kattintás megnyitja a mappát. Adja hozzá, vagy a kijelölteket, a jobb oldali listához.',
+    'Dvojklik otevře složku. Přidejte ji, nebo vybrané, do seznamu vpravo.',
+    'ダブルクリックで開きます。そのフォルダーか、選択したものを右の一覧に追加します。',
+    '双击打开文件夹。将当前文件夹或选中的文件夹加入右侧列表。',
+    '按兩下開啟資料夾。將目前資料夾或選取的資料夾加入右側清單。');
+  Set14('FolderPick.CloseHint',
+    'Close', 'Fechar', 'Cerrar', 'Fermer', 'Schließen', 'Chiudi', 'Zamknij', 'Fechar',
+    'Închide', 'Bezárás', 'Zavřít', '閉じる', '关闭', '關閉');
+  Set14('FolderPick.BackHint',
+    'Back', 'Voltar', 'Atrás', 'Retour', 'Zurück', 'Indietro', 'Wstecz', 'Voltar',
+    'Înapoi', 'Vissza', 'Zpět', '戻る', '返回', '返回');
+  Set14('FolderPick.UpHint',
+    'Parent folder', 'Pasta acima', 'Carpeta superior', 'Dossier parent',
+    'Übergeordneter Ordner', 'Cartella superiore', 'Folder nadrzędny', 'Pasta acima',
+    'Folder părinte', 'Szülőmappa', 'Nadřazená složka', '親フォルダー', '上级文件夹', '上層資料夾');
+  Set14('FolderPick.RefreshHint',
+    'Refresh', 'Atualizar', 'Actualizar', 'Actualiser', 'Aktualisieren', 'Aggiorna',
+    'Odśwież', 'Atualizar', 'Reîmprospătează', 'Frissítés', 'Obnovit', '更新', '刷新', '重新整理');
+  Set14('FolderPick.Recent',
+    'Recent', 'Recentes', 'Recientes', 'Récents', 'Zuletzt', 'Recenti', 'Ostatnie',
+    'Recentes', 'Recente', 'Legutóbbiak', 'Nedávné', '最近', '最近', '最近');
+  Set14('FolderPick.RecentTitle',
+    'Recent folders', 'Pastas recentes', 'Carpetas recientes', 'Dossiers récents',
+    'Zuletzt verwendete Ordner', 'Cartelle recenti', 'Ostatnie foldery', 'Pastas recentes',
+    'Foldere recente', 'Legutóbbi mappák', 'Nedávné složky', '最近のフォルダー',
+    '最近的文件夹', '最近的資料夾');
+  Set14('FolderPick.RecentHint',
+    'Recent folders: click to open and add one (Alt+Down). Search, remove, properties and delete all, like the other recent lists.',
+    'Pastas recentes: clique para abrir e adicionar (Alt+Seta para baixo). Procurar, remover, propriedades e apagar todas, como nas outras listas.',
+    'Carpetas recientes: clic para abrir y agregar (Alt+Flecha abajo). Buscar, quitar, propiedades y borrar todo, como en las demás listas.',
+    'Dossiers récents : cliquez pour ouvrir et ajouter (Alt+Bas). Rechercher, retirer, propriétés et tout effacer, comme les autres listes.',
+    'Zuletzt verwendete Ordner: klicken zum Öffnen und Hinzufügen (Alt+Unten). Suchen, entfernen, Eigenschaften und alles löschen, wie in den anderen Listen.',
+    'Cartelle recenti: fai clic per aprire e aggiungere (Alt+Giù). Cerca, rimuovi, proprietà ed elimina tutto, come nelle altre liste.',
+    'Ostatnie foldery: kliknij, aby otworzyć i dodać (Alt+Strzałka w dół). Szukaj, usuń, właściwości i usuń wszystko, jak w innych listach.',
+    'Pastas recentes: clique para abrir e adicionar (Alt+Seta para baixo). Procurar, remover, propriedades e apagar todas, como nas outras listas.',
+    'Foldere recente: faceți clic pentru a deschide și a adăuga (Alt+Jos). Căutare, eliminare, proprietăți și ștergere totală, ca în celelalte liste.',
+    'Legutóbbi mappák: kattintson a megnyitáshoz és a hozzáadáshoz (Alt+Le). Keresés, eltávolítás, tulajdonságok és összes törlése, mint a többi listában.',
+    'Nedávné složky: kliknutím otevřete a přidáte (Alt+Dolů). Hledat, odebrat, vlastnosti a smazat vše jako v ostatních seznamech.',
+    '最近のフォルダー: クリックで開いて追加 (Alt+↓)。他の履歴と同じく検索、削除、プロパティ、すべて削除が使えます。',
+    '最近的文件夹：单击可打开并添加（Alt+↓）。与其他最近列表一样可查找、移除、查看属性和全部删除。',
+    '最近的資料夾：按一下即可開啟並加入（Alt+↓）。與其他最近清單一樣可尋找、移除、檢視內容和全部刪除。');
+  Set14('FolderPick.RecentMissing',
+    'Not found (removed from the recent list):'#13#10'%s',
+    'Não encontrada (removida da lista de recentes):'#13#10'%s',
+    'No encontrada (quitada de la lista de recientes):'#13#10'%s',
+    'Introuvable (retirée de la liste des récents) :'#13#10'%s',
+    'Nicht gefunden (aus der Verlaufsliste entfernt):'#13#10'%s',
+    'Non trovata (rimossa dalla lista dei recenti):'#13#10'%s',
+    'Nie znaleziono (usunięto z listy ostatnich):'#13#10'%s',
+    'Não encontrada (removida da lista de recentes):'#13#10'%s',
+    'Nu a fost găsit (eliminat din lista recentelor):'#13#10'%s',
+    'Nem található (eltávolítva a legutóbbiak listájáról):'#13#10'%s',
+    'Nenalezeno (odebráno ze seznamu nedávných):'#13#10'%s',
+    '見つかりません (履歴から削除しました):'#13#10'%s',
+    '未找到（已从最近列表中移除）：'#13#10'%s',
+    '找不到（已從最近清單中移除）：'#13#10'%s');
+  Set14('FolderPick.Open',
+    'Open', 'Abrir', 'Abrir', 'Ouvrir', 'Öffnen', 'Apri', 'Otwórz', 'Abrir',
+    'Deschide', 'Megnyitás', 'Otevřít', '開く', '打开', '開啟');
+  Set14('FolderPick.OpenHint',
+    'Open the path typed here', 'Abrir o caminho digitado', 'Abrir la ruta escrita',
+    'Ouvrir le chemin saisi', 'Eingegebenen Pfad öffnen', 'Apri il percorso digitato',
+    'Otwórz wpisaną ścieżkę', 'Abrir o caminho digitado', 'Deschide calea introdusă',
+    'A beírt útvonal megnyitása', 'Otevřít zadanou cestu', '入力したパスを開く',
+    '打开输入的路径', '開啟輸入的路徑');
+  Set14('FolderPick.PathHint',
+    'Folder path', 'Caminho da pasta', 'Ruta de la carpeta', 'Chemin du dossier',
+    'Ordnerpfad', 'Percorso della cartella', 'Ścieżka folderu', 'Caminho da pasta',
+    'Calea folderului', 'Mappa elérési útja', 'Cesta ke složce', 'フォルダーのパス',
+    '文件夹路径', '資料夾路徑');
+  Set14('FolderPick.ThisPC',
+    'This PC', 'Este computador', 'Este equipo', 'Ce PC', 'Dieser PC', 'Questo PC',
+    'Ten komputer', 'Este computador', 'Acest PC', 'Ez a gép', 'Tento počítač',
+    'この PC', '此电脑', '此電腦');
+  Set14('FolderPick.Hidden',
+    'Show hidden', 'Mostrar ocultas', 'Mostrar ocultas', 'Voir masqués', 'Verborgene',
+    'Nascoste', 'Ukryte', 'Mostrar ocultas', 'Ascunse', 'Rejtett', 'Skryté',
+    '隠しフォルダー', '显示隐藏', '顯示隱藏');
+  Set14('FolderPick.HiddenHint',
+    'Show hidden folders', 'Mostrar pastas ocultas', 'Mostrar carpetas ocultas',
+    'Afficher les dossiers masqués', 'Verborgene Ordner anzeigen', 'Mostra cartelle nascoste',
+    'Pokaż ukryte foldery', 'Mostrar pastas ocultas', 'Arată folderele ascunse',
+    'Rejtett mappák mutatása', 'Zobrazit skryté složky', '隠しフォルダーを表示',
+    '显示隐藏的文件夹', '顯示隱藏的資料夾');
+  Set14('FolderPick.ListHint',
+    'Ctrl+click selects several. Double-click opens.',
+    'Ctrl+clique seleciona várias. Duplo clique abre.',
+    'Ctrl+clic selecciona varias. Doble clic abre.',
+    'Ctrl+clic en sélectionne plusieurs. Double-clic ouvre.',
+    'Strg+Klick wählt mehrere. Doppelklick öffnet.',
+    'Ctrl+clic ne seleziona più. Doppio clic apre.',
+    'Ctrl+klik zaznacza kilka. Dwuklik otwiera.',
+    'Ctrl+clique seleciona várias. Duplo clique abre.',
+    'Ctrl+clic selectează mai multe. Dublu clic deschide.',
+    'A Ctrl+kattintás többet jelöl. A dupla kattintás megnyit.',
+    'Ctrl+klik vybere více. Dvojklik otevře.',
+    'Ctrl+クリックで複数選択。ダブルクリックで開きます。',
+    'Ctrl+单击可多选。双击打开。',
+    'Ctrl+按一下可多選。按兩下開啟。');
+  Set14('FolderPick.SelectedN',
+    '%d selected', '%d selecionada(s)', '%d seleccionada(s)', '%d sélectionné(s)',
+    '%d ausgewählt', '%d selezionata/e', '%d zaznaczonych', '%d selecionada(s)',
+    '%d selectat(e)', '%d kijelölve', '%d vybráno', '%d 件選択', '已选 %d 个', '已選 %d 個');
+  Set14('FolderPick.AddThis',
+    'Add this folder', 'Adicionar esta pasta', 'Agregar esta carpeta', 'Ajouter ce dossier',
+    'Diesen Ordner hinzufügen', 'Aggiungi questa cartella', 'Dodaj ten folder',
+    'Adicionar esta pasta', 'Adăugați acest folder', 'Mappa hozzáadása', 'Přidat tuto složku',
+    'このフォルダーを追加', '添加此文件夹', '新增此資料夾');
+  Set14('FolderPick.AddThisHint',
+    'Add the open folder to the list on the right',
+    'Adiciona a pasta aberta à lista da direita',
+    'Agrega la carpeta abierta a la lista de la derecha',
+    'Ajoute le dossier ouvert à la liste de droite',
+    'Fügt den geöffneten Ordner der Liste rechts hinzu',
+    'Aggiunge la cartella aperta all''elenco a destra',
+    'Dodaje otwarty folder do listy po prawej',
+    'Adiciona a pasta aberta à lista da direita',
+    'Adaugă folderul deschis în lista din dreapta',
+    'A megnyitott mappát a jobb oldali listához adja',
+    'Přidá otevřenou složku do seznamu vpravo',
+    '開いているフォルダーを右の一覧に追加',
+    '将当前打开的文件夹加入右侧列表',
+    '將目前開啟的資料夾加入右側清單');
+  Set14('FolderPick.AddSel',
+    'Add selected', 'Adicionar selecionadas', 'Agregar seleccionadas', 'Ajouter la sélection',
+    'Auswahl hinzufügen', 'Aggiungi selezionate', 'Dodaj zaznaczone', 'Adicionar selecionadas',
+    'Adăugați selectate', 'Kijelöltek hozzáadása', 'Přidat vybrané', '選択を追加',
+    '添加所选', '新增所選');
+  Set14('FolderPick.AddSelHint',
+    'Add the selected folders to the list on the right',
+    'Adiciona as pastas selecionadas à lista da direita',
+    'Agrega las carpetas seleccionadas a la lista de la derecha',
+    'Ajoute les dossiers sélectionnés à la liste de droite',
+    'Fügt die ausgewählten Ordner der Liste rechts hinzu',
+    'Aggiunge le cartelle selezionate all''elenco a destra',
+    'Dodaje zaznaczone foldery do listy po prawej',
+    'Adiciona as pastas selecionadas à lista da direita',
+    'Adaugă folderele selectate în lista din dreapta',
+    'A kijelölt mappákat a jobb oldali listához adja',
+    'Přidá vybrané složky do seznamu vpravo',
+    '選択したフォルダーを右の一覧に追加',
+    '将选中的文件夹加入右侧列表',
+    '將選取的資料夾加入右側清單');
+  Set14('FolderPick.ToAdd',
+    'To add', 'Para adicionar', 'Para agregar', 'À ajouter', 'Hinzuzufügen', 'Da aggiungere',
+    'Do dodania', 'Para adicionar', 'De adăugat', 'Hozzáadandó', 'K přidání',
+    '追加するフォルダー', '待添加', '待新增');
+  Set14('FolderPick.ToAddN',
+    'To add (%d)', 'Para adicionar (%d)', 'Para agregar (%d)', 'À ajouter (%d)',
+    'Hinzuzufügen (%d)', 'Da aggiungere (%d)', 'Do dodania (%d)', 'Para adicionar (%d)',
+    'De adăugat (%d)', 'Hozzáadandó (%d)', 'K přidání (%d)', '追加（%d）',
+    '待添加（%d）', '待新增（%d）');
+  Set14('FolderPick.EmptyTitle',
+    'Nothing here yet', 'Nada por aqui ainda', 'Aún no hay nada', 'Rien pour l''instant',
+    'Noch nichts', 'Ancora nulla', 'Jeszcze nic', 'Ainda nada',
+    'Încă nimic', 'Még nincs semmi', 'Zatím nic', 'まだありません', '这里还是空的', '這裡還沒有內容');
+  Set14('FolderPick.EmptyHint',
+    'Folders you add show up here.', 'As pastas adicionadas aparecem aqui.',
+    'Las carpetas agregadas aparecen aquí.', 'Les dossiers ajoutés s''affichent ici.',
+    'Hinzugefügte Ordner erscheinen hier.', 'Le cartelle aggiunte compaiono qui.',
+    'Dodane foldery pojawią się tutaj.', 'As pastas adicionadas aparecem aqui.',
+    'Folderele adăugate apar aici.', 'A hozzáadott mappák itt jelennek meg.',
+    'Přidané složky se zobrazí zde.', '追加したフォルダーがここに表示されます。',
+    '添加的文件夹会显示在这里。', '加入的資料夾會顯示在這裡。');
+  Set14('FolderPick.Remove',
+    'Remove', 'Remover', 'Quitar', 'Retirer', 'Entfernen', 'Rimuovi', 'Usuń', 'Remover',
+    'Elimină', 'Eltávolítás', 'Odebrat', '削除', '移除', '移除');
+  Set14('FolderPick.RemoveHint',
+    'Remove the selected folders from this list',
+    'Remove as pastas selecionadas desta lista',
+    'Quita las carpetas seleccionadas de esta lista',
+    'Retire les dossiers sélectionnés de cette liste',
+    'Entfernt die ausgewählten Ordner aus dieser Liste',
+    'Rimuove le cartelle selezionate da questo elenco',
+    'Usuwa zaznaczone foldery z tej listy',
+    'Remove as pastas selecionadas desta lista',
+    'Elimină folderele selectate din această listă',
+    'Eltávolítja a kijelölt mappákat erről a listáról',
+    'Odebere vybrané složky z tohoto seznamu',
+    'この一覧から選択したフォルダーを削除',
+    '从该列表移除选中的文件夹',
+    '從這個清單移除選取的資料夾');
+  Set14('FolderPick.Clear',
+    'Clear', 'Limpar', 'Vaciar', 'Vider', 'Leeren', 'Svuota', 'Wyczyść', 'Limpar',
+    'Golește', 'Ürítés', 'Vymazat', 'クリア', '清空', '清空');
+  Set14('FolderPick.ClearHint',
+    'Clear this list', 'Limpar esta lista', 'Vaciar esta lista', 'Vider cette liste',
+    'Diese Liste leeren', 'Svuota questo elenco', 'Wyczyść tę listę', 'Limpar esta lista',
+    'Golește această listă', 'Lista ürítése', 'Vymazat tento seznam', 'この一覧をクリア',
+    '清空此列表', '清空此清單');
+  Set14('FolderPick.Cancel',
+    'Cancel', 'Cancelar', 'Cancelar', 'Annuler', 'Abbrechen', 'Annulla', 'Anuluj',
+    'Cancelar', 'Anulare', 'Mégse', 'Zrušit', 'キャンセル', '取消', '取消');
+  Set14('FolderPick.Confirm',
+    'Add folders', 'Adicionar pastas', 'Agregar carpetas', 'Ajouter les dossiers',
+    'Ordner hinzufügen', 'Aggiungi cartelle', 'Dodaj foldery', 'Adicionar pastas',
+    'Adăugați foldere', 'Mappák hozzáadása', 'Přidat složky', 'フォルダーを追加',
+    '添加文件夹', '新增資料夾');
+  Set14('FolderPick.Confirm1',
+    'Add 1 folder', 'Adicionar 1 pasta', 'Agregar 1 carpeta', 'Ajouter 1 dossier',
+    '1 Ordner hinzufügen', 'Aggiungi 1 cartella', 'Dodaj 1 folder', 'Adicionar 1 pasta',
+    'Adăugați 1 folder', '1 mappa hozzáadása', 'Přidat 1 složku', 'フォルダーを 1 件追加',
+    '添加 1 个文件夹', '新增 1 個資料夾');
+  Set14('FolderPick.ConfirmN',
+    'Add %d folders', 'Adicionar %d pastas', 'Agregar %d carpetas', 'Ajouter %d dossiers',
+    '%d Ordner hinzufügen', 'Aggiungi %d cartelle', 'Dodaj %d folderów', 'Adicionar %d pastas',
+    'Adăugați %d foldere', '%d mappa hozzáadása', 'Přidat %d složek', 'フォルダーを %d 件追加',
+    '添加 %d 个文件夹', '新增 %d 個資料夾');
+  Set14('FolderPick.HintOkThis',
+    'Add the open folder and close. Ctrl+Enter does the same.',
+    'Adiciona a pasta aberta e fecha. Ctrl+Enter faz o mesmo.',
+    'Agrega la carpeta abierta y cierra. Ctrl+Enter hace lo mismo.',
+    'Ajoute le dossier ouvert et ferme. Ctrl+Entrée fait de même.',
+    'Fügt den geöffneten Ordner hinzu und schließt. Strg+Eingabe ebenso.',
+    'Aggiunge la cartella aperta e chiude. Anche Ctrl+Invio.',
+    'Dodaje otwarty folder i zamyka. Ctrl+Enter robi to samo.',
+    'Adiciona a pasta aberta e fecha. Ctrl+Enter faz o mesmo.',
+    'Adaugă folderul deschis și închide. Ctrl+Enter face la fel.',
+    'Hozzáadja a megnyitott mappát, és bezár. A Ctrl+Enter ugyanez.',
+    'Přidá otevřenou složku a zavře. Ctrl+Enter udělá totéž.',
+    '開いているフォルダーを追加して閉じます。Ctrl+Enter でも同じです。',
+    '添加当前文件夹并关闭。Ctrl+Enter 效果相同。',
+    '加入目前資料夾並關閉。Ctrl+Enter 效果相同。');
+  Set14('FolderPick.HintOkSel',
+    'Add the selected folders and close. Ctrl+Enter does the same.',
+    'Adiciona as pastas selecionadas e fecha. Ctrl+Enter faz o mesmo.',
+    'Agrega las carpetas seleccionadas y cierra. Ctrl+Enter hace lo mismo.',
+    'Ajoute les dossiers sélectionnés et ferme. Ctrl+Entrée fait de même.',
+    'Fügt die ausgewählten Ordner hinzu und schließt. Strg+Eingabe ebenso.',
+    'Aggiunge le cartelle selezionate e chiude. Anche Ctrl+Invio.',
+    'Dodaje zaznaczone foldery i zamyka. Ctrl+Enter robi to samo.',
+    'Adiciona as pastas selecionadas e fecha. Ctrl+Enter faz o mesmo.',
+    'Adaugă folderele selectate și închide. Ctrl+Enter face la fel.',
+    'Hozzáadja a kijelölt mappákat, és bezár. A Ctrl+Enter ugyanez.',
+    'Přidá vybrané složky a zavře. Ctrl+Enter udělá totéž.',
+    '選択したフォルダーを追加して閉じます。Ctrl+Enter でも同じです。',
+    '添加选中的文件夹并关闭。Ctrl+Enter 效果相同。',
+    '加入選取的資料夾並關閉。Ctrl+Enter 效果相同。');
+  Set14('FolderPick.HintOkTray',
+    'Add the folders in the list and close. Ctrl+Enter does the same.',
+    'Adiciona as pastas da lista e fecha. Ctrl+Enter faz o mesmo.',
+    'Agrega las carpetas de la lista y cierra. Ctrl+Enter hace lo mismo.',
+    'Ajoute les dossiers de la liste et ferme. Ctrl+Entrée fait de même.',
+    'Fügt die Ordner der Liste hinzu und schließt. Strg+Eingabe ebenso.',
+    'Aggiunge le cartelle dell''elenco e chiude. Anche Ctrl+Invio.',
+    'Dodaje foldery z listy i zamyka. Ctrl+Enter robi to samo.',
+    'Adiciona as pastas da lista e fecha. Ctrl+Enter faz o mesmo.',
+    'Adaugă folderele din listă și închide. Ctrl+Enter face la fel.',
+    'Hozzáadja a lista mappáit, és bezár. A Ctrl+Enter ugyanez.',
+    'Přidá složky ze seznamu a zavře. Ctrl+Enter udělá totéž.',
+    '一覧のフォルダーを追加して閉じます。Ctrl+Enter でも同じです。',
+    '添加列表中的文件夹并关闭。Ctrl+Enter 效果相同。',
+    '加入清單中的資料夾並關閉。Ctrl+Enter 效果相同。');
+  Set14('FolderPick.EmptyDir',
+    'No subfolders here', 'Nenhuma subpasta aqui', 'No hay subcarpetas aquí',
+    'Aucun sous-dossier ici', 'Keine Unterordner hier', 'Nessuna sottocartella qui',
+    'Brak podfolderów', 'Nenhuma subpasta aqui', 'Niciun subfolder aici',
+    'Itt nincs almappa', 'Žádné podsložky', 'サブフォルダーはありません',
+    '这里没有子文件夹', '這裡沒有子資料夾');
+  Set14('FolderPick.OpenFail',
+    'Could not open this folder.', 'Não foi possível abrir esta pasta.',
+    'No se pudo abrir esta carpeta.', 'Impossible d''ouvrir ce dossier.',
+    'Dieser Ordner konnte nicht geöffnet werden.', 'Impossibile aprire questa cartella.',
+    'Nie udało się otworzyć tego folderu.', 'Não foi possível abrir esta pasta.',
+    'Nu s-a putut deschide acest folder.', 'Ezt a mappát nem sikerült megnyitni.',
+    'Tuto složku se nepodařilo otevřít.', 'このフォルダーを開けませんでした。',
+    '无法打开此文件夹。', '無法開啟此資料夾。');
+  Set14('FolderPick.NotFound',
+    'Folder not found.', 'Pasta não encontrada.', 'Carpeta no encontrada.',
+    'Dossier introuvable.', 'Ordner nicht gefunden.', 'Cartella non trovata.',
+    'Nie znaleziono folderu.', 'Pasta não encontrada.', 'Folderul nu a fost găsit.',
+    'A mappa nem található.', 'Složka nebyla nalezena.', 'フォルダーが見つかりません。',
+    '未找到文件夹。', '找不到資料夾。');
+  Set14('FolderPick.NoDrives',
+    'No drives found.', 'Nenhuma unidade encontrada.', 'No se encontraron unidades.',
+    'Aucun lecteur trouvé.', 'Keine Laufwerke gefunden.', 'Nessuna unità trovata.',
+    'Nie znaleziono dysków.', 'Nenhuma unidade encontrada.', 'Nu s-au găsit unități.',
+    'Nem találhatók meghajtók.', 'Nebyly nalezeny žádné jednotky.', 'ドライブが見つかりません。',
+    '未找到驱动器。', '找不到磁碟機。');
+  Set14('FolderPick.Already',
+    'Already in the list.', 'Já está na lista.', 'Ya está en la lista.', 'Déjà dans la liste.',
+    'Bereits in der Liste.', 'Già nell''elenco.', 'Już jest na liście.', 'Já está na lista.',
+    'Deja este în listă.', 'Már szerepel a listában.', 'Už je v seznamu.', 'すでに一覧にあります。',
+    '已在列表中。', '已在清單中。');
+  Set14('FolderPick.NeedOne',
+    'Choose at least one folder.', 'Escolha pelo menos uma pasta.', 'Elija al menos una carpeta.',
+    'Choisissez au moins un dossier.', 'Wählen Sie mindestens einen Ordner.',
+    'Scegli almeno una cartella.', 'Wybierz co najmniej jeden folder.',
+    'Escolha pelo menos uma pasta.', 'Alegeți cel puțin un folder.',
+    'Válasszon legalább egy mappát.', 'Vyberte alespoň jednu složku.',
+    'フォルダーを少なくとも 1 つ選んでください。', '请至少选择一个文件夹。', '請至少選擇一個資料夾。');
+  Set14('FolderPick.AddedN',
+    '%d added', '%d adicionada(s)', '%d agregada(s)', '%d ajouté(s)', '%d hinzugefügt',
+    '%d aggiunta/e', '%d dodanych', '%d adicionada(s)', '%d adăugat(e)', '%d hozzáadva',
+    '%d přidáno', '%d 件追加', '已添加 %d 个', '已新增 %d 個');
+  Set14('FolderPick.DriveFixed',
+    'Local disk (%s)', 'Disco local (%s)', 'Disco local (%s)', 'Disque local (%s)',
+    'Lokaler Datenträger (%s)', 'Disco locale (%s)', 'Dysk lokalny (%s)', 'Disco local (%s)',
+    'Disc local (%s)', 'Helyi lemez (%s)', 'Místní disk (%s)', 'ローカル ディスク (%s)',
+    '本地磁盘 (%s)', '本機磁碟 (%s)');
+  Set14('FolderPick.DriveRemovable',
+    'Removable (%s)', 'Removível (%s)', 'Extraíble (%s)', 'Amovible (%s)',
+    'Wechseldatenträger (%s)', 'Rimovibile (%s)', 'Dysk wymienny (%s)', 'Amovível (%s)',
+    'Amovibil (%s)', 'Cserélhető (%s)', 'Vyměnitelný disk (%s)', 'リムーバブル (%s)',
+    '可移动磁盘 (%s)', '卸除式磁碟 (%s)');
+  Set14('FolderPick.DriveCD',
+    'CD or DVD (%s)', 'CD ou DVD (%s)', 'CD o DVD (%s)', 'CD ou DVD (%s)',
+    'CD oder DVD (%s)', 'CD o DVD (%s)', 'CD lub DVD (%s)', 'CD ou DVD (%s)',
+    'CD sau DVD (%s)', 'CD vagy DVD (%s)', 'CD nebo DVD (%s)', 'CD または DVD (%s)',
+    'CD 或 DVD (%s)', 'CD 或 DVD (%s)');
+  Set14('FolderPick.DriveRemote',
+    'Network (%s)', 'Rede (%s)', 'Red (%s)', 'Réseau (%s)', 'Netzwerk (%s)', 'Rete (%s)',
+    'Sieć (%s)', 'Rede (%s)', 'Rețea (%s)', 'Hálózat (%s)', 'Síť (%s)', 'ネットワーク (%s)',
+    '网络 (%s)', '網路 (%s)');
+  Set14('FolderPick.DriveRam',
+    'RAM disk (%s)', 'Disco RAM (%s)', 'Disco RAM (%s)', 'Disque RAM (%s)',
+    'RAM-Datenträger (%s)', 'Disco RAM (%s)', 'Dysk RAM (%s)', 'Disco RAM (%s)',
+    'Disc RAM (%s)', 'RAM-lemez (%s)', 'Disk RAM (%s)', 'RAM ディスク (%s)',
+    'RAM 磁盘 (%s)', 'RAM 磁碟 (%s)');
+  Set14('FolderPick.DriveUnknown',
+    'Drive (%s)', 'Unidade (%s)', 'Unidad (%s)', 'Lecteur (%s)', 'Laufwerk (%s)',
+    'Unità (%s)', 'Dysk (%s)', 'Unidade (%s)', 'Unitate (%s)', 'Meghajtó (%s)',
+    'Jednotka (%s)', 'ドライブ (%s)', '驱动器 (%s)', '磁碟機 (%s)');
+end;
+
+procedure AddCommonTranslationsHelpRecentFeaturesBlock3;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock3',
+    'RECENT FEATURES (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Fast line edit (from 32 MB): insert, replace and delete via the line index'#13#10 +
+    '    (in place, shift or rewrite). A journal restores the file if the app stops mid-edit.'#13#10 +
+    '  Before saving selected lines, a before/after list shows only what changes.'#13#10 +
+    '  Line editor — Extract: digits, e-mails, dates, columns, CPF or your own regex.'#13#10 +
+    '  Python: a short preview (ok / skip / error) before the full run.'#13#10 +
+    '  Win64: parallel line index from 128 MB, with bounded memory.'#13#10 +
+    '  Source check: JSON, HTML and SQL inside FastFile; Java, Go and C# with the'#13#10 +
+    '    compiler already on this PC. "Source code with AI" explains generate, validate and fix.'#13#10 +
+    '  AI agent: profiles each file, understands which files you named (14 languages)'#13#10 +
+    '    and can run a Python macro on each line (preview; the original file stays).'#13#10 +
+    '  Folder picker: several folders from different places.'#13#10 +
+    '  "What can I do?" on the Assistant, the AI agent and AI diagnosis (F1 there too).'#13#10 +
+    '  AI diagnosis (Ctrl+Alt+U): read-only specialists — inventory, structure, content,'#13#10 +
+    '    SQL, privacy and actions. Use the AI agent to apply edits.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Edição rápida (a partir de 32 MB): inserir, substituir e apagar pelo índice de linhas'#13#10 +
+    '    (no lugar, deslocar ou reescrever). Um diário repõe o arquivo se o app parar no meio.'#13#10 +
+    '  Antes de gravar as linhas selecionadas, uma lista antes/depois mostra só o que muda.'#13#10 +
+    '  Editor de linha — Extrair: dígitos, e-mails, datas, colunas, CPF ou a sua regex.'#13#10 +
+    '  Python: prévia curta (ok / ignorada / erro) antes da execução completa.'#13#10 +
+    '  Win64: índice de linhas em paralelo a partir de 128 MB, com memória limitada.'#13#10 +
+    '  Validar código: JSON, HTML e SQL dentro do FastFile; Java, Go e C# com o'#13#10 +
+    '    compilador já neste PC. "Código-fonte com IA" explica gerar, validar e corrigir.'#13#10 +
+    '  Agente IA: descreve cada arquivo, entende quais você citou (14 idiomas)'#13#10 +
+    '    e pode rodar uma macro Python em cada linha (prévia; o original não muda).'#13#10 +
+    '  Seletor de pastas: várias pastas de lugares diferentes.'#13#10 +
+    '  "O que posso fazer?" no Assistente, no Agente IA e no Diagnóstico IA (F1 também).'#13#10 +
+    '  Diagnóstico IA (Ctrl+Alt+U): especialistas somente leitura — inventário, estrutura,'#13#10 +
+    '    conteúdo, SQL, privacidade e ações. Use o Agente IA para aplicar edições.'#13#10,
+    'NOVEDADES RECIENTES (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Edición rápida (desde 32 MB): insertar, reemplazar y borrar con el índice de líneas'#13#10 +
+    '    (in situ, desplazar o reescribir). Un diario restaura el archivo si la app se detiene.'#13#10 +
+    '  Antes de guardar las líneas seleccionadas, una lista antes/después muestra solo lo que cambia.'#13#10 +
+    '  Editor de línea — Extraer: dígitos, correos, fechas, columnas, CPF o su regex.'#13#10 +
+    '  Python: vista previa breve (ok / omitida / error) antes de la ejecución completa.'#13#10 +
+    '  Win64: índice de líneas en paralelo desde 128 MB, con memoria acotada.'#13#10 +
+    '  Validar código: JSON, HTML y SQL dentro de FastFile; Java, Go y C# con el'#13#10 +
+    '    compilador ya instalado. "Código fuente con IA" explica generar, validar y corregir.'#13#10 +
+    '  Agente IA: describe cada archivo, entiende cuáles nombró (14 idiomas)'#13#10 +
+    '    y puede ejecutar una macro Python en cada línea (vista previa; el original no cambia).'#13#10 +
+    '  Selector de carpetas: varias carpetas de distintos lugares.'#13#10 +
+    '  "¿Qué puedo hacer?" en el Asistente, el Agente IA y el Diagnóstico IA (también F1).'#13#10 +
+    '  Diagnóstico IA (Ctrl+Alt+U): especialistas de solo lectura — inventario, estructura,'#13#10 +
+    '    contenido, SQL, privacidad y acciones. Use el Agente IA para aplicar ediciones.'#13#10,
+    'NOUVEAUTÉS RÉCENTES (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Édition rapide (dès 32 Mo) : insérer, remplacer et supprimer via l''index de lignes'#13#10 +
+    '    (sur place, décaler ou réécrire). Un journal restaure le fichier si l''app s''arrête.'#13#10 +
+    '  Avant d''enregistrer les lignes sélectionnées, une liste avant/après ne montre que les changements.'#13#10 +
+    '  Éditeur de ligne — Extraire : chiffres, e-mails, dates, colonnes, CPF ou votre regex.'#13#10 +
+    '  Python : court aperçu (ok / ignorée / erreur) avant l''exécution complète.'#13#10 +
+    '  Win64 : index de lignes en parallèle dès 128 Mo, mémoire bornée.'#13#10 +
+    '  Contrôle du code : JSON, HTML et SQL dans FastFile ; Java, Go et C# avec le'#13#10 +
+    '    compilateur déjà sur ce PC. « Code source avec l''IA » explique générer, valider et corriger.'#13#10 +
+    '  Agent IA : profile chaque fichier, comprend ceux que vous nommez (14 langues)'#13#10 +
+    '    et peut lancer une macro Python sur chaque ligne (aperçu ; l''original ne change pas).'#13#10 +
+    '  Sélecteur de dossiers : plusieurs dossiers de différents endroits.'#13#10 +
+    '  « Que puis-je faire ? » dans l''Assistant, l''Agent IA et le Diagnostic IA (F1 aussi).'#13#10 +
+    '  Diagnostic IA (Ctrl+Alt+U) : spécialistes en lecture seule — inventaire, structure,'#13#10 +
+    '    contenu, SQL, confidentialité et actions. L''Agent IA applique les modifications.'#13#10,
+    'NEUE FUNKTIONEN (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Schnelles Zeilenbearbeiten (ab 32 MB): einfügen, ersetzen und löschen über den Zeilenindex'#13#10 +
+    '    (an Ort und Stelle, verschieben oder neu schreiben). Ein Journal stellt die Datei wieder her.'#13#10 +
+    '  Vor dem Speichern der Auswahl zeigt eine Vorher/Nachher-Liste nur die Änderungen.'#13#10 +
+    '  Zeileneditor — Extrahieren: Ziffern, E-Mails, Daten, Spalten, CPF oder eigene Regex.'#13#10 +
+    '  Python: kurze Vorschau (ok / übersprungen / Fehler) vor dem vollständigen Lauf.'#13#10 +
+    '  Win64: paralleler Zeilenindex ab 128 MB, mit begrenztem Speicher.'#13#10 +
+    '  Quellprüfung: JSON, HTML und SQL in FastFile; Java, Go und C# mit dem'#13#10 +
+    '    bereits installierten Compiler. „Quellcode mit KI“ erklärt Erzeugen, Prüfen und Korrigieren.'#13#10 +
+    '  KI-Agent: beschreibt jede Datei, erkennt die genannten Dateien (14 Sprachen)'#13#10 +
+    '    und kann ein Python-Makro je Zeile ausführen (Vorschau; Original bleibt).'#13#10 +
+    '  Ordnerauswahl: mehrere Ordner von verschiedenen Orten.'#13#10 +
+    '  „Was kann ich?“ im Assistenten, im KI-Agenten und in der KI-Diagnose (auch F1).'#13#10 +
+    '  KI-Diagnose (Ctrl+Alt+U): schreibgeschützte Spezialisten — Bestand, Struktur, Inhalt,'#13#10 +
+    '    SQL, Datenschutz und Aktionen. Änderungen übernimmt der KI-Agent.'#13#10,
+    'NOVITÀ RECENTI (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Modifica rapida (da 32 MB): inserisci, sostituisci ed elimina tramite l''indice delle righe'#13#10 +
+    '    (sul posto, sposta o riscrivi). Un diario ripristina il file se l''app si interrompe.'#13#10 +
+    '  Prima di salvare le righe selezionate, un elenco prima/dopo mostra solo ciò che cambia.'#13#10 +
+    '  Editor di riga — Estrai: cifre, e-mail, date, colonne, CPF o la tua regex.'#13#10 +
+    '  Python: breve anteprima (ok / saltata / errore) prima dell''esecuzione completa.'#13#10 +
+    '  Win64: indice delle righe in parallelo da 128 MB, con memoria limitata.'#13#10 +
+    '  Controllo codice: JSON, HTML e SQL dentro FastFile; Java, Go e C# con il'#13#10 +
+    '    compilatore già su questo PC. "Codice sorgente con l''IA" spiega generare, convalidare e correggere.'#13#10 +
+    '  Agente IA: descrive ogni file, capisce quali hai nominato (14 lingue)'#13#10 +
+    '    e può eseguire una macro Python su ogni riga (anteprima; l''originale non cambia).'#13#10 +
+    '  Selettore cartelle: più cartelle da posti diversi.'#13#10 +
+    '  "Cosa posso fare?" nell''Assistente, nell''Agente IA e nella Diagnosi IA (anche F1).'#13#10 +
+    '  Diagnosi IA (Ctrl+Alt+U): specialisti in sola lettura — inventario, struttura,'#13#10 +
+    '    contenuto, SQL, privacy e azioni. L''Agente IA applica le modifiche.'#13#10,
+    'NOWOŚCI (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Szybka edycja (od 32 MB): wstawianie, zamiana i usuwanie przez indeks linii'#13#10 +
+    '    (w miejscu, przesunięcie lub przepisanie). Dziennik przywraca plik, gdy aplikacja stanie.'#13#10 +
+    '  Przed zapisem zaznaczonych linii lista przed/po pokazuje tylko zmiany.'#13#10 +
+    '  Edytor linii — Wyodrębnij: cyfry, e-maile, daty, kolumny, CPF lub własne wyrażenie.'#13#10 +
+    '  Python: krótki podgląd (ok / pominięta / błąd) przed pełnym uruchomieniem.'#13#10 +
+    '  Win64: równoległy indeks linii od 128 MB, z ograniczoną pamięcią.'#13#10 +
+    '  Sprawdzanie kodu: JSON, HTML i SQL w FastFile; Java, Go i C# kompilatorem'#13#10 +
+    '    już na tym komputerze. „Kod źródłowy z AI” opisuje generowanie, sprawdzanie i poprawki.'#13#10 +
+    '  Agent AI: opisuje każdy plik, rozumie wskazane pliki (14 języków)'#13#10 +
+    '    i może uruchomić makro Python dla każdej linii (podgląd; oryginał bez zmian).'#13#10 +
+    '  Wybór folderów: kilka folderów z różnych miejsc.'#13#10 +
+    '  „Co potrafię?” w Asystencie, Agencie AI i Diagnozie AI (także F1).'#13#10 +
+    '  Diagnoza AI (Ctrl+Alt+U): specjaliści tylko do odczytu — inwentarz, struktura,'#13#10 +
+    '    treść, SQL, prywatność i akcje. Edycje stosuje Agent AI.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Edição rápida (a partir de 32 MB): inserir, substituir e apagar pelo índice de linhas'#13#10 +
+    '    (no lugar, deslocar ou reescrever). Um diário repõe o ficheiro se a app parar a meio.'#13#10 +
+    '  Antes de gravar as linhas selecionadas, uma lista antes/depois mostra só o que muda.'#13#10 +
+    '  Editor de linha — Extrair: dígitos, e-mails, datas, colunas, CPF ou a sua regex.'#13#10 +
+    '  Python: pré-visualização curta (ok / ignorada / erro) antes da execução completa.'#13#10 +
+    '  Win64: índice de linhas em paralelo a partir de 128 MB, com memória limitada.'#13#10 +
+    '  Validar código: JSON, HTML e SQL dentro do FastFile; Java, Go e C# com o'#13#10 +
+    '    compilador já neste PC. "Código-fonte com IA" explica gerar, validar e corrigir.'#13#10 +
+    '  Agente IA: descreve cada ficheiro, percebe quais indicou (14 idiomas)'#13#10 +
+    '    e pode correr uma macro Python em cada linha (pré-visualização; o original não muda).'#13#10 +
+    '  Seletor de pastas: várias pastas de sítios diferentes.'#13#10 +
+    '  "O que posso fazer?" no Assistente, no Agente IA e no Diagnóstico IA (F1 também).'#13#10 +
+    '  Diagnóstico IA (Ctrl+Alt+U): especialistas só de leitura — inventário, estrutura,'#13#10 +
+    '    conteúdo, SQL, privacidade e ações. Use o Agente IA para aplicar edições.'#13#10,
+    'NOUTĂȚI RECENTE (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Editare rapidă (de la 32 MB): inserare, înlocuire și ștergere prin indexul de linii'#13#10 +
+    '    (pe loc, deplasare sau rescriere). Un jurnal reface fișierul dacă aplicația se oprește.'#13#10 +
+    '  Înainte de a salva liniile selectate, o listă înainte/după arată doar ce se schimbă.'#13#10 +
+    '  Editor de linie — Extrage: cifre, e-mailuri, date, coloane, CPF sau regex propriu.'#13#10 +
+    '  Python: previzualizare scurtă (ok / omisă / eroare) înainte de rularea completă.'#13#10 +
+    '  Win64: index de linii în paralel de la 128 MB, cu memorie limitată.'#13#10 +
+    '  Verificare cod: JSON, HTML și SQL în FastFile; Java, Go și C# cu compilatorul'#13#10 +
+    '    deja pe acest PC. „Cod sursă cu IA” explică generarea, validarea și corectarea.'#13#10 +
+    '  Agent IA: descrie fiecare fișier, înțelege pe care le-ați numit (14 limbi)'#13#10 +
+    '    și poate rula o macrocomandă Python pe fiecare linie (previzualizare; originalul rămâne).'#13#10 +
+    '  Selector de foldere: mai multe foldere din locuri diferite.'#13#10 +
+    '  „Ce pot face?” în Asistent, Agentul IA și Diagnosticul IA (și F1).'#13#10 +
+    '  Diagnostic IA (Ctrl+Alt+U): specialiști doar citire — inventar, structură,'#13#10 +
+    '    conținut, SQL, confidențialitate și acțiuni. Agentul IA aplică editările.'#13#10,
+    'ÚJDONSÁGOK (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Gyors sor szerkesztés (32 MB-tól): beszúrás, csere és törlés a sorindex alapján'#13#10 +
+    '    (helyben, eltolás vagy újraírás). A napló visszaállítja a fájlt, ha az app megáll.'#13#10 +
+    '  A kijelölt sorok mentése előtt egy előtte/utána lista csak a változást mutatja.'#13#10 +
+    '  Sorszerkesztő — Kinyerés: számjegyek, e-mailek, dátumok, oszlopok, CPF vagy saját regex.'#13#10 +
+    '  Python: rövid előnézet (ok / kihagyva / hiba) a teljes futás előtt.'#13#10 +
+    '  Win64: párhuzamos sorindex 128 MB-tól, korlátozott memóriával.'#13#10 +
+    '  Forrásellenőrzés: JSON, HTML és SQL a FastFile-ban; Java, Go és C# a gépen'#13#10 +
+    '    már lévő fordítóval. A „Forráskód MI-vel” a létrehozást, ellenőrzést és javítást írja le.'#13#10 +
+    '  MI-ügynök: leírja az egyes fájlokat, érti a megnevezetteket (14 nyelv)'#13#10 +
+    '    és Python-makrót futtathat minden soron (előnézet; az eredeti nem változik).'#13#10 +
+    '  Mappaválasztó: több mappa különböző helyekről.'#13#10 +
+    '  „Mit tudok?” az asszisztensben, a MI-ügynökben és a MI-diagnózisban (F1 is).'#13#10 +
+    '  MI-diagnózis (Ctrl+Alt+U): csak olvasható szakértők — leltár, szerkezet, tartalom,'#13#10 +
+    '    SQL, adatvédelem és műveletek. A módosítást a MI-ügynök végzi.'#13#10,
+    'NOVINKY (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  Rychlá úprava (od 32 MB): vkládání, nahrazování a mazání přes index řádků'#13#10 +
+    '    (na místě, posun nebo přepis). Deník obnoví soubor, když se aplikace zastaví.'#13#10 +
+    '  Před uložením vybraných řádků ukáže seznam před/po jen to, co se mění.'#13#10 +
+    '  Editor řádku — Extrahovat: číslice, e-maily, data, sloupce, CPF nebo vlastní regex.'#13#10 +
+    '  Python: krátký náhled (ok / přeskočeno / chyba) před úplným během.'#13#10 +
+    '  Win64: paralelní index řádků od 128 MB, s omezenou pamětí.'#13#10 +
+    '  Kontrola kódu: JSON, HTML a SQL uvnitř FastFile; Java, Go a C# překladačem'#13#10 +
+    '    už na tomto počítači. „Zdrojový kód s AI“ vysvětluje generování, ověření a opravu.'#13#10 +
+    '  AI agent: popíše každý soubor, pozná ty, které jste jmenovali (14 jazyků)'#13#10 +
+    '    a může spustit Python makro na každém řádku (náhled; originál se nemění).'#13#10 +
+    '  Výběr složek: několik složek z různých míst.'#13#10 +
+    '  „Co umím?“ v Asistentovi, AI agentovi a AI diagnostice (také F1).'#13#10 +
+    '  AI diagnostika (Ctrl+Alt+U): specialisté jen pro čtení — inventura, struktura,'#13#10 +
+    '    obsah, SQL, soukromí a akce. Úpravy provádí AI agent.'#13#10,
+    '最近の新機能 (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  高速な行編集（32 MB 以上）: 行インデックスで挿入・置換・削除'#13#10 +
+    '    （その場、シフト、または書き換え）。途中で止まってもジャーナルがファイルを戻します。'#13#10 +
+    '  選択行を保存する前に、変更のある行だけを変更前/後の一覧で表示します。'#13#10 +
+    '  行エディターの「抽出」: 数字、メール、日付、列、CPF、または独自の正規表現。'#13#10 +
+    '  Python: 全体を実行する前に短いプレビュー（成功 / スキップ / エラー）。'#13#10 +
+    '  Win64: 128 MB 以上は並列の行インデックス。メモリ使用量は上限があります。'#13#10 +
+    '  ソース検査: JSON・HTML・SQL は FastFile 内。Java・Go・C# はこの PC の'#13#10 +
+    '    コンパイラ。「AI によるソースコード」で生成・検証・修正を説明します。'#13#10 +
+    '  AI エージェント: 各ファイルの概要、指名したファイル（14 言語）、'#13#10 +
+    '    各行への Python マクロ（プレビュー。元のファイルは変わりません）。'#13#10 +
+    '  フォルダー選択: 別々の場所から複数のフォルダー。'#13#10 +
+    '  「できること」はアシスタント、AI エージェント、AI 診断にあります（F1 でも開きます）。'#13#10 +
+    '  AI 診断 (Ctrl+Alt+U): 読み取り専用の専門家（一覧、構造、内容、SQL、'#13#10 +
+    '    プライバシー、操作）。編集の適用は AI エージェントで行います。'#13#10,
+    '近期新功能 (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  快速行编辑（32 MB 起）：按行索引插入、替换和删除'#13#10 +
+    '    （原地、移位或重写）。若应用中途停止，日志会还原文件。'#13#10 +
+    '  保存所选行之前，前后对照列表只显示会改变的行。'#13#10 +
+    '  行编辑器 — 提取：数字、电子邮件、日期、列、CPF 或您自己的正则表达式。'#13#10 +
+    '  Python：完整运行前的简短预览（成功 / 跳过 / 错误）。'#13#10 +
+    '  Win64：从 128 MB 起并行建立行索引，内存有上限。'#13#10 +
+    '  源码检查：JSON、HTML 和 SQL 在 FastFile 内完成；Java、Go 和 C# 使用本机'#13#10 +
+    '    已安装的编译器。“使用 AI 处理源代码”说明生成、验证和修复。'#13#10 +
+    '  AI 智能体：概述每个文件，理解您点名的文件（14 种语言），'#13#10 +
+    '    并可对每一行运行 Python 宏（先预览；原始文件不变）。'#13#10 +
+    '  文件夹选择器：从不同位置选择多个文件夹。'#13#10 +
+    '  “我能做什么？”位于助手、AI 智能体和 AI 诊断中（这些界面的 F1 也会打开）。'#13#10 +
+    '  AI 诊断 (Ctrl+Alt+U)：只读专家 — 清单、结构、内容、SQL、'#13#10 +
+    '    隐私和操作。要应用修改，请使用 AI 智能体。'#13#10,
+    '近期新功能 (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
+    '  快速行編輯（32 MB 起）：依行索引插入、取代和刪除'#13#10 +
+    '    （原地、位移或重寫）。若應用程式中途停止，日誌會還原檔案。'#13#10 +
+    '  儲存所選行之前，前後對照清單只顯示會改變的行。'#13#10 +
+    '  行編輯器 — 擷取：數字、電子郵件、日期、欄、CPF 或您自己的規則運算式。'#13#10 +
+    '  Python：完整執行前的簡短預覽（成功 / 略過 / 錯誤）。'#13#10 +
+    '  Win64：從 128 MB 起平行建立行索引，記憶體有上限。'#13#10 +
+    '  原始碼檢查：JSON、HTML 和 SQL 在 FastFile 內完成；Java、Go 和 C# 使用這台電腦'#13#10 +
+    '    已安裝的編譯器。「使用 AI 處理原始碼」說明產生、驗證和修正。'#13#10 +
+    '  AI 智慧體：概述每個檔案，理解您點名的檔案（14 種語言），'#13#10 +
+    '    並可對每一行執行 Python 巨集（先預覽；原始檔案不變）。'#13#10 +
+    '  資料夾選擇器：從不同位置選擇多個資料夾。'#13#10 +
+    '  「我能做什麼？」位於助理、AI 智慧體和 AI 診斷中（這些畫面的 F1 也會開啟）。'#13#10 +
+    '  AI 診斷 (Ctrl+Alt+U)：唯讀專家 — 清單、結構、內容、SQL、'#13#10 +
+    '    隱私和動作。要套用修改，請使用 AI 智慧體。'#13#10);
+end;
+
+procedure AddDelimSessionTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('Csv.SortBusy',
+    'Sorting %s of %s lines. Press Esc to cancel.',
+    'A ordenar %s de %s linhas. Prima Esc para cancelar.',
+    'Ordenando %s de %s líneas. Pulse Esc para cancelar.',
+    'Tri de %s lignes sur %s. Appuyez sur Échap pour annuler.',
+    'Sortiere %s von %s Zeilen. Esc bricht ab.',
+    'Ordinamento di %s righe su %s. Premi Esc per annullare.',
+    'Sortowanie %s z %s wierszy. Naciśnij Esc, aby anulować.',
+    'A ordenar %s de %s linhas. Prima Esc para cancelar.',
+    'Se sortează %s din %s linii. Apăsați Esc pentru a anula.',
+    '%s / %s sor rendezése. Az Esc megszakítja.',
+    'Řazení %s z %s řádků. Esc řazení zruší.',
+    '%s / %s 行を並べ替えています。Esc で中止します。',
+    '正在排序 %s / %s 行。按 Esc 取消。',
+    '正在排序 %s / %s 行。按 Esc 取消。');
+  Set14('Csv.SortDone',
+    'Sorted by %s (%s). The file stays on disk.',
+    'Ordenado por %s (%s). O ficheiro permanece no disco.',
+    'Ordenado por %s (%s). El archivo sigue en el disco.',
+    'Trié par %s (%s). Le fichier reste sur le disque.',
+    'Sortiert nach %s (%s). Die Datei bleibt auf der Festplatte.',
+    'Ordinato per %s (%s). Il file resta su disco.',
+    'Posortowano według %s (%s). Plik zostaje na dysku.',
+    'Ordenado por %s (%s). O ficheiro permanece no disco.',
+    'Sortat după %s (%s). Fișierul rămâne pe disc.',
+    'Rendezve: %s (%s). A fájl a lemezen marad.',
+    'Seřazeno podle %s (%s). Soubor zůstává na disku.',
+    '%s（%s）で並べ替えました。ファイルはディスク上のままです。',
+    '已按 %s（%s）排序。文件仍在磁盘上。',
+    '已按 %s（%s）排序。檔案仍在磁碟上。');
+  Set14('Csv.SortAsc',
+    'ascending', 'crescente', 'ascendente', 'croissant', 'aufsteigend',
+    'crescente', 'rosnąco', 'crescente', 'crescător', 'növekvő', 'vzestupně',
+    '昇順', '升序', '由小到大');
+  Set14('Csv.SortDesc',
+    'descending', 'decrescente', 'descendente', 'décroissant', 'absteigend',
+    'decrescente', 'malejąco', 'decrescente', 'descrescător', 'csökkenő', 'sestupně',
+    '降順', '降序', '由大到小');
+  Set14('Csv.SortCancelled',
+    'Column sort cancelled.',
+    'Ordenação da coluna cancelada.',
+    'Ordenación de la columna cancelada.',
+    'Tri de la colonne annulé.',
+    'Spaltensortierung abgebrochen.',
+    'Ordinamento della colonna annullato.',
+    'Sortowanie kolumny anulowane.',
+    'Ordenação da coluna cancelada.',
+    'Sortarea coloanei a fost anulată.',
+    'Az oszloprendezés megszakítva.',
+    'Řazení sloupce zrušeno.',
+    '列の並べ替えを中止しました。',
+    '已取消列排序。',
+    '已取消欄排序。');
+  Set14('Csv.SortNoFilter',
+    'Clear the filter before sorting columns.',
+    'Limpe o filtro antes de ordenar colunas.',
+    'Borre el filtro antes de ordenar columnas.',
+    'Effacez le filtre avant de trier les colonnes.',
+    'Löschen Sie den Filter, bevor Sie Spalten sortieren.',
+    'Cancella il filtro prima di ordinare le colonne.',
+    'Wyczyść filtr przed sortowaniem kolumn.',
+    'Limpe o filtro antes de ordenar colunas.',
+    'Ștergeți filtrul înainte de a sorta coloanele.',
+    'Törölje a szűrőt az oszlopok rendezése előtt.',
+    'Před řazením sloupců zrušte filtr.',
+    '列を並べ替える前にフィルタを解除してください。',
+    '排序列之前请先清除筛选。',
+    '排序欄之前請先清除篩選。');
+  Set14('Csv.SortCleared',
+    'Column sort cleared.',
+    'Ordenação da coluna removida.',
+    'Ordenación de la columna quitada.',
+    'Tri de la colonne retiré.',
+    'Spaltensortierung aufgehoben.',
+    'Ordinamento della colonna rimosso.',
+    'Sortowanie kolumny usunięte.',
+    'Ordenação da coluna removida.',
+    'Sortarea coloanei a fost eliminată.',
+    'Az oszloprendezés törölve.',
+    'Řazení sloupců vypnuto.',
+    '列の並べ替えを解除しました。',
+    '已清除列排序。',
+    '已清除欄排序。');
+  Set14('Csv.SortFailed',
+    'Could not sort this column.',
+    'Não foi possível ordenar esta coluna.',
+    'No se pudo ordenar esta columna.',
+    'Impossible de trier cette colonne.',
+    'Diese Spalte konnte nicht sortiert werden.',
+    'Impossibile ordinare questa colonna.',
+    'Nie udało się posortować tej kolumny.',
+    'Não foi possível ordenar esta coluna.',
+    'Această coloană nu a putut fi sortată.',
+    'Ezt az oszlopot nem sikerült rendezni.',
+    'Tento sloupec se nepodařilo seřadit.',
+    'この列を並べ替えられませんでした。',
+    '无法排序此列。',
+    '無法排序此欄。');
+  Set14('Csv.HeaderLine',
+    'That line is the column header.',
+    'Essa linha é o cabeçalho das colunas.',
+    'Esa línea es el encabezado de las columnas.',
+    'Cette ligne est l''en-tête des colonnes.',
+    'Diese Zeile ist die Spaltenüberschrift.',
+    'Quella riga è l''intestazione delle colonne.',
+    'Ten wiersz jest nagłówkiem kolumn.',
+    'Essa linha é o cabeçalho das colunas.',
+    'Acea linie este antetul coloanelor.',
+    'Ez a sor az oszlopfejléc.',
+    'Tento řádek je záhlaví sloupců.',
+    'その行は列の見出しです。',
+    '该行是列标题。',
+    '該行是欄標題。');
+  Set14('SearchCmd.GroupColumns',
+    'Named groups: %s',
+    'Grupos nomeados: %s',
+    'Grupos con nombre: %s',
+    'Groupes nommés : %s',
+    'Benannte Gruppen: %s',
+    'Gruppi con nome: %s',
+    'Nazwane grupy: %s',
+    'Grupos nomeados: %s',
+    'Grupuri denumite: %s',
+    'Elnevezett csoportok: %s',
+    'Pojmenované skupiny: %s',
+    '名前付きグループ: %s',
+    '命名分组：%s',
+    '命名群組：%s');
+  Set14('SearchCmd.File',
+    'File', 'Ficheiro', 'Archivo', 'Fichier', 'Datei', 'Archivio', 'Plik',
+    'Ficheiro', 'Fișier', 'Fájl', 'Soubor', 'ファイル', '文件', '檔案');
+  Set14('Csv.AskAI',
+    'Ask the AI about these columns',
+    'Perguntar à IA sobre estas colunas',
+    'Preguntar a la IA sobre estas columnas',
+    'Demander à l''IA ces colonnes',
+    'Die KI zu diesen Spalten fragen',
+    'Chiedi all''IA di queste colonne',
+    'Zapytaj AI o te kolumny',
+    'Perguntar à IA sobre estas colunas',
+    'Întrebați IA despre aceste coloane',
+    'Kérdezze a MI-t ezekről az oszlopokról',
+    'Zeptejte se AI na tyto sloupce',
+    'これらの列について AI に質問',
+    '就这些列询问 AI',
+    '就這些欄詢問 AI');
+  Set14('Session.AskAI',
+    'Ask the AI about this session',
+    'Perguntar à IA sobre esta sessão',
+    'Preguntar a la IA sobre esta sesión',
+    'Demander à l''IA cette session',
+    'Die KI zu dieser Sitzung fragen',
+    'Chiedi all''IA di questa sessione',
+    'Zapytaj AI o tę sesję',
+    'Perguntar à IA sobre esta sessão',
+    'Întrebați IA despre această sesiune',
+    'Kérdezze a MI-t erről a munkamenetről',
+    'Zeptejte se AI na tuto relaci',
+    'このセッションについて AI に質問',
+    '就这个会话询问 AI',
+    '就這個工作階段詢問 AI');
+  Set14('SearchCmd.AskAI',
+    'Ask the AI', 'Perguntar à IA', 'Preguntar a la IA', 'Demander à l''IA',
+    'KI fragen', 'Chiedi all''IA', 'Zapytaj AI', 'Perguntar à IA',
+    'Întrebați IA', 'Kérdezze a MI-t', 'Zeptat se AI',
+    'AI に質問', '询问 AI', '詢問 AI');
+  Set14('Csv.SortNeedColumn',
+    'Name the column to sort, by number or header.',
+    'Indique a coluna a ordenar, pelo número ou pelo cabeçalho.',
+    'Indique la columna a ordenar, por número o encabezado.',
+    'Indiquez la colonne à trier, par numéro ou en-tête.',
+    'Nennen Sie die Spalte, nach Nummer oder Überschrift.',
+    'Indica la colonna da ordinare, per numero o intestazione.',
+    'Podaj kolumnę do sortowania, numer lub nagłówek.',
+    'Indique a coluna a ordenar, pelo número ou pelo cabeçalho.',
+    'Indicați coloana de sortat, după număr sau antet.',
+    'Adja meg a rendezendő oszlopot, szám vagy fejléc szerint.',
+    'Uveďte sloupec k seřazení, číslem nebo záhlavím.',
+    '並べ替える列を番号か見出しで指定してください。',
+    '请用序号或标题指定要排序的列。',
+    '請用編號或標題指定要排序的欄。');
+  Set14('Csv.SortNone',
+    'file order', 'ordem do ficheiro', 'orden del archivo', 'ordre du fichier',
+    'Dateireihenfolge', 'ordine del file', 'kolejność pliku', 'ordem do ficheiro',
+    'ordinea fișierului', 'fájlsorrend', 'pořadí souboru',
+    'ファイルの順', '文件顺序', '檔案順序');
+  Set14('AI.Context.CsvColumns',
+    'Delimited view. The next lines are the file, the delimiter, the columns and the current sort. Suggest a column sort, a filter or a grep with named groups.',
+    'Vista delimitada. As linhas seguintes são o ficheiro, o delimitador, as colunas e a ordenação actual. Sugira uma ordenação, um filtro ou um grep com grupos nomeados.',
+    'Vista delimitada. Las líneas siguientes son el archivo, el delimitador, las columnas y el orden actual. Sugiera un orden, un filtro o un grep con grupos con nombre.',
+    'Vue délimitée. Les lignes suivantes sont le fichier, le délimiteur, les colonnes et le tri actuel. Suggérez un tri, un filtre ou un grep à groupes nommés.',
+    'Getrennte Ansicht. Die nächsten Zeilen sind Datei, Trennzeichen, Spalten und aktuelle Sortierung. Schlagen Sie Sortierung, Filter oder grep mit benannten Gruppen vor.',
+    'Vista delimitata. Le righe seguenti sono il file, il delimitatore, le colonne e l''ordine attuale. Suggerisci un ordine, un filtro o un grep con gruppi con nome.',
+    'Widok rozdzielany. Kolejne wiersze to plik, separator, kolumny i bieżące sortowanie. Zaproponuj sortowanie, filtr albo grep z nazwanymi grupami.',
+    'Vista delimitada. As linhas seguintes são o ficheiro, o delimitador, as colunas e a ordenação actual. Sugira uma ordenação, um filtro ou um grep com grupos nomeados.',
+    'Vizualizare delimitată. Liniile următoare sunt fișierul, delimitatorul, coloanele și sortarea curentă. Sugerați o sortare, un filtru sau un grep cu grupuri denumite.',
+    'Tagolt nézet. A következő sorok a fájl, az elválasztó, az oszlopok és a jelenlegi rendezés. Javasoljon rendezést, szűrőt vagy grep-et elnevezett csoportokkal.',
+    'Pohled s oddělovači. Další řádky jsou soubor, oddělovač, sloupce a aktuální řazení. Navrhněte řazení, filtr nebo grep s pojmenovanými skupinami.',
+    '区切り表示です。続く行はファイル、区切り、列、現在の並べ替えです。列の並べ替え、フィルタ、または名前付きグループの grep を提案してください。',
+    '这是分隔视图。接下来的行是文件、分隔符、列和当前排序。请建议列排序、筛选，或带命名分组的 grep。',
+    '這是分隔檢視。接下來的行是檔案、分隔字元、欄和目前排序。請建議欄排序、篩選，或帶命名群組的 grep。');
+  Set14('AI.Context.Session',
+    'Session of the open file. The next lines are the file, the filter, the encoding and the bookmark count.',
+    'Sessão do ficheiro aberto. As linhas seguintes são o ficheiro, o filtro, a codificação e o número de marcadores.',
+    'Sesión del archivo abierto. Las líneas siguientes son el archivo, el filtro, la codificación y el número de marcadores.',
+    'Session du fichier ouvert. Les lignes suivantes sont le fichier, le filtre, l''encodage et le nombre de signets.',
+    'Sitzung der offenen Datei. Die nächsten Zeilen sind Datei, Filter, Kodierung und die Zahl der Lesezeichen.',
+    'Sessione del file aperto. Le righe seguenti sono il file, il filtro, la codifica e il numero di segnalibri.',
+    'Sesja otwartego pliku. Kolejne wiersze to plik, filtr, kodowanie i liczba zakładek.',
+    'Sessão do ficheiro aberto. As linhas seguintes são o ficheiro, o filtro, a codificação e o número de marcadores.',
+    'Sesiunea fișierului deschis. Liniile următoare sunt fișierul, filtrul, codificarea și numărul de marcaje.',
+    'A megnyitott fájl munkamenete. A következő sorok a fájl, a szűrő, a kódolás és a könyvjelzők száma.',
+    'Relace otevřeného souboru. Další řádky jsou soubor, filtr, kódování a počet záložek.',
+    '開いているファイルのセッションです。続く行はファイル、フィルタ、エンコード、ブックマーク数です。',
+    '当前打开文件的会话。接下来的行是文件、筛选、编码和书签数量。',
+    '目前開啟檔案的工作階段。接下來的行是檔案、篩選、編碼和書籤數量。');
+  Set14('AI.Context.SearchGroups',
+    'grep results. The next lines are the command and the rows. Say what stands out and which filter, export or column sort should follow.',
+    'Resultados do grep. As linhas seguintes são o comando e as linhas encontradas. Diga o que se destaca e que filtro, exportação ou ordenação deve seguir.',
+    'Resultados de grep. Las líneas siguientes son el comando y las filas. Diga qué destaca y qué filtro, exportación u orden debe seguir.',
+    'Résultats grep. Les lignes suivantes sont la commande et les lignes. Dites ce qui ressort et quel filtre, export ou tri doit suivre.',
+    'grep-Ergebnisse. Die nächsten Zeilen sind der Befehl und die Treffer. Sagen Sie, was auffällt und welcher Filter, Export oder welche Sortierung folgen soll.',
+    'Risultati di grep. Le righe seguenti sono il comando e le righe trovate. Di'' cosa emerge e quale filtro, esportazione o ordinamento deve seguire.',
+    'Wyniki grep. Kolejne wiersze to polecenie i znalezione wiersze. Powiedz, co się wyróżnia i jaki filtr, eksport albo sortowanie powinno nastąpić.',
+    'Resultados do grep. As linhas seguintes são o comando e as linhas encontradas. Diga o que se destaca e que filtro, exportação ou ordenação deve seguir.',
+    'Rezultate grep. Liniile următoare sunt comanda și rândurile găsite. Spuneți ce iese în evidență și ce filtru, export sau sortare urmează.',
+    'grep találatok. A következő sorok a parancs és a talált sorok. Mondja meg, mi tűnik ki, és milyen szűrő, export vagy rendezés következzen.',
+    'Výsledky grep. Další řádky jsou příkaz a nalezené řádky. Řekněte, co vyniká a jaký filtr, export nebo řazení má následovat.',
+    'grep の結果です。続く行はコマンドと見つかった行です。目立つ点と、次のフィルタ、書き出し、列の並べ替えを述べてください。',
+    'grep 结果。接下来的行是命令和命中行。请说明重点，以及接下来应做的筛选、导出或列排序。',
+    'grep 結果。接下來的行是命令和命中行。請說明重點，以及接下來應做的篩選、匯出或欄排序。');
+  Set14('Assistant.Offer.Draft.CsvSort',
+    'I sorted a column in the delimited view. What should I do next?',
+    'Ordenei uma coluna na vista delimitada. O que devo fazer a seguir?',
+    'Ordené una columna en la vista delimitada. ¿Qué hago ahora?',
+    'J''ai trié une colonne dans la vue délimitée. Que faire ensuite ?',
+    'Ich habe eine Spalte in der getrennten Ansicht sortiert. Was als Nächstes?',
+    'Ho ordinato una colonna nella vista delimitata. Cosa faccio ora?',
+    'Posortowałem kolumnę w widoku rozdzielanym. Co dalej?',
+    'Ordenei uma coluna na vista delimitada. O que devo fazer a seguir?',
+    'Am sortat o coloană în vizualizarea delimitată. Ce urmează?',
+    'Rendeztem egy oszlopot a tagolt nézetben. Mi legyen a következő?',
+    'Seřadil jsem sloupec v pohledu s oddělovači. Co dál?',
+    '区切り表示の列を並べ替えました。次は何をしますか？',
+    '我在分隔视图中排序了一列。接下来做什么？',
+    '我在分隔檢視中排序了一欄。接下來做什麼？');
+  Set14('Assistant.Offer.Draft.GrepGroups',
+    'The grep table has named groups. What should I do with these columns?',
+    'A tabela do grep tem grupos nomeados. O que faço com estas colunas?',
+    'La tabla de grep tiene grupos con nombre. ¿Qué hago con estas columnas?',
+    'Le tableau grep a des groupes nommés. Que faire de ces colonnes ?',
+    'Die grep-Tabelle hat benannte Gruppen. Was mache ich mit diesen Spalten?',
+    'La tabella grep ha gruppi con nome. Cosa faccio con queste colonne?',
+    'Tabela grep ma nazwane grupy. Co zrobić z tymi kolumnami?',
+    'A tabela do grep tem grupos nomeados. O que faço com estas colunas?',
+    'Tabelul grep are grupuri denumite. Ce fac cu aceste coloane?',
+    'A grep táblának elnevezett csoportjai vannak. Mit tegyek ezekkel az oszlopokkal?',
+    'Tabulka grep má pojmenované skupiny. Co s těmito sloupci?',
+    'grep の表に名前付きグループがあります。これらの列をどうしますか？',
+    'grep 表有命名分组。这些列接下来怎么用？',
+    'grep 表有命名群組。這些欄接下來怎麼用？');
+  Set14('Assistant.Offer.Draft.Session',
+    'This session keeps the file, line, filter, bookmarks and encoding. What should I restore or change?',
+    'Esta sessão guarda o ficheiro, a linha, o filtro, os marcadores e a codificação. O que devo repor ou mudar?',
+    'Esta sesión guarda el archivo, la línea, el filtro, los marcadores y la codificación. ¿Qué debo restaurar o cambiar?',
+    'Cette session garde le fichier, la ligne, le filtre, les signets et l''encodage. Que dois-je rétablir ou changer ?',
+    'Diese Sitzung speichert Datei, Zeile, Filter, Lesezeichen und Kodierung. Was soll ich wiederherstellen oder ändern?',
+    'Questa sessione conserva file, riga, filtro, segnalibri e codifica. Cosa devo ripristinare o cambiare?',
+    'Ta sesja trzyma plik, wiersz, filtr, zakładki i kodowanie. Co przywrócić albo zmienić?',
+    'Esta sessão guarda o ficheiro, a linha, o filtro, os marcadores e a codificação. O que devo repor ou mudar?',
+    'Această sesiune păstrează fișierul, linia, filtrul, marcajele și codificarea. Ce restabilesc sau schimb?',
+    'Ez a munkamenet a fájlt, a sort, a szűrőt, a könyvjelzőket és a kódolást őrzi. Mit állítsak vissza vagy változtassak?',
+    'Tato relace drží soubor, řádek, filtr, záložky a kódování. Co mám obnovit nebo změnit?',
+    'このセッションはファイル、行、フィルタ、ブックマーク、エンコードを保持します。何を戻すか変えますか？',
+    '此会话保存文件、行、筛选、书签和编码。要恢复或更改什么？',
+    '此工作階段保存檔案、行、篩選、書籤和編碼。要還原或更改什麼？');
+  Set14('AICaps.Item.CsvSort',
+    'Sorts the open delimited view by a column. The file stays on disk.|Sort this file by the status column, descending.',
+    'Ordena a vista delimitada por uma coluna. O ficheiro fica no disco.|Ordene este ficheiro pela coluna status, decrescente.',
+    'Ordena la vista delimitada por una columna. El archivo sigue en el disco.|Ordene este archivo por la columna status, descendente.',
+    'Trie la vue délimitée par une colonne. Le fichier reste sur le disque.|Triez ce fichier par la colonne status, décroissant.',
+    'Sortiert die getrennte Ansicht nach einer Spalte. Die Datei bleibt auf der Festplatte.|Sortiere diese Datei nach der Spalte status, absteigend.',
+    'Ordina la vista delimitata per una colonna. Il file resta su disco.|Ordina questo file per la colonna status, decrescente.',
+    'Sortuje widok rozdzielany według kolumny. Plik zostaje na dysku.|Posortuj ten plik według kolumny status, malejąco.',
+    'Ordena a vista delimitada por uma coluna. O ficheiro fica no disco.|Ordene este ficheiro pela coluna status, decrescente.',
+    'Sortează vizualizarea delimitată după o coloană. Fișierul rămâne pe disc.|Sortează acest fișier după coloana status, descrescător.',
+    'A tagolt nézetet egy oszlop szerint rendezi. A fájl a lemezen marad.|Rendezd ezt a fájlt a status oszlop szerint, csökkenőben.',
+    'Seřadí pohled s oddělovači podle sloupce. Soubor zůstává na disku.|Seřaď tento soubor podle sloupce status, sestupně.',
+    '開いている区切り表示を列で並べ替えます。ファイルはディスク上のままです。|status 列で降順に並べ替えて。',
+    '按列排序当前分隔视图。文件仍在磁盘上。|按 status 列降序排列这个文件。',
+    '按欄排序目前的分隔檢視。檔案仍在磁碟上。|按 status 欄降序排列這個檔案。');
+  Set14('AICaps.Item.Session',
+    'Saves and reopens the file, line, filter, bookmarks and encoding in one .ffsession.|Save this session.',
+    'Grava e reabre o ficheiro, a linha, o filtro, os marcadores e a codificação num .ffsession.|Guarde esta sessão.',
+    'Guarda y reabre el archivo, la línea, el filtro, los marcadores y la codificación en un .ffsession.|Guarde esta sesión.',
+    'Enregistre et rouvre le fichier, la ligne, le filtre, les signets et l''encodage dans un .ffsession.|Enregistrez cette session.',
+    'Speichert und öffnet Datei, Zeile, Filter, Lesezeichen und Kodierung in einer .ffsession.|Speichere diese Sitzung.',
+    'Salva e riapre file, riga, filtro, segnalibri e codifica in un .ffsession.|Salva questa sessione.',
+    'Zapisuje i otwiera plik, wiersz, filtr, zakładki i kodowanie w jednym .ffsession.|Zapisz tę sesję.',
+    'Grava e reabre o ficheiro, a linha, o filtro, os marcadores e a codificação num .ffsession.|Guarde esta sessão.',
+    'Salvează și redeschide fișierul, linia, filtrul, marcajele și codificarea într-un .ffsession.|Salvați această sesiune.',
+    'Egy .ffsession fájlba menti és onnan nyitja a fájlt, a sort, a szűrőt, a könyvjelzőket és a kódolást.|Mentse ezt a munkamenetet.',
+    'Uloží a znovu otevře soubor, řádek, filtr, záložky a kódování v jednom .ffsession.|Uložte tuto relaci.',
+    'ファイル、行、フィルタ、ブックマーク、エンコードを 1 つの .ffsession に保存して開き直します。|このセッションを保存して。',
+    '把文件、行、筛选、书签和编码保存在一个 .ffsession 里并重新打开。|保存这个会话。',
+    '把檔案、行、篩選、書籤和編碼存在一個 .ffsession 並重新開啟。|儲存這個工作階段。');
+  Set14('AICaps.Item.SearchCommands',
+    'glob finds paths. grep searches content. Named groups (?<name>) become columns. Bare names open AI help.|glob "*.log"',
+    'glob encontra caminhos. grep busca conteúdo. Grupos nomeados (?<nome>) viram colunas. Sem argumentos, abre a ajuda da IA.|glob "*.log"',
+    'glob encuentra rutas. grep busca contenido. Los grupos con nombre (?<nombre>) son columnas. Sin argumentos, abre la ayuda de IA.|glob "*.log"',
+    'glob trouve les chemins. grep cherche le contenu. Les groupes nommés (?<nom>) deviennent des colonnes. Sans argument, l''aide IA s''ouvre.|glob "*.log"',
+    'glob findet Pfade. grep durchsucht Inhalte. Benannte Gruppen (?<name>) werden Spalten. Ohne Argumente öffnet sich die KI-Hilfe.|glob "*.log"',
+    'glob trova i percorsi. grep cerca nel contenuto. I gruppi con nome (?<nome>) diventano colonne. Senza argomenti si apre la guida IA.|glob "*.log"',
+    'glob znajduje ścieżki. grep przeszukuje treść. Nazwane grupy (?<nazwa>) stają się kolumnami. Bez argumentów otwiera się pomoc AI.|glob "*.log"',
+    'glob encontra caminhos. grep pesquisa conteúdo. Grupos nomeados (?<nome>) passam a colunas. Sem argumentos, abre a ajuda da IA.|glob "*.log"',
+    'glob găsește căi. grep caută conținut. Grupurile denumite (?<nume>) devin coloane. Fără argumente se deschide ajutorul IA.|glob "*.log"',
+    'A glob útvonalat keres. A grep tartalmat keres. Az elnevezett csoportok (?<nev>) oszlopok lesznek. Argumentum nélkül a MI-súgó nyílik.|glob "*.log"',
+    'glob hledá cesty. grep prohledává obsah. Pojmenované skupiny (?<nazev>) se stanou sloupci. Bez argumentů se otevře nápověda AI.|glob "*.log"',
+    'glob はパス、grep は内容を検索します。名前付きグループ (?<name>) は列になります。引数なしで AI ヘルプが開きます。|glob "*.log"',
+    'glob 查找路径，grep 搜索内容。命名分组 (?<name>) 会变成列。不带参数会打开 AI 帮助。|glob "*.log"',
+    'glob 尋找路徑，grep 搜尋內容。命名群組 (?<name>) 會變成欄。不帶參數會開啟 AI 說明。|glob "*.log"');
 end;
 
 { Texts that were still in English (or missing accents) in some of the 14 languages.
@@ -47942,8 +53687,635 @@ begin
   PutNV(GTextHungarian, 'Hist.Tool.Export', 'Exportálás');
 end;
 
+procedure AddFileNameEmptyMruTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('FileBar.EmptyClickMRUHint',
+    'Click to choose a recent file',
+    'Clique para escolher um arquivo recente',
+    'Clic para elegir un archivo reciente',
+    'Cliquez pour choisir un fichier récent',
+    'Klicken, um eine zuletzt verwendete Datei zu wählen',
+    'Clic per scegliere un file recente',
+    'Kliknij, aby wybrać ostatni plik',
+    'Clique para escolher um ficheiro recente',
+    'Clic pentru a alege un fișier recent',
+    'Kattintson egy legutóbbi fájl kiválasztásához',
+    'Kliknutím vyberte nedávný soubor',
+    'クリックして最近のファイルを選択',
+    '单击以选择最近的文件',
+    '按一下以選擇最近的檔案');
+end;
+
+procedure AddSearchCommandTranslations;
+  procedure Set14(const K: string; const V: array of string);
+  begin
+    PutNV(GTextEnglish, K, V[0]);
+    PutNV(GTextPortuguese, K, V[1]);
+    PutNV(GTextSpanish, K, V[2]);
+    PutNV(GTextFrench, K, V[3]);
+    PutNV(GTextGerman, K, V[4]);
+    PutNV(GTextItalian, K, V[5]);
+    PutNV(GTextPolish, K, V[6]);
+    PutNV(GTextPortuguesePT, K, V[7]);
+    PutNV(GTextRomanian, K, V[8]);
+    PutNV(GTextHungarian, K, V[9]);
+    PutNV(GTextCzech, K, V[10]);
+    PutNV(GTextJapanese, K, V[11]);
+    PutNV(GTextChineseSimplified, K, V[12]);
+    PutNV(GTextChineseTraditional, K, V[13]);
+  end;
+begin
+  Set14('SearchCmd.WorkflowHelp', [
+    'Type just grep/glob, or use their buttons in Find, Filter and Bookmarks, to open examples without scanning. ' +
+    'In the modal, describe your request, Generate with AI, review the explanation/editable command and up to 3 suggestions, then Run command. Manual commands work offline; generation never runs a search. ' +
+    'Assistant/agent use the main file; diagnosis keeps its own sources and is read-only. For huge files, Instant Open avoids initial indexing; the current opening policy is preserved.',
+    'Digite apenas grep/glob ou use seus botões em Localizar, Filtro e Marcadores para abrir exemplos sem buscar. ' +
+    'No modal, descreva o pedido, Gere com IA, revise a explicação/comando editável e até 3 sugestões, depois Execute o comando. Comandos manuais funcionam sem rede; gerar não executa a busca. ' +
+    'Assistente/agente usam o arquivo principal; diagnóstico mantém suas fontes e é somente leitura. Em arquivos gigantes, Abertura instantânea evita indexação inicial; a política atual é preservada.',
+    'Escriba solo grep/glob o use sus botones en Buscar, Filtro y Marcadores para abrir ejemplos sin buscar. ' +
+    'En el modal, describa la petición, Genere con IA, revise la explicación/comando editable y hasta 3 sugerencias, luego Ejecute. Los comandos manuales funcionan sin red; generar no ejecuta. ' +
+    'Asistente/agente usan el archivo principal; diagnóstico conserva sus fuentes y es de solo lectura. Apertura instantánea evita indexar archivos enormes; se respeta la política actual.',
+    'Saisissez grep/glob seul ou utilisez les boutons Rechercher, Filtre et Signets pour ouvrir les exemples sans recherche. ' +
+    'Dans la fenêtre, décrivez la demande, générez avec IA, vérifiez l''explication/commande modifiable et jusqu''à 3 suggestions, puis exécutez. Les commandes manuelles fonctionnent hors ligne ; générer ne lance rien. ' +
+    'Assistant/agent utilisent le fichier principal ; diagnostic garde ses sources en lecture seule. L''ouverture instantanée évite l''indexation initiale des gros fichiers ; la politique actuelle reste appliquée.',
+    'Nur grep/glob eingeben oder die Schaltflächen in Suchen, Filter und Lesezeichen nutzen: Beispiele ohne Suche. ' +
+    'Im Dialog Anfrage beschreiben, mit KI generieren, Erklärung/bearbeitbaren Befehl und bis zu 3 Vorschläge prüfen, dann ausführen. Manuelle Befehle funktionieren offline; Generieren führt nichts aus. ' +
+    'Assistent/Agent nutzen die Hauptdatei; Diagnose behält eigene Quellen und ist schreibgeschützt. Sofortiges Öffnen vermeidet anfängliche Indexierung großer Dateien; die Öffnungsrichtlinie bleibt erhalten.',
+    'Digita solo grep/glob o usa i pulsanti in Trova, Filtro e Segnalibri per aprire esempi senza cercare. ' +
+    'Nel dialogo descrivi la richiesta, genera con IA, verifica spiegazione/comando modificabile e fino a 3 suggerimenti, poi esegui. I comandi manuali funzionano offline; generare non esegue. ' +
+    'Assistente/agente usano il file principale; diagnosi conserva le proprie fonti in sola lettura. Apertura istantanea evita l''indice iniziale dei file enormi; la politica corrente è preservata.',
+    'Wpisz samo grep/glob lub użyj przycisków w Znajdź, Filtr i Zakładki, aby otworzyć przykłady bez wyszukiwania. ' +
+    'W oknie opisz żądanie, wygeneruj z AI, sprawdź wyjaśnienie/edytowalne polecenie i do 3 sugestii, potem uruchom. Ręczne polecenia działają offline; generowanie nie uruchamia wyszukiwania. ' +
+    'Asystent/agent używają głównego pliku; diagnoza zachowuje własne źródła tylko do odczytu. Natychmiastowe otwieranie pomija początkowe indeksowanie dużych plików; bieżąca polityka pozostaje.',
+    'Introduza apenas grep/glob ou use os botões em Localizar, Filtro e Marcadores para abrir exemplos sem pesquisar. ' +
+    'No diálogo, descreva o pedido, Gere com IA, reveja a explicação/comando editável e até 3 sugestões, depois Execute o comando. Comandos manuais funcionam sem rede; gerar não executa a pesquisa. ' +
+    'Assistente/agente usam o ficheiro principal; diagnóstico mantém as suas fontes e é só de leitura. Abertura instantânea evita a indexação inicial de ficheiros gigantes; a política atual é preservada.',
+    'Scrieți doar grep/glob sau folosiți butoanele din Căutare, Filtru și Marcaje pentru exemple fără căutare. ' +
+    'În dialog descrieți cererea, generați cu IA, verificați explicația/comanda editabilă și până la 3 sugestii, apoi executați. Comenzile manuale funcționează offline; generarea nu execută căutarea. ' +
+    'Asistentul/agentul folosesc fișierul principal; diagnosticul păstrează sursele proprii doar în citire. Deschiderea instantanee evită indexarea inițială a fișierelor enorme; politica actuală rămâne.',
+    'Írja be önmagában: grep/glob, vagy használja a Keresés, Szűrő és Könyvjelzők gombjait példákhoz, keresés nélkül. ' +
+    'A párbeszédablakban írja le kérését, generáljon MI-vel, ellenőrizze a magyarázatot/szerkeszthető parancsot és legfeljebb 3 javaslatot, majd futtassa. A kézi parancsok offline működnek; a generálás nem futtat. ' +
+    'Az asszisztens/ügynök a főfájlt használja; a diagnózis saját forrásai csak olvashatók. Az azonnali megnyitás kihagyja a nagy fájlok kezdeti indexelését; a megnyitási szabály megmarad.',
+    'Zadejte samotné grep/glob nebo použijte tlačítka v Najít, Filtr a Záložky pro příklady bez hledání. ' +
+    'V dialogu popište požadavek, vygenerujte pomocí AI, zkontrolujte vysvětlení/upravitelný příkaz a až 3 návrhy, pak spusťte. Ruční příkazy fungují offline; generování nic nespouští. ' +
+    'Asistent/agent používají hlavní soubor; diagnostika má vlastní zdroje jen ke čtení. Okamžité otevření přeskočí počáteční indexaci velkých souborů; aktuální politika zůstává.',
+    'grep/globのみを入力するか、検索・フィルター・ブックマークのボタンで、検索せずに例を開きます。' +
+    'ダイアログで依頼を記述し、AIで生成、説明・編集可能なコマンド・最大3件の候補を確認してから実行します。手入力はオフライン対応。生成だけでは検索しません。' +
+    'アシスタント/エージェントはメインファイルを使用し、診断は独自の対象を読み取り専用で使用します。巨大ファイルは即時オープンで初期索引を省略できます。現在のオープン方針は維持されます。',
+    '仅输入 grep/glob，或使用查找、过滤和书签中的按钮，无需搜索即可打开示例。' +
+    '在对话框中描述请求，使用 AI 生成，检查说明、可编辑命令和最多 3 个建议，然后执行。手动命令可离线使用；生成不会执行搜索。' +
+    '助手/代理使用主文件；诊断保留自己的来源且为只读。超大文件可用即时打开跳过初始索引；现有打开策略不变。',
+    '僅輸入 grep/glob，或使用尋找、篩選和書籤中的按鈕，無需搜尋即可開啟範例。' +
+    '在對話框中描述請求，使用 AI 產生，檢查說明、可編輯命令和最多 3 個建議，然後執行。手動命令可離線使用；產生不會執行搜尋。' +
+    '助理/代理使用主檔案；診斷保留自己的來源且為唯讀。超大檔案可用即時開啟略過初始索引；現有開啟原則不變。']);
+  Set14('SearchCmd.OutsideSources', [
+    'File outside authorized search sources: %s', 'Arquivo fora das fontes de busca autorizadas: %s',
+    'Archivo fuera de las fuentes autorizadas: %s', 'Fichier hors des sources autorisées : %s',
+    'Datei außerhalb der erlaubten Suchquellen: %s', 'File fuori dalle fonti autorizzate: %s',
+    'Plik poza dozwolonymi źródłami wyszukiwania: %s', 'Ficheiro fora das fontes autorizadas: %s',
+    'Fișier în afara surselor autorizate: %s', 'A fájl nincs az engedélyezett keresési források között: %s',
+    'Soubor mimo povolené zdroje hledání: %s', '許可された検索対象外のファイル：%s',
+    '文件不在授权搜索来源中：%s', '檔案不在授權搜尋來源中：%s']);
+  Set14('SearchCmd.LongLine', [
+    'Search stopped: %s, line %d exceeds %d decoded characters. No exact result is available.',
+    'Busca interrompida: %s, linha %d excede %d caracteres decodificados. Não há resultado exato disponível.',
+    'Búsqueda detenida: %s, línea %d supera %d caracteres decodificados. No hay resultado exacto.',
+    'Recherche arrêtée : %s, la ligne %d dépasse %d caractères décodés. Aucun résultat exact disponible.',
+    'Suche gestoppt: %s, Zeile %d überschreitet %d dekodierte Zeichen. Kein genaues Ergebnis verfügbar.',
+    'Ricerca interrotta: %s, riga %d supera %d caratteri decodificati. Nessun risultato esatto disponibile.',
+    'Wyszukiwanie zatrzymane: %s, wiersz %d przekracza %d zdekodowanych znaków. Brak dokładnego wyniku.',
+    'Pesquisa interrompida: %s, linha %d excede %d caracteres descodificados. Não há resultado exato disponível.',
+    'Căutare oprită: %s, linia %d depășește %d caractere decodificate. Rezultatul exact nu este disponibil.',
+    'Keresés leállítva: %s, a(z) %d. sor meghaladja a(z) %d dekódolt karaktert. Nincs pontos eredmény.',
+    'Hledání zastaveno: %s, řádek %d překračuje %d dekódovaných znaků. Přesný výsledek není dostupný.',
+    '検索停止：%s、%d行目が%dデコード文字を超えています。正確な結果は利用できません。',
+    '搜索已停止：%s，第 %d 行超过 %d 个解码字符。无法提供精确结果。',
+    '搜尋已停止：%s，第 %d 行超過 %d 個解碼字元。無法提供精確結果。']);
+  Set14('SearchCmd.FileHelp', [
+    'File is optional: grep "house" or glob "*.txt" uses the main filename field before selected sources. Add one quoted file to open it first. AI tools cannot leave authorized sources.',
+    'Arquivo é opcional: grep "casa" ou glob "*.txt" usa o campo de arquivo principal antes das fontes selecionadas. Acrescente um arquivo entre aspas para abri-lo antes. Ferramentas IA ficam nas fontes autorizadas.',
+    'Archivo opcional: grep "casa" o glob "*.txt" usa el campo de archivo antes de las fuentes. Añada un archivo entre comillas para abrirlo primero. Las herramientas IA respetan las fuentes autorizadas.',
+    'Fichier facultatif : grep "maison" ou glob "*.txt" utilise le champ fichier avant les sources. Ajoutez un fichier entre guillemets pour l''ouvrir avant la recherche. Les outils IA restent dans les sources autorisées.',
+    'Datei optional: grep "Haus" oder glob "*.txt" nutzt zuerst das Dateifeld. Eine Datei in Anführungszeichen wird zuvor geöffnet. KI-Werkzeuge bleiben in erlaubten Quellen.',
+    'File facoltativo: grep "casa" o glob "*.txt" usa prima il campo file. Aggiungi un file tra virgolette per aprirlo prima della ricerca. Gli strumenti IA rispettano le fonti autorizzate.',
+    'Plik jest opcjonalny: grep "dom" lub glob "*.txt" używa najpierw pola pliku. Dodaj plik w cudzysłowie, aby najpierw go otworzyć. Narzędzia AI pozostają w dozwolonych źródłach.',
+    'Ficheiro opcional: grep "casa" ou glob "*.txt" usa primeiro o campo do ficheiro. Acrescente um ficheiro entre aspas para o abrir antes da pesquisa. Ferramentas IA respeitam as fontes autorizadas.',
+    'Fișier opțional: grep "casa" sau glob "*.txt" folosește întâi câmpul fișierului. Adăugați un fișier între ghilimele pentru a-l deschide înainte. Instrumentele IA respectă sursele autorizate.',
+    'A fájl nem kötelező: grep "ház" vagy glob "*.txt" először a fájlmezőt használja. Egy idézett fájl előbb megnyílik. Az MI-eszközök az engedélyezett forrásokon belül maradnak.',
+    'Soubor je volitelný: grep "dům" nebo glob "*.txt" nejdříve použije pole souboru. Přidejte soubor v uvozovkách pro otevření před hledáním. Nástroje AI zůstávají v povolených zdrojích.',
+    'ファイルは省略可能です。grep "家" またはglob "*.txt"は最初にメインのファイル欄を使用します。引用符付きのファイルを追加すると先に開きます。AIツールは許可された対象のみ検索します。',
+    '文件可省略：grep "房子" 或 glob "*.txt" 优先使用主文件框。追加带引号的文件会先打开该文件。AI 工具仅搜索授权来源。',
+    '檔案可省略：grep "房子" 或 glob "*.txt" 優先使用主檔案欄。附加引號括住的檔案會先開啟該檔案。AI 工具僅搜尋授權來源。']);
+  Set14('SearchCmd.LargeHelp', [
+    'GB files are streamed in blocks; no full-file buffer. Lines are limited to 16,777,216 decoded characters with an explicit error. At the hit cap, scanning stops and results are partial, not exact totals.',
+    'Arquivos de GB são lidos em blocos, sem buffer do arquivo inteiro. Cada linha limita-se a 16.777.216 caracteres decodificados, com erro explícito. Ao atingir o limite de resultados, a busca para e o total é parcial.',
+    'Archivos de GB se leen por bloques. Cada línea admite 16.777.216 caracteres decodificados; superar el límite genera error. Al alcanzar el límite de resultados, la búsqueda se detiene y el total es parcial.',
+    'Les fichiers de plusieurs Go sont lus par blocs. Limite par ligne : 16 777 216 caractères décodés, sinon erreur explicite. Au plafond de résultats, la recherche s''arrête avec un total partiel.',
+    'GB-Dateien werden blockweise gelesen. Zeilen sind auf 16.777.216 dekodierte Zeichen begrenzt, sonst erscheint ein Fehler. Am Trefferlimit stoppt die Suche; das Ergebnis ist nur teilweise.',
+    'I file di GB vengono letti a blocchi. Limite per riga: 16.777.216 caratteri decodificati, altrimenti errore esplicito. Al limite dei risultati la ricerca si ferma; il totale è parziale.',
+    'Pliki GB są czytane blokami. Limit wiersza: 16 777 216 zdekodowanych znaków, po przekroczeniu jawny błąd. Po osiągnięciu limitu trafień wyszukiwanie zatrzymuje się; wynik jest częściowy.',
+    'Ficheiros de GB são lidos em blocos. Cada linha limita-se a 16.777.216 caracteres descodificados, com erro explícito. Ao atingir o limite de resultados, a pesquisa para e o total é parcial.',
+    'Fișierele de GB se citesc în blocuri. Limita unei linii: 16.777.216 caractere decodificate, altfel eroare explicită. La limita rezultatelor căutarea se oprește; totalul este parțial.',
+    'A GB-os fájlok blokkonként olvasódnak. Soronként legfeljebb 16 777 216 dekódolt karakter, egyébként hiba. A találati korlátnál a keresés leáll; az eredmény részleges.',
+    'Soubory v GB se čtou po blocích. Limit řádku: 16 777 216 dekódovaných znaků, jinak výslovná chyba. Při dosažení limitu shod se hledání zastaví; výsledek je částečný.',
+    'GB単位のファイルはブロック読み込みされます。1行は16,777,216デコード文字までで、超過は明示的なエラーです。一致上限で停止し、結果は部分的です。',
+    'GB 文件按块读取，不缓存整个文件。每行最多 16,777,216 个解码字符，超限会明确报错。达到匹配上限即停止，结果仅为部分结果。',
+    'GB 檔案按區塊讀取，不緩存整個檔案。每行最多 16,777,216 個解碼字元，超限會明確報錯。達到符合上限即停止，結果僅為部分結果。']);
+  Set14('SearchCmd.BookmarkUnavailable', [
+    'Bookmark operations are unavailable here. Use the indexed open file in the main window.',
+    'Operações com marcadores não estão disponíveis aqui. Use o arquivo aberto e indexado na janela principal.',
+    'Las operaciones con marcadores no están disponibles aquí. Use el archivo abierto e indexado en la ventana principal.',
+    'Les opérations sur les signets ne sont pas disponibles ici. Utilisez le fichier ouvert et indexé dans la fenêtre principale.',
+    'Lesezeichenaktionen sind hier nicht verfügbar. Verwenden Sie die geöffnete und indexierte Datei im Hauptfenster.',
+    'Le operazioni sui segnalibri non sono disponibili qui. Usa il file aperto e indicizzato nella finestra principale.',
+    'Operacje na zakładkach nie są tu dostępne. Użyj otwartego i zindeksowanego pliku w oknie głównym.',
+    'As operações com marcadores não estão disponíveis aqui. Use o ficheiro aberto e indexado na janela principal.',
+    'Operațiile cu marcaje nu sunt disponibile aici. Folosiți fișierul deschis și indexat în fereastra principală.',
+    'A könyvjelzőműveletek itt nem érhetők el. Használja a főablakban megnyitott és indexelt fájlt.',
+    'Operace se záložkami zde nejsou dostupné. Použijte otevřený a indexovaný soubor v hlavním okně.',
+    'ここではブックマーク操作は利用できません。メイン画面で開いたインデックス済みファイルを使用してください。',
+    '此处无法操作书签。请使用主窗口中已打开并建立索引的文件。',
+    '此處無法操作書籤。請使用主視窗中已開啟並建立索引的檔案。']);
+  Set14('SearchCmd.LaunchHint', [
+    'Open %s with AI help, examples and command suggestions',
+    'Abrir %s com ajuda de IA, exemplos e sugestões de comandos',
+    'Abrir %s con ayuda de IA, ejemplos y sugerencias de comandos',
+    'Ouvrir %s avec aide IA, exemples et suggestions de commandes',
+    '%s mit KI-Hilfe, Beispielen und Befehlsvorschlägen öffnen',
+    'Apri %s con aiuto IA, esempi e suggerimenti di comandi',
+    'Otwórz %s z pomocą AI, przykładami i propozycjami poleceń',
+    'Abrir %s com ajuda de IA, exemplos e sugestões de comandos',
+    'Deschideți %s cu ajutor IA, exemple și sugestii de comenzi',
+    '%s megnyitása MI-súgóval, példákkal és parancsjavaslatokkal',
+    'Otevřít %s s pomocí AI, příklady a návrhy příkazů',
+    'AIヘルプ、例、コマンドの提案で%sを開く',
+    '打开 %s，显示 AI 帮助、示例和命令建议',
+    '開啟 %s，顯示 AI 說明、範例和命令建議']);
+  Set14('SearchCmd.LaunchQueued', [
+    'Opening %s help in the main window; no search has run.',
+    'Abrindo a ajuda de %s na janela principal; nenhuma busca foi executada.',
+    'Abriendo la ayuda de %s en la ventana principal; no se ejecutó ninguna búsqueda.',
+    'Ouverture de l''aide %s dans la fenêtre principale ; aucune recherche exécutée.',
+    '%s-Hilfe wird im Hauptfenster geöffnet; es wurde keine Suche ausgeführt.',
+    'Apertura della guida %s nella finestra principale; nessuna ricerca eseguita.',
+    'Otwieranie pomocy %s w oknie głównym; nie wykonano wyszukiwania.',
+    'A abrir a ajuda de %s na janela principal; nenhuma pesquisa foi executada.',
+    'Se deschide ajutorul %s în fereastra principală; nu s-a executat nicio căutare.',
+    'A(z) %s súgó megnyitása a főablakban; nem futott keresés.',
+    'Otevírání nápovědy %s v hlavním okně; hledání nebylo spuštěno.',
+    'メインウィンドウで%sヘルプを開きます。検索は実行されていません。',
+    '正在主窗口打开 %s 帮助，尚未执行搜索。',
+    '正在主視窗開啟 %s 說明，尚未執行搜尋。']);
+  Set14('AICaps.Item.SearchCommands', [
+    'glob finds file paths; grep searches content in selected sources. Bare names open AI help and suggestions. Main-window grep can use bookmarks; diagnosis stays read-only.|glob "*.log"',
+    'glob encontra caminhos; grep busca conteúdo nas fontes selecionadas. Sem argumentos, abrem ajuda IA e sugestões. grep na janela principal usa marcadores; diagnóstico é somente leitura.|glob "*.log"',
+    'glob encuentra rutas; grep busca contenido en fuentes seleccionadas. Sin argumentos abren ayuda IA y sugerencias. grep principal usa marcadores; diagnóstico es solo lectura.|glob "*.log"',
+    'glob trouve les chemins ; grep cherche le contenu des sources sélectionnées. Sans arguments : aide IA et suggestions. Signets dans la fenêtre principale ; diagnostic en lecture seule.|glob "*.log"',
+    'glob findet Pfade; grep durchsucht Inhalte ausgewählter Quellen. Ohne Argumente: KI-Hilfe und Vorschläge. Lesezeichen im Hauptfenster; Diagnose bleibt schreibgeschützt.|glob "*.log"',
+    'glob trova percorsi; grep cerca nei contenuti delle fonti selezionate. Senza argomenti: guida IA e suggerimenti. Segnalibri nella finestra principale; diagnosi in sola lettura.|glob "*.log"',
+    'glob znajduje ścieżki; grep przeszukuje wybrane źródła. Bez argumentów otwierają pomoc AI i propozycje. Zakładki w oknie głównym; diagnoza tylko do odczytu.|glob "*.log"',
+    'glob encontra caminhos; grep pesquisa conteúdo nas fontes selecionadas. Sem argumentos, abrem ajuda IA e sugestões. grep na janela principal usa marcadores; diagnóstico só de leitura.|glob "*.log"',
+    'glob găsește căi; grep caută conținut în sursele selectate. Fără argumente: ajutor IA și sugestii. Marcaje în fereastra principală; diagnostic doar în citire.|glob "*.log"',
+    'A glob útvonalakat keres; a grep a kijelölt források tartalmában keres. Argumentum nélkül MI-súgó és javaslatok. Könyvjelzők a főablakban; a diagnózis csak olvas.|glob "*.log"',
+    'glob hledá cesty; grep prohledává obsah vybraných zdrojů. Bez argumentů: nápověda AI a návrhy. Záložky v hlavním okně; diagnostika pouze čte.|glob "*.log"',
+    'globはパス、grepは選択ソースの内容を検索します。引数なしでAIヘルプと提案を表示します。ブックマーク操作はメイン画面で、診断は読み取り専用です。|glob "*.log"',
+    'glob 查找路径，grep 搜索所选来源的内容。不带参数可打开 AI 帮助和建议。主窗口支持书签操作，诊断保持只读。|glob "*.log"',
+    'glob 尋找路徑，grep 搜尋所選來源的內容。不帶參數可開啟 AI 說明和建議。主視窗支援書籤操作，診斷保持唯讀。|glob "*.log"']);
+  Set14('SearchCmd.AIRequest', [
+    'Describe what you want to find or ask for command suggestions:',
+    'Descreva o que deseja encontrar ou peça sugestões de comandos:',
+    'Describa qué desea encontrar o pida sugerencias de comandos:',
+    'Décrivez votre recherche ou demandez des suggestions de commandes :',
+    'Beschreiben Sie Ihre Suche oder bitten Sie um Befehlsvorschläge:',
+    'Descrivi cosa cercare o chiedi suggerimenti sui comandi:',
+    'Opisz, co chcesz znaleźć, lub poproś o propozycje poleceń:',
+    'Descreva o que pretende encontrar ou peça sugestões de comandos:',
+    'Descrieți ce doriți să găsiți sau cereți sugestii de comenzi:',
+    'Írja le, mit keres, vagy kérjen parancsjavaslatokat:',
+    'Popište, co chcete najít, nebo požádejte o návrhy příkazů:',
+    '検索したい内容を説明するか、コマンドの提案を依頼してください：',
+    '描述要查找的内容，或请求命令建议：', '描述要尋找的內容，或要求命令建議：']);
+  Set14('SearchCmd.AIGenerate', [
+    'Generate with AI', 'Gerar com IA', 'Generar con IA', 'Générer avec l''IA',
+    'Mit KI erstellen', 'Genera con IA', 'Generuj z AI', 'Gerar com IA',
+    'Generare cu IA', 'Létrehozás MI-vel', 'Vytvořit pomocí AI',
+    'AIで生成', '使用 AI 生成', '使用 AI 產生']);
+  Set14('SearchCmd.AISuggestions', [
+    'Command suggestions', 'Sugestões de comandos', 'Sugerencias de comandos',
+    'Suggestions de commandes', 'Befehlsvorschläge', 'Suggerimenti di comandi',
+    'Propozycje poleceń', 'Sugestões de comandos', 'Sugestii de comenzi',
+    'Parancsjavaslatok', 'Návrhy příkazů', 'コマンドの提案', '命令建议', '命令建議']);
+  Set14('SearchCmd.Run', [
+    'Run command', 'Executar comando', 'Ejecutar comando', 'Exécuter la commande',
+    'Befehl ausführen', 'Esegui comando', 'Wykonaj polecenie', 'Executar comando',
+    'Executare comandă', 'Parancs futtatása', 'Spustit příkaz',
+    'コマンドを実行', '执行命令', '執行命令']);
+  Set14('SearchCmd.AIReview', [
+    'Review or edit the command, then click Run command. AI suggestions never run automatically.',
+    'Revise ou edite o comando e clique em Executar comando. Sugestões da IA nunca são executadas automaticamente.',
+    'Revise o edite el comando y pulse Ejecutar comando. Las sugerencias de IA nunca se ejecutan automáticamente.',
+    'Vérifiez ou modifiez la commande, puis cliquez sur Exécuter la commande. Les suggestions IA ne sont jamais exécutées automatiquement.',
+    'Prüfen oder bearbeiten Sie den Befehl und klicken Sie auf Befehl ausführen. KI-Vorschläge werden nie automatisch ausgeführt.',
+    'Controlla o modifica il comando, poi fai clic su Esegui comando. I suggerimenti IA non vengono mai eseguiti automaticamente.',
+    'Sprawdź lub zmień polecenie, a następnie kliknij Wykonaj polecenie. Propozycje AI nigdy nie uruchamiają się automatycznie.',
+    'Reveja ou edite o comando e clique em Executar comando. As sugestões da IA nunca são executadas automaticamente.',
+    'Verificați sau editați comanda, apoi apăsați Executare comandă. Sugestiile IA nu se execută niciodată automat.',
+    'Ellenőrizze vagy módosítsa a parancsot, majd kattintson a Parancs futtatása gombra. Az MI javaslatai nem futnak automatikusan.',
+    'Zkontrolujte nebo upravte příkaz a klikněte na Spustit příkaz. Návrhy AI se nikdy nespouštějí automaticky.',
+    'コマンドを確認・編集してから実行してください。AIの提案は自動実行されません。',
+    '请检查或编辑命令，然后单击执行命令。AI 建议不会自动执行。',
+    '請檢查或編輯命令，然後按一下執行命令。AI 建議不會自動執行。']);
+  Set14('SearchCmd.AIPrivacy', [
+    'AI receives only your request and this command, not file contents or the selected source list.',
+    'A IA recebe apenas seu pedido e este comando, não o conteúdo dos arquivos nem a lista de fontes selecionadas.',
+    'La IA recibe solo su petición y este comando, no el contenido ni la lista de fuentes seleccionadas.',
+    'L''IA reçoit uniquement votre demande et cette commande, pas le contenu des fichiers ni la liste des sources.',
+    'Die KI erhält nur Ihre Anfrage und diesen Befehl, keine Dateiinhalte oder Liste ausgewählter Quellen.',
+    'L''IA riceve solo la richiesta e questo comando, non i contenuti dei file o l''elenco delle fonti selezionate.',
+    'AI otrzymuje tylko Twoją prośbę i to polecenie, bez treści plików ani listy wybranych źródeł.',
+    'A IA recebe apenas o seu pedido e este comando, não o conteúdo dos ficheiros nem a lista de fontes selecionadas.',
+    'IA primește doar cererea și această comandă, nu conținutul fișierelor sau lista surselor selectate.',
+    'Az MI csak a kérést és ezt a parancsot kapja meg, a fájlok tartalmát és a kijelölt források listáját nem.',
+    'AI obdrží pouze váš požadavek a tento příkaz, nikoli obsah souborů ani seznam vybraných zdrojů.',
+    'AIに送信されるのは依頼とこのコマンドのみです。ファイル内容や選択したソース一覧は送信されません。',
+    'AI 只接收您的请求和此命令，不会接收文件内容或所选来源列表。',
+    'AI 只接收您的要求和此命令，不會接收檔案內容或所選來源清單。']);
+  Set14('SearchCmd.AIWaiting', [
+    'Generating command with AI. Nothing is being executed.',
+    'Gerando comando com IA. Nada está sendo executado.',
+    'Generando comando con IA. No se está ejecutando nada.',
+    'Génération de la commande avec l''IA. Aucune exécution en cours.',
+    'Befehl wird mit KI erstellt. Es wird nichts ausgeführt.',
+    'Generazione del comando con IA. Nessuna esecuzione in corso.',
+    'Generowanie polecenia z AI. Nic nie jest wykonywane.',
+    'A gerar comando com IA. Nada está a ser executado.',
+    'Se generează comanda cu IA. Nu se execută nimic.',
+    'Parancs létrehozása MI-vel. Semmi sem fut.',
+    'Vytváření příkazu pomocí AI. Nic se nespouští.',
+    'AIでコマンドを生成中です。実行は行っていません。',
+    '正在使用 AI 生成命令，尚未执行任何操作。', '正在使用 AI 產生命令，尚未執行任何操作。']);
+  Set14('SearchCmd.AIStopping', [
+    'Closing after the current AI request finishes or times out; its reply will be discarded.',
+    'Fechando após a solicitação de IA terminar ou expirar; a resposta será descartada.',
+    'Se cerrará al terminar o expirar la petición de IA; se descartará la respuesta.',
+    'Fermeture à la fin ou à l''expiration de la demande IA ; la réponse sera ignorée.',
+    'Schließen nach Abschluss oder Zeitüberschreitung der KI-Anfrage; die Antwort wird verworfen.',
+    'Chiusura al termine o alla scadenza della richiesta IA; la risposta verrà scartata.',
+    'Zamknięcie po zakończeniu lub przekroczeniu limitu czasu AI; odpowiedź zostanie odrzucona.',
+    'A fechar após o pedido de IA terminar ou expirar; a resposta será descartada.',
+    'Se închide după finalizarea sau expirarea cererii IA; răspunsul va fi ignorat.',
+    'Bezárás az MI-kérés befejezése vagy időtúllépése után; a válasz el lesz vetve.',
+    'Zavření po dokončení nebo vypršení požadavku AI; odpověď bude zahozena.',
+    'AIの要求が完了またはタイムアウトした後に閉じます。応答は破棄されます。',
+    '当前 AI 请求完成或超时后关闭；回复将被丢弃。', '目前 AI 要求完成或逾時後關閉；回覆將被捨棄。']);
+  Set14('SearchCmd.AIInvalid', [
+    'Invalid AI reply. No command was run. Ask again or enter a valid glob/grep command.',
+    'Resposta inválida da IA. Nenhum comando foi executado. Peça novamente ou digite um comando glob/grep válido.',
+    'Respuesta de IA no válida. No se ejecutó ningún comando. Inténtelo de nuevo o escriba un comando glob/grep válido.',
+    'Réponse IA invalide. Aucune commande exécutée. Réessayez ou saisissez une commande glob/grep valide.',
+    'Ungültige KI-Antwort. Kein Befehl wurde ausgeführt. Fragen Sie erneut oder geben Sie einen gültigen glob/grep-Befehl ein.',
+    'Risposta IA non valida. Nessun comando eseguito. Riprova o inserisci un comando glob/grep valido.',
+    'Nieprawidłowa odpowiedź AI. Nie wykonano polecenia. Spróbuj ponownie lub wpisz prawidłowe polecenie glob/grep.',
+    'Resposta inválida da IA. Nenhum comando foi executado. Peça novamente ou introduza um comando glob/grep válido.',
+    'Răspuns IA nevalid. Nu s-a executat nicio comandă. Încercați din nou sau introduceți o comandă glob/grep validă.',
+    'Érvénytelen MI-válasz. Nem futott parancs. Kérdezzen újra, vagy adjon meg érvényes glob/grep parancsot.',
+    'Neplatná odpověď AI. Žádný příkaz nebyl spuštěn. Zkuste to znovu nebo zadejte platný příkaz glob/grep.',
+    'AIの応答が無効です。コマンドは実行されていません。再度依頼するか、有効なglob/grepコマンドを入力してください。',
+    'AI 回复无效，未执行任何命令。请重试或输入有效的 glob/grep 命令。',
+    'AI 回覆無效，未執行任何命令。請重試或輸入有效的 glob/grep 命令。']);
+  Set14('SearchCmd.Queued', [
+    'Search scheduled in the main window; bookmarks have not changed yet.',
+    'Busca agendada na janela principal; os marcadores ainda não foram alterados.',
+    'Búsqueda programada en la ventana principal; los marcadores aún no han cambiado.',
+    'Recherche programmée dans la fenêtre principale ; les signets ne sont pas encore modifiés.',
+    'Suche im Hauptfenster geplant; Lesezeichen wurden noch nicht geändert.',
+    'Ricerca pianificata nella finestra principale; i segnalibri non sono ancora cambiati.',
+    'Wyszukiwanie zaplanowane w oknie głównym; zakładki nie zostały jeszcze zmienione.',
+    'Pesquisa agendada na janela principal; os marcadores ainda não foram alterados.',
+    'Căutare programată în fereastra principală; marcajele nu au fost încă modificate.',
+    'Keresés ütemezve a főablakban; a könyvjelzők még nem változtak.',
+    'Hledání naplánováno v hlavním okně; záložky se zatím nezměnily.',
+    'メインウィンドウで検索を予約しました。ブックマークはまだ変更されていません。',
+    '已在主窗口安排搜索；书签尚未更改。', '已在主視窗安排搜尋；書籤尚未變更。']);
+  Set14('SearchCmd.Hint', [
+    'Text, glob "*.log", grep -i "error", or grep --help',
+    'Texto, glob "*.log", grep -i "erro" ou grep --help',
+    'Texto, glob "*.log", grep -i "error" o grep --help',
+    'Texte, glob "*.log", grep -i "erreur" ou grep --help',
+    'Text, glob "*.log", grep -i "Fehler" oder grep --help',
+    'Testo, glob "*.log", grep -i "errore" o grep --help',
+    'Tekst, glob "*.log", grep -i "błąd" lub grep --help',
+    'Texto, glob "*.log", grep -i "erro" ou grep --help',
+    'Text, glob "*.log", grep -i "eroare" sau grep --help',
+    'Szöveg, glob "*.log", grep -i "hiba" vagy grep --help',
+    'Text, glob "*.log", grep -i "chyba" nebo grep --help',
+    'テキスト、glob "*.log"、grep -i "エラー"、または grep --help',
+    '文本、glob "*.log"、grep -i "错误" 或 grep --help',
+    '文字、glob "*.log"、grep -i "錯誤" 或 grep --help']);
+  Set14('SearchCmd.Quotes', [
+    'Unclosed quote in search command.', 'Aspas não fechadas no comando de busca.',
+    'Comillas sin cerrar en el comando.', 'Guillemet non fermé dans la commande.',
+    'Nicht geschlossenes Anführungszeichen im Suchbefehl.', 'Virgolette non chiuse nel comando.',
+    'Niezamknięty cudzysłów w poleceniu.', 'Aspas não fechadas no comando de pesquisa.',
+    'Ghilimele neînchise în comandă.', 'Lezáratlan idézőjel a parancsban.',
+    'Neuzavřené uvozovky v příkazu.', '検索コマンドの引用符が閉じていません。',
+    '搜索命令中的引号未闭合。', '搜尋命令中的引號未閉合。']);
+  Set14('SearchCmd.Option', [
+    'Invalid or incomplete option: %s', 'Opção inválida ou incompleta: %s',
+    'Opción no válida o incompleta: %s', 'Option incorrecte ou incomplète : %s',
+    'Ungültige oder unvollständige Option: %s', 'Opzione non valida o incompleta: %s',
+    'Nieprawidłowa lub niepełna opcja: %s', 'Opção inválida ou incompleta: %s',
+    'Opțiune invalidă sau incompletă: %s', 'Érvénytelen vagy hiányos kapcsoló: %s',
+    'Neplatná nebo neúplná volba: %s', '無効または不完全なオプション: %s',
+    '选项无效或不完整：%s', '選項無效或不完整：%s']);
+  Set14('SearchCmd.Limit', [
+    '--limit must be between 1 and 10000.', '--limit deve estar entre 1 e 10000.',
+    '--limit debe estar entre 1 y 10000.', '--limit doit être compris entre 1 et 10000.',
+    '--limit muss zwischen 1 und 10000 liegen.', '--limit deve essere tra 1 e 10000.',
+    '--limit musi wynosić od 1 do 10000.', '--limit deve estar entre 1 e 10000.',
+    '--limit trebuie să fie între 1 și 10000.', '--limit értéke 1 és 10000 közötti lehet.',
+    '--limit musí být mezi 1 a 10000.', '--limit は 1～10000 の範囲で指定してください。',
+    '--limit 必须在 1 到 10000 之间。', '--limit 必須介於 1 到 10000 之間。']);
+  Set14('SearchCmd.Arguments', [
+    'Invalid arguments. Quote one pattern; see grep --help.',
+    'Argumentos inválidos. Use um padrão entre aspas; consulte grep --help.',
+    'Argumentos no válidos. Use un patrón entre comillas; consulte grep --help.',
+    'Arguments incorrects. Mettez un seul motif entre guillemets ; voir grep --help.',
+    'Ungültige Argumente. Ein Muster in Anführungszeichen verwenden; siehe grep --help.',
+    'Argomenti non validi. Usare un modello tra virgolette; vedere grep --help.',
+    'Nieprawidłowe argumenty. Ujmij jeden wzorzec w cudzysłowy; zobacz grep --help.',
+    'Argumentos inválidos. Use um padrão entre aspas; consulte grep --help.',
+    'Argumente invalide. Folosiți un model între ghilimele; consultați grep --help.',
+    'Érvénytelen argumentumok. Egy mintát adjon meg idézőjelben; lásd grep --help.',
+    'Neplatné argumenty. Zadejte jeden vzor v uvozovkách; viz grep --help.',
+    '引数が無効です。パターンを引用符で囲んでください。grep --help を参照。',
+    '参数无效。请将一个模式放在引号内；参阅 grep --help。',
+    '引數無效。請將一個模式放在引號內；參閱 grep --help。']);
+  Set14('SearchCmd.Pattern', [
+    'Enter a glob or grep command with a nonempty pattern.',
+    'Digite um comando glob ou grep com um padrão não vazio.',
+    'Escriba un comando glob o grep con un patrón no vacío.',
+    'Saisissez une commande glob ou grep avec un motif non vide.',
+    'Einen glob- oder grep-Befehl mit nicht leerem Muster eingeben.',
+    'Inserire un comando glob o grep con un modello non vuoto.',
+    'Wpisz polecenie glob lub grep z niepustym wzorcem.',
+    'Introduza um comando glob ou grep com um padrão não vazio.',
+    'Introduceți o comandă glob sau grep cu un model nevid.',
+    'Adjon meg glob vagy grep parancsot nem üres mintával.',
+    'Zadejte příkaz glob nebo grep s neprázdným vzorem.',
+    '空でないパターンを含む glob または grep コマンドを入力してください。',
+    '请输入包含非空模式的 glob 或 grep 命令。', '請輸入包含非空模式的 glob 或 grep 命令。']);
+  Set14('SearchCmd.Regex', [
+    'Invalid regular expression: %s', 'Expressão regular inválida: %s',
+    'Expresión regular no válida: %s', 'Expression régulière incorrecte : %s',
+    'Ungültiger regulärer Ausdruck: %s', 'Espressione regolare non valida: %s',
+    'Nieprawidłowe wyrażenie regularne: %s', 'Expressão regular inválida: %s',
+    'Expresie regulată invalidă: %s', 'Érvénytelen reguláris kifejezés: %s',
+    'Neplatný regulární výraz: %s', '無効な正規表現: %s',
+    '正则表达式无效：%s', '規則運算式無效：%s']);
+  Set14('SearchCmd.Read', [
+    'Could not read: %s', 'Não foi possível ler: %s', 'No se pudo leer: %s',
+    'Lecture impossible : %s', 'Lesen fehlgeschlagen: %s', 'Impossibile leggere: %s',
+    'Nie można odczytać: %s', 'Não foi possível ler: %s', 'Nu se poate citi: %s',
+    'Nem olvasható: %s', 'Nelze přečíst: %s', '読み取れません: %s',
+    '无法读取：%s', '無法讀取：%s']);
+  Set14('SearchCmd.Failed', [
+    'Search failed; no action was applied.', 'A busca falhou; nenhuma ação foi aplicada.',
+    'La búsqueda falló; no se aplicó ninguna acción.', 'Échec de la recherche ; aucune action appliquée.',
+    'Suche fehlgeschlagen; keine Aktion ausgeführt.', 'Ricerca non riuscita; nessuna azione applicata.',
+    'Wyszukiwanie nie powiodło się; nie wykonano działań.', 'A pesquisa falhou; nenhuma ação foi aplicada.',
+    'Căutarea a eșuat; nicio acțiune aplicată.', 'A keresés sikertelen; nem történt művelet.',
+    'Hledání selhalo; žádná akce nebyla provedena.', '検索に失敗しました。操作は適用されていません。',
+    '搜索失败；未执行任何操作。', '搜尋失敗；未執行任何操作。']);
+  Set14('SearchCmd.Results', [
+    '%d results shown; %d files scanned.', '%d resultados exibidos; %d arquivos examinados.',
+    '%d resultados mostrados; %d archivos examinados.', '%d résultats affichés ; %d fichiers analysés.',
+    '%d Ergebnisse angezeigt; %d Dateien durchsucht.', '%d risultati mostrati; %d file esaminati.',
+    'Wyświetlono %d wyników; przeszukano %d plików.', '%d resultados apresentados; %d ficheiros examinados.',
+    '%d rezultate afișate; %d fișiere analizate.', '%d megjelenített találat; %d átvizsgált fájl.',
+    'Zobrazeno %d výsledků; prohledáno %d souborů.', '%d 件を表示、%d ファイルを検索しました。',
+    '显示 %d 个结果；已扫描 %d 个文件。', '顯示 %d 個結果；已掃描 %d 個檔案。']);
+  Set14('SearchCmd.Partial', [
+    'Partial results: hit or source limit reached.', 'Resultados parciais: limite de ocorrências ou fontes atingido.',
+    'Resultados parciales: límite de coincidencias o fuentes alcanzado.', 'Résultats partiels : limite de résultats ou de sources atteinte.',
+    'Teilergebnisse: Treffer- oder Quellenlimit erreicht.', 'Risultati parziali: limite di occorrenze o sorgenti raggiunto.',
+    'Wyniki częściowe: osiągnięto limit trafień lub źródeł.', 'Resultados parciais: limite de ocorrências ou fontes atingido.',
+    'Rezultate parțiale: limita de apariții sau surse atinsă.', 'Részleges eredmény: elérte a találat- vagy forráskorlátot.',
+    'Částečné výsledky: dosažen limit shod nebo zdrojů.', '部分的な結果: 一致件数または対象数の上限に達しました。',
+    '部分结果：已达到匹配项或来源数量上限。', '部分結果：已達到相符項目或來源數量上限。']);
+  Set14('SearchCmd.Stopped', [
+    'Cancelled; results may be incomplete.', 'Cancelado; os resultados podem estar incompletos.',
+    'Cancelado; los resultados pueden estar incompletos.', 'Annulé ; les résultats peuvent être incomplets.',
+    'Abgebrochen; Ergebnisse können unvollständig sein.', 'Annullato; i risultati possono essere incompleti.',
+    'Anulowano; wyniki mogą być niepełne.', 'Cancelado; os resultados podem estar incompletos.',
+    'Anulat; rezultatele pot fi incomplete.', 'Megszakítva; az eredmény hiányos lehet.',
+    'Zrušeno; výsledky mohou být neúplné.', 'キャンセルされました。結果は不完全な可能性があります。',
+    '已取消；结果可能不完整。', '已取消；結果可能不完整。']);
+  Set14('SearchCmd.Mark', [
+    'Bookmark hits in the open file', 'Marcar ocorrências no arquivo aberto',
+    'Marcar coincidencias en el archivo abierto', 'Marquer les résultats dans le fichier ouvert',
+    'Treffer in der geöffneten Datei markieren', 'Segna le occorrenze nel file aperto',
+    'Dodaj zakładki do trafień w otwartym pliku', 'Marcar ocorrências no ficheiro aberto',
+    'Marchează aparițiile în fișierul deschis', 'Találatok megjelölése a megnyitott fájlban',
+    'Označit shody v otevřeném souboru', '開いているファイルの一致行をブックマーク',
+    '为当前文件的匹配行添加书签', '為目前檔案的相符行加入書籤']);
+  Set14('SearchCmd.Marked', [
+    '%d bookmarks added; %d hits skipped (other files or bookmark limit).',
+    '%d marcadores adicionados; %d ocorrências ignoradas (outros arquivos ou limite de marcadores).',
+    '%d marcadores añadidos; %d coincidencias omitidas (otros archivos o límite de marcadores).',
+    '%d signets ajoutés ; %d résultats ignorés (autres fichiers ou limite de signets).',
+    '%d Lesezeichen hinzugefügt; %d Treffer übersprungen (andere Dateien oder Lesezeichenlimit).',
+    '%d segnalibri aggiunti; %d occorrenze saltate (altri file o limite di segnalibri).',
+    'Dodano %d zakładek; pominięto %d trafień (inne pliki lub limit zakładek).',
+    '%d marcadores adicionados; %d ocorrências ignoradas (outros ficheiros ou limite de marcadores).',
+    '%d marcaje adăugate; %d apariții omise (alte fișiere sau limita de marcaje).',
+    '%d könyvjelző hozzáadva; %d találat kihagyva (más fájl vagy könyvjelzőkorlát).',
+    'Přidáno %d záložek; přeskočeno %d shod (jiné soubory nebo limit záložek).',
+    '%d 件のブックマークを追加、%d 件を除外（他のファイルまたは上限）。',
+    '已添加 %d 个书签；跳过 %d 个匹配项（其他文件或书签上限）。',
+    '已加入 %d 個書籤；略過 %d 個相符項目（其他檔案或書籤上限）。']);
+  Set14('SearchCmd.Index', [
+    'Read/index the open file before using bookmark commands.',
+    'Leia/indexe o arquivo aberto antes de usar comandos de marcadores.',
+    'Lea/indexe el archivo abierto antes de usar comandos de marcadores.',
+    'Lisez/indexez le fichier ouvert avant les commandes de signets.',
+    'Die geöffnete Datei vor Lesezeichenbefehlen lesen/indizieren.',
+    'Leggere/indicizzare il file aperto prima dei comandi sui segnalibri.',
+    'Odczytaj/zaindeksuj otwarty plik przed użyciem poleceń zakładek.',
+    'Leia/indexe o ficheiro aberto antes de usar comandos de marcadores.',
+    'Citiți/indexați fișierul deschis înainte de comenzile de marcaje.',
+    'A könyvjelzőparancsok előtt olvassa be/indexelje a megnyitott fájlt.',
+    'Před příkazy záložek načtěte/indexujte otevřený soubor.',
+    'ブックマークコマンドの前に、開いているファイルを読み込み、索引を作成してください。',
+    '使用书签命令前，请读取当前文件并建立索引。', '使用書籤命令前，請讀取目前檔案並建立索引。']);
+  Set14('SearchCmd.NoSources', [
+    'Select sources in AI agent or open a file first.',
+    'Selecione fontes no Agente IA ou abra um arquivo primeiro.',
+    'Seleccione fuentes en el Agente IA o abra un archivo primero.',
+    'Sélectionnez des sources dans Agent IA ou ouvrez un fichier.',
+    'Quellen im KI-Agenten auswählen oder zuerst eine Datei öffnen.',
+    'Selezionare sorgenti in Agente IA o aprire prima un file.',
+    'Wybierz źródła w Agencie AI lub najpierw otwórz plik.',
+    'Selecione fontes no Agente IA ou abra um ficheiro primeiro.',
+    'Selectați surse în Agent IA sau deschideți un fișier.',
+    'Válasszon forrásokat az MI-ügynökben, vagy nyisson meg egy fájlt.',
+    'Vyberte zdroje v Agentovi AI nebo nejprve otevřete soubor.',
+    'AI エージェントで対象を選択するか、ファイルを開いてください。',
+    '请先在 AI 代理中选择来源或打开文件。', '請先在 AI 代理中選擇來源或開啟檔案。']);
+  Set14('SearchCmd.Scanning', [
+    'Searching selected sources... Stop cancels the scan.',
+    'Buscando nas fontes selecionadas... Parar cancela a varredura.',
+    'Buscando en las fuentes seleccionadas... Detener cancela el análisis.',
+    'Recherche dans les sources sélectionnées... Arrêter annule l’analyse.',
+    'Ausgewählte Quellen werden durchsucht... Stopp bricht ab.',
+    'Ricerca nelle sorgenti selezionate... Arresta annulla la scansione.',
+    'Wyszukiwanie w wybranych źródłach... Zatrzymaj anuluje skanowanie.',
+    'A pesquisar nas fontes selecionadas... Parar cancela a análise.',
+    'Căutare în sursele selectate... Oprire anulează scanarea.',
+    'Keresés a kiválasztott forrásokban... Leállítás megszakítja a keresést.',
+    'Hledání ve vybraných zdrojích... Zastavit zruší prohledávání.',
+    '選択した対象を検索中... 停止ボタンでキャンセルできます。',
+    '正在搜索所选来源…停止可取消扫描。', '正在搜尋所選來源…停止可取消掃描。']);
+  Set14('SearchCmd.Help', [
+    'Internal commands, not shell commands. For selected folders, agent mask, subfolder, depth and file-count settings apply. glob ' +
+    'finds paths (* within a component, ? one character, ** across folders). grep finds content: -F literal (default), -E PCRE regex, -i ignore case, -s match case, -v invert, -w whole ' +
+    'words; -n is accepted and line numbers are always shown. --glob filters paths. --limit 1..10000 limits all results (default 200). --bookmarks searches only bookmarked lines of the ' +
+    'open file. --mark adds bookmarks to its matching lines; other-file hits are skipped. Bookmark commands require indexed reading. Quotes preserve spaces and backslashes; -- ends ' +
+    'options. Plain text keeps the existing search. Results are paginated; Open navigates, Copy copies the retained results. Partial/cancelled results are not totals. Examples below ' +
+    'use sample English content; replace the quoted search text as needed.',
+    'Comandos internos, não comandos de shell. Para pastas selecionadas, são respeitadas as opções de máscara, ' +
+    'subpastas, profundidade e quantidade de arquivos do agente. glob encontra caminhos (* no componente, ? um caractere, ** entre pastas). grep busca conteúdo: -F literal (padrão), -E ' +
+    'regex PCRE, -i ignora caixa, -s diferencia caixa, -v inverte, -w palavras inteiras; -n é aceito e os números das linhas sempre aparecem. --glob filtra caminhos. --limit 1..10000 ' +
+    'limita o conjunto de resultados (padrão 200). --bookmarks busca só nas linhas marcadas do arquivo aberto. --mark adiciona marcadores às ocorrências nele; resultados de outros ' +
+    'arquivos são ignorados. Comandos de marcadores exigem leitura indexada. Aspas preservam espaços e barras; -- encerra opções. Texto simples mantém a busca atual. Resultados ' +
+    'paginados; Abrir navega, Copiar copia os resultados retidos. Resultados parciais/cancelados não são totais. Os exemplos usam conteúdo em inglês; substitua o texto buscado entre ' +
+    'aspas conforme necessário.',
+    'Comandos internos, no de shell. Para las carpetas seleccionadas se respetan máscara, subcarpetas, profundidad y límite de ' +
+    'archivos. glob busca rutas (* dentro del componente, ? un carácter, ** entre carpetas). grep busca contenido: -F literal (predeterminado), -E regex PCRE, -i ignora mayúsculas, -s ' +
+    'las distingue, -v invierte, -w palabras completas; -n se acepta y siempre se muestran números de línea. --glob filtra rutas. --limit 1..10000 limita todos los resultados (200 por ' +
+    'defecto). --bookmarks busca solo líneas marcadas del archivo abierto. --mark añade marcadores en él; se omiten otros archivos. Los marcadores requieren lectura indexada. Las ' +
+    'comillas conservan espacios y barras; -- termina las opciones. El texto simple conserva la búsqueda actual. Resultados paginados; Abrir navega y Copiar copia los resultados ' +
+    'retenidos. Los resultados parciales/cancelados no son totales. Ejemplos con contenido inglés; sustituya el texto entre comillas.',
+    'Commandes internes, sans shell. Pour les dossiers sélectionnés, les réglages de masque, sous-dossiers, profondeur et nombre de fichiers sont ' +
+    'respectés. glob cherche des chemins (* dans un composant, ? un caractère, ** entre dossiers). grep cherche du contenu : -F littéral (défaut), -E regex PCRE, -i ignore la casse, -s ' +
+    'respecte la casse, -v inverse, -w mots entiers ; -n accepté, numéros de ligne toujours affichés. --glob filtre les chemins. --limit 1..10000 borne tous les résultats (200 par ' +
+    'défaut). --bookmarks cherche uniquement dans les lignes marquées du fichier ouvert. --mark y ajoute des signets ; les autres fichiers sont ignorés. Les signets nécessitent une ' +
+    'lecture indexée. Les guillemets préservent espaces et barres ; -- termine les options. Le texte simple conserve la recherche actuelle. Résultats paginés ; Ouvrir navigue, Copier ' +
+    'copie les résultats conservés. Les résultats partiels/annulés ne sont pas des totaux. Exemples avec contenu anglais ; adaptez le texte entre guillemets.',
+    'Interne Befehle, keine Shell. Für ausgewählte Ordner gelten Maske, Unterordner, Tiefe und Dateilimit des Agenten. glob findet Pfade (* ' +
+    'innerhalb einer Komponente, ? ein Zeichen, ** über Ordner hinweg). grep durchsucht Inhalte: -F wörtlich (Standard), -E PCRE-Regex, -i ignoriert Groß-/Kleinschreibung, -s beachtet ' +
+    'sie, -v kehrt um, -w ganze Wörter; -n wird akzeptiert, Zeilennummern sind immer sichtbar. --glob filtert Pfade. --limit 1..10000 begrenzt alle Ergebnisse (Standard 200). ' +
+    '--bookmarks durchsucht nur markierte Zeilen der geöffneten Datei. --mark fügt dort Lesezeichen hinzu; andere Dateien werden übersprungen. Lesezeichenbefehle erfordern indiziertes ' +
+    'Lesen. Anführungszeichen erhalten Leerzeichen und Backslashes; -- beendet Optionen. Einfacher Text behält die bisherige Suche. Ergebnisse sind seitenweise; Öffnen navigiert, ' +
+    'Kopieren kopiert gespeicherte Treffer. Teil-/abgebrochene Ergebnisse sind keine Gesamtzahlen. Beispiele mit englischem Inhalt; Suchtext in Anführungszeichen anpassen.',
+    'Comandi interni, senza shell. Per le cartelle selezionate si rispettano maschera, sottocartelle, profondità e limite file. glob trova ' +
+    'percorsi (* nel componente, ? un carattere, ** tra cartelle). grep cerca contenuti: -F letterale (predefinito), -E regex PCRE, -i ignora maiuscole, -s le distingue, -v inverte, -w ' +
+    'parole intere; -n accettato e numeri di riga sempre visibili. --glob filtra i percorsi. --limit 1..10000 limita tutti i risultati (200 predefinito). --bookmarks cerca solo nelle ' +
+    'righe segnate del file aperto. --mark vi aggiunge segnalibri; gli altri file sono ignorati. I segnalibri richiedono lettura indicizzata. Le virgolette conservano spazi e barre; -- ' +
+    'termina le opzioni. Il testo semplice mantiene la ricerca attuale. Risultati paginati; Apri naviga, Copia copia i risultati conservati. Risultati parziali/annullati non sono ' +
+    'totali. Esempi con contenuto inglese; sostituire il testo tra virgolette.',
+    'Polecenia wewnętrzne, bez powłoki. Dla wybranych folderów obowiązują ustawienia maski, podfolderów, głębokości i limitu plików. glob ' +
+    'znajduje ścieżki (* w składniku, ? jeden znak, ** między folderami). grep szuka treści: -F dosłownie (domyślnie), -E regex PCRE, -i ignoruje wielkość liter, -s rozróżnia, -v ' +
+    'odwraca, -w całe słowa; -n akceptowane, numery linii zawsze widoczne. --glob filtruje ścieżki. --limit 1..10000 ogranicza wszystkie wyniki (domyślnie 200). --bookmarks szuka tylko ' +
+    'w liniach z zakładkami otwartego pliku. --mark dodaje tam zakładki; inne pliki są pomijane. Zakładki wymagają odczytu z indeksem. Cudzysłowy zachowują spacje i ukośniki; -- kończy ' +
+    'opcje. Zwykły tekst zachowuje dotychczasowe wyszukiwanie. Wyniki stronicowane; Otwórz przechodzi do wyniku, Kopiuj kopiuje zachowane wyniki. Wyniki częściowe/anulowane nie są ' +
+    'sumami. Przykłady z angielską treścią; zmień tekst w cudzysłowach.',
+    'Comandos internos, não comandos de shell. Para pastas selecionadas respeitam-se máscara, subpastas, ' +
+    'profundidade e limite de ficheiros. glob encontra caminhos (* no componente, ? um caráter, ** entre pastas). grep pesquisa conteúdo: -F literal (predefinição), -E regex PCRE, -i ' +
+    'ignora maiúsculas, -s distingue maiúsculas, -v inverte, -w palavras inteiras; -n é aceite e os números das linhas são sempre apresentados. --glob filtra caminhos. --limit 1..10000 ' +
+    'limita todos os resultados (predefinição 200). --bookmarks pesquisa apenas linhas marcadas do ficheiro aberto. --mark adiciona marcadores nele; outros ficheiros são ignorados. Os ' +
+    'marcadores exigem leitura indexada. Aspas preservam espaços e barras; -- termina opções. Texto simples mantém a pesquisa atual. Resultados paginados; Abrir navega, Copiar copia os ' +
+    'resultados retidos. Resultados parciais/cancelados não são totais. Exemplos com conteúdo inglês; substitua o texto entre aspas.',
+    'Comenzi interne, fără shell. Pentru folderele selectate se respectă masca, subfolderele, adâncimea și limita de fișiere. glob găsește căi (* în ' +
+    'componentă, ? un caracter, ** între foldere). grep caută conținut: -F literal (implicit), -E regex PCRE, -i ignoră majusculele, -s le distinge, -v inversează, -w cuvinte întregi; ' +
+    '-n acceptat, numerele liniilor sunt mereu afișate. --glob filtrează căile. --limit 1..10000 limitează toate rezultatele (implicit 200). --bookmarks caută doar în liniile marcate ' +
+    'ale fișierului deschis. --mark adaugă marcaje acolo; alte fișiere sunt omise. Marcajele necesită citire indexată. Ghilimelele păstrează spațiile și barele; -- încheie opțiunile. ' +
+    'Textul simplu păstrează căutarea actuală. Rezultate paginate; Deschide navighează, Copiază copiază rezultatele păstrate. Rezultatele parțiale/anulate nu sunt totaluri. Exemple cu ' +
+    'text englezesc; înlocuiți textul dintre ghilimele.',
+    'Belső parancsok, nem shell-parancsok. A kiválasztott mappákra érvényesek a maszk-, almappa-, mélység- és fájlszámkorlátok. glob ' +
+    'útvonalakat keres (* egy összetevőn belül, ? egy karakter, ** mappák között). grep tartalmat keres: -F szó szerinti (alapérték), -E PCRE regex, -i nem különbözteti meg a kis- és ' +
+    'nagybetűket, -s megkülönbözteti, -v megfordít, -w teljes szavak; -n elfogadott, a sorszám mindig látható. --glob útvonalszűrő. --limit 1..10000 az összes találat korlátja ' +
+    '(alapérték 200). --bookmarks csak a megnyitott fájl könyvjelzős sorait keresi. --mark könyvjelzőket ad hozzá ott; más fájlokat kihagy. A könyvjelzőkhöz indexelt olvasás kell. ' +
+    'Idézőjelek őrzik a szóközöket és fordított perjeleket; -- lezárja a kapcsolókat. Egyszerű szöveg a régi keresést használja. Lapozott eredmények; Megnyitás navigál, Másolás másolja ' +
+    'a tárolt találatokat. Részleges/megszakított eredmény nem összesítés. Angol mintaszöveg; módosítsa az idézőjeles keresést.',
+    'Interní příkazy, nikoli shell. Pro vybrané složky platí nastavení masky, podsložek, hloubky a limitu souborů. glob hledá cesty (* v jedné ' +
+    'části, ? jeden znak, ** přes složky). grep hledá obsah: -F doslovně (výchozí), -E PCRE regex, -i nerozlišuje velikost písmen, -s rozlišuje, -v obrací, -w celá slova; -n přijato, ' +
+    'čísla řádků jsou vždy zobrazena. --glob filtruje cesty. --limit 1..10000 omezuje všechny výsledky (výchozí 200). --bookmarks hledá pouze v řádcích se záložkami otevřeného souboru. ' +
+    '--mark tam přidává záložky; jiné soubory přeskakuje. Záložky vyžadují indexované čtení. Uvozovky zachovávají mezery a zpětná lomítka; -- ukončuje volby. Prostý text zachovává ' +
+    'původní hledání. Výsledky jsou stránkované; Otevřít přejde na výsledek, Kopírovat zkopíruje uložené výsledky. Částečné/zrušené výsledky nejsou součty. Příklady s anglickým textem; ' +
+    'nahraďte text v uvozovkách.',
+    '内部コマンドであり、シェルは実行しません。選択フォルダーはマスク、サブフォルダー、深さ、ファイル数の設定に従います。glob はパスを検索します（* は同一構成要素内、? は1文字、** はフォルダーを横断）。grep は内容を検索します。-F は文字列（既定）、-E は PCRE ' +
+    '正規表現、-i は大文字小文字を区別しない、-s は区別する、-v は反転、-w は単語全体です。-n は指定可能で、行番号は常に表示されます。--glob はパスを絞り込みます。--limit 1..10000 は結果全体の上限（既定200）です。--bookmarks は開いているファイルのブックマーク行のみ検索します。--mark ' +
+    'はその一致行にブックマークを追加し、他ファイルは除外します。ブックマークには索引付きの読み込みが必要です。引用符内の空白とバックスラッシュは保持され、-- ' +
+    'でオプションを終了します。通常の文字列は従来の検索を維持します。結果はページ表示で、開くで移動、コピーで保持された結果をコピーします。部分結果やキャンセル時の件数は総数ではありません。以下は英語の内容を検索する例です。引用符内の検索語を置き換えてください。',
+    '这是内部命令，不执行 shell。所选文件夹遵循代理的掩码、子文件夹、深度和文件数量设置。glob 查找路径（* 匹配单个路径部分内的字符，? 匹配一个字符，** 跨文件夹）。grep 搜索内容：-F 为字面文本（默认），-E 为 PCRE 正则，-i 忽略大小写，-s 区分大小写，-v 反向匹配，-w ' +
+    '完整单词；接受 -n，始终显示行号。--glob 筛选路径。--limit 1..10000 限制全部结果（默认200）。--bookmarks 仅搜索当前文件已加书签的行。--mark 为当前文件的匹配行添加书签，跳过其他文件。书签命令需要索引读取。引号保留空格和反斜杠；-- ' +
+    '结束选项。普通文本保留原有搜索。结果分页显示；打开可跳转，复制可复制保留的结果。部分或已取消的结果不代表总数。以下为英文内容示例，请按需替换引号内的搜索文本。',
+    '這是內部命令，不執行 shell。所選資料夾遵循代理的遮罩、子資料夾、深度和檔案數量設定。glob 尋找路徑（* 比對單一路徑部分內的字元，? 比對一個字元，** 跨資料夾）。grep 搜尋內容：-F 為常值文字（預設），-E 為 PCRE 規則運算式，-i 忽略大小寫，-s 區分大小寫，-v 反向比對，-w ' +
+    '完整單字；接受 -n，始終顯示行號。--glob 篩選路徑。--limit 1..10000 限制全部結果（預設200）。--bookmarks 僅搜尋目前檔案已加書籤的行。--mark 為目前檔案的相符行加入書籤，略過其他檔案。書籤命令需要索引讀取。引號保留空格和反斜線；-- ' +
+    '結束選項。一般文字保留原有搜尋。結果分頁顯示；開啟可跳轉，複製可複製保留的結果。部分或已取消的結果不代表總數。以下為英文內容範例，請按需替換引號內的搜尋文字。']);
+
+end;
+
+procedure AddReadThreadCountTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14(
+    'Time to read: %s millisecs. Total lines: %d. Read threads: %d.',
+    'Time to read: %s millisecs. Total lines: %d. Read threads: %d.',
+    'Tempo de leitura: %s. Total de linhas: %d. Threads de leitura: %d.',
+    'Tiempo de lectura: %s. Total de líneas: %d. Hilos de lectura: %d.',
+    'Temps de lecture : %s. Total de lignes : %d. Threads de lecture : %d.',
+    'Lesezeit: %s. Zeilen gesamt: %d. Lesethreads: %d.',
+    'Tempo di lettura: %s. Totale righe: %d. Thread di lettura: %d.',
+    'Czas odczytu: %s. Liczba linii: %d. Wątki odczytu: %d.',
+    'Tempo de leitura: %s. Total de linhas: %d. Threads de leitura: %d.',
+    'Timp de citire: %s. Total linii: %d. Thread-uri de citire: %d.',
+    'Olvasási idő: %s. Sorok száma: %d. Olvasó szálak: %d.',
+    'Doba čtení: %s. Počet řádků: %d. Vlákna čtení: %d.',
+    '読み取り時間: %s。総行数: %d。読み取りスレッド: %d。',
+    '读取时间：%s。总行数：%d。读取线程：%d。',
+    '讀取時間：%s。總行數：%d。讀取執行緒：%d。');
+end;
+
 procedure FillTranslationDataBody;
 begin
+  AddSearchCommandTranslations;
   AddCommonTranslationsBaseLanguageOptions;
   { language.option.japanese restored as 12th UI language }
   { --- New language option keys ------------------------------------------- }
@@ -48747,6 +55119,15 @@ begin
   AddFinalRomanianCzechOverrides;
   AddCommonTranslationsDiffTabFinal;
   AddAgentWorkspaceTranslations;
+  AddAICapabilitiesTranslations;
+  AddSourceCodeHelpTranslations;
+  AddAgentDescribeMacroTranslations;
+  AddAgentHubTranslations;
+  AddFolderPickTranslations;
+  AddCommonTranslationsHelpRecentFeaturesBlock3;
+  AddFileNameEmptyMruTranslations;
+  AddDelimSessionTranslations;
+  AddReadThreadCountTranslations;
   AddTranslationGapFill;
 end;
 
