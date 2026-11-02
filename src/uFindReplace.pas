@@ -27,6 +27,8 @@ type
     procedure btnReplaceAllClick(Sender: TObject);
     procedure btnCloseClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+  protected
+    procedure DoShow; override;
   private
     FAction: TFindReplaceAction;
   public
@@ -47,9 +49,17 @@ var
 implementation
 
 uses
-  uI18n;
+  uI18n, uBidiLayout;
 
 {$R *.dfm}
+
+procedure TfrmFindReplace.DoShow;
+begin
+  { Search / replacement text is raw file content: keep it left-to-right. }
+  BidiKeepLtr(edtFind);
+  BidiKeepLtr(edtReplace);
+  inherited DoShow;
+end;
 
 function TfrmFindReplace.GetFindText: string;
 begin

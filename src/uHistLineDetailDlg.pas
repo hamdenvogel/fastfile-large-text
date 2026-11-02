@@ -35,7 +35,8 @@ implementation
 
 uses
   Windows, Messages, SysUtils, Types, Controls, Forms, StdCtrls, ExtCtrls, ComCtrls,
-  Graphics, Menus, Dialogs, Math, ClipBrd, uI18n, uFastFileScale, uFastFileMsgDlg, uExportDoneDlg;
+  Graphics, Menus, Dialogs, Math, ClipBrd, uI18n, uFastFileScale, uFastFileMsgDlg, uExportDoneDlg,
+  uBidiLayout;
 
 type
   THistExportKind = (hekTxt, hekCsv, hekJson);
@@ -493,6 +494,12 @@ begin
   MemoSummary.Font.Name := 'Consolas';
   MemoSummary.Font.Size := 9;
 
+  { raw file content stays left-to-right }
+  BidiKeepLtr(MemoBefore);
+  BidiKeepLtr(MemoAfter);
+  BidiKeepLtr(MemoSummary);
+  BidiKeepLtr(LvFields);
+
   Pages.ActivePage := TabLines;
   ApplyWrap;
 end;
@@ -500,7 +507,9 @@ end;
 procedure THistDetailForm.LayoutHead;
 var
   Y, W, X: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([PnlHead]);
   X := S(10);
   W := Max(S(100), PnlHead.ClientWidth - S(20));
   Y := S(8);
@@ -531,6 +540,7 @@ end;
 procedure THistDetailForm.LayoutBottom;
 var
   X, W, Top: Integer;
+  BL: IInterface;
 
   procedure PlaceRight(B: TButton; AMin: Integer);
   begin
@@ -541,6 +551,7 @@ var
   end;
 
 begin
+  BL := BidiLayoutScope([PnlBottom]);
   Top := S(10);
   ChkWrap.SetBounds(S(10), S(14), TextW(ChkWrap.Caption) + GetSystemMetrics(SM_CXMENUCHECK) + S(12), S(20));
   X := ChkWrap.Left + ChkWrap.Width + S(12);
@@ -560,7 +571,9 @@ end;
 procedure THistDetailForm.LinesResized(Sender: TObject);
 var
   W, H, LblH, Half, Y: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([PnlLines]);
   W := Max(S(60), PnlLines.ClientWidth - S(12));
   H := PnlLines.ClientHeight;
   LblH := S(20);
@@ -1090,7 +1103,17 @@ procedure THistDetailForm.CopyBtnClick(Sender: TObject);
 var
   P: TPoint;
 begin
-  P := BtnCopy.ClientToScreen(Point(0, BtnCopy.Height));
+  if BidiIsRtl then
+  begin
+    { right edge of the menu aligned with the right edge of the button }
+    P := BtnCopy.ClientToScreen(Point(BtnCopy.Width, BtnCopy.Height));
+    PmCopy.Alignment := paRight;
+  end
+  else
+  begin
+    P := BtnCopy.ClientToScreen(Point(0, BtnCopy.Height));
+    PmCopy.Alignment := paLeft;
+  end;
   PmCopy.Popup(P.X, P.Y);
 end;
 
@@ -1098,7 +1121,17 @@ procedure THistDetailForm.ExportBtnClick(Sender: TObject);
 var
   P: TPoint;
 begin
-  P := BtnExport.ClientToScreen(Point(0, BtnExport.Height));
+  if BidiIsRtl then
+  begin
+    { right edge of the menu aligned with the right edge of the button }
+    P := BtnExport.ClientToScreen(Point(BtnExport.Width, BtnExport.Height));
+    PmExport.Alignment := paRight;
+  end
+  else
+  begin
+    P := BtnExport.ClientToScreen(Point(0, BtnExport.Height));
+    PmExport.Alignment := paLeft;
+  end;
   PmExport.Popup(P.X, P.Y);
 end;
 

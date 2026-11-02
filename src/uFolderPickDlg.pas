@@ -23,7 +23,8 @@ implementation
 
 uses
   Windows, Messages, SysUtils, Types, Graphics, Forms, StdCtrls, ExtCtrls, ShellAPI, CommCtrl,
-  Math, uI18n, uFastFileScale, UnConsts, uAgentPrefs, UnitPopupMruList, uMruFind, uFastFileMsgDlg;
+  Math, uI18n, uFastFileScale, UnConsts, uAgentPrefs, UnitPopupMruList, uMruFind, uFastFileMsgDlg,
+  uBidiLayout;
 
 const
   CTitle = TColor($00283038);
@@ -127,7 +128,7 @@ type
     procedure CloseRecentPopup;
     procedure Navigate(const APath: string; APush: Boolean);
     procedure Reload;
-    procedure UpdateChrome;
+    procedure UpdateFrame;
     procedure SetStatus(const AText: string; AError: Boolean);
     function SelectedCount: Integer;
     function CommitCount: Integer;
@@ -608,11 +609,18 @@ begin
   Canvas.Brush.Color := Mix(IDLE_WORKSPACE_GRAD_RIGHT, clWhite, 55);
   Canvas.Pen.Style := psClear;
   Rad := FfPx(16);
-  Canvas.RoundRect(R.Left + 1, R.Top + 2, R.Right, R.Bottom, Rad, Rad);
+  { soft shadow falls to the bottom-right (bottom-left when mirrored) }
+  if BidiIsRtl then
+    Canvas.RoundRect(R.Left, R.Top + 2, R.Right - 1, R.Bottom, Rad, Rad)
+  else
+    Canvas.RoundRect(R.Left + 1, R.Top + 2, R.Right, R.Bottom, Rad, Rad);
   Canvas.Pen.Style := psSolid;
   Canvas.Pen.Color := CCardLine;
   Canvas.Brush.Color := clWhite;
-  Canvas.RoundRect(R.Left, R.Top, R.Right - 2, R.Bottom - 2, Rad, Rad);
+  if BidiIsRtl then
+    Canvas.RoundRect(R.Left + 2, R.Top, R.Right, R.Bottom - 2, Rad, Rad)
+  else
+    Canvas.RoundRect(R.Left, R.Top, R.Right - 2, R.Bottom - 2, Rad, Rad);
 end;
 
 { TFolderPickForm }
@@ -809,6 +817,7 @@ begin
   FPath.Color := clWhite;
   FPath.AutoSelect := True;
   FPath.OnKeyDown := PathKeyDown;
+  BidiKeepLtr(FPath);
 
   FBrowserCard := TPickCard.Create(Self);
   FBrowserCard.Parent := Self;
@@ -873,7 +882,11 @@ begin
   FBtnClose.Caption := #$00D7;
   FBtnClose.Hint := TrText('FolderPick.CloseHint');
   FBtnClose.ShowHint := True;
-  FBtnBack.Caption := #$2190;
+  { direction arrows follow the reading direction }
+  if BidiIsRtl then
+    FBtnBack.Caption := #$2192
+  else
+    FBtnBack.Caption := #$2190;
   FBtnBack.Hint := TrText('FolderPick.BackHint');
   FBtnBack.ShowHint := True;
   FBtnUp.Caption := #$2191;
@@ -892,10 +905,16 @@ begin
   FChkHidden.Caption := TrText('FolderPick.Hidden');
   FChkHidden.Hint := TrText('FolderPick.HiddenHint');
   FChkHidden.ShowHint := True;
-  FBtnAddThis.Caption := TrText('FolderPick.AddThis') + '  ' + #$2192;
+  if BidiIsRtl then
+    FBtnAddThis.Caption := TrText('FolderPick.AddThis') + '  ' + #$2190
+  else
+    FBtnAddThis.Caption := TrText('FolderPick.AddThis') + '  ' + #$2192;
   FBtnAddThis.Hint := TrText('FolderPick.AddThisHint');
   FBtnAddThis.ShowHint := True;
-  FBtnAddSel.Caption := TrText('FolderPick.AddSel') + '  ' + #$2192;
+  if BidiIsRtl then
+    FBtnAddSel.Caption := TrText('FolderPick.AddSel') + '  ' + #$2190
+  else
+    FBtnAddSel.Caption := TrText('FolderPick.AddSel') + '  ' + #$2192;
   FBtnAddSel.Hint := TrText('FolderPick.AddSelHint');
   FBtnAddSel.ShowHint := True;
   FBtnRemove.Caption := TrText('FolderPick.Remove');
@@ -979,6 +998,7 @@ var
   Pad, Gap, HeadH, ToolY, ToolH, FootH, BodyTop, BodyH, RightW: Integer;
   X, BH, GoW, Inner, BtnH, ListTop, ListH: Integer;
   Back: TColor;
+  BL: IInterface;
   procedure Place(ABtn: TPickBtn; AX, AY, AW, AH: Integer; ABack: TColor);
   begin
     ABtn.BackColor := ABack;
@@ -986,6 +1006,7 @@ var
   end;
 begin
   if not FReady then Exit;
+  BL := BidiLayoutScope([Self, FBrowserCard, FTrayCard]);
   Pad := FfPx(20);
   Gap := FfPx(10);
   HeadH := FfPx(92);
@@ -1084,7 +1105,7 @@ begin
   HiR := Rect(0, 0, R.Right, FfPx(86));
   PaintVerticalGradient(Canvas, HiR, Mix(FGradTop, clWhite, 28), Mix(FGradTop, FGradBot, 12));
   AccW := FfPx(5);
-  AccR := Rect(FfPx(12), FfPx(18), FfPx(12) + AccW, FfPx(78));
+  AccR := BidiRect(Rect(FfPx(12), FfPx(18), FfPx(12) + AccW, FfPx(78)), R.Right);
   Canvas.Brush.Color := CAccent;
   Canvas.Pen.Color := Mix(CAccent, clWhite, 20);
   Rad := AccW;
@@ -1352,7 +1373,7 @@ begin
       Names.Free;
     end;
     Screen.Cursor := PrevCursor;
-    UpdateChrome;
+    UpdateFrame;
   end;
 end;
 
@@ -1413,7 +1434,7 @@ begin
   Result := True;
 end;
 
-procedure TFolderPickForm.UpdateChrome;
+procedure TFolderPickForm.UpdateFrame;
 var
   N: Integer;
   RealSel: Integer;
@@ -1533,7 +1554,7 @@ procedure TFolderPickForm.WMRecentPopup(var Msg: TMessage);
 var
   P: TPoint;
   W: Integer;
-  CR: TRect;
+  CR, WA: TRect;
   OwnerComp: TComponent;
 begin
   FRecentPosted := False;
@@ -1560,6 +1581,14 @@ begin
     W := FBtnRecent.Width;
   end;
   W := Max(W, FfPx(420));
+  if BidiIsRtl then
+  begin
+    { the list hangs from the right edge of the button, kept inside the work area }
+    P.X := FBtnRecent.ClientToScreen(Point(FBtnRecent.Width, 0)).X - W;
+    FfWorkAreaOf(Self, WA);
+    if P.X < WA.Left then
+      P.X := WA.Left;
+  end;
   { Component owner is the main form. The dialog handle is only the window
     owner, so closing this dialog cannot free the shared popup out from under
     the Diagnóstico / Agente Recentes buttons. }
@@ -1585,7 +1614,7 @@ begin
       SetStatus(Format(TrText('FolderPick.AddedN'), [1]), False)
     else
       SetStatus(TrText('FolderPick.Already'), False);
-    UpdateChrome;
+    UpdateFrame;
   end
   else
   begin
@@ -1605,7 +1634,7 @@ begin
     if SameText(ExcludeTrailingPathDelimiter(FFolderRecent[I]), P) then
       FFolderRecent.Delete(I);
   SaveAgentFolderRecent(FFolderRecent);
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.RecentProps(Sender: TObject; const AValue: string);
@@ -1635,7 +1664,7 @@ begin
   if FFolderRecent = nil then Exit;
   FFolderRecent.Clear;
   SaveAgentFolderRecent(FFolderRecent);
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.GoClick(Sender: TObject);
@@ -1690,7 +1719,7 @@ begin
     SetStatus(Format(TrText('FolderPick.AddedN'), [1]), False)
   else
     SetStatus(TrText('FolderPick.Already'), False);
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.AddSelClick(Sender: TObject);
@@ -1715,7 +1744,7 @@ begin
     SetStatus(TrText('FolderPick.Already'), False)
   else
     SetStatus(TrText('FolderPick.NeedOne'), True);
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.RemoveClick(Sender: TObject);
@@ -1728,14 +1757,14 @@ begin
       FTray.Items.Objects[I].Free;
       FTray.Items.Delete(I);
     end;
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.ClearClick(Sender: TObject);
 begin
   FreeRows(FTray);
   SetStatus('', False);
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.ConfirmClick(Sender: TObject);
@@ -1768,7 +1797,7 @@ begin
   if FChosen.Count = 0 then
   begin
     SetStatus(TrText('FolderPick.NeedOne'), True);
-    UpdateChrome;
+    UpdateFrame;
     Exit;
   end;
   ModalResult := mrOk;
@@ -1790,7 +1819,7 @@ begin
     if (Row <> nil) and (Row.Path = '') then
       FBrowser.Selected[I] := False;
   end;
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.BrowserDblClick(Sender: TObject);
@@ -1823,7 +1852,7 @@ begin
     for I := 0 to FBrowser.Items.Count - 1 do
       if (RowAt(FBrowser, I) = nil) or (RowAt(FBrowser, I).Path = '') then
         FBrowser.Selected[I] := False;
-    UpdateChrome;
+    UpdateFrame;
   end;
 end;
 
@@ -1850,7 +1879,7 @@ end;
 
 procedure TFolderPickForm.TrayClick(Sender: TObject);
 begin
-  UpdateChrome;
+  UpdateFrame;
 end;
 
 procedure TFolderPickForm.TrayKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -1914,6 +1943,7 @@ begin
     Bar.Top := Rect.Top + 3;
     Bar.Right := Rect.Left + FfPx(3);
     Bar.Bottom := Rect.Bottom - 3;
+    Bar := BidiRect(Bar, List.ClientWidth);
     C.FillRect(Bar);
   end;
   if (Row = nil) or (Row.Path = '') then
@@ -1936,6 +1966,12 @@ begin
     ImageList_GetIconSize(SysImages, IW, IH);
   IX := Rect.Left + FfPx(12);
   IY := Rect.Top + (Rect.Bottom - Rect.Top - IH) div 2;
+  { text area computed left-to-right, then mirrored together with the icon }
+  TR := Rect;
+  TR.Left := IX + IW + FfPx(10);
+  TR.Right := Rect.Right - FfPx(10);
+  TR := BidiRect(TR, List.ClientWidth);
+  IX := BidiLeft(List.ClientWidth, IX, IW);
   if Row.Icon >= 0 then
     DrawShellIcon(C, Row.Icon, IX, IY)
   else
@@ -1949,9 +1985,6 @@ begin
 
   C.Brush.Style := bsClear;
   C.Font.Name := FUiFont;
-  TR := Rect;
-  TR.Left := IX + IW + FfPx(10);
-  TR.Right := Rect.Right - FfPx(10);
   if Tray then
   begin
     C.Font.Size := 9;
@@ -1959,13 +1992,15 @@ begin
     C.Font.Color := CTitle;
     TR.Bottom := Rect.Top + (Rect.Bottom - Rect.Top) div 2 + FfPx(2);
     DrawText(C.Handle, PChar(Row.Name), -1, TR,
-      DT_LEFT or DT_BOTTOM or DT_SINGLELINE or DT_END_ELLIPSIS or DT_NOPREFIX);
+      BidiDrawFlags(DT_LEFT or DT_BOTTOM or DT_SINGLELINE or DT_END_ELLIPSIS or DT_NOPREFIX));
     C.Font.Size := 8;
     C.Font.Color := CMuted;
     TR.Top := TR.Bottom;
     TR.Bottom := Rect.Bottom - FfPx(4);
     DrawText(C.Handle, PChar(Row.Path), -1, TR,
-      DT_LEFT or DT_TOP or DT_SINGLELINE or DT_PATH_ELLIPSIS or DT_NOPREFIX);
+      { paths stay left-to-right text, only anchored to the right edge }
+      BidiDrawFlags(DT_LEFT or DT_TOP or DT_SINGLELINE or DT_PATH_ELLIPSIS or DT_NOPREFIX) and
+      not UINT(DT_RTLREADING));
   end
   else
   begin
@@ -1973,7 +2008,7 @@ begin
     C.Font.Style := [];
     C.Font.Color := CTitle;
     DrawText(C.Handle, PChar(Row.Name), -1, TR,
-      DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS or DT_NOPREFIX);
+      BidiDrawFlags(DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_END_ELLIPSIS or DT_NOPREFIX));
   end;
 end;
 

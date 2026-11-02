@@ -1,4 +1,4 @@
-unit uAgentProtocol;
+﻿unit uAgentProtocol;
 
 {
   One JSON object per model turn, carried inside the existing prompt/resposta gateway.
@@ -71,7 +71,7 @@ function ParseAgentTurn(const ARaw: string): TAgentTurn;
 function BuildAgentOpeningPrompt(const AUserPrompt: string; AFiles: TStrings;
   ATotalFiles: Integer; const AOpenPath: string = ''): string;
 function BuildAgentFollowupPrompt(const AOpening, ATranscript: string): string;
-{ Intent hints in the 14 UI languages: "what is / what are these files for" and "run Python / a macro on each line". }
+{ Intent hints: "what are these files for" and "run Python / a macro on each line". }
 function AgentAsksWhatFilesAre(const APrompt: string): Boolean;
 function AgentAsksLineMacro(const APrompt: string): Boolean;
 
@@ -800,7 +800,7 @@ begin
       $C0..$C5, $E0..$E5, $0103, $0105: Result[I] := 'a';
       $C7, $E7, $0107, $010D: Result[I] := 'c';
       $C8..$CB, $E8..$EB, $0119, $011B: Result[I] := 'e';
-      $CC..$CF, $EC..$EF: Result[I] := 'i';
+      $CC..$CF, $EC..$EF, $0130: Result[I] := 'i';
       $D2..$D6, $F2..$F6, $0151: Result[I] := 'o';
       $D9..$DC, $F9..$FC, $016F, $0171: Result[I] := 'u';
       $FD: Result[I] := 'y';
@@ -841,6 +841,15 @@ begin
     'la ce serveste', 'la ce servesc', 'ce este acest fisier', 'ce sunt aceste fisiere', 'mire valo',
     'mi ez a fajl', 'mik ezek a fajlok', 'k cemu slouz', 'co je tento soubor', 'co jsou tyto soubory',
     'explique este', 'explique estes', 'explique esse', 'descreva este', 'descreva estes', 'identifique',
+    'यह फ़ाइल क्या है', 'यह फाइल क्या है', 'इन फ़ाइलों का वर्णन', 'इन फाइलों का वर्णन', 'किस काम आती',
+    'что это за файл', 'что это за файлы', 'для чего нужен', 'опиши этот файл', 'опишите эти файлы',
+    '이 파일은 무엇', '이 파일의 용도', '이 파일들을 설명',
+    'wat is dit bestand', 'wat zijn deze bestanden', 'waarvoor dient', 'beschrijf dit bestand',
+    'bu dosya nedir', 'bu dosyalar nedir', 'bu dosyayı acıkla', 'bu dosyaları acıkla', 'ne ise yarar',
+    'що це за файл', 'що це за файли', 'для чого потріб', 'опиши цей файл', 'опишіть ці файли',
+    'ไฟล์นี้คืออะไร', 'ไฟล์เหล่านี้คืออะไร', 'τι είναι αυτό το αρχείο', 'τι είναι αυτά τα αρχεία',
+    'hva er denne filen', 'hva er disse filene', 'vad ar den har filen', 'vad ar dessa filer',
+    'hvad er denne fil', 'hvad er disse filer', 'hvað er þessi skra', 'hvað eru þessar skrar',
     #$7528#$9014, #$4F55#$306E#$305F#$3081, #$4F55#$306E#$30D5#$30A1#$30A4#$30EB, #$4F55#$306B#$4F7F#$3046,
     #$662F#$4EC0#$4E48, #$662F#$4EC0#$9EBC, #$505A#$4EC0#$4E48#$7528, #$505A#$4EC0#$9EBC#$7528, #$4F5C#$7528]);
 end;
@@ -851,11 +860,21 @@ var
 begin
   F := FoldIntentText(APrompt);
   Result := HasAnyToken(F, ['python', 'macro', 'makro', 'script', 'skript', 'skrypt',
+    'पायथन', 'मैक्रो', 'скрипт', 'макрос', '매크로', '스크립트', 'betik',
+    'แมโคร', 'ไพธอน', 'μακρο', 'fjölva', 'fjolva', 'makró',
     #$30DE#$30AF#$30ED, #$30B9#$30AF#$30EA#$30D7#$30C8, #$5B8F, #$5DE8#$96C6, #$811A#$672C]) and
     HasAnyToken(F, ['each line', 'every line', 'all lines', 'per line', 'line by line', 'cada linha',
       'todas as linhas', 'linha a linha', 'cada linea', 'todas las lineas', 'chaque ligne', 'toutes les lignes',
       'jede zeile', 'jeder zeile', 'alle zeilen', 'ogni riga', 'tutte le righe', 'kazdej linii', 'kazdego wiersza',
       'wszystkie linie', 'fiecare linie', 'toate liniile', 'minden sor', 'kazdy radek', 'kazdem radku',
+      'हर पंक्ति', 'प्रत्येक पंक्ति', 'हर लाइन', 'सभी पंक्तियों', 'चलाएं', 'चलाएँ',
+      'каждую строку', 'каждой строке', 'все строки', 'выполни', 'запусти',
+      '각 줄', '모든 줄', '각 행', '모든 행', '실행',
+      'elke regel', 'iedere regel', 'alle regels', 'voer uit',
+      'her satır', 'tüm satırlar', 'calıstır', 'uygula',
+      'кожний рядок', 'кожному рядку', 'усі рядки', 'всі рядки', 'виконай', 'запусти',
+      'ทุกบรรทัด', 'แต่ละบรรทัด', 'κάθε γραμμή', 'καθε γραμμη', 'σε κάθε γραμμή',
+      'hver linje', 'alle linjer', 'varje rad', 'alla rader', 'hverri linu', 'hverja linu',
       'vsechny radky', #$5404#$884C, #$5168#$884C, #$6BCF#$884C, #$6BCF#$4E00#$884C, #$9010#$884C,
       'execut', 'rodar', 'rode ', 'aplicar', 'aplique', 'run ', 'apply', 'ejecut', 'ausfuhr', 'fuhre',
       'esegu', 'uruchom', 'wykonaj', 'ruleaz', 'futtas', 'spust', #$5B9F#$884C, #$6267#$884C, #$57F7#$884C,
@@ -906,7 +925,7 @@ begin
       'field before agent sources when the operand is omitted. A user-supplied explicit file is validated and ' +
       'loaded before the GUI command runs. GB files are streamed; 16,777,216 decoded characters per line maximum, ' +
       'with explicit errors rather than incomplete matches. Scanning stops immediately at the hit limit.');
-    SL.Add('  Translate natural-language requests in ANY of the 14 UI languages into the correct command. ' +
+    SL.Add('  Translate natural-language requests in ANY supported UI language into the correct command. ' +
       'For "logs containing errors", use grep -i "error" --glob "**\*.log", not glob "*error*". ' +
       'For "find CSV files", use glob "*.csv". Preserve the user''s actual search text, do not translate it. ' +
       'When the user wants captured fields as columns (ip and status, name and amount), use grep -E with ' +

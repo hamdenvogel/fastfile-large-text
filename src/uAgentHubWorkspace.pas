@@ -2,7 +2,7 @@ unit uAgentHubWorkspace;
 
 {
   UI for AI diagnosis (hub): pick files/folders, run Discovery->...->Synthesize,
-  show answer / findings / revised objective / files found - chrome aligned with Agente IA.
+  show answer / findings / revised objective / files found - frame aligned with Agente IA.
 }
 
 interface
@@ -183,7 +183,8 @@ implementation
 uses
   Types, Math, uI18n, uAgentHub, uFastFileMsgDlg, uFastFileAIClient,
   uFastFileAssistant, uAICapabilitiesDlg, UnitPopupMruList, uMruFind,
-  uFastFileAssistantHost, uFolderPickDlg, uSearchCommands, uSearchCommandDialog;
+  uFastFileAssistantHost, uFolderPickDlg, uSearchCommands, uSearchCommandDialog,
+  uBidiLayout;
 
 type
   THubResultMemo = class(TsMemo)
@@ -810,6 +811,12 @@ begin
   mnuRoots.Items.Add(miRootRemoveAll);
   lstRoots.PopupMenu := mnuRoots;
 
+  { paths, file masks and edit proposals stay left-to-right }
+  BidiKeepLtr(lstRoots);
+  BidiKeepLtr(edtMask);
+  BidiKeepLtr(memFiles);
+  BidiKeepLtr(memEdits);
+
   ApplyLanguage;
   SetBusy(False);
   FitTexts;
@@ -819,6 +826,7 @@ procedure TfrmAgentHubWorkspace.GuidePaint(Sender: TObject);
 var
   R, T: TRect;
   C: TCanvas;
+  BarX: Integer;
 begin
   if pbGuide = nil then Exit;
   R := pbGuide.ClientRect;
@@ -827,8 +835,13 @@ begin
   C.FillRect(R);
   C.Pen.Color := $00D77800;
   C.Pen.Width := 3;
-  C.MoveTo(0, 0);
-  C.LineTo(0, R.Bottom);
+  { accent bar on the leading edge (right edge when right-to-left) }
+  if BidiIsRtl then
+    BarX := R.Right - 1
+  else
+    BarX := 0;
+  C.MoveTo(BarX, 0);
+  C.LineTo(BarX, R.Bottom);
   C.Pen.Width := 1;
   C.Pen.Color := $00F0D4BE;
   C.MoveTo(0, R.Bottom - 1);
@@ -837,7 +850,9 @@ begin
   C.Font.Assign(lblGuide.Font);
   C.Brush.Style := bsClear;
   T := Rect(Dpi(14), Dpi(8), R.Right - Dpi(12), R.Bottom - Dpi(6));
-  DrawText(C.Handle, PChar(lblGuide.Caption), -1, T, DT_WORDBREAK or DT_NOPREFIX or DT_END_ELLIPSIS);
+  T := BidiRect(T, R.Right);
+  DrawText(C.Handle, PChar(lblGuide.Caption), -1, T,
+    BidiDrawFlags(DT_WORDBREAK or DT_NOPREFIX or DT_END_ELLIPSIS));
 end;
 
 procedure TfrmAgentHubWorkspace.LayoutGuide;
@@ -860,8 +875,10 @@ end;
 procedure TfrmAgentHubWorkspace.SourceButtonsResize(Sender: TObject);
 var
   W, Gap, BH, H: Integer;
+  BL: IInterface;
 begin
   if (pnlSourceBtns = nil) or (btnRemoveAll = nil) then Exit;
+  BL := BidiLayoutScope([pnlSourceBtns]);
   Gap := Dpi(5);
   BH := Dpi(24);
   W := (pnlSourceBtns.ClientWidth - Gap) div 2;
@@ -882,8 +899,10 @@ procedure TfrmAgentHubWorkspace.LayoutToolBar(ABar: TsPanel);
 var
   I, X, Y, Gap, BH, BarH, PadY: Integer;
   C: TControl;
+  BL: IInterface;
 begin
   if ABar = nil then Exit;
+  BL := BidiLayoutScope([ABar]);
   Gap := Dpi(4);
   BH := Dpi(26);
   PadY := Dpi(5);
@@ -932,7 +951,7 @@ begin
   finally
     Bmp.Free;
   end;
-  { 3 rows of checkboxes + host margins + skinned GroupBox chrome (caption/frame). }
+  { 3 rows of checkboxes + host margins + skinned GroupBox frame (caption/border). }
   Result := 3 * (RowH + Gap) - Gap;
   if pnlAgentHost <> nil then
     Result := Result + pnlAgentHost.Margins.Top + pnlAgentHost.Margins.Bottom;
@@ -944,8 +963,10 @@ var
   ColW, RowH, Gap, Y, I, HostW: Integer;
   Checks: array[0..5] of TsCheckBox;
   Bmp: TBitmap;
+  BL: IInterface;
 begin
   if (pnlAgentHost = nil) or (chkInv = nil) then Exit;
+  BL := BidiLayoutScope([pnlAgentHost]);
   Checks[0] := chkInv;
   Checks[1] := chkStruct;
   Checks[2] := chkContent;
@@ -982,10 +1003,12 @@ var
   MinSrc, LeftH, ContentOpt, NeedHost, Gap, Half: Integer;
   OptMarg, AgMarg: Integer;
   Bmp: TBitmap;
+  BL: IInterface;
 begin
   if (pnlLeft = nil) or (grpSources = nil) or (pnlOptHost = nil) then Exit;
   if (pnlDepthRow = nil) or (pnlMaxFilesRow = nil) or (grpAgents = nil) then Exit;
   if FLeftLayoutBusy or (scrLeft.ClientHeight < Dpi(80)) then Exit;
+  BL := BidiLayoutScope([pnlOptHost, pnlMaskRow, pnlDepthRow, pnlMaxFilesRow]);
   FLeftLayoutBusy := True;
   try
     SourceButtonsResize(nil);
@@ -1060,7 +1083,7 @@ begin
 
     LayoutAgents;
 
-    { Skin chrome varies: grow the group until the last checkbox fits in the host. }
+    { Skin frame varies: grow the group until the last checkbox fits in the host. }
     if (chkActions <> nil) and pnlAgentHost.HandleAllocated then
     begin
       NeedHost := chkActions.Top + chkActions.Height + Dpi(6);
@@ -1089,6 +1112,7 @@ end;
 procedure TfrmAgentHubWorkspace.LayoutSendBar;
 var
   Gap, X, H: Integer;
+  BL: IInterface;
 
   function BtnW(B: TsButton; AMin: Integer): Integer;
   begin
@@ -1097,6 +1121,7 @@ var
 
 begin
   if (pnlSend = nil) or (btnSend = nil) then Exit;
+  BL := BidiLayoutScope([pnlSend]);
   Gap := Dpi(6);
   H := Max(Dpi(32), btnSend.Height + Dpi(8));
   if pnlSend.Height <> H then
@@ -1605,7 +1630,11 @@ begin
   if Assigned(FormPopupMruList) and FormPopupMruList.Visible then Exit;
   if (FRootRecent = nil) or (FRootRecent.Count = 0) then Exit;
   W := Max(Dpi(280), btnRootRecent.Width + edtRootFind.Width);
-  P := btnRootRecent.ClientToScreen(Point(btnRootRecent.Width - W, btnRootRecent.Height));
+  if BidiIsRtl then
+    { the button sits at the left end of the row: grow the popup to the right }
+    P := btnRootRecent.ClientToScreen(Point(0, btnRootRecent.Height))
+  else
+    P := btnRootRecent.ClientToScreen(Point(btnRootRecent.Width - W, btnRootRecent.Height));
   if Assigned(Application.MainForm) then
     OwnerComp := Application.MainForm
   else

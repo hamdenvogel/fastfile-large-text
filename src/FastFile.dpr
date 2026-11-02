@@ -27,6 +27,7 @@ uses
   UnConsts in 'UnConsts.pas',
   uFileOpenPolicy in 'uFileOpenPolicy.pas',
   uPosBMH in 'uPosBMH.pas',
+  uFastLineSearch in 'uFastLineSearch.pas',
   UnConsumerAI in 'UnConsumerAI.pas',
   UnConsumerDialog in 'UnConsumerDialog.pas',
   uTemporaryFileStream in 'uTemporaryFileStream.pas',
@@ -80,6 +81,7 @@ uses
   uFastFileComposeExport in 'uFastFileComposeExport.pas',
   uFastFileNotice in 'uFastFileNotice.pas',
   uFastFileMsgDlg in 'uFastFileMsgDlg.pas',
+  uBidiLayout in 'uBidiLayout.pas',
   uFastFileScale in 'uFastFileScale.pas',
   uFastFileFloatHost in 'uFastFileFloatHost.pas',
   uFastFileAssistant in 'uFastFileAssistant.pas',
@@ -136,6 +138,8 @@ begin
   end; //End checking for one instance
 
   Application.Initialize;
+  { Right-to-left UI languages (Arabic / Hebrew): text direction for every form. }
+  BidiSyncApplication;
   FfInstallFormLayoutManager;
   InstallFastFileExceptionGuard;
   InstallFastFileWatchdog;

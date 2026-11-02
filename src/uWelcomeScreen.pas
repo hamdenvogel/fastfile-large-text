@@ -87,7 +87,7 @@ type
 implementation
 
 uses
-  uFastFilePaths, uI18n, uFastFileMsgDlg;
+  uFastFilePaths, uI18n, uFastFileMsgDlg, uBidiLayout;
 
 {$R *.dfm}
 
@@ -103,6 +103,9 @@ begin
   pnlHeader.DoubleBuffered       := True;
   lvRecentFiles.DoubleBuffered   := True;
   lvRecentFolders.DoubleBuffered := True;
+  { File names and folder paths stay left-to-right. }
+  BidiKeepLtr(lvRecentFiles);
+  BidiKeepLtr(lvRecentFolders);
   lblVersion.Caption := APPLICATION_VERSION;
   lblTitle.Caption := APPLICATION_DISPLAY_NAME;
   Caption := APPLICATION_DISPLAY_NAME + ' - Start';

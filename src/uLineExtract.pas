@@ -17,7 +17,8 @@ implementation
 uses
   Windows, Types, SysUtils, Math, Controls, Forms, StdCtrls, ExtCtrls, Graphics, Clipbrd,
   Character, RegularExpressions, Generics.Collections, uI18n, uFastFileScale,
-  uFastFileAIClient, uFastFilePaths, uUserPrefs, uMruFind, UnitPopupMruList;
+  uFastFileAIClient, uFastFilePaths, uUserPrefs, uMruFind, UnitPopupMruList,
+  uBidiLayout;
 
 const
   AI_RECENT_FILE = 'ExtractAIRecent.txt';
@@ -708,6 +709,7 @@ procedure TExtractForm.AIMruClick(Sender: TObject);
 var
   CR: TRect;
   OwnerComp: TComponent;
+  PopW, PopX: Integer;
 begin
   if Assigned(FormPopupMruList) and FormPopupMruList.Visible then
   begin
@@ -726,9 +728,20 @@ begin
     OwnerComp := Application.MainForm
   else
     OwnerComp := Self;
+  if BidiIsRtl then
+  begin
+    { mirrored row: the button sits to the left of the edit }
+    PopW := edtAI.BoundsRect.Right - btnAIMru.Left;
+    PopX := CR.Left + btnAIMru.Left - edtAI.Left;
+  end
+  else
+  begin
+    PopW := btnAIMru.BoundsRect.Right - edtAI.Left;
+    PopX := CR.Left;
+  end;
   ShowMruListPopup(OwnerComp, TrText('Extract.AI.Recent'),
     MruMoreCaption('Assistant.RecentQuestionsMore'), FAIRecent,
-    btnAIMru.BoundsRect.Right - edtAI.Left, Point(CR.Left, CR.Bottom),
+    PopW, Point(PopX, CR.Bottom),
     AIMruPick, TrText('Assistant.RecentQuestionsMoreHint'),
     nil, AIMruRemove, btnAIMru, AIMruClearAll, Handle);
 end;
@@ -799,6 +812,7 @@ end;
 procedure TExtractForm.LayoutRows;
 var
   Y, G, LH, H: Integer;
+  BL: IInterface;
 
   procedure Row(ALabel: TLabel; AControl: TControl);
   begin
@@ -809,6 +823,7 @@ var
 
 begin
   if not Assigned(mmResult) then Exit;
+  BL := BidiLayoutScope([Self]);
   G := FfPx(6);
   LH := TextH('', 0);
   Y := lblSource.Top + lblSource.Height + FfPx(10);
@@ -1011,6 +1026,10 @@ begin
   mmResult.WordWrap := True;
   mmResult.Font.Name := 'Consolas';
   mmResult.Color := clBtnFace;
+  { extracted text and the regex stay left-to-right }
+  BidiKeepLtr(mmResult);
+  BidiKeepLtr(edtRegex);
+  BidiKeepLtr(edtCols);
 
   btnCancel := TButton.Create(Self);
   btnCancel.Parent := Self;
@@ -1050,7 +1069,9 @@ end;
 procedure TExtractForm.LayoutColumns;
 var
   X, R, BW, C1, C2, X2: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([Self]);
   X := Max(Max(lblWhat.Width, lblRegex.Width), Max(Max(lblSep.Width, lblCols.Width), lblAI.Width));
   X := Max(FfPx(150), lblWhat.Left + X + FfPx(12));
   R := ClientWidth - FfPx(12);
@@ -1215,7 +1236,9 @@ var
   Count, ExCount: Integer;
   Err, ExErr, ExRes, Sample, Info: string;
   Cur: TCursor;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([Self]);
   FTimer.Enabled := False;
   Cur := Screen.Cursor;
   if Length(FSource) > LIVE_MAX_CHARS then

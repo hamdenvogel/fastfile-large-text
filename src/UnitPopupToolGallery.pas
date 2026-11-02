@@ -83,7 +83,7 @@ type
     function SelectedTag: Integer;
     procedure PrepareLayout;
     procedure ApplyGalleryFilter;
-    procedure RelayoutChrome;
+    procedure RelayoutFrame;
     procedure FocusSearch;
     property FileSearchMode: Boolean read FFileSearchMode;
   end;
@@ -96,7 +96,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uI18n;
+  uI18n, uBidiLayout;
 
 const
   GALLERY_ITEM_H = 68;
@@ -447,7 +447,9 @@ var
   L: TsLabel;
   Host: TControl;
   Origin: TPoint;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([pnlBody]);
   EnsureShortcutLabels;
   for i := 0 to 4 do
   begin
@@ -571,7 +573,7 @@ procedure TFormPopupToolGallery.ConfigureFileSearchMode(AImages: TCustomImageLis
   const AFindTitle, AFindHint, AFindShortcut: string;
   const AFilterTitle, AFilterHint, AFilterShortcut: string;
   const ABookmarkTitle, ABookmarkHint, ABookmarkShortcut: string);
-{ Reuse the exact Mais ferramentas chrome for Find / Filter-Grep / Bookmarks. }
+{ Reuse the exact Mais ferramentas frame for Find / Filter-Grep / Bookmarks. }
 var
   I: Integer;
 begin
@@ -636,7 +638,7 @@ begin
     edtGallerySearch.SetFocus;
 end;
 
-procedure TFormPopupToolGallery.RelayoutChrome;
+procedure TFormPopupToolGallery.RelayoutFrame;
 { Reposition overlays after DPI UpdateScale without resetting alTop heights
   (NormalizeGalleryBodyOrder / fixed GALLERY_* would undo the scale). }
 begin

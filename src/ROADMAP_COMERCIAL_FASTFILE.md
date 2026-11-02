@@ -4,12 +4,81 @@
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 
-**Data:** 23 de outubro de 2026  
+**Data:** 2 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64) — editor de arquivos de texto enormes (GB+)  
-**Versão atual:** **3.0.5.243** — glob/grep com ajuda IA no modal, arquivo opcional e busca por blocos em GB+, mantendo diagnóstico somente leitura, edição segura e índice paralelo Win64.  
+**Versão atual:** **3.0.5.268** — guia de próximos passos mais baixo e ícone de Ler no campo do caminho, mantendo os 28 idiomas, o guia por atividade, Preferências, RTL, glob/grep, o diagnóstico somente leitura e a edição segura.  
 **Objetivo deste documento:** consolidar sugestões técnicas, de UX e de negócio para tornar o FastFile um produto comercialmente competitivo.
 
 ---
+
+## ★ Actualização 3.0.5.268 (02/11/2026)
+
+Entrega incremental após **3.0.5.265**. Os 28 idiomas e os próximos passos por atividade permanecem como estavam.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.266** | O guia de próximos passos fica mais baixo e numa só fila, sem cobrir a lista do arquivo. |
+| **3.0.5.267** | Ícone de **Ler** dentro do campo do caminho, à esquerda do X de limpar. |
+| **3.0.5.268** | O ícone usa o desenho de Ler da barra (não o de pasta) e permanece visível sobre o edit. |
+
+**Internacionalização:** o bloco F1 novo (`FF_HELP.RecentFeaturesBlock8`) está traduzido nos 28 idiomas. Não há modelo de IA novo.
+
+## ★ Actualização 3.0.5.265 (01/11/2026)
+
+Entrega incremental após **3.0.5.261**. O guia, as Preferências e os 22 idiomas da trilha anterior permanecem como estavam.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.262** | Tailandês, grego, norueguês, sueco, dinamarquês e islandês ampliam a interface de 22 para **28 idiomas**. Os seis usam layout da esquerda para a direita. |
+| **3.0.5.263** | Botão à esquerda de **Copiar**, na faixa da lista, reabre o guia de próximos passos. |
+| **3.0.5.264** | Os próximos passos acompanham a atividade atual, em vez de uma lista fixa. |
+| **3.0.5.265** | Cada atividade oferece mais ações seguintes. |
+
+**Internacionalização:** o bloco F1 novo está traduzido nos 28 idiomas. Não há modelo de IA novo: o guia continua a propor ações locais.
+
+## ★ Actualização 3.0.5.261 (31/10/2026)
+
+Entrega incremental após **3.0.5.254**, sem repetir os recursos RTL e o botão Partes iguais já descritos.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.255** | Hindi, russo, coreano, neerlandês, turco e ucraniano ampliam a interface de 16 para **22 idiomas**. Hindi usa layout da esquerda para a direita. |
+| **3.0.5.256** | Partes iguais percorre blocos MMF, sem carregar o arquivo inteiro, e mantém ativa a aba de divisão após concluir. |
+| **3.0.5.257** | Menu de contexto do editor localizado; terminologia do histórico de sessão revisada. |
+| **3.0.5.258** | Guia de próximos passos após a leitura, com ações úteis e opção para não o mostrar novamente. |
+| **3.0.5.259** | Painel do guia redesenhado; removida a animação de redimensionamento que causava cintilação. |
+| **3.0.5.260** | Corrigida a ordem de criação dos controles do guia para evitar erro durante a leitura do arquivo. |
+| **3.0.5.261** | Preferências renovadas e botão **Mostrar guia agora** para reabrir o painel sob demanda. |
+
+**Internacionalização:** o novo bloco F1 e as legendas do guia estão traduzidos nos 22 idiomas atuais.
+
+## ★ Actualização 3.0.5.254 (30/10/2026)
+
+Entrega incremental após **3.0.5.249**. Não repete limites de linhas, prévia de Dividir por linhas nem exemplos de regex.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.250** | Layout da direita para a esquerda em formulários, diálogos e controles criados no código (`uBidiLayout`). O texto do arquivo continua da esquerda para a direita. |
+| **3.0.5.251** | Árabe e hebraico com tradução do catálogo (`uI18nRtl.pas`). A interface fica com 16 idiomas. |
+| **3.0.5.252** | Bandeira do país principal ao lado de cada nome na lista de idiomas. |
+| **3.0.5.253** | Em árabe e hebraico, as colunas da lista do arquivo leem-se da direita. O menu de idiomas alarga para o nome não ficar cortado. |
+| **3.0.5.254** | Botão **Partes iguais** na barra, logo depois de **Mesclar arquivos** (Ctrl+Shift+P). |
+
+## ★ Actualização 3.0.5.249 (29/10/2026)
+
+Entrega incremental após **3.0.5.244**, sem repetir ordenação de colunas, grupos nomeados do grep nem a sessão `.ffsession`.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.245** | Localizar, Filtro e Marcadores abrem compactos, com alça na base e **Fechar** ao lado de **Limpar**. |
+| **3.0.5.246** | Comandos glob/grep recentes (`mru_search_cmd.ini`), mais exemplos e **Perguntar à IA** ao lado da página ativa. |
+| **3.0.5.247** | Dividir por linhas: prévia do intervalo e as mesmas ferramentas da lista. Gravar percorre o arquivo e escreve outro, sem montar o intervalo como lista. |
+| **3.0.5.248** | Limites de linhas nas Opções, com padrão no campo e o mesmo número na tela que usa o limite. A roda do mouse rola a página. |
+| **3.0.5.249** | Idiomas recentes no combo. Filtro e editor de linha mostram exemplos de regex; a IA propõe o padrão e não o executa. |
+
+**Valor comercial:** o utilizador vê o teto antes de estourar a memória, entende o recorte que vai gravar e pede um padrão sem sair da tela. A lista de idiomas recentes encurta a troca de língua.
+
+**IA:** o mesmo gateway. Nada de modelo novo. O pedido de regex não envia o arquivo. A sugestão só vale depois que o utilizador a aplica.
 
 ## ★ Actualização 3.0.5.243 (23/10/2026)
 
@@ -123,7 +192,7 @@ Entrega incremental após **3.0.3.0**:
 
 - **Chat IA avançado (arquivo) em GB+:** `ConsumerRAG.py` usa **FastTextRAG** (busca lexical em streaming) por predefinição — abre ficheiros de qualquer tamanho (ex.: **TXT de 3,6 GB**) em segundos, sem embeddings antecipados; indexação semântica completa é **opcional** (`--semantic-index`).
 - **Cancelar/Fechar sem travar:** `StopConsumerRAGProcess` não bloqueante (`TerminateProcess` + espera temporizada de 750 ms na thread leitora); o painel oculta na hora e os botões Cancelar/Fechar ficam sempre clicáveis.
-- **Comparar/Mesclar — acentuação correta:** deteção automática de codificação (UTF-8 / ANSI / UTF-16 via `uTextEncoding`) na pré-visualização e no histórico de sessão; journal gravado em **UTF-8** (`uFileSessionHistory`).
+- **Comparar/Mesclar — acentuação correta:** deteção automática de codificação (UTF-8 / ANSI / UTF-16 via `uTextEncoding`) na pré-visualização e no histórico de sessão; registro da sessão gravado em **UTF-8** (`uFileSessionHistory`).
 - **Scroll dos chats IA:** roda do rato (e Ctrl+roda) sobre qualquer painel de chat (SQL, Avançado, Assistente, Script) rola o próprio histórico, não a lista principal.
 - **Ler (Ctrl+1):** com um ficheiro já aberto, abre o seletor de ficheiros e carrega de imediato o escolhido.
 - **Botão Sobre:** rótulo encurtado para «Sobre» (`titlebar.about`, 11 idiomas).
@@ -201,7 +270,7 @@ O projeto já possui uma base técnica rara e sólida:
 - **Tail macro Python (v2.1.7.21):** painel lateral em Opções; `transform(line, ctx)` em cada linha nova do Tail (**Ctrl+T**); exemplos + IA; reprocessar (**Ctrl+Shift+R**); resultados no export Tail (**Ctrl+Shift+L**); saída em ficheiro para logs GB+; i18n completo (11 idiomas)
 - **Split partes iguais corrigido (v2.1.7.23):** divisão por **contagem de linhas** equilibrada com fronteiras LF — sem cortar registo a meio (ficheiros de linhas longas)
 - **Script engine modo ficheiro grande (v2.1.7.24):** índice esparso `temp_ckpt.txt`, saída directa em disco (**OUTFILE**), memo leve em ficheiros GB+
-- **Autofill de linhas + CSV pós-edição (v2.1.7.17):** arrastar coluna **Linha #** insere linhas em branco (estilo EmEditor); **Ctrl+Z/Y** no bloco; journal **BAUT** no merge/histórico; modo CSV preservado após reload (`RestoreCsvModeAfterPostEdit`); delete em lote refresca ListView sem F5; recent files remove caminho inexistente
+- **Autofill de linhas + CSV pós-edição (v2.1.7.17):** arrastar coluna **Linha #** insere linhas em branco (estilo EmEditor); **Ctrl+Z/Y** no bloco; registro **BAUT** no merge/histórico; modo CSV preservado após reload (`RestoreCsvModeAfterPostEdit`); delete em lote refresca ListView sem F5; recent files remove caminho inexistente
 - ScriptEngine otimizado para conjuntos muito grandes (batching maior e append em bloco no output)
 - Estabilidade de encerramento do ConsumerAI (correção de lifecycle da thread de leitura)
 - Overlay de progresso **Smooth loading** refinado (cantos arredondados, fade-in, área de trabalho, cancelamento cooperativo com **TBitBtn** e i18n **11 idiomas** — trilhos internos **v2.1.7.1** / **v2.1.7.2**)

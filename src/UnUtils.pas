@@ -668,7 +668,8 @@ var
 begin
   aMsgdlg := createMessageDialog(Msg, DlgTypt, button);
   aMsgdlg.Caption := dlgcaption;
-  aMsgdlg.BiDiMode := bdRightToLeft;
+  { Direction (and the mirrored layout) comes from Application.BiDiMode, which
+    follows the UI language (uBidiLayout). }
   Captionindex := 0;
   for i := 0 to aMsgdlg.componentcount - 1 Do
   begin
@@ -868,7 +869,10 @@ begin
         dialog.Height := dialog.Height + 20;
         Width := dialog.Canvas.TextWidth(Caption) + 50;
         Top := dialog.ClientHeight - Height - 10;
-        Left := 8;
+        if dialog.BiDiMode = bdRightToLeft then
+          Left := dialog.ClientWidth - Width - 8
+        else
+          Left := 8;
         Checked := CheckVar;
       end;
     end;
@@ -982,8 +986,11 @@ begin
         Caption := CheckText;
         // posiciona checkbox na parte de baixo da janela
         Top := MessageDialog.ClientHeight - Height - 4;
-        Left := 10;
         Width := Canvas.TextWidth(Caption) + 30;
+        if MessageDialog.BiDiMode = bdRightToLeft then
+          Left := MessageDialog.ClientWidth - Width - 10
+        else
+          Left := 10;
         Checked := CheckVar;
       end;
     end

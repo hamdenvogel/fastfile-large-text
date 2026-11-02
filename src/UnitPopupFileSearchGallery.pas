@@ -39,7 +39,7 @@ type
     FFindVisibleState: Boolean;
     FFilterVisibleState: Boolean;
     function ScaledPx(ADesignPx: Integer): Integer;
-    procedure BuildChrome;
+    procedure BuildFrame;
     procedure StyleHost(AHost: TFileSearchGalleryItemHost; ASelected: Boolean);
     procedure StyleItem(ABtn: TsSpeedButton);
     procedure PlaceHints;
@@ -50,7 +50,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure Prepare(AImages: TCustomImageList; AFindImageIndex, AFilterImageIndex: Integer;
       AFindPanelVisible, AFilterPanelVisible: Boolean);
-    procedure RelayoutChrome;
+    procedure RelayoutFrame;
     procedure ClosePopup(AnimationAllowed: Boolean = False);
     property OnPickFind: TNotifyEvent read FOnPickFind write FOnPickFind;
     property OnPickFilter: TNotifyEvent read FOnPickFilter write FOnPickFilter;
@@ -62,7 +62,7 @@ var
 implementation
 
 uses
-  uI18n;
+  uI18n, uBidiLayout;
 
 const
   GALLERY_ITEM_H = 68;
@@ -156,7 +156,7 @@ begin
   Height := 200;
   Color := clWindow;
   OnKeyDown := FormKeyDown;
-  BuildChrome;
+  BuildFrame;
 end;
 
 function TFormPopupFileSearchGallery.ScaledPx(ADesignPx: Integer): Integer;
@@ -171,7 +171,7 @@ begin
   Result := MulDiv(ADesignPx, Ppi, 96);
 end;
 
-procedure TFormPopupFileSearchGallery.BuildChrome;
+procedure TFormPopupFileSearchGallery.BuildFrame;
 begin
   FSkin := TsSkinProvider.Create(Self);
   FSkin.SkinData.SkinSection := 'DIALOG';
@@ -309,7 +309,10 @@ begin
 end;
 
 procedure TFormPopupFileSearchGallery.PlaceHints;
+var
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([FHostFind, FHostFilter]);
   if Assigned(FLblFindHint) then
   begin
     FLblFindHint.BringToFront;
@@ -364,10 +367,10 @@ begin
   StyleItem(FBtnFilter);
   StyleHost(FHostFind, False);
   StyleHost(FHostFilter, False);
-  RelayoutChrome;
+  RelayoutFrame;
 end;
 
-procedure TFormPopupFileSearchGallery.RelayoutChrome;
+procedure TFormPopupFileSearchGallery.RelayoutFrame;
 var
   NeedH, NeedW: Integer;
 begin

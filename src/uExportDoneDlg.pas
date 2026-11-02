@@ -30,7 +30,7 @@ implementation
 uses
   Windows, Messages, SysUtils, Types, Graphics, Controls, Forms, StdCtrls, ExtCtrls, ShellAPI, Clipbrd,
   Math, IniFiles, uI18n, uFastFileScale, UnConsts, uFastFileAssistantHost, uFastFilePaths, uFastFileMsgDlg,
-  uAgentPrefs;
+  uAgentPrefs, uBidiLayout;
 
 const
   DLG_W = 560;
@@ -509,12 +509,13 @@ begin
   PaintGradient(Canvas, Rect(R.Left, R.Top, R.Right, R.Top + FfPx(36)), MixColor(FGradTop, clWhite, 22), FGradTop);
   AccW := FfPx(DLG_ACCENT_W);
   AccR := Rect(FfPx(14), FfPx(18), FfPx(14) + AccW, R.Bottom - FfPx(18));
+  AccR := BidiRect(AccR, R.Right);
   Canvas.Brush.Color := CAccent;
   Canvas.Pen.Color := MixColor(CAccent, clWhite, 18);
   Windows.RoundRect(Canvas.Handle, AccR.Left, AccR.Top, AccR.Right, AccR.Bottom, AccW + 2, AccW + 2);
   Canvas.Pen.Color := MixColor(FGradBot, clBlack, 10);
-  Canvas.MoveTo(FfPx(30), FBtnRow.Top);
-  Canvas.LineTo(R.Right - FfPx(DLG_PAD), FBtnRow.Top);
+  Canvas.MoveTo(BidiX(R.Right, FfPx(30)), FBtnRow.Top);
+  Canvas.LineTo(BidiX(R.Right, R.Right - FfPx(DLG_PAD)), FBtnRow.Top);
   Rad := FfPx(DLG_CORNER);
   Canvas.Brush.Style := bsClear;
   Canvas.Pen.Color := MixColor(IDLE_WORKSPACE_GRAD_RIGHT, clBlack, 22);
@@ -587,9 +588,12 @@ begin
     Folder[5] := Point(DocR.Left, DocR.Bottom);
     C.Brush.Color := MixColor(clWhite, CAccent, 22);
     C.Pen.Color := CAccent;
+    for X := 0 to High(Folder) do
+      Folder[X].X := BidiX(R.Right, Folder[X].X);
     C.Polygon(Folder);
     C.Brush.Color := MixColor(clWhite, CAccent, 10);
-    C.Rectangle(DocR.Left, DocR.Top + FfPx(10), DocR.Right + 1, DocR.Bottom + 1);
+    TR := BidiRect(Rect(DocR.Left, DocR.Top + FfPx(10), DocR.Right + 1, DocR.Bottom + 1), R.Right);
+    C.Rectangle(TR.Left, TR.Top, TR.Right, TR.Bottom);
   end
   else
   begin
@@ -603,15 +607,17 @@ begin
     Pts[4] := Point(DocR.Left, DocR.Bottom);
     C.Brush.Color := MixColor(clWhite, CAccent, 12);
     C.Pen.Color := CAccent;
+    for X := 0 to High(Pts) do
+      Pts[X].X := BidiX(R.Right, Pts[X].X);
     C.Polygon(Pts);
-    C.MoveTo(DocR.Right - Fold, DocR.Top);
-    C.LineTo(DocR.Right - Fold, DocR.Top + Fold);
-    C.LineTo(DocR.Right, DocR.Top + Fold);
+    C.MoveTo(BidiX(R.Right, DocR.Right - Fold), DocR.Top);
+    C.LineTo(BidiX(R.Right, DocR.Right - Fold), DocR.Top + Fold);
+    C.LineTo(BidiX(R.Right, DocR.Right), DocR.Top + Fold);
     C.Pen.Color := MixColor(CAccent, clWhite, 35);
     for X := 0 to 2 do
     begin
-      C.MoveTo(DocR.Left + FfPx(7), DocR.Top + FfPx(16) + X * FfPx(6));
-      C.LineTo(DocR.Right - FfPx(7), DocR.Top + FfPx(16) + X * FfPx(6));
+      C.MoveTo(BidiX(R.Right, DocR.Left + FfPx(7)), DocR.Top + FfPx(16) + X * FfPx(6));
+      C.LineTo(BidiX(R.Right, DocR.Right - FfPx(7)), DocR.Top + FfPx(16) + X * FfPx(6));
     end;
   end;
 
@@ -625,17 +631,18 @@ begin
     Lbl := TrText('ExportDone.FolderLabel')
   else
     Lbl := TrText('ExportDone.FileLabel');
-  TR := Rect(X, R.Top + FfPx(12), R.Right - FfPx(14), R.Top + FfPx(34));
-  DrawText(C.Handle, PChar(Lbl), -1, TR, DT_LEFT or DT_SINGLELINE or DT_NOPREFIX or DT_VCENTER);
+  TR := BidiRect(Rect(X, R.Top + FfPx(12), R.Right - FfPx(14), R.Top + FfPx(34)), R.Right);
+  DrawText(C.Handle, PChar(Lbl), -1, TR, BidiDrawFlags(DT_LEFT or DT_SINGLELINE or DT_NOPREFIX or DT_VCENTER));
   NameX := X + C.TextWidth(Lbl) + FfPx(6);
   C.Font.Style := [fsBold];
   if FCardHot then
     C.Font.Color := CLinkHot
   else
     C.Font.Color := CTitle;
-  TR := Rect(NameX, R.Top + FfPx(12), R.Right - FfPx(14), R.Top + FfPx(34));
-  DrawText(C.Handle, PChar(ExtractFileName(FPath)), -1, TR, DT_LEFT or DT_SINGLELINE or DT_NOPREFIX or
-    DT_END_ELLIPSIS or DT_VCENTER);
+  TR := BidiRect(Rect(NameX, R.Top + FfPx(12), R.Right - FfPx(14), R.Top + FfPx(34)), R.Right);
+  { file names / paths stay left-to-right text, only anchored to the right edge }
+  DrawText(C.Handle, PChar(ExtractFileName(FPath)), -1, TR,
+    BidiDrawFlags(DT_LEFT or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS or DT_VCENTER) and not UINT(DT_RTLREADING));
   C.Font.Size := 9;
   C.Font.Style := [];
   C.Font.Color := CMuted;
@@ -643,9 +650,9 @@ begin
     Dir := FPath
   else
     Dir := ExtractFileDir(FPath);
-  TR := Rect(X, R.Top + FfPx(36), R.Right - FfPx(14), R.Bottom - FfPx(8));
-  DrawText(C.Handle, PChar(Dir), -1, TR, DT_LEFT or DT_SINGLELINE or DT_NOPREFIX or DT_PATH_ELLIPSIS or
-    DT_VCENTER);
+  TR := BidiRect(Rect(X, R.Top + FfPx(36), R.Right - FfPx(14), R.Bottom - FfPx(8)), R.Right);
+  DrawText(C.Handle, PChar(Dir), -1, TR,
+    BidiDrawFlags(DT_LEFT or DT_SINGLELINE or DT_NOPREFIX or DT_PATH_ELLIPSIS or DT_VCENTER) and not UINT(DT_RTLREADING));
   C.Brush.Style := bsSolid;
 end;
 

@@ -298,7 +298,7 @@ begin
   LogFastFileException('Watchdog.UIHang', Msg);
 
   R := MessageBox(0, PChar(Msg), PChar(WatchdogText(wtHangTitle)),
-    MB_YESNO or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND or MB_TOPMOST);
+    MB_YESNO or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND or MB_TOPMOST or RtlMsgBoxFlags);
   if R = IDYES then
     RequestCancelWorkers('UI hang user confirmed cancel');
 end;
@@ -330,7 +330,7 @@ begin
   if ACritical then
   begin
     R := MessageBox(0, PChar(Msg), PChar(WatchdogText(wtMemTitle)),
-      MB_YESNO or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND or MB_TOPMOST);
+      MB_YESNO or MB_ICONWARNING or MB_SYSTEMMODAL or MB_SETFOREGROUND or MB_TOPMOST or RtlMsgBoxFlags);
     if R = IDYES then
     begin
       RequestCancelWorkers('Memory critical user confirmed cancel');

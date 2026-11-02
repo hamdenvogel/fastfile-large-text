@@ -54,7 +54,7 @@ var
 implementation
 
 uses
-  Math, uFastFileMsgDlg;
+  Math, uFastFileMsgDlg, UnConsts, uUserPrefs, uBidiLayout;
 
 {$R *.dfm}
 
@@ -169,9 +169,12 @@ end;
 procedure TfrmDeltaEditor.ApplyUiLanguage;
 var
   BtnW: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([pnlTop, pnlFooter]);
   if Assigned(lblHint) then
-    lblHint.Caption := TrText('DeltaEditor.Hint');
+    lblHint.Caption := Format(TrText('DeltaEditor.Hint'), [PrefMergeMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_MERGE_MAX_LINES]) + ')';
   if Assigned(lblLineNum) then
     lblLineNum.Caption := TrText('Line Number:');
   if Assigned(lblContent) then
@@ -363,6 +366,9 @@ end;
 
 procedure TfrmDeltaEditor.FormShow(Sender: TObject);
 begin
+  { Raw file line content stays left-to-right. }
+  BidiKeepLtr(edtContent);
+  BidiKeepLtr(lvDelta);
   ApplyUiLanguage;
   LayoutControls;
   if Assigned(pnlTop) then
@@ -388,6 +394,7 @@ const
 var
   TextH, CtlH, RowTop, HintH, HintW, LabelW1, LabelW2: Integer;
   EditLeft, LineNumW, ContentLeft, ContentW, BtnW, StatusL, StatusW, FooterTop: Integer;
+  BL: IInterface;
 
   procedure CenterLabel(L: TLabel; ALeft: Integer);
   begin
@@ -399,6 +406,7 @@ var
 begin
   if not Assigned(pnlTop) or not Assigned(pnlFooter) then Exit;
   if ClientWidth < 280 then Exit;
+  BL := BidiLayoutScope([pnlTop, pnlFooter]);
 
   Canvas.Font.Assign(Font);
   TextH := Canvas.TextHeight('Hg');

@@ -9,7 +9,21 @@ uses
 type
   TAppLanguage = (alEnglish, alPortuguese, alSpanish, alFrench, alGerman, alItalian,
                    alPolish, alPortuguesePT, alRomanian, alHungarian, alCzech, alJapanese,
-                   alChineseSimplified, alChineseTraditional);
+                   alChineseSimplified, alChineseTraditional,
+                   alArabic, alHebrew,
+                   alHindi, alRussian, alKorean, alDutch, alTurkish, alUkrainian,
+                   alThai, alGreek, alNorwegian, alSwedish, alDanish, alIcelandic);
+
+{ True for right-to-left UI languages (Arabic, Hebrew). The UI then switches to
+  BiDiMode = bdRightToLeft and every form is mirrored (see uBidiLayout). }
+function IsRtlLanguage(const Lang: TAppLanguage): Boolean;
+{ Extra flags for native MessageBox calls: MB_RTLREADING or MB_RIGHT when the UI
+  language is right-to-left, 0 otherwise. }
+function RtlMsgBoxFlags: Cardinal;
+
+{ Dev tooling: dumps every loaded translation table (all languages) as UTF-8
+  lines "<lang>|<T or K>|<key>|<value>" with \n \r \\ \| escapes. }
+procedure I18nDumpAllTables(const AFileName: string);
 
 function AppLanguageFromCode(const Code: string): TAppLanguage;
 
@@ -55,13 +69,19 @@ var
     loading overlay alive (animation, Cancel). Must not touch form layouts. }
   RetranslateTickProc: procedure = nil;
 
+  { Set by uBidiLayout: re-applies the text direction and mirrors the layout of
+    every form after a language switch (Arabic / Hebrew <-> left-to-right). }
+  BidiApplyAllProc: procedure = nil;
+
 implementation
 
 uses
-  TypInfo, Windows, IniFiles, Controls, Generics.Collections, uFastFileMsgDlg;
+  TypInfo, Windows, IniFiles, Controls, Generics.Collections, uFastFileMsgDlg,
+  uI18nRtl, uI18nExtra;
 
 type
   TAppLanguageSet = set of TAppLanguage;
+  TExtraLanguage = alHindi..alIcelandic;
 
 var
   GCurrentLanguage: TAppLanguage = alEnglish;
@@ -85,6 +105,10 @@ var
   GJapanese: TStringList = nil;
   GChineseSimplified: TStringList = nil;
   GChineseTraditional: TStringList = nil;
+  GArabic: TStringList = nil;
+  GHebrew: TStringList = nil;
+  GTextArabic: TStringList = nil;
+  GTextHebrew: TStringList = nil;
   GTextEnglish: TStringList = nil;
   GTextPortuguese: TStringList = nil;
   GTextSpanish: TStringList = nil;
@@ -99,6 +123,9 @@ var
   GTextJapanese: TStringList = nil;
   GTextChineseSimplified: TStringList = nil;
   GTextChineseTraditional: TStringList = nil;
+  GExtraTables: array[TExtraLanguage] of TStringList;
+  GExtraTextTables: array[TExtraLanguage] of TStringList;
+  GPopulatingExtraLanguage: TExtraLanguage;
 
 function CreateTable: TStringList;
 begin
@@ -113,6 +140,7 @@ procedure EnsureLanguageLoaded(Lang: TAppLanguage); forward;
 function PeekStartupLanguage: TAppLanguage; forward;
 procedure CreateTranslationTables; forward;
 procedure FillTranslationDataBody; forward;
+procedure AddActionLimitTranslations; forward;
 
 function PutNVAllowed(Table: TStringList): Boolean;
 var
@@ -168,6 +196,8 @@ begin
 end;
 
 procedure ApplyPopulateMask(const Wanted: TAppLanguageSet);
+var
+  L: TExtraLanguage;
 begin
   GPutNVAllowCount := 0;
   if alEnglish in Wanted then
@@ -240,6 +270,22 @@ begin
     AllowPutNVTable(GChineseTraditional);
     AllowPutNVTable(GTextChineseTraditional);
   end;
+  if alArabic in Wanted then
+  begin
+    AllowPutNVTable(GArabic);
+    AllowPutNVTable(GTextArabic);
+  end;
+  if alHebrew in Wanted then
+  begin
+    AllowPutNVTable(GHebrew);
+    AllowPutNVTable(GTextHebrew);
+  end;
+  for L := Low(TExtraLanguage) to High(TExtraLanguage) do
+    if L in Wanted then
+    begin
+      AllowPutNVTable(GExtraTables[L]);
+      AllowPutNVTable(GExtraTextTables[L]);
+    end;
 end;
 
 procedure CollapseDuplicateKeysKeepLast(Table: TStringList);
@@ -276,6 +322,8 @@ begin
 end;
 
 procedure CollapseLanguageTables(const Wanted: TAppLanguageSet);
+var
+  L: TExtraLanguage;
 begin
   if alEnglish in Wanted then
   begin
@@ -347,6 +395,22 @@ begin
     CollapseDuplicateKeysKeepLast(GChineseTraditional);
     CollapseDuplicateKeysKeepLast(GTextChineseTraditional);
   end;
+  if alArabic in Wanted then
+  begin
+    CollapseDuplicateKeysKeepLast(GArabic);
+    CollapseDuplicateKeysKeepLast(GTextArabic);
+  end;
+  if alHebrew in Wanted then
+  begin
+    CollapseDuplicateKeysKeepLast(GHebrew);
+    CollapseDuplicateKeysKeepLast(GTextHebrew);
+  end;
+  for L := Low(TExtraLanguage) to High(TExtraLanguage) do
+    if L in Wanted then
+    begin
+      CollapseDuplicateKeysKeepLast(GExtraTables[L]);
+      CollapseDuplicateKeysKeepLast(GExtraTextTables[L]);
+    end;
 end;
 
 
@@ -399,6 +463,8 @@ begin
 end;
 
 procedure SortLanguageTables(const Wanted: TAppLanguageSet);
+var
+  L: TExtraLanguage;
 begin
   if alEnglish in Wanted then
   begin
@@ -470,6 +536,22 @@ begin
     if Assigned(GChineseTraditional) then GChineseTraditional.CustomSort(CompareTableByKey);
     if Assigned(GTextChineseTraditional) then GTextChineseTraditional.CustomSort(CompareTableByKey);
   end;
+  if alArabic in Wanted then
+  begin
+    if Assigned(GArabic) then GArabic.CustomSort(CompareTableByKey);
+    if Assigned(GTextArabic) then GTextArabic.CustomSort(CompareTableByKey);
+  end;
+  if alHebrew in Wanted then
+  begin
+    if Assigned(GHebrew) then GHebrew.CustomSort(CompareTableByKey);
+    if Assigned(GTextHebrew) then GTextHebrew.CustomSort(CompareTableByKey);
+  end;
+  for L := Low(TExtraLanguage) to High(TExtraLanguage) do
+    if L in Wanted then
+    begin
+      GExtraTables[L].CustomSort(CompareTableByKey);
+      GExtraTextTables[L].CustomSort(CompareTableByKey);
+    end;
 end;
 
 procedure AddRuntimeDialogProgressTranslations;
@@ -8078,7 +8160,7 @@ begin
   PutNV(GTextJapanese, 'Filter cleared.', 'フィルターがクリアされました。');
   PutNV(GTextChineseSimplified, 'Filter cleared.', '筛选已清除。');
   PutNV(GTextChineseTraditional, 'Filter cleared.', '篩選已清除。');
-  { --- FilterBar chrome (11 languages; accents via #nnn) --- }
+  { --- FilterBar frame (11 languages; accents via #nnn) --- }
   PutNV(GTextEnglish, 'FilterBar.Apply', 'Apply');
   PutNV(GTextPortuguese, 'FilterBar.Apply', 'Aplicar');
   PutNV(GTextSpanish, 'FilterBar.Apply', 'Aplicar');
@@ -19500,20 +19582,52 @@ begin
     '此請求的強制要求：僅保留數字 0-9、分號 ; 和 #。''在頂部使用 import re 並：return re.sub(r"[^0-9;#]", "", line)。''不要使用 line[:N]、line[i] 或 range 來指定列位置。');
   Set14(
     'AI_PY_PROMPT_HDR_SAMPLE',
-    'File shape (context only — do not echo in answer; max 4 short lines):',
-    'Formato do ficheiro (so contexto — não repetir na resposta; max. 4 linhas curtas):',
-    'Forma del archivo (solo contexto — no repetir en la respuesta):',
-    'Forme du fichier (contexte seulement — ne pas recopier) :',
-    'Dateiform (nur Kontext — nicht in Antwort kopieren):',
-    'Formato file (solo contesto — non ripetere nella risposta):',
-    'Ksztalt pliku (tylko kontekst — nie powtarzac w odpowiedzi):',
-    'Formato do ficheiro (so contexto — não repetir na resposta):',
-    'Format fisier (doar context — nu repetati in răspuns):',
-    'Fájl forma (csak kontext — ne ismetelje):',
-    'Tvar souboru (jen kontext — neopakovat v odpovedi):',
-    'ファイルの形状（コンテキストのみ—回答にエコーしないでください。最大4つの短い行） ：',
-    '文件形状（仅上下文 — 不要在答案中重复；最多 4 行简短内容）：',
-    '檔案形狀（僅限上下文 — 不要在答案中重複；最多四行短句）：');
+    'Representative source lines (context only; do not repeat them in the answer):',
+    'Linhas representativas do arquivo (só contexto; não as repita na resposta):',
+    'Líneas representativas del archivo (solo contexto; no las repita en la respuesta):',
+    'Lignes représentatives du fichier (contexte uniquement ; ne les répétez pas dans la réponse) :',
+    'Repräsentative Dateizeilen (nur Kontext; nicht in der Antwort wiederholen):',
+    'Righe rappresentative del file (solo contesto; non ripeterle nella risposta):',
+    'Reprezentatywne wiersze pliku (tylko kontekst; nie powtarzaj ich w odpowiedzi):',
+    'Linhas representativas do ficheiro (só contexto; não as repita na resposta):',
+    'Linii reprezentative din fișier (doar context; nu le repetați în răspuns):',
+    'A fájl jellemző sorai (csak kontextus; ne ismételje meg őket a válaszban):',
+    'Reprezentativní řádky souboru (pouze kontext; neopakujte je v odpovědi):',
+    'ファイルの代表的な行（コンテキストのみ。回答で繰り返さないでください）：',
+    '具有代表性的文件行（仅作上下文；请勿在回答中重复）：',
+    '具代表性的檔案列（僅供參考；請勿在回答中重複）：');
+  Set14(
+    'AI_PY_MACRO_SAMPLE_SELECTED',
+    'Representative sample: %d of %d selected rows',
+    'Amostra representativa: %d de %d linhas selecionadas',
+    'Muestra representativa: %d de %d filas seleccionadas',
+    'Échantillon représentatif : %d lignes sur %d sélectionnées',
+    'Repräsentative Stichprobe: %d von %d ausgewählten Zeilen',
+    'Campione rappresentativo: %d righe selezionate su %d',
+    'Próbka reprezentatywna: %d z %d zaznaczonych wierszy',
+    'Amostra representativa: %d de %d linhas selecionadas',
+    'Eșantion reprezentativ: %d din %d linii selectate',
+    'Reprezentatív minta: %d / %d kijelölt sor',
+    'Reprezentativní vzorek: %d z %d vybraných řádků',
+    '代表サンプル：%d 行を選択範囲の全 %d 行から抽出',
+    '代表性样本：%d 行样本，所选行共 %d 行',
+    '代表性樣本：%d 列樣本，所選列共 %d 列');
+  Set14(
+    'AI_PY_MACRO_SAMPLE_FILE',
+    'Representative sample: %d of %d source-file lines',
+    'Amostra representativa: %d de %d linhas do arquivo',
+    'Muestra representativa: %d de %d líneas del archivo',
+    'Échantillon représentatif : %d lignes sur %d dans le fichier',
+    'Repräsentative Stichprobe: %d von %d Dateizeilen',
+    'Campione rappresentativo: %d righe su %d del file',
+    'Próbka reprezentatywna: %d z %d wierszy pliku',
+    'Amostra representativa: %d de %d linhas do ficheiro',
+    'Eșantion reprezentativ: %d din %d linii ale fișierului',
+    'Reprezentatív minta: %d / %d fájlsor',
+    'Reprezentativní vzorek: %d z %d řádků souboru',
+    '代表サンプル：%d 行をファイルの全 %d 行から抽出',
+    '代表性样本：抽取 %d 行（文件共 %d 行）',
+    '代表性樣本：抽取 %d 列（檔案共 %d 列）');
   Set14(
     'AI_PY_PROMPT_TASK_TAIL',
     'Suggest or improve a Tail macro: Python def transform(line, ctx) runs once per new line while Tail mode is ON.',
@@ -29443,7 +29557,7 @@ procedure AddCommonTranslationsHelpAssistantBlock;
 begin
   Set14(
     'FF_HELP.AssistantBlock',
-    '  Ctrl+Alt+A toggles the FastFile AI Assistant (v3.0.5.232). Natural-language ops + compose: ' +
+    '  Ctrl+Alt+A toggles the FastFile AI Assistant (v3.0.5.254). Natural-language ops + compose: ' +
     'generate Word/RTF/DOCX/ODT/PDF summaries and source (.py/.js/.ts/.go/.java/...). ' +
     'Files go to fastfile_assistant\ (not fastfile_temp). Clear/Copy reply buttons. ' +
     'Safety lock blocks malware, disk format, OS shell, and dangerous extensions. ' +
@@ -29453,63 +29567,63 @@ begin
     'SQL and file-content questions stay in the Assistant (Ctrl+Alt+A); Python engines run in the background. ' +
     'With focus in the panel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. ' +
     'UI languages: 14 (incl. Japanese, Chinese Simplified/Traditional). Optional startup (ASkin.ini: AssistantShowOnStartup). AssistantLog=1 appends Assistant.log.',
-    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.232). Operações + compose: gerar resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant' +
+    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.254). Operações + compose: gerar resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant' +
       '\ (não fastfile_temp). Botoes Limpar/Copiar. Trava: sem virus/malware, formatar disco, shell do SO nem .exe/.bat/.vbs. count_matching_lines conta ocorrências contains/parcial local' +
       'mente (AI-first). Abrir o N.o ficheiro dos recentes. Comandos locais (filtrar+exportar, substituir, dividir). Ctrl+L abre a FilterBar dockada (MRU 20). Status Mode/Wrap/Tail/Filter' +
       ': clique para toggle. Perguntas SQL e sobre o arquivo ficam no Assistente (Ctrl+Alt+A); os motores Python rodam em segundo plano. Foco no painel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z' +
       '/Y, Ctrl+C/V. UI em 14 idiomas (incl. japonês e chinês simplificado/tradicional). Arranque opcional (ASkin.ini). AssistantLog=1.',
-    '  Ctrl+Alt+A muestra/oculta el Asistente IA (v3.0.5.232). Operaciones + compose: resúmenes Word/RTF/DOCX/ODT/PDF y código (.py/.js/.ts/.go/.java/...). Archivos en fastfile_assistan' +
+    '  Ctrl+Alt+A muestra/oculta el Asistente IA (v3.0.5.254). Operaciones + compose: resúmenes Word/RTF/DOCX/ODT/PDF y código (.py/.js/.ts/.go/.java/...). Archivos en fastfile_assistan' +
       't\ (no fastfile_temp). Botones Limpiar/Copiar. Bloqueo: sin malware, formatear disco, shell ni .exe/.bat/.vbs. count_matching_lines cuenta coincidencias contains/parcial en local (' +
       'AI-first). Ctrl+L abre FilterBar acoplada (MRU 20). Barra de estado Mode/Wrap/Tail/Filter: clic = toggle. Las preguntas SQL y de contenido quedan en el Asistente (Ctrl+Alt+A); los ' +
       'motores Python corren en segundo plano. Foco en el panel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. Idiomas de UI: 14 (incl. japones y chino simplificado/tradicional). Inicio' +
       ' opcional (ASkin.ini).',
-    '  Ctrl+Alt+A affiche/masque l''Assistant IA (v3.0.5.232). Opérations + compose : resumes Word/RTF/DOCX/ODT/PDF et code (.py/.js/.ts/.go/.java/...). Fichiers dans fastfile_assistant\' +
+    '  Ctrl+Alt+A affiche/masque l''Assistant IA (v3.0.5.254). Opérations + compose : resumes Word/RTF/DOCX/ODT/PDF et code (.py/.js/.ts/.go/.java/...). Fichiers dans fastfile_assistant\' +
       ' (pas fastfile_temp). Boutons Effacer/Copier. Verrou : pas de malware, formatage disque, shell ni .exe/.bat/.vbs. count_matching_lines compte contains/partiel en local (AI-first). ' +
       'Ctrl+L ouvre la FilterBar ancrée (MRU 20). Barre d''état Mode/Wrap/Tail/Filter : clic = bascule. Les questions SQL et contenu restent dans l''Assistant (Ctrl+Alt+A) ; les moteurs Pyt' +
       'hon tournent en arriere-plan. Focus panneau : Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 langues d''interface (jap. + chinois simplifie/traditionnel). Démarrage optionnel (A' +
       'Skin.ini).',
-    '  Ctrl+Alt+A schaltet den KI-Assistenten ein/aus (v3.0.5.232). Betrieb + Compose: Word/RTF/DOCX/ODT/PDF ' +
+    '  Ctrl+Alt+A schaltet den KI-Assistenten ein/aus (v3.0.5.254). Betrieb + Compose: Word/RTF/DOCX/ODT/PDF ' +
     'und Quellcode (.py/.js/.ts/.go/.java/...). Dateien in fastfile_assistant\ (nicht fastfile_temp). ' +
     'Leeren/Kopieren. Sperre: kein Malware, Formatieren, OS-Shell, .exe/.bat/.vbs. ' +
     'count_matching_lines zahlt contains/teilweise lokal (AI-first). ' +
     'Ctrl+L '#246'ffnet die angedockte FilterBar (MRU 20). Status Mode/Wrap/Tail/Filter: Klick = Umschalten. ' +
     'SQL- und Dateiinhalt-Fragen bleiben im Assistenten (Ctrl+Alt+A); Python-Engines laufen im Hintergrund. ' +
     'Fokus Panel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 UI-Sprachen (inkl. Japanisch, Chin. vereinfacht/traditionell). Start optional (ASkin.ini).',
-    '  Ctrl+Alt+A apre/chiude l''Assistente IA (v3.0.5.232). Operazioni + compose: riepiloghi Word/RTF/DOCX/ODT/PDF ' +
+    '  Ctrl+Alt+A apre/chiude l''Assistente IA (v3.0.5.254). Operazioni + compose: riepiloghi Word/RTF/DOCX/ODT/PDF ' +
     'e codice (.py/.js/.ts/.go/.java/...). File in fastfile_assistant\ (non fastfile_temp). ' +
     'Pulsanti Pulisci/Copia. Blocco: niente malware, format disco, shell ne .exe/.bat/.vbs. ' +
     'count_matching_lines conta contains/parziale in locale (AI-first). ' +
     'Ctrl+L apre la FilterBar ancorata (MRU 20). Status Mode/Wrap/Tail/Filter: clic = toggle. ' +
     'Le domande SQL e sul file restano nell''Assistente (Ctrl+Alt+A); i motori Python restano in background. ' +
     'Focus pannello: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 lingue UI (incl. giapponese e cinese semplificato/tradizionale). Avvio opzionale (ASkin.ini).',
-    '  Ctrl+Alt+A przelacza Asystenta AI (v3.0.5.232). Operacje + compose: podsumowania Word/RTF/DOCX/ODT/PDF i kod (.py/.js/.ts/.go/.java/...). Pliki w fastfile_assistant\ (nie fastfil' +
+    '  Ctrl+Alt+A przelacza Asystenta AI (v3.0.5.254). Operacje + compose: podsumowania Word/RTF/DOCX/ODT/PDF i kod (.py/.js/.ts/.go/.java/...). Pliki w fastfile_assistant\ (nie fastfil' +
       'e_temp). Przyciski Wyczyść/Kopiuj. Blokada: bez malware, formatowania, shell ani .exe/.bat/.vbs. count_matching_lines liczy contains/czesciowe lokalnie (AI-first). Ctrl+L otwiera d' +
       'okowana FilterBar (MRU 20). Pasek Mode/Wrap/Tail/Filter: klik = przełącz. Pytania SQL i o treść pliku zostaja w Asystencie (Ctrl+Alt+A); silniki Python dzialaja w tle. Fokus panelu' +
       ': Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 jezykow UI (wl. japonski oraz chinski uproszczony/tradycyjny). Start opcjonalny (ASkin.ini).',
-    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.232). Operações + compose: resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant\ (não' +
+    '  Ctrl+Alt+A abre/fecha o Assistente IA (v3.0.5.254). Operações + compose: resumos Word/RTF/DOCX/ODT/PDF e código (.py/.js/.ts/.go/.java/...). Ficheiros em fastfile_assistant\ (não' +
       ' fastfile_temp). Botoes Limpar/Copiar. Trava: sem virus/malware, formatar disco, shell nem .exe/.bat/.vbs. count_matching_lines conta ocorrências contains/parcial localmente (AI-fi' +
       'rst). Ctrl+L abre a FilterBar acoplada (MRU 20). Estado Mode/Wrap/Tail/Filter: clique = toggle. Perguntas SQL e sobre o ficheiro ficam no Assistente (Ctrl+Alt+A); os motores Python' +
       ' correm em segundo plano. Foco no painel: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. UI em 14 idiomas (incl. japonês e chinês simplificado/tradicional). Arranque opcional (ASk' +
       'in.ini).',
-    '  Ctrl+Alt+A comuta Asistentul IA (v3.0.5.232). Operații + compose: rezumate Word/RTF/DOCX/ODT/PDF si cod (.py/.js/.ts/.go/.java/...). Fisiere in fastfile_assistant\ (nu fastfile_t' +
+    '  Ctrl+Alt+A comuta Asistentul IA (v3.0.5.254). Operații + compose: rezumate Word/RTF/DOCX/ODT/PDF si cod (.py/.js/.ts/.go/.java/...). Fisiere in fastfile_assistant\ (nu fastfile_t' +
       'emp). Butoane Curăţa/Copiază. Blocaj: fără malware, format disk, shell sau .exe/.bat/.vbs. count_matching_lines numara contains/parțial local (AI-first). Ctrl+L deschide FilterBar ' +
       'andocata (MRU 20). Status Mode/Wrap/Tail/Filter: clic = toggle. Intrebarile SQL si despre fisier raman in Asistent (Ctrl+Alt+A); motoarele Python rulează in fundal. Focus panou: Ct' +
       'rl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 limbi UI (incl. japoneza si chineza simplificata/traditionala). Pornire optionala (ASkin.ini).',
-    '  Ctrl+Alt+A ki/be kapcsolja az AI asszisztenst (v3.0.5.232). Muveletek + compose: Word/RTF/DOCX/ODT/PDF es forraskod (.py/.js/.ts/.go/.java/...). Fájlok: fastfile_assistant\ (nem ' +
+    '  Ctrl+Alt+A ki/be kapcsolja az AI asszisztenst (v3.0.5.254). Muveletek + compose: Word/RTF/DOCX/ODT/PDF es forraskod (.py/.js/.ts/.go/.java/...). Fájlok: fastfile_assistant\ (nem ' +
       'fastfile_temp). Töröl/Másol gombok. Zar: nincs malware, format, shell, .exe/.bat/.vbs. count_matching_lines helyben szamol contains/részleges (AI-first). Ctrl+L megnyitja a dokkolt' +
       ' FilterBar-t (MRU 20). Status Mode/Wrap/Tail/Filter: kattintás = kapcsol. SQL es fajltartalom kérdések az Asszisztensben maradnak (Ctrl+Alt+A); a Python motorok hatterben futnak. F' +
       'okusz: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 UI nyelv (japan + egyszerusitett/hagyomanyos kinai). Inditas opcionalis (ASkin.ini).',
-    '  Ctrl+Alt+A prepne Asistenta AI (v3.0.5.232). Operace + compose: souhrny Word/RTF/DOCX/ODT/PDF a kod (.py/.js/.ts/.go/.java/...). Soubory ve fastfile_assistant\ (ne fastfile_temp)' +
+    '  Ctrl+Alt+A prepne Asistenta AI (v3.0.5.254). Operace + compose: souhrny Word/RTF/DOCX/ODT/PDF a kod (.py/.js/.ts/.go/.java/...). Soubory ve fastfile_assistant\ (ne fastfile_temp)' +
       '. Tlacitka Vymazat/Kopírovat. Zamek: bez malware, formatovani, shell ani .exe/.bat/.vbs. count_matching_lines pocita contains/castecne lokalne (AI-first). Ctrl+L otevře dokovanou F' +
       'ilterBar (MRU 20). Status Mode/Wrap/Tail/Filter: klik = přepnout. Asistenta AI (Ctrl+Alt+A): jeden chat pro FastFile, SQL (Python) a obsah souboru. Focus panelu: Ctrl+H/L/F, Ctrl+S' +
       'hift+L/Q, Ctrl+Z/Y, Ctrl+C/V. 14 jazyku UI (vc. japonstiny a cinstiny zjednodusene/tradicni). Volitelné při startu (ASkin.ini).',
-    'CtrlAltAはFastFile AIアシスタント（v3.0.5.232）を切り替えます。自然言語操作の構成：''Word/RTF/DOCX/ODT/PDFの要約とソース（.py/.js/.ts/.go/.java/...）を生成。ファイルはfastfile_assistant\に保存（fastfile_tempではなく）。返信のクリア/コピー ボタン。''セーフティロックはマルウェア、ディスクフォーマット、OSシェル、危険な拡張子をブロック。''count_matchin' +
+    'CtrlAltAはFastFile AIアシスタント（v3.0.5.254）を切り替えます。自然言語操作の構成：''Word/RTF/DOCX/ODT/PDFの要約とソース（.py/.js/.ts/.go/.java/...）を生成。ファイルはfastfile_assistant\に保存（fastfile_tempではなく）。返信のクリア/コピー ボタン。''セーフティロックはマルウェア、ディスクフォーマット、OSシェル、危険な拡張子をブロック。''count_matchin' +
       'g_linesはローカルでcontains/部分一致をカウント（AI優先）。''N番目の最近のファイルエントリを開くように尋ねます。可能な場合はローカルツールを使用（filterexport、replace、split）。''CtrlLでドッキングされたFilterBarを開く（MRU 20）。ステータスバーのMode/Wrap/Tail/Filterクリックで切り替え。''SQLおよびファイル内容の質問はアシスタント内に留まる（CtrlAltA）；Pythonエンジンはバッ' + 'クグラウンドで実行。''パネルにフォーカスがあるとき：CtrlH/L/F、CtrlShiftL/Q、CtrlZ/Y、CtrlC/V。''オプションの起動（ASkin.ini: AssistantShowOnStartup）。UI言語は14（日本語・簡体字/繁体字中国語を含む）。AssistantLog=1でAssistant.logに追記。',
-    'CtrlAltA 切换 FastFile AI 助手 (v3.0.5.232)。自然语言操作组合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件保存到 fastfile_assistant\（而不是 fastfile_temp）。清除/复制回复按钮。''安全锁阻止恶意软件、磁盘格式、操作系统命令和危险扩展。''count_matching_lines 在本地统计包含/部分匹配行（以 AI 为主）。' +
+    'CtrlAltA 切换 FastFile AI 助手 (v3.0.5.254)。自然语言操作组合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件保存到 fastfile_assistant\（而不是 fastfile_temp）。清除/复制回复按钮。''安全锁阻止恶意软件、磁盘格式、操作系统命令和危险扩展。''count_matching_lines 在本地统计包含/部分匹配行（以 AI 为主）。' +
       '''请求打开第 N 个最近文件条目。本地工具优先使用（filterexport、replace、split）。''CtrlL 打开停靠的 FilterBar（MRU 20）。状态栏模式/换行/尾随/过滤点击切换。''SQL 和文件内容问题保留在助手中 (CtrlAltA)；Python 引擎在后台运行。''聚焦面板时：CtrlH/L/F、CtrlShiftL/Q、CtrlZ/Y、CtrlC/V。''可选启动 (ASkin.ini: AssistantShowOnStartup)。界面语' +
       '言共 14 种（含日语、简体/繁体中文）。Ass' +
       'istantLog=1 会追加到 Assistant.log。',
-    'CtrlAltA 切換 FastFile AI 助手 (v3.0.5.232)。自然語言操作組合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件會保存到 fastfile_assistant\（而非 fastfile_temp）。清除/複製回覆按鈕。''安全鎖阻止惡意軟件、磁碟格式化、操作系統命令行和危險擴展。''count_matching_lines 本地計算包含/部分匹配（以 AI 為先）。' +
+    'CtrlAltA 切換 FastFile AI 助手 (v3.0.5.254)。自然語言操作組合：''生成 Word/RTF/DOCX/ODT/PDF 摘要以及源文件 (.py/.js/.ts/.go/.java/...)。''文件會保存到 fastfile_assistant\（而非 fastfile_temp）。清除/複製回覆按鈕。''安全鎖阻止惡意軟件、磁碟格式化、操作系統命令行和危險擴展。''count_matching_lines 本地計算包含/部分匹配（以 AI 為先）。' +
       '''可打開第 N 個最近文件條目。盡可能使用本地工具（filterexport、replace、split）。''CtrlL 打開停靠的 FilterBar（MRU 20）。狀態欄 Mode/Wrap/Tail/Filter 點擊切換。''SQL 和文件內容問題保留在助手中（CtrlAltA）；Python 引擎在後台運行。''面板焦點時：CtrlH/L/F、CtrlShiftL/Q、CtrlZ/Y、CtrlC/V。''可選啟動（ASkin.ini: AssistantShowOnSt' +
       'artup）。介面語言共 14 種（含日語、簡體/繁體中文）。AssistantLog=1 會附加到 Assistant.log。');
 
@@ -30364,7 +30478,7 @@ begin
     '  Read (Ctrl+1 / toolbar): with a file already open it opens the file'#13#10 +
     '  browser and loads the chosen file immediately.'#13#10 +
     '  Compare / merge preview and session history show correct accents'#13#10 +
-    '  (UTF-8 / ANSI / UTF-16 auto-detected; journal stored as UTF-8).',
+    '  (UTF-8 / ANSI / UTF-16 auto-detected; session log stored as UTF-8).',
     'PERGUNTAS SOBRE O ARQUIVO NO ASSISTENTE, PAIN'#201'IS DE CHAT E PR'#201'-VISUALIZA'#199#195'O (v3.0.4+)'#13#10 +
     '---------------------------------------------------------------'#13#10 +
     '  Perguntas sobre o arquivo aberto ficam no Assistente IA (Ctrl+Alt+A).'#13#10 +
@@ -33242,6 +33356,38 @@ begin
     '描述文件时分析的行数',
     '描述檔案時分析的行數');
   Set14(
+    'Prefs.PythonMacroSampleLines',
+    'Python macro sample lines',
+    'Linhas de amostra para macro Python',
+    'Líneas de muestra para macro Python',
+    'Lignes d''échantillon pour macro Python',
+    'Python-Makro: Beispielzeilen',
+    'Righe di esempio per macro Python',
+    'Wiersze próbki dla makra Python',
+    'Linhas de amostra para macro Python',
+    'Linii eșantion pentru macrocomenzi Python',
+    'Python-makró mintasorai',
+    'Ukázkové řádky pro makro Python',
+    'Python マクロ用のサンプル行数',
+    'Python 宏示例行数',
+    'Python 巨集範例列數');
+  Set14(
+    'Prefs.PythonMacroSampleLinesHint',
+    'Samples are spread across selected rows, or across the whole file when nothing is selected.',
+    'A amostra é distribuída entre as linhas selecionadas ou, sem seleção, pelo arquivo inteiro.',
+    'La muestra se distribuye entre las filas seleccionadas o, si no hay selección, por todo el archivo.',
+    'L''échantillon est réparti parmi les lignes sélectionnées ou, sans sélection, dans tout le fichier.',
+    'Die Stichprobe wird über ausgewählte Zeilen oder, ohne Auswahl, über die ganze Datei verteilt.',
+    'Il campione è distribuito tra le righe selezionate o, senza selezione, nell''intero file.',
+    'Próbka obejmuje wybrane wiersze lub, bez zaznaczenia, cały plik.',
+    'A amostra é distribuída pelas linhas selecionadas ou, sem seleção, por todo o ficheiro.',
+    'Eșantionul este distribuit între liniile selectate sau, fără selecție, în întregul fișier.',
+    'A minta a kijelölt sorok között oszlik el, kijelölés nélkül pedig a teljes fájlban.',
+    'Vzorek se rozloží mezi vybrané řádky, nebo bez výběru napříč celým souborem.',
+    '選択行全体から抽出し、選択がない場合はファイル全体から抽出します。',
+    '样本分布于所选行；未选择时则分布于整个文件。',
+    '樣本分布於所選列；未選取時則分布於整個檔案。');
+  Set14(
     'Prefs.Section.Display',
     'Display',
     'Exibição',
@@ -33783,7 +33929,7 @@ begin
     '上限：%s 行（檔案）/ %s 行（剪貼簿）。');
 end;
 
-procedure AddCommonTranslationsLangSwitchChrome;
+procedure AddCommonTranslationsLangSwitchFrame;
   procedure Set14(const K: string;
     const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
   begin
@@ -34283,7 +34429,7 @@ begin
     '質問エリアと返信をドラッグしてサイズ変更',
     '拖动以调整问题区域与回复的大小',
     '拖動以調整問題區域與回覆的大小');
-  { Toolbar + Help-modal chrome: PL/PT-PT/RO/HU/CZ were still English after seed. }
+  { Toolbar + Help-modal frame: PL/PT-PT/RO/HU/CZ were still English after seed. }
   Set14(
     'Merge lines',
     'Merge lines',
@@ -44833,6 +44979,208 @@ begin
   PutNV(GTextCzech, 'equal', 'stejný');
 end;
 
+procedure AddCommonTranslationsWorkflowWizard;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('WorkflowWizard.Title',
+    'Ready for the next step?',
+    'Pronto para o próximo passo?',
+    '¿Listo para el siguiente paso?',
+    'Prêt pour la prochaine étape ?',
+    'Bereit für den nächsten Schritt?',
+    'Pronto per il prossimo passo?',
+    'Gotowy na następny krok?',
+    'Pronto para o próximo passo?',
+    'Gata pentru pasul următor?',
+    'Készen áll a következő lépésre?',
+    'Připraven na další krok?',
+    '次のステップに進みますか？',
+    '准备好进行下一步了吗？',
+    '準備好進行下一步了嗎？');
+  Set14('WorkflowWizard.Description',
+    'Your file is ready. Choose what you would like to do next.',
+    'Seu arquivo está pronto. Escolha o que deseja fazer em seguida.',
+    'El archivo está listo. Elige qué quieres hacer a continuación.',
+    'Votre fichier est prêt. Choisissez la suite.',
+    'Ihre Datei ist bereit. Wählen Sie den nächsten Schritt.',
+    'Il file è pronto. Scegli cosa fare adesso.',
+    'Plik jest gotowy. Wybierz, co chcesz zrobić dalej.',
+    'O ficheiro está pronto. Escolha o que pretende fazer a seguir.',
+    'Fișierul este gata. Alegeți ce doriți să faceți în continuare.',
+    'A fájl kész. Válassza ki a következő műveletet.',
+    'Soubor je připraven. Vyberte, co chcete dělat dál.',
+    'ファイルの準備ができました。次に行う操作を選択してください。',
+    '文件已准备就绪。请选择接下来要执行的操作。',
+    '檔案已準備就緒。請選擇接下來要執行的操作。');
+  Set14('WorkflowWizard.Edit',
+    'Edit lines',
+    'Editar linhas',
+    'Editar líneas',
+    'Modifier des lignes',
+    'Zeilen bearbeiten',
+    'Modifica righe',
+    'Edytuj wiersze',
+    'Editar linhas',
+    'Editați liniile',
+    'Sorok szerkesztése',
+    'Upravit řádky',
+    '行を編集',
+    '编辑行',
+    '編輯行');
+  Set14('WorkflowWizard.Compare',
+    'Compare / merge',
+    'Comparar / mesclar',
+    'Comparar / combinar',
+    'Comparer / fusionner',
+    'Vergleichen / zusammenführen',
+    'Confronta / unisci',
+    'Porównaj / scal',
+    'Comparar / intercalar',
+    'Compară / îmbină',
+    'Összehasonlítás / egyesítés',
+    'Porovnat / sloučit',
+    '比較 / マージ',
+    '比较 / 合并',
+    '比較 / 合併');
+  Set14('WorkflowWizard.Merge',
+    'Merge files',
+    'Mesclar arquivos',
+    'Combinar archivos',
+    'Fusionner des fichiers',
+    'Dateien zusammenführen',
+    'Unisci file',
+    'Scal pliki',
+    'Intercalar ficheiros',
+    'Îmbină fișiere',
+    'Fájlok egyesítése',
+    'Sloučit soubory',
+    'ファイルを結合',
+    '合并文件',
+    '合併檔案');
+  Set14('WorkflowWizard.AI',
+    'Ask AI',
+    'Perguntar à IA',
+    'Preguntar a la IA',
+    'Demander à l’IA',
+    'KI fragen',
+    'Chiedi all’IA',
+    'Zapytaj AI',
+    'Perguntar à IA',
+    'Întreabă AI',
+    'Kérdezze az AI-t',
+    'Zeptat se AI',
+    'AIに相談',
+    '询问 AI',
+    '詢問 AI');
+  Set14('WorkflowWizard.Dismiss',
+    'Close',
+    'Fechar',
+    'Cerrar',
+    'Fermer',
+    'Schließen',
+    'Chiudi',
+    'Zamknij',
+    'Fechar',
+    'Închideți',
+    'Bezárás',
+    'Zavřít',
+    '閉じる',
+    '关闭',
+    '關閉');
+  Set14('WorkflowWizard.DontShowAgain',
+    'Don’t show this guide again',
+    'Não mostrar este guia novamente',
+    'No volver a mostrar esta guía',
+    'Ne plus afficher ce guide',
+    'Diesen Leitfaden nicht mehr anzeigen',
+    'Non mostrare più questa guida',
+    'Nie pokazuj ponownie tego przewodnika',
+    'Não voltar a mostrar este guia',
+    'Nu mai afișați acest ghid',
+    'Ne jelenjen meg többé ez az útmutató',
+    'Tuto příručku znovu nezobrazovat',
+    'このガイドを再表示しない',
+    '不再显示此指南',
+    '不再顯示此指南');
+  Set14('WorkflowWizard.Pref.Show',
+    'Show next-step guide after reading a file',
+    'Mostrar sugestões do fluxo após ler um arquivo',
+    'Mostrar sugerencias de próximos pasos tras leer un archivo',
+    'Afficher les étapes suivantes après la lecture d’un fichier',
+    'Nächste Schritte nach dem Lesen einer Datei anzeigen',
+    'Mostra i passaggi successivi dopo aver letto un file',
+    'Pokazuj kolejne kroki po wczytaniu pliku',
+    'Mostrar sugestões de próximos passos após ler um ficheiro',
+    'Afișați pașii următori după citirea unui fișier',
+    'Következő lépések megjelenítése fájl beolvasása után',
+    'Zobrazovat další kroky po načtení souboru',
+    'ファイル読み込み後に次のステップを表示',
+    '读取文件后显示后续步骤',
+    '讀取檔案後顯示後續步驟');
+  Set14('WorkflowWizard.ShowNow',
+    'Show guide now',
+    'Mostrar guia agora',
+    'Mostrar guía ahora',
+    'Afficher le guide maintenant',
+    'Anleitung jetzt anzeigen',
+    'Mostra guida ora',
+    'Pokaż przewodnik teraz',
+    'Mostrar guia agora',
+    'Afișați ghidul acum',
+    'Útmutató megjelenítése most',
+    'Zobrazit průvodce nyní',
+    '今すぐガイドを表示',
+    '立即显示指南',
+    '立即顯示指南');
+  Set14('WorkflowWizard.OpenBtn',
+    'Next step',
+    'Próximo passo',
+    'Siguiente paso',
+    'Étape suivante',
+    'Nächster Schritt',
+    'Passo successivo',
+    'Następny krok',
+    'Próximo passo',
+    'Pasul următor',
+    'Következő lépés',
+    'Další krok',
+    '次のステップ',
+    '下一步',
+    '下一步');
+  Set14('WorkflowWizard.OpenHint',
+    'Show the next-step guide.',
+    'Mostrar o guia do próximo passo.',
+    'Mostrar la guía del siguiente paso.',
+    'Afficher le guide de l’étape suivante.',
+    'Leitfaden für den nächsten Schritt anzeigen.',
+    'Mostra la guida del passo successivo.',
+    'Pokaż przewodnik następnego kroku.',
+    'Mostrar o guia do próximo passo.',
+    'Afișați ghidul pasului următor.',
+    'A következő lépés útmutatójának megjelenítése.',
+    'Zobrazit průvodce dalším krokem.',
+    '次のステップのガイドを表示',
+    '显示下一步指南',
+    '顯示下一步指南');
+end;
+
 procedure AddCommonTranslations;
 var
   Lang: TAppLanguage;
@@ -44845,6 +45193,8 @@ begin
 end;
 
 procedure CreateTranslationTables;
+var
+  L: TExtraLanguage;
 begin
   if GTablesCreated then Exit;
   GEnglish        := CreateTable;
@@ -44861,6 +45211,10 @@ begin
   GJapanese       := CreateTable;
   GChineseSimplified := CreateTable;
   GChineseTraditional := CreateTable;
+  GArabic         := CreateTable;
+  GHebrew         := CreateTable;
+  GTextArabic     := CreateTable;
+  GTextHebrew     := CreateTable;
   GTextEnglish    := CreateTable;
   GTextPortuguese := CreateTable;
   GTextSpanish    := CreateTable;
@@ -44875,6 +45229,11 @@ begin
   GTextJapanese   := CreateTable;
   GTextChineseSimplified := CreateTable;
   GTextChineseTraditional := CreateTable;
+  for L := Low(TExtraLanguage) to High(TExtraLanguage) do
+  begin
+    GExtraTables[L] := CreateTable;
+    GExtraTextTables[L] := CreateTable;
+  end;
   GTablesCreated := True;
 end;
 
@@ -47174,6 +47533,82 @@ begin
     '%d 行が選択されていますが、1 回の操作の上限は %d 行です。選択する行を減らすか、設定で上限を変更してください。',
     '已选择 %d 行，但每次操作的上限为 %d 行。请减少所选行数，或在首选项中修改上限。',
     '已選取 %d 列，但每次操作的上限為 %d 列。請減少選取的列數，或在偏好設定中修改上限。');
+  Set14('SelectRange.Menu',
+    'Select lines by range...', 'Selecionar linhas por intervalo...',
+    'Seleccionar líneas por rango...', 'Sélectionner des lignes par plage...',
+    'Zeilen nach Bereich auswählen...', 'Seleziona righe per intervallo...',
+    'Wybierz wiersze według zakresu...', 'Selecionar linhas por intervalo...',
+    'Selectați linii după interval...', 'Sorok kijelölése tartomány szerint...',
+    'Vybrat řádky podle rozsahu...', '範囲で行を選択...',
+    '按范围选择行...', '依範圍選取列...');
+  Set14('SelectRange.Title',
+    'Select lines by range', 'Selecionar linhas por intervalo',
+    'Seleccionar líneas por rango', 'Sélectionner des lignes par plage',
+    'Zeilen nach Bereich auswählen', 'Seleziona righe per intervallo',
+    'Wybierz wiersze według zakresu', 'Selecionar linhas por intervalo',
+    'Selectați linii după interval', 'Sorok kijelölése tartomány szerint',
+    'Vybrat řádky podle rozsahu', '範囲で行を選択',
+    '按范围选择行', '依範圍選取列');
+  Set14('SelectRange.Prompt',
+    'Enter one or more 1-based line ranges from 1 to %d (for example 5-20; 200-400). Separate ranges with ; or ,. Existing selections are preserved.',
+    'Informe um ou mais intervalos de linhas (numeração a partir de 1), de 1 a %d (por exemplo, 5-20; 200-400). Separe os intervalos com ; ou ,. As seleções existentes serão mantidas.',
+    'Introduzca uno o más rangos de líneas (numeradas desde 1), de 1 a %d (por ejemplo, 5-20; 200-400). Separe los rangos con ; o ,. Se conservarán las selecciones existentes.',
+    'Saisissez une ou plusieurs plages de lignes (numérotation à partir de 1), de 1 à %d (par exemple, 5-20 ; 200-400). Séparez les plages par ; ou ,. Les sélections existantes sont conservées.',
+    'Geben Sie einen oder mehrere Zeilenbereiche von 1 bis %d ein (z. B. 5-20; 200-400). Trennen Sie Bereiche mit ; oder ,. Vorhandene Auswahlen bleiben erhalten.',
+    'Inserisci uno o più intervalli di righe numerate da 1 a %d (ad esempio 5-20; 200-400). Separa gli intervalli con ; o ,. Le selezioni esistenti vengono mantenute.',
+    'Wpisz jeden lub więcej zakresów wierszy numerowanych od 1 do %d (np. 5-20; 200-400). Oddziel zakresy znakiem ; lub ,. Istniejące zaznaczenia zostaną zachowane.',
+    'Indique um ou mais intervalos de linhas (numeração a partir de 1), de 1 a %d (por exemplo, 5-20; 200-400). Separe os intervalos com ; ou ,. As seleções existentes serão mantidas.',
+    'Introduceți unul sau mai multe intervale de linii numerotate de la 1 la %d (de exemplu, 5-20; 200-400). Separați intervalele cu ; sau ,. Selecțiile existente sunt păstrate.',
+    'Adjon meg egy vagy több sortartományt 1 és %d között (például: 5-20; 200-400). A tartományokat ; vagy , jellel válassza el. A meglévő kijelölések megmaradnak.',
+    'Zadejte jeden nebo více rozsahů řádků od 1 do %d (například 5-20; 200-400). Rozsahy oddělte znakem ; nebo ,. Stávající výběr zůstane zachován.',
+    '1～%d 行の範囲を 1 つ以上入力してください (例: 5-20; 200-400)。範囲は ; または , で区切ります。既存の選択は保持されます。',
+    '请输入一个或多个行范围（1 到 %d），例如 5-20; 200-400。多个范围请用 ; 或 , 分隔。现有选择将予以保留。',
+    '請輸入一個或多個列範圍（1 到 %d），例如 5-20; 200-400。多個範圍請用 ; 或 , 分隔。現有選取會保留。');
+  Set14('SelectRange.Invalid',
+    'Invalid range. Enter one or more ranges between 1 and %d, for example 5-20; 200-400.',
+    'Intervalo inválido. Informe um ou mais intervalos entre 1 e %d, por exemplo, 5-20; 200-400.',
+    'Rango no válido. Introduzca uno o más rangos entre 1 y %d, por ejemplo, 5-20; 200-400.',
+    'Plage non valide. Saisissez une ou plusieurs plages entre 1 et %d, par exemple 5-20 ; 200-400.',
+    'Ungültiger Bereich. Geben Sie einen oder mehrere Bereiche zwischen 1 und %d ein, z. B. 5-20; 200-400.',
+    'Intervallo non valido. Inserisci uno o più intervalli tra 1 e %d, ad esempio 5-20; 200-400.',
+    'Nieprawidłowy zakres. Wpisz jeden lub więcej zakresów od 1 do %d, np. 5-20; 200-400.',
+    'Intervalo inválido. Indique um ou mais intervalos entre 1 e %d, por exemplo, 5-20; 200-400.',
+    'Interval invalid. Introduceți unul sau mai multe intervale între 1 și %d, de exemplu 5-20; 200-400.',
+    'Érvénytelen tartomány. Adjon meg egy vagy több tartományt 1 és %d között, például: 5-20; 200-400.',
+    'Neplatný rozsah. Zadejte jeden nebo více rozsahů od 1 do %d, například 5-20; 200-400.',
+    '範囲が無効です。1～%d の範囲を 1 つ以上入力してください (例: 5-20; 200-400)。',
+    '范围无效。请输入一个或多个介于 1 和 %d 之间的范围，例如 5-20; 200-400。',
+    '範圍無效。請輸入一個或多個介於 1 和 %d 之間的範圍，例如 5-20; 200-400。');
+  Set14('SelectRange.Added',
+    'Added %d lines to the selection; %d selected in total.',
+    'Adicionadas %d linhas à seleção; %d selecionadas no total.',
+    'Se añadieron %d líneas a la selección; %d seleccionadas en total.',
+    '%d lignes ajoutées à la sélection ; %d sélectionnées au total.',
+    '%d Zeilen zur Auswahl hinzugefügt; insgesamt %d ausgewählt.',
+    'Aggiunte %d righe alla selezione; %d selezionate in totale.',
+    'Dodano %d wierszy do zaznaczenia; łącznie zaznaczono %d.',
+    'Adicionadas %d linhas à seleção; %d selecionadas no total.',
+    'S-au adăugat %d linii la selecție; %d selectate în total.',
+    '%d sor hozzáadva a kijelöléshez; összesen %d kijelölve.',
+    'Do výběru bylo přidáno %d řádků; celkem je vybráno %d.',
+    '選択に %d 行を追加しました。合計 %d 行が選択されています。',
+    '已向选择中添加 %d 行；共选择 %d 行。',
+    '已新增 %d 列至選取；共選取 %d 列。');
+  Set14('SelectRange.ListOmitted',
+    'Line numbers are omitted because the selection exceeds %d lines.',
+    'A lista das linhas foi omitida porque a seleção excede %d linhas.',
+    'Se omiten los números de línea porque la selección supera %d líneas.',
+    'Les numéros de ligne ne sont pas affichés car la sélection dépasse %d lignes.',
+    'Die Zeilennummern werden nicht angezeigt, da die Auswahl mehr als %d Zeilen umfasst.',
+    'I numeri di riga non vengono mostrati perché la selezione supera %d righe.',
+    'Numery wierszy nie są wyświetlane, ponieważ zaznaczenie przekracza %d wierszy.',
+    'A lista de linhas não é apresentada porque a seleção excede %d linhas.',
+    'Numerele liniilor nu sunt afișate deoarece selecția depășește %d linii.',
+    'A sorszámok nem jelennek meg, mert a kijelölés meghaladja a(z) %d sort.',
+    'Čísla řádků se nezobrazují, protože výběr přesahuje %d řádků.',
+    '選択行数が %d 行を超えるため、行番号は表示されません。',
+    '由于所选行数超过 %d 行，因此不显示行号。',
+    '因選取的列數超過 %d 列，因此不顯示列號。');
   Set14('ListView.LinesSaving',
     'Saving %d changed line(s) to the file...',
     'Gravando %d linha(s) alterada(s) no arquivo...',
@@ -52838,7 +53273,7 @@ begin
     'FF_HELP.RecentFeaturesBlock3',
     'RECENT FEATURES (v3.0.5.233 – v3.0.5.239)'#13#10 + SEP + #13#10 +
     '  Fast line edit (from 32 MB): insert, replace and delete via the line index'#13#10 +
-    '    (in place, shift or rewrite). A journal restores the file if the app stops mid-edit.'#13#10 +
+    '    (in place, shift or rewrite). A recovery log restores the file if the app stops mid-edit.'#13#10 +
     '  Before saving selected lines, a before/after list shows only what changes.'#13#10 +
     '  Line editor — Extract: digits, e-mails, dates, columns, CPF or your own regex.'#13#10 +
     '  Python: a short preview (ok / skip / error) before the full run.'#13#10 +
@@ -53046,6 +53481,727 @@ begin
     '  「我能做什麼？」位於助理、AI 智慧體和 AI 診斷中（這些畫面的 F1 也會開啟）。'#13#10 +
     '  AI 診斷 (Ctrl+Alt+U)：唯讀專家 — 清單、結構、內容、SQL、'#13#10 +
     '    隱私和動作。要套用修改，請使用 AI 智慧體。'#13#10);
+end;
+
+procedure AddCommonTranslationsHelpRecentFeaturesBlock4;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock4',
+    'RECENT FEATURES (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Find, Filter and Bookmarks open compact. A bottom grip resizes them.'#13#10 +
+    '    Close sits beside Clear.'#13#10 +
+    '  glob/grep keeps recent commands and more examples. An empty request stays empty.'#13#10 +
+    '  Ask AI opens beside the page you are using.'#13#10 +
+    '  Split by lines shows a preview of the range and the same line tools as the file list.'#13#10 +
+    '    Saving scans the file and writes a new one. The range is not loaded as a list.'#13#10 +
+    '  Options shows each line limit and its default. The mouse wheel scrolls that page.'#13#10 +
+    '    Anonymize caps a selection or a range. The whole file is not capped.'#13#10 +
+    '  The language list puts recent languages first. Type to search.'#13#10 +
+    '    The list closes while the new language loads.'#13#10 +
+    '  Filter and the line editor show regex examples.'#13#10 +
+    '    Ask AI proposes a pattern and does not run it.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Localizar, Filtro e Marcadores abrem compactos. Uma alça embaixo redimensiona.'#13#10 +
+    '    Fechar fica ao lado de Limpar.'#13#10 +
+    '  glob/grep guarda comandos recentes e traz mais exemplos. Um pedido vazio continua vazio.'#13#10 +
+    '  Perguntar à IA abre ao lado da página em uso.'#13#10 +
+    '  Dividir por linhas mostra a prévia do intervalo e as mesmas ferramentas da lista.'#13#10 +
+    '    Gravar percorre o arquivo e escreve outro. O intervalo não vira uma lista na memória.'#13#10 +
+    '  Opções mostra cada limite de linhas e o padrão. A roda do mouse rola essa página.'#13#10 +
+    '    Descaracterizar limita uma seleção ou um intervalo. O arquivo inteiro não tem esse teto.'#13#10 +
+    '  A lista de idiomas põe os recentes primeiro. Digite para pesquisar.'#13#10 +
+    '    A lista fecha enquanto o novo idioma carrega.'#13#10 +
+    '  O filtro e o editor de linha mostram exemplos de regex.'#13#10 +
+    '    Perguntar à IA propõe um padrão e não o executa.'#13#10,
+    'NOVEDADES RECIENTES (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Buscar, Filtro y Marcadores se abren compactos. Un asa inferior cambia la altura.'#13#10 +
+    '    Cerrar queda junto a Limpiar.'#13#10 +
+    '  glob/grep guarda comandos recientes y más ejemplos. Una petición vacía sigue vacía.'#13#10 +
+    '  Preguntar a la IA se abre junto a la página en uso.'#13#10 +
+    '  Dividir por líneas muestra la vista previa del rango y las mismas herramientas de la lista.'#13#10 +
+    '    Guardar recorre el archivo y escribe otro. El rango no se carga como una lista.'#13#10 +
+    '  Opciones muestra cada límite de líneas y el valor predeterminado.'#13#10 +
+    '    La rueda del ratón desplaza la página.'#13#10 +
+    '    Anonimizar limita una selección o un rango. El archivo completo no tiene ese tope.'#13#10 +
+    '  La lista de idiomas pone primero los recientes. Escriba para buscar.'#13#10 +
+    '    La lista se cierra mientras carga el idioma nuevo.'#13#10 +
+    '  El filtro y el editor de línea muestran ejemplos de regex.'#13#10 +
+    '    Preguntar a la IA propone un patrón y no lo ejecuta.'#13#10,
+    'NOUVEAUTÉS RÉCENTES (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Rechercher, Filtre et Signets s''ouvrent compacts. Une poignée en bas règle la hauteur.'#13#10 +
+    '    Fermer est à côté d''Effacer.'#13#10 +
+    '  glob/grep garde les commandes récentes et ajoute des exemples. Une demande vide reste vide.'#13#10 +
+    '  Demander à l''IA s''ouvre à côté de la page en cours.'#13#10 +
+    '  Diviser par lignes affiche un aperçu de la plage et les mêmes outils que la liste.'#13#10 +
+    '    L''enregistrement parcourt le fichier et en écrit un autre.'#13#10 +
+    '    La plage n''est pas chargée en liste.'#13#10 +
+    '  Options affiche chaque limite de lignes et sa valeur par défaut. La molette fait défiler la page.'#13#10 +
+    '    Anonymiser limite une sélection ou une plage. Le fichier entier n''a pas ce plafond.'#13#10 +
+    '  La liste des langues met les récentes en premier. Saisissez pour chercher.'#13#10 +
+    '    La liste se ferme pendant le chargement de la langue.'#13#10 +
+    '  Le filtre et l''éditeur de ligne montrent des exemples d''expressions régulières.'#13#10 +
+    '    Demander à l''IA propose un motif et ne l''exécute pas.'#13#10,
+    'NEUE FUNKTIONEN (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Suchen, Filter und Lesezeichen öffnen kompakt. Ein Griff unten ändert die Höhe.'#13#10 +
+    '    Schließen steht neben Leeren.'#13#10 +
+    '  glob/grep merkt sich letzte Befehle und zeigt mehr Beispiele. Eine leere Anfrage bleibt leer.'#13#10 +
+    '  KI fragen öffnet sich neben der aktuellen Seite.'#13#10 +
+    '  Nach Zeilen teilen zeigt eine Vorschau des Bereichs und dieselben Zeilenwerkzeuge.'#13#10 +
+    '    Speichern liest die Datei und schreibt eine neue. Der Bereich liegt nicht als Liste im Speicher.'#13#10 +
+    '  Optionen zeigt jedes Zeilenlimit und den Standard. Das Mausrad rollt die Seite.'#13#10 +
+    '    Anonymisieren begrenzt eine Auswahl oder einen Bereich. Die ganze Datei hat diese Grenze nicht.'#13#10 +
+    '  Die Sprachliste stellt zuletzt verwendete Sprachen nach oben. Tippen Sie zum Suchen.'#13#10 +
+    '    Die Liste schließt sich, während die Sprache lädt.'#13#10 +
+    '  Filter und Zeileneditor zeigen Regex-Beispiele.'#13#10 +
+    '    KI fragen schlägt ein Muster vor und führt es nicht aus.'#13#10,
+    'NOVITÀ RECENTI (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Trova, Filtro e Segnalibri si aprono compatti. Una maniglia in basso ridimensiona.'#13#10 +
+    '    Chiudi sta accanto a Cancella.'#13#10 +
+    '  glob/grep ricorda i comandi recenti e aggiunge esempi. Una richiesta vuota resta vuota.'#13#10 +
+    '  Chiedi all''IA si apre accanto alla pagina in uso.'#13#10 +
+    '  Dividi per righe mostra l''anteprima dell''intervallo e gli stessi strumenti della lista.'#13#10 +
+    '    Salvare scorre il file e ne scrive un altro. L''intervallo non diventa una lista in memoria.'#13#10 +
+    '  Opzioni mostra ogni limite di righe e il valore predefinito. La rotella scorre la pagina.'#13#10 +
+    '    Anonimizza limita una selezione o un intervallo. L''intero file non ha quel tetto.'#13#10 +
+    '  L''elenco delle lingue mette prima quelle recenti. Digitare per cercare.'#13#10 +
+    '    L''elenco si chiude mentre la nuova lingua si carica.'#13#10 +
+    '  Il filtro e l''editor di riga mostrano esempi di regex.'#13#10 +
+    '    Chiedi all''IA propone un modello e non lo esegue.'#13#10,
+    'NOWOŚCI (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Znajdź, Filtr i Zakładki otwierają się kompaktowo. Uchwyt na dole zmienia wysokość.'#13#10 +
+    '    Zamknij jest obok Wyczyść.'#13#10 +
+    '  glob/grep pamięta ostatnie polecenia i ma więcej przykładów. Puste pole zostaje puste.'#13#10 +
+    '  Zapytaj AI otwiera się obok bieżącej strony.'#13#10 +
+    '  Podział na wiersze pokazuje podgląd zakresu i te same narzędzia co lista pliku.'#13#10 +
+    '    Zapis skanuje plik i zapisuje nowy. Zakres nie jest ładowany jako lista.'#13#10 +
+    '  Opcje pokazują każdy limit wierszy i wartość domyślną. Kółko myszy przewija stronę.'#13#10 +
+    '    Anonimizacja ogranicza zaznaczenie lub zakres. Cały plik nie ma tego limitu.'#13#10 +
+    '  Lista języków stawia ostatnie na górze. Wpisz, aby szukać.'#13#10 +
+    '    Lista zamyka się na czas ładowania języka.'#13#10 +
+    '  Filtr i edytor wiersza pokazują przykłady regex.'#13#10 +
+    '    Zapytaj AI proponuje wzorzec i go nie uruchamia.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Localizar, Filtro e Marcadores abrem compactos. Uma pega em baixo redimensiona.'#13#10 +
+    '    Fechar fica ao lado de Limpar.'#13#10 +
+    '  glob/grep guarda comandos recentes e traz mais exemplos. Um pedido vazio continua vazio.'#13#10 +
+    '  Perguntar à IA abre ao lado da página em uso.'#13#10 +
+    '  Dividir por linhas mostra a pré-visualização do intervalo e as mesmas ferramentas da lista.'#13#10 +
+    '    Gravar percorre o ficheiro e escreve outro. O intervalo não fica como lista em memória.'#13#10 +
+    '  Opções mostra cada limite de linhas e a predefinição. A roda do rato desloca a página.'#13#10 +
+    '    Anonimizar limita uma seleção ou um intervalo. O ficheiro inteiro não tem esse teto.'#13#10 +
+    '  A lista de idiomas põe os recentes primeiro. Escreva para pesquisar.'#13#10 +
+    '    A lista fecha enquanto o novo idioma carrega.'#13#10 +
+    '  O filtro e o editor de linha mostram exemplos de regex.'#13#10 +
+    '    Perguntar à IA propõe um padrão e não o executa.'#13#10,
+    'NOUTĂȚI RECENTE (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Căutare, Filtru și Marcaje se deschid compact. Un mâner jos redimensionează.'#13#10 +
+    '    Închide stă lângă Golește.'#13#10 +
+    '  glob/grep ține comenzile recente și mai multe exemple. O cerere goală rămâne goală.'#13#10 +
+    '  Întreabă IA se deschide lângă pagina folosită.'#13#10 +
+    '  Împărțirea pe linii arată previzualizarea intervalului și aceleași unelte ca lista.'#13#10 +
+    '    Salvarea parcurge fișierul și scrie altul. Intervalul nu este încărcat ca listă.'#13#10 +
+    '  Opțiuni arată fiecare limită de linii și valoarea implicită. Rotița derulează pagina.'#13#10 +
+    '    Anonimizarea limitează o selecție sau un interval. Fișierul întreg nu are acest plafon.'#13#10 +
+    '  Lista de limbi pune limbile recente primele. Tastați pentru a căuta.'#13#10 +
+    '    Lista se închide cât timp se încarcă limba nouă.'#13#10 +
+    '  Filtrul și editorul de linie arată exemple regex.'#13#10 +
+    '    Întreabă IA propune un model și nu îl execută.'#13#10,
+    'ÚJDONSÁGOK (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  A Keresés, a Szűrő és a Könyvjelzők tömören nyílnak. Az alsó fogantyú méretezi.'#13#10 +
+    '    A Bezárás a Törlés mellett van.'#13#10 +
+    '  A glob/grep megjegyzi a legutóbbi parancsokat, és több példát ad. Az üres kérés üres marad.'#13#10 +
+    '  Az AI-kérés a használt oldal mellé nyílik.'#13#10 +
+    '  A sorokra bontás megmutatja a tartomány előnézetét és a lista eszközeit.'#13#10 +
+    '    A mentés végigolvassa a fájlt, és újat ír. A tartomány nem lista a memóriában.'#13#10 +
+    '  A Beállítások mutatja a sorkorlátokat és az alapértéket. Az egérgörgő görgeti az oldalt.'#13#10 +
+    '    Az anonimizálás kijelölést vagy tartományt korlátoz. A teljes fájlra nincs ez a plafon.'#13#10 +
+    '  A nyelvlista a legutóbbi nyelveket teszi előre. Írjon a kereséshez.'#13#10 +
+    '    A lista bezárul, amíg az új nyelv betöltődik.'#13#10 +
+    '  A szűrő és a sorszerkesztő regex-példákat mutat.'#13#10 +
+    '    Az AI-kérés mintát javasol, és nem futtatja.'#13#10,
+    'NOVINKY (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  Hledat, Filtr a Záložky se otevírají kompaktně. Úchop dole mění výšku.'#13#10 +
+    '    Zavřít je vedle Vymazat.'#13#10 +
+    '  glob/grep si pamatuje nedávné příkazy a má víc příkladů. Prázdný požadavek zůstane prázdný.'#13#10 +
+    '  Dotaz na AI se otevře vedle právě použité stránky.'#13#10 +
+    '  Rozdělení po řádcích ukáže náhled rozsahu a stejné nástroje jako seznam.'#13#10 +
+    '    Uložení projde soubor a zapíše nový. Rozsah se nenačte jako seznam.'#13#10 +
+    '  Možnosti ukazují každý limit řádků a výchozí hodnotu. Kolečko myši stránku posouvá.'#13#10 +
+    '    Anonymizace omezí výběr nebo rozsah. Celý soubor tento strop nemá.'#13#10 +
+    '  Seznam jazyků dává nedávné jazyky nahoru. Pište pro hledání.'#13#10 +
+    '    Seznam se zavře, dokud se nový jazyk načítá.'#13#10 +
+    '  Filtr a editor řádku ukazují příklady regex.'#13#10 +
+    '    Dotaz na AI navrhne vzor a nespustí ho.'#13#10,
+    '最近の機能 (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  検索、フィルタ、ブックマークはコンパクトに開きます。下のグリップで高さを変えます。'#13#10 +
+    '    閉じるはクリアの横にあります。'#13#10 +
+    '  glob/grep は最近のコマンドと追加の例を保持します。空の依頼は空のままです。'#13#10 +
+    '  AI に聞くは、今使っているページの横に開きます。'#13#10 +
+    '  行で分割は範囲のプレビューと、一覧と同じ行ツールを出します。'#13#10 +
+    '    保存はファイルを走査して新しいファイルを書きます。範囲は一覧としてメモリに載せません。'#13#10 +
+    '  オプションは各行数の上限と既定値を示します。マウスホイールでそのページをスクロールします。'#13#10 +
+    '    匿名化は選択または範囲を制限します。ファイル全体にはこの上限はありません。'#13#10 +
+    '  言語リストは最近使った言語を先に出します。入力して検索します。'#13#10 +
+    '    新しい言語の読み込み中、リストは閉じます。'#13#10 +
+    '  フィルタと行エディタは正規表現の例を示します。'#13#10 +
+    '    AI に聞くはパターンを提案し、実行しません。'#13#10,
+    '近期新功能 (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  查找、筛选和书签以紧凑高度打开。底部手柄可调整高度。'#13#10 +
+    '    关闭按钮在清除旁边。'#13#10 +
+    '  glob/grep 保留最近的命令和更多示例。空白请求保持空白。'#13#10 +
+    '  询问 AI 会在当前页面旁边打开。'#13#10 +
+    '  按行拆分会显示范围预览，以及与文件列表相同的行工具。'#13#10 +
+    '    保存时扫描原文件并写入新文件。该范围不会作为列表载入内存。'#13#10 +
+    '  选项会显示每个行数上限及其默认值。鼠标滚轮可滚动该页。'#13#10 +
+    '    脱敏会限制所选行或行范围。整个文件不受该上限约束。'#13#10 +
+    '  语言列表把最近使用的语言放在前面。输入即可搜索。'#13#10 +
+    '    加载新语言时，列表会关闭。'#13#10 +
+    '  筛选和行编辑器显示正则示例。'#13#10 +
+    '    询问 AI 会提出一个模式，但不会执行它。'#13#10,
+    '近期新功能 (v3.0.5.245 – v3.0.5.249)'#13#10 + SEP + #13#10 +
+    '  尋找、篩選和書籤以精簡高度開啟。底部把手可調整高度。'#13#10 +
+    '    關閉按鈕在清除旁邊。'#13#10 +
+    '  glob/grep 保留最近的命令和更多範例。空白要求保持空白。'#13#10 +
+    '  詢問 AI 會在目前頁面旁邊開啟。'#13#10 +
+    '  依列分割會顯示範圍預覽，以及與檔案清單相同的列工具。'#13#10 +
+    '    儲存時掃描原檔並寫入新檔。該範圍不會以清單載入記憶體。'#13#10 +
+    '  選項會顯示每個列數上限及其預設值。滑鼠滾輪可捲動該頁。'#13#10 +
+    '    去識別化會限制所選列或列範圍。整個檔案不受該上限約束。'#13#10 +
+    '  語言清單把最近使用的語言放在前面。輸入即可搜尋。'#13#10 +
+    '    載入新語言時，清單會關閉。'#13#10 +
+    '  篩選和列編輯器顯示規則範例。'#13#10 +
+    '    詢問 AI 會提出一個模式，但不會執行它。'#13#10);
+end;
+
+procedure AddCommonTranslationsHelpRecentFeaturesBlock5;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock5',
+    'RECENT FEATURES (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Right to left: Arabic and Hebrew mirror forms, dialogs and controls'#13#10 +
+    '    built in code. File text stays left to right.'#13#10 +
+    '  The interface has 16 languages. Arabic and Hebrew are fully translated.'#13#10 +
+    '  The language list shows a flag beside each name.'#13#10 +
+    '  In Arabic and Hebrew the file-list columns read from the right.'#13#10 +
+    '    The line number sits on the right. Text in each cell stays left to right.'#13#10 +
+    '  The language menu widens so a name is not cut off.'#13#10 +
+    '  Equal parts is on the toolbar, right after Merge files (Ctrl+Shift+P).'#13#10 +
+    '    It opens Split file into equal parts.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Da direita para a esquerda: árabe e hebraico espelham formulários,'#13#10 +
+    '    diálogos e controles criados no código.'#13#10 +
+    '    O texto do arquivo continua da esquerda para a direita.'#13#10 +
+    '  A interface tem 16 idiomas. Árabe e hebraico estão traduzidos por completo.'#13#10 +
+    '  A lista de idiomas mostra uma bandeira ao lado de cada nome.'#13#10 +
+    '  Em árabe e hebraico as colunas da lista são lidas da direita.'#13#10 +
+    '    O número da linha fica à direita. O texto de cada célula continua da esquerda para a direita.'#13#10 +
+    '  O menu de idiomas alarga para o nome não ficar cortado.'#13#10 +
+    '  Partes iguais fica na barra, logo depois de Mesclar arquivos (Ctrl+Shift+P).'#13#10 +
+    '    Abre Dividir arquivo em partes iguais.'#13#10,
+    'NOVEDADES RECIENTES (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  De derecha a izquierda: árabe y hebreo reflejan formularios,'#13#10 +
+    '    diálogos y controles creados en código.'#13#10 +
+    '    El texto del archivo sigue de izquierda a derecha.'#13#10 +
+    '  La interfaz tiene 16 idiomas. Árabe y hebreo están traducidos por completo.'#13#10 +
+    '  La lista de idiomas muestra una bandera junto a cada nombre.'#13#10 +
+    '  En árabe y hebreo las columnas de la lista se leen desde la derecha.'#13#10 +
+    '    El número de línea queda a la derecha. El texto de cada celda sigue de izquierda a derecha.'#13#10 +
+    '  El menú de idiomas se ensancha para que el nombre no quede cortado.'#13#10 +
+    '  Partes iguales está en la barra, justo después de Combinar archivos (Ctrl+Shift+P).'#13#10 +
+    '    Abre Dividir archivo en partes iguales.'#13#10,
+    'NOUVEAUTÉS RÉCENTES (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  De droite à gauche : l''arabe et l''hébreu inversent les formulaires,'#13#10 +
+    '    les boîtes de dialogue et les contrôles créés dans le code.'#13#10 +
+    '    Le texte du fichier reste de gauche à droite.'#13#10 +
+    '  L''interface compte 16 langues. L''arabe et l''hébreu sont entièrement traduits.'#13#10 +
+    '  La liste des langues affiche un drapeau à côté de chaque nom.'#13#10 +
+    '  En arabe et en hébreu, les colonnes de la liste se lisent depuis la droite.'#13#10 +
+    '    Le numéro de ligne est à droite. Le texte de chaque cellule reste de gauche à droite.'#13#10 +
+    '  Le menu des langues s''élargit pour que le nom ne soit pas coupé.'#13#10 +
+    '  Parties égales est dans la barre, juste après Fusionner les fichiers (Ctrl+Shift+P).'#13#10 +
+    '    Cela ouvre Diviser le fichier en parties égales.'#13#10,
+    'AKTUELLE FUNKTIONEN (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Rechts nach links: Arabisch und Hebräisch spiegeln Formulare,'#13#10 +
+    '    Dialoge und im Code erzeugte Steuerelemente.'#13#10 +
+    '    Der Dateitext bleibt von links nach rechts.'#13#10 +
+    '  Die Oberfläche hat 16 Sprachen. Arabisch und Hebräisch sind vollständig übersetzt.'#13#10 +
+    '  Die Sprachliste zeigt eine Flagge neben jedem Namen.'#13#10 +
+    '  Auf Arabisch und Hebräisch werden die Spalten der Dateiliste von rechts gelesen.'#13#10 +
+    '    Die Zeilennummer steht rechts. Der Text in jeder Zelle bleibt von links nach rechts.'#13#10 +
+    '  Das Sprachmenü wird breiter, damit ein Name nicht abgeschnitten wird.'#13#10 +
+    '  Gleiche Teile steht in der Symbolleiste, direkt nach Dateien zusammenführen (Ctrl+Shift+P).'#13#10 +
+    '    Es öffnet Datei in gleich große Teile teilen.'#13#10,
+    'NOVITÀ RECENTI (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Da destra a sinistra: arabo ed ebraico rispecchiano i moduli,'#13#10 +
+    '    le finestre di dialogo e i controlli creati nel codice.'#13#10 +
+    '    Il testo del file resta da sinistra a destra.'#13#10 +
+    '  L''interfaccia ha 16 lingue. Arabo ed ebraico sono tradotti per intero.'#13#10 +
+    '  L''elenco delle lingue mostra una bandiera accanto a ogni nome.'#13#10 +
+    '  In arabo e in ebraico le colonne dell''elenco si leggono da destra.'#13#10 +
+    '    Il numero di riga sta a destra. Il testo di ogni cella resta da sinistra a destra.'#13#10 +
+    '  Il menu delle lingue si allarga così il nome non viene tagliato.'#13#10 +
+    '  Parti uguali è nella barra, subito dopo Unisci file (Ctrl+Shift+P).'#13#10 +
+    '    Apre Dividi file in parti uguali.'#13#10,
+    'NOWOŚCI (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Od prawej do lewej: arabski i hebrajski odbijają formularze,'#13#10 +
+    '    okna dialogowe i kontrolki tworzone w kodzie.'#13#10 +
+    '    Tekst pliku zostaje od lewej do prawej.'#13#10 +
+    '  Interfejs ma 16 języków. Arabski i hebrajski są w pełni przetłumaczone.'#13#10 +
+    '  Lista języków pokazuje flagę obok każdej nazwy.'#13#10 +
+    '  Po arabsku i hebrajsku kolumny listy pliku czyta się od prawej.'#13#10 +
+    '    Numer wiersza jest po prawej. Tekst w każdej komórce zostaje od lewej do prawej.'#13#10 +
+    '  Menu języków poszerza się, aby nazwa nie była obcięta.'#13#10 +
+    '  Równe części są na pasku, zaraz po Scal pliki (Ctrl+Shift+P).'#13#10 +
+    '    Otwiera Podziel plik na równe części.'#13#10,
+    'NOVIDADES RECENTES (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Da direita para a esquerda: árabe e hebraico espelham formulários,'#13#10 +
+    '    diálogos e controlos criados no código.'#13#10 +
+    '    O texto do ficheiro continua da esquerda para a direita.'#13#10 +
+    '  A interface tem 16 idiomas. Árabe e hebraico estão traduzidos por completo.'#13#10 +
+    '  A lista de idiomas mostra uma bandeira ao lado de cada nome.'#13#10 +
+    '  Em árabe e hebraico as colunas da lista leem-se da direita.'#13#10 +
+    '    O número da linha fica à direita. O texto de cada célula continua da esquerda para a direita.'#13#10 +
+    '  O menu de idiomas alarga para o nome não ficar cortado.'#13#10 +
+    '  Partes iguais fica na barra, logo a seguir a Juntar ficheiros (Ctrl+Shift+P).'#13#10 +
+    '    Abre Dividir ficheiro em partes iguais.'#13#10,
+    'NOUTĂȚI RECENTE (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  De la dreapta la stânga: araba și ebraica oglindesc formularele,'#13#10 +
+    '    dialogurile și controalele create în cod.'#13#10 +
+    '    Textul fișierului rămâne de la stânga la dreapta.'#13#10 +
+    '  Interfața are 16 limbi. Araba și ebraica sunt traduse integral.'#13#10 +
+    '  Lista de limbi arată un steag lângă fiecare nume.'#13#10 +
+    '  În arabă și ebraică coloanele listei se citesc de la dreapta.'#13#10 +
+    '    Numărul liniei stă în dreapta. Textul din fiecare celulă rămâne de la stânga la dreapta.'#13#10 +
+    '  Meniul de limbi se lărgește ca numele să nu fie tăiat.'#13#10 +
+    '  Părți egale este pe bară, imediat după Unește fișiere (Ctrl+Shift+P).'#13#10 +
+    '    Deschide Împarte fișierul în părți egale.'#13#10,
+    'FRISS FUNKCIÓK (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Jobbról balra: az arab és a héber tükrözi az űrlapokat,'#13#10 +
+    '    a párbeszédablakokat és a kódban létrehozott vezérlőket.'#13#10 +
+    '    A fájl szövege balról jobbra marad.'#13#10 +
+    '  A felületnek 16 nyelve van. Az arab és a héber teljesen le van fordítva.'#13#10 +
+    '  A nyelvlista zászlót mutat minden név mellett.'#13#10 +
+    '  Arab és héber nyelven a fájllista oszlopai jobbról olvashatók.'#13#10 +
+    '    A sorszám jobbra kerül. A cella szövege balról jobbra marad.'#13#10 +
+    '  A nyelvmenü kiszélesedik, hogy a név ne legyen levágva.'#13#10 +
+    '  Az Egyenlő részek a sávon van, közvetlenül a Fájlok egyesítése után (Ctrl+Shift+P).'#13#10 +
+    '    A Fájl felosztása egyenlő részekre lapot nyitja meg.'#13#10,
+    'NOVINKY (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  Zprava doleva: arabština a hebrejština zrcadlí formuláře,'#13#10 +
+    '    dialogy a ovládací prvky vytvořené v kódu.'#13#10 +
+    '    Text souboru zůstává zleva doprava.'#13#10 +
+    '  Rozhraní má 16 jazyků. Arabština a hebrejština jsou přeloženy celé.'#13#10 +
+    '  Seznam jazyků ukazuje vlajku vedle každého názvu.'#13#10 +
+    '  V arabštině a hebrejštině se sloupce seznamu čtou zprava.'#13#10 +
+    '    Číslo řádku je vpravo. Text v každé buňce zůstává zleva doprava.'#13#10 +
+    '  Nabídka jazyků se rozšíří, aby se název neořízl.'#13#10 +
+    '  Stejné části jsou na panelu, hned za Sloučit soubory (Ctrl+Shift+P).'#13#10 +
+    '    Otevře Rozdělit soubor na stejné části.'#13#10,
+    '最近の機能 (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  右から左: アラビア語とヘブライ語はフォーム、ダイアログ、'#13#10 +
+    '    コードで作ったコントロールを反転します。ファイルの文字は左から右のままです。'#13#10 +
+    '  画面は 16 言語です。アラビア語とヘブライ語は全文翻訳です。'#13#10 +
+    '  言語一覧は名前の横に国旗を出します。'#13#10 +
+    '  アラビア語とヘブライ語ではファイル一覧の列を右から読みます。'#13#10 +
+    '    行番号は右端です。各セルの文字は左から右のままです。'#13#10 +
+    '  言語メニューは名前が切れない幅まで広がります。'#13#10 +
+    '  「同等のパーツ」はツールバーで「ファイルを連結」の直後です (Ctrl+Shift+P)。'#13#10 +
+    '    「ファイルを等分に分割する」を開きます。'#13#10,
+    '近期新功能 (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  从右到左：阿拉伯语和希伯来语会镜像窗体、对话框和代码创建的控件。'#13#10 +
+    '    文件文字仍从左到右。'#13#10 +
+    '  界面现有 16 种语言。阿拉伯语和希伯来语已完整翻译。'#13#10 +
+    '  语言列表在每个名称旁显示国旗。'#13#10 +
+    '  在阿拉伯语和希伯来语中，文件列表的列从右向左阅读。'#13#10 +
+    '    行号在右侧。每个单元格里的文字仍从左到右。'#13#10 +
+    '  语言菜单会加宽，避免名称被截断。'#13#10 +
+    '  「等份」在工具栏上，紧挨在「合并文件」之后 (Ctrl+Shift+P)。'#13#10 +
+    '    它打开「将文件分成相等的部分」。'#13#10,
+    '近期新功能 (v3.0.5.250 – v3.0.5.254)'#13#10 + SEP + #13#10 +
+    '  由右至左：阿拉伯文和希伯來文會鏡像表單、對話方塊和程式建立的控制項。'#13#10 +
+    '    檔案文字仍由左至右。'#13#10 +
+    '  介面現有 16 種語言。阿拉伯文和希伯來文已完整翻譯。'#13#10 +
+    '  語言清單在每個名稱旁顯示國旗。'#13#10 +
+    '  在阿拉伯文和希伯來文中，檔案清單的欄由右向左閱讀。'#13#10 +
+    '    列號在右側。每個儲存格裡的文字仍由左至右。'#13#10 +
+    '  語言選單會加寬，避免名稱被截斷。'#13#10 +
+    '  「等量」在工具列上，緊接在「合併檔案」之後 (Ctrl+Shift+P)。'#13#10 +
+    '    它開啟「將檔案分成相等的部分」。'#13#10);
+end;
+
+procedure AddCommonTranslationsHelpRecentFeaturesBlock6;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock6',
+    'RECENT UPDATES (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  The interface now has 22 languages, including Hindi, Russian, Korean,'#13#10 +
+    '    Dutch, Turkish and Ukrainian. Hindi uses a left-to-right layout.'#13#10 +
+    '  Equal-parts processing reads memory-mapped chunks without loading'#13#10 +
+    '    the whole file; the split tab stays open when it finishes.'#13#10 +
+    '  After reading a file, the next-steps guide suggests useful actions.'#13#10 +
+    '    Reopen it in Preferences or turn it off there.'#13#10 +
+    '  The editing context menu and session-history wording were localized.'#13#10 +
+    '  The guide and Preferences were redesigned; the guide initializes'#13#10 +
+    '    without flicker or interrupting file reading.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  A interface agora tem 22 idiomas, incluindo hindi, russo, coreano,'#13#10 +
+    '    neerlandês, turco e ucraniano. O hindi usa layout da esquerda para a direita.'#13#10 +
+    '  A divisão em partes iguais percorre blocos MMF sem carregar o arquivo'#13#10 +
+    '    inteiro; a aba de divisão permanece aberta ao concluir.'#13#10 +
+    '  Após a leitura de um arquivo, o guia sugere ações úteis.'#13#10 +
+    '    É possível reabri-lo ou desativá-lo em Preferências.'#13#10 +
+    '  O menu de contexto do editor e os termos do histórico de sessão foram localizados.'#13#10 +
+    '  O guia e as Preferências foram redesenhados; o guia é inicializado'#13#10 +
+    '    sem cintilação e sem interromper a leitura do arquivo.'#13#10,
+    'ACTUALIZACIONES RECIENTES (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  La interfaz ahora tiene 22 idiomas, incluidos hindi, ruso, coreano,'#13#10 +
+    '    neerlandés, turco y ucraniano. El hindi usa diseño de izquierda a derecha.'#13#10 +
+    '  La división en partes iguales procesa bloques MMF sin cargar el archivo'#13#10 +
+    '    completo; la pestaña de división permanece abierta al terminar.'#13#10 +
+    '  Tras leer un archivo, la guía sugiere acciones útiles.'#13#10 +
+    '    Puede volver a abrirla o desactivarla en Preferencias.'#13#10 +
+    '  Se localizaron el menú contextual del editor y los términos del historial de sesión.'#13#10 +
+    '  Se rediseñaron la guía y Preferencias; la guía se inicia'#13#10 +
+    '    sin parpadeos ni interrupciones durante la lectura del archivo.'#13#10,
+    'MISES À JOUR RÉCENTES (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  L’interface compte désormais 22 langues, dont l’hindi, le russe, le coréen,'#13#10 +
+    '    le néerlandais, le turc et l’ukrainien. L’hindi utilise une interface de gauche à droite.'#13#10 +
+    '  Le découpage en parties égales traite les blocs MMF sans charger tout le fichier ;'#13#10 +
+    '    l’onglet de découpage reste ouvert à la fin.'#13#10 +
+    '  Après la lecture d’un fichier, le guide suggère des actions utiles.'#13#10 +
+    '    Vous pouvez le rouvrir ou le désactiver dans Préférences.'#13#10 +
+    '  Le menu contextuel de l’éditeur et les termes de l’historique de session ont été traduits.'#13#10 +
+    '  Le guide et les Préférences ont été repensés ; le guide s’initialise'#13#10 +
+    '    sans scintillement ni interruption de la lecture du fichier.'#13#10,
+    'AKTUELLE UPDATES (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  Die Oberfläche unterstützt jetzt 22 Sprachen, darunter Hindi, Russisch, Koreanisch,'#13#10 +
+    '    Niederländisch, Türkisch und Ukrainisch. Hindi verwendet ein Layout von links nach rechts.'#13#10 +
+    '  Die Aufteilung verarbeitet MMF-Blöcke, ohne die ganze Datei zu laden;'#13#10 +
+    '    der Teilen-Tab bleibt nach Abschluss geöffnet.'#13#10 +
+    '  Nach dem Lesen einer Datei schlägt der Leitfaden nächste Schritte vor.'#13#10 +
+    '    Sie können ihn in den Einstellungen erneut öffnen oder deaktivieren.'#13#10 +
+    '  Das Kontextmenü des Editors und die Begriffe im Sitzungsverlauf wurden lokalisiert.'#13#10 +
+    '  Leitfaden und Einstellungen wurden überarbeitet; der Leitfaden startet'#13#10 +
+    '    ohne Flackern und ohne das Lesen der Datei zu unterbrechen.'#13#10,
+    'AGGIORNAMENTI RECENTI (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  L’interfaccia ora supporta 22 lingue, tra cui hindi, russo, coreano,'#13#10 +
+    '    olandese, turco e ucraino. L’hindi usa un layout da sinistra a destra.'#13#10 +
+    '  La divisione elabora blocchi MMF senza caricare l’intero file;'#13#10 +
+    '    la scheda di divisione rimane aperta al termine.'#13#10 +
+    '  Dopo la lettura di un file, la guida suggerisce azioni utili.'#13#10 +
+    '    È possibile riaprirla o disattivarla in Preferenze.'#13#10 +
+    '  Il menu contestuale dell’editor e i termini della cronologia di sessione sono stati localizzati.'#13#10 +
+    '  La guida e Preferenze sono state rinnovate; la guida si avvia'#13#10 +
+    '    senza sfarfallio e senza interrompere la lettura del file.'#13#10,
+    'OSTATNIE AKTUALIZACJE (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  Interfejs obsługuje teraz 22 języki, w tym hindi, rosyjski, koreański,'#13#10 +
+    '    niderlandzki, turecki i ukraiński. Hindi używa układu od lewej do prawej.'#13#10 +
+    '  Dzielenie przetwarza bloki MMF bez wczytywania całego pliku;'#13#10 +
+    '    karta dzielenia pozostaje otwarta po zakończeniu.'#13#10 +
+    '  Po odczytaniu pliku przewodnik podpowiada przydatne dalsze działania.'#13#10 +
+    '    Można go ponownie otworzyć lub wyłączyć w Preferencjach.'#13#10 +
+    '  Przetłumaczono menu kontekstowe edytora i nazewnictwo historii sesji.'#13#10 +
+    '  Przewodnik i Preferencje otrzymały nowy wygląd; przewodnik uruchamia się'#13#10 +
+    '    bez migotania i bez przerywania odczytu pliku.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  A interface passou a ter 22 idiomas, incluindo hindi, russo, coreano,'#13#10 +
+    '    neerlandês, turco e ucraniano. O hindi usa layout da esquerda para a direita.'#13#10 +
+    '  A divisão em partes iguais percorre blocos MMF sem carregar o ficheiro'#13#10 +
+    '    inteiro; o separador de divisão permanece aberto ao terminar.'#13#10 +
+    '  Após a leitura de um ficheiro, o guia sugere ações úteis.'#13#10 +
+    '    Pode reabri-lo ou desativá-lo nas Preferências.'#13#10 +
+    '  O menu de contexto do editor e os termos do histórico de sessão foram localizados.'#13#10 +
+    '  O guia e as Preferências foram redesenhados; o guia é iniciado'#13#10 +
+    '    sem cintilação e sem interromper a leitura do ficheiro.'#13#10,
+    'ACTUALIZĂRI RECENTE (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  Interfața are acum 22 de limbi, inclusiv hindi, rusă, coreeană,'#13#10 +
+    '    neerlandeză, turcă și ucraineană. Hindi folosește un aspect de la stânga la dreapta.'#13#10 +
+    '  Împărțirea procesează blocuri MMF fără să încarce întregul fișier;'#13#10 +
+    '    fila de împărțire rămâne deschisă la finalizare.'#13#10 +
+    '  După citirea unui fișier, ghidul sugerează acțiuni utile.'#13#10 +
+    '    Îl puteți redeschide sau dezactiva din Preferințe.'#13#10 +
+    '  Meniul contextual al editorului și termenii istoricului sesiunii au fost localizați.'#13#10 +
+    '  Ghidul și Preferințele au fost reproiectate; ghidul pornește'#13#10 +
+    '    fără pâlpâire și fără a întrerupe citirea fișierului.'#13#10,
+    'FRISSÍTÉSEK (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  A felület most 22 nyelvet támogat, köztük a hindit, az oroszt, a koreait,'#13#10 +
+    '    a hollandot, a törököt és az ukránt. A hindi balról jobbra rendezést használ.'#13#10 +
+    '  A felosztás MMF-blokkokat dolgoz fel a teljes fájl betöltése nélkül;'#13#10 +
+    '    a felosztás lapja a művelet végén nyitva marad.'#13#10 +
+    '  Fájl olvasása után az útmutató hasznos következő lépéseket javasol.'#13#10 +
+    '    A Beállításokban újra megnyitható vagy kikapcsolható.'#13#10 +
+    '  A szerkesztő helyi menüje és a munkamenet-előzmények kifejezései le lettek fordítva.'#13#10 +
+    '  Az útmutató és a Beállítások megújultak; az útmutató villogás'#13#10 +
+    '    és a fájlolvasás megszakítása nélkül indul el.'#13#10,
+    'NOVÉ AKTUALIZACE (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  Rozhraní nyní podporuje 22 jazyků včetně hindštiny, ruštiny, korejštiny,'#13#10 +
+    '    nizozemštiny, turečtiny a ukrajinštiny. Hindština používá rozvržení zleva doprava.'#13#10 +
+    '  Rozdělení zpracovává bloky MMF bez načtení celého souboru;'#13#10 +
+    '    karta rozdělení zůstane po dokončení otevřená.'#13#10 +
+    '  Po načtení souboru průvodce navrhne užitečné další kroky.'#13#10 +
+    '    V Nastavení jej lze znovu otevřít nebo vypnout.'#13#10 +
+    '  Kontextová nabídka editoru a názvy v historii relace jsou přeloženy.'#13#10 +
+    '  Průvodce i Nastavení mají nový vzhled; průvodce se spouští'#13#10 +
+    '    bez blikání a bez přerušení čtení souboru.'#13#10,
+    '最近の更新 (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  画面表示はヒンディー語、ロシア語、韓国語、オランダ語、トルコ語、ウクライナ語を含む22言語に対応しました。'#13#10 +
+    '    ヒンディー語のレイアウトは左から右です。'#13#10 +
+    '  均等分割はファイル全体を読み込まず、MMF のブロック単位で処理します。完了後も分割タブは開いたままです。'#13#10 +
+    '  ファイルの読み込み後、次の操作ガイドが便利な操作を提案します。'#13#10 +
+    '    設定から再表示または無効化できます。'#13#10 +
+    '  編集用コンテキストメニューとセッション履歴の用語を各言語に対応しました。'#13#10 +
+    '  ガイドと設定画面を刷新しました。ガイドはちらつかず、ファイル読み込みも中断しません。'#13#10,
+    '近期更新 (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  界面现支持 22 种语言，包括印地语、俄语、韩语、荷兰语、土耳其语和乌克兰语。'#13#10 +
+    '    印地语界面采用从左到右的布局。'#13#10 +
+    '  等分处理按 MMF 块执行，不会将整个文件载入内存；完成后分割选项卡仍保持打开。'#13#10 +
+    '  读取文件后，后续步骤指南会推荐有用的操作。'#13#10 +
+    '    可在“选项”中重新打开或关闭该指南。'#13#10 +
+    '  编辑器右键菜单和会话历史术语已完成本地化。'#13#10 +
+    '  指南和“选项”界面已重新设计；指南初始化时不再闪烁或中断文件读取。'#13#10,
+    '近期更新 (v3.0.5.255 – v3.0.5.261)'#13#10 + SEP + #13#10 +
+    '  介面現支援 22 種語言，包括印地語、俄語、韓語、荷蘭語、土耳其語和烏克蘭語。'#13#10 +
+    '    印地語介面採用由左至右的配置。'#13#10 +
+    '  等分處理以 MMF 區塊執行，不會將整個檔案載入記憶體；完成後分割索引標籤仍保持開啟。'#13#10 +
+    '  讀取檔案後，後續步驟指南會推薦實用操作。'#13#10 +
+    '    可在「選項」中重新開啟或關閉指南。'#13#10 +
+    '  編輯器右鍵選單和工作階段歷史用語已完成本地化。'#13#10 +
+    '  指南和「選項」介面已重新設計；指南初始化時不再閃爍或中斷檔案讀取。'#13#10);
+end;
+
+procedure AddCommonTranslationsHelpRecentFeaturesBlock7;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock7',
+    'RECENT UPDATES (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Thai, Greek, Norwegian, Swedish, Danish and Icelandic bring'#13#10 +
+    '    the interface to 28 languages. All six read left to right.'#13#10 +
+    '  Next steps follow the current activity, such as find, filter,'#13#10 +
+    '    split, merge or read, instead of one fixed list.'#13#10 +
+    '  Each activity offers more follow-up actions.'#13#10 +
+    '  A button to the left of Copy reopens the next-steps guide.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Tailandês, grego, norueguês, sueco, dinamarquês e islandês levam'#13#10 +
+    '    a interface a 28 idiomas. Os seis leem-se da esquerda para a direita.'#13#10 +
+    '  Os próximos passos seguem a atividade atual, como localizar, filtrar,'#13#10 +
+    '    dividir, mesclar ou ler, em vez de uma lista fixa.'#13#10 +
+    '  Cada atividade oferece mais ações seguintes.'#13#10 +
+    '  Um botão à esquerda de Copiar reabre o guia de próximos passos.'#13#10,
+    'ACTUALIZACIONES RECIENTES (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Tailandés, griego, noruego, sueco, danés e islandés llevan'#13#10 +
+    '    la interfaz a 28 idiomas. Los seis se leen de izquierda a derecha.'#13#10 +
+    '  Los siguientes pasos siguen la actividad actual, como buscar, filtrar,'#13#10 +
+    '    dividir, combinar o leer, en lugar de una lista fija.'#13#10 +
+    '  Cada actividad ofrece más acciones siguientes.'#13#10 +
+    '  Un botón a la izquierda de Copiar vuelve a abrir la guía.'#13#10,
+    'MISES À JOUR RÉCENTES (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Le thaï, le grec, le norvégien, le suédois, le danois et l’islandais portent'#13#10 +
+    '    l’interface à 28 langues. Les six se lisent de gauche à droite.'#13#10 +
+    '  Les étapes suivantes suivent l’activité en cours, comme rechercher, filtrer,'#13#10 +
+    '    découper, fusionner ou lire, au lieu d’une liste fixe.'#13#10 +
+    '  Chaque activité propose davantage d’actions suivantes.'#13#10 +
+    '  Un bouton à gauche de Copier rouvre le guide des étapes suivantes.'#13#10,
+    'AKTUELLE UPDATES (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Thai, Griechisch, Norwegisch, Schwedisch, Dänisch und Isländisch bringen'#13#10 +
+    '    die Oberfläche auf 28 Sprachen. Alle sechs laufen von links nach rechts.'#13#10 +
+    '  Die nächsten Schritte folgen der aktuellen Aktion, etwa Suchen, Filtern,'#13#10 +
+    '    Teilen, Zusammenführen oder Lesen, statt einer festen Liste.'#13#10 +
+    '  Jede Aktion bietet mehr Folgeschritte.'#13#10 +
+    '  Eine Schaltfläche links von Kopieren öffnet den Leitfaden erneut.'#13#10,
+    'AGGIORNAMENTI RECENTI (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Thai, greco, norvegese, svedese, danese e islandese portano'#13#10 +
+    '    l’interfaccia a 28 lingue. Tutte e sei si leggono da sinistra a destra.'#13#10 +
+    '  I passi successivi seguono l’attività corrente, come trova, filtra,'#13#10 +
+    '    dividi, unisci o leggi, invece di un elenco fisso.'#13#10 +
+    '  Ogni attività offre più azioni successive.'#13#10 +
+    '  Un pulsante a sinistra di Copia riapre la guida ai passi successivi.'#13#10,
+    'OSTATNIE AKTUALIZACJE (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Tajski, grecki, norweski, szwedzki, duński i islandzki rozszerzają'#13#10 +
+    '    interfejs do 28 języków. Wszystkie sześć czyta się od lewej do prawej.'#13#10 +
+    '  Kolejne kroki zależą od bieżącej czynności, takiej jak szukanie, filtr,'#13#10 +
+    '    podział, scalanie lub odczyt, zamiast jednej stałej listy.'#13#10 +
+    '  Każda czynność oferuje więcej kolejnych działań.'#13#10 +
+    '  Przycisk po lewej stronie Kopiuj ponownie otwiera przewodnik.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Tailandês, grego, norueguês, sueco, dinamarquês e islandês levam'#13#10 +
+    '    a interface a 28 idiomas. Os seis leem-se da esquerda para a direita.'#13#10 +
+    '  Os próximos passos seguem a atividade atual, como localizar, filtrar,'#13#10 +
+    '    dividir, fundir ou ler, em vez de uma lista fixa.'#13#10 +
+    '  Cada atividade oferece mais ações seguintes.'#13#10 +
+    '  Um botão à esquerda de Copiar reabre o guia dos próximos passos.'#13#10,
+    'ACTUALIZĂRI RECENTE (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Thailandeza, greaca, norvegiana, suedeza, daneza și islandeza duc'#13#10 +
+    '    interfața la 28 de limbi. Toate șase se citesc de la stânga la dreapta.'#13#10 +
+    '  Pașii următori urmează activitatea curentă, cum ar fi găsire, filtrare,'#13#10 +
+    '    împărțire, îmbinare sau citire, în locul unei liste fixe.'#13#10 +
+    '  Fiecare activitate oferă mai multe acțiuni următoare.'#13#10 +
+    '  Un buton la stânga lui Copiere redeschide ghidul pașilor următori.'#13#10,
+    'FRISSÍTÉSEK (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  A thai, a görög, a norvég, a svéd, a dán és az izlandi'#13#10 +
+    '    28 nyelvre bővíti a felületet. Mind a hat balról jobbra olvas.'#13#10 +
+    '  A következő lépések az aktuális művelethez igazodnak, például keresés,'#13#10 +
+    '    szűrés, felosztás, egyesítés vagy olvasás, nem egy rögzített listához.'#13#10 +
+    '  Minden művelet több további lépést kínál.'#13#10 +
+    '  A Másolás bal oldalán lévő gomb újra megnyitja az útmutatót.'#13#10,
+    'NOVÉ AKTUALIZACE (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  Thajština, řečtina, norština, švédština, dánština a islandština rozšiřují'#13#10 +
+    '    rozhraní na 28 jazyků. Všech šest se čte zleva doprava.'#13#10 +
+    '  Další kroky sledují aktuální činnost, například hledání, filtr,'#13#10 +
+    '    rozdělení, sloučení nebo čtení, místo jednoho pevného seznamu.'#13#10 +
+    '  Každá činnost nabízí více následných akcí.'#13#10 +
+    '  Tlačítko vlevo od Kopírovat znovu otevře průvodce dalšími kroky.'#13#10,
+    '最近の更新 (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  タイ語、ギリシャ語、ノルウェー語、スウェーデン語、'#13#10 +
+    '    デンマーク語、アイスランド語が加わり、表示は28言語です。'#13#10 +
+    '    この6言語は左から右に読みます。'#13#10 +
+    '  次の手順は、検索、フィルタ、分割、結合、読み込みなど、'#13#10 +
+    '    今の操作に合わせて変わり、固定の一覧ではありません。'#13#10 +
+    '  それぞれの操作で、その後にできることが増えます。'#13#10 +
+    '  コピーの左のボタンで、次の手順ガイドを再び開きます。'#13#10,
+    '近期更新 (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  泰语、希腊语、挪威语、瑞典语、丹麦语和冰岛语使界面达到 28 种语言。'#13#10 +
+    '    这六种语言均从左向右阅读。'#13#10 +
+    '  后续步骤跟随当前操作，例如查找、筛选、拆分、合并或读取，'#13#10 +
+    '    而不是一份固定列表。'#13#10 +
+    '  每种操作都提供更多后续动作。'#13#10 +
+    '  复制左侧的按钮会重新打开后续步骤指南。'#13#10,
+    '近期更新 (v3.0.5.262 – v3.0.5.265)'#13#10 + SEP + #13#10 +
+    '  泰語、希臘語、挪威語、瑞典語、丹麥語和冰島語使介面達到 28 種語言。'#13#10 +
+    '    這六種語言均由左至右閱讀。'#13#10 +
+    '  後續步驟跟隨目前操作，例如尋找、篩選、分割、合併或讀取，'#13#10 +
+    '    而不是一份固定清單。'#13#10 +
+    '  每種操作都提供更多後續動作。'#13#10 +
+    '  複製左側的按鈕會重新開啟後續步驟指南。'#13#10);
+end;
+
+procedure AddCommonTranslationsHelpRecentFeaturesBlock8;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock8',
+    'RECENT UPDATES (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  The next-steps guide is shorter, so the file list stays visible.'#13#10 + '  A Read icon sits inside the file path field, left of the clear X.'#13#10 + '  It uses the same glyph as Read on the toolbar and loads that path.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  O guia de próximos passos ficou mais baixo, e a lista do arquivo'#13#10 + '    permanece visível.'#13#10 + '  Um ícone de Ler fica no campo do caminho, à esquerda do X de limpar.'#13#10 + '  Usa o mesmo desenho do botão Ler na barra e carrega esse caminho.'#13#10,
+    'ACTUALIZACIONES RECIENTES (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  La guía de siguientes pasos es más baja, así que la lista del archivo'#13#10 + '    sigue visible.'#13#10 + '  Un icono de Leer queda en el campo de la ruta, a la izquierda de la X.'#13#10 + '  Usa el mismo dibujo que Leer en la barra y carga esa ruta.'#13#10,
+    'MISES À JOUR RÉCENTES (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  Le guide des étapes suivantes est plus bas, et la liste du fichier'#13#10 + '    reste visible.'#13#10 + '  Une icône Lire se place dans le champ du chemin, à gauche du X.'#13#10 + '  Elle reprend le même dessin que Lire dans la barre et charge ce chemin.'#13#10,
+    'AKTUELLE UPDATES (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  Der Leitfaden für nächste Schritte ist niedriger, die Dateiliste'#13#10 + '    bleibt sichtbar.'#13#10 + '  Ein Lesen-Symbol steht im Pfadfeld links vom Löschen-X.'#13#10 + '  Es nutzt dieselbe Grafik wie Lesen in der Leiste und lädt diesen Pfad.'#13#10,
+    'AGGIORNAMENTI RECENTI (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  La guida ai passi successivi è più bassa, così l''elenco del file'#13#10 + '    resta visibile.'#13#10 + '  Un''icona Leggi sta nel campo del percorso, a sinistra della X.'#13#10 + '  Usa lo stesso disegno di Leggi nella barra e carica quel percorso.'#13#10,
+    'OSTATNIE AKTUALIZACJE (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  Przewodnik kolejnych kroków jest niższy, więc lista pliku'#13#10 + '    pozostaje widoczna.'#13#10 + '  Ikona Czytaj jest w polu ścieżki, na lewo od X czyszczenia.'#13#10 + '  Używa tego samego rysunku co Czytaj na pasku i wczytuje tę ścieżkę.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  O guia dos próximos passos ficou mais baixo, e a lista do ficheiro'#13#10 + '    permanece visível.'#13#10 + '  Um ícone de Ler fica no campo do caminho, à esquerda do X de limpar.'#13#10 + '  Usa o mesmo desenho do botão Ler na barra e carrega esse caminho.'#13#10,
+    'ACTUALIZĂRI RECENTE (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  Ghidul pașilor următori este mai jos, astfel lista fișierului'#13#10 + '    rămâne vizibilă.'#13#10 + '  O pictogramă Citire stă în câmpul căii, la stânga lui X de golire.'#13#10 + '  Folosește același desen ca Citire pe bară și încarcă acea cale.'#13#10,
+    'FRISSÍTÉSEK (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  A következő lépések útmutatója alacsonyabb, így a fájllista'#13#10 + '    látható marad.'#13#10 + '  Egy Olvasás ikon van az elérési út mezőben, a törlés X balján.'#13#10 + '  Ugyanazt a rajzot használja, mint az Olvasás a sávon, és betölti az utat.'#13#10,
+    'NOVÉ AKTUALIZACE (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  Průvodce dalšími kroky je nižší, takže seznam souboru'#13#10 + '    zůstává viditelný.'#13#10 + '  Ikona Číst je v poli cesty, vlevo od X pro vymazání.'#13#10 + '  Používá stejný obrázek jako Číst na panelu a načte tuto cestu.'#13#10,
+    '最近の更新 (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  次の手順ガイドの高さが下がり、ファイル一覧が見えるままです。'#13#10 + '  読み込みアイコンがパス欄の中、消去のXの左にあります。'#13#10 + '  ツールバーの読み込みと同じ絵で、そのパスを読み込みます。'#13#10,
+    '近期更新 (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  后续步骤指南变矮，文件列表仍可见。'#13#10 + '  读取图标在路径框内、清除 X 的左侧。'#13#10 + '  与工具栏“读取”相同，并加载该路径。'#13#10,
+    '近期更新 (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  後續步驟指南變矮，檔案清單仍可見。'#13#10 + '  讀取圖示在路徑欄內、清除 X 的左側。'#13#10 + '  與工具列「讀取」相同，並載入該路徑。'#13#10);
 end;
 
 procedure AddDelimSessionTranslations;
@@ -53923,6 +55079,236 @@ begin
     'Suggestions de commandes', 'Befehlsvorschläge', 'Suggerimenti di comandi',
     'Propozycje poleceń', 'Sugestões de comandos', 'Sugestii de comenzi',
     'Parancsjavaslatok', 'Návrhy příkazů', 'コマンドの提案', '命令建议', '命令建議']);
+  Set14('SearchCmd.AIRequestCue', [
+    'for example: log lines with payment errors',
+    'por exemplo: linhas de log com erros de pagamento',
+    'por ejemplo: líneas de log con errores de pago',
+    'par exemple : lignes de journal avec erreurs de paiement',
+    'zum Beispiel: Protokollzeilen mit Zahlungsfehlern',
+    'ad esempio: righe di log con errori di pagamento',
+    'na przykład: wiersze logu z błędami płatności',
+    'por exemplo: linhas de registo com erros de pagamento',
+    'de exemplu: linii de jurnal cu erori de plată',
+    'például: naplósorok fizetési hibákkal',
+    'například: řádky protokolu s chybami plateb',
+    '例：支払いエラーを含むログ行',
+    '例如：包含付款错误的日志行',
+    '例如：包含付款錯誤的日誌行']);
+  Set14('SearchCmd.RecentHint', [
+    'Recent glob and grep commands',
+    'Comandos glob e grep recentes',
+    'Comandos glob y grep recientes',
+    'Commandes glob et grep récentes',
+    'Letzte glob- und grep-Befehle',
+    'Comandi glob e grep recenti',
+    'Ostatnie polecenia glob i grep',
+    'Comandos glob e grep recentes',
+    'Comenzi glob și grep recente',
+    'Legutóbbi glob és grep parancsok',
+    'Nedávné příkazy glob a grep',
+    '最近の glob と grep コマンド',
+    '最近的 glob 和 grep 命令',
+    '最近的 glob 和 grep 命令']);
+  Set14('SearchCmd.RecentEmpty', [
+    '(no recent commands yet)',
+    '(ainda sem comandos recentes)',
+    '(aún no hay comandos recientes)',
+    '(pas encore de commandes récentes)',
+    '(noch keine letzten Befehle)',
+    '(ancora nessun comando recente)',
+    '(brak ostatnich poleceń)',
+    '(ainda sem comandos recentes)',
+    '(încă nu există comenzi recente)',
+    '(még nincsenek legutóbbi parancsok)',
+    '(zatím žádné nedávné příkazy)',
+    '（最近のコマンドはまだありません）',
+    '（尚无最近的命令）',
+    '（尚無最近的命令）']);
+  Set14('SearchCmd.RecentMore', [
+    'Show more', 'Mostrar mais', 'Mostrar más', 'Afficher plus',
+    'Mehr anzeigen', 'Mostra altro', 'Pokaż więcej', 'Mostrar mais',
+    'Afișează mai multe', 'Több megjelenítése', 'Zobrazit více',
+    'もっと表示', '显示更多', '顯示更多']);
+  Set14('SearchCmd.RecentMoreHint', [
+    'Show the remaining recent commands',
+    'Mostrar os demais comandos recentes',
+    'Mostrar los demás comandos recientes',
+    'Afficher les autres commandes récentes',
+    'Weitere letzte Befehle anzeigen',
+    'Mostra gli altri comandi recenti',
+    'Pokaż pozostałe ostatnie polecenia',
+    'Mostrar os restantes comandos recentes',
+    'Afișează celelalte comenzi recente',
+    'További legutóbbi parancsok megjelenítése',
+    'Zobrazit zbývající nedávné příkazy',
+    '残りの最近のコマンドを表示',
+    '显示其余最近命令',
+    '顯示其餘最近命令']);
+  Set14('SearchCmd.Ex.GlobCsv', [
+    'CSV files in the selected folder. The * does not enter subfolders.',
+    'Arquivos CSV na pasta selecionada. O * não entra em subpastas.',
+    'Archivos CSV en la carpeta seleccionada. El * no entra en subcarpetas.',
+    'Fichiers CSV dans le dossier sélectionné. L''* n''entre pas dans les sous-dossiers.',
+    'CSV-Dateien im ausgewählten Ordner. * geht nicht in Unterordner.',
+    'File CSV nella cartella selezionata. L''* non entra nelle sottocartelle.',
+    'Pliki CSV w wybranym folderze. Znak * nie wchodzi do podfolderów.',
+    'Ficheiros CSV na pasta selecionada. O * não entra em subpastas.',
+    'Fișiere CSV în folderul selectat. * nu intră în subfoldere.',
+    'CSV-fájlok a kijelölt mappában. A * nem lép az almappákba.',
+    'Soubory CSV ve vybrané složce. Znak * nevstupuje do podsložek.',
+    '選択フォルダ直下の CSV ファイルです。* はサブフォルダに入りません。',
+    '所选文件夹中的 CSV 文件。* 不会进入子文件夹。',
+    '所選資料夾中的 CSV 檔案。* 不會進入子資料夾。']);
+  Set14('SearchCmd.Ex.GlobLog', [
+    'Log files in the selected folder and in every subfolder.',
+    'Arquivos de log na pasta selecionada e em todas as subpastas.',
+    'Archivos de log en la carpeta seleccionada y en todas las subcarpetas.',
+    'Fichiers journaux dans le dossier sélectionné et dans tous les sous-dossiers.',
+    'Protokolldateien im ausgewählten Ordner und in allen Unterordnern.',
+    'File di log nella cartella selezionata e in ogni sottocartella.',
+    'Pliki logów w wybranym folderze i we wszystkich podfolderach.',
+    'Ficheiros de registo na pasta selecionada e em todas as subpastas.',
+    'Fișiere jurnal în folderul selectat și în toate subfolderele.',
+    'Naplófájlok a kijelölt mappában és minden almappában.',
+    'Soubory protokolu ve vybrané složce a ve všech podsložkách.',
+    '選択フォルダとすべてのサブフォルダにあるログファイルです。',
+    '所选文件夹及其所有子文件夹中的日志文件。',
+    '所選資料夾及其所有子資料夾中的日誌檔案。']);
+  Set14('SearchCmd.Ex.GlobReport', [
+    'Names like report_2024.txt: ? matches exactly one character.',
+    'Nomes como report_2024.txt: o ? corresponde a exatamente um caractere.',
+    'Nombres como report_2024.txt: ? corresponde a un solo carácter.',
+    'Noms comme report_2024.txt : le ? correspond à un seul caractère.',
+    'Namen wie report_2024.txt: ? steht für genau ein Zeichen.',
+    'Nomi come report_2024.txt: ? corrisponde a un solo carattere.',
+    'Nazwy jak report_2024.txt: ? oznacza dokładnie jeden znak.',
+    'Nomes como report_2024.txt: o ? corresponde a exatamente um carácter.',
+    'Nume precum report_2024.txt: ? corespunde exact unui caracter.',
+    'A report_2024.txt alakú nevek: a ? pontosan egy karaktert jelöl.',
+    'Názvy jako report_2024.txt: ? odpovídá právě jednomu znaku.',
+    'report_2024.txt のような名前です。? は1文字だけに一致します。',
+    '类似 report_2024.txt 的名称。? 只匹配一个字符。',
+    '類似 report_2024.txt 的名稱。? 只比對一個字元。']);
+  Set14('SearchCmd.Ex.GlobLimit', [
+    'The same log search, keeping at most 500 paths.',
+    'A mesma busca de logs, mantendo no máximo 500 caminhos.',
+    'La misma búsqueda de logs, con un máximo de 500 rutas.',
+    'La même recherche de journaux, limitée à 500 chemins.',
+    'Dieselbe Protokollsuche, höchstens 500 Pfade.',
+    'La stessa ricerca di log, al massimo 500 percorsi.',
+    'To samo wyszukiwanie logów, najwyżej 500 ścieżek.',
+    'A mesma pesquisa de registos, no máximo 500 caminhos.',
+    'Aceeași căutare de jurnale, cel mult 500 de căi.',
+    'Ugyanaz a naplókeresés, legfeljebb 500 útvonal.',
+    'Stejné hledání protokolů, nejvýše 500 cest.',
+    '同じログ検索で、パスは最大500件までです。',
+    '同样的日志搜索，最多保留 500 条路径。',
+    '同樣的日誌搜尋，最多保留 500 條路徑。']);
+  Set14('SearchCmd.Ex.GrepLog', [
+    'The literal text error, any letter case, only in .log files.',
+    'O texto literal error, sem diferenciar maiúsculas, só em arquivos .log.',
+    'El texto literal error, sin distinguir mayúsculas, solo en archivos .log.',
+    'Le texte littéral error, sans tenir compte de la casse, uniquement dans les fichiers .log.',
+    'Der genaue Text error, ohne Groß-/Kleinschreibung, nur in .log-Dateien.',
+    'Il testo letterale error, senza distinzione di maiuscole, solo nei file .log.',
+    'Dosłowny tekst error, bez rozróżniania wielkości liter, tylko w plikach .log.',
+    'O texto literal error, sem distinguir maiúsculas, apenas em ficheiros .log.',
+    'Textul exact error, fără diferență de majuscule, doar în fișiere .log.',
+    'A pontos error szöveg, kis- és nagybetű nélkül, csak .log fájlokban.',
+    'Přesný text error, bez rozlišení velikosti písmen, jen v souborech .log.',
+    '大文字小文字を無視して、.log ファイルだけから文字列 error を探します。',
+    '按字面查找 error，忽略大小写，并且只在 .log 文件中。',
+    '依字面尋找 error，忽略大小寫，而且只在 .log 檔案中。']);
+  Set14('SearchCmd.Ex.GrepOr', [
+    'Lines containing error or failure. This pattern is a regular expression.',
+    'Linhas que contêm error ou failure. O padrão é uma expressão regular.',
+    'Líneas que contienen error o failure. El patrón es una expresión regular.',
+    'Lignes contenant error ou failure. Le motif est une expression régulière.',
+    'Zeilen mit error oder failure. Das Muster ist ein regulärer Ausdruck.',
+    'Righe che contengono error o failure. Il modello è un''espressione regolare.',
+    'Wiersze zawierające error lub failure. Wzorzec jest wyrażeniem regularnym.',
+    'Linhas que contêm error ou failure. O padrão é uma expressão regular.',
+    'Linii care conțin error sau failure. Modelul este o expresie regulată.',
+    'Az error vagy failure szöveget tartalmazó sorok. A minta reguláris kifejezés.',
+    'Řádky obsahující error nebo failure. Vzor je regulární výraz.',
+    'error または failure を含む行です。パターンは正規表現です。',
+    '包含 error 或 failure 的行。此模式是正则表达式。',
+    '包含 error 或 failure 的行。此模式是規則運算式。']);
+  Set14('SearchCmd.Ex.GrepInvert', [
+    'Lines that do not contain the literal text DEBUG.',
+    'Linhas que não contêm o texto literal DEBUG.',
+    'Líneas que no contienen el texto literal DEBUG.',
+    'Lignes qui ne contiennent pas le texte littéral DEBUG.',
+    'Zeilen, die den genauen Text DEBUG nicht enthalten.',
+    'Righe che non contengono il testo letterale DEBUG.',
+    'Wiersze, które nie zawierają dosłownego tekstu DEBUG.',
+    'Linhas que não contêm o texto literal DEBUG.',
+    'Linii care nu conțin textul exact DEBUG.',
+    'Sorok, amelyek nem tartalmazzák a pontos DEBUG szöveget.',
+    'Řádky, které neobsahují přesný text DEBUG.',
+    '文字列 DEBUG を含まない行です。',
+    '不包含字面文本 DEBUG 的行。',
+    '不含字面文字 DEBUG 的行。']);
+  Set14('SearchCmd.Ex.GrepWord', [
+    'The whole word id, ignoring case, not letters inside a longer word.',
+    'A palavra inteira id, sem diferenciar maiúsculas, e não um trecho de outra palavra.',
+    'La palabra completa id, sin distinguir mayúsculas, y no un fragmento de otra palabra.',
+    'Le mot entier id, sans tenir compte de la casse, et non une partie d''un mot plus long.',
+    'Das ganze Wort id, ohne Groß-/Kleinschreibung, nicht als Teil eines längeren Wortes.',
+    'La parola intera id, senza distinzione di maiuscole, non una parte di una parola più lunga.',
+    'Całe słowo id, bez rozróżniania wielkości liter, a nie fragment dłuższego słowa.',
+    'A palavra inteira id, sem distinguir maiúsculas, e não parte de uma palavra maior.',
+    'Cuvântul întreg id, fără diferență de majuscule, nu o parte dintr-un cuvânt mai lung.',
+    'A teljes id szó, kis- és nagybetű nélkül, nem egy hosszabb szó része.',
+    'Celé slovo id, bez rozlišení velikosti písmen, ne jako část delšího slova.',
+    '単語 id 全体です。大文字小文字は無視し、より長い単語の一部には一致しません。',
+    '完整单词 id，忽略大小写，不会匹配更长单词中的字母。',
+    '完整單字 id，忽略大小寫，不會比對更長單字中的字母。']);
+  Set14('SearchCmd.Ex.GrepGroups', [
+    'Reads an IPv4 address and a 3-digit status into separate result columns.',
+    'Lê um endereço IPv4 e um status de 3 dígitos em colunas separadas do resultado.',
+    'Lee una dirección IPv4 y un estado de 3 dígitos en columnas separadas del resultado.',
+    'Lit une adresse IPv4 et un statut à 3 chiffres dans des colonnes distinctes.',
+    'Liest eine IPv4-Adresse und einen 3-stelligen Status in getrennte Ergebnisspalten.',
+    'Legge un indirizzo IPv4 e uno stato di 3 cifre in colonne distinte del risultato.',
+    'Odczytuje adres IPv4 i 3-cyfrowy status do osobnych kolumn wyniku.',
+    'Lê um endereço IPv4 e um estado de 3 dígitos em colunas separadas do resultado.',
+    'Citește o adresă IPv4 și un status de 3 cifre în coloane separate ale rezultatului.',
+    'Egy IPv4-címet és egy 3 számjegyű állapotot külön eredményoszlopokba olvas.',
+    'Přečte adresu IPv4 a třímístný stav do samostatných sloupců výsledku.',
+    'IPv4 アドレスと3桁のステータスを、結果の別々の列に読み取ります。',
+    '把 IPv4 地址和 3 位状态读入结果的不同列。',
+    '把 IPv4 位址和 3 位狀態讀入結果的不同欄。']);
+  Set14('SearchCmd.Ex.GrepBookmarks', [
+    'Searches only the bookmarked lines of the open file for pending, ignoring case.',
+    'Busca pending, sem diferenciar maiúsculas, só nas linhas marcadas do arquivo aberto.',
+    'Busca pending, sin distinguir mayúsculas, solo en las líneas marcadas del archivo abierto.',
+    'Cherche pending, sans tenir compte de la casse, seulement dans les lignes marquées du fichier ouvert.',
+    'Sucht pending ohne Groß-/Kleinschreibung nur in markierten Zeilen der geöffneten Datei.',
+    'Cerca pending, senza distinzione di maiuscole, solo nelle righe segnalate del file aperto.',
+    'Szuka pending bez rozróżniania wielkości liter, tylko w zaznaczonych wierszach otwartego pliku.',
+    'Pesquisa pending, sem distinguir maiúsculas, só nas linhas marcadas do ficheiro aberto.',
+    'Caută pending, fără diferență de majuscule, doar în liniile marcate ale fișierului deschis.',
+    'A pending szót keresi, kis- és nagybetű nélkül, csak a megnyitott fájl könyvjelzős soraiban.',
+    'Hledá pending bez rozlišení velikosti písmen jen v označených řádcích otevřeného souboru.',
+    '開いているファイルのブックマーク行だけから、大文字小文字を無視して pending を検索します。',
+    '只在当前打开文件已加书签的行中查找 pending，并忽略大小写。',
+    '只在目前開啟檔案已加書籤的行中尋找 pending，並忽略大小寫。']);
+  Set14('SearchCmd.Ex.GrepMark', [
+    'Bookmarks each matching line in the open file. Other files are skipped.',
+    'Marca cada linha correspondente no arquivo aberto. Os outros arquivos são ignorados.',
+    'Marca cada línea coincidente en el archivo abierto. Los demás archivos se omiten.',
+    'Ajoute un signet à chaque ligne correspondante du fichier ouvert. Les autres fichiers sont ignorés.',
+    'Setzt ein Lesezeichen auf jede passende Zeile der geöffneten Datei. Andere Dateien werden übersprungen.',
+    'Aggiunge un segnalibro a ogni riga corrispondente del file aperto. Gli altri file sono ignorati.',
+    'Dodaje zakładkę do każdego pasującego wiersza otwartego pliku. Inne pliki są pomijane.',
+    'Adiciona um marcador a cada linha correspondente do ficheiro aberto. Os outros ficheiros são ignorados.',
+    'Adaugă un marcaj pe fiecare linie potrivită din fișierul deschis. Celelalte fișiere sunt omise.',
+    'Könyvjelzőt tesz a megnyitott fájl minden illeszkedő sorára. A többi fájlt kihagyja.',
+    'Přidá záložku na každý odpovídající řádek otevřeného souboru. Ostatní soubory se přeskočí.',
+    '開いているファイルの一致した行にブックマークを付けます。他のファイルは対象外です。',
+    '为当前打开文件中的每个匹配行添加书签。其他文件会被跳过。',
+    '為目前開啟檔案中的每個相符行加入書籤。其他檔案會被略過。']);
   Set14('SearchCmd.Run', [
     'Run command', 'Executar comando', 'Ejecutar comando', 'Exécuter la commande',
     'Befehl ausführen', 'Esegui comando', 'Wykonaj polecenie', 'Executar comando',
@@ -54129,6 +55515,134 @@ begin
     'Anulat; rezultatele pot fi incomplete.', 'Megszakítva; az eredmény hiányos lehet.',
     'Zrušeno; výsledky mohou být neúplné.', 'キャンセルされました。結果は不完全な可能性があります。',
     '已取消；结果可能不完整。', '已取消；結果可能不完整。']);
+  Set14('SearchCmd.ProgressListing', [
+    'Listing files in the selected sources...', 'Listando arquivos nas fontes selecionadas...',
+    'Listando archivos en las fuentes seleccionadas...', 'Liste des fichiers dans les sources sélectionnées...',
+    'Dateien in den ausgewählten Quellen werden aufgelistet...', 'Elenco dei file nelle origini selezionate...',
+    'Wyszukiwanie plików w wybranych źródłach...', 'A listar ficheiros nas origens selecionadas...',
+    'Se listează fișierele din sursele selectate...', 'Fájlok listázása a kiválasztott forrásokban...',
+    'Vypisování souborů ve vybraných zdrojích...', '選択したソース内のファイルを列挙しています...',
+    '正在列出所选来源中的文件...', '正在列出所選來源中的檔案...']);
+  Set14('SearchCmd.ProgressListed', [
+    '%d file(s) found', '%d arquivo(s) encontrado(s)',
+    '%d archivo(s) encontrado(s)', '%d fichier(s) trouvé(s)',
+    '%d Datei(en) gefunden', '%d file trovati',
+    'Znaleziono plików: %d', '%d ficheiro(s) encontrado(s)',
+    '%d fișier(e) găsit(e)', '%d fájl található',
+    'Nalezeno souborů: %d', '%d 件のファイルが見つかりました',
+    '已找到 %d 个文件', '已找到 %d 個檔案']);
+  Set14('SearchCmd.ProgressScanning', [
+    'Searching files (glob / grep)...', 'Pesquisando arquivos (glob / grep)...',
+    'Buscando en archivos (glob / grep)...', 'Recherche dans les fichiers (glob / grep)...',
+    'Dateien werden durchsucht (glob / grep)...', 'Ricerca nei file (glob / grep)...',
+    'Przeszukiwanie plików (glob / grep)...', 'A pesquisar ficheiros (glob / grep)...',
+    'Se caută în fișiere (glob / grep)...', 'Keresés a fájlokban (glob / grep)...',
+    'Prohledávání souborů (glob / grep)...', 'ファイルを検索しています (glob / grep)...',
+    '正在搜索文件 (glob / grep)...', '正在搜尋檔案 (glob / grep)...']);
+  Set14('SearchCmd.ProgressFiles', [
+    'Files: %d / %d', 'Arquivos: %d / %d',
+    'Archivos: %d / %d', 'Fichiers : %d / %d',
+    'Dateien: %d / %d', 'File: %d / %d',
+    'Pliki: %d / %d', 'Ficheiros: %d / %d',
+    'Fișiere: %d / %d', 'Fájlok: %d / %d',
+    'Soubory: %d / %d', 'ファイル: %d / %d',
+    '文件：%d / %d', '檔案：%d / %d']);
+  Set14('SearchCmd.ProgressHits', [
+    'Matches: %d', 'Ocorrências: %d',
+    'Coincidencias: %d', 'Correspondances : %d',
+    'Treffer: %d', 'Corrispondenze: %d',
+    'Dopasowania: %d', 'Ocorrências: %d',
+    'Potriviri: %d', 'Találatok: %d',
+    'Shody: %d', '一致: %d',
+    '匹配项：%d', '相符項目：%d']);
+  Set14('SearchCmd.ProgressElapsed', [
+    'Elapsed: %s', 'Decorrido: %s',
+    'Transcurrido: %s', 'Écoulé : %s',
+    'Verstrichen: %s', 'Trascorso: %s',
+    'Upłynęło: %s', 'Decorrido: %s',
+    'Scurs: %s', 'Eltelt: %s',
+    'Uplynulo: %s', '経過時間: %s',
+    '已用时间：%s', '已用時間：%s']);
+  Set14('SearchCmd.ProgressEta', [
+    'Remaining: ~%s', 'Restante: ~%s',
+    'Restante: ~%s', 'Restant : ~%s',
+    'Verbleibend: ~%s', 'Rimanente: ~%s',
+    'Pozostało: ~%s', 'Restante: ~%s',
+    'Rămas: ~%s', 'Hátralévő: ~%s',
+    'Zbývá: ~%s', '残り: 約 %s',
+    '剩余：约 %s', '剩餘：約 %s']);
+  Set14('BgLoad.Filtering', [
+    'Filtering file...', 'Filtrando arquivo...',
+    'Filtrando archivo...', 'Filtrage du fichier...',
+    'Datei wird gefiltert...', 'Filtraggio del file...',
+    'Filtrowanie pliku...', 'A filtrar ficheiro...',
+    'Se filtrează fișierul...', 'Fájl szűrése...',
+    'Filtrování souboru...', 'ファイルをフィルタリングしています...',
+    '正在筛选文件...', '正在篩選檔案...']);
+  Set14('BgLoad.FindingAll', [
+    'Finding all occurrences...', 'Localizando todas as ocorrências...',
+    'Buscando todas las coincidencias...', 'Recherche de toutes les occurrences...',
+    'Alle Vorkommen werden gesucht...', 'Ricerca di tutte le occorrenze...',
+    'Wyszukiwanie wszystkich wystąpień...', 'A localizar todas as ocorrências...',
+    'Se caută toate aparițiile...', 'Az összes előfordulás keresése...',
+    'Hledání všech výskytů...', 'すべての出現箇所を検索しています...',
+    '正在查找所有匹配项...', '正在尋找所有相符項目...']);
+  Set14('BgLoad.Finding', [
+    'Searching in file...', 'Pesquisando no arquivo...',
+    'Buscando en el archivo...', 'Recherche dans le fichier...',
+    'Datei wird durchsucht...', 'Ricerca nel file...',
+    'Przeszukiwanie pliku...', 'A pesquisar no ficheiro...',
+    'Se caută în fișier...', 'Keresés a fájlban...',
+    'Prohledávání souboru...', 'ファイル内を検索しています...',
+    '正在文件中搜索...', '正在檔案中搜尋...']);
+  Set14('BgLoad.Copying', [
+    'Copying filtered lines...', 'Copiando linhas filtradas...',
+    'Copiando líneas filtradas...', 'Copie des lignes filtrées...',
+    'Gefilterte Zeilen werden kopiert...', 'Copia delle righe filtrate...',
+    'Kopiowanie przefiltrowanych wierszy...', 'A copiar linhas filtradas...',
+    'Se copiază liniile filtrate...', 'Szűrt sorok másolása...',
+    'Kopírování filtrovaných řádků...', 'フィルター済みの行をコピーしています...',
+    '正在复制筛选后的行...', '正在複製篩選後的行...']);
+  Set14('BgLoad.Cancelled', [
+    'Operation cancelled.', 'Operação cancelada.',
+    'Operación cancelada.', 'Opération annulée.',
+    'Vorgang abgebrochen.', 'Operazione annullata.',
+    'Operacja anulowana.', 'Operação cancelada.',
+    'Operație anulată.', 'Művelet megszakítva.',
+    'Operace zrušena.', '操作はキャンセルされました。',
+    '操作已取消。', '操作已取消。']);
+  Set14('BgLoad.CancelButton', [
+    'Cancel', 'Cancelar',
+    'Cancelar', 'Annuler',
+    'Abbrechen', 'Annulla',
+    'Anuluj', 'Cancelar',
+    'Anulează', 'Mégse',
+    'Zrušit', 'キャンセル',
+    '取消', '取消']);
+  Set14('BgLoad.CancelHint', [
+    'Cancel the running search / filter (Esc)', 'Cancelar a pesquisa / filtro em andamento (Esc)',
+    'Cancelar la búsqueda / filtro en curso (Esc)', 'Annuler la recherche / le filtre en cours (Échap)',
+    'Laufende Suche / Filterung abbrechen (Esc)', 'Annulla la ricerca / il filtro in corso (Esc)',
+    'Anuluj trwające wyszukiwanie / filtrowanie (Esc)', 'Cancelar a pesquisa / filtro em curso (Esc)',
+    'Anulează căutarea / filtrarea în curs (Esc)', 'A folyamatban lévő keresés / szűrés megszakítása (Esc)',
+    'Zrušit probíhající hledání / filtrování (Esc)', '実行中の検索 / フィルターをキャンセル (Esc)',
+    '取消正在进行的搜索 / 筛选 (Esc)', '取消正在進行的搜尋 / 篩選 (Esc)']);
+  Set14('FindOcc.HideListHint', [
+    'Hide the hit list (keeps the Find panel open)', 'Ocultar a lista de ocorrências (mantém o painel de busca aberto)',
+    'Ocultar la lista de coincidencias (mantiene abierto el panel de búsqueda)', 'Masquer la liste des résultats (le panneau de recherche reste ouvert)',
+    'Trefferliste ausblenden (Suchbereich bleibt geöffnet)', 'Nascondi l''elenco dei risultati (il pannello di ricerca resta aperto)',
+    'Ukryj listę wyników (panel wyszukiwania pozostaje otwarty)', 'Ocultar a lista de ocorrências (mantém o painel de pesquisa aberto)',
+    'Ascunde lista de rezultate (panoul de căutare rămâne deschis)', 'Találati lista elrejtése (a keresőpanel nyitva marad)',
+    'Skrýt seznam výsledků (panel hledání zůstane otevřený)', 'ヒット一覧を隠す (検索パネルは開いたまま)',
+    '隐藏匹配列表 (保持搜索面板打开)', '隱藏符合清單 (保持搜尋面板開啟)']);
+  Set14('FindOcc.ShowListHint', [
+    'Show the hit list', 'Mostrar a lista de ocorrências',
+    'Mostrar la lista de coincidencias', 'Afficher la liste des résultats',
+    'Trefferliste anzeigen', 'Mostra l''elenco dei risultati',
+    'Pokaż listę wyników', 'Mostrar a lista de ocorrências',
+    'Afișează lista de rezultate', 'Találati lista megjelenítése',
+    'Zobrazit seznam výsledků', 'ヒット一覧を表示',
+    '显示匹配列表', '顯示符合清單']);
   Set14('SearchCmd.Mark', [
     'Bookmark hits in the open file', 'Marcar ocorrências no arquivo aberto',
     'Marcar coincidencias en el archivo abierto', 'Marquer les résultats dans le fichier ouvert',
@@ -54313,7 +55827,355 @@ begin
     '讀取時間：%s。總行數：%d。讀取執行緒：%d。');
 end;
 
+procedure AddSplitByLinesPreviewTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('SplitByLines.Preview.Title',
+    'Extract preview',
+    'Pré-visualização da extração',
+    'Vista previa de la extracción',
+    'Aperçu de l''extraction',
+    'Vorschau des Auszugs',
+    'Anteprima dell''estrazione',
+    'Podgląd wyodrębnienia',
+    'Pré-visualização da extração',
+    'Previzualizarea extragerii',
+    'A kivonat előnézete',
+    'Náhled výběru',
+    '抽出のプレビュー',
+    '提取预览',
+    '擷取預覽');
+  Set14('SplitByLines.Preview.Summary',
+    'Lines %s to %s (%s lines, %d%% of the file) will be saved as %s',
+    'Linhas %s a %s (%s linhas, %d%% do arquivo) serão gravadas em %s',
+    'Las líneas %s a %s (%s líneas, %d%% del archivo) se guardarán en %s',
+    'Les lignes %s à %s (%s lignes, %d%% du fichier) seront enregistrées dans %s',
+    'Zeilen %s bis %s (%s Zeilen, %d%% der Datei) werden in %s gespeichert',
+    'Le righe da %s a %s (%s righe, %d%% del file) saranno salvate in %s',
+    'Wiersze %s do %s (%s wierszy, %d%% pliku) zostaną zapisane w %s',
+    'Linhas %s a %s (%s linhas, %d%% do ficheiro) serão gravadas em %s',
+    'Liniile %s–%s (%s linii, %d%% din fișier) vor fi salvate în %s',
+    'A(z) %s–%s. sor (%s sor, a fájl %d%%-a) ide kerül: %s',
+    'Řádky %s až %s (%s řádků, %d%% souboru) se uloží do %s',
+    '%s 行目から %s 行目（%s 行、ファイルの %d%%）を %s に保存します',
+    '第 %s 行到第 %s 行（共 %s 行，占文件 %d%%）将保存到 %s',
+    '第 %s 行到第 %s 行（共 %s 行，佔檔案 %d%%）將儲存到 %s');
+  Set14('SplitByLines.Preview.NoFile',
+    'Open a file to see which lines this extract will copy.',
+    'Abra um arquivo para ver quais linhas esta extração vai copiar.',
+    'Abra un archivo para ver qué líneas copiará esta extracción.',
+    'Ouvrez un fichier pour voir quelles lignes cette extraction va copier.',
+    'Öffnen Sie eine Datei, um zu sehen, welche Zeilen dieser Auszug kopiert.',
+    'Apri un file per vedere quali righe copierà questa estrazione.',
+    'Otwórz plik, aby zobaczyć, które wiersze skopiuje to wyodrębnienie.',
+    'Abra um ficheiro para ver quais linhas esta extração vai copiar.',
+    'Deschideți un fișier pentru a vedea ce linii va copia această extragere.',
+    'Nyisson meg egy fájlt, hogy lássa, mely sorokat másolja ez a kivonat.',
+    'Otevřete soubor a uvidíte, které řádky tento výběr zkopíruje.',
+    'ファイルを開くと、この抽出がコピーする行がわかります。',
+    '打开文件后，即可看到此次提取将复制哪些行。',
+    '開啟檔案後，即可看到此次擷取將複製哪些行。');
+  Set14('SplitByLines.Preview.BadRange',
+    'The end line is before the start line.',
+    'A linha final está antes da linha inicial.',
+    'La línea final está antes de la línea inicial.',
+    'La ligne de fin précède la ligne de début.',
+    'Die Endzeile liegt vor der Anfangszeile.',
+    'La riga finale precede la riga iniziale.',
+    'Wiersz końcowy jest przed wierszem początkowym.',
+    'A linha final está antes da linha inicial.',
+    'Linia finală este înaintea liniei de început.',
+    'A záró sor a kezdő sor elé esik.',
+    'Koncový řádek je před počátečním řádkem.',
+    '終了行が開始行より前です。',
+    '结束行在起始行之前。',
+    '結束行在起始行之前。');
+  Set14('SplitByLines.Preview.Beyond',
+    'The end line is past the end of the file (%s lines).',
+    'A linha final passa do fim do arquivo (%s linhas).',
+    'La línea final supera el final del archivo (%s líneas).',
+    'La ligne de fin dépasse la fin du fichier (%s lignes).',
+    'Die Endzeile liegt hinter dem Dateiende (%s Zeilen).',
+    'La riga finale supera la fine del file (%s righe).',
+    'Wiersz końcowy wykracza poza koniec pliku (%s wierszy).',
+    'A linha final passa do fim do ficheiro (%s linhas).',
+    'Linia finală depășește sfârșitul fișierului (%s linii).',
+    'A záró sor a fájl végén túl van (%s sor).',
+    'Koncový řádek je za koncem souboru (%s řádků).',
+    '終了行がファイルの末尾（%s 行）を超えています。',
+    '结束行超过了文件末尾（共 %s 行）。',
+    '結束行超過了檔案結尾（共 %s 行）。');
+  Set14('SplitByLines.RangeTitle',
+    'Extract a line range',
+    'Extrair um intervalo de linhas',
+    'Extraer un intervalo de líneas',
+    'Extraire une plage de lignes',
+    'Zeilenbereich ausgeben',
+    'Estrai un intervallo di righe',
+    'Wyodrębnij zakres wierszy',
+    'Extrair um intervalo de linhas',
+    'Extrage un interval de linii',
+    'Sorsáv kimentése',
+    'Vybrat rozsah řádků',
+    '行範囲を抽出',
+    '提取行范围',
+    '擷取行範圍');
+  Set14('SplitByLines.Info.NoFile',
+    'No file open',
+    'Nenhum arquivo aberto',
+    'Ningún archivo abierto',
+    'Aucun fichier ouvert',
+    'Keine Datei geöffnet',
+    'Nessun file aperto',
+    'Nie otwarto pliku',
+    'Nenhum ficheiro aberto',
+    'Niciun fișier deschis',
+    'Nincs megnyitott fájl',
+    'Není otevřen žádný soubor',
+    'ファイルが開かれていません',
+    '未打开文件',
+    '未開啟檔案');
+  Set14('SplitByLines.OfTotal',
+    'of %s lines',
+    'de %s linhas',
+    'de %s líneas',
+    'sur %s lignes',
+    'von %s Zeilen',
+    'di %s righe',
+    'z %s wierszy',
+    'de %s linhas',
+    'din %s linii',
+    '/ %s sor',
+    'z %s řádků',
+    '（全 %s 行）',
+    '（共 %s 行）',
+    '（共 %s 行）');
+  Set14('SplitByLines.Preview.SampleAll',
+    'Lines in this extract',
+    'Linhas desta extração',
+    'Líneas de esta extracción',
+    'Lignes de cette extraction',
+    'Zeilen in diesem Auszug',
+    'Righe di questa estrazione',
+    'Wiersze w tym wyodrębnieniu',
+    'Linhas desta extração',
+    'Liniile din această extragere',
+    'A kivonat sorai',
+    'Řádky v tomto výběru',
+    'この抽出の行',
+    '此次提取的行',
+    '此次擷取的行');
+  Set14('SplitByLines.Preview.SampleSome',
+    'First %d of %s lines',
+    'Primeiras %d de %s linhas',
+    'Primeras %d de %s líneas',
+    '%d premières lignes sur %s',
+    'Erste %d von %s Zeilen',
+    'Prime %d di %s righe',
+    'Pierwsze %d z %s wierszy',
+    'Primeiras %d de %s linhas',
+    'Primele %d din %s linii',
+    'Az első %d / %s sor',
+    'Prvních %d z %s řádků',
+    '先頭 %d 行（全 %s 行）',
+    '前 %d 行（共 %s 行）',
+    '前 %d 行（共 %s 行）');
+  Set14('SplitByLines.Empty.NoFileTitle',
+    'Nothing to extract yet',
+    'Nada para extrair ainda',
+    'Nada que extraer todavía',
+    'Rien à extraire pour l''instant',
+    'Noch nichts zum Ausgeben',
+    'Ancora nulla da estrarre',
+    'Nie ma jeszcze nic do wyodrębnienia',
+    'Nada para extrair ainda',
+    'Nimic de extras încă',
+    'Még nincs mit kimenteni',
+    'Zatím není co vybrat',
+    'まだ抽出するものがありません',
+    '暂无可提取的内容',
+    '尚無可擷取的內容');
+  Set14('SplitByLines.Empty.NotReadTitle',
+    'The file has not been read yet',
+    'O arquivo ainda não foi lido',
+    'El archivo aún no se ha leído',
+    'Le fichier n''a pas encore été lu',
+    'Die Datei wurde noch nicht gelesen',
+    'Il file non è ancora stato letto',
+    'Plik nie został jeszcze wczytany',
+    'O ficheiro ainda não foi lido',
+    'Fișierul nu a fost citit încă',
+    'A fájl még nincs beolvasva',
+    'Soubor ještě nebyl načten',
+    'ファイルはまだ読み込まれていません',
+    '文件尚未读取',
+    '檔案尚未讀取');
+  Set14('SplitByLines.Empty.NotReadHint',
+    'Use Read (Ctrl+1) to load it; the preview and the extract use the lines in memory.',
+    'Use Ler (Ctrl+1) para carregá-lo; a prévia e a extração usam as linhas em memória.',
+    'Use Leer (Ctrl+1) para cargarlo; la vista previa y la extracción usan las líneas en memoria.',
+    'Utilisez Lire (Ctrl+1) pour le charger ; l''aperçu et l''extraction utilisent les lignes en mémoire.',
+    'Mit Lesen (Strg+1) laden; Vorschau und Auszug nutzen die Zeilen im Speicher.',
+    'Usa Leggi (Ctrl+1) per caricarlo; l''anteprima e l''estrazione usano le righe in memoria.',
+    'Użyj Czytaj (Ctrl+1), aby go wczytać; podgląd i wyodrębnienie korzystają z wierszy w pamięci.',
+    'Use Ler (Ctrl+1) para o carregar; a pré-visualização e a extração usam as linhas em memória.',
+    'Folosiți Citire (Ctrl+1) pentru a-l încărca; previzualizarea și extragerea folosesc liniile din memorie.',
+    'Töltse be az Olvasás (Ctrl+1) paranccsal; az előnézet és a kivonat a memóriában lévő sorokat használja.',
+    'Načtěte jej pomocí Číst (Ctrl+1); náhled i výběr pracují s řádky v paměti.',
+    '読み込み（Ctrl+1）で読み込んでください。プレビューと抽出はメモリ上の行を使います。',
+    '使用“读取”(Ctrl+1) 加载文件；预览和提取使用内存中的行。',
+    '使用「讀取」(Ctrl+1) 載入檔案；預覽和擷取使用記憶體中的行。');
+  Set14('SplitByLines.FooterHint',
+    'The source file stays unchanged.',
+    'O arquivo de origem permanece como está.',
+    'El archivo de origen no se modifica.',
+    'Le fichier source reste inchangé.',
+    'Die Quelldatei bleibt unverändert.',
+    'Il file di origine resta invariato.',
+    'Plik źródłowy pozostaje bez zmian.',
+    'O ficheiro de origem permanece inalterado.',
+    'Fișierul sursă rămâne neschimbat.',
+    'A forrásfájl változatlan marad.',
+    'Zdrojový soubor zůstane beze změny.',
+    '元のファイルは変更されません。',
+    '源文件不会被修改。',
+    '來源檔案不會被修改。');
+end;
+
+{ Names of the two right-to-left UI languages in the 14 base languages. Arabic and
+  Hebrew themselves come from uI18nRtl (generated). }
+procedure AddRtlLanguageOptionTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GEnglish, K, EN);
+    PutNV(GPortuguese, K, PT);
+    PutNV(GSpanish, K, ES);
+    PutNV(GFrench, K, FR);
+    PutNV(GGerman, K, DE);
+    PutNV(GItalian, K, IT);
+    PutNV(GPolish, K, PL);
+    PutNV(GPortuguesePT, K, PTPT);
+    PutNV(GRomanian, K, RO);
+    PutNV(GHungarian, K, HU);
+    PutNV(GCzech, K, CZ);
+    PutNV(GJapanese, K, JA);
+    PutNV(GChineseSimplified, K, ZHCN);
+    PutNV(GChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('language.option.arabic',
+    'Arabic', 'Árabe', 'Árabe', 'Arabe', 'Arabisch', 'Arabo', 'Arabski', 'Árabe',
+    'Arabă', 'Arab', 'Arabština', 'アラビア語', '阿拉伯语', '阿拉伯語');
+  Set14('language.option.hebrew',
+    'Hebrew', 'Hebraico', 'Hebreo', 'Hébreu', 'Hebräisch', 'Ebraico', 'Hebrajski',
+    'Hebraico', 'Ebraică', 'Héber', 'Hebrejština', 'ヘブライ語', '希伯来语', '希伯來語');
+end;
+
+procedure PutArabic(const IsText: Boolean; const K, V: string);
+begin
+  if IsText then
+    PutNV(GTextArabic, K, V)
+  else
+    PutNV(GArabic, K, V);
+end;
+
+procedure PutHebrew(const IsText: Boolean; const K, V: string);
+begin
+  if IsText then
+    PutNV(GTextHebrew, K, V)
+  else
+    PutNV(GHebrew, K, V);
+end;
+
+procedure PutExtra(const IsText: Boolean; const K, V: string);
+begin
+  if IsText then
+    PutNV(GExtraTextTables[GPopulatingExtraLanguage], K, V)
+  else
+    PutNV(GExtraTables[GPopulatingExtraLanguage], K, V);
+end;
+
+procedure AddExtraLanguageOptionTranslations;
+  procedure Set16(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW, AR, HE: string);
+  begin
+    PutNV(GEnglish, K, EN);
+    PutNV(GPortuguese, K, PT);
+    PutNV(GSpanish, K, ES);
+    PutNV(GFrench, K, FR);
+    PutNV(GGerman, K, DE);
+    PutNV(GItalian, K, IT);
+    PutNV(GPolish, K, PL);
+    PutNV(GPortuguesePT, K, PTPT);
+    PutNV(GRomanian, K, RO);
+    PutNV(GHungarian, K, HU);
+    PutNV(GCzech, K, CZ);
+    PutNV(GJapanese, K, JA);
+    PutNV(GChineseSimplified, K, ZHCN);
+    PutNV(GChineseTraditional, K, ZHTW);
+    PutNV(GArabic, K, AR);
+    PutNV(GHebrew, K, HE);
+  end;
+begin
+  Set16('language.option.hindi',
+    'Hindi', 'Hindi', 'Hindi', 'Hindi', 'Hindi', 'Hindi', 'Hindi',
+    'Hindi', 'Hindi', 'Hindi', 'Hindština', 'ヒンディー語', '印地语', '印地語', 'الهندية', 'הינדי');
+  Set16('language.option.russian',
+    'Russian', 'Russo', 'Ruso', 'Russe', 'Russisch', 'Russo', 'Rosyjski',
+    'Russo', 'Rusă', 'Orosz', 'Ruština', 'ロシア語', '俄语', '俄語', 'الروسية', 'רוסית');
+  Set16('language.option.korean',
+    'Korean', 'Coreano', 'Coreano', 'Coréen', 'Koreanisch', 'Coreano', 'Koreański',
+    'Coreano', 'Coreeană', 'Koreai', 'Korejština', '韓国語', '韩语', '韓語', 'الكورية', 'קוריאנית');
+  Set16('language.option.dutch',
+    'Dutch', 'Holandês', 'Neerlandés', 'Néerlandais', 'Niederländisch', 'Olandese', 'Niderlandzki',
+    'Neerlandês', 'Neerlandeză', 'Holland', 'Nizozemština', 'オランダ語', '荷兰语', '荷蘭語', 'الهولندية', 'הולנדית');
+  Set16('language.option.turkish',
+    'Turkish', 'Turco', 'Turco', 'Turc', 'Türkisch', 'Turco', 'Turecki',
+    'Turco', 'Turcă', 'Török', 'Turečtina', 'トルコ語', '土耳其语', '土耳其語', 'التركية', 'טורקית');
+  Set16('language.option.ukrainian',
+    'Ukrainian', 'Ucraniano', 'Ucraniano', 'Ukrainien', 'Ukrainisch', 'Ucraino', 'Ukraiński',
+    'Ucraniano', 'Ucraineană', 'Ukrán', 'Ukrajinština', 'ウクライナ語', '乌克兰语', '烏克蘭語', 'الأوكرانية', 'אוקראינית');
+  Set16('language.option.thai',
+    'Thai', 'Tailandês', 'Tailandés', 'Thaï', 'Thailändisch', 'Tailandese', 'Tajski',
+    'Tailandês', 'Thailandeză', 'Thai', 'Thajština', 'タイ語', '泰语', '泰語', 'التايلاندية', 'תאית');
+  Set16('language.option.greek',
+    'Greek', 'Grego', 'Griego', 'Grec', 'Griechisch', 'Greco', 'Grecki',
+    'Grego', 'Greacă', 'Görög', 'Řečtina', 'ギリシャ語', '希腊语', '希臘語', 'اليونانية', 'יוונית');
+  Set16('language.option.norwegian',
+    'Norwegian', 'Norueguês', 'Noruego', 'Norvégien', 'Norwegisch', 'Norvegese', 'Norweski',
+    'Norueguês', 'Norvegiană', 'Norvég', 'Norština', 'ノルウェー語', '挪威语', '挪威語', 'النرويجية', 'נורווגית');
+  Set16('language.option.swedish',
+    'Swedish', 'Sueco', 'Sueco', 'Suédois', 'Schwedisch', 'Svedese', 'Szwedzki',
+    'Sueco', 'Suedeză', 'Svéd', 'Švédština', 'スウェーデン語', '瑞典语', '瑞典語', 'السويدية', 'שוודית');
+  Set16('language.option.danish',
+    'Danish', 'Dinamarquês', 'Danés', 'Danois', 'Dänisch', 'Danese', 'Duński',
+    'Dinamarquês', 'Daneză', 'Dán', 'Dánština', 'デンマーク語', '丹麦语', '丹麥語', 'الدنماركية', 'דנית');
+  Set16('language.option.icelandic',
+    'Icelandic', 'Islandês', 'Islandés', 'Islandais', 'Isländisch', 'Islandese', 'Islandzki',
+    'Islandês', 'Islandeză', 'Izlandi', 'Islandština', 'アイスランド語', '冰岛语', '冰島語', 'الآيسلندية', 'איסלנדית');
+end;
+
 procedure FillTranslationDataBody;
+var
+  L: TExtraLanguage;
 begin
   AddSearchCommandTranslations;
   AddCommonTranslationsBaseLanguageOptions;
@@ -54347,7 +56209,7 @@ begin
   AddCommonTranslationsEmEditorFeatures;
   AddCommonTranslationsAssistant;
   AddCommonTranslationsFilterBarRecent;
-  AddCommonTranslationsLangSwitchChrome;
+  AddCommonTranslationsLangSwitchFrame;
   AddCommonTranslationsHelpAssistantBlock;
   AddCommonTranslationsHelpEmEditorBlock;
   AddCommonTranslationsHelpReadPanelBlock;
@@ -54355,6 +56217,7 @@ begin
   AddCommonTranslationsHelpWin64IndexBlock;
   AddCommonTranslationsHelpRecentFeaturesBlock;
   AddCommonTranslationsRecentFilesTab;
+  AddCommonTranslationsWorkflowWizard;
   AddCommonTranslationsAnonymize;
   AddCommonTranslationsHistLineDetail;
 
@@ -55125,10 +56988,494 @@ begin
   AddAgentHubTranslations;
   AddFolderPickTranslations;
   AddCommonTranslationsHelpRecentFeaturesBlock3;
+  AddCommonTranslationsHelpRecentFeaturesBlock4;
+  AddCommonTranslationsHelpRecentFeaturesBlock5;
+  AddCommonTranslationsHelpRecentFeaturesBlock6;
+  AddCommonTranslationsHelpRecentFeaturesBlock7;
+  AddCommonTranslationsHelpRecentFeaturesBlock8;
   AddFileNameEmptyMruTranslations;
   AddDelimSessionTranslations;
   AddReadThreadCountTranslations;
+  AddSplitByLinesPreviewTranslations;
+  AddActionLimitTranslations;
+  AddRtlLanguageOptionTranslations;
   AddTranslationGapFill;
+  { Arabic / Hebrew: generated by tools\gen_rtl_i18n.py into uI18nRtl.pas.
+    Missing keys fall back to English (Tr / TrText). }
+  if PutNVAllowed(GArabic) then
+    AddArabicTranslations(PutArabic);
+  if PutNVAllowed(GHebrew) then
+    AddHebrewTranslations(PutHebrew);
+  AddExtraLanguageOptionTranslations;
+  for L := Low(TExtraLanguage) to High(TExtraLanguage) do
+    if PutNVAllowed(GExtraTables[L]) then
+    begin
+      GPopulatingExtraLanguage := L;
+      AddExtraTranslations(AppLanguageCode(L), PutExtra);
+    end;
+  PutNV(GTextEnglish,
+    '  Ctrl+Shift+H ....... Compare / merge + session history (two-file diff, journal)',
+    '  Ctrl+Shift+H ....... Compare / merge + session history (two-file diff, session log)');
+  PutNV(GTextEnglish,
+    '  Session history Reload: a worker thread reads the journal tail, filters lines, loads the preview file and optional color scan; the progress bar covers that work first, then filling the memo and list on the UI thread.',
+    '  Session history Reload: a worker thread reads the session-log tail, filters lines, loads the preview file and optional color scan; the progress bar covers that work first, then filling the memo and list on the UI thread.');
+  PutNV(GTextEnglish, 'Hist.DeleteEventsConfirm: %d',
+    'Delete %d event(s) from the session log? The file stays as it is; only these log entries are removed.');
+  PutNV(GTextEnglish, 'Hist.DeleteFailed: %s',
+    'Could not update the session log: %s');
+  PutNV(GTextEnglish, 'Hist.DeleteSelConfirm: %d',
+    'Delete the session log entries for %d changed line(s)? The file stays as it is; only the session log is removed.');
+  PutNV(GTextEnglish, 'Hist.JournalHintFiltered: %d',
+    'Session log: select a preview line to see its events (or enable Show all). Up to %d recent entries. Lines starting with # are hidden.');
+  PutNV(GTextEnglish, 'Hist.LoadingLineEvents: %d',
+    'Loading all %d events for this line from the session log...');
+  PutNV(GTextEnglish, 'Hist.NoEventsForLine: %d',
+    'No session log events for line %d.');
+  PutNV(GTextEnglish, 'Hist.SelectLineHint',
+    'Select a line in the preview below to see its session log details.');
+  PutNV(GTextEnglish, 'Hist.ShowAllJournal', 'Show all session log entries');
+  PutNV(GTextEnglish, 'Hist.ShowAllJournalHint',
+    'When checked, show every session log entry at once (previous behavior). When unchecked, show only entries for the line selected in the preview.');
+  PutNV(GTextEnglish, 'Hist.Tool.DeleteHint',
+    'Delete the checked entries from the session log. The file itself is not changed.');
+  PutNV(GTextEnglish,
+    'History file preview (colors from journal; line numbers are as at edit time).',
+    'History file preview (colors from the session log; line numbers are as at edit time).');
+  PutNV(GTextEnglish, 'Journal colors:', 'Session log colors:');
+  PutNV(GTextEnglish,
+    'Journal entries: click to jump to the line in the preview below. Lines starting with # are hidden. Up to %d recent log lines are loaded.',
+    'Session log entries: click to jump to the line in the preview below. Lines starting with # are hidden. Up to %d recent log lines are loaded.');
+  PutNV(GTextEnglish, 'Journal too large; line colors omitted on preview.',
+    'Session log too large; line colors omitted on preview.');
+end;
+
+procedure AddActionLimitTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('Prefs.Section.SelLines',
+    'Line limits', 'Limites de linhas', 'Límites de líneas', 'Limites de lignes',
+    'Zeilenlimits', 'Limiti di righe', 'Limity wierszy', 'Limites de linhas',
+    'Limite de linii', 'Sorkorlátok', 'Limity řádků', '行の上限', '行数上限', '列數上限');
+  Set14('Prefs.SelectedLinesActionMax',
+    'Maximum lines to copy, export, edit or ask AI',
+    'Máximo de linhas para copiar, exportar, editar ou perguntar à IA',
+    'Máximo de líneas para copiar, exportar, editar o preguntar a la IA',
+    'Nombre maximal de lignes à copier, exporter, modifier ou demander à l''IA',
+    'Maximale Zeilen zum Kopieren, Exportieren, Bearbeiten oder Fragen an die KI',
+    'Numero massimo di righe da copiare, esportare, modificare o chiedere all''IA',
+    'Maksymalna liczba wierszy do kopiowania, eksportu, edycji lub pytania AI',
+    'Máximo de linhas para copiar, exportar, editar ou perguntar à IA',
+    'Număr maxim de linii de copiat, exportat, editat sau întrebat IA',
+    'Másolás, export, szerkesztés vagy AI-kérés maximális sorszáma',
+    'Maximální počet řádků ke kopírování, exportu, úpravě nebo dotazu na AI',
+    'コピー、書き出し、編集、AI への依頼の最大行数',
+    '复制、导出、编辑或询问 AI 的最大行数',
+    '複製、匯出、編輯或詢問 AI 的最大列數');
+  Set14('Prefs.AnonymizeMaxLines',
+    'Maximum lines to anonymize', 'Máximo de linhas para descaracterizar',
+    'Máximo de líneas para anonimizar', 'Nombre maximal de lignes à anonymiser',
+    'Maximale Zeilen zum Anonymisieren', 'Numero massimo di righe da anonimizzare',
+    'Maksymalna liczba wierszy do anonimizacji', 'Máximo de linhas para anonimizar',
+    'Număr maxim de linii de anonimizat', 'Anonimizálható sorok maximális száma',
+    'Maximální počet řádků k anonymizaci', '匿名化できる最大行数',
+    '脱敏的最大行数', '去識別化的最大列數');
+  Set14('Prefs.MergeMaxLines',
+    'Maximum lines to merge', 'Máximo de linhas para mesclar',
+    'Máximo de líneas para combinar', 'Nombre maximal de lignes à fusionner',
+    'Maximale Zeilen zum Zusammenführen', 'Numero massimo di righe da unire',
+    'Maksymalna liczba wierszy do scalenia', 'Máximo de linhas para mesclar',
+    'Număr maxim de linii de îmbinat', 'Összefűzhető sorok maximális száma',
+    'Maximální počet řádků ke sloučení', '結合できる最大行数',
+    '合并的最大行数', '合併的最大列數');
+  Set14('Prefs.TranslateMaxLines',
+    'Maximum lines to translate', 'Máximo de linhas para traduzir',
+    'Máximo de líneas para traducir', 'Nombre maximal de lignes à traduire',
+    'Maximale Zeilen zum Übersetzen', 'Numero massimo di righe da tradurre',
+    'Maksymalna liczba wierszy do tłumaczenia', 'Máximo de linhas para traduzir',
+    'Număr maxim de linii de tradus', 'Fordítható sorok maximális száma',
+    'Maximální počet řádků k překladu', '翻訳できる最大行数',
+    '翻译的最大行数', '翻譯的最大列數');
+  Set14('Anon.Scope.Selection',
+    'Selected lines (%d of %d)', 'Linhas selecionadas (%d de %d)',
+    'Líneas seleccionadas (%d de %d)', 'Lignes sélectionnées (%d sur %d)',
+    'Ausgewählte Zeilen (%d von %d)', 'Righe selezionate (%d di %d)',
+    'Zaznaczone wiersze (%d z %d)', 'Linhas selecionadas (%d de %d)',
+    'Linii selectate (%d din %d)', 'Kijelölt sorok (%d / %d)',
+    'Vybrané řádky (%d z %d)', '選択した行 (%d / %d)',
+    '所选行（%d / %d）', '所選列（%d / %d）');
+  Set14('Anon.Scope.LimitNote',
+    'A selection or a line range can use up to %d lines. The whole file is not limited. Change it in Options.',
+    'Uma seleção ou um intervalo pode ter até %d linhas. O arquivo inteiro não tem esse limite. Altere em Opções.',
+    'Una selección o un rango puede tener hasta %d líneas. El archivo completo no tiene ese límite. Cámbielo en Opciones.',
+    'Une sélection ou une plage peut compter jusqu''à %d lignes. Le fichier entier n''a pas cette limite. Modifiez-la dans Options.',
+    'Eine Auswahl oder ein Bereich darf bis zu %d Zeilen umfassen. Die ganze Datei ist nicht begrenzt. Ändern Sie das in den Optionen.',
+    'Una selezione o un intervallo può avere fino a %d righe. L''intero file non ha questo limite. Modificalo in Opzioni.',
+    'Zaznaczenie lub zakres może mieć do %d wierszy. Cały plik nie ma tego limitu. Zmień to w Opcjach.',
+    'Uma seleção ou um intervalo pode ter até %d linhas. O ficheiro inteiro não tem esse limite. Altere em Opções.',
+    'O selecție sau un interval poate avea până la %d linii. Fișierul întreg nu are această limită. Schimbați în Opțiuni.',
+    'A kijelölés vagy a tartomány legfeljebb %d sor lehet. A teljes fájlra nincs korlát. A Beállításokban módosítható.',
+    'Výběr nebo rozsah může mít nejvýše %d řádků. Celý soubor toto omezení nemá. Změňte to v Možnostech.',
+    '選択または行範囲は最大 %d 行です。ファイル全体にはこの上限はありません。オプションで変更できます。',
+    '所选行或行范围最多 %d 行。整个文件不受此限制。可在选项中修改。',
+    '所選列或列範圍最多 %d 列。整個檔案不受此限制。可在選項中修改。');
+  Set14('Limit.ActionLines',
+    'Up to %d lines', 'Até %d linhas', 'Hasta %d líneas', 'Jusqu''à %d lignes',
+    'Bis zu %d Zeilen', 'Fino a %d righe', 'Do %d wierszy', 'Até %d linhas',
+    'Până la %d linii', 'Legfeljebb %d sor', 'Až %d řádků', '最大 %d 行',
+    '最多 %d 行', '最多 %d 列');
+  Set14('Limit.ActionLinesHint',
+    'Copy, clear, export, edit and Ask AI share this limit. Anonymize, merge and translate have their own limits in Options.',
+    'Copiar, limpar, exportar, editar e Perguntar à IA usam este limite. Descaracterizar, mesclar e traduzir têm limites próprios em Opções.',
+    'Copiar, borrar, exportar, editar y Preguntar a la IA usan este límite. Anonimizar, combinar y traducir tienen límites propios en Opciones.',
+    'Copier, effacer, exporter, modifier et Demander à l''IA partagent cette limite. Anonymiser, fusionner et traduire ont leurs limites dans Options.',
+    'Kopieren, Leeren, Exportieren, Bearbeiten und KI fragen teilen sich dieses Limit. Anonymisieren, Zusammenführen und Übersetzen haben eigene Limits in den Optionen.',
+    'Copia, cancella, esporta, modifica e Chiedi all''IA usano questo limite. Anonimizza, unisci e traduci hanno limiti propri in Opzioni.',
+    'Kopiuj, wyczyść, eksportuj, edytuj i Zapytaj AI używają tego limitu. Anonimizacja, scalanie i tłumaczenie mają własne limity w Opcjach.',
+    'Copiar, limpar, exportar, editar e Perguntar à IA usam este limite. Anonimizar, mesclar e traduzir têm limites próprios em Opções.',
+    'Copiere, ștergere, export, editare și Întreabă IA folosesc această limită. Anonimizarea, îmbinarea și traducerea au limite proprii în Opțiuni.',
+    'A másolás, törlés, export, szerkesztés és az AI-kérés ezt a korlátot használja. Az anonimizálás, az összefűzés és a fordítás saját korlátot kap a Beállításokban.',
+    'Kopírování, vymazání, export, úpravy a Dotaz na AI sdílejí tento limit. Anonymizace, sloučení a překlad mají vlastní limity v Možnostech.',
+    'コピー、クリア、書き出し、編集、AI への依頼はこの上限を共有します。匿名化、結合、翻訳の上限はオプションにあります。',
+    '复制、清除、导出、编辑和询问 AI 共用此上限。脱敏、合并和翻译的上限在选项中单独设置。',
+    '複製、清除、匯出、編輯和詢問 AI 共用此上限。去識別化、合併和翻譯的上限在選項中單獨設定。');
+  Set14('ListView.MergeLinesHint',
+    'Open Merge lines with the selected lines filled in (up to %d).',
+    'Abrir Mesclar linhas com as linhas selecionadas preenchidas (até %d).',
+    'Abrir Combinar líneas con las líneas seleccionadas ya rellenadas (hasta %d).',
+    'Ouvrir Fusionner les lignes avec les lignes sélectionnées déjà remplies (jusqu''à %d).',
+    'Zeilen zusammenführen öffnen, mit den ausgewählten Zeilen gefüllt (bis zu %d).',
+    'Apri Unisci righe con le righe selezionate già compilate (fino a %d).',
+    'Otwórz Scal wiersze z wypełnionymi zaznaczonymi wierszami (do %d).',
+    'Abrir Mesclar linhas com as linhas selecionadas preenchidas (até %d).',
+    'Deschide Îmbină linii cu liniile selectate completate (până la %d).',
+    'Sorok összefűzése megnyitása a kijelölt sorokkal (legfeljebb %d).',
+    'Otevřít Sloučit řádky s vyplněnými vybranými řádky (až %d).',
+    '選択した行を入れた状態で行の結合を開きます（最大 %d 行）。',
+    '打开合并行，并填入所选行（最多 %d 行）。',
+    '開啟合併列，並填入所選列（最多 %d 列）。');
+  Set14('ListView.TranslateHint',
+    'Translate the selected lines (up to %d). Click to choose a language.',
+    'Traduzir as linhas selecionadas (até %d). Clique para escolher o idioma.',
+    'Traducir las líneas seleccionadas (hasta %d). Clic para elegir el idioma.',
+    'Traduire les lignes sélectionnées (jusqu''à %d). Cliquez pour choisir la langue.',
+    'Die ausgewählten Zeilen übersetzen (bis zu %d). Klicken, um die Sprache zu wählen.',
+    'Traduci le righe selezionate (fino a %d). Clic per scegliere la lingua.',
+    'Przetłumacz zaznaczone wiersze (do %d). Kliknij, aby wybrać język.',
+    'Traduzir as linhas selecionadas (até %d). Clique para escolher o idioma.',
+    'Traduceți liniile selectate (până la %d). Clic pentru a alege limba.',
+    'A kijelölt sorok fordítása (legfeljebb %d). Kattintson a nyelvhez.',
+    'Přeložit vybrané řádky (až %d). Klikněte pro volbu jazyka.',
+    '選択した行を翻訳します（最大 %d 行）。クリックして言語を選びます。',
+    '翻译所选行（最多 %d 行）。点击选择语言。',
+    '翻譯所選列（最多 %d 列）。點擊以選擇語言。');
+  Set14('DeltaEditor.Hint',
+    'Up to %d lines. Edit the lines to replace in the file, then click Merge. Select a row to edit it.',
+    'Até %d linhas. Edite as linhas a substituir no arquivo e clique em Mesclar. Selecione uma linha para editar.',
+    'Hasta %d líneas. Edite las líneas a reemplazar en el archivo y pulse Combinar. Seleccione una fila para editarla.',
+    'Jusqu''à %d lignes. Modifiez les lignes à remplacer dans le fichier, puis cliquez sur Fusionner. Sélectionnez une ligne pour l''éditer.',
+    'Bis zu %d Zeilen. Zeilen zum Ersetzen bearbeiten, dann Zusammenführen. Zeile zum Bearbeiten auswählen.',
+    'Fino a %d righe. Modifica le righe da sostituire nel file, poi Unisci. Seleziona una riga per modificarla.',
+    'Do %d wierszy. Edytuj wiersze do zastąpienia w pliku, potem Scal. Wybierz wiersz, aby go edytować.',
+    'Até %d linhas. Edite as linhas a substituir no ficheiro e clique em Mesclar. Selecione uma linha para editar.',
+    'Până la %d linii. Editați liniile de înlocuit în fișier, apoi Îmbină. Selectați un rând pentru editare.',
+    'Legfeljebb %d sor. Szerkessze a cserélendő sorokat, majd kattintson az Összefűzésre. Szerkesztéshez válasszon sort.',
+    'Až %d řádků. Upravte řádky k nahrazení v souboru a klepněte na Sloučit. Řádek vyberte pro úpravy.',
+    '最大 %d 行。ファイル内で置き換える行を編集し、「結合」をクリック。行を選択して編集します。',
+    '最多 %d 行。编辑要在文件中替换的行，然后点击合并。选择一行进行编辑。',
+    '最多 %d 列。編輯要在檔案中取代的列，然後按合併。選取一列進行編輯。');
+  Set14('Prefs.Section.MoreLimits',
+    'Other limits', 'Outros limites', 'Otros límites', 'Autres limites',
+    'Weitere Limits', 'Altri limiti', 'Inne limity', 'Outros limites',
+    'Alte limite', 'További korlátok', 'Další limity', 'その他の上限',
+    '其他上限', '其他上限');
+  Set14('Prefs.ExportClipboardMaxLines',
+    'Maximum lines copied to the clipboard',
+    'Máximo de linhas copiadas para a área de transferência',
+    'Máximo de líneas copiadas al portapapeles',
+    'Nombre maximal de lignes copiées dans le presse-papiers',
+    'Maximale Zeilen für die Zwischenablage',
+    'Numero massimo di righe copiate negli appunti',
+    'Maksymalna liczba wierszy kopiowanych do schowka',
+    'Máximo de linhas copiadas para a área de transferência',
+    'Numărul maxim de linii copiate în clipboard',
+    'A vágólapra másolt sorok maximuma',
+    'Maximální počet řádků kopírovaných do schránky',
+    'クリップボードにコピーできる最大行数',
+    '复制到剪贴板的最大行数',
+    '複製到剪貼簿的最大列數');
+  Set14('Prefs.ExportFileMaxLines',
+    'Maximum lines exported to a file',
+    'Máximo de linhas exportadas para um arquivo',
+    'Máximo de líneas exportadas a un archivo',
+    'Nombre maximal de lignes exportées vers un fichier',
+    'Maximale Zeilen für den Dateiexport',
+    'Numero massimo di righe esportate in un file',
+    'Maksymalna liczba wierszy eksportowanych do pliku',
+    'Máximo de linhas exportadas para um ficheiro',
+    'Numărul maxim de linii exportate într-un fișier',
+    'Fájlba exportált sorok maximuma',
+    'Maximální počet řádků exportovaných do souboru',
+    'ファイルへ書き出せる最大行数',
+    '导出到文件的最大行数',
+    '匯出到檔案的最大列數');
+  Set14('Prefs.InsertMaxLines',
+    'Maximum lines inserted at once',
+    'Máximo de linhas inseridas de uma vez',
+    'Máximo de líneas insertadas a la vez',
+    'Nombre maximal de lignes insérées en une fois',
+    'Maximale Zeilen, die auf einmal eingefügt werden',
+    'Numero massimo di righe inserite in una volta',
+    'Maksymalna liczba wierszy wstawianych naraz',
+    'Máximo de linhas inseridas de uma vez',
+    'Numărul maxim de linii inserate odată',
+    'Egyszerre beszúrható sorok maximuma',
+    'Maximální počet řádků vložených najednou',
+    '一度に挿入できる最大行数',
+    '一次插入的最大行数',
+    '一次插入的最大列數');
+  Set14('Prefs.SplitFilesMax',
+    'Maximum files on the Split by files slider',
+    'Máximo de arquivos no controle Dividir por arquivos',
+    'Máximo de archivos en el control Dividir por archivos',
+    'Nombre maximal de fichiers sur le curseur Diviser par fichiers',
+    'Maximale Dateien am Regler Nach Dateien teilen',
+    'Numero massimo di file sul cursore Dividi per file',
+    'Maksymalna liczba plików na suwaku Podział na pliki',
+    'Máximo de ficheiros no controlo Dividir por ficheiros',
+    'Numărul maxim de fișiere pe glisorul Împarte pe fișiere',
+    'A Fájlonkénti darabolás csúszkájának maximuma',
+    'Maximální počet souborů na posuvníku Rozdělit na soubory',
+    'ファイル分割スライダーの最大ファイル数',
+    '按文件拆分滑块的最大文件数',
+    '依檔案分割滑桿的最大檔案數');
+  Set14('Prefs.SplitPartsMax',
+    'Maximum parts when splitting equally or by fraction',
+    'Máximo de partes ao dividir em partes iguais ou por fração',
+    'Máximo de partes al dividir en partes iguales o por fracción',
+    'Nombre maximal de parties en parts égales ou par fraction',
+    'Maximale Teile bei gleicher Teilung oder nach Bruchteil',
+    'Numero massimo di parti in parti uguali o per frazione',
+    'Maksymalna liczba części przy podziale równym lub ułamkowym',
+    'Máximo de partes ao dividir em partes iguais ou por fração',
+    'Numărul maxim de părți la împărțire egală sau pe fracțiuni',
+    'Egyforma vagy tört szerinti darabolás maximuma',
+    'Maximální počet částí při rovném nebo zlomkovém rozdělení',
+    '等分または分数で分割するときの最大部分数',
+    '等分或按比例拆分时的最大部分数',
+    '等分或依比例分割時的最大部分數');
+  Set14('Insert.CountWithMax',
+    'Number of new lines (up to %d):',
+    'Número de linhas novas (até %d):',
+    'Número de líneas nuevas (hasta %d):',
+    'Nombre de nouvelles lignes (jusqu''à %d) :',
+    'Anzahl neuer Zeilen (bis zu %d):',
+    'Numero di nuove righe (fino a %d):',
+    'Liczba nowych wierszy (do %d):',
+    'Número de linhas novas (até %d):',
+    'Număr de linii noi (până la %d):',
+    'Új sorok száma (legfeljebb %d):',
+    'Počet nových řádků (až %d):',
+    '新しい行数（最大 %d）:',
+    '新行数量（最多 %d）：',
+    '新列數量（最多 %d）：');
+  Set14('SplitByFiles.MaxCaption',
+    'Generating splitted files - max %d',
+    'Gerando arquivos divididos - máx. %d',
+    'Generando archivos divididos - máx. %d',
+    'Génération des fichiers divisés - max %d',
+    'Geteilte Dateien erzeugen - max. %d',
+    'Generazione dei file divisi - max %d',
+    'Tworzenie podzielonych plików - maks. %d',
+    'A gerar ficheiros divididos - máx. %d',
+    'Generare fișiere împărțite - max. %d',
+    'Darabolt fájlok létrehozása - max. %d',
+    'Vytváření rozdělených souborů - max. %d',
+    '分割ファイルを作成 - 最大 %d',
+    '正在生成拆分文件 - 最多 %d',
+    '正在產生分割檔案 - 最多 %d');
+  Set14('Split.PartsRange',
+    'Number of parts (%d..%d):',
+    'Número de partes (%d..%d):',
+    'Número de partes (%d..%d):',
+    'Nombre de parties (%d..%d) :',
+    'Anzahl der Teile (%d..%d):',
+    'Numero di parti (%d..%d):',
+    'Liczba części (%d..%d):',
+    'Número de partes (%d..%d):',
+    'Număr de părți (%d..%d):',
+    'Részek száma (%d..%d):',
+    'Počet částí (%d..%d):',
+    '部分の数 (%d..%d):',
+    '部分数量（%d..%d）：',
+    '部分數量（%d..%d）：');
+  Set14('Split.PartsBetween',
+    'Number of parts must be between %d and %d.',
+    'O número de partes deve estar entre %d e %d.',
+    'El número de partes debe estar entre %d y %d.',
+    'Le nombre de parties doit être compris entre %d et %d.',
+    'Die Anzahl der Teile muss zwischen %d und %d liegen.',
+    'Il numero di parti deve essere compreso tra %d e %d.',
+    'Liczba części musi być między %d a %d.',
+    'O número de partes deve estar entre %d e %d.',
+    'Numărul de părți trebuie să fie între %d și %d.',
+    'A részek számának %d és %d között kell lennie.',
+    'Počet částí musí být mezi %d a %d.',
+    '部分の数は %d から %d の間にしてください。',
+    '部分数量必须介于 %d 和 %d 之间。',
+    '部分數量必須介於 %d 與 %d 之間。');
+  Set14('Split.FractionTotalRange',
+    'Total equal parts (denominator, %d..%d):',
+    'Total de partes iguais (denominador, %d..%d):',
+    'Total de partes iguales (denominador, %d..%d):',
+    'Total de parties égales (dénominateur, %d..%d) :',
+    'Gleiche Teile gesamt (Nenner, %d..%d):',
+    'Totale parti uguali (denominatore, %d..%d):',
+    'Łącznie równych części (mianownik, %d..%d):',
+    'Total de partes iguais (denominador, %d..%d):',
+    'Total părți egale (numitor, %d..%d):',
+    'Egyforma részek összesen (nevező, %d..%d):',
+    'Celkem stejných částí (jmenovatel, %d..%d):',
+    '等分の合計（分母、%d..%d）:',
+    '等分总数（分母，%d..%d）：',
+    '等分總數（分母，%d..%d）：');
+  Set14('Split.EqualPartsCount',
+    'Equal parts count (%d..%d, only in equal-parts mode):',
+    'Quantidade de partes iguais (%d..%d, só no modo de partes iguais):',
+    'Cantidad de partes iguales (%d..%d, solo en modo de partes iguales):',
+    'Nombre de parties égales (%d..%d, mode parties égales seulement) :',
+    'Anzahl gleicher Teile (%d..%d, nur im Modus gleiche Teile):',
+    'Numero di parti uguali (%d..%d, solo in modalità parti uguali):',
+    'Liczba równych części (%d..%d, tylko w trybie równych części):',
+    'Quantidade de partes iguais (%d..%d, só no modo de partes iguais):',
+    'Număr de părți egale (%d..%d, doar în modul părți egale):',
+    'Egyforma részek száma (%d..%d, csak egyforma módban):',
+    'Počet stejných částí (%d..%d, jen v režimu stejných částí):',
+    '等分の数（%d..%d、等分モードのみ）:',
+    '等分数量（%d..%d，仅等分模式）：',
+    '等分數量（%d..%d，僅等分模式）：');
+  Set14('Limit.DefaultValue',
+    'default %d', 'padrão %d', 'predeterminado %d', 'défaut %d',
+    'Standard %d', 'predefinito %d', 'domyślnie %d', 'predefinição %d',
+    'implicit %d', 'alapértelmezett %d', 'výchozí %d', 'デフォルト %d',
+    '默认 %d', '預設 %d');
+  Set14('Limit.DefaultPair',
+    'Default: %s (file) / %s (clipboard).',
+    'Padrão: %s (arquivo) / %s (área de transferência).',
+    'Predeterminado: %s (archivo) / %s (portapapeles).',
+    'Défaut : %s (fichier) / %s (presse-papiers).',
+    'Standard: %s (Datei) / %s (Zwischenablage).',
+    'Predefinito: %s (file) / %s (appunti).',
+    'Domyślnie: %s (plik) / %s (schowek).',
+    'Predefinição: %s (ficheiro) / %s (área de transferência).',
+    'Implicit: %s (fișier) / %s (clipboard).',
+    'Alapértelmezett: %s (fájl) / %s (vágólap).',
+    'Výchozí: %s (soubor) / %s (schránka).',
+    'デフォルト: %s（ファイル）/ %s（クリップボード）。',
+    '默认：%s（文件）/ %s（剪贴板）。',
+    '預設：%s（檔案）/ %s（剪貼簿）。');
+  Set14('Regex.Examples',
+    'Examples: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Exemplos: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Ejemplos: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Exemples : error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Beispiele: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Esempi: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Przykłady: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Exemplos: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Exemple: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Példák: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    'Příklady: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    '例: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    '示例: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}',
+    '範例: error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}');
+  Set14('Regex.ExamplesHint',
+    'error|failure finds either word. ^[0-9] is a line that starts with a digit. [0-9]{4}-[0-9]{2}-[0-9]{2} is a date, such as 2026-10-28.',
+    'error|failure encontra uma das palavras. ^[0-9] é uma linha que começa com dígito. [0-9]{4}-[0-9]{2}-[0-9]{2} é uma data, como 2026-10-28.',
+    'error|failure encuentra una de las palabras. ^[0-9] es una línea que empieza con un dígito. [0-9]{4}-[0-9]{2}-[0-9]{2} es una fecha, como 2026-10-28.',
+    'error|failure trouve l''un des mots. ^[0-9] est une ligne qui commence par un chiffre. [0-9]{4}-[0-9]{2}-[0-9]{2} est une date, comme 2026-10-28.',
+    'error|failure findet eines der Wörter. ^[0-9] ist eine Zeile, die mit einer Ziffer beginnt. [0-9]{4}-[0-9]{2}-[0-9]{2} ist ein Datum, z. B. 2026-10-28.',
+    'error|failure trova una delle parole. ^[0-9] è una riga che inizia con una cifra. [0-9]{4}-[0-9]{2}-[0-9]{2} è una data, come 2026-10-28.',
+    'error|failure znajduje jedno ze słów. ^[0-9] to wiersz zaczynający się od cyfry. [0-9]{4}-[0-9]{2}-[0-9]{2} to data, np. 2026-10-28.',
+    'error|failure encontra uma das palavras. ^[0-9] é uma linha que começa com um dígito. [0-9]{4}-[0-9]{2}-[0-9]{2} é uma data, como 2026-10-28.',
+    'error|failure găsește unul dintre cuvinte. ^[0-9] este o linie care începe cu o cifră. [0-9]{4}-[0-9]{2}-[0-9]{2} este o dată, ca 2026-10-28.',
+    'Az error|failure az egyik szót találja. A ^[0-9] számjeggyel kezdődő sor. A [0-9]{4}-[0-9]{2}-[0-9]{2} dátum, például 2026-10-28.',
+    'error|failure najde jedno ze slov. ^[0-9] je řádek začínající číslicí. [0-9]{4}-[0-9]{2}-[0-9]{2} je datum, např. 2026-10-28.',
+    'error|failure はどちらかの語に一致します。^[0-9] は数字で始まる行です。[0-9]{4}-[0-9]{2}-[0-9]{2} は 2026-10-28 のような日付です。',
+    'error|failure 匹配其中一个词。^[0-9] 是以数字开头的行。[0-9]{4}-[0-9]{2}-[0-9]{2} 是日期，例如 2026-10-28。',
+    'error|failure 符合其中一個詞。^[0-9] 是以數字開頭的列。[0-9]{4}-[0-9]{2}-[0-9]{2} 是日期，例如 2026-10-28。');
+  Set14('AI.Context.FilterRegex',
+    'The filter uses VBScript regular expressions and has no lookbehind. The next line is the current pattern. Propose one pattern and explain it.',
+    'O filtro usa expressões regulares do VBScript e não tem lookbehind. A linha seguinte é o padrão atual. Proponha um padrão e explique.',
+    'El filtro usa expresiones regulares de VBScript y no tiene lookbehind. La línea siguiente es el patrón actual. Proponga un patrón y explíquelo.',
+    'Le filtre utilise les expressions régulières VBScript, sans lookbehind. La ligne suivante est le motif actuel. Proposez un motif et expliquez-le.',
+    'Der Filter nutzt reguläre VBScript-Ausdrücke und kein Lookbehind. Die nächste Zeile ist das aktuelle Muster. Schlagen Sie ein Muster vor und erklären Sie es.',
+    'Il filtro usa espressioni regolari VBScript e non ha lookbehind. La riga seguente è il modello attuale. Proponi un modello e spiegalo.',
+    'Filtr używa wyrażeń regularnych VBScript i nie ma lookbehind. Następny wiersz to bieżący wzorzec. Zaproponuj wzorzec i objaśnij go.',
+    'O filtro usa expressões regulares VBScript e não tem lookbehind. A linha seguinte é o padrão atual. Proponha um padrão e explique.',
+    'Filtrul folosește expresii regulate VBScript și nu are lookbehind. Linia următoare este modelul curent. Propuneți un model și explicați-l.',
+    'A szűrő VBScript reguláris kifejezést használ, lookbehind nélkül. A következő sor a jelenlegi minta. Javasoljon egy mintát, és magyarázza el.',
+    'Filtr používá regulární výrazy VBScript a nemá lookbehind. Další řádek je aktuální vzor. Navrhněte jeden vzor a vysvětlete ho.',
+    'フィルタは VBScript の正規表現で、後読みはありません。次の行が現在のパターンです。パターンを1つ提案し、説明してください。',
+    '筛选使用 VBScript 正则表达式，不支持后行断言。下一行是当前模式。请提出一个模式并加以说明。',
+    '篩選使用 VBScript 規則運算式，不支援後行斷言。下一行是目前模式。請提出一個模式並加以說明。');
+  Set14('AI.Context.LineEditorRegex',
+    'The find box uses a Delphi regular expression. Reply with only the pattern on the first line, then one short sentence. The next line is the current pattern.',
+    'A caixa Localizar usa expressão regular do Delphi. Responda só com o padrão na primeira linha e depois uma frase curta. A linha seguinte é o padrão atual.',
+    'El cuadro Buscar usa una expresión regular de Delphi. Responda solo con el patrón en la primera línea y luego una frase breve. La línea siguiente es el patrón actual.',
+    'La zone Rechercher utilise une expression régulière Delphi. Répondez avec le motif seul sur la première ligne, puis une courte phrase. La ligne suivante est le motif actuel.',
+    'Das Suchfeld nutzt einen regulären Delphi-Ausdruck. Antworten Sie nur mit dem Muster in der ersten Zeile, danach ein kurzer Satz. Die nächste Zeile ist das aktuelle Muster.',
+    'La casella Trova usa un''espressione regolare Delphi. Rispondi solo con il modello nella prima riga, poi una frase breve. La riga seguente è il modello attuale.',
+    'Pole Znajdź używa wyrażenia regularnego Delphi. Odpowiedz samym wzorcem w pierwszym wierszu, potem jednym krótkim zdaniem. Następny wiersz to bieżący wzorzec.',
+    'A caixa Localizar usa uma expressão regular do Delphi. Responda só com o padrão na primeira linha e depois uma frase curta. A linha seguinte é o padrão atual.',
+    'Caseta Găsire folosește o expresie regulată Delphi. Răspundeți doar cu modelul pe primul rând, apoi o propoziție scurtă. Linia următoare este modelul curent.',
+    'A Keresés mező Delphi reguláris kifejezést használ. Az első sorban csak a minta legyen, utána egy rövid mondat. A következő sor a jelenlegi minta.',
+    'Pole Najít používá regulární výraz Delphi. Na první řádek napište jen vzor, pak jednu krátkou větu. Další řádek je aktuální vzor.',
+    '検索欄は Delphi の正規表現です。1行目にはパターンだけ、その後に短い文を1つ。次の行が現在のパターンです。',
+    '查找框使用 Delphi 正则表达式。第一行只写模式，然后用一句话说明。下一行是当前模式。',
+    '尋找框使用 Delphi 規則運算式。第一行只寫模式，然後用一句話說明。下一行是目前模式。');
+  Set14('Language.Mru.Title',
+    'Recent languages', 'Idiomas recentes', 'Idiomas recientes', 'Langues récentes',
+    'Zuletzt verwendete Sprachen', 'Lingue recenti', 'Ostatnie języki', 'Idiomas recentes',
+    'Limbi recente', 'Legutóbbi nyelvek', 'Nedávné jazyky', '最近使った言語',
+    '最近使用的语言', '最近使用的語言');
+  Set14('Language.Mru.Hint',
+    'Application language. Recent languages come first. Type to search.',
+    'Idioma da aplicação. Os idiomas recentes ficam primeiro. Digite para pesquisar.',
+    'Idioma de la aplicación. Los idiomas recientes van primero. Escriba para buscar.',
+    'Langue de l''application. Les langues récentes viennent en premier. Saisissez pour chercher.',
+    'Sprache der Anwendung. Zuletzt verwendete Sprachen stehen oben. Tippen Sie zum Suchen.',
+    'Lingua dell''applicazione. Le lingue recenti stanno in cima. Digitare per cercare.',
+    'Język aplikacji. Ostatnie języki są na górze. Wpisz, aby szukać.',
+    'Idioma da aplicação. Os idiomas recentes ficam primeiro. Escreva para pesquisar.',
+    'Limba aplicației. Limbile recente sunt primele. Tastați pentru a căuta.',
+    'Az alkalmazás nyelve. A legutóbbi nyelvek elöl vannak. Írjon a kereséshez.',
+    'Jazyk aplikace. Nedávné jazyky jsou nahoře. Pište pro hledání.',
+    'アプリケーションの言語。最近使った言語が上に出ます。入力して検索します。',
+    '应用程序语言。最近使用的语言排在前面。输入即可搜索。',
+    '應用程式語言。最近使用的語言排在前面。輸入即可搜尋。');
+  Set14('Language.Mru.MoreHint',
+    'Show the other languages', 'Mostrar os outros idiomas', 'Mostrar los otros idiomas',
+    'Afficher les autres langues', 'Die anderen Sprachen anzeigen', 'Mostra le altre lingue',
+    'Pokaż pozostałe języki', 'Mostrar os outros idiomas', 'Afișează celelalte limbi',
+    'A többi nyelv megjelenítése', 'Zobrazit ostatní jazyky', '他の言語を表示',
+    '显示其他语言', '顯示其他語言');
 end;
 
 function PeekStartupLanguage: TAppLanguage;
@@ -55177,6 +57524,20 @@ begin
         Result := alChineseSimplified
       else
         Result := alChineseTraditional;
+    $0001: Result := alArabic;  { LANG_ARABIC }
+    $000D: Result := alHebrew;  { LANG_HEBREW }
+    $0039: Result := alHindi;
+    $0019: Result := alRussian;
+    $0012: Result := alKorean;
+    $0013: Result := alDutch;
+    $001F: Result := alTurkish;
+    $0022: Result := alUkrainian;
+    $001E: Result := alThai;       { LANG_THAI }
+    $0008: Result := alGreek;      { LANG_GREEK }
+    $0014: Result := alNorwegian;  { LANG_NORWEGIAN, Bokmål and Nynorsk }
+    $001D: Result := alSwedish;   { LANG_SWEDISH }
+    $0006: Result := alDanish;     { LANG_DANISH }
+    $000F: Result := alIcelandic; { LANG_ICELANDIC }
   else
     Result := alEnglish;
   end;
@@ -55226,6 +57587,9 @@ begin
     alJapanese:     Result := GTextJapanese;
     alChineseSimplified: Result := GTextChineseSimplified;
     alChineseTraditional: Result := GTextChineseTraditional;
+    alArabic:       Result := GTextArabic;
+    alHebrew:       Result := GTextHebrew;
+    alHindi..alIcelandic: Result := GExtraTextTables[Lang];
   else
     Result := GTextEnglish;
   end;
@@ -55248,6 +57612,9 @@ begin
     alJapanese:     Result := GJapanese;
     alChineseSimplified: Result := GChineseSimplified;
     alChineseTraditional: Result := GChineseTraditional;
+    alArabic:       Result := GArabic;
+    alHebrew:       Result := GHebrew;
+    alHindi..alIcelandic: Result := GExtraTables[Lang];
   else
     Result := GEnglish;
   end;
@@ -55307,6 +57674,51 @@ begin
     Result := alChineseTraditional
   else if (Normalized = 'zh') or (Normalized = 'chinese') then
     Result := alChineseSimplified
+  else if (Normalized = 'ar') or (Normalized = 'ar-sa') or (Normalized = 'ar-ae') or
+          (Normalized = 'ar-eg') or (Normalized = 'arabic') then
+    Result := alArabic
+  else if (Normalized = 'he') or (Normalized = 'he-il') or (Normalized = 'iw') or
+          (Normalized = 'hebrew') then
+    Result := alHebrew
+  else if (Normalized = 'hi') or (Normalized = 'hi-in') or (Normalized = 'hi_in') or
+          (Normalized = 'hindi') then
+    Result := alHindi
+  else if (Normalized = 'ru') or (Normalized = 'ru-ru') or (Normalized = 'ru_ru') or
+          (Normalized = 'russian') then
+    Result := alRussian
+  else if (Normalized = 'ko') or (Normalized = 'ko-kr') or (Normalized = 'ko_kr') or
+          (Normalized = 'korean') then
+    Result := alKorean
+  else if (Normalized = 'nl') or (Normalized = 'nl-nl') or (Normalized = 'nl_nl') or
+          (Normalized = 'nl-be') or (Normalized = 'nl_be') or
+          (Normalized = 'dutch') then
+    Result := alDutch
+  else if (Normalized = 'tr') or (Normalized = 'tr-tr') or (Normalized = 'tr_tr') or
+          (Normalized = 'turkish') then
+    Result := alTurkish
+  else if (Normalized = 'uk') or (Normalized = 'uk-ua') or (Normalized = 'uk_ua') or
+          (Normalized = 'ukrainian') then
+    Result := alUkrainian
+  else if (Normalized = 'th') or (Normalized = 'th-th') or (Normalized = 'th_th') or
+          (Normalized = 'thai') then
+    Result := alThai
+  else if (Normalized = 'el') or (Normalized = 'el-gr') or (Normalized = 'el_gr') or
+          (Normalized = 'greek') then
+    Result := alGreek
+  else if (Normalized = 'nb') or (Normalized = 'nb-no') or (Normalized = 'nb_no') or
+          (Normalized = 'no') or (Normalized = 'no-no') or (Normalized = 'no_no') or
+          (Normalized = 'nn') or (Normalized = 'nn-no') or (Normalized = 'nn_no') or
+          (Normalized = 'norwegian') then
+    Result := alNorwegian
+  else if (Normalized = 'sv') or (Normalized = 'sv-se') or (Normalized = 'sv_se') or
+          (Normalized = 'swedish') then
+    Result := alSwedish
+  else if (Normalized = 'da') or (Normalized = 'da-dk') or (Normalized = 'da_dk') or
+          (Normalized = 'danish') then
+    Result := alDanish
+  else if (Normalized = 'is') or (Normalized = 'is-is') or (Normalized = 'is_is') or
+          (Normalized = 'icelandic') then
+    Result := alIcelandic
   else
     Result := alEnglish;
 end;
@@ -55327,10 +57739,83 @@ begin
     alJapanese:     Result := 'ja';
     alChineseSimplified: Result := 'zh-CN';
     alChineseTraditional: Result := 'zh-TW';
+    alArabic:       Result := 'ar';
+    alHebrew:       Result := 'he';
+    alHindi:        Result := 'hi';
+    alRussian:      Result := 'ru';
+    alKorean:       Result := 'ko';
+    alDutch:        Result := 'nl';
+    alTurkish:      Result := 'tr';
+    alUkrainian:    Result := 'uk';
+    alThai:         Result := 'th';
+    alGreek:        Result := 'el';
+    alNorwegian:    Result := 'nb';
+    alSwedish:      Result := 'sv';
+    alDanish:       Result := 'da';
+    alIcelandic:    Result := 'is';
   else
     Result := 'en';
   end;
 
+end;
+
+function IsRtlLanguage(const Lang: TAppLanguage): Boolean;
+begin
+  Result := Lang in [alArabic, alHebrew];
+end;
+
+function RtlMsgBoxFlags: Cardinal;
+const
+  MB_RIGHT_FLAG = $00080000;
+  MB_RTLREADING_FLAG = $00100000;
+begin
+  if IsRtlLanguage(GetCurrentLanguage) then
+    Result := MB_RIGHT_FLAG or MB_RTLREADING_FLAG
+  else
+    Result := 0;
+end;
+
+function DumpEsc(const S: string): string;
+begin
+  Result := StringReplace(S, '\', '\\', [rfReplaceAll]);
+  Result := StringReplace(Result, #13, '\r', [rfReplaceAll]);
+  Result := StringReplace(Result, #10, '\n', [rfReplaceAll]);
+  Result := StringReplace(Result, '|', '\p', [rfReplaceAll]);
+end;
+
+procedure DumpTable(Dest: TStrings; const LangCode, Kind: string; Table: TStringList);
+var
+  I, P: Integer;
+  Line: string;
+begin
+  if Table = nil then Exit;
+  for I := 0 to Table.Count - 1 do
+  begin
+    Line := Table[I];
+    P := Pos(Table.NameValueSeparator, Line);
+    if P <= 0 then Continue;
+    Dest.Add(LangCode + '|' + Kind + '|' + DumpEsc(UnescKey(Copy(Line, 1, P - 1))) +
+      '|' + DumpEsc(Copy(Line, P + 1, MaxInt)));
+  end;
+end;
+
+procedure I18nDumpAllTables(const AFileName: string);
+var
+  L: TAppLanguage;
+  Dest: TStringList;
+begin
+  Dest := TStringList.Create;
+  try
+    for L := Low(TAppLanguage) to High(TAppLanguage) do
+    begin
+      EnsureLanguageLoaded(L);
+      DumpTable(Dest, AppLanguageCode(L), 'K', TableForLanguage(L));
+      DumpTable(Dest, AppLanguageCode(L), 'T', TextTableForLanguage(L));
+    end;
+    Dest.SaveToFile(AFileName, TEncoding.UTF8);
+  finally
+    Dest.Free;
+  end;
 end;
 
 procedure SetCurrentLanguage(const Lang: TAppLanguage);
@@ -55360,6 +57845,20 @@ begin
     alJapanese:     Result := 'Japanese';
     alChineseSimplified:  Result := 'Chinese (Simplified)';
     alChineseTraditional: Result := 'Chinese (Traditional)';
+    alArabic:       Result := 'Arabic';
+    alHebrew:       Result := 'Hebrew';
+    alHindi:        Result := 'Hindi';
+    alRussian:      Result := 'Russian';
+    alKorean:       Result := 'Korean';
+    alDutch:        Result := 'Dutch';
+    alTurkish:      Result := 'Turkish';
+    alUkrainian:    Result := 'Ukrainian';
+    alThai:         Result := 'Thai';
+    alGreek:        Result := 'Greek';
+    alNorwegian:    Result := 'Norwegian';
+    alSwedish:      Result := 'Swedish';
+    alDanish:       Result := 'Danish';
+    alIcelandic:    Result := 'Icelandic';
   else
     Result := 'English';
   end;
@@ -56230,12 +58729,31 @@ begin
     end;
   end;
   FreeAndNil(GRevMap);
+  { Direction / mirrored layout follow the new language (forms that rebuilt their
+    composed texts above are already final). }
+  if Assigned(BidiApplyAllProc) then
+    try
+      BidiApplyAllProc;
+    except
+    end;
+end;
+
+procedure FreeExtraTranslationTables;
+var
+  L: TExtraLanguage;
+begin
+  for L := Low(TExtraLanguage) to High(TExtraLanguage) do
+  begin
+    FreeAndNil(GExtraTables[L]);
+    FreeAndNil(GExtraTextTables[L]);
+  end;
 end;
 
 initialization
   AddCommonTranslations;
 
 finalization
+  FreeExtraTranslationTables;
   FreeComposedCache;
   FreeAndNil(GRevMap);
   FreeAndNil(GOrigMap);
@@ -56254,6 +58772,10 @@ finalization
   FreeAndNil(GJapanese);
   FreeAndNil(GChineseSimplified);
   FreeAndNil(GChineseTraditional);
+  FreeAndNil(GArabic);
+  FreeAndNil(GHebrew);
+  FreeAndNil(GTextArabic);
+  FreeAndNil(GTextHebrew);
   FreeAndNil(GTextEnglish);
   FreeAndNil(GTextPortuguese);
   FreeAndNil(GTextSpanish);

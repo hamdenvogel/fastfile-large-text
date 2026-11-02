@@ -1,5 +1,5 @@
 unit uBookmarkBar;
-{ Docked Bookmarks chrome (Ctrl+B): list of bookmarks, jump on click,
+{ Docked Bookmarks frame (Ctrl+B): list of bookmarks, jump on click,
   Prev/Next, remove one, clear all, Export/Copy, hide + float/peek. }
 
 interface
@@ -56,11 +56,11 @@ type
     FUserHeight: Integer;
     FHeaderDown: Boolean;
     FHeaderPt: TPoint;
-    procedure BuildChrome;
+    procedure BuildFrame;
     procedure ForceColor(APnl: TsPanel; AColor: TColor);
     procedure StyleBtn(ABtn: TsButton; const AUiFont: string);
-    procedure StyleChromeBtn(ABtn: TsButton; const AUiFont: string);
-    procedure LayoutChrome;
+    procedure StyleFrameBtn(ABtn: TsButton; const AUiFont: string);
+    procedure LayoutFrame;
     procedure BodyResize(Sender: TObject);
     procedure BtnPrevClick(Sender: TObject);
     procedure BtnNextClick(Sender: TObject);
@@ -89,7 +89,7 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure EnsureBuilt;
     procedure ApplyCaptions;
-    procedure ApplySoftChrome;
+    procedure ApplySoftFrame;
     procedure SetStatus(const AStatusText: string; AHasItems: Boolean);
     procedure SetNavEnabled(APrevEnabled, ANextEnabled: Boolean);
     procedure ClearList;
@@ -121,22 +121,22 @@ type
     procedure PeekClick(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
-    procedure ApplySoftChrome;
+    procedure ApplySoftFrame;
     property OnRestore: TNotifyEvent read FOnRestore write FOnRestore;
   end;
 
 const
-  BOOKMARK_BAR_HEIGHT = 200;
+  BOOKMARK_BAR_HEIGHT = 160;
   BOOKMARK_PEEK_HEIGHT = 5;
   BOOKMARK_BTN_H = 30;
   BOOKMARK_TOP_H = 28;
   BOOKMARK_LIST_PAGE_SIZE = 40;
-  BOOKMARK_LIST_MIN_H = 72;
+  BOOKMARK_LIST_MIN_H = 48;
 
 implementation
 
 uses
-  uI18n;
+  uI18n, uBidiLayout;
 
 const
   CAccent = TColor($00BFAF9C);
@@ -191,11 +191,11 @@ end;
 procedure TFastFileBookmarkBar.EnsureBuilt;
 begin
   if FBuilt then Exit;
-  BuildChrome;
+  BuildFrame;
   FBuilt := True;
-  ApplySoftChrome;
+  ApplySoftFrame;
   ApplyCaptions;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileBookmarkBar.ForceColor(APnl: TsPanel; AColor: TColor);
@@ -226,7 +226,7 @@ begin
   end;
 end;
 
-procedure TFastFileBookmarkBar.StyleChromeBtn(ABtn: TsButton; const AUiFont: string);
+procedure TFastFileBookmarkBar.StyleFrameBtn(ABtn: TsButton; const AUiFont: string);
 begin
   if not Assigned(ABtn) then Exit;
   ABtn.ParentFont := False;
@@ -241,7 +241,7 @@ begin
   end;
 end;
 
-procedure TFastFileBookmarkBar.BuildChrome;
+procedure TFastFileBookmarkBar.BuildFrame;
 var
   UiFont: string;
 begin
@@ -297,14 +297,14 @@ begin
   FBtnHide.Align := alRight;
   FBtnHide.Width := FfPx(28);
   FBtnHide.OnClick := BtnHideClick;
-  StyleChromeBtn(FBtnHide, UiFont);
+  StyleFrameBtn(FBtnHide, UiFont);
 
   FBtnFloat := TsButton.Create(Self);
   FBtnFloat.Parent := FTopRow;
   FBtnFloat.Align := alRight;
   FBtnFloat.Width := FfPx(28);
   FBtnFloat.OnClick := BtnFloatClick;
-  StyleChromeBtn(FBtnFloat, UiFont);
+  StyleFrameBtn(FBtnFloat, UiFont);
 
   FLblStatus := TsLabel.Create(Self);
   FLblStatus.Parent := FTopRow;
@@ -391,7 +391,7 @@ begin
   FBtnPagePrev.Align := alLeft;
   FBtnPagePrev.Width := FfPx(32);
   FBtnPagePrev.OnClick := BtnPagePrevClick;
-  StyleChromeBtn(FBtnPagePrev, UiFont);
+  StyleFrameBtn(FBtnPagePrev, UiFont);
   FBtnPagePrev.Caption := '<';
 
   FBtnPageNext := TsButton.Create(Self);
@@ -399,7 +399,7 @@ begin
   FBtnPageNext.Align := alRight;
   FBtnPageNext.Width := FfPx(32);
   FBtnPageNext.OnClick := BtnPageNextClick;
-  StyleChromeBtn(FBtnPageNext, UiFont);
+  StyleFrameBtn(FBtnPageNext, UiFont);
   FBtnPageNext.Caption := '>';
 
   FLblPage := TsLabel.Create(Self);
@@ -443,17 +443,20 @@ begin
   FList.Color := CWindow;
   FList.OnClick := ListClick;
   FList.OnDblClick := ListDblClick;
+  BidiKeepLtr(FList); { bookmark entries show raw file lines }
 end;
 
-procedure TFastFileBookmarkBar.LayoutChrome;
+procedure TFastFileBookmarkBar.LayoutFrame;
 var
   Y, X, Gap, Bw, BodyW, ListH, ButtonTop: Integer;
   Btns: array[0..8] of TsButton;
   Caps: array[0..8] of string;
   I: Integer;
   MeasureBmp: TBitmap;
+  BL: IInterface;
 begin
   if not FBuilt or not Assigned(FBody) then Exit;
+  BL := BidiLayoutScope([FBody, FBtnRow]);
   BodyW := FBody.ClientWidth - FBody.Padding.Left - FBody.Padding.Right;
   if BodyW < 80 then BodyW := 80;
   Y := 0;
@@ -509,7 +512,7 @@ end;
 
 procedure TFastFileBookmarkBar.BodyResize(Sender: TObject);
 begin
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileBookmarkBar.Resize;
@@ -519,16 +522,16 @@ begin
      (Constraints.MinHeight > 0) then
     FUserHeight := Height;
   if FBuilt then
-    LayoutChrome;
+    LayoutFrame;
 end;
 
 procedure TFastFileBookmarkBar.RelayoutAfterDock;
 begin
   EnsureBuilt;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
-procedure TFastFileBookmarkBar.ApplySoftChrome;
+procedure TFastFileBookmarkBar.ApplySoftFrame;
 begin
   EnsureBuilt;
   ForceColor(Self, CSurface);
@@ -594,7 +597,7 @@ begin
   FBtnPagePrev.Hint := TrText('BookmarkBar.PagePrevHint');
   FBtnPageNext.Hint := TrText('BookmarkBar.PageNextHint');
   SyncFloatAction;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileBookmarkBar.BtnCommandClick(Sender: TObject);
@@ -620,7 +623,7 @@ begin
   if Assigned(FBtnExport) then FBtnExport.Enabled := AHasItems;
   if Assigned(FBtnCopy) then FBtnCopy.Enabled := AHasItems;
   SetNavEnabled(AHasItems, AHasItems);
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileBookmarkBar.SetNavEnabled(APrevEnabled, ANextEnabled: Boolean);
@@ -798,7 +801,7 @@ begin
   end;
 end;
 
-procedure TFastFileBookmarkPeek.ApplySoftChrome;
+procedure TFastFileBookmarkPeek.ApplySoftFrame;
 begin
   Color := CAccent;
   Hint := TrText('BookmarkBar.PeekHint');

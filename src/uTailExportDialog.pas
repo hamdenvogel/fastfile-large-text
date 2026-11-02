@@ -39,7 +39,7 @@ type
 implementation
 
 uses
-  uI18n, uFastFileMsgDlg;
+  uI18n, uFastFileMsgDlg, uBidiLayout;
 
 {$R *.dfm}
 
@@ -146,6 +146,7 @@ begin
     Frm.edtFromLine.Text := Format('%d', [AFirstLine1Based]);
     Frm.edtToLine.Text := Format('%d', [ALastLine1Based]);
     Frm.edtPath.Text := AOutPath;
+    BidiKeepLtr(Frm.edtPath);
     if Frm.ShowModal = mrOk then
     begin
       AOutPath := Trim(Frm.edtPath.Text);

@@ -29,7 +29,7 @@ procedure FfFitCaptions(AForm: TCustomForm; AForce: Boolean = False);
 implementation
 
 uses
-  Math, Graphics, StdCtrls, Buttons, ComCtrls, ExtCtrls, TypInfo, uI18n;
+  Math, Graphics, StdCtrls, Buttons, ComCtrls, ExtCtrls, TypInfo, uI18n, uBidiLayout;
 
 type
   TFfFormLayoutManager = class
@@ -344,7 +344,8 @@ begin
   begin
     { Right-anchored, or a right-justified label: its right edge stays put. }
     GrowLeft := ((akRight in C.Anchors) and not (akLeft in C.Anchors)) or
-      (AIsLabel and PropOrd(C, 'Alignment', V) and (V = Ord(taRightJustify)));
+      (AIsLabel and PropOrd(C, 'Alignment', V) and (V <> Ord(taCenter)) and
+       ((V = Ord(taRightJustify)) <> BidiControlIsRtl(C)));
     if AIsLabel and PropOrd(C, 'Alignment', V) and (V = Ord(taCenter)) then Exit;
     if GrowLeft then
     begin
@@ -620,18 +621,18 @@ end;
 procedure FfPrepareDialog(AForm: TCustomForm; ADesignClientW, ADesignClientH: Integer);
 var
   R: TRect;
-  WorkW, WorkH, ChromeW, ChromeH, MaxCW, MaxCH, W, H, L, T: Integer;
+  WorkW, WorkH, FrameW, FrameH, MaxCW, MaxCH, W, H, L, T: Integer;
 begin
   if not Assigned(AForm) then Exit;
   FfWorkAreaOf(AForm, R);
   WorkW := R.Right - R.Left;
   WorkH := R.Bottom - R.Top;
-  ChromeW := AForm.Width - AForm.ClientWidth;
-  ChromeH := AForm.Height - AForm.ClientHeight;
-  if ChromeW < 16 then ChromeW := 16;
-  if ChromeH < 40 then ChromeH := 40;
-  MaxCW := WorkW - ChromeW - 16;
-  MaxCH := WorkH - ChromeH - 16;
+  FrameW := AForm.Width - AForm.ClientWidth;
+  FrameH := AForm.Height - AForm.ClientHeight;
+  if FrameW < 16 then FrameW := 16;
+  if FrameH < 40 then FrameH := 40;
+  MaxCW := WorkW - FrameW - 16;
+  MaxCH := WorkH - FrameH - 16;
   if MaxCW < 200 then MaxCW := 200;
   if MaxCH < 160 then MaxCH := 160;
   W := FfPx(ADesignClientW);

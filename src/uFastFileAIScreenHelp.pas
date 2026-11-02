@@ -22,7 +22,7 @@ implementation
 
 uses
   SysUtils, Windows, Messages, Forms, Controls, Dialogs, StdCtrls, ExtCtrls, Graphics,
-  UnConsts, uFastFileAIClient, uI18n, uTextEncoding, uVBScriptRegex;
+  UnConsts, uFastFileAIClient, uI18n, uTextEncoding, uVBScriptRegex, uBidiLayout;
 
 const
   WM_FF_AI_RESET_BUSY = WM_USER + 428;
@@ -378,6 +378,8 @@ begin
   MemoCtx.Color := $00F2F2F2;
   MemoCtx.ScrollBars := ssVertical;
   MemoCtx.WordWrap := False;
+  { source path, file sample lines and regex examples stay left-to-right }
+  BidiKeepLtr(MemoCtx);
   Inc(Y, MemoCtx.Height + GAP);
 
   LblNote := TLabel.Create(Self);

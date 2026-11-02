@@ -47,7 +47,7 @@ O FastFile traz várias camadas de IA, cada uma com um papel claro:
 Diferencie e mescle arquivos massivos com facilidade! O FastFile possui um algoritmo analítico altamente otimizado (`LCS DP` - Longest Common Subsequence) incorporado que:
 - Compara linhas entre dois documentos de forma assíncrona, destacando visualmente o que foi Inserido, Deletado ou Alterado (utilizando um esquema de cores limpo e intuitivo).
 - Possui um inovador **"Fast Mode" dinâmico**, que se ajusta automaticamente para garantir performance extrema na comparação de arquivos imensos.
-- Mantém um **Diário de Sessão (Session Journal)** automático e seguro das suas edições. Toda linha tocada ganha um registro permanente no histórico, para rastreabilidade e segurança.
+- Mantém um **registro de sessão (Session Log)** automático e seguro das suas edições. Toda linha tocada ganha um registro permanente no histórico, para rastreabilidade e segurança.
 
 ### 🛡️ Edição Totalmente Não-Bloqueante (Assíncrona)
 A interface da sua aplicação nunca mais vai congelar enquanto o computador "pensa". Todas as operações pesadas (Busca Global, Substituição em Massa, Exclusões em lote) são processadas em **threads de segundo plano** ("*Workers*"). O sistema utiliza o padrão de **Escrita Atômica**: nenhuma modificação destrói ou corrompe o seu arquivo original até que todo o processo em *background* seja 100% concluído e validado em arquivo temporário seguro.

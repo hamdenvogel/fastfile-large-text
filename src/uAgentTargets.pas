@@ -1,7 +1,7 @@
 ﻿unit uAgentTargets;
 
 {
-  Which of the selected files a request is about, read from the request in any of the 14 UI languages:
+  Which of the selected files a request is about, in the supported UI languages:
   by name ("log.txt"), by position ("o primeiro arquivo", "leia somente o último", "the last two files",
   "arquivo 2"), by type ("do CSV"), all ("todos os arquivos") or all but some ("todos menos o último").
   This file is UTF-8 with BOM: the words below are written in their own scripts.
@@ -33,26 +33,36 @@ uses
 const
   PUNCT_MARK = 'zzpz';
 
-  FILE_WORDS: array[0..36] of string = (
+  FILE_WORDS: TArray<string> = [
     'arquivo', 'arquivos', 'ficheiro', 'ficheiros', 'fonte', 'fontes',
     'archivo', 'archivos', 'fichier', 'fichiers', 'source', 'sources',
     'datei', 'dateien', 'file', 'files',
     'plik', 'pliki', 'pliku', 'plikow', 'plikach',
     'fisier', 'fisiere', 'fisierul', 'fisierele', 'fisierului',
     'fajl', 'fajlt', 'fajlok', 'fajlokat', 'fajlban', 'fajlbol',
-    'soubor', 'soubory', 'souboru', 'souborech', 'dokument');
+    'soubor', 'soubory', 'souboru', 'souborech', 'dokument',
+    'फ़ाइल', 'फाइल', 'फ़ाइलों', 'फाइलों',
+    'файл', 'файла', 'файлы', 'файлов', 'файле', 'файлу',
+    '파일', '파일을', '파일의', '파일에', '파일들', '파일들을',
+    'bestand', 'bestanden',
+    'dosya', 'dosyayı', 'dosyaya', 'dosyalar', 'dosyaları', 'dosyaların',
+    'файли', 'файлів', 'файлі'];
 
   { Words before a bare ordinal ("o último", "only the last", "somente o primeiro"). }
-  LEAD_WORDS: array[0..69] of string = (
+  LEAD_WORDS: TArray<string> = [
     'o', 'a', 'os', 'as', 'do', 'da', 'dos', 'das', 'no', 'na', 'nos', 'nas', 'ao', 'aos', 'pelo', 'pela',
     'the', 'el', 'la', 'los', 'las', 'del', 'al', 'le', 'les', 'l', 'du', 'au', 'aux',
     'der', 'die', 'das', 'den', 'dem', 'vom', 'im', 'il', 'lo', 'gli', 'i', 'dal', 'nel', 'sul',
     'az', 'e', 'and', 'y', 'et', 'und', 'si', 'es', 'ou', 'or',
     'somente', 'so', 'apenas', 'only', 'just', 'solo', 'solamente', 'seulement', 'uniquement', 'nur',
-    'tylko', 'doar', 'csak', 'jen', 'pouze', 'leia', 'read');
+    'tylko', 'doar', 'csak', 'jen', 'pouze', 'leia', 'read',
+    'केवल', 'सिर्फ', 'पढ़ें', 'только', 'прочитай', 'прочитайте',
+    'alleen', 'slechts', 'het', 'de', 'lees',
+    'yalnızca', 'sadece', 'oku', 'лише', 'тільки', 'прочитай', 'прочитайте',
+    'кроме', 'крім', 'окрім', 'behalve'];
 
   { Words right after a bare ordinal that end the reference ("o último em 3 partes", "the last one"). }
-  FOLLOW_WORDS: array[0..56] of string = (
+  FOLLOW_WORDS: TArray<string> = [
     'em', 'para', 'pra', 'por', 'com', 'tambem', 'apenas', 'somente', 'deles', 'delas', 'dela', 'dele',
     'in', 'into', 'to', 'by', 'with', 'on', 'one', 'only', 'too', 'also', 'of',
     'en', 'con', 'tambien', 'solamente',
@@ -62,28 +72,40 @@ const
     'w', 'we', 'po', 'tez',
     'cu', 'pe', 'si',
     'ban', 'be', 'is',
-    've', 'se', 'take');
+    've', 'se', 'take',
+    'में', 'को', 'से', 'पर', 'в', 'на', 'для', 'с', 'также',
+    'naar', 'met', 'ook', 'olarak', 'icin', 'ile', 'для', 'з', 'у', 'також'];
 
-  CONJ_WORDS: array[0..11] of string = ('e', 'and', 'y', 'et', 'und', 'i', 'es', 'si', 'ou', 'or', 'oder', 'a');
+  CONJ_WORDS: TArray<string> = [
+    'e', 'and', 'y', 'et', 'und', 'i', 'es', 'si', 'ou', 'or', 'oder', 'a',
+    'और', 'या', 'и', 'или', 'en', 'of', 've', 'veya', 'і', 'та', 'або'];
 
-  ALL_WORDS: array[0..21] of string = ('todos', 'todas', 'all', 'every', 'each', 'cada', 'tous', 'toutes',
+  ALL_WORDS: TArray<string> = ['todos', 'todas', 'all', 'every', 'each', 'cada', 'tous', 'toutes',
     'chaque', 'alle', 'allen', 'jede', 'tutti', 'tutte', 'ogni', 'wszystkie', 'toate', 'fiecare', 'minden',
-    'osszes', 'vsechny', 'kazdy');
+    'osszes', 'vsechny', 'kazdy', 'सभी', 'हर', 'все', 'каждый', '모든', '각',
+    'elke', 'iedere', 'her', 'tüm', 'усі', 'всі', 'кожний'];
 
-  EXCEPT_WORDS: array[0..17] of string = ('menos', 'exceto', 'excepto', 'salvo', 'except', 'excluding',
+  EXCEPT_WORDS: TArray<string> = ['menos', 'exceto', 'excepto', 'salvo', 'except', 'excluding',
     'sauf', 'excepte', 'hormis', 'ausser', 'ausgenommen', 'tranne', 'eccetto', 'oprocz', 'poza',
-    'exceptia', 'kiveve', 'krome');
+    'exceptia', 'kiveve', 'krome',
+    'छोड़कर', 'छोड़कर', 'सिवाय', 'кроме', 'исключая', 'behalve', 'uitgezonderd',
+    'hariç', 'dışında', 'крім', 'окрім', '제외하고', '빼고'];
 
   { Words that put a type after them out of the source list ("para um txt", "save as csv"). }
-  TO_WORDS: array[0..21] of string = ('para', 'pra', 'to', 'into', 'em', 'en', 'in', 'como', 'as', 'um',
-    'uma', 'an', 'un', 'une', 'ein', 'eine', 'einen', 'formato', 'format', 'zu', 'au', 'w');
+  TO_WORDS: TArray<string> = ['para', 'pra', 'to', 'into', 'em', 'en', 'in', 'como', 'as', 'um',
+    'uma', 'an', 'un', 'une', 'ein', 'eine', 'einen', 'formato', 'format', 'zu', 'au', 'w',
+    'naar', 'als', 'में', 'как', 'в', 'olarak', 'як', 'у'];
 
-  NUMBER_WORDS: array[0..33] of string = ('dois', 'duas', 'tres', 'quatro', 'cinco', 'two', 'three', 'four',
+  NUMBER_WORDS: array[0..56] of string = ('dois', 'duas', 'tres', 'quatro', 'cinco', 'two', 'three', 'four',
     'five', 'dos', 'cuatro', 'deux', 'trois', 'quatre', 'cinq', 'zwei', 'drei', 'vier', 'funf', 'due', 'tre',
-    'quattro', 'dwa', 'trzy', 'cztery', 'doi', 'trei', 'patru', 'ketto', 'harom', 'negy', 'dva', 'tri', 'ctyri');
-  NUMBER_VALUES: array[0..33] of Integer = (2, 2, 3, 4, 5, 2, 3, 4,
+    'quattro', 'dwa', 'trzy', 'cztery', 'doi', 'trei', 'patru', 'ketto', 'harom', 'negy', 'dva', 'tri', 'ctyri',
+    'दो', 'तीन', 'चार', 'पाँच', 'два', 'две', 'три', 'четыре', 'пять',
+    'twee', 'drie', 'vier', 'vijf', 'iki', 'üç', 'dört', 'beş',
+    'дві', 'чотири', 'пʼять', '두', '세', '네');
+  NUMBER_VALUES: array[0..56] of Integer = (2, 2, 3, 4, 5, 2, 3, 4,
     5, 2, 4, 2, 3, 4, 5, 2, 3, 4, 5, 2, 3,
-    4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4);
+    4, 2, 3, 4, 2, 3, 4, 2, 3, 4, 2, 3, 4,
+    2, 3, 4, 5, 2, 2, 3, 4, 5, 2, 3, 4, 5, 2, 3, 4, 5, 2, 4, 5, 2, 3, 4);
 
 type
   TOrdinal = record
@@ -92,7 +114,7 @@ type
   end;
 
 const
-  ORDINALS: array[0..110] of TOrdinal = (
+  ORDINALS: array[0..163] of TOrdinal = (
     (W: 'first'; V: 1), (W: 'second'; V: 2), (W: 'third'; V: 3), (W: 'fourth'; V: 4), (W: 'fifth'; V: 5),
     (W: 'last'; V: -1), (W: 'penultimate'; V: -2),
     (W: 'primeiro'; V: 1), (W: 'primeira'; V: 1), (W: 'primeiros'; V: 1), (W: 'primeiras'; V: 1),
@@ -122,7 +144,22 @@ const
     (W: 'harmadik'; V: 3), (W: 'negyedik'; V: 4), (W: 'utolso'; V: -1), (W: 'utolsot'; V: -1),
     (W: 'prvni'; V: 1), (W: 'prvnim'; V: 1), (W: 'prvniho'; V: 1), (W: 'druhy'; V: 2), (W: 'druhem'; V: 2),
     (W: 'druheho'; V: 2), (W: 'treti'; V: 3), (W: 'ctvrty'; V: 4), (W: 'posledni'; V: -1),
-    (W: 'poslednim'; V: -1), (W: 'posledniho'; V: -1), (W: 'predposledni'; V: -2));
+    (W: 'poslednim'; V: -1), (W: 'posledniho'; V: -1), (W: 'predposledni'; V: -2),
+    (W: 'पहला'; V: 1), (W: 'पहली'; V: 1), (W: 'दूसरा'; V: 2), (W: 'दूसरी'; V: 2),
+    (W: 'तीसरा'; V: 3), (W: 'तीसरी'; V: 3), (W: 'चौथा'; V: 4), (W: 'चौथी'; V: 4),
+    (W: 'पाँचवाँ'; V: 5), (W: 'अंतिम'; V: -1), (W: 'आखिरी'; V: -1), (W: 'उपांतिम'; V: -2),
+    (W: 'первый'; V: 1), (W: 'второй'; V: 2), (W: 'третий'; V: 3), (W: 'четвертый'; V: 4),
+    (W: 'пятый'; V: 5), (W: 'последний'; V: -1), (W: 'предпоследний'; V: -2),
+    (W: '첫'; V: 1), (W: '첫번째'; V: 1), (W: '두번째'; V: 2), (W: '세번째'; V: 3),
+    (W: '네번째'; V: 4), (W: '다섯번째'; V: 5), (W: '마지막'; V: -1),
+    (W: 'eerste'; V: 1), (W: 'tweede'; V: 2), (W: 'derde'; V: 3), (W: 'vierde'; V: 4),
+    (W: 'vijfde'; V: 5), (W: 'laatste'; V: -1), (W: 'voorlaatste'; V: -2),
+    (W: 'ilk'; V: 1), (W: 'ikinci'; V: 2), (W: 'üçüncü'; V: 3), (W: 'dördüncü'; V: 4),
+    (W: 'beşinci'; V: 5), (W: 'son'; V: -1), (W: 'sondanikinci'; V: -2),
+    (W: 'перший'; V: 1), (W: 'другий'; V: 2), (W: 'третій'; V: 3), (W: 'четвертий'; V: 4),
+    (W: 'пʼятий'; V: 5), (W: 'останній'; V: -1), (W: 'передостанній'; V: -2),
+    (W: 'первого'; V: 1), (W: 'второго'; V: 2), (W: 'последнего'; V: -1),
+    (W: 'першого'; V: 1), (W: 'другого'; V: 2), (W: 'останнього'; V: -1));
 
   { Japanese and Chinese: no spaces, matched as substrings followed by a word for file. }
   CJK_FILE: array[0..3] of string = ('ファイル', '文件', '檔案', '档案');
@@ -138,7 +175,7 @@ var
   S: string;
 begin
   for S in A do
-    if S = W then
+    if (S = W) or (Trim(AgentFoldText(S)) = W) then
       Exit(True);
   Result := False;
 end;
@@ -148,7 +185,7 @@ var
   I: Integer;
 begin
   for I := 0 to High(ORDINALS) do
-    if ORDINALS[I].W = W then
+    if (ORDINALS[I].W = W) or (Trim(AgentFoldText(ORDINALS[I].W)) = W) then
       Exit(ORDINALS[I].V);
   Result := 0;
 end;
@@ -161,7 +198,7 @@ begin
   if Result > 0 then
     Exit;
   for I := 0 to High(NUMBER_WORDS) do
-    if NUMBER_WORDS[I] = W then
+    if (NUMBER_WORDS[I] = W) or (Trim(AgentFoldText(NUMBER_WORDS[I])) = W) then
       Exit(NUMBER_VALUES[I]);
   Result := 0;
 end;
@@ -170,7 +207,7 @@ function IsPlural(const W: string): Boolean;
 begin
   Result := InList(W, ['primeiros', 'primeiras', 'ultimos', 'ultimas', 'primeros', 'primeras', 'premiers',
     'premieres', 'derniers', 'dernieres', 'primi', 'ultimi', 'ultime', 'pierwsze', 'ostatnie', 'primele',
-    'ultimele']);
+    'ultimele', 'первые', 'последние', 'перші', 'останні']);
 end;
 
 { Sentence punctuation becomes a word of its own, so "o último." ends the reference and "por último," does not
@@ -197,6 +234,7 @@ procedure MergePenultimate(var T: TArray<string>);
 var
   I, J, Skip: Integer;
   R: TArray<string>;
+  Replacement: string;
 begin
   SetLength(R, Length(T));
   J := 0;
@@ -204,6 +242,7 @@ begin
   while I <= High(T) do
   begin
     Skip := 0;
+    Replacement := 'penultimate';
     if (I < High(T)) and (T[I] = 'avant') and ((T[I + 1] = 'dernier') or (T[I + 1] = 'derniere')) then
       Skip := 1
     else if (I < High(T)) and (T[I] = 'second') and (T[I + 1] = 'last') then
@@ -211,10 +250,23 @@ begin
     else if (I < High(T) - 1) and (T[I] = 'second') and (T[I + 1] = 'to') and (T[I + 2] = 'last') then
       Skip := 2
     else if (I < High(T)) and ((T[I] = 'utolso') or (T[I] = 'utolsot')) and (Copy(T[I + 1], 1, 6) = 'elotti') then
-      Skip := 1;
+      Skip := 1
+    else if (I < High(T)) and (T[I] = 'sondan') and (T[I + 1] = 'ikinci') then
+      Skip := 1
+    else if (I < High(T) - 1) and InList(T[I], ['끝에서']) and
+      InList(T[I + 1], ['두']) and InList(T[I + 2], ['번째']) then
+      Skip := 2
+    else if (I < High(T)) and InList(T[I + 1], ['번째']) then
+    begin
+      if InList(T[I], ['두']) then Replacement := 'second'
+      else if InList(T[I], ['세']) then Replacement := 'third'
+      else if InList(T[I], ['네']) then Replacement := 'fourth'
+      else if InList(T[I], ['다섯']) then Replacement := 'fifth';
+      if Replacement <> 'penultimate' then Skip := 1;
+    end;
     if Skip > 0 then
     begin
-      R[J] := 'penultimate';
+      R[J] := Replacement;
       Inc(I, Skip + 1);
     end
     else
@@ -332,6 +384,22 @@ begin
     end;
 end;
 
+function ExcludedAfterFile(const T: TArray<string>; AAfter: Integer): Boolean;
+var
+  J: Integer;
+begin
+  J := AAfter;
+  if (J < High(T)) and not InList(T[J], FILE_WORDS) and InList(T[J + 1], FILE_WORDS) then
+    Inc(J);
+  if (J > High(T)) or not InList(T[J], FILE_WORDS) then
+    Exit(False);
+  Inc(J);
+  if (J <= High(T)) and InList(T[J], ['को', 'के']) then Inc(J);
+  { Hindi, Turkish and Korean place the exclusion after the referenced file. }
+  Result := (J <= High(T)) and InList(T[J],
+    ['छोड़कर', 'छोड़कर', 'अलावा', 'hariç', 'dışında', '제외하고', '빼고']);
+end;
+
 procedure FindTokenPicks(const T: TArray<string>; AExFrom, AExTo: Integer; var P: TPicks);
 var
   I, V, N, After: Integer;
@@ -364,7 +432,7 @@ begin
     if (V <> 1) and (V <> -1) then
       N := 0;
     if OrdinalRefersToFile(T, I, After) then
-      AddOrdinal(P, V, N, Ex);
+      AddOrdinal(P, V, N, Ex or ExcludedAfterFile(T, After));
   end;
 end;
 

@@ -10,7 +10,7 @@ const
   APPLICATION_NAME = 'FastFile';
   APPLICATION_EDITION = 'Professional';
   APPLICATION_DISPLAY_NAME = APPLICATION_NAME + ' ' + APPLICATION_EDITION;
-  APPLICATION_VERSION = '3.0.5.244';
+  APPLICATION_VERSION = '3.0.5.268';
   APPLICATION_FULLNAME = 'Professional editor for huge text files';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
@@ -19,6 +19,7 @@ const
   INI_OPEN_TABS_ACTIVE = 'OpenTabsActive';
   INI_OPEN_TABS_FILE = 'OpenTabsFile';
   INI_OPEN_TABS_MRU = 'OpenTabsMRU';
+  INI_LANGUAGE_MRU = 'LanguageMRU';
   INI_SKIN_HUE_TAB = 'SkinHueTab';
   INI_MAIN_TAB_ORDER = 'MainTabOrder';
   OPEN_TABS_MRU_MAX = 12;
@@ -310,7 +311,7 @@ const
   FILTER_STREAM_PAGE_HITS = 100000;
   { Assistant-initiated stream filter uses the same page size. }
   ASSISTANT_FILTER_SOFT_MAX_HITS = FILTER_STREAM_PAGE_HITS;
-  FILTER_STREAM_BUF_SIZE = 1024 * 1024;
+  FILTER_STREAM_BUF_SIZE = 8 * 1024 * 1024;
   FF_EXPORT_STREAM_PROGRESS_EVERY = 256;
   FF_EXPORT_OWNER_PROGRESS_EVERY = 64;
   MESSAGE_FILENAME = 'Writing %d of %d';
@@ -433,7 +434,205 @@ const
     '*******************************************************'#13#10 +
     ''#13#10 +
     '-------------------------------------------------------'#13#10 +
-    '  v3.0.5.244  (2026-10-24)  (current)'#13#10 +
+    '  v3.0.5.268  (2026-11-02)  (current)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Read icon glyph and visibility:'#13#10 +
+    '    The in-field icon uses the same Read drawing as the toolbar,'#13#10 +
+    '      not the open-folder glyph, and sits in its own window so it'#13#10 +
+    '      stays visible above the path field.'#13#10 +
+    '    F1 and all 28 UI languages updated.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.267  (2026-11-01)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Read from the path field:'#13#10 +
+    '    A Read icon sits inside the file path field, left of the'#13#10 +
+    '      clear X, and loads the path shown there.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.266  (2026-11-01)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Shorter next-steps guide:'#13#10 +
+    '    The guide stays on one row at a lower height so the file'#13#10 +
+    '      list is not covered.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.265  (2026-11-01)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Wider follow-up actions:'#13#10 +
+    '    Each activity offers more next steps.'#13#10 +
+    '    F1 and all 28 UI languages updated.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.264  (2026-11-01)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Next steps follow the current activity:'#13#10 +
+    '    Find, filter, split, merge, read and the other'#13#10 +
+    '      flows each show their own actions.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.263  (2026-10-31)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Reopen the next-steps guide from the file list:'#13#10 +
+    '    A button to the left of Copy opens the same guide.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.262  (2026-10-31)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Six more interface languages:'#13#10 +
+    '    Thai, Greek, Norwegian, Swedish, Danish and'#13#10 +
+    '      Icelandic bring the application to 28 languages.'#13#10 +
+    '    All six use a left-to-right layout.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.261  (2026-10-31)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Preferences and workflow guide:'#13#10 +
+    '    Refreshed the Preferences dialog and added Show guide now.'#13#10 +
+    '      The guide can be reopened without reading another file.'#13#10 +
+    '    F1 and all 22 UI languages updated.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.260  (2026-10-31)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Stable workflow guide initialization:'#13#10 +
+    '    The panel is attached to its parent before child controls'#13#10 +
+    '      are created, preventing a file-read exception.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.259  (2026-10-31)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Workflow guide layout and flicker:'#13#10 +
+    '    Removed repeated resize animation and stabilized the list'#13#10 +
+    '      while the panel initializes; refreshed its visual style.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.258  (2026-10-30)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Next-steps guide after reading a file:'#13#10 +
+    '    Suggests useful follow-up actions such as line editing,'#13#10 +
+    '      merging files and asking the AI; includes a do-not-show option.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.257  (2026-10-30)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Localized editing context menu and session-history wording:'#13#10 +
+    '    Context-menu actions follow the selected UI language; visible'#13#10 +
+    '      history terminology no longer uses the old journal label.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.256  (2026-10-30)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Equal-parts workflow:'#13#10 +
+    '    Improved large-file generation and keep the split tab active'#13#10 +
+    '      when the operation finishes.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.255  (2026-10-30)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Six additional interface languages:'#13#10 +
+    '    Hindi, Russian, Korean, Dutch, Turkish and Ukrainian bring'#13#10 +
+    '      the application to 22 languages. Hindi uses left-to-right.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.254  (2026-10-30)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Equal parts on the main toolbar:'#13#10 +
+    '    The button sits right after Merge files.'#13#10 +
+    '      Ctrl+Shift+P opens Split file into equal parts.'#13#10 +
+    '    Icon: vertical split. Also listed under More tools.'#13#10 +
+    '    F1, Version History, changelog and docs synced.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.253  (2026-10-29)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Right-to-left file list and language menu:'#13#10 +
+    '    In Arabic and Hebrew the columns read from the right.'#13#10 +
+    '      The line number sits on the right. Cell text stays'#13#10 +
+    '      left to right.'#13#10 +
+    '    The language menu is not mirrored twice, and it'#13#10 +
+    '      widens so a name is not cut off.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.252  (2026-10-29)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  A flag beside each language name:'#13#10 +
+    '    The dropdown shows the main country flag and the'#13#10 +
+    '      language name. The closed combo stays text only.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.251  (2026-10-29)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Arabic and Hebrew, fully translated:'#13#10 +
+    '    The UI now has 16 languages. Arabic and Hebrew live'#13#10 +
+    '      in uI18nRtl.pas (tools/gen_rtl_i18n.py).'#13#10 +
+    '    Choosing either language turns on right-to-left.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.250  (2026-10-29)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Right-to-left layout for the whole application:'#13#10 +
+    '    uBidiLayout mirrors every form, dialogs and controls'#13#10 +
+    '      created in code. Message boxes follow the direction.'#13#10 +
+    '    File text, code and raw editors stay left to right.'#13#10 +
+    '    Layout that uses left coordinates runs inside'#13#10 +
+    '      BidiLayoutScope, then is mirrored again.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.249  (2026-10-29)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Language list and regex examples:'#13#10 +
+    '    The language combo keeps recent languages first.'#13#10 +
+    '      Type to search. The list closes before the'#13#10 +
+    '      language loads, so no blue rectangle stays up.'#13#10 +
+    '    Filter, the line editor and glob/grep show'#13#10 +
+    '      examples (error|failure, a digit, a date).'#13#10 +
+    '      Ask AI proposes a pattern; it does not run it.'#13#10 +
+    '    F1, Version History, changelog and docs synced.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.248  (2026-10-28)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Line limits are visible and editable in Options:'#13#10 +
+    '    Defaults: anonymize 1000 (a selection or a range;'#13#10 +
+    '      the whole file is not capped), merge 1000,'#13#10 +
+    '      translate 40, clipboard 500, export file'#13#10 +
+    '      100000, insert 2000, split files 100, parts 1000.'#13#10 +
+    '    The screen that uses the limit shows it. An empty'#13#10 +
+    '      or invalid value returns to the default.'#13#10 +
+    '    The mouse wheel scrolls the Options page.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.247  (2026-10-28)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Split by lines: preview and a tool strip:'#13#10 +
+    '    From/To, a short sample and an empty state when'#13#10 +
+    '      no file is open. Copy, clear, export, translate'#13#10 +
+    '      and anonymize use the same strip as the file list.'#13#10 +
+    '    Saving the range scans the original and writes a'#13#10 +
+    '      new file. The range is not held as a list in RAM.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.246  (2026-10-27)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  glob/grep suggestions and Ask AI placement:'#13#10 +
+    '    Recent commands use the project list (search,'#13#10 +
+    '      remove one, clear all) in mru_search_cmd.ini.'#13#10 +
+    '    An empty request no longer shows the control name.'#13#10 +
+    '    More examples: CSV, logs in subfolders, ?, --limit,'#13#10 +
+    '      case, OR, invert, whole word, named groups,'#13#10 +
+    '      bookmarks and --mark.'#13#10 +
+    '    Ask AI docks beside the active page.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.245  (2026-10-26)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Find, Filter and Bookmarks open compact:'#13#10 +
+    '    A grip at the bottom resizes the height.'#13#10 +
+    '    Close sits beside Clear.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.244  (2026-10-24)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  Column sort, grep named groups, session filter/encoding:'#13#10 +
     '    CSV/column mode: click a column to sort. The order is a'#13#10 +
@@ -593,7 +792,7 @@ const
     '      line index. Same-size text is written in place; a short'#13#10 +
     '      tail is shifted inside the file; otherwise a temp on the'#13#10 +
     '      same volume is renamed over the original. Indexes are'#13#10 +
-    '      rebuilt in the same pass. A journal (.ffj) restores the'#13#10 +
+    '      rebuilt in the same pass. A recovery log (.ffj) restores the'#13#10 +
     '      file if the app stops mid-edit (recovered at startup).'#13#10 +
     '    Before selected lines are saved, a before/after list shows'#13#10 +
     '      only the lines that change.'#13#10 +
@@ -775,7 +974,7 @@ const
     '-------------------------------------------------------'#13#10 +
     '  Session history rework (Compare / merge):'#13#10 +
     '    Substring highlight of the change, better spacing.'#13#10 +
-    '    Changed lines list (paged, RAM-safe index for journals of'#13#10 +
+    '    Changed lines list (paged, RAM-safe index for session logs of'#13#10 +
     '      any size) with synced selection.'#13#10 +
     '    MRU of files that have merge history; clear list / MRU'#13#10 +
     '      with confirmation.'#13#10 +
@@ -1366,7 +1565,7 @@ const
     '      once; ConsumerRAG.exe stopped in background (TerminateProcess +'#13#10 +
     '      timed 750 ms reader-thread wait); Cancel/Close always clickable.'#13#10 +
     '    Compare / Merge preview + session history fix mojibake: encoding'#13#10 +
-    '      auto-detect (UTF-8 / ANSI / UTF-16 via uTextEncoding); journal'#13#10 +
+    '      auto-detect (UTF-8 / ANSI / UTF-16 via uTextEncoding); session log'#13#10 +
     '      read/written as UTF-8 (uFileSessionHistory, uCompareMergeUI).'#13#10 +
     '    Mouse wheel (and Ctrl+wheel) over any AI chat sidebar (SQL,'#13#10 +
     '      Advanced, Assistant, Script) scrolls that transcript, not the'#13#10 +
@@ -1382,7 +1581,7 @@ const
     '      title label Enabled False so buttons stay clickable.'#13#10 +
     '    Internal v3.0.4.3: uTextEncoding RawBytesToDisplayString /'#13#10 +
     '      DetectTextFileEncoding; uCompareMergeUI ReadTextFileLineSlice'#13#10 +
-    '      PAnsiChar + BOM skip; uFileSessionHistory UTF8Encode journal.'#13#10 +
+    '      PAnsiChar + BOM skip; uFileSessionHistory UTF8Encode session log.'#13#10 +
     '    Internal v3.0.4.4: ActionReadFileExecute TOpenDialog when loaded;'#13#10 +
     '      HwndInSideChatPanels / TryScrollSideChatWheel; FormMouseWheel +'#13#10 +
     '      ScriptMemoAppMessage route wheel to chat memos.'#13#10 +
@@ -1567,7 +1766,7 @@ const
     '      rows (BuildBlankInsertLineContent); Ctrl/Alt block select'#13#10 +
     '      in content column unchanged.'#13#10 +
     '    Internal v2.1.7.18: Ctrl+Z / Ctrl+Y for autofill blocks'#13#10 +
-    '      (Op=3 BatchKind=1); BAUT journal + merge/history tab;'#13#10 +
+    '      (Op=3 BatchKind=1); BAUT session-log record + merge/history tab;'#13#10 +
     '      RecordBatchInsertForUndo keeps blank-line count (no trim);'#13#10 +
     '      RestoreBatchInsertLinesFromUndo for redo of empty rows.'#13#10 +
     '    Internal v2.1.7.19: RestoreCsvModeAfterPostEdit after edit'#13#10 +
@@ -1854,7 +2053,7 @@ const
     '  v2.1.6.61  (2026-04-15)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  Compare/Merge + session history modal (uCompareMergeUI):'#13#10 +
-    '    diff + history tabs, lvHistFile journal colors, ctx menus,'#13#10 +
+    '    diff + history tabs, lvHistFile session-log colors, ctx menus,'#13#10 +
     '    ExecuteModal->RefreshFile, TabSheetDiff/ui fixes; first'#13#10 +
     '    wave of 11-lang strings for preview/context (see .62).'#13#10 +
     ''#13#10 +
@@ -2569,6 +2768,28 @@ const
     '  - ANSI and basic text file support'#13#10 +
     ''#13#10 +
     '======================================================='#13#10;
+
+  { --- User preference defaults ------------------------------------------- }
+  DEF_FILTER_RECENT_MAX = 20;
+  DEF_ASSISTANT_RECENT_MAX = 20;
+  DEF_OPEN_TABS_MRU_MAX = OPEN_TABS_MRU_MAX;
+  DEF_LINE_HINT_SHOW_DELAY_MS = LINE_HINT_SHOW_DELAY_MS;
+  DEF_LINE_HINT_MAX_CHARS = LINE_HINT_MAX_CHARS;
+  DEF_LINE_HINT_MAX_LINES = LINE_HINT_MAX_LINES;
+  DEF_HISTORY_LINE_EXCERPT_MAX = 4000;
+  DEF_UI_SCALE_PPI = 0;
+  DEF_AGENT_DECISION_SECONDS = 20;
+  DEF_SELECTED_LINES_ACTION_MAX = 1000;
+  DEF_ANONYMIZE_MAX_LINES = 1000;
+  DEF_MERGE_MAX_LINES = 1000;
+  DEF_TRANSLATE_MAX_LINES = 40;
+  DEF_AGENT_SAMPLE_LINES = 500;
+  DEF_PYTHON_MACRO_SAMPLE_LINES = 80;
+  DEF_EXPORT_CLIPBOARD_MAX_LINES = EXPORT_CLIPBOARD_MAX_LINES;
+  DEF_EXPORT_FILE_MAX_LINES = EXPORT_FILE_MAX_LINES;
+  DEF_INSERT_MAX_LINES = MAX_INSERT_LINES;
+  DEF_SPLIT_FILES_MAX = 100;
+  DEF_SPLIT_PARTS_MAX = SPLIT_PARTS_MAX;
 
 implementation
 

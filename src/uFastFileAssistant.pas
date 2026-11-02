@@ -32,6 +32,7 @@ procedure FastFileAssistantShowCapabilities;
 procedure AssistantSubmitQuestion;
 { Post-action offer: summary + "What do you want to do next?" + action chips.
   Optional AAiDraft is kept as a clickable suggestion (not typed into the question box). }
+function AssistantOfferActionCaption(const AActionId: string): string;
 procedure NotifyAssistantOfferNext(const ASummary, AActionIdsCsv: string); overload;
 procedure NotifyAssistantOfferNext(const ASummary, AActionIdsCsv,
   AAiDraft: string); overload;
@@ -65,7 +66,8 @@ uses
   uFastFileAssistantIntent,   uFastFilePaths, uFastFileComposeExport, ShellAPI, uMruFind,
   UnitPopupMruList, uSmoothLoading, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost,
   uFastFileScale, uAssistantPipelineStore, uAssistantPostAction, uUserPrefs, uExportDoneDlg,
-  uAgentBridge, uAICapabilitiesDlg, uSourceCodeHelpDlg, uSourceValidators, uSearchCommands;
+  uAgentBridge, uAICapabilitiesDlg, uSourceCodeHelpDlg, uSourceValidators, uSearchCommands,
+  uBidiLayout;
 
 const
   { Chips of the offer banner after a failed validation (not catalog action ids). }
@@ -115,7 +117,7 @@ const
   ASSISTANT_RECENT_VISIBLE = 10;
   ASSISTANT_RECENT_DISPLAY_MAX = 72;
   ASSISTANT_PANEL_WIDTH = 400;
-  { Layout + FastFile chrome sampled from main UI (toolbars + idle workspace).
+  { Layout + FastFile frame sampled from main UI (toolbars + idle workspace).
     Delphi BGR: sel1 toolbar light, sel2 toolbar mid, sel3 IDLE_WORKSPACE_*. }
   ASSISTANT_PAD = 14;
   ASSISTANT_TOOLBAR_LIGHT = TColor($00FEFCFB); { ~#FBFCFE — top toolbar }
@@ -501,18 +503,18 @@ type
     FRecentFindNeedle: string;
     FFindImages: TCustomImageList;
     FFindImageIndex: Integer;
-    FChromeSurf: TColor;
-    FChromeCard: TColor;
-    FChromeBorder: TColor;
-    FChromeAccent: TColor;
-    FChromeMuted: TColor;
-    FChromeTitle: TColor;
+    FFrameSurf: TColor;
+    FFrameCard: TColor;
+    FFrameBorder: TColor;
+    FFrameAccent: TColor;
+    FFrameMuted: TColor;
+    FFrameTitle: TColor;
     procedure BuildMemoPopupMenus;
     procedure AssistantMemoSelectAll(AMemo: TMemo);
     procedure AssistantMemoKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure AssistantMemoEnter(Sender: TObject);
     procedure AssistantMemoExit(Sender: TObject);
-    procedure UpdateQuestionFocusChrome(AFocused: Boolean);
+    procedure UpdateQuestionFocusFrame(AFocused: Boolean);
     function CopyAssistantMemoToClipboard(AMemo: TMemo): Boolean;
     function HandleEnterKey(var Key: Word; Shift: TShiftState): Boolean;
     procedure AssistantMemoPopupSelectAll(Sender: TObject);
@@ -529,7 +531,7 @@ type
     procedure AssistantMemoPopupPopup(Sender: TObject);
     function FormatAssistantElapsedMs(AMs: Cardinal): string;
     function BuildReplyWithTiming(const ABody: string; AIncludeExec: Boolean): string;
-    procedure ApplyAssistantSoftChrome;
+    procedure ApplyAssistantSoftFrame;
     procedure RefreshAssistantSurfaceColor;
     procedure BuildFormLayout;
     procedure LayoutInputControls(Sender: TObject);
@@ -555,7 +557,7 @@ type
     procedure HeaderMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure HeaderDblClick(Sender: TObject);
-    procedure ApplyHeaderDragChrome;
+    procedure ApplyHeaderDragFrame;
     procedure PlaceAssistantGrips;
     procedure AssistantGripResized(Sender: TObject);
     procedure RestoreDockedStack;
@@ -4787,7 +4789,7 @@ begin
   if Assigned(BtnCapsTop) then
     BtnCapsTop.Hint := TrText('AICaps.Button') + ' ' + TrText('AICaps.ButtonHint.Assistant');
   SyncFloatAction;
-  ApplyHeaderDragChrome;
+  ApplyHeaderDragFrame;
   if Assigned(FGripInputBot) then
     FGripInputBot.Hint := TrText('Assistant.SplitHint');
   if Assigned(LblPrompt) then
@@ -5618,7 +5620,7 @@ begin
   Cap := Trim(ACaption);
   LblStatus.Caption := Cap;
   if Cap = '' then
-    LblStatus.Font.Color := FChromeMuted
+    LblStatus.Font.Color := FFrameMuted
   else if SameText(Cap, TrText('Assistant.Done')) or
           SameText(Cap, TrText('Assistant.ReplyReady')) then
     LblStatus.Font.Color := ASSISTANT_STATUS_OK
@@ -5663,16 +5665,16 @@ begin
   APnl.Color := AColor;
 end;
 
-procedure TFastFileAssistantCtrl.UpdateQuestionFocusChrome(AFocused: Boolean);
+procedure TFastFileAssistantCtrl.UpdateQuestionFocusFrame(AFocused: Boolean);
 begin
   if not Assigned(PnlQuestionShell) then Exit;
   if AFocused then
     ForceAssistantPanelColor(PnlQuestionShell, ColorToRGB(clHighlight))
   else
-    ForceAssistantPanelColor(PnlQuestionShell, FChromeBorder);
+    ForceAssistantPanelColor(PnlQuestionShell, FFrameBorder);
 end;
 
-procedure TFastFileAssistantCtrl.ApplyAssistantSoftChrome;
+procedure TFastFileAssistantCtrl.ApplyAssistantSoftFrame;
 var
   UiFont: string;
   HdrTop, HdrBot: TColor;
@@ -5684,20 +5686,20 @@ begin
     UiFont := 'Tahoma';
 
   { Match main window: toolbar greys (sel 1–2) + idle workspace blue (sel 3). }
-  FChromeSurf := ColorToRGB(ASSISTANT_TOOLBAR_MID);
-  FChromeCard := ColorToRGB(IDLE_WORKSPACE_GRAD_LEFT); { soft blue-white, not stark }
-  FChromeTitle := ColorToRGB(clWindowText);
-  FChromeAccent := ColorToRGB(IDLE_WORKSPACE_GRAD_RIGHT); { soft sky accent }
-  FChromeBorder := ColorToRGB(ASSISTANT_TOOLBAR_EDGE);
-  FChromeMuted := AssistantBlendColor(FChromeTitle, FChromeSurf, 35);
+  FFrameSurf := ColorToRGB(ASSISTANT_TOOLBAR_MID);
+  FFrameCard := ColorToRGB(IDLE_WORKSPACE_GRAD_LEFT); { soft blue-white, not stark }
+  FFrameTitle := ColorToRGB(clWindowText);
+  FFrameAccent := ColorToRGB(IDLE_WORKSPACE_GRAD_RIGHT); { soft sky accent }
+  FFrameBorder := ColorToRGB(ASSISTANT_TOOLBAR_EDGE);
+  FFrameMuted := AssistantBlendColor(FFrameTitle, FFrameSurf, 35);
   HdrTop := ColorToRGB(ASSISTANT_TOOLBAR_LIGHT);
   HdrBot := ColorToRGB(ASSISTANT_TOOLBAR_MID);
 
   Font.Name := UiFont;
   Font.Size := 9;
-  ForceAssistantPanelColor(Self, FChromeSurf);
+  ForceAssistantPanelColor(Self, FFrameSurf);
 
-  ForceAssistantPanelColor(PnlAccent, FChromeAccent);
+  ForceAssistantPanelColor(PnlAccent, FFrameAccent);
   if Assigned(PnlAccent) then
   begin
     PnlAccent.Width := ASSISTANT_ACCENT_W;
@@ -5710,29 +5712,29 @@ begin
     PnlHeader.GradBot := HdrBot;
     PnlHeader.Invalidate;
   end;
-  ForceAssistantPanelColor(PnlHeaderSep, FChromeBorder);
-  ForceAssistantPanelColor(PnlShortcutBadgeShell, FChromeBorder);
+  ForceAssistantPanelColor(PnlHeaderSep, FFrameBorder);
+  ForceAssistantPanelColor(PnlShortcutBadgeShell, FFrameBorder);
   ForceAssistantPanelColor(PnlShortcutBadge, ColorToRGB(ASSISTANT_BADGE_BG));
-  ForceAssistantPanelColor(PnlInput, FChromeSurf);
+  ForceAssistantPanelColor(PnlInput, FFrameSurf);
   if Assigned(MemoQuestion) and MemoQuestion.Focused then
     ForceAssistantPanelColor(PnlQuestionShell, ColorToRGB(clHighlight))
   else
-    ForceAssistantPanelColor(PnlQuestionShell, FChromeBorder);
+    ForceAssistantPanelColor(PnlQuestionShell, FFrameBorder);
   { Question edit stays true window white for typing clarity. }
   ForceAssistantPanelColor(PnlQuestionFrame, ColorToRGB(clWindow));
   ForceAssistantPanelColor(PnlQuestionTools, ColorToRGB(ASSISTANT_TOOLBAR_MID));
-  ForceAssistantPanelColor(PnlQuestionToolsSep, FChromeBorder);
-  ForceAssistantPanelColor(PnlReply, FChromeSurf);
-  ForceAssistantPanelColor(PnlReplyCapRow, FChromeSurf);
-  ForceAssistantPanelColor(PnlReplyStyleRow, FChromeSurf);
-  ForceAssistantPanelColor(PnlReplyCapAccent, FChromeAccent);
+  ForceAssistantPanelColor(PnlQuestionToolsSep, FFrameBorder);
+  ForceAssistantPanelColor(PnlReply, FFrameSurf);
+  ForceAssistantPanelColor(PnlReplyCapRow, FFrameSurf);
+  ForceAssistantPanelColor(PnlReplyStyleRow, FFrameSurf);
+  ForceAssistantPanelColor(PnlReplyCapAccent, FFrameAccent);
   if Assigned(PnlReplyCapAccent) then
   begin
     PnlReplyCapAccent.Width := ASSISTANT_CAP_ACCENT_W;
     PnlReplyCapAccent.Visible := ASSISTANT_CAP_ACCENT_W > 0;
   end;
-  ForceAssistantPanelColor(PnlReplyShell, FChromeBorder);
-  ForceAssistantPanelColor(PnlReplySurface, FChromeCard);
+  ForceAssistantPanelColor(PnlReplyShell, FFrameBorder);
+  ForceAssistantPanelColor(PnlReplySurface, FFrameCard);
 
   if Assigned(LblTitle) then
   begin
@@ -5740,7 +5742,7 @@ begin
     LblTitle.Font.Name := UiFont;
     LblTitle.Font.Size := 13;
     LblTitle.Font.Style := [fsBold];
-    LblTitle.Font.Color := FChromeTitle;
+    LblTitle.Font.Color := FFrameTitle;
   end;
   if Assigned(LblShortcut) then
   begin
@@ -5748,7 +5750,7 @@ begin
     LblShortcut.Font.Name := UiFont;
     LblShortcut.Font.Size := 8;
     LblShortcut.Font.Style := [];
-    LblShortcut.Font.Color := FChromeMuted;
+    LblShortcut.Font.Color := FFrameMuted;
   end;
   if Assigned(BtnHide) then
   begin
@@ -5756,7 +5758,7 @@ begin
     BtnHide.Font.Name := UiFont;
     BtnHide.Font.Size := 13;
     BtnHide.Font.Style := [];
-    BtnHide.Font.Color := FChromeMuted;
+    BtnHide.Font.Color := FFrameMuted;
   end;
   if Assigned(BtnCapsTop) then
   begin
@@ -5764,7 +5766,7 @@ begin
     BtnCapsTop.Font.Name := UiFont;
     BtnCapsTop.Font.Size := 11;
     BtnCapsTop.Font.Style := [fsBold];
-    BtnCapsTop.Font.Color := FChromeMuted;
+    BtnCapsTop.Font.Color := FFrameMuted;
   end;
   if Assigned(BtnFloat) then
   begin
@@ -5772,7 +5774,7 @@ begin
     BtnFloat.Font.Name := UiFont;
     BtnFloat.Font.Size := 11;
     BtnFloat.Font.Style := [];
-    BtnFloat.Font.Color := FChromeMuted;
+    BtnFloat.Font.Color := FFrameMuted;
   end;
   if Assigned(LblPrompt) then
   begin
@@ -5780,7 +5782,7 @@ begin
     LblPrompt.Font.Name := UiFont;
     LblPrompt.Font.Size := 11;
     LblPrompt.Font.Style := [fsBold];
-    LblPrompt.Font.Color := FChromeTitle;
+    LblPrompt.Font.Color := FFrameTitle;
   end;
   if Assigned(MemoDraftHint) then
   begin
@@ -5796,7 +5798,7 @@ begin
     LblRecentQuestions.Font.Name := UiFont;
     LblRecentQuestions.Font.Size := 8;
     LblRecentQuestions.Font.Style := [];
-    LblRecentQuestions.Font.Color := FChromeMuted;
+    LblRecentQuestions.Font.Color := FFrameMuted;
   end;
   if Assigned(LblReplyCaption) then
   begin
@@ -5804,7 +5806,7 @@ begin
     LblReplyCaption.Font.Name := UiFont;
     LblReplyCaption.Font.Size := 9;
     LblReplyCaption.Font.Style := [fsBold];
-    LblReplyCaption.Font.Color := FChromeTitle;
+    LblReplyCaption.Font.Color := FFrameTitle;
   end;
   if Assigned(LblStatus) then
   begin
@@ -5812,7 +5814,7 @@ begin
     LblStatus.Font.Name := UiFont;
     LblStatus.Font.Size := 8;
     if Trim(LblStatus.Caption) = '' then
-      LblStatus.Font.Color := FChromeMuted;
+      LblStatus.Font.Color := FFrameMuted;
   end;
   if Assigned(MemoQuestion) then
   begin
@@ -5823,14 +5825,14 @@ begin
     MemoQuestion.Font.Name := UiFont;
     MemoQuestion.Font.Size := 10;
     MemoQuestion.Font.Charset := DEFAULT_CHARSET;
-    MemoQuestion.Font.Color := FChromeTitle;
+    MemoQuestion.Font.Color := FFrameTitle;
   end;
   if Assigned(BtnClearQuestion) then
   begin
     BtnClearQuestion.ParentFont := False;
     BtnClearQuestion.Font.Name := UiFont;
     BtnClearQuestion.Font.Size := 11;
-    BtnClearQuestion.Font.Color := FChromeMuted;
+    BtnClearQuestion.Font.Color := FFrameMuted;
   end;
   StyleQuestionToolBtn(BtnTranslate);
   StyleQuestionToolBtn(BtnRewrite);
@@ -5847,7 +5849,7 @@ begin
     LblQuestionCharCount.Font.Name := UiFont;
     LblQuestionCharCount.Font.Size := 8;
     LblQuestionCharCount.Font.Style := [];
-    LblQuestionCharCount.Font.Color := FChromeMuted;
+    LblQuestionCharCount.Font.Color := FFrameMuted;
   end;
   if Assigned(PnlRecentCombo) then
   begin
@@ -5889,17 +5891,17 @@ begin
     LblDontShowAgain.ParentFont := False;
     LblDontShowAgain.Font.Name := UiFont;
     LblDontShowAgain.Font.Size := 8;
-    LblDontShowAgain.Font.Color := FChromeMuted;
+    LblDontShowAgain.Font.Color := FFrameMuted;
   end;
   if Assigned(MemoReply) then
   begin
     MemoReply.ParentColor := False;
-    MemoReply.Color := FChromeCard;
+    MemoReply.Color := FFrameCard;
     MemoReply.BorderStyle := bsNone;
     MemoReply.ParentFont := False;
     MemoReply.Font.Name := UiFont;
     MemoReply.Font.Size := 10;
-    MemoReply.Font.Color := FChromeTitle;
+    MemoReply.Font.Color := FFrameTitle;
   end;
   ForceAssistantPanelColor(PnlFileNotice, ColorToRGB(ASSISTANT_FILE_NOTICE_EDGE));
   ForceAssistantPanelColor(PnlFileNoticeInner, ColorToRGB(ASSISTANT_FILE_NOTICE_BG));
@@ -5939,7 +5941,7 @@ begin
     LblFileNoticeHint.ParentFont := False;
     LblFileNoticeHint.Font.Name := UiFont;
     LblFileNoticeHint.Font.Size := 7;
-    LblFileNoticeHint.Font.Color := FChromeMuted;
+    LblFileNoticeHint.Font.Color := FFrameMuted;
   end;
   LayoutFileNoticeActions;
   UpdateQuestionCharCount;
@@ -5948,7 +5950,7 @@ end;
 
 procedure TFastFileAssistantCtrl.RefreshAssistantSurfaceColor;
 begin
-  ApplyAssistantSoftChrome;
+  ApplyAssistantSoftFrame;
 end;
 
 procedure TFastFileAssistantCtrl.AssistantMemoSelectAll(AMemo: TMemo);
@@ -5980,13 +5982,13 @@ begin
   if Sender is TMemo then
     FLastAssistantMemo := TMemo(Sender);
   if Sender = MemoQuestion then
-    UpdateQuestionFocusChrome(True);
+    UpdateQuestionFocusFrame(True);
 end;
 
 procedure TFastFileAssistantCtrl.AssistantMemoExit(Sender: TObject);
 begin
   if Sender = MemoQuestion then
-    UpdateQuestionFocusChrome(False);
+    UpdateQuestionFocusFrame(False);
 end;
 
 function TFastFileAssistantCtrl.AssistantFocusedMemo: TMemo;
@@ -6465,6 +6467,7 @@ var
   ToolsBelow: Boolean;
   RowMinH, Reserve, OfferH, Extra, OfferCut, MaxInput: Integer;
   PromptTitle: string;
+  BL: IInterface;
 
   function S(const A: Integer): Integer;
   begin
@@ -6488,6 +6491,8 @@ begin
   if FInputLayoutBusy or not Assigned(PnlInput) then Exit;
   FInputLayoutBusy := True;
   try
+  { Positions below are left-to-right: un-mirror, lay out, mirror again. }
+  BL := BidiLayoutScope([PnlInput, PnlQuestionTools, PnlQuestionFrame]);
   W := PnlInput.ClientWidth - 2 * S(ASSISTANT_PAD);
   if W < 120 then Exit;
 
@@ -6811,6 +6816,7 @@ begin
   end;
   PlaceAssistantGrips;
   SyncAssistantMemoScrollBars;
+  BL := nil; { mirror the children again while the busy flag is still set }
   finally
     FInputLayoutBusy := False;
   end;
@@ -6827,6 +6833,7 @@ end;
 procedure TFastFileAssistantCtrl.LayoutFileNoticeActions;
 var
   X: Integer;
+  BL: IInterface;
 
   procedure Place(ABtn: TsSpeedButton; AMinW: Integer);
   begin
@@ -6838,6 +6845,7 @@ var
   end;
 
 begin
+  BL := BidiLayoutScope([PnlFileNoticeActions]);
   X := 0;
   Place(BtnFileNoticeOpen, 56);
   Place(BtnFileNoticeFolder, 56);
@@ -6926,6 +6934,7 @@ begin
   LblFileNoticeFile.ShowHint := True;
   StyleFileNoticeHyperlink(LblFileNoticeFile);
   LblFileNoticeFile.OnClick := FileNoticeOpenClick;
+  BidiKeepLtr(LblFileNoticeFile); { file name / path stay left-to-right }
 
   LblFileNoticeDir := TLabel.Create(Self);
   LblFileNoticeDir.Parent := PnlFileNoticeContent;
@@ -6939,6 +6948,7 @@ begin
   LblFileNoticeDir.ShowHint := True;
   StyleFileNoticeHyperlink(LblFileNoticeDir);
   LblFileNoticeDir.OnClick := FileNoticeFolderClick;
+  BidiKeepLtr(LblFileNoticeDir);
 
   PnlFileNoticeActions := TsPanel.Create(Self);
   PrepPanel(PnlFileNoticeActions, PnlFileNoticeContent, alBottom, ASSISTANT_FILE_NOTICE_BG);
@@ -7193,8 +7203,10 @@ end;
 procedure TFastFileAssistantCtrl.LayoutOfferHeadRow;
 var
   X, Y, Gap, AvailW, WhatW, MoreW: Integer;
+  BL: IInterface;
 begin
   if not Assigned(PnlOfferHead) then Exit;
+  BL := BidiLayoutScope([PnlOfferHead]);
   Gap := 10;
   Y := Max(0, (PnlOfferHead.ClientHeight - 18) div 2);
   if Assigned(BtnOfferDismiss) then
@@ -7285,7 +7297,12 @@ begin
     FOfferActionIds.Clear;
 end;
 
-function TFastFileAssistantCtrl.OfferActionCaption(const AActionId: string): string;
+function StripOfferAccel(const S: string): string;
+begin
+  Result := StringReplace(S, '&', '', [rfReplaceAll]);
+end;
+
+function AssistantOfferActionCaption(const AActionId: string): string;
 begin
   if SameText(AActionId, 'ask_ai') then
     Result := TrText('Assistant.Offer.AskAI')
@@ -7339,8 +7356,27 @@ begin
     Result := TrText('Assistant.FixAi.Chip')
   else if SameText(AActionId, OFFER_CHIP_SOURCE_HELP) then
     Result := TrText('SrcHelp.Button')
+  else if SameText(AActionId, 'edit_line') then
+    Result := TrText('WorkflowWizard.Edit')
+  else if SameText(AActionId, 'show_tab_merge_lines') then
+    Result := TrText('ListView.MergeLines')
+  else if SameText(AActionId, 'copy_filtered') then
+    Result := TrText('FilterBar.Copy')
+  else if SameText(AActionId, 'undo') then
+    Result := TrText('Undo')
+  else if SameText(AActionId, 'goto_line') then
+    Result := StripOfferAccel(TrText('Ir para linha'))
+  else if SameText(AActionId, 'save_session') then
+    Result := StripOfferAccel(TrText('&Save session now'))
+  else if SameText(AActionId, 'load_session') then
+    Result := StripOfferAccel(TrText('&Load session now'))
   else
     Result := AActionId;
+end;
+
+function TFastFileAssistantCtrl.OfferActionCaption(const AActionId: string): string;
+begin
+  Result := AssistantOfferActionCaption(AActionId);
 end;
 
 procedure TFastFileAssistantCtrl.OfferActionClick(Sender: TObject);
@@ -7727,8 +7763,10 @@ var
   I, X, Y, Gap, RowH, NeedH: Integer;
   Cap: string;
   Btn: TsSpeedButton;
+  BL: IInterface;
 begin
   if not Assigned(PnlOfferActions) or not Assigned(FOfferActionIds) then Exit;
+  BL := BidiLayoutScope([PnlOfferActions]);
   Gap := 6;
   X := 0;
   Y := 2;
@@ -8092,7 +8130,7 @@ begin
   LblTitle.Caption := TrText('Assistant.Title');
   LblTitle.Font.Style := [fsBold];
   LblTitle.Transparent := True;
-  ApplyHeaderDragChrome;
+  ApplyHeaderDragFrame;
 
   PnlHeaderSep := TsPanel.Create(Self);
   PnlHeaderSep.Parent := Self;
@@ -8621,7 +8659,7 @@ begin
   FillReplyStyleCombo;
   ApplyRecentFindGlyphs;
   ApplyAssistantUiTexts;
-  ApplyAssistantSoftChrome;
+  ApplyAssistantSoftFrame;
   LoadAssistantInputHeight;
   LayoutInputControls(nil);
 end;
@@ -8662,7 +8700,7 @@ begin
   end;
 end;
 
-procedure TFastFileAssistantCtrl.ApplyHeaderDragChrome;
+procedure TFastFileAssistantCtrl.ApplyHeaderDragFrame;
 begin
   { Embedded in the AI agent: the header is not a tear-off / drag handle. }
 end;
@@ -8709,7 +8747,7 @@ begin
     if PnlInput.Height < FfPx(120) then
       PnlInput.Height := FfPx(ASSISTANT_INPUT_DEFAULT_H);
   end;
-  ApplyAssistantSoftChrome;
+  ApplyAssistantSoftFrame;
   LayoutInputControls(nil);
 end;
 
@@ -8887,7 +8925,7 @@ begin
   else if Remain <= 20 then
     LblQuestionCharCount.Font.Color := $000080FF
   else
-    LblQuestionCharCount.Font.Color := FChromeMuted;
+    LblQuestionCharCount.Font.Color := FFrameMuted;
 end;
 
 function AssistantLangMenuCaption(ALang: TAppLanguage): string;
@@ -8906,6 +8944,20 @@ begin
     alJapanese:     Result := '日本語';
     alChineseSimplified:  Result := '简体中文';
     alChineseTraditional: Result := '繁體中文';
+    alArabic:       Result := #$0627#$0644#$0639#$0631#$0628#$064A#$0629;
+    alHebrew:       Result := #$05E2#$05D1#$05E8#$05D9#$05EA;
+    alHindi:        Result := #$0939#$093F#$0928#$094D#$0926#$0940;
+    alRussian:      Result := #$0420#$0443#$0441#$0441#$043A#$0438#$0439;
+    alKorean:       Result := #$D55C#$AD6D#$C5B4;
+    alDutch:        Result := 'Nederlands';
+    alTurkish:      Result := 'T'#252'rk'#231'e';
+    alUkrainian:    Result := #$0423#$043A#$0440#$0430#$0457#$043D#$0441#$044C#$043A#$0430;
+    alThai:         Result := 'ไทย';
+    alGreek:        Result := 'Ελληνικά';
+    alNorwegian:    Result := 'Norsk';
+    alSwedish:      Result := 'Svenska';
+    alDanish:       Result := 'Dansk';
+    alIcelandic:    Result := 'Íslenska';
   else
     Result := 'English';
   end;
@@ -9173,6 +9225,17 @@ begin
     BuildTranslateLangMenu;
   if not Assigned(BtnTranslate) then Exit;
   P := BtnTranslate.ClientToScreen(Point(0, BtnTranslate.Height));
+  if BidiIsRtl then
+  begin
+    { Right-to-left: the menu's right edge goes under the button's right edge. }
+    P.X := P.X + BtnTranslate.Width;
+    if SysLocale.MiddleEast then
+      PopupTranslateLang.Alignment := paLeft { TPopupMenu already right-aligns itself }
+    else
+      PopupTranslateLang.Alignment := paRight;
+  end
+  else
+    PopupTranslateLang.Alignment := paLeft;
   FPopupMenuOpen := True;
   try
     PopupTranslateLang.Popup(P.X, P.Y);
@@ -9562,7 +9625,8 @@ begin
     Memo.Parent := F;
     Memo.SetBounds(12, 12, F.ClientWidth - 24, F.ClientHeight - 56);
     Memo.ReadOnly := True;
-    Memo.WantReturns := True;
+    { WantReturns would swallow Esc inside the memo (DLGC_WANTALLKEYS). }
+    Memo.WantReturns := False;
     Memo.ScrollBars := ssVertical;
     Memo.WordWrap := True;
     Memo.Text := Body;
@@ -9571,6 +9635,7 @@ begin
     Btn.Parent := F;
     Btn.Caption := TrText('OK');
     Btn.Default := True;
+    Btn.Cancel := True;
     Btn.ModalResult := mrOk;
     Btn.SetBounds(F.ClientWidth - 100, F.ClientHeight - 36, 88, 26);
     BtnMore := TButton.Create(F);
@@ -9791,6 +9856,17 @@ var
     Result := True;
   end;
 
+  function DottedTokenHasLetter(const ATok: string): Boolean;
+  var
+    k: Integer;
+  begin
+    { ".165062" in a range such as "1..165062" is a line number, not a format. }
+    Result := False;
+    for k := 2 to Length(ATok) do
+      if CharInSet(ATok[k], ['a'..'z']) then
+        Exit(True);
+  end;
+
   function HasLooseFormatToken(const Tok: string): Boolean;
   var
     At, NextFrom: Integer;
@@ -9824,7 +9900,8 @@ begin
   L := LowerCase(FoldDiacriticsForMatch(Trim(AQuestion)));
   if L = '' then Exit;
 
-  { Standalone ".xlsx" (space/punct before the dot) — not filename.csv }
+  { Standalone ".xlsx" (space/punct before the dot) — not filename.csv.
+    Digit-only tails (".165062" from "1..165062") are line numbers. }
   i := 1;
   while i <= Length(L) do
   begin
@@ -9835,7 +9912,7 @@ begin
       while (j <= Length(L)) and CharInSet(L[j], ['a'..'z', '0'..'9']) do
         Inc(j);
       Tok := Copy(L, i, j - i);
-      if (Length(Tok) >= 3) and (Length(Tok) <= 9) then
+      if (Length(Tok) >= 3) and (Length(Tok) <= 9) and DottedTokenHasLetter(Tok) then
       begin
         Mapped := MapComposeFormatWord(Tok);
         if Mapped <> '' then
@@ -12229,7 +12306,7 @@ begin
   GAssistantCtrl.Visible := True;
   GAssistantCtrl.BringToFront;
   GAssistantCtrl.BuildFormLayout;
-  GAssistantCtrl.ApplyAssistantSoftChrome;
+  GAssistantCtrl.ApplyAssistantSoftFrame;
 end;
 
 procedure ShowFastFileAssistantPanel;
@@ -12266,7 +12343,7 @@ begin
     GAssistantCtrl.BringToFront;
     GAssistantCtrl.SyncDontShowStartupCheckbox;
     GAssistantCtrl.ApplyAssistantUiTexts;
-    GAssistantCtrl.ApplyAssistantSoftChrome;
+    GAssistantCtrl.ApplyAssistantSoftFrame;
     GAssistantCtrl.LayoutInputControls(nil);
     GAssistantCtrl.RequestInputFocus;
     if Assigned(Application.MainForm) then

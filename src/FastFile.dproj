@@ -38,8 +38,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
         <VerInfo_Release>5</VerInfo_Release>
-        <VerInfo_Build>244</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.5.244;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.5.244;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
+        <VerInfo_Build>268</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.5.268;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.5.268;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Icon_MainIcon>FastFile.ico</Icon_MainIcon>
     </PropertyGroup>
@@ -91,6 +91,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="UnConsts.pas"/>
         <DCCReference Include="uFileOpenPolicy.pas"/>
         <DCCReference Include="uPosBMH.pas"/>
+        <DCCReference Include="uFastLineSearch.pas"/>
         <DCCReference Include="UnConsumerAI.pas"/>
         <DCCReference Include="UnConsumerDialog.pas"/>
         <DCCReference Include="uTemporaryFileStream.pas"/>
@@ -152,6 +153,7 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DCCReference Include="uFastFileComposeExport.pas"/>
         <DCCReference Include="uFastFileNotice.pas"/>
         <DCCReference Include="uFastFileMsgDlg.pas"/>
+        <DCCReference Include="uBidiLayout.pas"/>
         <DCCReference Include="uFastFileScale.pas"/>
         <DCCReference Include="uFastFileFloatHost.pas"/>
         <DCCReference Include="uFastFileAssistant.pas"/>

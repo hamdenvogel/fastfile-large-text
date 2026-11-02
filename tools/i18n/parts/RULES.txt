@@ -1,0 +1,37 @@
+Translate every catalog source in your assigned index range into the requested language.
+Write ONLY your output file. Do not edit catalog.json, other language files, or Pascal sources.
+Do not call any network or external translation service. Translate yourself.
+
+Output JSON object, UTF-8, no BOM:
+{
+  "translations": { "<index>": "<text>", ... },
+  "unchanged": { "<index>": "<why this English text stays>", ... }
+}
+
+Include every integer index from LO through HI inclusive. No extras.
+"unchanged" only for indices whose translation is exactly equal to that entry's source.
+If the source contains two or more Latin letters (A-Z, a-z, accented Latin) and you copy it unchanged, a non-empty reason is mandatory.
+Reasons are for the validator, in English, one short sentence.
+Do not copy a normal sentence, button, menu, or help paragraph in English.
+
+Rules the validator enforces on each string:
+- Keep the exact same leading whitespace and the exact same trailing whitespace as the source, character for character.
+- Keep the same line-break sequence (\r\n, \n, or \r). Do not convert \r\n to \n.
+- Keep the same number of "|" characters. AI capability strings use Description|Example. Translate both sides and keep the pipe.
+- Keep the same printf/Format tokens, in the same order: %s %d %u %x %f %% and width/precision variants such as %.2f. Do not translate, reorder, or drop them. A doubled %% is a literal percent, not a placeholder.
+- No U+FFFD and no bidi control characters (U+202A-U+202E, U+2066-U+2069).
+- Do not leave a translation empty when the source has non-whitespace text.
+
+Style:
+- UI language, concise, matching the tone of a desktop application.
+- Keep these tokens as they are when they appear inside a sentence: FastFile, Python, SQL, JSON, HTML, XML, CSV, UTF-8, DPI, GB, KB, MB, TB, Ctrl, Alt, Shift, Enter, Esc, Del, TAB, Windows, OK, AI.
+- Norwegian is Bokmål (nb), not Nynorsk.
+- Thai is standard modern UI Thai. Greek is modern Greek. Swedish uses "rad" for a text line. Danish and Norwegian use "linje". Icelandic uses "lína" and "skrá".
+- Index 3417, when it is in range, is a multiline help page. Translate the prose and keep every \r\n, the hyphen rules, and the version numbers v3.0.5.255 and v3.0.5.261.
+
+These index pairs are the same phrase with different capitalization. Both indices must receive the exact same translation (see your must-file; those values override yours):
+946 and 947, 1094 and 3381, 1279 and 1280, 2299 and 2303, 2300 and 2309, 2411 and 2414, 2677 and 3394, 3344 and 3346.
+
+Apply every entry in your must-file exactly, including whitespace. If a must-file value equals the source, add the must-file reason to "unchanged".
+
+Before you finish, load your output and check that the set of translation keys equals every index in the range. Fix any missing index.

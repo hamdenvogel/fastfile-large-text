@@ -18,10 +18,16 @@ Para o guia detalhado dos EXEs Python (ConsumerAI / ConsumerRAG / parâmetros CL
 
 O editor **FastFile.exe** não executa estes modelos Python directamente; serve como **host** para integrações (`ConsumerAI.exe` / `ConsumerRAG.exe` / `ScriptEngine.exe`) e para o **Assistente IA** (`uFastFileAssistant*.pas`, `uFastFileAIClient.pas`).
 
-**Versão publicada do EXE:** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.243`** (23/10/2026).
+**Versão publicada do EXE:** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.268`** (02/11/2026).
 
 Trilhos recentes no host Delphi (IA / i18n / arranque):
 
+- **★ v3.0.5.266–268:** o guia de próximos passos fica mais baixo; um ícone de **Ler** no campo do caminho (à esquerda do X) carrega esse ficheiro com o mesmo desenho da barra. **Sem modelo novo:** a IA continua no gateway existente.
+- **★ v3.0.5.262–265:** a interface chega a **28 idiomas** (tailandês, grego, norueguês, sueco, dinamarquês e islandês, todos da esquerda para a direita). O guia de próximos passos acompanha a atividade atual e oferece mais ações seguintes; um botão à esquerda de **Copiar** reabre o mesmo guia. **Sem modelo novo:** a IA continua no gateway existente.
+- **★ v3.0.5.255–261:** a interface chega a **22 idiomas**; o guia de próximos passos e as Preferências foram renovados, com reabertura sob demanda. O split em partes iguais percorre blocos MMF sem carregar o arquivo inteiro; menu de contexto e histórico de sessão receberam ajustes de localização/terminologia. **Sem modelo novo:** a IA continua no gateway existente.
+- **★ v3.0.5.254:** sem modelo novo. O host passa a 16 idiomas (árabe e hebraico em `uI18nRtl.pas`) e o layout da direita para a esquerda. **Partes iguais** fica na barra principal (Ctrl+Shift+P). A ajuda F1 desse bloco está nos 16 idiomas. A IA do filtro e do editor de linha continua a só propor o padrão.
+- **★ v3.0.5.249:** combo de idiomas com recentes (`LanguageMRU`). Filtro, editor de linha e glob/grep mostram exemplos; **Perguntar à IA** propõe um padrão (regex VBScript no filtro, sem lookbehind; regex Delphi no editor) e não o executa. Mesmo gateway; o arquivo não vai no pedido.
+- **★ v3.0.5.246:** comandos glob/grep recentes em `mru_search_cmd.ini`. **Perguntar à IA** abre ao lado da página ativa, não no chat do agente.
 - **★ v3.0.5.243:** arquivo opcional em `grep "casa"` / `glob "*.txt"` usa o campo principal; um caminho explícito é validado/carregado antes da execução GUI. Ferramentas do modelo/diagnóstico só podem restringir suas fontes autorizadas, nunca ampliá-las. Leitura por blocos, cancelamento, limite de resultados e erro explícito acima de 16.777.216 caracteres decodificados por linha. Testes esparsos de 80 GiB, não benchmark de leitura integral.
 - **★ v3.0.5.242:** `grep`/`glob` isolados abrem exemplos sem provedor/varredura; botões próprios em Localizar, Filtro e Marcadores. Comandos digitados no Assistente/agente usam a ponte local; diagnóstico mantém suas fontes/configurações e é somente leitura (inventário só glob; sem `--mark`/`--bookmarks`). «O que posso fazer?» e F1 cobrem o recurso nos 14 idiomas.
 - **★ v3.0.5.241:** IA no modal (`SearchCommandPrompt` / `ParseSearchCommandAdvice`): mesmo gateway, nenhum modelo/provedor novo; só pedido e comando atual enviados, sem conteúdo/lista de fontes. JSON estrito com comando, explicação e até três sugestões; ambiguidade pede esclarecimento. Gerar não executa: revisão e **Executar comando** obrigatórios; erros visíveis. Testes usam provedor injetado, sem chamada remota.

@@ -411,7 +411,7 @@ object frmMain: TfrmMain
             Reflected = True
           end
           object btnMainSplitEqualParts: TsSpeedButton
-            Left = 121
+            Left = 243
             Top = 0
             Width = 118
             Height = 71
@@ -426,10 +426,10 @@ object frmMain: TfrmMain
             SkinData.SkinSection = 'TOOLBUTTON'
             Blend = 20
             Reflected = True
-            ExplicitLeft = 711
+            ExplicitLeft = 243
           end
           object btnMainMergeFiles: TsSpeedButton
-            Left = 243
+            Left = 121
             Top = 0
             Width = 118
             Height = 71
@@ -444,7 +444,7 @@ object frmMain: TfrmMain
             SkinData.SkinSection = 'TOOLBUTTON'
             Blend = 20
             Reflected = True
-            ExplicitLeft = 357
+            ExplicitLeft = 121
           end
           object btnMainSplitFiles: TsSpeedButton
             Left = 361
@@ -4164,13 +4164,14 @@ object frmMain: TfrmMain
             Width = 1022
             Height = 251
             Align = alClient
+            BevelOuter = bvNone
             TabOrder = 0
             object gbxSplitByLines: TsGroupBox
-              Left = 1
-              Top = 1
-              Width = 1020
-              Height = 249
-              Align = alClient
+              Left = 0
+              Top = 0
+              Width = 1022
+              Height = 156
+              Align = alTop
               Caption = 'Generating new file by source and target lines'
               TabOrder = 0
               object lblFromSplitByLine: TsLabel
@@ -4454,7 +4455,7 @@ object frmMain: TfrmMain
         Left = 0
         Top = 0
         Width = 1030
-        Height = 104
+        Height = 76
         Align = alTop
         TabOrder = 1
         object gbxInfoFileSplit: TsGroupBox

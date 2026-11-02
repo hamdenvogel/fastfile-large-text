@@ -354,7 +354,8 @@ uses
   StrUtils, uI18n, uAgentLoop, uFastFileMsgDlg, uLineDiffCore, uFastFilePaths, uSearchCommands,
   uCompareMergeUI, uMergeApply, UnitPopupMruList, uMruFind, uAgentActions, uFastFileAssistantHost,
   uFastFileAIClient, uAgentProtocol, uFastFileAssistant, uSmoothLoading, sSkinProvider, GraphUtil, uAnonymize,
-  uExportDoneDlg, uAgentBridge, uUserPrefs, uAICapabilitiesDlg, uFastFileScale, uFolderPickDlg;
+  uExportDoneDlg, uAgentBridge, uUserPrefs, uAICapabilitiesDlg, uFastFileScale, uFolderPickDlg,
+  uBidiLayout;
 
 const
   WM_AGENT_STATUS = WM_APP + 40;
@@ -1194,6 +1195,13 @@ begin
   lstIncluded.Margins.SetBounds(6, 6, 6, 6);
   lstIncluded.Align := alClient;
 
+  { paths, masks, edit lists and the owner-drawn diff preview stay left-to-right }
+  BidiKeepLtr(lstRoots);
+  BidiKeepLtr(lstIncluded);
+  BidiKeepLtr(lstEdits);
+  BidiKeepLtr(lstPreview);
+  BidiKeepLtr(edtMask);
+
   pgResults.ActivePage := tabAnswer;
 
   tmrWait := TTimer.Create(Self);
@@ -1269,6 +1277,7 @@ end;
 procedure TfrmAgentWorkspace.FitTexts;
 var
   W, X, Gap: Integer;
+  BL: IInterface;
 
   function BtnW(B: TsButton; AMin: Integer): Integer;
   begin
@@ -1277,6 +1286,8 @@ var
 
 begin
   if btnSend = nil then Exit;
+  { the decision buttons / expiry badge / note are placed with absolute left-to-right values }
+  BL := BidiLayoutScope([pnlActions]);
   SizeToolButtons;
   W := Max(TextPx(lblMask.Font, lblMask.Caption),
     Max(TextPx(lblDepth.Font, lblDepth.Caption), TextPx(lblMaxFiles.Font, lblMaxFiles.Caption))) + Dpi(10);
@@ -1369,7 +1380,7 @@ end;
 procedure TfrmAgentWorkspace.LayoutOptions;
 var
   Host: TWinControl;
-  RowH, NeedHost, FrameChrome: Integer;
+  RowH, NeedHost, GroupFrame: Integer;
   R: TRect;
   Bmp: TBitmap;
   MaskRow, DepthRow, MaxRow: TControl;
@@ -1415,11 +1426,11 @@ begin
 
   R := grpOptions.ClientRect;
   TFrameAccess(grpOptions).AdjustClientRect(R);
-  FrameChrome := grpOptions.Height - (R.Bottom - R.Top);
-  if FrameChrome < Dpi(20) then
-    FrameChrome := Dpi(28);
+  GroupFrame := grpOptions.Height - (R.Bottom - R.Top);
+  if GroupFrame < Dpi(20) then
+    GroupFrame := Dpi(28);
 
-  FOptH := FrameChrome + Host.Margins.Top + Host.Margins.Bottom + NeedHost;
+  FOptH := GroupFrame + Host.Margins.Top + Host.Margins.Bottom + NeedHost;
   FOptH := Max(FOptH, Dpi(140));
   if grpOptions.Height <> FOptH then
     grpOptions.Height := FOptH;
@@ -1467,20 +1478,35 @@ procedure TfrmAgentWorkspace.GuidePaint(Sender: TObject);
 var
   C: TCanvas;
   R, T: TRect;
-  H, IconW: Integer;
+  H, IconW, TrailW: Integer;
+  Rtl: Boolean;
 begin
   C := pbGuide.Canvas;
   R := pbGuide.ClientRect;
-  GradientFillCanvas(C, GUIDE_FROM, GUIDE_TO, R, gdHorizontal);
+  Rtl := BidiIsRtl;
+  if Rtl then
+    GradientFillCanvas(C, GUIDE_TO, GUIDE_FROM, R, gdHorizontal)
+  else
+    GradientFillCanvas(C, GUIDE_FROM, GUIDE_TO, R, gdHorizontal);
   C.Pen.Color := GUIDE_EDGE;
   C.Brush.Style := bsClear;
   C.Rectangle(R);
   C.Brush.Style := bsSolid;
   C.Brush.Color := GUIDE_ACCENT;
-  C.FillRect(Rect(R.Left, R.Top, R.Left + Dpi(4), R.Bottom));
+  C.FillRect(BidiRect(Rect(R.Left, R.Top, R.Left + Dpi(4), R.Bottom), R.Right));
 
+  { The label margins were mirrored with the control: the icon side is Right when right-to-left. }
+  if Rtl then
+  begin
+    IconW := lblGuide.Margins.Right;
+    TrailW := lblGuide.Margins.Left;
+  end
+  else
+  begin
+    IconW := lblGuide.Margins.Left;
+    TrailW := lblGuide.Margins.Right;
+  end;
   { Info glyph, centred in the space left of the text. }
-  IconW := lblGuide.Margins.Left;
   C.Brush.Style := bsClear;
   C.Font.Color := GUIDE_ACCENT;
   if Screen.Fonts.IndexOf('Segoe MDL2 Assets') >= 0 then
@@ -1490,17 +1516,18 @@ begin
       C.Font.Size := 11
     else
       C.Font.Size := 14;
-    T := Rect(R.Left + Dpi(4), R.Top, R.Left + IconW, R.Bottom);
+    T := BidiRect(Rect(R.Left + Dpi(4), R.Top, R.Left + IconW, R.Bottom), R.Right);
     DrawText(C.Handle, PChar(string(#$E946)), -1, T, DT_CENTER or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX);
   end;
 
   SetGuideFont(C.Font, FGuideCompact);
   C.Font.Color := GUIDE_TEXT;
-  T := Rect(R.Left + IconW, 0, R.Right - lblGuide.Margins.Right, 0);
+  T := Rect(R.Left + IconW, 0, R.Right - TrailW, 0);
   DrawText(C.Handle, PChar(lblGuide.Caption), -1, T, DT_CALCRECT or DT_WORDBREAK or DT_NOPREFIX);
   H := T.Bottom - T.Top;
-  T := Rect(R.Left + IconW, R.Top + (R.Height - H) div 2, R.Right - lblGuide.Margins.Right, R.Bottom);
-  DrawText(C.Handle, PChar(lblGuide.Caption), -1, T, DT_WORDBREAK or DT_NOPREFIX);
+  T := Rect(R.Left + IconW, R.Top + (R.Height - H) div 2, R.Right - TrailW, R.Bottom);
+  T := BidiRect(T, R.Right);
+  DrawText(C.Handle, PChar(lblGuide.Caption), -1, T, BidiDrawFlags(DT_WORDBREAK or DT_NOPREFIX));
 end;
 
 procedure TfrmAgentWorkspace.FormResize(Sender: TObject);
@@ -1535,7 +1562,10 @@ begin
       lblSendHint.Visible := False;
       lblRecent.Visible := False;
       pnlRecentRow.Parent := pnlSendBar;
-      pnlRecentRow.Padding.SetBounds(0, Dpi(8), Dpi(6), Dpi(4));
+      if BidiIsRtl then
+        pnlRecentRow.Padding.SetBounds(Dpi(6), Dpi(8), 0, Dpi(4))
+      else
+        pnlRecentRow.Padding.SetBounds(0, Dpi(8), Dpi(6), Dpi(4));
       pnlRecentRow.Align := alClient;
     end;
   end
@@ -1681,6 +1711,9 @@ begin
   grpOptions.Visible := True;
   { Opens above the link (the link sits at the bottom of the column), kept on the monitor. }
   P := lblOptLink.ClientToScreen(Point(0, 0));
+  if BidiIsRtl then
+    { the link sits at the right end of its row: line up the popup's right edge with it }
+    P.X := lblOptLink.ClientToScreen(Point(lblOptLink.Width, 0)).X - FOptPopup.Width;
   R := Screen.MonitorFromPoint(P).WorkareaRect;
   FOptPopup.Left := Max(R.Left, Min(P.X, R.Right - FOptPopup.Width));
   FOptPopup.Top := Max(R.Top, P.Y - FOptPopup.Height - Dpi(4));
@@ -1725,8 +1758,10 @@ end;
 procedure TfrmAgentWorkspace.SourceButtonsResize(Sender: TObject);
 var
   W, Gap, BH, H: Integer;
+  BL: IInterface;
 begin
   if btnRemoveAll = nil then Exit;
+  BL := BidiLayoutScope([pnlSourceBtns]);
   Gap := Dpi(5);
   BH := Dpi(24);
   W := (pnlSourceBtns.ClientWidth - Gap) div 2;
@@ -2053,8 +2088,10 @@ end;
 procedure TfrmAgentWorkspace.RootFindLayout(Sender: TObject);
 var
   W, Top, H, GlyphW, ClearW, EdH, BtnW: Integer;
+  BL: IInterface;
 begin
   if (shpFind = nil) or (edtRootFind = nil) then Exit;
+  BL := BidiLayoutScope([pnlRootFind]);
   W := pnlRootFind.ClientWidth;
   Top := Dpi(5);
   H := pnlRootFind.ClientHeight - Top - Dpi(2);
@@ -2955,6 +2992,9 @@ begin
     W := pnlRootFind.Width;
     P := pnlRootFind.ClientToScreen(Point(0, pnlRootFind.Height));
   end;
+  if BidiIsRtl then
+    { keep the popup's right edge on the search row's right edge (it is wider than the row) }
+    Dec(P.X, Max(W, Dpi(420)) - W);
   W := Max(W, Dpi(420));
   if Assigned(Application.MainForm) then
     OwnerComp := Application.MainForm
@@ -3255,10 +3295,14 @@ begin
 end;
 
 procedure TfrmAgentWorkspace.ShowChat;
+var
+  BL: IInterface;
 begin
   if pnlChat = nil then Exit;
   if not pnlChat.Visible then
   begin
+    { the splitter is placed against the panel in left-to-right terms (both mirrored otherwise) }
+    BL := BidiLayoutScope([Self]);
     splChat.Visible := True;
     pnlChat.Visible := True;
     splChat.Left := pnlChat.Left - 1;
@@ -4419,6 +4463,7 @@ begin
     L.DoubleBuffered := True;
     L.OnDrawItem := PreviewDrawItem;
     L.OnClick := PreviewClick;
+    BidiKeepLtr(L);
     FillPreview(L);
     F.OnResize := ZoomResize;
 
@@ -4782,7 +4827,7 @@ begin
       { Stopwatch: ring, crown and side button; the filled sector is the time left (clockwise from 12). }
       Stroke := Max(SS, Dpi(2) * SS * 3 div 4);
       Rad := IconD * SS div 2 - Stroke;
-      CX := (Pad + IconD div 2) * SS;
+      CX := BidiX(W * SS, (Pad + IconD div 2) * SS);
       CY := (H * SS) div 2 + Dpi(1) * SS;
       Pen.Color := Ink;
       Brush.Color := Ink;
@@ -4825,9 +4870,9 @@ begin
     Small.Canvas.Font.Assign(pbExpire.Font);
     Small.Canvas.Font.Color := Ink;
     Small.Canvas.Brush.Style := bsClear;
-    T := Rect(TextL, 0, W - Dpi(8), H);
+    T := BidiRect(Rect(TextL, 0, W - Dpi(8), H), W);
     DrawText(Small.Canvas.Handle, PChar(FExpireText), -1, T,
-      DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS);
+      BidiDrawFlags(DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS));
     C.Draw(0, 0, Small);
   finally
     Big.Free;

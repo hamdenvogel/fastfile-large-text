@@ -101,7 +101,7 @@ const
 implementation
 
 uses
-  SysUtils, Types, Graphics, StdCtrls;
+  SysUtils, Types, Graphics, StdCtrls, uBidiLayout;
 
 const
   SC_DRAGMOVE = $F012;
@@ -455,6 +455,8 @@ begin
   if Assigned(Main) then
   begin
     X := Main.Left + Main.Width;
+    if BidiIsRtl then
+      X := Main.Left - W; { right-to-left: float beside the main window's left edge }
     Y := Main.Top;
     if Assigned(Screen.MonitorFromWindow(Main.Handle, mdNearest)) then
     begin

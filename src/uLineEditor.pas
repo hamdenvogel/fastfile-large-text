@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, Clipbrd, CheckLst, Generics.Collections;
+  Dialogs, StdCtrls, ExtCtrls, Clipbrd, CheckLst, Generics.Collections, Menus;
 
 type
   TOperationType = (otInsert, otReplace, otEdit, otDelete, otDuplicate);
@@ -50,6 +50,7 @@ type
     procedure btnPasteClick(Sender: TObject);
     procedure btnClearClick(Sender: TObject);
     procedure btnAskAIClick(Sender: TObject);
+    procedure btnRegexAIClick(Sender: TObject);
     procedure chkMergeLinesClick(Sender: TObject);
     procedure clbMergeClickCheck(Sender: TObject);
   private
@@ -67,6 +68,11 @@ type
     FchkFindWord: TCheckBox;
     FchkFindAccents: TCheckBox;
     FchkFindRegex: TCheckBox;
+    FlblRegexEx: TLabel;
+    FbtnRegexAI: TButton;
+    FRegexAsk: Boolean;
+    FRegexAskCaption: string;
+    FFindBarReady: Boolean;
     FFindTimer: TTimer;
     FFindHits: TArray<TPoint>;
     FFindText: string;
@@ -91,6 +97,15 @@ type
     FTypingGroup: Boolean;
     FUndoTimer: TTimer;
     FUndoDepth: Integer;
+    FEditContextMenu: TPopupMenu;
+    FContextUndo: TMenuItem;
+    FContextUndoSeparator: TMenuItem;
+    FContextCut: TMenuItem;
+    FContextCopy: TMenuItem;
+    FContextPaste: TMenuItem;
+    FContextDelete: TMenuItem;
+    FContextSeparator: TMenuItem;
+    FContextSelectAll: TMenuItem;
     FAIThread: TThread;
     FAskAIInProgress: Boolean;
     FAskAICaption: string;
@@ -120,6 +135,15 @@ type
     procedure UndoTimerTick(Sender: TObject);
     procedure btnUndoClick(Sender: TObject);
     procedure btnRedoClick(Sender: TObject);
+    procedure EnsureEditContextMenu;
+    procedure EditContextMenuPopup(Sender: TObject);
+    procedure EditContextUndo(Sender: TObject);
+    procedure EditContextCut(Sender: TObject);
+    procedure EditContextCopy(Sender: TObject);
+    procedure EditContextPaste(Sender: TObject);
+    procedure EditContextDelete(Sender: TObject);
+    procedure EditContextSelectAll(Sender: TObject);
+    function EditContextTarget: TCustomEdit;
     procedure LayoutMemoTools;
     function MemoToolsWantedWidth: Integer;
     function FindTextMissing: Boolean;
@@ -216,11 +240,14 @@ var
 implementation
 
 uses
-  Math, StrUtils, Character, RegularExpressions, Menus,
+  Math, StrUtils, Character, RegularExpressions,
   uTextEncoding, uI18n, uFastFileMsgDlg, uFastFileAIClient, uFastFileScale,
-  uAnonymize, uAnonymizeDialog, uLineExtract, uLinesChangePreview;
+  uAnonymize, uAnonymizeDialog, uLineExtract, uLinesChangePreview, uBidiLayout;
 
 {$R *.dfm}
+
+type
+  TLineEditorControlAccess = class(TControl);
 
 const
   cFindMaxHits = 200000;
@@ -399,6 +426,8 @@ begin
 end;
 
 procedure TfrmLineEditor.CreateFindBar;
+var
+  BL: IInterface;
 
   function NewChk(AChecked: Boolean): TCheckBox;
   begin
@@ -411,6 +440,7 @@ procedure TfrmLineEditor.CreateFindBar;
 
 begin
   if Assigned(FpnlFind) then Exit;
+  BL := BidiLayoutScope([Self]);
   FpnlFind := TPanel.Create(Self);
   FpnlFind.Parent := Self;
   FpnlFind.BevelOuter := bvNone;
@@ -478,6 +508,23 @@ begin
   FchkFindCase := NewChk(GFindCase);
   FchkFindWord := NewChk(GFindWord);
   FchkFindAccents := NewChk(GFindAccents);
+
+  FlblRegexEx := TLabel.Create(Self);
+  FlblRegexEx.Parent := FpnlFind;
+  FlblRegexEx.AutoSize := False;
+  FlblRegexEx.WordWrap := True;
+  FlblRegexEx.Layout := tlCenter;
+  FlblRegexEx.EllipsisPosition := epEndEllipsis;
+  FlblRegexEx.ShowHint := True;
+  FlblRegexEx.Font.Color := clGrayText;
+  FlblRegexEx.Visible := False;
+
+  FbtnRegexAI := TButton.Create(Self);
+  FbtnRegexAI.Parent := FpnlFind;
+  FbtnRegexAI.OnClick := btnRegexAIClick;
+  FbtnRegexAI.ShowHint := True;
+  FbtnRegexAI.Visible := False;
+
   FchkFindRegex := NewChk(GFindRegex);
 
   FFindTimer := TTimer.Create(Self);
@@ -492,12 +539,18 @@ begin
   mmContent.OnChange := mmContentChange;
   FOldMemoWndProc := mmContent.WindowProc;
   mmContent.WindowProc := MemoWndProc;
+  { Raw file text, search patterns and replacements stay left-to-right. }
+  BidiKeepLtr(mmContent);
+  BidiKeepLtr(FedtFind);
+  BidiKeepLtr(FedtRepl);
 
   { Barra de procura entre as ferramentas do memo e o memo. }
   FpnlFind.SetBounds(mmContent.Left, pnlMemoTools.Top + pnlMemoTools.Height + FfPx(2),
     mmContent.Width, FfPx(76));
   mmContent.Top := FpnlFind.Top + FpnlFind.Height + FfPx(2);
+  FFindBarReady := True;
   ApplyFindCaptions;
+  EnsureEditContextMenu;
 end;
 
 procedure TfrmLineEditor.ApplyFindCaptions;
@@ -513,6 +566,10 @@ begin
   FchkFindAccents.Caption := TrText('LineEditor.FindAccents');
   FchkFindRegex.Caption := TrText('LineEditor.FindRegex');
   FchkFindRegex.Hint := TrText('LineEditor.FindRegexHint');
+  FlblRegexEx.Caption := TrText('Regex.Examples');
+  FlblRegexEx.Hint := TrText('Regex.ExamplesHint');
+  FbtnRegexAI.Caption := TrText('Assistant.Offer.AskAI');
+  FbtnRegexAI.Hint := TrText('Regex.ExamplesHint');
   FlblRepl.Caption := TrText('LineEditor.Replace');
   FedtRepl.TextHint := TrText('LineEditor.ReplaceCue');
   FedtRepl.Hint := TrText('LineEditor.ReplaceHint');
@@ -553,9 +610,11 @@ var
   end;
 
 var
-  lblW, y2, rw1, rw2: Integer;
+  lblW, y2, rw1, rw2, aiW: Integer;
+  BL: IInterface;
 begin
   if not Assigned(FpnlFind) then Exit;
+  BL := BidiLayoutScope([Self, FpnlFind]);
   FpnlFind.SetBounds(pnlMemoTools.Left, pnlMemoTools.Top + pnlMemoTools.Height + FfPx(2),
     pnlMemoTools.Width, FpnlFind.Height);
   W := FpnlFind.ClientWidth;
@@ -592,7 +651,23 @@ begin
   PlaceChk(FchkFindWord);
   PlaceChk(FchkFindAccents);
   PlaceChk(FchkFindRegex);
-  FpnlFind.Height := y + FfPx(19);
+  if Assigned(FlblRegexEx) and Assigned(FbtnRegexAI) then
+  begin
+    FlblRegexEx.Visible := FchkFindRegex.Checked;
+    FbtnRegexAI.Visible := FchkFindRegex.Checked;
+    if FchkFindRegex.Checked then
+    begin
+      y := y + FfPx(22);
+      aiW := FitButtonWidth(FbtnRegexAI);
+      FbtnRegexAI.SetBounds(Max(0, W - aiW), y, aiW, FfPx(22));
+      FlblRegexEx.SetBounds(0, y, Max(FfPx(40), FbtnRegexAI.Left - FfPx(6)), FfPx(32));
+      FpnlFind.Height := y + FfPx(34);
+    end
+    else
+      FpnlFind.Height := y + FfPx(19);
+  end
+  else
+    FpnlFind.Height := y + FfPx(19);
   mmContent.Top := FpnlFind.Top + FpnlFind.Height + FfPx(2);
 end;
 
@@ -1043,6 +1118,8 @@ begin
   GFindRegex := FchkFindRegex.Checked;
   FFindAnchor := mmContent.SelStart;
   RecomputeFind(FedtFind.Text <> '');
+  if (Sender = FchkFindRegex) and FFindBarReady then
+    LayoutMergePanel(pnlMerge.Visible, False);
 end;
 
 procedure TfrmLineEditor.mmContentChange(Sender: TObject);
@@ -1584,6 +1661,192 @@ begin
   DoRedo;
 end;
 
+procedure TfrmLineEditor.EnsureEditContextMenu;
+var
+  I: Integer;
+begin
+  if not Assigned(FEditContextMenu) then
+  begin
+    FEditContextMenu := TPopupMenu.Create(Self);
+    FEditContextMenu.OnPopup := EditContextMenuPopup;
+
+    FContextUndo := TMenuItem.Create(FEditContextMenu);
+    FContextUndo.OnClick := EditContextUndo;
+    FEditContextMenu.Items.Add(FContextUndo);
+
+    FContextUndoSeparator := TMenuItem.Create(FEditContextMenu);
+    FContextUndoSeparator.Caption := '-';
+    FEditContextMenu.Items.Add(FContextUndoSeparator);
+
+    FContextCut := TMenuItem.Create(FEditContextMenu);
+    FContextCut.OnClick := EditContextCut;
+    FEditContextMenu.Items.Add(FContextCut);
+
+    FContextCopy := TMenuItem.Create(FEditContextMenu);
+    FContextCopy.OnClick := EditContextCopy;
+    FEditContextMenu.Items.Add(FContextCopy);
+
+    FContextPaste := TMenuItem.Create(FEditContextMenu);
+    FContextPaste.OnClick := EditContextPaste;
+    FEditContextMenu.Items.Add(FContextPaste);
+
+    FContextDelete := TMenuItem.Create(FEditContextMenu);
+    FContextDelete.OnClick := EditContextDelete;
+    FEditContextMenu.Items.Add(FContextDelete);
+
+    FContextSeparator := TMenuItem.Create(FEditContextMenu);
+    FContextSeparator.Caption := '-';
+    FEditContextMenu.Items.Add(FContextSeparator);
+
+    FContextSelectAll := TMenuItem.Create(FEditContextMenu);
+    FContextSelectAll.OnClick := EditContextSelectAll;
+    FEditContextMenu.Items.Add(FContextSelectAll);
+  end;
+  for I := 0 to ComponentCount - 1 do
+    if Components[I] is TCustomEdit then
+      TLineEditorControlAccess(Components[I]).PopupMenu := FEditContextMenu;
+  FEditContextMenu.BiDiMode := Application.BiDiMode;
+end;
+
+function TfrmLineEditor.EditContextTarget: TCustomEdit;
+var
+  C: TComponent;
+begin
+  Result := nil;
+  if Assigned(FEditContextMenu) then
+  begin
+    C := FEditContextMenu.PopupComponent;
+    if C is TCustomEdit then
+      Exit(TCustomEdit(C));
+  end;
+  C := FindControl(GetFocus);
+  if C is TCustomEdit then
+    Result := TCustomEdit(C)
+  else
+    Result := mmContent;
+end;
+
+procedure TfrmLineEditor.EditContextMenuPopup(Sender: TObject);
+var
+  Target: TCustomEdit;
+  HasSelection, CanUndo: Boolean;
+begin
+  FContextUndo.Caption := TrText('LineEditor.Undo');
+  FContextCut.Caption := TrText('Cut');
+  FContextCopy.Caption := TrText('Copy');
+  FContextPaste.Caption := TrText('Paste');
+  FContextDelete.Caption := TrText('Delete');
+  FContextSelectAll.Caption := TrText('Select All');
+  Target := EditContextTarget;
+  HasSelection := False;
+  CanUndo := False;
+  if Assigned(Target) then
+  begin
+    HasSelection := Target.SelLength > 0;
+    if Target = mmContent then
+      CanUndo := Assigned(FUndoList) and (FUndoList.Count > 0)
+    else
+      CanUndo := SendMessage(Target.Handle, EM_CANUNDO, 0, 0) <> 0;
+    FContextCut.Enabled := HasSelection and Target.Enabled and not Target.ReadOnly;
+    FContextCopy.Enabled := HasSelection and Target.Enabled;
+    FContextPaste.Enabled := Target.Enabled and not Target.ReadOnly and
+      Clipboard.HasFormat(CF_TEXT);
+    FContextDelete.Enabled := FContextCut.Enabled;
+    FContextSelectAll.Enabled := Target.Enabled and (Length(Target.Text) > 0);
+  end
+  else
+  begin
+    FContextCut.Enabled := False;
+    FContextCopy.Enabled := False;
+    FContextPaste.Enabled := False;
+    FContextDelete.Enabled := False;
+    FContextSelectAll.Enabled := False;
+  end;
+  FContextUndo.Enabled := Assigned(Target) and Target.Enabled and CanUndo;
+  FEditContextMenu.BiDiMode := Application.BiDiMode;
+end;
+
+procedure TfrmLineEditor.EditContextUndo(Sender: TObject);
+var
+  Target: TCustomEdit;
+begin
+  Target := EditContextTarget;
+  if Target = mmContent then
+    DoUndo
+  else if Assigned(Target) and Target.Enabled then
+    SendMessage(Target.Handle, EM_UNDO, 0, 0);
+end;
+
+procedure TfrmLineEditor.EditContextCut(Sender: TObject);
+var
+  Target: TCustomEdit;
+begin
+  Target := EditContextTarget;
+  if not Assigned(Target) or not Target.Enabled or Target.ReadOnly or
+     (Target.SelLength <= 0) then Exit;
+  if Target = mmContent then
+    UndoBegin;
+  try
+    Target.CutToClipboard;
+  finally
+    if Target = mmContent then
+      UndoEnd;
+  end;
+end;
+
+procedure TfrmLineEditor.EditContextCopy(Sender: TObject);
+var
+  Target: TCustomEdit;
+begin
+  Target := EditContextTarget;
+  if Assigned(Target) and Target.Enabled and (Target.SelLength > 0) then
+    Target.CopyToClipboard;
+end;
+
+procedure TfrmLineEditor.EditContextPaste(Sender: TObject);
+var
+  Target: TCustomEdit;
+begin
+  Target := EditContextTarget;
+  if not Assigned(Target) or not Target.Enabled or Target.ReadOnly or
+     not Clipboard.HasFormat(CF_TEXT) then Exit;
+  if Target = mmContent then
+    UndoBegin;
+  try
+    Target.PasteFromClipboard;
+  finally
+    if Target = mmContent then
+      UndoEnd;
+  end;
+  UpdateMemoToolButtons;
+end;
+
+procedure TfrmLineEditor.EditContextDelete(Sender: TObject);
+var
+  Target: TCustomEdit;
+begin
+  Target := EditContextTarget;
+  if not Assigned(Target) or not Target.Enabled or Target.ReadOnly or
+     (Target.SelLength <= 0) then Exit;
+  if Target = mmContent then
+    UndoBegin;
+  try
+    Target.SelText := '';
+  finally
+    if Target = mmContent then
+      UndoEnd;
+  end;
+end;
+
+procedure TfrmLineEditor.EditContextSelectAll(Sender: TObject);
+var
+  Target: TCustomEdit;
+begin
+  Target := EditContextTarget;
+  if Assigned(Target) and Target.Enabled then
+    Target.SelectAll;
+end;
+
 function TfrmLineEditor.FindTextMissing: Boolean;
 begin
   Result := FedtFind.Text = '';
@@ -1668,7 +1931,10 @@ procedure TfrmLineEditor.ApplyUiLanguage;
 var
   W, MaxWidth: Integer;
   WorkArea: TRect;
+  BL: IInterface;
 begin
+  EnsureEditContextMenu;
+  BL := BidiLayoutScope([Self, pnlFooter]);
   Caption := TrText('File Line Editor');
   Label1.Caption := TrText('Operation:');
   Label2.Caption := TrText('Line Number:');
@@ -1738,7 +2004,9 @@ procedure TfrmLineEditor.LayoutMemoTools;
 var
   Btns: array[0..8] of TButton;
   i, x, y, w, h, gap: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([pnlMemoTools]);
   Btns[0] := btnSelectAll;
   Btns[1] := btnCopy;
   Btns[2] := btnPaste;
@@ -1811,8 +2079,10 @@ end;
 procedure TfrmLineEditor.LayoutAdjacentButtons;
 var
   H, T: Integer;
+  BL: IInterface;
 begin
   if not Assigned(FbtnPrevLine) then Exit;
+  BL := BidiLayoutScope([Self]);
   FbtnPrevLine.Caption := WithKey(TrText('LineEditor.CopyPrevLine'), cKeyPrevLine);
   FbtnNextLine.Caption := WithKey(TrText('LineEditor.CopyNextLine'), cKeyNextLine);
   H := btnSelectAll.Height;
@@ -1940,9 +2210,11 @@ procedure TfrmLineEditor.LayoutMergePanel(AShow: Boolean;
   AAdjustHeight: Boolean);
 var
   ContentBottom, MemoH, NeedH, MergeH, Gap, Margin, MinMemo: Integer;
-  MaxClientH, ChromeH: Integer;
+  MaxClientH, FrameH: Integer;
   WorkArea: TRect;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([Self, pnlMemoTools, pnlMerge, pnlFooter, FpnlFind]);
   MergeH := FfPx(168);
   Gap := FfPx(8);
   Margin := FfPx(16);
@@ -1979,8 +2251,8 @@ begin
   if AAdjustHeight then
   begin
     FfWorkAreaOf(Self, WorkArea);
-    ChromeH := Height - ClientHeight;
-    MaxClientH := WorkArea.Bottom - WorkArea.Top - ChromeH - FfPx(16);
+    FrameH := Height - ClientHeight;
+    MaxClientH := WorkArea.Bottom - WorkArea.Top - FrameH - FfPx(16);
     if MaxClientH < FfPx(160) then
       MaxClientH := FfPx(160);
     if NeedH > MaxClientH then
@@ -2319,6 +2591,70 @@ begin
   FAskAIInProgress := True;
   btnAskAI.Caption := TrText('Assistant.Thinking');
   btnAskAI.Enabled := False;
+  if Assigned(FbtnRegexAI) then
+    FbtnRegexAI.Enabled := False;
+  btnConfirm.Enabled := False;
+  btnCancel.Enabled := False;
+  mmContent.Enabled := False;
+  LayoutMemoTools;
+  try
+    FAIThread := TLineEditorAIThread.Create(Self, WideString(Prompt));
+    FAIThread.Start;
+  except
+    on E: Exception do
+      AskAIResult(False, '', E.Message);
+  end;
+end;
+
+function FirstRegexPatternLine(const AAnswer: string): string;
+var
+  SL: TStringList;
+  I: Integer;
+begin
+  Result := '';
+  SL := TStringList.Create;
+  try
+    SL.Text := AAnswer;
+    for I := 0 to SL.Count - 1 do
+    begin
+      Result := Trim(SL[I]);
+      if (Result = '') or (Copy(Result, 1, 3) = '```') then
+        Continue;
+      if (Length(Result) >= 2) and (Result[1] = '`') and (Result[Length(Result)] = '`') then
+        Result := Trim(Copy(Result, 2, Length(Result) - 2));
+      Exit;
+    end;
+    Result := '';
+  finally
+    SL.Free;
+  end;
+end;
+
+procedure TfrmLineEditor.btnRegexAIClick(Sender: TObject);
+var
+  Pat, Prompt: string;
+begin
+  if FAskAIInProgress then Exit;
+  Pat := Trim(FedtFind.Text);
+  if Pat = '' then
+    Pat := '-';
+  Prompt := TrText('AI.Context.LineEditorRegex') + #13#10 + Pat;
+  if Assigned(FAIThread) then
+  begin
+    FAIThread.WaitFor;
+    FreeAndNil(FAIThread);
+  end;
+  FRegexAsk := True;
+  FRegexAskCaption := FbtnRegexAI.Caption;
+  FAskAICaption := btnAskAI.Caption;
+  FAskAIOldConfirmEnabled := btnConfirm.Enabled;
+  FAskAIOldCancelEnabled := btnCancel.Enabled;
+  FAskAIOldMemoEnabled := mmContent.Enabled;
+  FAskAIOldAskEnabled := btnAskAI.Enabled;
+  FAskAIInProgress := True;
+  FbtnRegexAI.Caption := TrText('Assistant.Thinking');
+  FbtnRegexAI.Enabled := False;
+  btnAskAI.Enabled := False;
   btnConfirm.Enabled := False;
   btnCancel.Enabled := False;
   mmContent.Enabled := False;
@@ -2334,10 +2670,21 @@ end;
 
 procedure TfrmLineEditor.AskAIResult(AOk: Boolean; const AAnswer: WideString;
   const AError: string);
+var
+  RegexAsk: Boolean;
+  Pattern: string;
 begin
+  RegexAsk := FRegexAsk;
+  FRegexAsk := False;
   FAskAIInProgress := False;
   btnAskAI.Caption := FAskAICaption;
   btnAskAI.Enabled := FAskAIOldAskEnabled;
+  if Assigned(FbtnRegexAI) then
+  begin
+    if FRegexAskCaption <> '' then
+      FbtnRegexAI.Caption := FRegexAskCaption;
+    FbtnRegexAI.Enabled := True;
+  end;
   btnConfirm.Enabled := FAskAIOldConfirmEnabled;
   btnCancel.Enabled := FAskAIOldCancelEnabled;
   mmContent.Enabled := FAskAIOldMemoEnabled;
@@ -2350,6 +2697,21 @@ begin
   if Trim(AAnswer) = '' then
   begin
     ShowAppMessage(TrText('LineEditor.AskAI.EmptyResponse'));
+    Exit;
+  end;
+  if RegexAsk then
+  begin
+    Pattern := FirstRegexPatternLine(string(AAnswer));
+    if Pattern = '' then
+    begin
+      ShowAppMessage(TrText('LineEditor.AskAI.EmptyResponse'));
+      Exit;
+    end;
+    FedtFind.Text := Pattern;
+    if not FchkFindRegex.Checked then
+      FchkFindRegex.Checked := True;
+    if FedtFind.CanFocus then
+      FedtFind.SetFocus;
     Exit;
   end;
   UndoBegin;

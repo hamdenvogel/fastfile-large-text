@@ -34,7 +34,7 @@ function ExportLineLimitExceededMessage(SaveToFile: Boolean; const LineCount: In
 implementation
 
 uses
-  uI18n, uFastFileMsgDlg;
+  uI18n, uFastFileMsgDlg, uUserPrefs, uBidiLayout;
 
 {$R *.dfm}
 
@@ -46,9 +46,9 @@ end;
 function ExportLineLimitForDestination(SaveToFile: Boolean): Int64;
 begin
   if SaveToFile then
-    Result := EXPORT_FILE_MAX_LINES
+    Result := PrefExportFileMaxLines
   else
-    Result := EXPORT_CLIPBOARD_MAX_LINES;
+    Result := PrefExportClipboardMaxLines;
 end;
 
 function ExportLineLimitExceededMessage(SaveToFile: Boolean; const LineCount: Int64): string;
@@ -112,7 +112,7 @@ begin
           if (Lo < 1) or (Hi < 1) or (Hi < Lo) then
             Continue;
           { Cap runaway ranges before Int64 math if TotalLines unknown. }
-          if (ATotalLines <= 0) and ((Hi - Lo + 1) > EXPORT_FILE_MAX_LINES) then
+          if (ATotalLines <= 0) and ((Hi - Lo + 1) > PrefExportFileMaxLines) then
           begin
             Result := Hi - Lo + 1;
             Exit;
@@ -129,7 +129,7 @@ begin
           Continue;
         Inc(Result);
       end;
-      if Result > EXPORT_FILE_MAX_LINES then
+      if Result > PrefExportFileMaxLines then
         Exit;
     end;
   finally
@@ -149,6 +149,7 @@ begin
     frm.FTotalLines := ATotalLines;
     ApplyTranslationsToForm(frm);
     frm.ApplyLimitHint;
+    BidiKeepLtr(frm.edtLines);
     if frm.ShowModal = mrOk then
     begin
       Input := frm.edtLines.Text;
@@ -165,8 +166,11 @@ begin
   if Assigned(lblLimit) then
     lblLimit.Caption := Format(
       TrText('Maximum: %s lines (file) / %s lines (clipboard).'),
-      [FormatFloat('#,##0', EXPORT_FILE_MAX_LINES),
-       FormatFloat('#,##0', EXPORT_CLIPBOARD_MAX_LINES)]);
+      [FormatFloat('#,##0', PrefExportFileMaxLines),
+       FormatFloat('#,##0', PrefExportClipboardMaxLines)]) + ' ' +
+      Format(TrText('Limit.DefaultPair'),
+        [FormatFloat('#,##0', DEF_EXPORT_FILE_MAX_LINES),
+         FormatFloat('#,##0', DEF_EXPORT_CLIPBOARD_MAX_LINES)]);
 end;
 
 procedure TfrmExportDialog.btnConfirmClick(Sender: TObject);

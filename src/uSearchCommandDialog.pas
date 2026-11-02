@@ -21,8 +21,132 @@ function ShowSearchCommand(AOwner: TComponent; const AText: string; ARoots: TStr
 implementation
 
 uses
-  Windows, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Dialogs, Clipbrd,
-  ComCtrls, uAgentTools, uI18n, uFastFileScale, uFastFileAIClient;
+  Windows, Messages, SysUtils, Forms, Controls, StdCtrls, ExtCtrls, Dialogs,
+  Clipbrd, ComCtrls, IniFiles, uAgentTools, uI18n, uFastFileScale,
+  uFastFileAIClient, uUserPrefs, uMruFind, UnitPopupMruList, uFastFilePaths,
+  uBidiLayout, uSmoothLoading;
+
+const
+  WM_SEARCH_MRU_POPUP = WM_APP + 81;
+  SEARCH_CMD_MRU_INI = 'mru_search_cmd.ini';
+  SEARCH_CMD_MRU_SECTION = 'Commands';
+  SEARCH_EXAMPLE_COUNT = 11;
+
+function EncodeSearchMru(const ACommand: string): string;
+begin
+  Result := StringReplace(ACommand, '\', '\\', [rfReplaceAll]);
+  Result := StringReplace(Result, #13#10, '\n', [rfReplaceAll]);
+  Result := StringReplace(Result, #13, '\n', [rfReplaceAll]);
+  Result := StringReplace(Result, #10, '\n', [rfReplaceAll]);
+end;
+
+function DecodeSearchMru(const AEncoded: string): string;
+var
+  I: Integer;
+  S: string;
+begin
+  Result := '';
+  S := AEncoded;
+  I := 1;
+  while I <= Length(S) do
+  begin
+    if (S[I] = '\') and (I < Length(S)) then
+    begin
+      if S[I + 1] = 'n' then
+      begin
+        Result := Result + #13#10;
+        Inc(I, 2);
+      end
+      else if S[I + 1] = '\' then
+      begin
+        Result := Result + '\';
+        Inc(I, 2);
+      end
+      else
+      begin
+        Result := Result + S[I];
+        Inc(I);
+      end;
+    end
+    else
+    begin
+      Result := Result + S[I];
+      Inc(I);
+    end;
+  end;
+end;
+
+procedure SearchExample(AIndex: Integer; out AKind: TSearchCommandKind;
+  out ACommand, AKey: string; out ANeedsBookmarks: Boolean);
+begin
+  ANeedsBookmarks := False;
+  AKind := sckGrep;
+  ACommand := '';
+  AKey := '';
+  case AIndex of
+    0:
+      begin
+        AKind := sckGlob;
+        ACommand := 'glob "*.csv"';
+        AKey := 'SearchCmd.Ex.GlobCsv';
+      end;
+    1:
+      begin
+        AKind := sckGlob;
+        ACommand := 'glob "**\*.log"';
+        AKey := 'SearchCmd.Ex.GlobLog';
+      end;
+    2:
+      begin
+        AKind := sckGlob;
+        ACommand := 'glob "report_202?.txt"';
+        AKey := 'SearchCmd.Ex.GlobReport';
+      end;
+    3:
+      begin
+        AKind := sckGlob;
+        ACommand := 'glob "**\*.log" --limit 500';
+        AKey := 'SearchCmd.Ex.GlobLimit';
+      end;
+    4:
+      begin
+        ACommand := 'grep -i -F "error" --glob "*.log"';
+        AKey := 'SearchCmd.Ex.GrepLog';
+      end;
+    5:
+      begin
+        ACommand := 'grep -E "error|failure"';
+        AKey := 'SearchCmd.Ex.GrepOr';
+      end;
+    6:
+      begin
+        ACommand := 'grep -v -F "DEBUG"';
+        AKey := 'SearchCmd.Ex.GrepInvert';
+      end;
+    7:
+      begin
+        ACommand := 'grep -w -i "id"';
+        AKey := 'SearchCmd.Ex.GrepWord';
+      end;
+    8:
+      begin
+        ACommand := 'grep -E "(?<ip>\d+\.\d+\.\d+\.\d+).*(?<status>\d{3})"';
+        AKey := 'SearchCmd.Ex.GrepGroups';
+      end;
+    9:
+      begin
+        ACommand := 'grep --bookmarks -i "pending"';
+        AKey := 'SearchCmd.Ex.GrepBookmarks';
+        ANeedsBookmarks := True;
+      end;
+    10:
+      begin
+        ACommand := 'grep --mark -i "error"';
+        AKey := 'SearchCmd.Ex.GrepMark';
+        ANeedsBookmarks := True;
+      end;
+  end;
+end;
 
 type
   TSearchWorker = class(TThread)
@@ -37,6 +161,8 @@ type
     BookmarkPath: string;
     Bookmarks: TArray<Int64>;
     Cancel, Done: Integer;
+    Phase, Expanded: Integer;
+    Progress: TSearchProgress;
     Data: TSearchResult;
     Error: string;
     constructor Create;
@@ -67,6 +193,9 @@ type
     Bookmarks: TArray<Int64>;
     RequestEdit, CommandEdit: TEdit;
     Suggestions: TComboBox;
+    FRecent, FSuggest, FSuggestNotes, FHidden: TStringList;
+    FKind: TSearchCommandKind;
+    FUserCleared, FPopupPosted: Boolean;
     AIButton, RunButton: TButton;
     Memo: TMemo;
     HitList: TListBox;
@@ -77,6 +206,12 @@ type
     AskPrompt: string;
     Page: Integer;
     EscapeClose: Boolean;
+    LoadShown: Boolean;
+    LoadPhase: Integer;
+    LoadStart: Cardinal;
+    procedure ShowLoad(const AMessage: string; AIndeterminate: Boolean);
+    procedure HideLoad;
+    procedure UpdateScanLoad;
     procedure Tick(Sender: TObject);
     procedure EscapeKey(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure StopClick(Sender: TObject);
@@ -88,7 +223,19 @@ type
     procedure CloseSearch(Sender: TObject; var CanClose: Boolean);
     procedure GenerateClick(Sender: TObject);
     procedure RunClick(Sender: TObject);
-    procedure SuggestionClick(Sender: TObject);
+    procedure SuggestionDropDown(Sender: TObject);
+    procedure WMSearchMruPopup(var Msg: TMessage); message WM_SEARCH_MRU_POPUP;
+    procedure MruPick(Sender: TObject; const AValue: string; AIndex: Integer);
+    procedure MruRemove(Sender: TObject; const AValue: string);
+    procedure MruClearAll(Sender: TObject);
+    procedure AddRecent(const ACommand: string);
+    procedure RememberCommand(const ACommand: string);
+    procedure LoadRecent;
+    procedure SaveRecent;
+    function CommandHidden(const ACommand: string): Boolean;
+    function ExampleNote(const ACommand: string): string;
+    procedure RebuildSuggestions;
+    procedure RefreshSuggestions;
     procedure SetBusy(ABusy: Boolean);
   public
     destructor Destroy; override;
@@ -135,6 +282,7 @@ end;
 
 procedure TSearchWorker.ScanTick(ACount: Integer; var ACancel: Boolean);
 begin
+  Expanded := ACount;
   ACancel := Cancel <> 0;
 end;
 
@@ -158,7 +306,8 @@ begin
           raise ESearchCommand.CreateFmt(TrText('SearchCmd.Read'), [Path]);
       end;
       Complete := AgentExpandRoots(Roots, Prefs, Files, ScanTick, True);
-      Data := RunSearchCommand(Files, Command, @Cancel, BookmarkPath, Bookmarks);
+      InterlockedExchange(Phase, 1);
+      Data := RunSearchCommand(Files, Command, @Cancel, BookmarkPath, Bookmarks, @Progress);
       Data.Partial := Data.Partial or not Complete or (Files.Count >= Prefs.MaxFiles);
     except
       on E: Exception do Error := E.Message;
@@ -171,6 +320,7 @@ end;
 
 destructor TSearchDialog.Destroy;
 begin
+  HideLoad;
   if Assigned(AIWorker) then
   begin
     if not AIStarted then AIWorker.Start;
@@ -184,8 +334,103 @@ begin
     Worker.WaitFor;
     Worker.Free;
   end;
+  if HandleAllocated then
+    ReleaseMruListPopup(Handle);
   Roots.Free;
+  FRecent.Free;
+  FSuggest.Free;
+  FSuggestNotes.Free;
+  FHidden.Free;
   inherited;
+end;
+
+function SearchFmtBytes(const ABytes: Int64): string;
+begin
+  if ABytes >= Int64(1024) * 1024 * 1024 then
+    Result := FormatFloat('0.00', ABytes / (1024.0 * 1024 * 1024)) + ' GB'
+  else if ABytes >= 1024 * 1024 then
+    Result := FormatFloat('0.0', ABytes / (1024.0 * 1024)) + ' MB'
+  else
+    Result := FormatFloat('0', ABytes / 1024.0) + ' KB';
+end;
+
+function SearchFmtSecs(ASecs: Int64): string;
+begin
+  if ASecs < 0 then ASecs := 0;
+  if ASecs >= 3600 then
+    Result := Format('%d:%.2d:%.2d', [ASecs div 3600, (ASecs mod 3600) div 60, ASecs mod 60])
+  else
+    Result := Format('%.2d:%.2d', [ASecs div 60, ASecs mod 60]);
+end;
+
+procedure TSearchDialog.ShowLoad(const AMessage: string; AIndeterminate: Boolean);
+begin
+  if not LoadShown then
+  begin
+    TfrmSmoothLoading.ShowLoading(Self, AMessage, True);
+    LoadShown := True;
+    LoadStart := GetTickCount;
+  end;
+  TfrmSmoothLoading.SetIndeterminate(AIndeterminate);
+end;
+
+procedure TSearchDialog.HideLoad;
+begin
+  if not LoadShown then Exit;
+  LoadShown := False;
+  TfrmSmoothLoading.HideLoading;
+end;
+
+procedure TSearchDialog.UpdateScanLoad;
+var
+  Done, Total: Int64;
+  Pct: Integer;
+  Elapsed, Eta: Int64;
+  Detail: string;
+begin
+  if not (LoadShown and Assigned(Worker)) then Exit;
+  Elapsed := (GetTickCount - LoadStart) div 1000;
+  if Worker.Phase = 0 then
+  begin
+    LoadPhase := 0;
+    TfrmSmoothLoading.SetIndeterminate(True);
+    TfrmSmoothLoading.SetWaitTexts(TrText('SearchCmd.ProgressListing'),
+      Format(TrText('SearchCmd.ProgressListed'), [Worker.Expanded]) + '  |  ' +
+      Format(TrText('SearchCmd.ProgressElapsed'), [SearchFmtSecs(Elapsed)]));
+    Exit;
+  end;
+  Done := Worker.Progress.BytesDone;
+  Total := Worker.Progress.BytesTotal;
+  if Worker.Command.Kind = sckGlob then
+  begin
+    Done := Worker.Progress.FilesDone;
+    Total := Worker.Progress.FilesTotal;
+  end;
+  if Total > 0 then
+    Pct := Integer((Done * 100) div Total)
+  else
+    Pct := 0;
+  if Pct > 100 then Pct := 100;
+  TfrmSmoothLoading.SetIndeterminate(False);
+  if LoadPhase <> 1 then
+  begin
+    LoadPhase := 1;
+    TfrmSmoothLoading.SetWaitTexts(TrText('SearchCmd.ProgressScanning'), '');
+  end;
+  if Worker.Command.Kind = sckGlob then
+    Detail := ''
+  else
+    Detail := SearchFmtBytes(Done) + ' / ' + SearchFmtBytes(Total) + '  |  ';
+  Detail := Detail + Format(TrText('SearchCmd.ProgressFiles'),
+    [Worker.Progress.FilesDone, Worker.Progress.FilesTotal]) + '  |  ' +
+    Format(TrText('SearchCmd.ProgressHits'), [Worker.Progress.Hits]) + '  |  ' +
+    Format(TrText('SearchCmd.ProgressElapsed'), [SearchFmtSecs(Elapsed)]);
+  if (Done > 0) and (Total > Done) and (Elapsed > 0) then
+  begin
+    Eta := Round(Elapsed * ((Total - Done) / Done));
+    Detail := Detail + '  |  ' + Format(TrText('SearchCmd.ProgressEta'), [SearchFmtSecs(Eta)]);
+  end;
+  TfrmSmoothLoading.UpdateProgressWithDetail(Pct, Detail);
 end;
 
 procedure TSearchDialog.SetBusy(ABusy: Boolean);
@@ -194,7 +439,7 @@ begin
   RunButton.Enabled := not ABusy;
   RequestEdit.Enabled := not ABusy;
   CommandEdit.Enabled := not ABusy;
-  Suggestions.Enabled := not ABusy;
+  Suggestions.Enabled := (not ABusy) and Assigned(FSuggest) and (FSuggest.Count > 0);
   if ABusy then
   begin
     MarkBtn.Enabled := False;
@@ -246,11 +491,291 @@ begin
   Timer.Enabled := True;
 end;
 
-procedure TSearchDialog.SuggestionClick(Sender: TObject);
+procedure TSearchDialog.AddRecent(const ACommand: string);
+var
+  S, Key: string;
+  I: Integer;
 begin
-  if Suggestions.ItemIndex < 0 then Exit;
-  CommandEdit.Text := Suggestions.Items[Suggestions.ItemIndex];
-  Status.Caption := TrText('SearchCmd.AIReview');
+  S := Trim(ACommand);
+  if (S = '') or (not Assigned(FRecent)) then Exit;
+  Key := AnsiLowerCase(S);
+  for I := FRecent.Count - 1 downto 0 do
+    if AnsiLowerCase(Trim(FRecent[I])) = Key then
+      FRecent.Delete(I);
+  FRecent.Insert(0, S);
+  while FRecent.Count > PrefFilterRecentMax do
+    FRecent.Delete(FRecent.Count - 1);
+end;
+
+procedure TSearchDialog.RememberCommand(const ACommand: string);
+var
+  I: Integer;
+  Key: string;
+begin
+  if Trim(ACommand) = '' then Exit;
+  Key := AnsiLowerCase(Trim(ACommand));
+  if Assigned(FHidden) then
+  begin
+    I := FHidden.IndexOf(Key);
+    if I >= 0 then
+      FHidden.Delete(I);
+  end;
+  AddRecent(ACommand);
+  FUserCleared := False;
+  SaveRecent;
+  RefreshSuggestions;
+end;
+
+procedure TSearchDialog.SaveRecent;
+var
+  Ini: TIniFile;
+  I, N: Integer;
+begin
+  if not Assigned(FRecent) then Exit;
+  Ini := TIniFile.Create(FastFileExeDirPath(SEARCH_CMD_MRU_INI));
+  try
+    N := FRecent.Count;
+    if N > PrefFilterRecentMax then
+      N := PrefFilterRecentMax;
+    Ini.WriteInteger(SEARCH_CMD_MRU_SECTION, 'Count', N);
+    Ini.WriteBool(SEARCH_CMD_MRU_SECTION, 'Cleared', FUserCleared and (N = 0));
+    for I := 0 to PrefFilterRecentMax - 1 do
+    begin
+      if I < N then
+        Ini.WriteString(SEARCH_CMD_MRU_SECTION, 'C' + IntToStr(I),
+          EncodeSearchMru(FRecent[I]))
+      else
+        Ini.DeleteKey(SEARCH_CMD_MRU_SECTION, 'C' + IntToStr(I));
+    end;
+  finally
+    Ini.Free;
+  end;
+end;
+
+function TSearchDialog.CommandHidden(const ACommand: string): Boolean;
+begin
+  Result := Assigned(FHidden) and
+    (FHidden.IndexOf(AnsiLowerCase(Trim(ACommand))) >= 0);
+end;
+
+function TSearchDialog.ExampleNote(const ACommand: string): string;
+var
+  I: Integer;
+  Kind: TSearchCommandKind;
+  Cmd, Key: string;
+  Book: Boolean;
+begin
+  Result := '';
+  for I := 0 to SEARCH_EXAMPLE_COUNT - 1 do
+  begin
+    SearchExample(I, Kind, Cmd, Key, Book);
+    if AnsiSameText(Trim(Cmd), Trim(ACommand)) then
+    begin
+      Result := TrText(Key);
+      Exit;
+    end;
+  end;
+end;
+
+procedure TSearchDialog.RebuildSuggestions;
+var
+  I: Integer;
+  Shown, Kind: TSearchCommandKind;
+  Cmd, Key: string;
+  Book: Boolean;
+
+  function Already(const S: string): Boolean;
+  var
+    J: Integer;
+  begin
+    Result := False;
+    for J := 0 to FSuggest.Count - 1 do
+      if AnsiSameText(Trim(FSuggest[J]), Trim(S)) then
+        Exit(True);
+  end;
+
+begin
+  if (not Assigned(FSuggest)) or (not Assigned(FSuggestNotes)) then Exit;
+  FSuggest.Clear;
+  FSuggestNotes.Clear;
+  Shown := FKind;
+  if Shown <> sckGlob then
+    Shown := sckGrep;
+  for I := 0 to SEARCH_EXAMPLE_COUNT - 1 do
+  begin
+    SearchExample(I, Kind, Cmd, Key, Book);
+    if Kind <> Shown then Continue;
+    if Book and (not CanUseBookmarks) then Continue;
+    if CommandHidden(Cmd) then Continue;
+    FSuggest.Add(Cmd);
+    FSuggestNotes.Add(TrText(Key));
+  end;
+  if Assigned(FRecent) then
+    for I := 0 to FRecent.Count - 1 do
+    begin
+      Cmd := Trim(FRecent[I]);
+      if (Cmd = '') or CommandHidden(Cmd) or Already(Cmd) then Continue;
+      FSuggest.Add(Cmd);
+      FSuggestNotes.Add(ExampleNote(Cmd));
+    end;
+end;
+
+procedure TSearchDialog.LoadRecent;
+var
+  Ini: TIniFile;
+  Path: string;
+  N, I: Integer;
+  S: string;
+begin
+  if not Assigned(FRecent) then Exit;
+  FRecent.Clear;
+  FUserCleared := False;
+  Path := FastFileExeDirPath(SEARCH_CMD_MRU_INI);
+  if FileExists(Path) then
+  begin
+    Ini := TIniFile.Create(Path);
+    try
+      FUserCleared := Ini.ReadBool(SEARCH_CMD_MRU_SECTION, 'Cleared', False);
+      N := Ini.ReadInteger(SEARCH_CMD_MRU_SECTION, 'Count', 0);
+      if N > PrefFilterRecentMax then
+        N := PrefFilterRecentMax;
+      for I := 0 to N - 1 do
+      begin
+        S := DecodeSearchMru(Ini.ReadString(SEARCH_CMD_MRU_SECTION,
+          'C' + IntToStr(I), ''));
+        if Trim(S) <> '' then
+          FRecent.Add(S);
+      end;
+    finally
+      Ini.Free;
+    end;
+  end;
+  RefreshSuggestions;
+end;
+
+procedure TSearchDialog.RefreshSuggestions;
+var
+  Shown: string;
+begin
+  RebuildSuggestions;
+  if not Assigned(Suggestions) or (not Assigned(FSuggest)) then Exit;
+  Suggestions.Items.BeginUpdate;
+  try
+    Suggestions.Items.Clear;
+    if FSuggest.Count = 0 then
+    begin
+      Suggestions.Items.Add(TrText('SearchCmd.RecentEmpty'));
+      Suggestions.ItemIndex := 0;
+      Suggestions.Enabled := False;
+    end
+    else
+    begin
+      Shown := '';
+      if Assigned(FRecent) and (FRecent.Count > 0) then
+        Shown := Trim(FRecent[0]);
+      if Shown = '' then
+        Shown := FSuggest[0];
+      Suggestions.Items.Add(Shown);
+      Suggestions.ItemIndex := 0;
+      Suggestions.Enabled := True;
+    end;
+    Suggestions.DropDownCount := 1;
+  finally
+    Suggestions.Items.EndUpdate;
+  end;
+end;
+
+procedure TSearchDialog.SuggestionDropDown(Sender: TObject);
+begin
+  if Assigned(Suggestions) then
+    Suggestions.DroppedDown := False;
+  if Assigned(FormPopupMruList) and FormPopupMruList.Visible then
+    Exit;
+  if FPopupPosted then Exit;
+  FPopupPosted := True;
+  PostMessage(Handle, WM_SEARCH_MRU_POPUP, 0, 0);
+end;
+
+procedure TSearchDialog.WMSearchMruPopup(var Msg: TMessage);
+var
+  P: TPoint;
+  W: Integer;
+  CR: TRect;
+  OwnerComp: TComponent;
+begin
+  FPopupPosted := False;
+  if Assigned(Suggestions) then
+    Suggestions.DroppedDown := False;
+  if ((GetAsyncKeyState(VK_LBUTTON) < 0) or (GetAsyncKeyState(VK_RBUTTON) < 0)) and
+     (Msg.WParam < 20) then
+  begin
+    FPopupPosted := True;
+    PostMessage(Handle, WM_SEARCH_MRU_POPUP, Msg.WParam + 1, 0);
+    Exit;
+  end;
+  if Assigned(FormPopupMruList) and FormPopupMruList.Visible then
+    Exit;
+  if (not Assigned(FSuggest)) or (FSuggest.Count = 0) then Exit;
+  if (not Assigned(Suggestions)) or (not Suggestions.Enabled) then Exit;
+  if Suggestions.HandleAllocated then
+  begin
+    GetWindowRect(Suggestions.Handle, CR);
+    W := CR.Right - CR.Left;
+    P := Point(CR.Left, CR.Bottom);
+  end
+  else
+  begin
+    W := Suggestions.Width;
+    P := Suggestions.ClientToScreen(Point(0, Suggestions.Height));
+  end;
+  if Assigned(Application.MainForm) then
+    OwnerComp := Application.MainForm
+  else
+    OwnerComp := Self;
+  ShowMruListPopup(OwnerComp, TrText('SearchCmd.AISuggestions'),
+    MruMoreCaption('SearchCmd.RecentMore'), FSuggest, W, P, MruPick,
+    TrText('SearchCmd.RecentMoreHint'), nil, MruRemove, Suggestions,
+    MruClearAll, Handle, FSuggestNotes);
+end;
+
+procedure TSearchDialog.MruPick(Sender: TObject; const AValue: string; AIndex: Integer);
+begin
+  if not Assigned(CommandEdit) or (not CommandEdit.Enabled) then Exit;
+  CommandEdit.Text := AValue;
+  CommandEdit.SelStart := Length(CommandEdit.Text);
+  RememberCommand(AValue);
+  if ExampleNote(AValue) <> '' then
+    Status.Caption := ExampleNote(AValue)
+  else
+    Status.Caption := TrText('SearchCmd.AIReview');
+  if CommandEdit.CanFocus then
+    CommandEdit.SetFocus;
+end;
+
+procedure TSearchDialog.MruRemove(Sender: TObject; const AValue: string);
+var
+  I: Integer;
+  Key: string;
+begin
+  if not Assigned(FRecent) then Exit;
+  Key := AnsiLowerCase(Trim(AValue));
+  if Key = '' then Exit;
+  if Assigned(FHidden) and (FHidden.IndexOf(Key) < 0) then
+    FHidden.Add(Key);
+  for I := FRecent.Count - 1 downto 0 do
+    if AnsiLowerCase(Trim(FRecent[I])) = Key then
+      FRecent.Delete(I);
+  SaveRecent;
+  RefreshSuggestions;
+end;
+
+procedure TSearchDialog.MruClearAll(Sender: TObject);
+begin
+  if not Assigned(FRecent) then Exit;
+  FRecent.Clear;
+  FUserCleared := True;
+  SaveRecent;
+  RefreshSuggestions;
 end;
 
 procedure TSearchDialog.RunClick(Sender: TObject);
@@ -320,14 +845,18 @@ begin
     CopyBtn.Enabled := False;
     PrevBtn.Enabled := False;
     NextBtn.Enabled := False;
+    RememberCommand(CommandEdit.Text);
     SetBusy(True);
     Status.Caption := TrText('SearchCmd.Scanning');
     Worker.Start;
     WorkerStarted := True;
+    LoadPhase := -1;
+    ShowLoad(TrText('SearchCmd.ProgressListing'), True);
     Timer.Enabled := True;
   except
     on E: Exception do
     begin
+      HideLoad;
       Status.Caption := TrText('SearchCmd.Failed');
       Memo.Text := E.Message;
       SetBusy(False);
@@ -338,6 +867,12 @@ end;
 procedure TSearchDialog.EscapeKey(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
   if (Key <> VK_ESCAPE) or (Shift <> []) then Exit;
+  if Assigned(FormPopupMruList) and FormPopupMruList.Visible then
+  begin
+    FormPopupMruList.ClosePopup(False);
+    Key := 0;
+    Exit;
+  end;
   if Assigned(Suggestions) and Suggestions.DroppedDown then Exit;
   Key := 0;
   EscapeClose := True;
@@ -370,7 +905,7 @@ end;
 
 procedure TSearchDialog.Tick(Sender: TObject);
 var
-  S: string;
+  I: Integer;
 begin
   if Assigned(AIWorker) then
   begin
@@ -392,17 +927,28 @@ begin
     begin
       CommandEdit.Text := AIWorker.Advice.Command;
       Memo.Text := AIWorker.Advice.Explanation;
-      Suggestions.Items.Clear;
-      for S in AIWorker.Advice.Suggestions do Suggestions.Items.Add(S);
+      for I := High(AIWorker.Advice.Suggestions) downto 0 do
+        RememberCommand(AIWorker.Advice.Suggestions[I]);
+      RememberCommand(AIWorker.Advice.Command);
       Status.Caption := TrText('SearchCmd.AIReview');
     end;
     FreeAndNil(AIWorker);
     Exit;
   end;
   if not Assigned(Worker) then Exit;
-  if Worker.Done = 0 then Exit;
+  if Worker.Done = 0 then
+  begin
+    if LoadShown and TfrmSmoothLoading.CancelRequested and (Worker.Cancel = 0) then
+    begin
+      InterlockedExchange(Worker.Cancel, 1);
+      Status.Caption := TrText('SearchCmd.Stopped');
+    end;
+    UpdateScanLoad;
+    Exit;
+  end;
   Timer.Enabled := False;
   Worker.WaitFor;
+  HideLoad;
   SetBusy(False);
   if Worker.Error <> '' then
   begin
@@ -581,6 +1127,11 @@ begin
   C := ParseSearchCommand(AText);
   D := TSearchDialog.CreateNew(AOwner);
   try
+    D.FRecent := TStringList.Create;
+    D.FSuggest := TStringList.Create;
+    D.FSuggestNotes := TStringList.Create;
+    D.FHidden := TStringList.Create;
+    D.FKind := C.Kind;
     D.Caption := 'glob / grep';
     D.Position := poScreenCenter;
     D.ClientWidth := FfPx(980);
@@ -647,6 +1198,7 @@ begin
     D.HitList.Parent := D;
     D.HitList.Align := alClient;
     D.HitList.ScrollWidth := FfPx(2000);
+    BidiKeepLtr(D.HitList);
     D.GroupView := TListView.Create(D);
     D.GroupView.Parent := D;
     D.GroupView.Align := alClient;
@@ -656,6 +1208,7 @@ begin
     D.GroupView.RowSelect := True;
     D.GroupView.HideSelection := False;
     D.GroupView.GridLines := True;
+    BidiKeepLtr(D.GroupView);
     Editor := TPanel.Create(D);
     Editor.Parent := D;
     Editor.Align := alTop;
@@ -667,8 +1220,11 @@ begin
     LabelControl.Caption := TrText('SearchCmd.AIRequest');
     LabelControl.SetBounds(FfPx(8), FfPx(4), FfPx(800), FfPx(18));
     D.RequestEdit := TEdit.Create(D);
-    D.RequestEdit.Name := 'SearchAIRequest';
     D.RequestEdit.Parent := Editor;
+    { An empty TEdit copies Name into Text (csSetCaption). Keep the name, then clear it. }
+    D.RequestEdit.Name := 'SearchAIRequest';
+    D.RequestEdit.Text := '';
+    D.RequestEdit.TextHint := TrText('SearchCmd.AIRequestCue');
     LabelControl.FocusControl := D.RequestEdit;
     D.RequestEdit.SetBounds(FfPx(8), FfPx(24), FfPx(704), FfPx(26));
     D.RequestEdit.Anchors := [akLeft, akTop, akRight];
@@ -685,23 +1241,10 @@ begin
     D.Suggestions.Style := csDropDownList;
     D.Suggestions.SetBounds(FfPx(200), FfPx(56), FfPx(770), FfPx(26));
     D.Suggestions.Anchors := [akLeft, akTop, akRight];
-    if C.Kind = sckGlob then
-      D.Suggestions.Items.Text := 'glob "*.csv"' + sLineBreak +
-        'glob "**\*.log"' + sLineBreak + 'glob "report_202?.txt" --limit 500'
-    else
-    begin
-      D.Suggestions.Items.Text := 'grep -i -F "error" --glob "*.log"' + sLineBreak +
-        'grep -E "error|failure"' + sLineBreak + 'grep -v -F "DEBUG"' + sLineBreak +
-        'grep -E "(?<ip>\d+\.\d+\.\d+\.\d+).*(?<status>\d{3})"';
-      if D.CanUseBookmarks then
-      begin
-        D.Suggestions.Items.Add('grep --bookmarks -i "pending"');
-        D.Suggestions.Items.Add('grep --mark -i "error"');
-      end;
-    end;
-    D.Suggestions.OnChange := D.SuggestionClick;
-    D.Suggestions.Hint := TrText('SearchCmd.AISuggestions');
+    D.Suggestions.OnDropDown := D.SuggestionDropDown;
+    D.Suggestions.Hint := TrText('SearchCmd.RecentHint');
     D.Suggestions.ShowHint := True;
+    D.LoadRecent;
     LabelControl := TLabel.Create(D);
     LabelControl.Parent := Editor;
     LabelControl.Caption := TrText('SearchCmd.AISuggestions');
@@ -713,7 +1256,8 @@ begin
     D.CommandEdit.Text := AText;
     D.CommandEdit.SetBounds(FfPx(8), FfPx(90), FfPx(704), FfPx(26));
     D.CommandEdit.Anchors := [akLeft, akTop, akRight];
-    D.CommandEdit.Hint := TrText('SearchCmd.AIReview');
+    BidiKeepLtr(D.CommandEdit);
+    D.CommandEdit.Hint := TrText('Regex.ExamplesHint');
     D.CommandEdit.ShowHint := True;
     D.RunButton := TButton.Create(D);
     D.RunButton.Name := 'SearchRun';
@@ -741,6 +1285,8 @@ begin
     R := D.ShowModal;
     AskPrompt := D.AskPrompt;
     D.Timer.Enabled := False;
+    if D.HandleAllocated then
+      ReleaseMruListPopup(D.Handle);
     if not Assigned(D.Worker) then Exit;
     D.Worker.WaitFor;
     if D.Worker.Error <> '' then Exit;

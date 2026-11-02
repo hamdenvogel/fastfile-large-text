@@ -1,5 +1,5 @@
 unit uFindOccurrencesBar;
-{ Docked Find Occurrences chrome after Ctrl+F.
+{ Docked Find Occurrences frame after Ctrl+F.
   Prev/Next (Shift+F3 / F3), collect hits into a paginated clickable list
   (click → jump ListView/CheckList), Load more for next hit page from disk. }
 
@@ -44,6 +44,9 @@ type
     FBtnClose: TsButton;
     FBtnHide: TsButton;
     FBtnFloat: TsButton;
+    FBtnListToggle: TsButton;
+    FListCollapsed: Boolean;
+    FOnListToggled: TNotifyEvent;
     FBtnPagePrev: TsButton;
     FBtnPageNext: TsButton;
     FHitList: TListBox;
@@ -66,11 +69,11 @@ type
     FUserHeight: Integer;
     FHeaderDown: Boolean;
     FHeaderPt: TPoint;
-    procedure BuildChrome;
+    procedure BuildFrame;
     procedure ForceColor(APnl: TsPanel; AColor: TColor);
     procedure StyleBtn(ABtn: TsButton; const AUiFont: string);
-    procedure StyleChromeBtn(ABtn: TsButton; const AUiFont: string);
-    procedure LayoutChrome;
+    procedure StyleFrameBtn(ABtn: TsButton; const AUiFont: string);
+    procedure LayoutFrame;
     procedure BodyResize(Sender: TObject);
     procedure BtnPrevClick(Sender: TObject);
     procedure BtnNextClick(Sender: TObject);
@@ -84,6 +87,8 @@ type
     procedure BtnClearClick(Sender: TObject);
     procedure BtnHideClick(Sender: TObject);
     procedure BtnFloatClick(Sender: TObject);
+    procedure BtnListToggleClick(Sender: TObject);
+    procedure SyncListToggle;
     procedure BtnPagePrevClick(Sender: TObject);
     procedure BtnPageNextClick(Sender: TObject);
     procedure HitListDblClick(Sender: TObject);
@@ -102,15 +107,20 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure EnsureBuilt;
     procedure ApplyCaptions;
-    procedure ApplySoftChrome;
+    procedure ApplySoftFrame;
     procedure SetStatus(const AStatusText: string; ABusy, AHasHits, APartial: Boolean);
     procedure SetNavEnabled(APrevEnabled, ANextEnabled: Boolean);
     procedure SetCollectEnabled(AEnabled: Boolean);
     procedure SetExpanded(AExpanded: Boolean);
     procedure ClearHitList;
     function PreferredExpandedHeight: Integer;
-    function ChromeHeight: Integer;
+    function FrameHeight: Integer;
+    function ExpandedMinHeight: Integer;
     property Expanded: Boolean read FExpanded;
+    { User hid the hit list (title-bar toggle) while hits still exist. }
+    property ListCollapsed: Boolean read FListCollapsed;
+    procedure ToggleHitList;
+    property OnListToggled: TNotifyEvent read FOnListToggled write FOnListToggled;
     { Last height the user chose while the hit list was open. 0 = not yet. }
     property UserHeight: Integer read FUserHeight write FUserHeight;
     function GetSearchText: string;
@@ -145,29 +155,34 @@ type
     procedure PeekClick(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
-    procedure ApplySoftChrome;
+    procedure ApplySoftFrame;
     property OnRestore: TNotifyEvent read FOnRestore write FOnRestore;
   end;
 
 const
   FIND_OCC_BAR_HEIGHT = 148;
   { Compact hit list so the file ListView below keeps usable space. }
-  FIND_OCC_BAR_EXPANDED = 248;
+  FIND_OCC_BAR_EXPANDED = 300;
   FIND_OCC_PEEK_HEIGHT = 5;
   FIND_OCC_BTN_H = 34;
   FIND_OCC_BTN_PAD_X = 22;
   FIND_OCC_TOP_H = 28;
   FIND_OCC_SEARCH_H = 36;
   FIND_OCC_LIST_PAGE_SIZE = 40;
-  FIND_OCC_LIST_MIN_H = 64;
+  { Page bar (FIND_OCC_BTN_H) + ~3 visible hit rows. }
+  FIND_OCC_LIST_MIN_H = 88;
+  { Absolute floor when the window is short: page bar + 1 row. }
+  FIND_OCC_LIST_TIGHT_H = 56;
+  { Center-pane height always left to the file ListView below (header + rows + toolbar). }
+  FIND_OCC_FILE_LIST_RESERVE = 190;
 
 implementation
 
 uses
-  uI18n;
+  uI18n, uBidiLayout;
 
 const
-  { Soft warm chrome shared with Filter bar. }
+  { Soft warm frame shared with Filter bar. }
   CAccent = TColor($00BFAF9C);
   CSurface = TColor($00F6F3EE);
   CSurfaceHi = TColor($00EDE8E1);
@@ -200,8 +215,8 @@ begin
   FHeaderDown := False;
   FHitPageBase := 0;
   Align := alTop;
-  Height := ChromeHeight;
-  Constraints.MinHeight := ChromeHeight;
+  Height := FrameHeight;
+  Constraints.MinHeight := FrameHeight;
   BevelOuter := bvNone;
   Caption := '';
   ParentBackground := False;
@@ -224,11 +239,11 @@ end;
 procedure TFastFileFindOccBar.EnsureBuilt;
 begin
   if FBuilt then Exit;
-  BuildChrome;
+  BuildFrame;
   FBuilt := True;
-  ApplySoftChrome;
+  ApplySoftFrame;
   ApplyCaptions;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFindOccBar.ForceColor(APnl: TsPanel; AColor: TColor);
@@ -259,7 +274,7 @@ begin
   end;
 end;
 
-procedure TFastFileFindOccBar.StyleChromeBtn(ABtn: TsButton; const AUiFont: string);
+procedure TFastFileFindOccBar.StyleFrameBtn(ABtn: TsButton; const AUiFont: string);
 begin
   if not Assigned(ABtn) then Exit;
   ABtn.ParentFont := False;
@@ -274,7 +289,7 @@ begin
   end;
 end;
 
-procedure TFastFileFindOccBar.BuildChrome;
+procedure TFastFileFindOccBar.BuildFrame;
 var
   UiFont: string;
 begin
@@ -330,14 +345,22 @@ begin
   FBtnHide.Align := alRight;
   FBtnHide.Width := FfPx(28);
   FBtnHide.OnClick := BtnHideClick;
-  StyleChromeBtn(FBtnHide, UiFont);
+  StyleFrameBtn(FBtnHide, UiFont);
 
   FBtnFloat := TsButton.Create(Self);
   FBtnFloat.Parent := FTopRow;
   FBtnFloat.Align := alRight;
   FBtnFloat.Width := FfPx(28);
   FBtnFloat.OnClick := BtnFloatClick;
-  StyleChromeBtn(FBtnFloat, UiFont);
+  StyleFrameBtn(FBtnFloat, UiFont);
+
+  FBtnListToggle := TsButton.Create(Self);
+  FBtnListToggle.Parent := FTopRow;
+  FBtnListToggle.Align := alRight;
+  FBtnListToggle.Width := FfPx(28);
+  FBtnListToggle.OnClick := BtnListToggleClick;
+  StyleFrameBtn(FBtnListToggle, UiFont);
+  FBtnListToggle.Visible := False;
 
   FLblStatus := TsLabel.Create(Self);
   FLblStatus.Parent := FTopRow;
@@ -387,6 +410,7 @@ begin
   FEdtFind.Color := CWindow;
   FEdtFind.OnKeyDown := EdtFindKeyDown;
   FEdtFind.ShowHint := True;
+  BidiKeepLtr(FEdtFind); { search text / regex stays left-to-right }
 
   FBtnGo := TsButton.Create(Self);
   FBtnGo.Parent := FSearchRow;
@@ -480,7 +504,7 @@ begin
   FBtnPagePrev.Align := alLeft;
   FBtnPagePrev.Width := FfPx(32);
   FBtnPagePrev.OnClick := BtnPagePrevClick;
-  StyleChromeBtn(FBtnPagePrev, UiFont);
+  StyleFrameBtn(FBtnPagePrev, UiFont);
   FBtnPagePrev.Caption := '<';
 
   FBtnPageNext := TsButton.Create(Self);
@@ -488,7 +512,7 @@ begin
   FBtnPageNext.Align := alRight;
   FBtnPageNext.Width := FfPx(32);
   FBtnPageNext.OnClick := BtnPageNextClick;
-  StyleChromeBtn(FBtnPageNext, UiFont);
+  StyleFrameBtn(FBtnPageNext, UiFont);
   FBtnPageNext.Caption := '>';
 
   FLblPage := TsLabel.Create(Self);
@@ -534,13 +558,15 @@ begin
   FHitList.IntegralHeight := False;
   FHitList.OnDblClick := HitListDblClick;
   FHitList.OnClick := HitListClick;
+  BidiKeepLtr(FHitList); { hit lines are raw file text }
 end;
 
-procedure TFastFileFindOccBar.LayoutChrome;
+procedure TFastFileFindOccBar.LayoutFrame;
 var
   X, Gap, InnerW, Y, TopH, SearchH, BtnRowH, ListH, GoW, EditW, EditTop,
     GrepW, GlobW: Integer;
   MeasureBmp: TBitmap;
+  BL: IInterface;
 
   function BtnW(ABtn: TsButton; AMin: Integer): Integer;
   begin
@@ -562,6 +588,7 @@ var
 
 begin
   if not FBuilt or not Assigned(FBody) or not Assigned(FBtnRow) or not Assigned(FTopRow) then Exit;
+  BL := BidiLayoutScope([FBody, FSearchRow, FBtnRow]);
 
   TopH := FfPx(FIND_OCC_TOP_H);
   SearchH := FfPx(FIND_OCC_SEARCH_H);
@@ -588,8 +615,8 @@ begin
   if FExpanded and Assigned(FListHost) then
   begin
     ListH := FBody.ClientHeight - Y - FBody.Padding.Bottom;
-    if ListH < FfPx(FIND_OCC_LIST_MIN_H) then
-      ListH := FfPx(FIND_OCC_LIST_MIN_H);
+    if ListH < FfPx(FIND_OCC_LIST_TIGHT_H) then
+      ListH := FfPx(FIND_OCC_LIST_TIGHT_H);
     FListHost.Visible := True;
     FListHost.SetBounds(FBody.Padding.Left, Y, InnerW, ListH);
   end
@@ -599,13 +626,15 @@ begin
     FListHost.SetBounds(FBody.Padding.Left, Y, InnerW, 0);
   end;
 
-  Constraints.MinHeight := ChromeHeight;
+  Constraints.MinHeight := FrameHeight;
   Constraints.MaxHeight := 0;
 
   if Assigned(FBtnHide) then
     FBtnHide.Width := FfPx(28);
   if Assigned(FBtnFloat) then
     FBtnFloat.Width := FfPx(28);
+  if Assigned(FBtnListToggle) then
+    FBtnListToggle.Width := FfPx(28);
 
   MeasureBmp := TBitmap.Create;
   try
@@ -643,19 +672,19 @@ end;
 
 procedure TFastFileFindOccBar.BodyResize(Sender: TObject);
 begin
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFindOccBar.Resize;
 begin
   inherited;
   if FExpanded and (not FFloating) and
-     (Height > FfPx(FIND_OCC_BAR_HEIGHT) + FfPx(FIND_OCC_LIST_MIN_H)) then
+     (Height >= FrameHeight + FfPx(FIND_OCC_LIST_TIGHT_H)) then
     FUserHeight := Height;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
-procedure TFastFileFindOccBar.ApplySoftChrome;
+procedure TFastFileFindOccBar.ApplySoftFrame;
 var
   UiFont: string;
 begin
@@ -756,10 +785,11 @@ begin
     FEdtFind.Hint := TrText('FindOcc.SearchHint') + #13#10 + TrText('SearchCmd.Hint');
   end;
   FBtnHide.Hint := TrText('Close');
+  SyncListToggle;
   FBtnPagePrev.Hint := TrText('FindOcc.ListPagePrevHint');
   FBtnPageNext.Hint := TrText('FindOcc.ListPageNextHint');
   SyncFloatAction;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFindOccBar.BtnCommandClick(Sender: TObject);
@@ -799,7 +829,7 @@ begin
   end;
   if Assigned(FBtnCollect) then
     FBtnCollect.Enabled := not ABusy;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFindOccBar.SetNavEnabled(APrevEnabled, ANextEnabled: Boolean);
@@ -816,11 +846,16 @@ begin
     FBtnCollect.Enabled := AEnabled;
 end;
 
-function TFastFileFindOccBar.ChromeHeight: Integer;
+function TFastFileFindOccBar.FrameHeight: Integer;
 begin
   { Title + search + buttons + the bottom resize grip. No empty band. }
   Result := FfPx(8 + FIND_OCC_TOP_H + 6 + FIND_OCC_SEARCH_H + 6 +
     FIND_OCC_BTN_H + 6 + 8 + 16);
+end;
+
+function TFastFileFindOccBar.ExpandedMinHeight: Integer;
+begin
+  Result := FrameHeight + FfPx(4 + FIND_OCC_LIST_MIN_H);
 end;
 
 procedure TFastFileFindOccBar.SetExpanded(AExpanded: Boolean);
@@ -828,17 +863,17 @@ var
   Coming, Collapsed: Integer;
 begin
   EnsureBuilt;
-  Collapsed := ChromeHeight;
+  Collapsed := FrameHeight;
   Constraints.MaxHeight := 0;
   Constraints.MinHeight := Collapsed;
   if AExpanded then
   begin
     Coming := Ord(not FExpanded);
     FExpanded := True;
-    { First open of the hit list uses the saved drag height, not a fixed cap. }
+    { First open of the hit list uses the saved drag height, already capped at startup. }
     if (Coming <> 0) and (not FFloating) then
     begin
-      if FUserHeight > Collapsed + FfPx(8) then
+      if FUserHeight >= FrameHeight + FfPx(FIND_OCC_LIST_TIGHT_H) then
         Height := FUserHeight
       else
         Height := PreferredExpandedHeight;
@@ -850,7 +885,47 @@ begin
     if not FFloating then
       Height := Collapsed;
   end;
-  LayoutChrome;
+  SyncListToggle;
+  LayoutFrame;
+end;
+
+procedure TFastFileFindOccBar.SyncListToggle;
+var
+  HasHits: Boolean;
+begin
+  if not Assigned(FBtnListToggle) then Exit;
+  HasHits := Assigned(FHitList) and (FHitList.Items.Count > 0);
+  FBtnListToggle.Visible := HasHits;
+  if not HasHits then Exit;
+  if FExpanded then
+  begin
+    FBtnListToggle.Caption := #$25B4;
+    FBtnListToggle.Hint := TrText('FindOcc.HideListHint');
+  end
+  else
+  begin
+    FBtnListToggle.Caption := #$25BE;
+    FBtnListToggle.Hint := TrText('FindOcc.ShowListHint');
+  end;
+  FBtnListToggle.ShowHint := True;
+  { Keep it left of the float / close buttons. }
+  if Assigned(FBtnFloat) then
+    FBtnListToggle.Left := FBtnFloat.Left - FBtnListToggle.Width;
+end;
+
+procedure TFastFileFindOccBar.ToggleHitList;
+begin
+  EnsureBuilt;
+  if not Assigned(FHitList) or (FHitList.Items.Count = 0) then Exit;
+  FListCollapsed := FExpanded;
+  SetExpanded(not FListCollapsed);
+  if Assigned(FOnListToggled) then
+    FOnListToggled(Self);
+end;
+
+procedure TFastFileFindOccBar.BtnListToggleClick(Sender: TObject);
+begin
+  ToggleHitList;
 end;
 
 function TFastFileFindOccBar.PreferredExpandedHeight: Integer;
@@ -858,17 +933,16 @@ var
   Cap, FloorH: Integer;
 begin
   Result := FfPx(FIND_OCC_BAR_EXPANDED);
-  FloorH := FfPx(FIND_OCC_BAR_HEIGHT) + FfPx(FIND_OCC_LIST_MIN_H) + FfPx(8);
+  FloorH := ExpandedMinHeight;
   if Result < FloorH then
     Result := FloorH;
-  { Docked: leave most of the center pane for the file ListView. }
+  { Docked: split the center pane, but always keep rows of the file ListView visible. }
   if (not FFloating) and Assigned(Parent) and (Parent.ClientHeight > 0) then
   begin
-    Cap := (Parent.ClientHeight * 36) div 100;
-    if Cap < FloorH then
-      Cap := FloorH;
-    if Cap > Parent.ClientHeight - FfPx(120) then
-      Cap := Max(FloorH, Parent.ClientHeight - FfPx(120));
+    Cap := Min((Parent.ClientHeight * 55) div 100,
+      Parent.ClientHeight - FfPx(FIND_OCC_FILE_LIST_RESERVE));
+    if Cap < FrameHeight + FfPx(FIND_OCC_LIST_TIGHT_H) then
+      Cap := FrameHeight + FfPx(FIND_OCC_LIST_TIGHT_H);
     if Result > Cap then
       Result := Cap;
   end;
@@ -882,6 +956,7 @@ begin
     FHitList.Items.Clear;
   if Assigned(FLblPage) then
     FLblPage.Caption := '';
+  FListCollapsed := False;
   SetExpanded(False);
 end;
 
@@ -943,7 +1018,7 @@ begin
     FBtnPagePrev.Enabled := ACanPagePrev;
   if Assigned(FBtnPageNext) then
     FBtnPageNext.Enabled := ACanPageNext;
-  SetExpanded(True);
+  SetExpanded(not FListCollapsed);
 end;
 
 procedure TFastFileFindOccBar.FireHitClick;
@@ -1049,7 +1124,7 @@ end;
 
 procedure TFastFileFindOccBar.RelayoutAfterDock;
 begin
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFindOccBar.TitleMouseDown(Sender: TObject; Button: TMouseButton;
@@ -1098,10 +1173,10 @@ begin
   Cursor := crHandPoint;
   ShowHint := True;
   OnClick := PeekClick;
-  ApplySoftChrome;
+  ApplySoftFrame;
 end;
 
-procedure TFastFileFindOccPeek.ApplySoftChrome;
+procedure TFastFileFindOccPeek.ApplySoftFrame;
 begin
   try
     SkinData.CustomColor := True;

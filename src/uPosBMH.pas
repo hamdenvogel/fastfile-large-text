@@ -21,6 +21,9 @@ function ContainsBMHCi(const SubStr, S: string): Boolean;
 procedure BMHInitSingleByte(var Shift: TBMHByteShiftTable);
 function BMHFindBytePAnsi(const Buf: PAnsiChar; const BufLen, StartIndex: Integer;
   const AByte: Byte; const Shift: TBMHByteShiftTable): Integer;
+function BMHFindBytesPAnsi(const Buf: PAnsiChar; const BufLen, StartIndex: Integer;
+  const Needle: AnsiString; const Shift: TBMHByteShiftTable;
+  ACaseInsensitiveAscii: Boolean = False): Integer;
 function BMHCountBytePAnsi(const Buf: PAnsiChar; const BufLen: Integer; const AByte: Byte;
   const Shift: TBMHByteShiftTable): Integer;
 
@@ -61,21 +64,59 @@ begin
   end;
 end;
 
+function BMHFindBytesPAnsi(const Buf: PAnsiChar; const BufLen, StartIndex: Integer;
+  const Needle: AnsiString; const Shift: TBMHByteShiftTable;
+  ACaseInsensitiveAscii: Boolean): Integer;
+var
+  J, NeedleLen, SearchAt, ShiftBy: Integer;
+  HayByte: Byte;
+begin
+  Result := -1;
+  if Buf = nil then Exit;
+  NeedleLen := Length(Needle);
+  if (NeedleLen = 0) or (BufLen < NeedleLen) then Exit;
+  SearchAt := StartIndex;
+  if SearchAt < 0 then SearchAt := 0;
+  if SearchAt > BufLen - NeedleLen then Exit;
+
+  while SearchAt <= BufLen - NeedleLen do
+  begin
+    J := NeedleLen - 1;
+    while J >= 0 do
+    begin
+      HayByte := Byte(Buf[SearchAt + J]);
+      if ACaseInsensitiveAscii and (HayByte >= Ord('a')) and
+         (HayByte <= Ord('z')) then
+        Dec(HayByte, 32);
+      if HayByte <> Byte(Needle[J + 1]) then Break;
+      Dec(J);
+    end;
+    if J < 0 then
+    begin
+      Result := SearchAt;
+      Exit;
+    end;
+
+    HayByte := Byte(Buf[SearchAt + NeedleLen - 1]);
+    if ACaseInsensitiveAscii and (HayByte >= Ord('a')) and
+       (HayByte <= Ord('z')) then
+      Dec(HayByte, 32);
+    ShiftBy := Shift[HayByte];
+    if ShiftBy = 0 then ShiftBy := 1;
+    Inc(SearchAt, ShiftBy);
+  end;
+end;
+
 function BMHCountBytePAnsi(const Buf: PAnsiChar; const BufLen: Integer; const AByte: Byte;
   const Shift: TBMHByteShiftTable): Integer;
 var
-  SearchAt, P: Integer;
+  I: Integer;
 begin
   Result := 0;
   if (Buf = nil) or (BufLen <= 0) then Exit;
-  SearchAt := 0;
-  while SearchAt < BufLen do
-  begin
-    P := BMHFindBytePAnsi(Buf, BufLen, SearchAt, AByte, Shift);
-    if P < 0 then Break;
-    Inc(Result);
-    SearchAt := P + 1;
-  end;
+  for I := 0 to BufLen - 1 do
+    if Byte(Buf[I]) = AByte then
+      Inc(Result);
 end;
 
 function PosBMH(const SubStr, S: string): Integer;
