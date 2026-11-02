@@ -52,7 +52,7 @@ procedure HideFastFileAppNotice;
 implementation
 
 uses
-  uI18n;
+  uI18n, uBidiLayout;
 
 type
   TFastFileAppNoticeCard = class
@@ -232,7 +232,7 @@ begin
 
   W := FillWidth;
   if W <= 0 then Exit;
-  FillR := Rect(R.Left, R.Top, R.Left + W, R.Bottom);
+  FillR := BidiRect(Rect(R.Left, R.Top, R.Left + W, R.Bottom), R.Right - R.Left);
   C.Pen.Style := psSolid;
   C.Pen.Color := FFillColor;
   C.Pen.Width := 1;
@@ -429,8 +429,10 @@ procedure ShowFastFileAppNotice(AHost: TWinControl; AKind: TFastFileNoticeKind;
 var
   Bg, Edge, Accent, TitleC: TColor;
   TopY: Integer;
+  BL: IInterface;
 begin
   if not Assigned(AHost) then Exit;
+  BL := BidiLayoutScope([AHost]);
   EnsureAppNotice(AHost);
   if not Assigned(GAppNotice) or not Assigned(GAppNotice.Pnl) then Exit;
   NoticeColors(AKind, Bg, Edge, Accent, TitleC);

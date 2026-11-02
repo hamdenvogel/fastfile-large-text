@@ -5,7 +5,7 @@ unit uAgentPatch;
 
   Nothing here talks to a form. Line edits, inserts and deletes go through the
   Compare/merge engine (uMergeApply): one pass per file, only the changed region
-  is rebuilt, in place when it fits, journal written to the session history.
+  is rebuilt, in place when it fits, a session log is written to the history.
   Anonymize goes through uAnonymize: same byte length, written in place.
 
   Every line number in a batch refers to the file as it was when the agent read

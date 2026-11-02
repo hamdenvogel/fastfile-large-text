@@ -1,7 +1,7 @@
 ﻿unit uAgentMatchIntent;
 
 {
-  Exact or partial match, read from the user's request in any of the 14 UI languages.
+  Exact or partial match, read from the user's request in the supported UI languages.
   Partial is the default ("Allyne" also finds "Kallyne"); exact only when the request says so.
   This file is UTF-8 with BOM: the phrases below are written in their own scripts.
 }
@@ -12,7 +12,7 @@ interface
 function AgentWantsExactMatch(const APrompt: string): Boolean;
 { Lower case, accents removed, punctuation as spaces, one space between words, padded with spaces. }
 function AgentFoldText(const S: string): string;
-{ Model answers, in any of the 14 languages (the answer follows the user's language). }
+{ Model answers follow the user's language. }
 { "I will do it" / "I am reading it" / "please wait": the model stopped before doing the work. }
 function AgentAnswerPromisesWork(const S: string): Boolean;
 { Reports work as done, queued, enabled or pending. }
@@ -49,22 +49,30 @@ const
     // hu
     'nem részleges', 'ne részleges',
     // cs
-    'ne částečně', 'ne částečný', 'ne částečné', 'bez částečné shody'];
+    'ne částečně', 'ne částečný', 'ne částečné', 'bez částečné shody',
+    'आंशिक नहीं', 'आंशिक मिलान नहीं', 'आंशिक मिलान के बिना',
+    'не частичное совпадение', 'без частичного совпадения', 'не частичный',
+    'niet gedeeltelijk', 'geen gedeeltelijke overeenkomst', 'zonder gedeeltelijke overeenkomst',
+    'kısmi değil', 'kısmi eşleşme değil', 'kısmi eşleşme olmadan',
+    'не частковий збіг', 'без часткового збігу', 'не часткове'];
 
   { Japanese and Chinese: no spaces between words, matched as plain substrings. }
   NOT_PARTIAL_CJK: TArray<string> = [
     // ja
     '部分一致ではなく', '部分一致でない', '部分一致ではない', '部分一致しない',
     // zh-CN / zh-TW
-    '不要部分匹配', '非部分匹配', '不是部分匹配', '不要部份匹配', '不是部份匹配'];
+    '不要部分匹配', '非部分匹配', '不是部分匹配', '不要部份匹配', '不是部份匹配',
+    '부분 일치가 아닌', '부분 일치하지', '부분 일치 없이', '부분 일치 말고'];
 
   { The bare word "partial" (not negated): the user wants partial matches on purpose. }
   PARTIAL: TArray<string> = [
     'parcial', 'parciais', 'partial', 'partiel', 'partielle', 'teilweise', 'partiell', 'teilübereinstimmung',
     'parziale', 'częściowo', 'częściowe', 'częściowy', 'częściowa', 'parțial', 'parțială', 'részleges',
-    'částečně', 'částečný', 'částečné'];
+    'částečně', 'částečný', 'částečné',
+    'आंशिक', 'частичное', 'частичный', 'частичная', 'частично',
+    'gedeeltelijk', 'gedeeltelijke', 'kısmi', 'частковий', 'часткове', 'часткова', 'частково'];
 
-  PARTIAL_CJK: TArray<string> = ['部分一致', '部分匹配', '部份匹配', '模糊匹配'];
+  PARTIAL_CJK: TArray<string> = ['部分一致', '部分匹配', '部份匹配', '模糊匹配', '부분 일치'];
 
   { Exact / whole word. Adverbs like "exatamente", "exactly", "genau", "dokładnie", "pontosan" are left out:
     they are common in requests that do not mean whole-word matching. }
@@ -89,7 +97,12 @@ const
     // hu
     'pontos egyezés', 'egész szó', 'teljes szó', 'pontos név', 'pontos nevet', 'pontos szó', 'pontos szót',
     // cs
-    'přesný', 'přesná', 'přesné', 'celé slovo', 'celá slova'];
+    'přesný', 'přesná', 'přesné', 'celé slovo', 'celá slova',
+    'सटीक मिलान', 'पूर्ण शब्द', 'पूरा शब्द', 'पूरे शब्द',
+    'точное совпадение', 'точный', 'целое слово', 'целые слова', 'слово целиком',
+    'exacte overeenkomst', 'exacte match', 'heel woord', 'hele woorden',
+    'tam eşleşme', 'tam sözcük', 'tam kelime', 'bütün kelime',
+    'точний збіг', 'точне співпадіння', 'ціле слово', 'цілі слова'];
 
   EXACT_CJK: TArray<string> = [
     // ja
@@ -97,7 +110,8 @@ const
     // zh-CN
     '完全匹配', '精确匹配', '全字匹配', '整词匹配', '精确',
     // zh-TW
-    '完全符合', '精確匹配', '整詞匹配', '精確', '完全相符'];
+    '完全符合', '精確匹配', '整詞匹配', '精確', '完全相符',
+    '정확히 일치', '정확한 일치', '완전 일치', '전체 단어'];
 
   { Answer stems. A trailing space = whole word; otherwise the start of a word ("enfileir" = enfileirado...). }
   PROMISES: TArray<string> = [
@@ -120,14 +134,20 @@ const
     // hu
     'kérem várjon', 'egy pillanat', 'megnézem', 'ellenőrzöm', 'keresem',
     // cs
-    'počkejte', 'moment ', 'zkontroluji', 'podívám se', 'budu '];
+    'počkejte', 'moment ', 'zkontroluji', 'podívám se', 'budu ',
+    'मैं करूँगा', 'मैं करूंगा', 'कृपया प्रतीक्षा', 'मुझे जाँच', 'एक क्षण',
+    'я проверю', 'я прочитаю', 'я выполню', 'подождите', 'пожалуйста подождите',
+    'ik zal ', 'even wachten', 'een ogenblik', 'ik ga ',
+    'kontrol edeceğim', 'çalıştıracağım', 'lütfen bekleyin', 'bir dakika',
+    'я перевірю', 'я прочитаю', 'я виконаю', 'зачекайте', 'будь ласка зачекайте'];
 
   PROMISES_CJK: TArray<string> = [
     // ja
     'これから', 'お待ちください', '少々お待ち', '確認します', '検索します', '読み込みます', '実行します',
     '確認中', '検索中', '処理中',
     // zh-CN / zh-TW
-    '我将', '我將', '我会', '我會', '请稍候', '請稍候', '稍等', '正在', '让我', '讓我'];
+    '我将', '我將', '我会', '我會', '请稍候', '請稍候', '稍等', '正在', '让我', '讓我',
+    '기다려 주세요', '기다려주세요', '확인하겠습니다', '실행하겠습니다', '잠시만'];
 
   CLAIMS: TArray<string> = [
     // pt-BR / pt-PT
@@ -157,7 +177,12 @@ const
     'megjelöl', 'elfogad',
     // cs
     've frontě', 'naplánován', 'navržen', 'zapnut', 'použit', 'čeká', 'vytvořen', 'odstraněn', 'exportován',
-    'označen', 'přijat', 'přijmout'];
+    'označen', 'přijat', 'přijmout',
+    'कतार में', 'प्रस्तावित', 'लागू किया', 'सहेजा गया', 'सहेजी गई', 'बनाया गया', 'स्वीकार',
+    'в очереди', 'предложен', 'применен', 'создан', 'сохранен', 'удален', 'принят', 'принять',
+    'in de wachtrij', 'voorgesteld', 'toegepast', 'opgeslagen', 'aangemaakt', 'verwijderd', 'accepteren',
+    'kuyruğa', 'önerildi', 'uygulandı', 'kaydedildi', 'oluşturuldu', 'silindi', 'kabul et',
+    'у черзі', 'запропоновано', 'застосовано', 'створено', 'збережено', 'видалено', 'прийняти'];
 
   CLAIMS_CJK: TArray<string> = [
     // ja
@@ -165,7 +190,9 @@ const
     'エクスポートしました', '承認', '受け入れ', '実行しました',
     // zh-CN / zh-TW
     '已排队', '已排隊', '排程', '已提议', '已提議', '建议的', '建議的', '已启用', '已啟用', '已应用', '已套用',
-    '待处理', '待處理', '已创建', '已建立', '已删除', '已刪除', '已导出', '已匯出', '接受'];
+    '待处理', '待處理', '已创建', '已建立', '已删除', '已刪除', '已导出', '已匯出', '接受',
+    '대기열에', '제안되었습니다', '적용했습니다', '저장했습니다', '저장되었습니다',
+    '생성했습니다', '삭제했습니다', '수락'];
 
   QUEUE_CLAIMS: TArray<string> = [
     // pt-BR / pt-PT
@@ -187,13 +214,19 @@ const
     // hu
     'sorba ', 'javasol', 'elfogad', 'függő', 'várakoz', 'megjelöl',
     // cs
-    've frontě', 'navržen', 'přijat', 'přijmout', 'čeká', 'označen'];
+    've frontě', 'navržen', 'přijat', 'přijmout', 'čeká', 'označen',
+    'कतार में', 'प्रस्तावित', 'स्वीकार', 'लंबित',
+    'в очереди', 'предложен', 'принять', 'ожидает', 'отмечен',
+    'in de wachtrij', 'voorgesteld', 'accepteren', 'in afwachting',
+    'kuyruğa', 'önerildi', 'kabul et', 'beklemede',
+    'у черзі', 'запропоновано', 'прийняти', 'очікує', 'позначено'];
 
   QUEUE_CLAIMS_CJK: TArray<string> = [
     // ja
     '提案', '承認', '受け入れ', '適用', '保留', 'キュー',
     // zh-CN / zh-TW
-    '排队', '排隊', '提议', '提議', '接受', '待处理', '待處理'];
+    '排队', '排隊', '提议', '提議', '接受', '待处理', '待處理',
+    '대기열', '제안되었습니다', '수락', '보류'];
 
 function IsLatinMark(C: Char): Boolean;
 begin
@@ -229,7 +262,8 @@ var
   I: Integer;
   T: string;
 begin
-  T := StripMarks(AnsiLowerCase(S));
+  { Decomposition can expose an uppercase I from Turkish dotted capital I. }
+  T := AnsiLowerCase(StripMarks(AnsiLowerCase(S)));
   { No decomposition for these. }
   T := StringReplace(T, 'ł', 'l', [rfReplaceAll]);
   T := StringReplace(T, 'ß', 'ss', [rfReplaceAll]);

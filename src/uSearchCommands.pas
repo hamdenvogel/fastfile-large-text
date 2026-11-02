@@ -29,6 +29,13 @@ type
     FilesScanned: Integer;
     Partial, Cancelled: Boolean;
   end;
+  { Live progress written by the scanning thread and polled by the UI. }
+  TSearchProgress = record
+    BytesDone, BytesTotal: Int64;
+    FilesDone, FilesTotal: Integer;
+    Hits: Integer;
+  end;
+  PSearchProgress = ^TSearchProgress;
   TSearchCommandAdvice = record
     Command, Explanation: string;
     Suggestions: TArray<string>;
@@ -36,6 +43,7 @@ type
   TSearchMatcher = class
   private
     FCommand: TSearchCommand;
+    FLowerPattern: string;
     FPattern: Pointer;
     FGroupNames: TArray<string>;
     FGroupNumbers: TArray<Integer>;
@@ -57,7 +65,7 @@ function SearchGlobMatches(const APath, APattern: string): Boolean;
 function ValidateSearchFile(const APath: string): string;
 function RunSearchCommand(AFiles: TStrings; const ACommand: TSearchCommand;
   ACancel: System.PInteger; const ABookmarkPath: string = '';
-  const ABookmarks: TArray<Int64> = nil): TSearchResult;
+  const ABookmarks: TArray<Int64> = nil; AProgress: PSearchProgress = nil): TSearchResult;
 function SearchResultText(const AResult: TSearchResult): string;
 function SearchCommandHelp: string;
 function SearchCommandTool(const AText: string; AFiles: TStrings;
@@ -359,6 +367,7 @@ var
 begin
   inherited Create;
   FCommand := ACommand;
+  FLowerPattern := AnsiLowerCase(ACommand.Pattern);
   if ACommand.Kind = sckGlob then Exit;
   if not (ACommand.Regex or ACommand.WholeWord) then Exit;
   P := ACommand.Pattern;
@@ -508,7 +517,7 @@ begin
   if FCommand.Regex or FCommand.WholeWord then
     Result := ExecGroups(AText)
   else if FCommand.IgnoreCase then
-    Result := Pos(AnsiLowerCase(FCommand.Pattern), AnsiLowerCase(AText)) > 0
+    Result := Pos(FLowerPattern, AnsiLowerCase(AText)) > 0
   else
     Result := Pos(FCommand.Pattern, AText) > 0;
   if FCommand.Invert then
@@ -527,6 +536,8 @@ type
     Cancel: System.PInteger;
     Path: string;
     Partial: Boolean;
+    Progress: PSearchProgress;
+    BytesBase: Int64;
     procedure Visit(const S: string; ALineNo: Int64; var AStop: Boolean);
     procedure ScanFile;
   end;
@@ -554,6 +565,8 @@ begin
   if Length(S) > 400 then H.Text := H.Text + '...';
   H.GroupValues := Matcher.LastValues;
   Hits.Add(H);
+  if Assigned(Progress) then
+    Progress^.Hits := Hits.Count;
   if Hits.Count >= Command.Limit then
   begin
     Partial := True;
@@ -618,6 +631,8 @@ begin
       begin
         if Assigned(Cancel) and (Cancel^ <> 0) then Break;
         Count := Reader.Read(Buffer, 0, Length(Buffer));
+        if Assigned(Progress) then
+          Progress^.BytesDone := BytesBase + Reader.BaseStream.Position;
         if Count <= 0 then
         begin
           if Line.Length > 0 then EndLine;
@@ -655,9 +670,19 @@ begin
   end;
 end;
 
+function SearchFileSize(const APath: string): Int64;
+var
+  Data: TWin32FileAttributeData;
+begin
+  if GetFileAttributesEx(PChar(APath), GetFileExInfoStandard, @Data) then
+    Result := Int64(Data.nFileSizeHigh) shl 32 or Data.nFileSizeLow
+  else
+    Result := 0;
+end;
+
 function RunSearchCommand(AFiles: TStrings; const ACommand: TSearchCommand;
   ACancel: System.PInteger; const ABookmarkPath: string;
-  const ABookmarks: TArray<Int64>): TSearchResult;
+  const ABookmarks: TArray<Int64>; AProgress: PSearchProgress): TSearchResult;
 var
   St: TScan;
   I: Integer;
@@ -665,12 +690,24 @@ var
   H: TSearchHit;
   Target: string;
   Allowed: Boolean;
+  Eligible: TArray<Boolean>;
+  Sizes: TArray<Int64>;
+
+  function IsEligible(const APath: string): Boolean;
+  begin
+    Result := not ((Target <> '') and not SameFileName(ExpandFileName(APath), Target));
+    if Result and ACommand.BookmarksOnly then
+      Result := SameFileName(APath, ABookmarkPath);
+    if Result and (ACommand.Kind <> sckGlob) then
+      Result := SearchGlobMatches(APath, ACommand.FileGlob);
+  end;
 begin
   Result := Default(TSearchResult);
   St := TScan.Create;
   try
     St.Command := ACommand;
     St.Cancel := ACancel;
+    St.Progress := AProgress;
     St.Hits := TList<TSearchHit>.Create;
     St.Marks := TDictionary<Int64, Boolean>.Create;
     St.Matcher := TSearchMatcher.Create(ACommand);
@@ -690,15 +727,28 @@ begin
       Target := ValidateSearchFile(Target);
     end;
     for N in ABookmarks do St.Marks.AddOrSetValue(N, True);
+    SetLength(Eligible, AFiles.Count);
+    SetLength(Sizes, AFiles.Count);
+    for I := 0 to AFiles.Count - 1 do
+    begin
+      Eligible[I] := IsEligible(AFiles[I]);
+      if Eligible[I] and (ACommand.Kind <> sckGlob) then
+        Sizes[I] := SearchFileSize(AFiles[I]);
+      if Assigned(AProgress) and Eligible[I] then
+      begin
+        Inc(AProgress^.FilesTotal);
+        Inc(AProgress^.BytesTotal, Sizes[I]);
+      end;
+    end;
     for I := 0 to AFiles.Count - 1 do
     begin
       if Assigned(ACancel) and (ACancel^ <> 0) then Break;
+      if not Eligible[I] then Continue;
       St.Path := AFiles[I];
-      if (Target <> '') and not SameFileName(ExpandFileName(St.Path), Target) then Continue;
-      if ACommand.BookmarksOnly and not SameFileName(St.Path, ABookmarkPath) then Continue;
       if ACommand.Kind = sckGlob then
       begin
         Inc(Result.FilesScanned);
+        if Assigned(AProgress) then AProgress^.FilesDone := Result.FilesScanned;
         if not SearchGlobMatches(St.Path, ACommand.Pattern) then Continue;
         if St.Hits.Count >= ACommand.Limit then
         begin
@@ -708,12 +758,18 @@ begin
         H := Default(TSearchHit);
         H.Path := St.Path;
         St.Hits.Add(H);
+        if Assigned(AProgress) then AProgress^.Hits := St.Hits.Count;
       end
       else
       begin
-        if not SearchGlobMatches(St.Path, ACommand.FileGlob) then Continue;
         St.ScanFile;
         Inc(Result.FilesScanned);
+        Inc(St.BytesBase, Sizes[I]);
+        if Assigned(AProgress) then
+        begin
+          AProgress^.BytesDone := St.BytesBase;
+          AProgress^.FilesDone := Result.FilesScanned;
+        end;
         if St.Partial then Break;
       end;
     end;

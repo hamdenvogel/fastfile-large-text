@@ -17,7 +17,7 @@ procedure ReportFastFileException(const AContext: string; E: Exception;
 implementation
 
 uses
-  Windows, Forms, Classes, Controls, uFastFilePaths;
+  Windows, Forms, Classes, Controls, uFastFilePaths, uI18n;
 
 type
   TFastFileExceptionHooks = class
@@ -71,7 +71,7 @@ procedure ShowGuardMessage(const ATitle, AText: string);
 begin
   try
     MessageBox(0, PChar(AText), PChar(ATitle),
-      MB_OK or MB_ICONERROR or MB_TOPMOST or MB_SETFOREGROUND);
+      MB_OK or MB_ICONERROR or MB_TOPMOST or MB_SETFOREGROUND or RtlMsgBoxFlags);
   except
     { ignore }
   end;

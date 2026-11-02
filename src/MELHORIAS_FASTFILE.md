@@ -33,7 +33,7 @@ Editor/visualizador de **texto enorme** (testado acima de 14 GB): o arquivo **n�
 | Hints de linha (opt-in, INI) | `chkShowLineHints` / `[UIPrefs] ShowLineHoverHints` |
 | Tail + macro Python | `transform(line, ctx)`, IA do Tail |
 | Script Engine GB+ | `ScriptEngine.exe`, OUTFILE |
-| Comparar / Mesclar + journal | `uCompareMergeUI`, `uLineDiffCore` |
+| Comparar / Mesclar + registro da sessão | `uCompareMergeUI`, `uLineDiffCore` |
 | Assistente IA + Chat SQL + RAG | ConsumerAI / ConsumerRAG (FastTextRAG em GB+) |
 | i18n 11 idiomas | `uI18n.pas` |
 | Sessão por arquivo | `.ffsession` em `fastfile_temp` |

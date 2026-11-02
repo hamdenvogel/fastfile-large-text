@@ -74,7 +74,7 @@ type
     GetRecentFilePathByListIndex: function(AIndex1Based: Integer): string of object;
     ExecuteAction: procedure(const AStep: TAssistantChainStep) of object;
     NotifyGeneratedFile: procedure(const AFileName: string) of object;
-    { Show/hide resize splitter chrome when the host panel visibility changes. }
+    { Show/hide resize splitter frame when the host panel visibility changes. }
     NotifyPanelVisible: procedure(AVisible: Boolean) of object;
     { Syntax-check a compose source file (.py/.js/.ts/.tsx). AReport = OK / ERROR lines. }
     ValidateComposedSource: function(const APath: string; out AReport: string): Boolean of object;

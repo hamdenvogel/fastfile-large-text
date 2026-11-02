@@ -1,13 +1,122 @@
 ﻿# FastFile — Relatório de Implementações
 
-**Data:** 23 de outubro de 2026  
+**Data:** 2 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64)  
 **Pasta:** `FileReadThread-2\Src` (host D10: `delphi10_4_2\FastFile\src`)  
-**Versão publicada actual:** **`3.0.5.244`** — ordenação de colunas no modo CSV sem carregar o ficheiro, grupos nomeados no `grep` e sessão `.ffsession` com filtro e codificação; mantém o glob/grep da **.243**.
+**Versão publicada actual:** **`3.0.5.268`** — guia de próximos passos mais baixo e ícone de Ler no campo do caminho. As entregas **3.0.5.262–265** (28 idiomas e próximos passos por atividade) e **3.0.5.245–261** permanecem no histórico, sem repetição.
 
 ---
 
-## ★ FastFile 3.0.5.244 (atual) — Colunas, grupos do grep e sessão (24/10/2026)
+## ★ FastFile 3.0.5.268 (atual) — Ícone de Ler visível e correto (02/11/2026)
+
+- O ícone no campo do caminho usa o mesmo desenho do botão **Ler** da barra (não o de abrir pasta) e fica numa janela própria, como o X, para não ficar escondido atrás do edit.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.268**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock8`) nos 28 idiomas e metadados de `FastFile.dproj`.
+
+## ★ FastFile 3.0.5.267 (interno) — Ler a partir do campo do caminho (01/11/2026)
+
+- Um ícone de **Ler** fica dentro de `edtFileName`, imediatamente à esquerda do X de limpar, e carrega o caminho mostrado nesse campo.
+
+## ★ FastFile 3.0.5.266 (interno) — Guia de próximos passos mais baixo (01/11/2026)
+
+- O painel do guia usa a largura do pai, mantém os botões numa só fila e baixa a altura (~74 px), para a lista do arquivo continuar visível.
+
+## ★ FastFile 3.0.5.265 — Mais ações seguintes (01/11/2026)
+
+- Cada atividade do guia oferece um conjunto maior de próximos passos (localizar, filtrar, exportar, dividir, mesclar, ler, comparar e as demais).
+- **Sync:** `APPLICATION_VERSION` **3.0.5.265**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock7`) nos 28 idiomas e metadados de `FastFile.dproj`.
+
+## ★ FastFile 3.0.5.264 (interno) — Próximos passos conforme a atividade (01/11/2026)
+
+- O guia deixa de mostrar uma lista fixa. As ações acompanham o fluxo atual: localizar, filtrar, exportar, dividir, mesclar, ler, índice, comparar, deduplicar, script, ordenação CSV, grupos do grep, sessão ou substituir.
+
+## ★ FastFile 3.0.5.263 (interno) — Reabrir o guia na lista (31/10/2026)
+
+- Na faixa de ferramentas da lista, um botão à esquerda de **Copiar** abre o mesmo guia de próximos passos.
+
+## ★ FastFile 3.0.5.262 (interno) — 28 idiomas na interface (31/10/2026)
+
+- Tailandês, grego, norueguês (bokmål), sueco, dinamarquês e islandês ampliam a interface de 22 para **28 idiomas**. Os seis usam layout da esquerda para a direita. O catálogo fica em `tools/i18n` e é emitido em `uI18nExtra.pas`.
+
+## ★ FastFile 3.0.5.261 — Preferências e reabertura do guia (31/10/2026)
+
+- **Preferências:** reformulação visual do diálogo e botão **Mostrar guia agora**. O guia pode ser reaberto sem precisar ler outro arquivo.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.261**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock6`) nos 22 idiomas e metadados de `FastFile.dproj`.
+
+## ★ FastFile 3.0.5.260 (interno) — Inicialização segura do guia (31/10/2026)
+
+- O painel do guia é associado ao seu pai antes da criação dos controles filhos, evitando a exceção de leitura causada por um painel sem janela pai.
+
+## ★ FastFile 3.0.5.259 (interno) — Layout estável do guia (31/10/2026)
+
+- Removida a animação de redimensionamento repetida que causava cintilação, sobretudo na lista. O redesenho é suspenso durante a atualização do layout, e o painel recebeu um visual mais profissional.
+
+## ★ FastFile 3.0.5.258 (interno) — Guia de próximos passos (30/10/2026)
+
+- Após a leitura de um arquivo, o guia sugere ações como editar linhas, mesclar arquivos e perguntar à IA. A preferência **Não mostrar novamente** pode ser alterada em Preferências.
+- O guia e as novas opções estão traduzidos nos **22 idiomas** da interface.
+
+## ★ FastFile 3.0.5.257 (interno) — Menu de contexto e histórico de sessão (30/10/2026)
+
+- O menu de contexto do editor acompanha o idioma selecionado. Os rótulos do histórico de sessão foram revisados para usar terminologia mais clara.
+
+## ★ FastFile 3.0.5.256 (interno) — Divisão em partes iguais (30/10/2026)
+
+- A divisão percorre blocos MMF e grava os trechos correspondentes sem carregar o arquivo inteiro em memória. Ao concluir, a aba de divisão permanece ativa.
+
+## ★ FastFile 3.0.5.255 (interno) — 22 idiomas na interface (30/10/2026)
+
+- Hindi, russo, coreano, neerlandês, turco e ucraniano completam a expansão de 16 para **22 idiomas**. Hindi usa layout da esquerda para a direita.
+
+## ★ FastFile 3.0.5.254 (interno) — Partes iguais na barra (30/10/2026)
+
+- O botão **Partes iguais** fica na barra principal, logo depois de **Mesclar arquivos**. O atalho continua **Ctrl+Shift+P** e abre a aba **Dividir arquivo em partes iguais**. O ícone é o de divisão vertical. A mesma ação segue em **Mais ferramentas**.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.254**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock5`), `FastFile.dproj`. O bloco F1 foi traduzido para os 16 idiomas então disponíveis.
+
+## ★ FastFile 3.0.5.253 (interno) — Lista e menu no modo da direita para a esquerda (29/10/2026)
+
+- Em árabe e hebraico, as colunas da lista do arquivo passam a ser lidas da direita. O número da linha fica na extremidade direita. O texto dentro de cada célula continua da esquerda para a direita.
+- A lista de idiomas deixa de ser espelhada duas vezes. O nome e a bandeira alinham à direita e o menu alarga até o nome inteiro aparecer.
+
+## ★ FastFile 3.0.5.252 (interno) — Bandeira ao lado do idioma (29/10/2026)
+
+- A lista de idiomas mostra a bandeira do país principal ao lado do nome (Brasil, Portugal, Reino Unido, Espanha, França, Alemanha, Itália, Polônia, Romênia, Hungria, Tchéquia, Japão, China, Taiwan, Arábia Saudita, Israel). A caixa fechada na barra de status continua só com o nome.
+
+## ★ FastFile 3.0.5.251 (interno) — Árabe e hebraico (29/10/2026)
+
+- A interface passa a ter **16 idiomas**. Árabe e hebraico têm o catálogo traduzido em `uI18nRtl.pas`, gerado por `tools/gen_rtl_i18n.py` (com correções em `tools/rtl_overrides.py`). Escolher um desses idiomas liga o modo da direita para a esquerda.
+
+## ★ FastFile 3.0.5.250 (interno) — Layout da direita para a esquerda (29/10/2026)
+
+- `uBidiLayout` espelha cada formulário, os diálogos e os controles criados no código. As caixas de mensagem seguem a direção. O texto do arquivo, o código e os editores de dados brutos continuam da esquerda para a direita. O layout que posiciona pela esquerda corre dentro de `BidiLayoutScope` e é espelhado de novo ao sair.
+
+## ★ FastFile 3.0.5.249 — Idiomas recentes e exemplos de regex (29/10/2026)
+
+- **Lista de idiomas:** o combo segue o MRU do projeto (`LanguageMRU` no `ASkin.ini`). Os idiomas recentes ficam primeiro; digitar pesquisa; «mostrar os outros» abre o restante. A lista da skin fecha antes de carregar o idioma, para não deixar um retângulo azul sobre a janela.
+- **Regex:** Filtro, editor de linha e o modal glob/grep mostram exemplos (`error|failure`, linha que começa com dígito, data). **Perguntar à IA** propõe um padrão e não o executa. O filtro usa regex VBScript (sem lookbehind); o editor de linha usa regex do Delphi.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.249**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock4`), `FastFile.dproj`. Textos novos nos 14 idiomas.
+
+## ★ FastFile 3.0.5.248 (interno) — Limites visíveis nas Opções (28/10/2026)
+
+- **Opções → Preferências**, secção de limites, com o padrão escrito no próprio campo. Valor vazio ou inválido volta ao padrão. A roda do mouse rola a página.
+- **Padrões:** descaracterizar **1000** (seleção ou intervalo; o arquivo inteiro não usa esse teto), mesclar **1000**, traduzir **40**, área de transferência **500**, exportar para arquivo **100000**, inserir **2000**, dividir por arquivos **100**, partes iguais ou fração **1000**.
+- A tela que usa o limite mostra o número (anonimizar, mesclar, traduzir, inserir, dividir, exportar). Uma seleção acima do teto de descaracterizar ainda abre o diálogo, com a nota do limite.
+
+## ★ FastFile 3.0.5.247 (interno) — Dividir por linhas: prévia e ferramentas (28/10/2026)
+
+- A aba mostra De/Até, uma amostra curta e um estado vazio quando não há arquivo. A faixa de ferramentas é a mesma da lista: copiar, limpar, exportar, traduzir e descaracterizar.
+- Gravar o intervalo percorre o arquivo original e escreve um arquivo novo. O intervalo não é montado como lista na memória.
+
+## ★ FastFile 3.0.5.246 (interno) — Sugestões glob/grep e Perguntar à IA (27/10/2026)
+
+- Os comandos recentes usam a lista MRU do projeto (pesquisar, remover um, limpar tudo) em `mru_search_cmd.ini`. Um pedido vazio não mostra mais o nome do controle.
+- Exemplos novos: CSV na pasta, logs em subpastas, `?`, `--limit`, maiúsculas, OU, inverter, palavra inteira, grupos nomeados, marcadores e `--mark`.
+- **Perguntar à IA** abre ao lado da página ativa.
+
+## ★ FastFile 3.0.5.245 (interno) — Barras Localizar, Filtro e Marcadores (26/10/2026)
+
+- As três barras abrem compactas. Uma alça na base muda a altura. **Fechar** fica ao lado de **Limpar**.
+
+## ★ FastFile 3.0.5.244 — Colunas, grupos do grep e sessão (24/10/2026)
 
 - **Grelha por delimitador:** o modo CSV/colunas (Ctrl+Alt+V) já lia cada linha pelo índice. Clique num cabeçalho de coluna ordena essa coluna: a ordem fica num índice temporário (`ff_csv_order.idx`), o ficheiro original não é carregado nem reescrito. Números ordenam como número. Esc cancela. Clicar em **Line #** limpa a ordenação. O mesmo clique inverte a direção sem reler o ficheiro.
 - **grep com grupos nomeados:** `grep -E "(?<ip>...).*(?<status>...)"` (também `(?P<name>...)`) mostra uma tabela com uma coluna por grupo, na mesma leitura por blocos, com página e cancelamento. Copiar inclui os grupos.
@@ -505,7 +614,7 @@ Documento: [`DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`](DOC_ASSISTENTE_IA_VALIDAR_FONT
 ### Versões internas (diluídas, sem duplicar 3.0.3.x)
 - **v3.0.4.1 (interno):** **`data-lake-duckdb-main/ConsumerRAG.py`** — **FastTextRAG** como modo predefinido (streaming lexical, sem embeddings imediatos); imports pesados (lancedb/numpy) preguiçosos; parâmetros de chunk/overlap/max-chunks e *overview budget*; lançamento a partir do Delphi deixa de forçar `--semantic-index`/`--keep-workspace`; progresso `%`/ETA na bridge; **`smoke_test_consumer_rag_exe.py`** timeout **300 s** (extração onefile a frio); correcções de empacotamento PyInstaller (`build_exe_consumer_rag.bat`).
 - **v3.0.4.2 (interno):** **`MainUnit.pas`** — **`StopConsumerRAGProcess`** não bloqueante (`TerminateProcess` imediato, fecho de pipes, `WaitForSingleObject` 750 ms na thread leitora, liberta objecto se preso); **`ConsumerRAGCloseClick`** oculta o painel primeiro; **`ConsumerRAGCancelClick`** protege excepções em `StopConsumerRAGProcess` / `PurgeConsumerRAGTempData` e desactiva o botão; `FConsumerRAGCloseButton`/`FConsumerRAGCancelButton` `BringToFront`; `FConsumerRAGTitleLabel.Enabled := False` (não intercepta cliques).
-- **v3.0.4.3 (interno):** **`uTextEncoding.pas`** — `RawBytesToDisplayString`, `DetectTextEncodingFromBytes`, `DetectTextFileEncoding`; **`uCompareMergeUI.pas`** — `ReadTextFileLineSlice` lê bytes como `AnsiString` (`SetString(seg, PAnsiChar(@Buf[AStart]), ALen)`), detecta encoding + salta BOM e converte para exibição (`DisplayTextFromFileBytes`); `ScanSessionJournalStream`/`StreamJournalTailLinesIntoList` usam `RawBytesToDisplayString`; **`uFileSessionHistory.pas`** — `FFAppendRawLine` escreve journal em **UTF-8** (`UTF8Encode`).
+- **v3.0.4.3 (interno):** **`uTextEncoding.pas`** — `RawBytesToDisplayString`, `DetectTextEncodingFromBytes`, `DetectTextFileEncoding`; **`uCompareMergeUI.pas`** — `ReadTextFileLineSlice` lê bytes como `AnsiString` (`SetString(seg, PAnsiChar(@Buf[AStart]), ALen)`), detecta encoding + salta BOM e converte para exibição (`DisplayTextFromFileBytes`); `ScanSessionJournalStream`/`StreamJournalTailLinesIntoList` usam `RawBytesToDisplayString`; **`uFileSessionHistory.pas`** — `FFAppendRawLine` escreve o registro de sessão em **UTF-8** (`UTF8Encode`).
 - **v3.0.4.4 (interno):** **`ActionReadFileExecute`** — com ficheiro carregado abre `TOpenDialog` e carrega de imediato (`DoShowPanelReadFile` + `DoRead`); **`HwndInSideChatPanels`**, **`PointInSideChatPanels`**, **`TryScrollSideChatWheel`**; **`FormMouseWheel`** e **`ScriptMemoAppMessage`** encaminham `WM_MOUSEWHEEL` para o memo do chat sob o rato (RAG/SQL/Assistente/Script) antes de scroll/zoom da ListView; `btnSplash.Caption := Tr('titlebar.about', 'About')` (+ `MainUnit.dfm`).
 - **v3.0.4.5 (interno):** F1 **`FF_HELP.AIChatFileBlock`**; i18n **11 idiomas** (`Open file`, `titlebar.about` já existente, `Cancel loading`/`Loading cancelled`/`Cancelled`/`Temporary RAG index cleared`, `AI Chat (SQL)`/`Advanced AI Chat (file)`); Version History + README + ROADMAP + `DOC_ZS_ATALHOS.md` + `DOCUMENTACAO_MODELOS_IA.md`.
 - **v3.0.4.6 (interno):** **Script Engine** — Run Script respeita seleção da ListView (não força o ficheiro inteiro após filtro); diálogo **todas vs selecionadas** (só quando há seleção) + confirmação com contagem (`SCRIPT_ENGINE_SCOPE_PROMPT` / `CONFIRM_SEL` / `CONFIRM_ALL`, 11 idiomas); **Cancelar** no overlay chama `AbortScriptEngineRunOnCancel` (`TerminateProcess` + limpeza diferida `WM_USER+438`).
@@ -744,12 +853,12 @@ Documento: [`DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`](DOC_ASSISTENTE_IA_VALIDAR_FONT
 
 ### Versões internas (diluídas)
 - **v2.1.7.17 (Anterior — host FastFile):** **`UnConsts.APPLICATION_VERSION`** **`2.1.7.17`**; **`MainUnit.pas`**: **autofill estilo EmEditor** — arrastar para baixo na coluna **Linha #** (sem Ctrl/Alt) insere linhas em branco com pré-visualização; **Ctrl/Alt** na coluna de conteúdo mantém seleção vertical em bloco; **`BuildBlankInsertLineContent`** gera linhas CSV com delimitadores vazios quando **Ctrl+Alt+V** está activo.
-- **v2.1.7.18 (interno):** **Ctrl+Z / Ctrl+Y** para blocos de autofill (`Op=3`, `BatchKind=1`); journal **`BAUT`** em **`uFileSessionHistory.pas`** / aba merge **`uCompareMergeUI.pas`**; **`RecordBatchInsertForUndo`** preserva contagem de linhas vazias (não aplica `TrimTrailingEmptyClipboardLines`); **`RestoreBatchInsertLinesFromUndo`** para redo.
+- **v2.1.7.18 (interno):** **Ctrl+Z / Ctrl+Y** para blocos de autofill (`Op=3`, `BatchKind=1`); registro de sessão **`BAUT`** em **`uFileSessionHistory.pas`** / aba merge **`uCompareMergeUI.pas`**; **`RecordBatchInsertForUndo`** preserva contagem de linhas vazias (não aplica `TrimTrailingEmptyClipboardLines`); **`RestoreBatchInsertLinesFromUndo`** para redo.
 - **v2.1.7.19 (interno):** **`RestoreCsvModeAfterPostEdit`** após reload pós-edição — restaura **`CsvMode`**, **`CsvHasHeader`**, **`CsvHideHeaderRow`** da sessão sem re-detectar cabeçalho sobre linhas `;;;` inseridas; **`LineLooksDelimiterOnly`** ignora linhas só-delimitador na detecção CSV; **`EndRead`** chama restore em vez de **`DetectAndApplyCsvMode`** cego.
-- **v2.1.7.20 (interno):** **`ApplyPostBatchDeleteRefresh`** descarta **`temp.txt`** obsoleto após delete MMF (reconstrói só **`temp_ckpt.txt`**) — ListView correcta sem **F5**; entrada **Recent files** removida automaticamente se ficheiro não existe (**`MainUnit`**, **`uWelcomeScreen`**); **`uI18n`**: cadeias autofill/BAUT com acentuação nos **11 idiomas** + **`File not found:`** + legenda do journal merge.
+- **v2.1.7.20 (interno):** **`ApplyPostBatchDeleteRefresh`** descarta **`temp.txt`** obsoleto após delete MMF (reconstrói só **`temp_ckpt.txt`**) — ListView correcta sem **F5**; entrada **Recent files** removida automaticamente se ficheiro não existe (**`MainUnit`**, **`uWelcomeScreen`**); **`uI18n`**: cadeias autofill/BAUT com acentuação nos **11 idiomas** + **`File not found:`** + legenda do registro de sessão no merge.
 
 ### Internacionalização (11 idiomas)
-- Autofill: status, confirmação undo/redo, notas journal (**`AddCommonTranslationsUndoSearchSessionPart1/Part2`**); **`File not found:`**; legenda **`Logged: INS/EDT/DEL, BINS/BAUT/BDEL...`** na aba histórico/merge.
+- Autofill: status, confirmação undo/redo, notas do registro de sessão (**`AddCommonTranslationsUndoSearchSessionPart1/Part2`**); **`File not found:`**; legenda **`Logged: INS/EDT/DEL, BINS/BAUT/BDEL...`** na aba histórico/merge.
 
 ### Merge aplicado (sem duplicidade)
 - Esta secção cobre apenas **v2.1.7.17**–**.20**; script engine **v2.1.7.13**–**.16** e undo assíncrono **v2.1.7.11**–**.12** permanecem abaixo.
@@ -957,7 +1066,7 @@ As entregas recentes de **busca, navegação, split por arquivos/linhas, atalhos
 - **v2.1.6.67 (Anterior - host FastFile):** **`UnConsts.APPLICATION_VERSION`** **`2.1.6.67`**; **`CHANGELOG_IMPLEMENTACOES.md`** + **`HISTORY`** (`miVersionHistoryClick`); **`uCompareMergeUI.pas`**: menus de contexto dinamicos (**Apply left to right** / **Apply right to left**) ativados apenas nas linhas com diferencas (`ffdkChange`, `ffdkInsert`, `ffdkDelete`); sync visual de ListView durante a aplicacao de mesclagem (resolvido problema de *flickering* atraves de `WM_SETREDRAW`); calculo correto de offset para evitar loops O(N^2). **`uSmoothLoading.pas`**: correcoes criticas na `TEditFileThread` incluindo `AIsRawContent = True` (evita double-encoding que corrompia as linhas) e leitura total de EOF sem quebra de linha (evitando truncamento do ultimo registro no merge). Traducoes completas destas funcoes nos 11 idiomas via **`uI18n.pas`**.
 - **v2.1.6.66 (Anterior — host FastFile):** **`UnConsts.APPLICATION_VERSION`** **`2.1.6.65`**; **`CHANGELOG_IMPLEMENTACOES.md`** + **`HISTORY`** (`miVersionHistoryClick`); **`MainUnit.ShowHelpDialog`**: marcadores **`<<<FF_HELP_COMPARE_MERGE_RELOAD_1>>>`** e **`<<<FF_HELP_COMPARE_MERGE_RELOAD_2>>>`** com **`TrText`** nas **duas** linhas de ajuda (progresso em duas fases + overlay / Alt+Tab) nos **11 idiomas** via **`uI18n.AddCommonTranslationsCompareMerge`** (`Set11`). *Não repetir* aqui o detalhe técnico já listado em **`.63`–`.64`** nem o pacote i18n completo do diálogo em **`.62`**.
 - **v2.1.6.64:** **`uSmoothLoading.pas`**: overload **`ShowLoading(const Msg; AStayOnTop: Boolean)`** (predefinição **`True`**); **`uCompareMergeUI.pas`**: reload com **`ShowLoading(..., False)`** + **`BringToFront`**; **`HistPumpUIMessagesAndYield`** (`Application.ProcessMessages` + **`MsgWaitForMultipleObjects`**, 5 ms, **`QS_ALLINPUT`**); segundo argumento **`THandle`** local (Delphi 7 não aceita **`nil`** em **`var`**); **`SyncApply`** em fatias de **12** linhas / **12** itens; **`Sleep`** periódico nos loops de carateres da worker; **`SetSmoothProgress`** com **`Sleep(2)`**; **`SyncPumpPostedProgress`** usa o mesmo *pump+yield*.
-- **v2.1.6.63:** **`THistoryReloadThread` / `uCompareMergeUI`**: escala de progresso **0–54%** fases em thread (cauda do journal, filtro, preview, scan de cores) e **55–99%** aplicação na UI (memo + lista); remoção de saltos prematuros para **~96–98%** antes do trabalho pesado na main; **throttle** de **`PostMessage`** (`WM_FF_HIST_PROGRESS_FLUSH`); progresso da cauda a cada **256 KiB**; campos **`FHistReloadProgLastFlushTick` / `FHistReloadProgLastPosted`**.
+- **v2.1.6.63:** **`THistoryReloadThread` / `uCompareMergeUI`**: escala de progresso **0–54%** fases em thread (cauda do registro de sessão, filtro, preview, scan de cores) e **55–99%** aplicação na UI (memo + lista); remoção de saltos prematuros para **~96–98%** antes do trabalho pesado na main; **throttle** de **`PostMessage`** (`WM_FF_HIST_PROGRESS_FLUSH`); progresso da cauda a cada **256 KiB**; campos **`FHistReloadProgLastFlushTick` / `FHistReloadProgLastPosted`**.
 
 ### Merge aplicado (sem duplicidade)
 - A trilha **`.62`** abaixo mantém o registo do **Set11 completo** do modal Comparar/mesclar; **`.63`–`.65`** documentam só o **reload do histórico**, overlay e ajuda F1, sem reenumerar cada chave `TrText` do diálogo.
@@ -968,7 +1077,7 @@ As entregas recentes de **busca, navegação, split por arquivos/linhas, atalhos
 
 ### Versões internas (diluídas)
 - **v2.1.6.62:** **`uI18n.pas`** — **`AddCommonTranslationsCompareMerge`**: rotina interna **`Set11`** (11 parâmetros por idioma) substitui o antigo **`X`** (que deixava **ES/FR/DE/IT/PL/RO/HU/CZ** com texto inglês); **todas** as chaves `TrText` do diálogo Comparar/mesclar + histórico passam a ter tradução explícita nos **onze** idiomas; **pt-BR** reforça **«mesclar»** em rótulos/mensagens; guia **`DOC_COMPARAR_MESCLAR_HISTORICO_PASSO_A_PASSO.md`** alinhado ao vocabulário; sincronia de documentação com a série **`.61`** (versão publicada do EXE na época: **`2.1.6.62`**). *Não repetir* o detalhe de UI já descrito em **`.61`**.
-- **v2.1.6.61:** **`uCompareMergeUI`** + **`.dfm`**: segunda aba — colunas **Text** alargadas; rótulos com espaçamento; **Sync scroll** por defeito; **menus de contexto** nas duas `TListView`; primeira aba — **`lvHistFile`** + cores pelo journal (**INS/EDT/DEL/RPLALL**); **`ExecuteModal`**: **`Boolean`** → **`RefreshFile`** quando o ficheiro gravado coincide com o aberto na janela principal; **`TouchHistoryIfSameFile`**; **`TabSheetDiff`** na declaração da classe; correções **`uLineDiffCore`** (acesso DP), **`Buf`/`BUF`** no slice de leitura. **`uI18n`**: **pt-BR** *arquivo* / **pt-PT** *ficheiro* onde aplicável; bloco «extras» (pré-visualização + contexto) já nos **11** idiomas — complementado em **`.62`** com o restante do diálogo.
+- **v2.1.6.61:** **`uCompareMergeUI`** + **`.dfm`**: segunda aba — colunas **Text** alargadas; rótulos com espaçamento; **Sync scroll** por defeito; **menus de contexto** nas duas `TListView`; primeira aba — **`lvHistFile`** + cores pelo registro de sessão (**INS/EDT/DEL/RPLALL**); **`ExecuteModal`**: **`Boolean`** → **`RefreshFile`** quando o ficheiro gravado coincide com o aberto na janela principal; **`TouchHistoryIfSameFile`**; **`TabSheetDiff`** na declaração da classe; correções **`uLineDiffCore`** (acesso DP), **`Buf`/`BUF`** no slice de leitura. **`uI18n`**: **pt-BR** *arquivo* / **pt-PT** *ficheiro* onde aplicável; bloco «extras» (pré-visualização + contexto) já nos **11** idiomas — complementado em **`.62`** com o restante do diálogo.
 
 ## Atualização incremental — Menu View, detalhes do ficheiro e alinhamento de versão (abril/2026)
 
@@ -1619,4 +1728,3 @@ Quebra de linha **só visual** na coluna **Content**, sem reindexar o arquivo (`
 - **Codificação (Delphi 7 / ANSI):** nova unit `uTextEncoding.pas` — confirmação do editor com **`MessageBoxW`** e textos PT em **UTF-8 literal**; `GetLineContent` usa conversão **UTF-8 → Unicode → CP_ACP** quando o ficheiro é detectado como UTF-8 (BOM ou heurística nos primeiros 16 KB). Sem BOM, ficheiros só ASCII ou Latin-1 válido sem sequências UTF-8 ficam como **ANSI**.
 - **Exibição dinâmica (estilo Notepad++):** combo **`comboViewEncoding`** no **último painel da `sStatusBar1`** (filho do control), posicionado por **`LayoutViewEncodingCombo`** em resize/show/skin — evita duplicar com texto no painel. Opção **`DEFAULT (detected)`** segue a detecção; força **UTF-8**, **ANSI**, **UTF-16 LE/BE** só na **ListView**. **Hook** `HookedStatusBarWndProcForCombo` na status bar para **`CBN_CLOSEUP`** (skins / mesmo item). *Hint* do combo resume ficheiro detectado + vista.
 - ~~Clique no painel para ciclar encoding~~ removido: uso direto do combo no painel.
-

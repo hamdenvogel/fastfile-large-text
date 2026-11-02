@@ -652,7 +652,7 @@ end;
 
 procedure TReadFileThread.SyncShowAirbagWarning;
 begin
-  Windows.MessageBox(0, PChar('Airbag de Memoria ativado! O arquivo possui mais de 2 bilhoes de linhas, o que excede o limite seguro do Windows 32-bits. A leitura das linhas foi interrompida automaticamente para proteger o sistema contra travamentos.'), PChar('Protecao Ativada (FastFile)'), 48); // 48 = MB_ICONWARNING
+  Windows.MessageBox(0, PChar('Airbag de Memoria ativado! O arquivo possui mais de 2 bilhoes de linhas, o que excede o limite seguro do Windows 32-bits. A leitura das linhas foi interrompida automaticamente para proteger o sistema contra travamentos.'), PChar('Protecao Ativada (FastFile)'), 48 or RtlMsgBoxFlags); // 48 = MB_ICONWARNING
 end;
 
 procedure TReadFileThread.FinishThreadExecution;

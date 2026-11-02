@@ -23,7 +23,7 @@ implementation
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Dialogs,
-  Clipbrd, Math, uI18n, uFastFileScale, uSourceCodeHelpDlg;
+  Clipbrd, Math, uI18n, uFastFileScale, uSourceCodeHelpDlg, uBidiLayout;
 
 const
   SEC_AGENT = 0;
@@ -504,6 +504,18 @@ var
   Code, X: Integer;
   Desc, Ex, S: string;
   R: TRect;
+
+  { Wraps AText into R (left-to-right picture); R.Bottom is the bottom of the drawn text. }
+  procedure DrawWrapped(const AText: string);
+  var
+    DR: TRect;
+  begin
+    DrawText(C.Handle, PChar(AText), Length(AText), R, DT_WORDBREAK or DT_NOPREFIX or DT_CALCRECT);
+    R.Right := Rect.Right - FfPx(CRowPad);
+    DR := BidiRect(R, FList.ClientWidth);
+    DrawText(C.Handle, PChar(AText), Length(AText), DR, BidiDrawFlags(DT_WORDBREAK or DT_NOPREFIX));
+  end;
+
 begin
   C := FList.Canvas;
   Code := RowCode(Index);
@@ -527,9 +539,10 @@ begin
       C.Font.Color := CAccent;
       S := TrText(SECTION_KEYS[-1 - Code]);
     end;
-    R := Classes.Rect(X, Rect.Top + FfPx(12), Rect.Right - FfPx(CRowPad), Rect.Bottom);
+    R := BidiRect(Classes.Rect(X, Rect.Top + FfPx(12), Rect.Right - FfPx(CRowPad), Rect.Bottom),
+      FList.ClientWidth);
     C.Brush.Style := bsClear;
-    DrawText(C.Handle, PChar(S), Length(S), R, DT_WORDBREAK or DT_NOPREFIX);
+    DrawText(C.Handle, PChar(S), Length(S), R, BidiDrawFlags(DT_WORDBREAK or DT_NOPREFIX));
     C.Brush.Style := bsSolid;
     Exit;
   end;
@@ -544,17 +557,19 @@ begin
   C.Font.Size := 9;
   C.Font.Style := [];
   C.Font.Color := CTitle;
-  C.TextOut(X, Rect.Top + FfPx(8), #$2022);
+  if BidiIsRtl then
+    C.TextOut(BidiX(FList.ClientWidth, X) - C.TextWidth(#$2022), Rect.Top + FfPx(8), #$2022)
+  else
+    C.TextOut(X, Rect.Top + FfPx(8), #$2022);
   R := Classes.Rect(X + FfPx(12), Rect.Top + FfPx(8), Rect.Right - FfPx(CRowPad), Rect.Bottom);
-  DrawText(C.Handle, PChar(Desc), Length(Desc), R, DT_WORDBREAK or DT_NOPREFIX or DT_CALCRECT);
-  DrawText(C.Handle, PChar(Desc), Length(Desc), R, DT_WORDBREAK or DT_NOPREFIX);
+  DrawWrapped(Desc);
   if Ex <> '' then
   begin
     S := TrText('AICaps.ExamplePrefix') + ' ' + Ex;
     C.Font.Style := [fsItalic];
     C.Font.Color := CMuted;
     R := Classes.Rect(X + FfPx(12), R.Bottom + FfPx(3), Rect.Right - FfPx(CRowPad), Rect.Bottom);
-    DrawText(C.Handle, PChar(S), Length(S), R, DT_WORDBREAK or DT_NOPREFIX);
+    DrawWrapped(S);
   end;
   C.Brush.Style := bsSolid;
   if odFocused in State then

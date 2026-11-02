@@ -16,6 +16,9 @@ procedure NotifyAssistantPostActionEx(const AActivityId, ASummary,
 { Re-renders the AI draft of the last offer in the current language (after a
   runtime language switch). False when no offer was made in this session. }
 function AssistantRebuildLastOfferDraft(out ADraft: string): Boolean;
+{ Last completed flow and its action ids. The summary is the sentence already
+  produced for that flow. }
+function AssistantLastOffer(out AActivityId, AActions, ASummary: string): Boolean;
 
 implementation
 
@@ -25,6 +28,7 @@ uses
 var
   GLastOfferTick: DWORD = 0;
   GLastActivityId: string = '';
+  GLastOfferSummary: string = '';
 
 function ResolveOffer(const AActivityId: string; out AActions, AAiDraft: string): Boolean;
 var
@@ -119,6 +123,61 @@ begin
     Result := True; { unknown id → generic chips already set }
 end;
 
+{ Richer next steps for the on-file guide. The assistant banner keeps ResolveOffer. }
+function ResolveWorkflowOffer(const AActivityId: string; out AActions: string): Boolean;
+var
+  Draft: string;
+  Id: string;
+begin
+  Result := ResolveOffer(AActivityId, AActions, Draft);
+  Id := LowerCase(Trim(AActivityId));
+  if (Id = 'find_hit') or (Id = 'find') then
+    AActions := 'ask_ai,view_find_occurrences,find_previous,find_next,open_replace,' +
+      'export_matching_lines,open_filter,clear_find'
+  else if (Id = 'find_collect') or (Id = 'find_hits') then
+    AActions := 'ask_ai,export_matching_lines,copy_filtered,open_replace,find_next,' +
+      'open_filter,clear_find,clear_filter'
+  else if Id = 'filter' then
+    AActions := 'ask_ai,continue_filter,export_matching_lines,copy_filtered,open_find,' +
+      'open_replace,clear_filter,edit_line'
+  else if Id = 'export' then
+    AActions := 'ask_ai,show_tab_read,open_find,open_filter,show_tab_compare,edit_line,' +
+      'consumer_ai,open_and_read_file'
+  else if Id = 'split' then
+    AActions := 'ask_ai,show_tab_merge_files,open_and_read_file,open_find,show_tab_compare,' +
+      'export_file,consumer_ai,show_tab_read'
+  else if Id = 'merge' then
+    AActions := 'ask_ai,open_and_read_file,export_file,open_find,open_filter,' +
+      'show_tab_compare,edit_line,consumer_ai'
+  else if Id = 'read' then
+    AActions := 'ask_ai,open_find,open_filter,edit_line,show_tab_compare,' +
+      'show_tab_merge_files,show_tab_merge_lines,export_file,consumer_ai'
+  else if Id = 'index' then
+    AActions := 'ask_ai,open_find,open_filter,force_index_file,export_file,edit_line,consumer_ai'
+  else if Id = 'compare' then
+    AActions := 'ask_ai,show_tab_compare,edit_line,show_tab_merge_files,open_find,' +
+      'export_file,open_filter,consumer_ai'
+  else if Id = 'dedupe' then
+    AActions := 'ask_ai,open_and_read_file,export_file,open_find,show_tab_compare,' +
+      'edit_line,open_filter,consumer_ai'
+  else if Id = 'script' then
+    AActions := 'ask_ai,show_script_engine,open_find,export_file,show_tab_read,edit_line,consumer_ai'
+  else if Id = 'csv_sort' then
+    AActions := 'ask_ai,apply_filter,clear_filter,export_file,open_find,edit_line,undo'
+  else if Id = 'grep_groups' then
+    AActions := 'ask_ai,apply_filter,export_matching_lines,copy_filtered,open_find,' +
+      'clear_filter,consumer_ai'
+  else if Id = 'session' then
+    AActions := 'ask_ai,save_session,load_session,goto_line,open_find,apply_filter,' +
+      'export_file,edit_line'
+  else if Id = 'replace' then
+    AActions := 'ask_ai,undo,find_next,open_replace,view_find_occurrences,edit_line,' +
+      'show_tab_compare,clear_find'
+  else if (Id = 'generic') or (Id = '') then
+    AActions := 'ask_ai,open_find,open_filter,edit_line,show_tab_compare,' +
+      'show_tab_merge_files,export_file,consumer_ai';
+end;
+
 function ShouldOfferNow(const AActivityId: string): Boolean;
 var
   NowTick: DWORD;
@@ -137,8 +196,12 @@ var
 begin
   { Always persist Redis-like bridge — even when UI offer is off / throttled. }
   PipelineRememberActivity(AActivityId, ASummary, AFacts);
-  if not AOfferUI then Exit;
-  if not ShouldOfferNow(AActivityId) then Exit;
+  if (not AOfferUI) or (not ShouldOfferNow(AActivityId)) then
+  begin
+    GLastActivityId := LowerCase(Trim(AActivityId));
+    GLastOfferSummary := Trim(ASummary);
+    Exit;
+  end;
   if not ResolveOffer(AActivityId, Actions, Draft) then Exit;
   Extra := Trim(AExtraActionIds);
   if Extra <> '' then
@@ -152,7 +215,22 @@ begin
 
   GLastOfferTick := GetTickCount;
   GLastActivityId := LowerCase(Trim(AActivityId));
+  GLastOfferSummary := Trim(ASummary);
   NotifyAssistantOfferNext(ASummary, Actions, Draft);
+end;
+
+function AssistantLastOffer(out AActivityId, AActions, ASummary: string): Boolean;
+begin
+  AActivityId := GLastActivityId;
+  if AActivityId = '' then
+    AActivityId := 'read';
+  Result := ResolveWorkflowOffer(AActivityId, AActions);
+  if SameText(GLastActivityId, AActivityId) then
+    ASummary := GLastOfferSummary
+  else
+    ASummary := '';
+  if Trim(ASummary) = '' then
+    ASummary := TrText('WorkflowWizard.Description');
 end;
 
 procedure NotifyAssistantPostAction(const AActivityId, ASummary: string;

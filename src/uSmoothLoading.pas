@@ -806,7 +806,7 @@ uses
   uFastFileNotice, uFastFileMsgDlg, uExportDialog, uExportDoneDlg,
   UnConsts, uFileOpenPolicy, uDiskSpaceCheck,
   uTextEncoding, uLineIndexScan, uEolPolicy, ComObj, ActiveX,
-  System.Generics.Collections, System.Generics.Defaults;
+  System.Generics.Collections, System.Generics.Defaults, uBidiLayout;
 
 type
   TReplaceAllBMHShiftTable = array[0..255] of Integer;
@@ -3802,7 +3802,7 @@ begin
       BarW := 0;
     if BarW > W then
       BarW := W;
-    pbProgressBar.Canvas.FillRect(Rect(0, 0, BarW, H));
+    pbProgressBar.Canvas.FillRect(BidiRect(Rect(0, 0, BarW, H), W));
   end
   else
   begin
@@ -3811,7 +3811,7 @@ begin
     if BlobW < 36 then
       BlobW := 36;
     X := Round((W + BlobW) * (FMarqueePos / 100.0)) - BlobW;
-    pbProgressBar.Canvas.FillRect(Rect(X, 0, X + BlobW, H));
+    pbProgressBar.Canvas.FillRect(BidiRect(Rect(X, 0, X + BlobW, H), W));
   end;
   pbProgressBar.Canvas.Brush.Style := bsClear;
   pbProgressBar.Canvas.Pen.Color := $00FFD080;
@@ -7377,7 +7377,7 @@ end;
 
 function FastFileCountLinesLf(const AFileName: String; const AReportProgress: Boolean): Int64;
 const
-  BUF_SIZE = 256 * 1024;
+  BUF_SIZE = 4 * 1024 * 1024;
   COUNT_PROGRESS_MAX = 40;
 var
   F: TFileStream;
@@ -7485,6 +7485,8 @@ begin
   FSourceFileName := ASourceFileName;
   FPartCount := APartCount;
   FTotalLines := ATotalLines;
+  if FTotalLines <= 0 then
+    FTotalLines := uFastFilePaths.FastFileKnownLineCount(ASourceFileName);
   FHeader := AHeader;
   FFooter := AFooter;
   FAutoHide := AutoHide;
@@ -7581,7 +7583,6 @@ var
   PartIdx: Integer;
   LinesTarget, LinesWritten: Int64;
   PartPath: String;
-  LFShift: TBMHByteShiftTable;
   LastPostedPercent: Integer;
   LastProgressTick: Cardinal;
   TermB: Byte;
@@ -7670,27 +7671,27 @@ var
 
   procedure ProcessChunk(const Chunk: PAnsiChar; const ChunkLen: Integer);
   var
-    RunStart, SearchAt, LFPos: Integer;
+    RunStart, SearchAt: Integer;
   begin
     if (Chunk = nil) or (ChunkLen <= 0) then Exit;
     RunStart := 0;
     SearchAt := 0;
     while SearchAt < ChunkLen do
     begin
-      LFPos := BMHFindBytePAnsi(Chunk, ChunkLen, SearchAt, TermB, LFShift);
-      if LFPos < 0 then Break;
-
-      OutStream.WriteBuffer((Chunk + RunStart)^, LFPos - RunStart + 1);
-      RunStart := LFPos + 1;
-      SearchAt := LFPos + 1;
-      Inc(LinesWritten);
-      if (PartIdx < FPartCount - 1) and (LinesWritten >= LinesTarget) then
+      if Byte(Chunk[SearchAt]) = TermB then
       begin
-        Inc(PartIdx);
-        LinesWritten := 0;
-        LinesTarget := PartLineTarget(PartIdx);
-        OpenNextPart(PartIdx + 1);
+        Inc(LinesWritten);
+        if (PartIdx < FPartCount - 1) and (LinesWritten >= LinesTarget) then
+        begin
+          OutStream.WriteBuffer((Chunk + RunStart)^, SearchAt - RunStart + 1);
+          RunStart := SearchAt + 1;
+          Inc(PartIdx);
+          LinesWritten := 0;
+          LinesTarget := PartLineTarget(PartIdx);
+          OpenNextPart(PartIdx + 1);
+        end;
       end;
+      Inc(SearchAt);
     end;
     if RunStart < ChunkLen then
       OutStream.WriteBuffer((Chunk + RunStart)^, ChunkLen - RunStart);
@@ -7726,7 +7727,6 @@ begin
   inherited;
   MMF := nil;
   OutStream := nil;
-  BMHInitSingleByte(LFShift);
   TermB := LineTermByteForFile(FSourceFileName);
   OutEol := OutputEolForFile(FSourceFileName);
 
@@ -7749,10 +7749,6 @@ begin
           SysUtils.Abort;
         if FTotalLines < 0 then
           raise Exception.Create(TrText('Could not count lines in the source file.'));
-        if FTotalLines < FPartCount then
-          raise Exception.Create(Format(
-            TrText('Not enough lines in the file for this many parts (lines: %d, parts: %d).'),
-            [FTotalLines, FPartCount]));
         if FShowLoadingUI then
         begin
           FCurrentPercent := 0;
@@ -7761,6 +7757,10 @@ begin
           Synchronize(SyncSetProgress);
         end;
       end;
+      if FTotalLines < FPartCount then
+        raise Exception.Create(Format(
+          TrText('Not enough lines in the file for this many parts (lines: %d, parts: %d).'),
+          [FTotalLines, FPartCount]));
 
       MMF := TMMFReader.Create(FSourceFileName);
       FileSize := MMF.FileSize;

@@ -88,7 +88,7 @@ FastFile é um editor/visualizador de arquivos de texto **grandes** (testado aci
 | `uDeltaEditor.pas` | Formulário modal de edição delta/merge (`TfrmDeltaEditor`) |
 | `uCompareMergeUI.pas` | Formulário de comparação/mesclagem + histórico de sessão (`TfrmCompareMerge`) |
 | `uLineDiffCore.pas` | Algoritmo LCS DP para diff de listas de linhas |
-| `uFileSessionHistory.pas` | Journal de operações por arquivo (append-only, `FastFileSessionHistory\`) |
+| `uFileSessionHistory.pas` | Registro de operações por arquivo (append-only, `FastFileSessionHistory\`) |
 | `uI18n.pas` | Sistema de internacionalização (11 idiomas) |
 | `MruHelper.pas` | Componente MRU (Most Recently Used) para campos de texto com popup |
 | `ThreadFileLog.pas` | Log assíncrono em arquivo via thread pool |
@@ -236,7 +236,7 @@ Form semi-transparente (fade-in) com barra de progresso animada (`TPaintBox`), l
 | `TSplitFileThread` | Divide arquivo em partes por linha (tabela de ranges) | Saída direta nos arquivos de destino |
 | `TSplitEqualPartsThread` | Divide arquivo em N partes de tamanho aproximadamente igual (alinhado a LF) | Saída direta nos arquivos de destino |
 | `TMergeFilesThread` | Mescla dois arquivos (inserção em offset específico ou range de linhas) | `ff_mrg_*.tmp` |
-| `THistoryReloadThread` | Relê journal de histórico de sessão, filtra, gera preview e aplica na UI (`uCompareMergeUI`) | — |
+| `THistoryReloadThread` | Relê o registro do histórico de sessão, filtra, gera preview e aplica na UI (`uCompareMergeUI`) | — |
 
 #### Padrão de nomenclatura dos temporários
 
@@ -319,7 +319,7 @@ Fluxo:
 3. Grava tudo em `ff_edit_*.tmp` com `TUnBufferedTextWriter` (buffer 64 KB).
 4. Atomic rename.
 5. Re-lança `TReadFileThread` para reconstruir o índice.
-6. Registra no journal (`FFHistoryAppendLineOp`).
+6. Registra a operação no histórico (`FFHistoryAppendLineOp`).
 
 `AIsRawContent=True`: flag que controla se o conteúdo recebido já está nos bytes crus do arquivo (evita double-encoding em fluxos que leram via `TMMFReader` → `uTextEncoding`).
 
@@ -361,7 +361,7 @@ Fluxo:
 2. Aplica `StringReplace` (respeitando `FCaseSensitive`, `FWholeWord`).
 3. Limita a `REPLACE_ALL_MATCH_LIMIT` = 5.000.000 substituições (segurança contra substituição catastrófica).
 4. Grava em `ff_rall_*.tmp` → atomic rename.
-5. Registra no journal (`FFHistoryAppendReplaceAll`).
+5. Registra a operação no histórico (`FFHistoryAppendReplaceAll`).
 
 ### Modo segmentado (`TReplaceAllThread.TrySegmentedReplace`)
 
@@ -401,9 +401,9 @@ Se o segmentado não se aplicar (índice ausente, arquivo de segmento único), c
 
 ## 10. Comparar / Mesclar e Histórico de sessão
 
-### `uFileSessionHistory.pas` — Journal
+### `uFileSessionHistory.pas` — Registro de operações
 
-**Formato do arquivo de journal:**
+**Formato do arquivo de registro de operações:**
 ```
 <timestamp>|<op>|<linha>|<old_excerpt>|<new_excerpt>
 ```
@@ -424,20 +424,20 @@ FFHistoryJournalPath(ADataFilePath): string;  // retorna o caminho do .log
 ### `TfrmCompareMerge` (`uCompareMergeUI.pas`)
 
 Duas abas:
-- **History**: lista `lvHistFile` (operações do journal coloridas por tipo INS/EDT/DEL/RPLALL) + memo `mmoJournal` (preview do texto cru do journal).
+- **History**: lista `lvHistFile` (operações do registro coloridas por tipo INS/EDT/DEL/RPLALL) + memo `mmoJournal` (pré-visualização do texto bruto).
 - **Diff**: dois `TListView` (`lvLeft` / `lvRight`) em modo virtual (`OwnerData`), exibindo as linhas com cores por `TFFDiffKind`. Sync scroll via `tmrSync`.
 
-**`THistoryReloadThread`** — releitura do journal:
+**`THistoryReloadThread`** — releitura do registro:
 
 Progresso em duas fases:
-- **0–54%**: trabalho na thread — cauda do journal (a cada 256 KiB → `PostMessage`), filtro de linhas, preview, scan de cores.
+- **0–54%**: trabalho na thread — final do registro (a cada 256 KiB → `PostMessage`), filtro de linhas, pré-visualização, scan de cores.
 - **55–99%**: aplicação na UI (memo + lista) via `SyncApply` em fatias de **12 itens** com `Sleep` periódico.
 
 Mecanismo de coalescing de progresso: `WM_FF_HIST_PROGRESS_FLUSH` + `FHistReloadProgLastFlushTick` / `FHistReloadProgLastPosted` — evita flood de mensagens durante cargas longas.
 
 **Mesclagem (Apply left→right / right→left):**
 - `btnApplyLeftToRightClick` / `btnApplyRightToLeft`: para cada linha com `ffdkChange/Insert/Delete`, chama `TEditFileThread.RunEditWait` sobre o arquivo de destino.
-- `TouchHistoryIfSameFile`: se o arquivo editado coincidir com o aberto no form principal, dispara reload da ListView + journal.
+- `TouchHistoryIfSameFile`: se o arquivo editado coincidir com o aberto no form principal, dispara reload da ListView + registro.
 - Sync visual: `WM_SETREDRAW` para evitar flickering durante aplicação.
 
 ---
@@ -528,7 +528,7 @@ Todos os caminhos usam `ExtractFilePath(Application.ExeName)` ou `ExtractFilePat
 
 | Arquivo | Localização | Descrição |
 |---------|-------------|-----------|
-| `FastFileSessionHistory\ffhist_<hash>_<nome>.log` | Subpasta `FastFileSessionHistory\` junto ao `.exe` | Journal de operações por arquivo. Um arquivo por arquivo de dados aberto. |
+| `FastFileSessionHistory\ffhist_<hash>_<nome>.log` | Subpasta `FastFileSessionHistory\` junto ao `.exe` | Registro de operações por arquivo. Um arquivo por arquivo de dados aberto. |
 
 ### Outros arquivos em disco
 

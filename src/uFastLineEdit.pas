@@ -323,7 +323,7 @@ begin
           on E: Exception do
           begin
             Drop := False;
-            LogAsync(FastFileRuntimeLogPath, Format('[EditFast] journal restore failed %s: %s',
+            LogAsync(FastFileRuntimeLogPath, Format('[EditFast] recovery log restore failed %s: %s',
               [JPath, E.Message]));
           end;
         end;
@@ -334,7 +334,7 @@ begin
       begin
         Inc(Result);
         UnUtils.TryDeleteFileWithRetry(LineIndexCachePath, 6, 40);
-        LogAsync(FastFileRuntimeLogPath, Format('[EditFast] restored %s from journal %s',
+        LogAsync(FastFileRuntimeLogPath, Format('[EditFast] restored %s from recovery log %s',
           [Target, JPath]));
       end;
       if Drop then
@@ -841,7 +841,7 @@ begin
     end;
   except
     on E: Exception do
-      LogAsync(FastFileRuntimeLogPath, Format('[EditFast] restore failed, journal kept %s: %s',
+      LogAsync(FastFileRuntimeLogPath, Format('[EditFast] restore failed, recovery log kept %s: %s',
         [JPath, E.Message]));
   end;
   FreeAndNil(AJournal);

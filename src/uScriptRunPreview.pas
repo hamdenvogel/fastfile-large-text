@@ -27,7 +27,7 @@ implementation
 
 uses
   Windows, SysUtils, Math, Controls, Forms, StdCtrls, ExtCtrls, ComCtrls, Graphics,
-  uI18n, uFastFileScale;
+  uI18n, uFastFileScale, uBidiLayout;
 
 const
   CELL_MAX_CHARS = 400;
@@ -267,6 +267,11 @@ begin
   Lv.OnCustomDrawSubItem := LvCustomDrawSubItem;
   Lv.Items.Count := Length(FLineNos);
 
+  { raw file content stays left-to-right }
+  BidiKeepLtr(Lv);
+  BidiKeepLtr(MmOrig);
+  BidiKeepLtr(MmRes);
+
   OnResize := FormResizePreview;
   FfPrepareDialog(Self, 980, 640);
   Constraints.MinWidth := FfPx(620);
@@ -287,8 +292,10 @@ end;
 procedure TScriptPreviewForm.FormResizePreview(Sender: TObject);
 var
   M, W, Y, H, BtnGenW, BtnBackW, LblH: Integer;
+  BL: IInterface;
 begin
   if not Assigned(PnlFooter) then Exit;
+  BL := BidiLayoutScope([PnlHeader, PnlFooter, PnlDetail]);
   M := FfPx(14);
   W := Max(FfPx(200), ClientWidth - 2 * M);
 

@@ -1,6 +1,6 @@
 # FastFile — Comparar / mesclar + histórico da sessão (guia passo a passo)
 
-Este documento descreve, em sequência, como funcionam o diff entre dois ficheiros, a colorização nas listas, a aplicação da **mesclagem** em disco e a pré-visualização por journal na primeira aba.
+Este documento descreve, em sequência, como funcionam o diff entre dois ficheiros, a colorização nas listas, a aplicação da **mesclagem** em disco e a pré-visualização do registro da sessão na primeira aba.
 
 **Unidades principais:** `uLineDiffCore.pas`, `uCompareMergeUI.pas`, `uFileSessionHistory.pas`, `uSmoothLoading.pas` (threads de edição).
 
@@ -18,7 +18,7 @@ O ficheiro **esquerdo** (`edtLeftFile`) pode vir preenchido com o mesmo caminho 
 
 ### Passo 3 — Duas abas
 
-- **Primeira aba — Histórico da sessão:** texto do journal (memo) + lista de pré-visualização do ficheiro com cores (ver Parte D).
+- **Primeira aba — Histórico da sessão:** texto do registro da sessão (memo) + lista de pré-visualização do ficheiro com cores (ver Parte D).
 - **Segunda aba — Diff entre dois ficheiros:** campos de ficheiro esquerdo/direito, intervalo de linhas, botão para gerar o diff e duas `TListView` lado a lado.
 
 ---
@@ -101,27 +101,27 @@ A **legenda** no formulário explica o esquema (igual / inserido / removido / al
 
 ---
 
-## Parte D — Aba “Histórico”: memo + lista colorida pelo journal
+## Parte D — Aba “Histórico”: memo + lista colorida pelo registro da sessão
 
-### Passo 1 — Journal em texto
+### Passo 1 — Registro da sessão em texto
 
-O memo mostra o conteúdo do ficheiro de log devolvido por **`FFHistoryJournalPath(caminhoDoFicheiroDeDados)`** (pasta `FastFileSessionHistory`, formato linha com campos separados por `|`).
+O memo mostra o conteúdo do registro da sessão devolvido por **`FFHistoryJournalPath(caminhoDoFicheiroDeDados)`** (pasta `FastFileSessionHistory`, formato linha com campos separados por `|`).
 
 ### Passo 2 — Construir a pré-visualização (`BuildHistoryFilePreview`)
 
 1. Lê-se até um limite de linhas do **ficheiro de dados** atual (streaming, como no diff).
-2. Lê-se o **mesmo** ficheiro de journal linha a linha.
+2. Lê-se o **mesmo** ficheiro de registro da sessão linha a linha.
 3. Linhas que começam por `#` ou estão vazias são ignoradas.
 4. As restantes são **partidas por `|`** (`HistSplitPipeFields`).
 5. Consoante a operação (**INS**, **EDT**, **DEL**, **RPLALL**):
-   - para **INS/EDT/DEL** atualiza-se um “tag” por **número de linha** indicado no journal (última ocorrência ganha, ao percorrer em ordem);
+   - para **INS/EDT/DEL** atualiza-se um “tag” por **número de linha** indicado no registro da sessão (última ocorrência ganha, ao percorrer em ordem);
    - para **RPLALL** pode marcar-se todas as linhas da pré-visualização com um tipo “bulk” (substituição global).
 
 ### Passo 3 — Cores na lista do histórico
 
 Cada item guarda o tag em **`Item.Data`** e **`lvHistFileCustomDrawItem`** usa **`BrushForHistTag`** (esquema de cores **separado** do diff LCS).
 
-**Nota:** os números de linha no journal são os da **altura da operação**. Depois de muitas inserções ou remoções, a cor por linha pode não refletir com precisão absoluta o estado histórico — é uma **pré-visualização orientada ao log**, não um replay completo do ficheiro.
+**Nota:** os números de linha no registro da sessão são os da **altura da operação**. Depois de muitas inserções ou remoções, a cor por linha pode não refletir com precisão absoluta o estado histórico — é uma **pré-visualização orientada ao log**, não um replay completo do ficheiro.
 
 ---
 
@@ -160,8 +160,8 @@ Para cada operação chama-se **`TEditFileThread.RunEditWait`**, que reutiliza o
 | Ficheiro | Papel |
 |----------|--------|
 | `uLineDiffCore.pas` | Tipos `TFFDiffKind`, `FFBuildLineDiffRows` |
-| `uCompareMergeUI.pas` | UI, `ReadTextFileLineSlice`, listas, mesclagem em disco, journal preview |
-| `uFileSessionHistory.pas` | Caminho e append do journal |
+| `uCompareMergeUI.pas` | UI, `ReadTextFileLineSlice`, listas, mesclagem em disco, pré-visualização do registro da sessão |
+| `uFileSessionHistory.pas` | Caminho e gravação do registro da sessão |
 | `uSmoothLoading.pas` | `TEditFileThread.RunEditWait` e histórico de operações de linha |
 
 Constantes típicas: `FF_DIFF_MAX_LINES`, limite de linhas na pré-visualização do histórico no código (`cHistPreviewMaxLines` ou nome semelhante).

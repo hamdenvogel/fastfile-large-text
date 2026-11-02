@@ -27,7 +27,7 @@ function FastFileMsgYesNo(const AMsg: string; const ACaption: string = '';
 implementation
 
 uses
-  Math, uI18n, uFastFileScale, UnConsts;
+  Math, uI18n, uFastFileScale, UnConsts, uBidiLayout;
 
 const
   MSG_CORNER = 18;
@@ -273,6 +273,8 @@ begin
 
   AccW := FfPx(MSG_ACCENT_W);
   AccR := Rect(FfPx(14), FfPx(18), FfPx(14) + AccW, R.Bottom - FfPx(18));
+  { right-to-left: the accent bar sits on the right edge }
+  AccR := BidiRect(AccR, R.Right);
   Canvas.Brush.Color := FAccent;
   Canvas.Pen.Color := MixMsgColor(FAccent, clWhite, 18);
   Rad := AccW + 2;
@@ -655,6 +657,8 @@ begin
 
     Frm.LayoutContent(Cap, Body);
     Frm.FBtnRow.BringToFront;
+    { positions above are left-to-right; mirror them for right-to-left UIs }
+    BidiApplyForm(Frm);
 
     Result := Frm.ShowModal;
   finally

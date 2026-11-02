@@ -28,6 +28,8 @@ type
     Encoding: string;
     FileSize: Int64;
     SelectedCount: Integer;
+    { Teto de uma selecao ou de um intervalo. 0 = sem esse aviso. O arquivo inteiro nao usa o teto. }
+    MaxLines: Integer;
     TotalLines: Int64;
     TotalLinesExact: Boolean;
     InitialScope: TAnonScope;
@@ -64,7 +66,8 @@ function AnonLastOptions: TAnonOptions;
 implementation
 
 uses
-  Menus, uI18n, uTextEncoding, uFastFileScale, uSmoothLoading;
+  Menus, uI18n, uTextEncoding, uFastFileScale, uSmoothLoading, UnConsts, uUserPrefs,
+  uBidiLayout;
 
 var
   GLastOptions: TAnonOptions;
@@ -295,7 +298,9 @@ end;
 procedure TAnonDialogForm.LayoutGroups;
 var
   W: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([PnlTop, GrpScope]);
   W := Max(Max(CheckW(RbSel.Caption), CheckW(RbRange.Caption)),
     CheckW(RbFile.Caption));
   GrpScope.Width := EnsureRange(W + S(24), S(280), S(380));
@@ -320,7 +325,9 @@ end;
 procedure TAnonDialogForm.LayoutOptions;
 var
   CW, C, I, W: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([GrpWhat, GrpOpt]);
   CW := GrpWhat.ClientWidth;
   W := CheckW(ChkNumbers.Caption);
   ChkNumbers.Width := W;
@@ -393,7 +400,8 @@ begin
   RbSel := TRadioButton.Create(Self);
   RbSel.Parent := GrpScope;
   RbSel.SetBounds(S(12), S(24), S(260), S(20));
-  RbSel.Caption := Format(TrText('Anon.Scope.Selection'), [FParams.SelectedCount]);
+  RbSel.Caption := Format(TrText('Anon.Scope.Selection'),
+    [FParams.SelectedCount, FParams.MaxLines]);
   RbSel.OnClick := ScopeChanged;
 
   RbRange := TRadioButton.Create(Self);
@@ -420,6 +428,7 @@ begin
     WordWrap := True;
     SetBounds(S(12), S(140), S(258), S(70));
     Font.Color := clGrayText;
+    Caption := '';
     if FParams.TotalLines > 0 then
     begin
       if FParams.TotalLinesExact then
@@ -427,6 +436,13 @@ begin
       else
         Fn := '~' + FormatLineCount(FParams.TotalLines);
       Caption := Format(TrText('Anon.Scope.TotalLines'), [Fn]);
+    end;
+    if FParams.MaxLines > 0 then
+    begin
+      if Caption <> '' then
+        Caption := Caption + ' ';
+      Caption := Caption + Format(TrText('Anon.Scope.LimitNote'), [FParams.MaxLines]) +
+        ' (' + Format(TrText('Limit.DefaultValue'), [DEF_ANONYMIZE_MAX_LINES]) + ')';
     end;
   end;
 
@@ -493,6 +509,7 @@ begin
   EdKey := NewEdit(GrpOpt, 100, 132, 150);
   EdKey.Hint := TrText('Anon.Key.Hint');
   EdKey.ShowHint := True;
+  BidiKeepLtr(EdKey);
   BtnNewKey := TButton.Create(Self);
   BtnNewKey.Parent := GrpOpt;
   BtnNewKey.SetBounds(S(256), S(131), S(80), S(24));
@@ -552,6 +569,7 @@ begin
   MemoDetail.ScrollBars := ssVertical;
   MemoDetail.Font.Name := 'Consolas';
   MemoDetail.Font.Size := 9;
+  BidiKeepLtr(MemoDetail);
 
   LblPreview := TLabel.Create(Self);
   LblPreview.Parent := Self;
@@ -572,6 +590,7 @@ begin
   LvPreview.HideSelection := False;
   LvPreview.Font.Name := 'Consolas';
   LvPreview.Font.Size := 9;
+  BidiKeepLtr(LvPreview);
   Col := LvPreview.Columns.Add;
   Col.Caption := TrText('Anon.Col.Line');
   Col.Alignment := taRightJustify;
@@ -785,6 +804,25 @@ begin
   if (CurrentScope = ascSelection) and (FParams.SelectedCount <= 0) then
   begin
     LblInfo.Caption := TrText('Anon.ErrNoSelection');
+    ShowRows;
+    Exit;
+  end;
+  if (CurrentScope = ascSelection) and (FParams.MaxLines > 0) and
+     (FParams.SelectedCount > FParams.MaxLines) then
+  begin
+    LblInfo.Caption := Format(TrText('ListView.SelLimitExceeded'),
+      [FParams.SelectedCount, FParams.MaxLines]);
+    ShowRows;
+    Exit;
+  end;
+  if (CurrentScope = ascLineRange) and (FParams.MaxLines > 0) and
+     (ToL - FromL + 1 > FParams.MaxLines) then
+  begin
+    Est := ToL - FromL + 1;
+    if Est > High(Integer) then
+      Est := High(Integer);
+    LblInfo.Caption := Format(TrText('ListView.SelLimitExceeded'),
+      [Integer(Est), FParams.MaxLines]);
     ShowRows;
     Exit;
   end;

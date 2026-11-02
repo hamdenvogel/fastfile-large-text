@@ -838,7 +838,7 @@ end;
 function FastFileCountLines(const APath: string): Int64;
 { F5 index / prior assistant scan if valid; else one binary LF pass. }
 const
-  BUF_SIZE = 256 * 1024;
+  BUF_SIZE = 4 * 1024 * 1024;
 var
   F: TFileStream;
   Buffer: PAnsiChar;

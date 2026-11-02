@@ -55,6 +55,9 @@ type
 
 implementation
 
+uses
+  uBidiLayout;
+
 { TMruHelper }
 
 constructor TMruHelper.Create(AEdit: TEdit; const AIniFileName: string; AMaxItems: Integer);
@@ -194,7 +197,7 @@ begin
   FPopup.Left := P.X;
   FPopup.Top := P.Y;
 
-  // FIX: largura correta jï¿½ na primeira vez
+  // FIX: largura correta já na primeira vez
   FPopup.Width := FEdit.ClientWidth;
 
   Count := Min(FList.Items.Count, 8);
@@ -256,6 +259,7 @@ procedure TMruHelper.ListDrawItem(Control: TWinControl; Index: Integer; Rect: TR
 var
   LB: TListBox;
   Txt: string;
+  TextR: TRect;
 begin
   LB := Control as TListBox;
   Txt := LB.Items[Index];
@@ -272,7 +276,17 @@ begin
   end;
 
   LB.Canvas.FillRect(Rect);
-  LB.Canvas.TextOut(Rect.Left + 4, Rect.Top + 2, Txt);
+  if BidiIsRtl then
+  begin
+    { right-anchored text in right-to-left mode }
+    TextR := Rect;
+    Dec(TextR.Right, 4);
+    Inc(TextR.Top, 2);
+    DrawText(LB.Canvas.Handle, PChar(Txt), Length(Txt), TextR,
+      BidiDrawFlags(DT_SINGLELINE or DT_NOPREFIX or DT_LEFT));
+  end
+  else
+    LB.Canvas.TextOut(Rect.Left + 4, Rect.Top + 2, Txt);
 end;
 
 procedure TMruHelper.AddItem(const S: string);

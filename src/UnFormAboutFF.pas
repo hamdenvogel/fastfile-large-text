@@ -37,7 +37,7 @@ type
 
 implementation
 
-uses UnUtils, uI18n, UnConsts;
+uses UnUtils, uI18n, UnConsts, uBidiLayout;
 
 {$R *.dfm}
 
@@ -72,6 +72,7 @@ begin
   lblHome.AutoSize := True;
   lblHomeURL.Left := lblHome.Left + lblHome.Width + 8;
 
+  BidiKeepLtr(memoLicense); { fixed English license text }
   memoLicense.Lines.Clear;
   memoLicense.Lines.Add(APPLICATION_DEVELOPER);
   memoLicense.Lines.Add('');

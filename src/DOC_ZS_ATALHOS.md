@@ -3,7 +3,7 @@
 **Nome curto deste ficheiro:** `DOC_ZS_ATALHOS.md` (alias de `DOC_ZERO_SCAN_ATALHOS_E_FUNCIONALIDADES.md`)
 
 **Documento de referência para utilizadores e QA**  
-Versão de referência: **`3.0.5.243`** (FastFile 3.0.5; glob/grep com IA no modal e arquivo opcional **v3.0.5.240–243**; diagnóstico IA Ctrl+Alt+U, edição rápida, índice paralelo Win64, Extrair / prévia Python, validar código **v3.0.5.233–239**; agente de IA Ctrl+Alt+G, anonimizar Ctrl+Alt+D **v3.0.5.226–232**; barras de ocorrências/marcadores, editor de linha **v3.0.5.211–225**; **14 idiomas** UI; FilterBar v3.0.5.100, Zero Scan `2.1.7.25+`)
+Versão de referência: **`3.0.5.268`** (FastFile 3.0.5; guia mais baixo e ícone de Ler no campo do caminho **v3.0.5.266–268**; 28 idiomas e próximos passos conforme a atividade **v3.0.5.262–265**; 22 idiomas, divisão em partes iguais por blocos, menu localizado, guia de próximos passos e Preferências renovadas **v3.0.5.255–261**; layout RTL, árabe/hebraico, bandeiras e Partes iguais na barra **v3.0.5.250–254**; limites, prévia de Dividir por linhas, regex e idiomas recentes **v3.0.5.245–249**; glob/grep **v3.0.5.240–244**; diagnóstico IA, edição rápida, índice paralelo Win64 e validação de código **v3.0.5.233–239**; agente IA e anonimização **v3.0.5.226–232**; barras de ocorrências/marcadores e editor de linha **v3.0.5.211–225**; FilterBar v3.0.5.100, Zero Scan `2.1.7.25+`)
 Ambiente: Delphi 7 / Win32 · Delphi 10.4.2 / Win64  
 Código principal: `MainUnit.pas`, `uSmoothLoading.pas`, `uLineIndexScan.pas`, `uFastFileAssistant.pas`
 
@@ -37,7 +37,9 @@ Código principal: `MainUnit.pas`, `uSmoothLoading.pas`, `uLineIndexScan.pas`, `
 17. [FilterBar, status bar e count_matching (v3.0.5.100+)](#17-filterbar-status-count)
 18. [Assistente IA — Validar fonte (v3.0.5.136+)](#18-assistente-validar-fonte)
 19. [Ocorrências, marcadores, editor de linha e histórico de sessão (v3.0.5.211+)](#19-novidades-3-0-5-225)
-20. [glob / grep, IA no modal e arquivos gigantes (v3.0.5.240–243)](#20-glob-grep)
+20. [glob / grep, IA no modal e arquivos gigantes (v3.0.5.240–243)](#20-glob-grep)  
+21. [Barras, limites, Dividir por linhas e regex (v3.0.5.245–249)](#21-limites-regex)  
+22. [Direita para a esquerda e Partes iguais na barra (v3.0.5.250–254)](#22-bidi-partes)
 
 ---
 
@@ -77,7 +79,33 @@ offsets de 64 bits, glob, grep com limite e cancelamento; a interface também é
 testada em Instant Open. Não equivalem a uma medição de leitura integral de
 80 GiB nem garantem navegação acima dos limites existentes da lista/marcadores.
 Histórico incremental: **.240** comandos, **.241** IA no modal, **.242** acessos,
-**.243** arquivo opcional/GB. [Guia completo e exemplos](README.md#internal-glob--grep-commands).
+**.243** arquivo opcional/GB, **.244** ordenação de colunas e grupos nomeados.
+[Guia completo e exemplos](README.md#internal-glob--grep-commands).
+
+---
+
+## 21. Barras, limites, Dividir por linhas e regex (v3.0.5.245–249) {#21-limites-regex}
+
+| Entrada | Comportamento com Zero Scan |
+|---|---|
+| Localizar, Filtro e Marcadores | Abrem compactos. A alça da base muda a altura. **Fechar** fica ao lado de **Limpar**. |
+| `mru_search_cmd.ini` | Comandos glob/grep recentes. Um pedido vazio não dispara varredura. |
+| Dividir por linhas | A prévia mostra De/Até e uma amostra. Gravar percorre o arquivo e escreve outro; o intervalo não vira lista na memória. Sem índice denso, a localização da linha continua a varredura do arquivo. |
+| Opções → limites | Descaracterizar 1000 (seleção ou intervalo; o arquivo inteiro não usa esse teto), mesclar 1000, traduzir 40, área de transferência 500, exportar 100000, inserir 2000, arquivos 100, partes 1000. Vazio ou inválido volta ao padrão. A roda do mouse rola a página. |
+| Filtro e editor de linha | Exemplos de regex na própria tela. **Perguntar à IA** propõe um padrão e não o executa. |
+| Combo de idiomas | Idiomas recentes primeiro (`LanguageMRU`). A lista fecha antes de carregar o idioma. |
+
+Estes tetos limitam o que entra em memória numa ação da interface. Não mudam a política de abertura Instant Open / Zero Scan nem o teto de **16.777.216** caracteres decodificados de uma linha no glob/grep.
+
+---
+
+## 22. Direita para a esquerda e Partes iguais na barra (v3.0.5.250–254) {#22-bidi-partes}
+
+| Entrada | Comportamento com Zero Scan |
+|---|---|
+| Árabe ou hebraico | Espelha formulários, diálogos e controles. O texto do arquivo e de cada célula continua da esquerda para a direita. A ordem das colunas da lista é só visual: o número da linha fica à direita. Não muda índice, varredura nem Instant Open. |
+| Lista de idiomas | Bandeira ao lado do nome. O menu alarga para o nome não ficar cortado. |
+| **Ctrl+Shift+P** / botão **Partes iguais** | Abre a aba Dividir arquivo em partes iguais. O botão fica na barra, logo depois de Mesclar arquivos. A divisão em partes iguais continua a percorrer o arquivo; não monta o arquivo inteiro como lista. |
 
 ---
 
@@ -150,7 +178,7 @@ Funcionalidades da barra IA e do painel Read — aplicam-se em modo normal e Zer
 | **Cancelar carga / Fechar** | Ocultam o painel na hora; plugin (`ConsumerRAG.exe`) parado em segundo plano (`TerminateProcess` + espera 750 ms); botões sempre clicáveis |
 | **Roda do rato / Ctrl+roda** | Sobre um painel de chat IA (SQL, Avançado, Assistente, Script) rola aquele histórico, **não** a lista principal nem o zoom |
 | **Ler (Ctrl+1 / barra)** | Com um ficheiro já aberto, abre o seletor de ficheiros e carrega de imediato o escolhido |
-| **Comparar/Mesclar** | Pré-visualização e histórico de sessão com acentuação correta (UTF-8 / ANSI / UTF-16 auto; journal em UTF-8) |
+| **Comparar/Mesclar** | Pré-visualização e histórico de sessão com acentuação correta (UTF-8 / ANSI / UTF-16 auto; registro da sessão em UTF-8) |
 | **Botão Sobre** | Rótulo curto «Sobre» (`titlebar.about`, 14 idiomas) |
 
 Ajuda F1: **`FF_HELP.AIChatFileBlock`** (14 idiomas). Ver **`CHANGELOG_IMPLEMENTACOES.md`** secção **3.0.4.x**.
@@ -450,7 +478,7 @@ Alinhado à ajuda **F1** do FastFile. Coluna **ZS-0** = Zero Scan instantâneo *
 | **Ctrl+Shift+M** | Merge linhas | — |
 | **Ctrl+Shift+J** | Merge ficheiros | — |
 | **Ctrl+Shift+H** | Compare / merge + histórico | — |
-| **Ctrl+Shift+P** | Partes iguais (LF-safe) | — |
+| **Ctrl+Shift+P** | Partes iguais (LF-safe); botão na barra logo após Mesclar arquivos (v3.0.5.254) | — |
 | **Ctrl+Shift+Q** | Extrair partes do arquivo (LF-safe) | — |
 | **Ctrl+Shift+S** | Select | Ver §4.6 |
 | **Ctrl+Num+** / **Ctrl+Num-** | Zoom fonte ListView | — |
@@ -664,6 +692,9 @@ Garantir que o modo indexado **não** regrediu (ver também §0).
 | 2026-09-09 | **v3.0.5.136–137:** §18 Validar fonte (Python/JS/JSX/TS/TSX); chat carregar/validar; `DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`; `CodeCheck.exe`. |
 | 2026-09-16 | **v3.0.5.210:** 14 idiomas UI (JA + zh-CN/zh-TW); lazy-load i18n; Version History / F1 / docs sync. |
 | 2026-10-22 | **v3.0.5.233–239:** §19.8 edição rápida + Extrair + índice paralelo Win64; §19.9 código-fonte, perfil/alvos/macro do agente, «O que posso fazer?», Diagnóstico IA (Ctrl+Alt+U); F1 `FF_HELP.RecentFeaturesBlock3`. |
+| 2026-11-02 | **v3.0.5.266–268:** guia de próximos passos mais baixo; ícone de Ler no campo do caminho (à esquerda do X), com o desenho da barra; F1 `FF_HELP.RecentFeaturesBlock8`. |
+| 2026-11-01 | **v3.0.5.262–265:** 28 idiomas (tailandês, grego, norueguês, sueco, dinamarquês, islandês); botão à esquerda de Copiar reabre o guia; próximos passos conforme a atividade, com mais ações seguintes; F1 `FF_HELP.RecentFeaturesBlock7`. |
+| 2026-10-31 | **v3.0.5.255–261:** 22 idiomas; split por blocos MMF; guia de próximos passos, reabertura em Preferências e inicialização sem cintilação; F1 `FF_HELP.RecentFeaturesBlock6`. |
 | 2026-10-08 | **v3.0.5.226–232:** §19.5 detalhe do evento do histórico (Enter, F3/Shift+F3), §19.6 anonimizar (Ctrl+Alt+D), §19.7 agente de IA (Ctrl+Alt+G, prazo para aceitar, botões por conteúdo); F1 `FF_HELP.RecentFeaturesBlock2`. |
 | 2026-09-27 | **v3.0.5.211–225:** §19 barra de ocorrências (Ctrl+F/F3), barra de marcadores (Ctrl+B), abas reordenáveis, Opções, atalhos do editor de linha, histórico de sessão (checkboxes, ordenar, filtro De/Até, exportar, Perguntar à IA), diff sincronizado; F1 `FF_HELP.RecentFeaturesBlock`. |
 

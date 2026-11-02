@@ -1,5 +1,5 @@
 ﻿unit uFilterBar;
-{ Docked Filter / Grep chrome: MRU dropdown (like Assistant) + pattern edit +
+{ Docked Filter / Grep frame: MRU dropdown (like Assistant) + pattern edit +
   Apply / Continue / Export / Copy / Clear / Close (×). }
 
 interface
@@ -30,8 +30,9 @@ type
     FBtnRecentFindClear: TsSpeedButton;
     FEdtPattern: TEdit;
     FBtnApply: TsButton;
-    FBtnGrep, FBtnGlob: TsButton;
+    FBtnGrep, FBtnGlob, FBtnAskAI: TsButton;
     FOnCommand: TSearchCommandOpenEvent;
+    FOnAskAI: TNotifyEvent;
     FBtnContinue: TsButton;
     FBtnExport: TsButton;
     FBtnCopy: TsButton;
@@ -63,11 +64,13 @@ type
     FFloating: Boolean;
     FHeaderDown: Boolean;
     FHeaderPt: TPoint;
-    procedure BuildChrome;
+    FContentHeight: Integer;
+    procedure BuildFrame;
     procedure ForceColor(APnl: TsPanel; AColor: TColor);
-    procedure LayoutChrome;
+    procedure LayoutFrame;
     procedure BtnApplyClick(Sender: TObject);
     procedure BtnCommandClick(Sender: TObject);
+    procedure BtnAskAIClick(Sender: TObject);
     procedure BtnClearClick(Sender: TObject);
     procedure BtnContinueClick(Sender: TObject);
     procedure BtnExportClick(Sender: TObject);
@@ -80,7 +83,7 @@ type
     procedure TitleMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     procedure TitleMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure ApplyTitleDragChrome;
+    procedure ApplyTitleDragFrame;
     procedure TitleDblClick(Sender: TObject);
     procedure EdtPatternKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EdtPatternKeyPress(Sender: TObject; var Key: Char);
@@ -118,12 +121,12 @@ type
     destructor Destroy; override;
     procedure EnsureBuilt;
     procedure ApplyCaptions;
-    procedure ApplySoftChrome;
+    procedure ApplySoftFrame;
     procedure FocusPattern;
     function PatternEditFocused: Boolean;
     function GetPattern: string;
     procedure SetPattern(const AText: string);
-    procedure SetModeHint(const AModeText: string);
+    procedure SetModeHint(const AModeText, AHover: string);
     procedure SetStatus(const AStatusText: string; AActive, APartial, ABusy: Boolean);
     procedure SetContinueEnabled(AEnabled: Boolean);
     procedure SetResultsActionsVisible(AVisible: Boolean);
@@ -132,10 +135,13 @@ type
     procedure RememberPattern(const APattern: string);
     procedure SetFloatingLook(AFloating: Boolean);
     procedure RelayoutAfterDock;
+    { Height that fits the controls. Extra pixels below the buttons are blank. }
+    function ContentHeight: Integer;
     property OnTearOff: TNotifyEvent read FOnTearOff write FOnTearOff;
     property OnHeightChanged: TNotifyEvent read FOnHeightChanged write FOnHeightChanged;
     property OnApply: TFilterBarApplyEvent read FOnApply write FOnApply;
     property OnCommand: TSearchCommandOpenEvent read FOnCommand write FOnCommand;
+    property OnAskAI: TNotifyEvent read FOnAskAI write FOnAskAI;
     property OnClear: TNotifyEvent read FOnClear write FOnClear;
     property OnContinue: TNotifyEvent read FOnContinue write FOnContinue;
     property OnExport: TNotifyEvent read FOnExport write FOnExport;
@@ -144,14 +150,14 @@ type
     property OnFloat: TNotifyEvent read FOnFloat write FOnFloat;
   end;
 
-  { Thin clickable strip shown when filter is active but chrome is hidden. }
+  { Thin clickable strip shown when filter is active but frame is hidden. }
   TFastFileFilterPeek = class(TsPanel)
   private
     FOnRestore: TNotifyEvent;
     procedure PeekClick(Sender: TObject);
   public
     constructor Create(AOwner: TComponent); override;
-    procedure ApplySoftChrome;
+    procedure ApplySoftFrame;
     property OnRestore: TNotifyEvent read FOnRestore write FOnRestore;
   end;
 
@@ -170,7 +176,7 @@ const
 implementation
 
 uses
-  Math, uI18n, uUserPrefs, uMruFind, UnitPopupMruList;
+  Math, uI18n, uUserPrefs, uMruFind, UnitPopupMruList, uBidiLayout;
 
 const
   CAccent = TColor($00BFAF9C);
@@ -208,6 +214,7 @@ begin
   FFindImages := nil;
   FFindImageIndex := -1;
   FFloating := False;
+  FContentHeight := 0;
   FHeaderDown := False;
   FIniPath := '';
   FRecent := TStringList.Create;
@@ -236,8 +243,8 @@ procedure TFastFileFilterBar.EnsureBuilt;
 begin
   if FBuilt then Exit;
   if not Assigned(Parent) then Exit;
-  BuildChrome;
-  ApplySoftChrome;
+  BuildFrame;
+  ApplySoftFrame;
   ApplyCaptions;
   LoadRecent;
 end;
@@ -269,7 +276,7 @@ begin
   APnl.Color := AColor;
 end;
 
-procedure TFastFileFilterBar.BuildChrome;
+procedure TFastFileFilterBar.BuildFrame;
 var
   UiFont: string;
 begin
@@ -308,7 +315,7 @@ begin
   FLblTitle.Transparent := True;
   FLblTitle.Caption := 'Filter / Grep';
   FLblTitle.AutoSize := False;
-  ApplyTitleDragChrome;
+  ApplyTitleDragFrame;
 
   FLblMode := TsLabel.Create(Self);
   FLblMode.Parent := FBody;
@@ -412,6 +419,7 @@ begin
   FEdtPattern.OnKeyDown := EdtPatternKeyDown;
   FEdtPattern.OnKeyPress := EdtPatternKeyPress;
   FEdtPattern.OnChange := EdtPatternChange;
+  BidiKeepLtr(FEdtPattern); { regex / glob pattern stays left-to-right }
 
   FLblStatus := TsLabel.Create(Self);
   FLblStatus.Parent := FBody;
@@ -494,6 +502,12 @@ begin
   FBtnGlob.Font.Assign(FBtnApply.Font);
   FBtnGlob.Caption := 'glob';
   FBtnGlob.OnClick := BtnCommandClick;
+  FBtnAskAI := TsButton.Create(Self);
+  FBtnAskAI.Name := 'SearchAskAI';
+  FBtnAskAI.Parent := FBody;
+  FBtnAskAI.Font.Assign(FBtnApply.Font);
+  FBtnAskAI.OnClick := BtnAskAIClick;
+  FBtnAskAI.Visible := False;
 
   FBtnHide := TsButton.Create(Self);
   FBtnHide.Parent := FBody;
@@ -504,7 +518,7 @@ begin
   FBtnHide.Font.Color := CMuted;
   FBtnHide.Height := 26;
   FBtnHide.Width := 28;
-  FBtnHide.Caption := #$00D7; { × — same chrome as Assistente IA }
+  FBtnHide.Caption := #$00D7; { × — same frame as Assistente IA }
   FBtnHide.Hint := TrText('Close');
   FBtnHide.ShowHint := True;
   FBtnHide.TabStop := False;
@@ -537,16 +551,17 @@ begin
 
   ApplyRecentFindGlyphs;
   FBuilt := True;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
-procedure TFastFileFilterBar.LayoutChrome;
+procedure TFastFileFilterBar.LayoutFrame;
 var
   X, EditTop, RecentTop, EditW, RightEdge, EditLeft, StatusW: Integer;
   BtnGap, Tw, ModeH, RecentH, BtnH, ButtonTop, ButtonsW, NeedH: Integer;
   Stacked: Boolean;
   ComboW: Integer;
   MeasureCanvas: TControlCanvas;
+  BL: IInterface;
 
   function TextW(AFont: TFont; const AText: string): Integer;
   begin
@@ -591,6 +606,7 @@ var
 
 begin
   if not FBuilt or not Assigned(FBody) then Exit;
+  BL := BidiLayoutScope([FBody]);
 
   BtnGap := 5;
   BtnH := FfPx(28);
@@ -612,6 +628,7 @@ begin
     SizeBtn(FBtnClose, 72);
     SizeBtn(FBtnGrep, 60);
     SizeBtn(FBtnGlob, 60);
+    SizeBtn(FBtnAskAI, 72);
     { Close (×) is fixed square like Assistente IA — not SizeBtn text width. }
     FBtnHide.Width := FfPx(28);
     FBtnHide.Height := BtnH;
@@ -664,7 +681,10 @@ begin
 
     EditTop := RecentTop + FILTER_RECENT_CMB_H + 6;
     ButtonsW := FBtnHide.Width + FBtnClose.Width + FBtnFloat.Width + FBtnClear.Width +
-      FBtnContinue.Width + FBtnGlob.Width + FBtnGrep.Width + FBtnApply.Width + 8 * BtnGap;
+      FBtnContinue.Width + FBtnGlob.Width + FBtnGrep.Width +
+      FBtnApply.Width + 8 * BtnGap;
+    if Assigned(FBtnAskAI) and FBtnAskAI.Visible then
+      Inc(ButtonsW, FBtnAskAI.Width + BtnGap);
     if FBtnCopy.Visible then Inc(ButtonsW, FBtnCopy.Width + BtnGap);
     if FBtnExport.Visible then Inc(ButtonsW, FBtnExport.Width + BtnGap);
     Stacked := RightEdge - EditLeft - ButtonsW < FfPx(120);
@@ -680,6 +700,7 @@ begin
     PlaceRight(FBtnContinue);
     PlaceRight(FBtnGlob);
     PlaceRight(FBtnGrep);
+    PlaceRight(FBtnAskAI);
     PlaceRight(FBtnApply);
 
     EditW := RightEdge - EditLeft;
@@ -699,6 +720,7 @@ begin
     Inc(NeedH, FfPx(16));
     if NeedH < FfPx(64) then
       NeedH := FfPx(64);
+    FContentHeight := NeedH;
     Constraints.MinHeight := NeedH;
     Constraints.MaxHeight := 0;
     if (not FFloating) and (Height < NeedH) then
@@ -713,16 +735,16 @@ end;
 
 procedure TFastFileFilterBar.BodyResize(Sender: TObject);
 begin
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFilterBar.Resize;
 begin
   inherited;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
-procedure TFastFileFilterBar.ApplySoftChrome;
+procedure TFastFileFilterBar.ApplySoftFrame;
 var
   UiFont: string;
 begin
@@ -795,7 +817,7 @@ begin
     FBtnApply.Font.Style := [fsBold];
     FBtnApply.Font.Color := CTitle;
   end;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFilterBar.ApplyCaptions;
@@ -817,9 +839,15 @@ begin
   FBtnGlob.Hint := Format(TrText('SearchCmd.LaunchHint'), ['glob']);
   FBtnGrep.ShowHint := True;
   FBtnGlob.ShowHint := True;
+  if Assigned(FBtnAskAI) then
+  begin
+    FBtnAskAI.Caption := TrText('Assistant.Offer.AskAI');
+    FBtnAskAI.Hint := TrText('Regex.ExamplesHint');
+    FBtnAskAI.ShowHint := True;
+  end;
   FBtnHide.Caption := #$00D7; { × }
   SyncFloatAction;
-  ApplyTitleDragChrome;
+  ApplyTitleDragFrame;
   FBtnApply.Hint := TrText('FilterBar.ApplyHint');
   FBtnContinue.Hint := TrText('FilterBar.ContinueHint');
   if Assigned(FBtnExport) then
@@ -871,7 +899,7 @@ begin
     FEdtPattern.ShowHint := True;
   end;
   RefreshRecentCombo;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFilterBar.BtnCommandClick(Sender: TObject);
@@ -879,6 +907,12 @@ begin
   if not Assigned(FOnCommand) then Exit;
   if Sender = FBtnGlob then FOnCommand(Self, 'glob')
   else FOnCommand(Self, 'grep');
+end;
+
+procedure TFastFileFilterBar.BtnAskAIClick(Sender: TObject);
+begin
+  if Assigned(FOnAskAI) then
+    FOnAskAI(Self);
 end;
 
 procedure TFastFileFilterBar.FocusPattern;
@@ -915,13 +949,17 @@ begin
   end;
 end;
 
-procedure TFastFileFilterBar.SetModeHint(const AModeText: string);
+procedure TFastFileFilterBar.SetModeHint(const AModeText, AHover: string);
 begin
+  if Assigned(FBtnAskAI) then
+    FBtnAskAI.Visible := AHover <> '';
   if Assigned(FLblMode) then
   begin
     FLblMode.Caption := AModeText;
-    LayoutChrome;
+    FLblMode.Hint := AHover;
+    FLblMode.ShowHint := AHover <> '';
   end;
+  LayoutFrame;
 end;
 
 procedure TFastFileFilterBar.SetStatus(const AStatusText: string; AActive, APartial, ABusy: Boolean);
@@ -936,7 +974,7 @@ begin
   else
     FLblStatus.Font.Color := CStatusIdle;
   SetContinueEnabled(AActive and APartial and (not ABusy));
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 procedure TFastFileFilterBar.SetContinueEnabled(AEnabled: Boolean);
@@ -951,7 +989,7 @@ begin
     FBtnExport.Visible := AVisible;
   if Assigned(FBtnCopy) then
     FBtnCopy.Visible := AVisible;
-  LayoutChrome;
+  LayoutFrame;
 end;
 
 function TFastFileFilterBar.PatternEditFocused: Boolean;
@@ -1238,7 +1276,7 @@ begin
   end;
 end;
 
-procedure TFastFileFilterBar.ApplyTitleDragChrome;
+procedure TFastFileFilterBar.ApplyTitleDragFrame;
 var
   HintTxt: string;
 begin
@@ -1326,13 +1364,23 @@ begin
   ApplyCaptions;
 end;
 
+function TFastFileFilterBar.ContentHeight: Integer;
+begin
+  if FBuilt then
+    LayoutFrame;
+  if FContentHeight > 0 then
+    Result := FContentHeight
+  else
+    Result := FfPx(FILTER_BAR_HEIGHT);
+end;
+
 procedure TFastFileFilterBar.RelayoutAfterDock;
 begin
   Align := alTop;
   Constraints.MinHeight := FfPx(FILTER_BAR_HEIGHT);
   Constraints.MaxHeight := 0;
-  ApplySoftChrome;
-  LayoutChrome;
+  ApplySoftFrame;
+  LayoutFrame;
 end;
 
 procedure TFastFileFilterBar.CMDialogKey(var Msg: TCMDialogKey);
@@ -1493,7 +1541,7 @@ begin
   FActivatingFind := True;
   FFindActive := True;
   FRecentExpanded := False;
-  LayoutChrome;
+  LayoutFrame;
   RefreshRecentCombo;
   PostMessage(Handle, WM_APP + 63, 0, 0);
 end;
@@ -1505,7 +1553,7 @@ begin
   FFindNeedle := '';
   if Assigned(FEdtRecentFind) then
     FEdtRecentFind.Text := '';
-  LayoutChrome;
+  LayoutFrame;
   RefreshRecentCombo;
 end;
 
@@ -1554,10 +1602,10 @@ begin
   ShowHint := True;
   Hint := TrText('FilterBar.PeekHint');
   OnClick := PeekClick;
-  ApplySoftChrome;
+  ApplySoftFrame;
 end;
 
-procedure TFastFileFilterPeek.ApplySoftChrome;
+procedure TFastFileFilterPeek.ApplySoftFrame;
 begin
   try
     SkinData.CustomColor := True;

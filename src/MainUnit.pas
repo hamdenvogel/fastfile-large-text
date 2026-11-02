@@ -7,6 +7,7 @@ interface
 
 uses
   uPosBMH,
+  uFastLineSearch,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs, ExtCtrls, ExtDlgs, ComCtrls, StdCtrls,
   FileCtrl, ImgList, Buttons, Menus, Mask, ActnList, StdActns, ToolWin, CheckLst, StopWatch, CommCtrl, Math, ClipBrd, ShellAPI, // XPMan,
   WinInet,
@@ -22,7 +23,7 @@ uses
   uTailExportDialog,
   uFindReplace, sListView, RichEdit, uFastFilePaths, uFileFormatConvert, uEolPolicy,
   uFastFileAssistantHost, uFilterBar, uFindOccurrencesBar, uBookmarkBar, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost, uFastFileAppGuard, uFastFileWatchdog, System.ImageList, System.Actions,
-  uAnonymize, uAnonymizeDialog;
+  uAnonymize, uAnonymizeDialog, uBidiLayout;
 
 type
   PAnsiCharMap = ^TAnsiCharMap;
@@ -172,9 +173,14 @@ type
   private
     FSourceEdit: TsFilenameEdit;
     FSourceEditDefaultColor: TColor;
+    FEditContextMenu: TPopupMenu;
     FStackCtrls: TList;
     FStackSB: TScrollBox;
     FStackReflowing: Boolean;
+    procedure AttachEditContextMenu(AMemo: TsMemo);
+    procedure EditContextMenuPopup(Sender: TObject);
+    procedure EditContextMenuClick(Sender: TObject);
+    function EditContextTarget: TCustomEdit;
     procedure WMDropFiles(var Msg: TWMDropFiles); message WM_DROPFILES;
     procedure CMDialogKey(var Message: TCMDialogKey); message CM_DIALOGKEY;
     procedure ForceEscKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -205,6 +211,7 @@ type
     { Split by pattern/regex }
     EdtPattern: TEdit;
     LblPattern: TLabel;
+    LblRegexExamples: TLabel;
     LblRegexGuide: TLabel;
     BtnRegexAI: TButton;
     BtnRegexSuggestAI: TButton;
@@ -443,6 +450,7 @@ type
     btnRefreshView: TsSpeedButton;
     btnReloadFromDisk: TsSpeedButton;
     btnReadFileF5: TsSpeedButton;
+    btnReadInFileName: TPanel;
     btnClearFileName: TPanel;
     ActionWrite: TAction;
     sListBox1: TsListBox;
@@ -787,6 +795,11 @@ type
     procedure comboViewEncodingChange(Sender: TObject);
     procedure comboZoomChange(Sender: TObject);
     procedure comboLanguageChange(Sender: TObject);
+    procedure LanguageComboDropDown(Sender: TObject);
+    procedure CloseLanguageDropDown;
+    procedure LanguageMruPick(Sender: TObject; const AValue: string; AIndex: Integer);
+    procedure LanguageMruDrawIcon(Sender: TObject; ACanvas: TCanvas;
+      const ARect: TRect; AItemIndex: Integer);
     //procedure fListViewDblClick(Sender: TObject);
     procedure FormMemoKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -892,6 +905,39 @@ type
     procedure btnSplitFilesClick(Sender: TObject);
     procedure btnMergeMultipleLinesClick(Sender: TObject);
     procedure tabSplitFileShow(Sender: TObject);
+    procedure LayoutSplitFilePage;
+    procedure EnsureSplitLinesPreview;
+    procedure RefreshSplitLinesPreview;
+    procedure SplitLinesPreviewPaint(Sender: TObject);
+    procedure SplitLinesRangeChanged(Sender: TObject);
+    procedure ApplySplitLinesToolCaptions;
+    procedure LayoutSplitLinesToolBtns;
+    procedure UpdateSplitLinesToolsEnabled;
+    procedure AdjustSplitLinesSampleBounds;
+    procedure RunSplitPreviewLineAction(AClick: TNotifyEvent);
+    procedure SplitLinesTranslatePopup(Sender: TObject);
+    procedure SplitLinesToolClick(Sender: TObject);
+    procedure SplitLinesSampleSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure SplitLinesSampleKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure EnsureSplitSourceReadable;
+    function CreateSplitToolButton(AParent: TsPanel; ATag: Integer;
+      AClick: TNotifyEvent): TsSpeedButton;
+    procedure EnsureSplitFilesTools;
+    procedure ApplyLineLimitLabel(APanel: TsPanel);
+    procedure ApplySplitToolStripCaptions(APanel: TsPanel;
+      ACopy, AClear, AExport, ATranslate, AAnon, AEdit, AMerge, AAsk: TsSpeedButton);
+    procedure LayoutSplitToolStrip(APanel: TsPanel; const ABtns: array of TsSpeedButton);
+    procedure UpdateSplitFilesToolsEnabled;
+    procedure SplitFilesDataChange(Sender: TObject; Field: TField);
+    function SplitFilesCurrentRange(out AFrom, ATo: Int64): Boolean;
+    procedure LoadSplitSampleTexts(const APath: string; AFrom, ACount: Int64;
+      ATexts: TStringList);
+    procedure RunSplitFilesLineAction(AClick: TNotifyEvent);
+    procedure RunSplitFilesAnonymize;
+    procedure SplitFilesTranslatePopup(Sender: TObject);
+    procedure SplitFilesToolClick(Sender: TObject);
     procedure pgcSplitFilesChange(Sender: TObject);
     procedure ActionClearExecute(Sender: TObject);
     procedure FindButtonClick(Sender: TObject);
@@ -1052,6 +1098,12 @@ type
     FLastFoundMatchLen: Integer;
     FFindThread: TThread;
     FFindSearchId: Integer;   // generation counter to discard stale results
+    { Smooth-loading overlay for long filter / find scans (0=none, 1=filter, 2=find). }
+    FBgLoadKind: Integer;
+    FBgLoadShown: Boolean;
+    FBgLoadStart: Cardinal;
+    FBgLoadLastPaint: Cardinal;
+    FStatusCancelBtn: TsSpeedButton;
 
     { StatusBar cache }
     FActivityStatusActive: Boolean;
@@ -1101,6 +1153,11 @@ type
     FDetectedEol: TLineEndingKind;
     { Byte terminador de linha do ficheiro em FSourceFileStream (10 = LF; 13 = CR Mac). }
     FSourceLineTermByte: Byte;
+    { Varredura sequencial quando o arquivo nao tem indice de linhas. }
+    FNoIdxScanSize: Int64;
+    FNoIdxScanLine: Int64;
+    FNoIdxScanStart0: Int64;
+    FNoIdxScanEnd0: Int64;
     FForcedViewEncoding: String; { Character-set / encode-in override (N++ style) }
     FDefaultEolKind: TLineEndingKind;
     FDefaultNewEncoding: string;
@@ -1188,18 +1245,32 @@ type
     FToolsExtrasClearBookmarks: TMenuItem;
     FUpdatingViewEncodingCombo: Boolean;
     FUpdatingLanguageCombo: Boolean;
+    FLangMruPosted: Boolean;
+    FLanguageSwitching: Boolean;
+    FLangMru: TStringList;
+    FLangPopupCodes: TStringList;
     FApplyingLanguage: Boolean;
     FLanguageAppliedOnce: Boolean;
     { Popup do ListView: reconstruido lazily na primeira abertura apos troca de idioma. }
     FListViewPopupDirty: Boolean;
     { WM_COMMAND na status bar (pai do combo): CBN_CLOSEUP atualiza a lista mesmo se OnChange nao disparar (skin / mesmo item). }
     FOldStatusBarWndProcForCombo: TWndMethod;
+    FOldLanguageComboWndProc: TWndMethod;
     FHookedStatusBarForViewEncoding: Boolean;
     FCompareMergeHosted: TObject;
     FAgentTab: TsTabSheet;
     FAgentHosted: TObject;
     FAgentHubTab: TsTabSheet;
     FAgentHubHosted: TObject;
+    FWorkflowNextPanel: TPanel;
+    FWorkflowAccent: TPanel;
+    FWorkflowTitle: TLabel;
+    FWorkflowDescription: TLabel;
+    FWorkflowDontShow: TCheckBox;
+    FWorkflowClose: TButton;
+    FWorkflowActionIds: TStringList;
+    FWorkflowActionBtns: TArray<TButton>;
+    FWorkflowLayoutBusy: Boolean;
     { Off-tree host for Agente/Diagnóstico forms while their tab is inactive. }
     FHostedFormPark: TPanel;
     { Returning from a hosted tab also requires discarding its skin cache. }
@@ -1353,6 +1424,7 @@ type
     FBtnLvClear: TsSpeedButton;
     FBtnLvExport: TsSpeedButton;
     FBtnLvCopy: TsSpeedButton;
+    FBtnLvNextSteps: TsSpeedButton;
     FBtnLvAskAI: TsSpeedButton;
     FBtnLvMerge: TsSpeedButton;
     FBtnLvEditLines: TsSpeedButton;
@@ -1369,7 +1441,7 @@ type
     FLvJobAns: WideString;
     FLvJobErr: string;
     FSuppressPostEditRefresh: Boolean;
-    FFilterBarChromeHidden: Boolean;
+    FFilterBarFrameHidden: Boolean;
     FDeferredFindAfterIndex: Boolean;
     FDeferredFilterAfterIndex: Boolean;
     FAssistantPendingExportFiltered: Boolean;
@@ -1389,19 +1461,19 @@ type
     FFindOccSpl: TFastFileEdgeGrip;
     FFindOccPeek: TFastFileFindOccPeek;
     FFindOccFloat: TFastFileFloatForm;
-    FFindOccChromeHidden: Boolean;
+    FFindOccFrameHidden: Boolean;
     FFindOccDroveFilter: Boolean;
     FFindOccOfferShown: Boolean;
     FFindOccAssistantOffered: Boolean;
     FFindOccFilterOffered: Boolean;
     FFindOccListPage: Integer;
     FFindOccKeepHits: Boolean; { hits kept without remapping ListView }
-    { Bookmarks panel (Ctrl+B list chrome). }
+    { Bookmarks panel (Ctrl+B list frame). }
     FBookmarkBar: TFastFileBookmarkBar;
     FBookmarkSpl: TFastFileEdgeGrip;
     FBookmarkPeek: TFastFileBookmarkPeek;
     FBookmarkFloat: TFastFileFloatForm;
-    FBookmarkChromeHidden: Boolean;
+    FBookmarkFrameHidden: Boolean;
     FBookmarkListPage: Integer;
     { Ctrl+F com filtro: saltar ocorrencias fora do bitset ate um maximo (evita loop infinito). }
     FFilterFindSkips: Integer;
@@ -1467,10 +1539,50 @@ type
     { Bitmap icons loaded from Resources\trichviewicons for menu bindings. }
     FMenuBitmapImages: TImageList;
     FReadF5Images: TsAlphaImageList;
+    FReadInFileBtn: TsSpeedButton;
     FMenuIconIndexByName: TStringList;
     FFileNameBarLayingOut: Boolean;
     { Dynamic AI side panel shown beside the ListView. }
     FAssistantPanel: TsPanel;
+    { Hosts the assistant beside the current tab. Contextual Ask AI must not switch to the agent tab. }
+    FAssistantSideDock: TsPanel;
+    FAssistantSideSplit: TsSplitter;
+    FSplitLinesPreview: TsGroupBox;
+    FSplitLinesPreviewText: TsLabel;
+    FSplitLinesBar: TPaintBox;
+    FSplitLinesSampleCaption: TsLabel;
+    FSplitLinesSample: TListView;
+    FSplitLinesEmpty: TsLabel;
+    FSplitLinesEmptyHint: TsLabel;
+    FSplitLinesOfTotal: TsLabel;
+    FSplitLinesActions: TsPanel;
+    FSplitLinesFooterHint: TsLabel;
+    FSplitLinesBtnAskAI: TButton;
+    FSplitLinesBtnExecute: TButton;
+    FSplitLinesTools: TsPanel;
+    FSplitBtnCopy: TsSpeedButton;
+    FSplitBtnClear: TsSpeedButton;
+    FSplitBtnExport: TsSpeedButton;
+    FSplitBtnTranslate: TsSpeedButton;
+    FSplitBtnAnon: TsSpeedButton;
+    FSplitBtnEdit: TsSpeedButton;
+    FSplitBtnMerge: TsSpeedButton;
+    FSplitBtnAskAI: TsSpeedButton;
+    FSplitLinesSampleLines: TInt64List;
+    { Enquanto uma acao da grade de extracao roda, a selecao dela substitui a do leitor. }
+    FSplitLinesForcedLines: TInt64List;
+    FSplitLinesSampleKey: string;
+    FSplitLinesLayingOut: Boolean;
+    FSplitLinesRefreshing: Boolean;
+    FSplitFilesTools: TsPanel;
+    FSplitFilesBtnCopy: TsSpeedButton;
+    FSplitFilesBtnClear: TsSpeedButton;
+    FSplitFilesBtnExport: TsSpeedButton;
+    FSplitFilesBtnTranslate: TsSpeedButton;
+    FSplitFilesBtnAnon: TsSpeedButton;
+    FSplitFilesBtnEdit: TsSpeedButton;
+    FSplitFilesBtnMerge: TsSpeedButton;
+    FSplitFilesBtnAskAI: TsSpeedButton;
     FConsumerAIPanel: TsPanel;
     FConsumerAIHeaderPanel: TsPanel;
     FConsumerAIExportButton: TsSpeedButton;
@@ -1685,6 +1797,7 @@ type
     function EffectiveDisplayEncoding: string;
     procedure ApplyViewEncodingRefresh;
     procedure HookedStatusBarWndProcForCombo(var Message: TMessage);
+    procedure LanguageComboWndProc(var Message: TMessage);
     procedure HookedListViewWndProc(var Message: TMessage);
     { Ctrl + roda do rato sobre a ListView: zoom da fonte (menos = scroll up, mais = scroll down). }
     procedure ApplyListViewWheelZoom(const WheelDelta: Integer);
@@ -1872,6 +1985,9 @@ type
     procedure ApplyConfigs;
     procedure RefreshLanguageRuntimeCache;
     procedure SyncLanguageComboWithCurrent;
+    procedure LoadLanguageMru;
+    procedure SaveLanguageMru;
+    procedure RememberLanguageMru(const ACode: string);
     procedure LocalizeMenuItem(const AComponentName, ATranslationKey, ADefaultCaption: string);
     procedure LocalizeTopToolbar;
     procedure BuildMenuBitmapImageList;
@@ -2058,6 +2174,14 @@ type
     // Helper procedure to update text and alignment
     procedure UpdateStatusBar(const TextMsg: string; Alignment: TIconAlignment);
     function StatusBarPanelRectByWidths(const Index: Integer): TRect;
+    { Right-to-left: the layout engine reverses the order of the status-bar panels.
+      Panel indexes used by this unit are LOGICAL (design order); these map them to the
+      physical index. StatusBarPanelRectByWidths takes a logical index and returns the
+      visual rectangle. }
+    function StatusBarPanelsReflected: Boolean;
+    function StatusPanelPhys(ALogical: Integer): Integer;
+    function StatusPanelLogical(APhysical: Integer): Integer;
+    function StatusPanelAt(ALogical: Integer): TStatusPanel;
     { Panel 4 = Mode/Wrap/Tail/Filter/Marks/View — click toggles each option. }
     function HitTestStatusModeSegment(X, Y: Integer): Integer;
     procedure ToggleStatusModeSegment(ASeg: Integer);
@@ -2065,7 +2189,7 @@ type
     procedure LayoutViewEncodingCombo;
     procedure LayoutZoomCombo;
     procedure LayoutStatusBarPanels;
-    procedure ApplyStatusBarComboChrome;
+    procedure ApplyStatusBarComboFrame;
     function StatusBarTextWidth(const AText: string): Integer;
     function EolStatusBarCaption(AKind: TLineEndingKind): string;
     procedure ApplyListViewZoomPercent(const APct: Integer);
@@ -2086,6 +2210,15 @@ type
     procedure ApplyUIScalePPI(APPI: Integer; AAnimate: Boolean);
     procedure RestoreDefaultUIScale(Sender: TObject);
     procedure UpdateInfoPanels;
+    procedure EnsureWorkflowNextSteps;
+    procedure LayoutWorkflowNextSteps(Sender: TObject);
+    procedure RefreshWorkflowNextStepsI18n;
+    procedure ShowWorkflowNextSteps;
+    procedure SetWorkflowNextStepsVisible(const AVisible: Boolean);
+    procedure HideWorkflowNextSteps;
+    procedure WorkflowNextStepClick(Sender: TObject);
+    procedure WorkflowDontShowClick(Sender: TObject);
+    procedure WorkflowDismissClick(Sender: TObject);
     procedure ApplyOperationTimerMemoLook;
     procedure EnsureTopFileQuickActions;
     procedure RefreshTopFileQuickActionCaptions;
@@ -2120,6 +2253,7 @@ type
     procedure CsvColumnsAskAIClick(Sender: TObject);
     procedure SessionAskAIClick(Sender: TObject);
     procedure SearchCommandAskAI(const APrompt: string);
+    procedure FilterRegexAskAI(Sender: TObject);
     procedure miToggleCsvModeClick(Sender: TObject);
     procedure miCsvToggleHeaderRowClick(Sender: TObject);
     function CurrentSessionFileName: string;
@@ -2192,6 +2326,7 @@ type
     procedure WMAdaptDisplay(var Msg: TMessage); message WM_USER + 440;
     procedure WMHostedTabFit(var Msg: TMessage); message WM_USER + 441;
     procedure WMKeepReadTab(var Msg: TMessage); message WM_USER + 442;
+    procedure WMLanguageMruPopup(var Msg: TMessage); message WM_USER + 443;
     procedure WMDisplayChange(var Msg: TMessage); message WM_DISPLAYCHANGE;
     procedure WMGetMinMaxInfo(var Message: TWMGetMinMaxInfo); message WM_GETMINMAXINFO;
     procedure RelayoutMainPages(AAllPages: Boolean);
@@ -2200,6 +2335,10 @@ type
     procedure CMDialogKey(var Message: TCMDialogKey); message CM_DIALOGKEY;
     procedure RegisterFastFileAssistantHostCallbacks;
     procedure CreateFastFileAssistantPanel;
+    procedure EnsureAssistantSideDock;
+    procedure HideAssistantSideDock;
+    procedure ShowAssistantBesideActivePage;
+    procedure ShowAssistantInAgentChat;
     procedure AssistantCbNotifyPanelVisible(AVisible: Boolean);
     function FilterBarIsFloating: Boolean;
     function FindOccBarIsFloating: Boolean;
@@ -2224,6 +2363,7 @@ type
     procedure SyncFindOccSplitter;
     procedure SaveFindOccDockHeight;
     procedure FindOccSplResized(Sender: TObject);
+    procedure FindOccListToggled(Sender: TObject);
     procedure FindOccSplDblClick(Sender: TObject);
     procedure RestoreFilterFloatIfNeeded;
     procedure RestoreFindOccFloatIfNeeded;
@@ -2403,6 +2543,13 @@ type
     procedure DoGotoByteOffset;
     function Line0BasedForFileByte1Based(const Byte1Based: Int64): Int64;
     procedure StartFindFromPos(const AStartPos: Int64; const ADirection: Integer);
+    procedure BgLoadBegin(AKind: Integer);
+    procedure BgLoadEnd;
+    procedure BgLoadProgress(const ADone, ATotal: Int64; AIsLines: Boolean);
+    procedure SyncStatusCancelButton;
+    procedure LayoutStatusCancelButton;
+    procedure StatusCancelBtnClick(Sender: TObject);
+    procedure CancelBgSearch;
     procedure FindThreadDone(const AFound: Boolean; const ALineIndex: Int64; const AFilePos: Int64; const ASearchId: Integer; const AErrorMsg: string);
     procedure UpdateFindSearchProgress(const BytesDone, TotalBytes: Int64);
     procedure CaptureOpenFileDiskSnapshot;
@@ -2582,15 +2729,16 @@ type
     procedure ListViewLineClearClick(Sender: TObject);
     procedure ListViewLineExportClick(Sender: TObject);
     procedure ListViewLineCopyClick(Sender: TObject);
+    procedure ListViewNextStepsClick(Sender: TObject);
     procedure ListViewLineAskAIClick(Sender: TObject);
     procedure ListViewLineMergeClick(Sender: TObject);
     function PromptAskAiAboutSelectedLines(ALineCount: Integer; out AGoal: string): Boolean;
     procedure WMListViewTranslateDone(var Msg: TMessage); message WM_USER + 221;
     procedure ShowFilterBar(AFocusEdit: Boolean = True);
-    procedure HideFilterBarChrome;
+    procedure HideFilterBarFrame;
     procedure SaveFilterBarVisiblePref;
     procedure RestoreFilterBarVisiblePref;
-    function IsFilterBarChromeVisible: Boolean;
+    function IsFilterBarFrameVisible: Boolean;
     procedure RefreshFilterBarState;
     procedure ApplyFilterFromPattern(const ARaw: string);
     procedure FilterBarApply(Sender: TObject; const APattern: string);
@@ -2620,7 +2768,7 @@ type
     { Find Occurrences (Ctrl+F → Ver ocorrências on demand) }
     procedure EnsureFindOccBar;
     procedure ShowFindOccBar;
-    procedure HideFindOccBarChrome;
+    procedure HideFindOccBarFrame;
     procedure RefreshFindOccBarState;
     procedure OfferFindOccurrencesAfterHit;
     procedure ClearFindOccurrences;
@@ -2658,7 +2806,7 @@ type
     function BookmarkCount: Integer;
     procedure EnsureBookmarkBar;
     procedure ShowBookmarkBar;
-    procedure HideBookmarkBarChrome;
+    procedure HideBookmarkBarFrame;
     procedure RefreshBookmarkBarList;
     procedure FillBookmarkListPage;
     procedure BookmarkBarPrev(Sender: TObject);
@@ -2737,6 +2885,8 @@ type
     procedure SyncSegmentHeavyOpsPolicyMenu;
     procedure ApplySegmentHeavyOpsUiState;
     procedure miSelectClick(Sender: TObject);
+    procedure miSelectLinesByRangeClick(Sender: TObject);
+    procedure SelectRangeResultLineClick(Sender: TObject);
     procedure miZoomListViewInClick(Sender: TObject);
     procedure miZoomListViewOutClick(Sender: TObject);
     procedure miSplitFilesClick(Sender: TObject);
@@ -2871,6 +3021,7 @@ type
     function ExtractTrailingLineBreaks(const S: string): string;
     procedure Loaded; override;
     procedure ChangeControlsLayout(NewBidiMode: TBidiMode);
+    procedure ApplyBidiContentViews;
     procedure GenerateSkinsList;
     function FormatMillisecondsToDateTime(const ms: integer): string;
     procedure setAllCheckBoxes(const bCheckAll: Boolean = True);
@@ -2986,7 +3137,8 @@ type
     procedure ReleaseSourceFileHandlesBeforeMutate;
     procedure CloseSourceHandlesForRename;
     procedure editFile(const AInitialOp: TOperationType = otEdit;
-      const AForceListRow: Integer = -1; const AInsertAfter: Boolean = False);
+      const AForceListRow: Integer = -1; const AInsertAfter: Boolean = False;
+      const ASelectFilterMatch: Boolean = False);
     function LineEditorProvideLine(ALine1Based: Int64): string;
     function LineEditorProvideCount: Int64;
     procedure ApplyLineEditorMerge(const ATargetLine: Int64;
@@ -3060,11 +3212,11 @@ type
     procedure WMIdleLogoRepaint(var Msg: TMessage); message WM_USER + 435;
     procedure UpdateWhitespaceMarksLegendHint;
     procedure ToggleFullScreenView;
-    procedure RelayoutReadFileChrome;
+    procedure RelayoutReadFileFrame;
     function EnsureHostedFormPark: TPanel;
     procedure SyncHostedTabFormsVisibility;
     procedure SyncAllMainTabPageBounds;
-    procedure ExpandReadFileChromeToPage;
+    procedure ExpandReadFileFrameToPage;
     procedure ForceWorkspaceLayoutRefresh;
     procedure ScheduleReadTabLayoutRefresh;
     procedure ReadTabLayoutTimerTick(Sender: TObject);
@@ -3149,17 +3301,20 @@ uses
   uFastFileExternalExe, UnBufferedTextWriter,
   uMruFind, UnitPopupMruList, uFastFileScale, uAgentWorkspace, uAgentHubWorkspace,
   uAgentLoop, uAgentBridge, uAgentActions, uAgentPrefs, uSearchCommands,
+  System.Generics.Collections,
   uSearchCommandDialog, uDelimOrder;
 
 {$R *.DFM}
 
 function BuildFixedWidthRegexExamples(RawLines: TStringList; const ASourceFile: String): String; forward;
 function ReadSplitPatternFileSampleForAI(const APath: String): String; forward;
-function ReadPythonMacroFileSampleForAI(const APath: String): String; forward;
+function ReadPythonMacroFileSampleForAI(const AOwner: TfrmMain): String; forward;
 function ReadSplitPatternFileFirstPhysicalLines(const APath: String; const AMaxLines: Integer): String; forward;
 function BuildFileBasedExamples(const ASourceFile: String): String; forward;
 procedure FileStreamSeek64(const AStream: TFileStream; const AOffset: Int64; Origin: Word); forward;
 procedure FastFileMainWatchdogCancelWorkers; forward;
+procedure ApplyReadListViewColumnOrder(LV: TListView); forward;
+function ReadListViewContentRect(LV: TListView; out R: TRect): Boolean; forward;
 
 type
   { Worker dedicated to multi-line MMF delete so the main thread remains responsive
@@ -3462,7 +3617,10 @@ procedure TfrmMain.LayoutReadToolbarCheckboxes;
 const
   cChkExtra = 30;
   cChkGap = 14;
+var
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([BidiParentOf(chkWordWrap), BidiParentOf(chkShowLineHints)]);
   if Assigned(chkWordWrap) then
   begin
     chkWordWrap.Anchors := [akLeft, akTop];
@@ -3482,8 +3640,10 @@ var
   L, I, BtnW, BtnH, BtnGap, BtnTop, ChkGap, Margin: Integer;
   Btn: TsSpeedButton;
   Buttons: array[0..7] of TsSpeedButton;
+  BL: IInterface;
 begin
   if not Assigned(pnlReadToolbarOptions) then Exit;
+  BL := BidiLayoutScope([pnlReadToolbarOptions, BidiParentOf(chkWordWrap)]);
   LayoutReadToolbarCheckboxes;
   if not Assigned(FReadTbZoomIn) then Exit;
 
@@ -3567,7 +3727,41 @@ end;
 
 procedure TfrmMain.ApplyFileNameBarButtonIcons;
 var
-  ReadBmp: TBitmap;
+  ReadBmp, ReadBig: TBitmap;
+  GotReadGlyph: Boolean;
+
+  procedure AssignReadGlyph(ABtn: TsSpeedButton);
+  var
+    Idx: Integer;
+    GlyphPath: string;
+  begin
+    if not Assigned(ABtn) then Exit;
+    if Assigned(FReadF5Images) and (FReadF5Images.Count > 0) then
+    begin
+      ABtn.Images := FReadF5Images;
+      ABtn.ImageIndex := 0;
+      Exit;
+    end;
+    { insert file-2 e o icone de Ler/carregar. open.bmp e a pasta e nao entra aqui. }
+    if Assigned(FMenuBitmapImages) and (FMenuBitmapImages.Count > 0) then
+    begin
+      Idx := MenuIconIndex(FILEBAR_ICON_READ_F5, MenuIconIndex('insert file.bmp', -1));
+      if Idx >= 0 then
+      begin
+        ABtn.Images := FMenuBitmapImages;
+        ABtn.ImageIndex := Idx;
+        Exit;
+      end;
+    end;
+    GlyphPath := ResolveMenuBitmapDir + FILEBAR_ICON_READ_F5;
+    if not FileExists(GlyphPath) then
+      GlyphPath := ResolveMenuBitmapDir + 'insert file.bmp';
+    if FileExists(GlyphPath) then
+    begin
+      ABtn.NumGlyphs := 1;
+      ABtn.Glyph.LoadFromFile(GlyphPath);
+    end;
+  end;
 begin
   if Assigned(btnReloadFromDisk) then
   begin
@@ -3632,16 +3826,28 @@ begin
       btnReadFileF5.SkinData.SkinSection := 'TOOLBUTTON';
     except
     end;
-    { Mesmo icone do botao Ler da barra principal (ImageList32), reduzido. }
+    { Mesmo desenho do botao Ler da barra principal (documento com play), em 16 px.
+      Nunca a pasta de abrir arquivo (open.bmp / glifo do edtFileName). }
     if not Assigned(FReadF5Images) and Assigned(ImageList32) and
        Assigned(btnShowTabReadFile) and (btnShowTabReadFile.ImageIndex >= 0) and
        (btnShowTabReadFile.ImageIndex < ImageList32.Count) then
     begin
       ReadBmp := TBitmap.Create;
+      ReadBig := TBitmap.Create;
       try
+        GotReadGlyph := False;
         ReadBmp.PixelFormat := pf32bit;
         ReadBmp.SetSize(16, 16);
-        if ImageList32.GetBitmap32(btnShowTabReadFile.ImageIndex, ReadBmp) then
+        GotReadGlyph := ImageList32.GetBitmap32(btnShowTabReadFile.ImageIndex, ReadBmp);
+        if not GotReadGlyph then
+        begin
+          ReadBig.PixelFormat := pf32bit;
+          ReadBig.SetSize(ImageList32.Width, ImageList32.Height);
+          GotReadGlyph := ImageList32.GetBitmap32(btnShowTabReadFile.ImageIndex, ReadBig);
+          if GotReadGlyph then
+            ReadBmp.Canvas.StretchDraw(Rect(0, 0, 16, 16), ReadBig);
+        end;
+        if GotReadGlyph then
         begin
           FReadF5Images := TsAlphaImageList.Create(Self);
           FReadF5Images.Width := 16;
@@ -3650,21 +3856,12 @@ begin
             FreeAndNil(FReadF5Images);
         end;
       finally
+        ReadBig.Free;
         ReadBmp.Free;
       end;
     end;
-    if Assigned(FReadF5Images) then
-    begin
-      btnReadFileF5.Images := FReadF5Images;
-      btnReadFileF5.ImageIndex := 0;
-    end
-    else if Assigned(FMenuBitmapImages) and (FMenuBitmapImages.Count > 0) then
-    begin
-      btnReadFileF5.Images := FMenuBitmapImages;
-      btnReadFileF5.ImageIndex :=
-        MenuIconIndex(FILEBAR_ICON_READ_F5,
-          MenuIconIndex('insert file.bmp', MenuIconIndex('open.bmp', 14)));
-    end;
+    AssignReadGlyph(btnReadFileF5);
+    AssignReadGlyph(FReadInFileBtn);
   end;
   if Assigned(btnEmptyInputFile) then
   begin
@@ -3712,6 +3909,38 @@ begin
     btnClearFileName.Visible := False;
     btnClearFileName.OnClick := btnClearFileNameClick;
   end;
+  if not Assigned(btnReadInFileName) and Assigned(pnlTop1) then
+  begin
+    { TSpeedButton pinta no pai e ficava escondido atras do edit.
+      O painel tem janela propria, como o X, e o icone pinta dentro dele. }
+    btnReadInFileName := TPanel.Create(Self);
+    btnReadInFileName.Parent := pnlTop1;
+    btnReadInFileName.Name := 'btnReadInFileName';
+    btnReadInFileName.BevelOuter := bvNone;
+    btnReadInFileName.BevelInner := bvNone;
+    btnReadInFileName.BevelKind := bkNone;
+    btnReadInFileName.ParentBackground := False;
+    btnReadInFileName.ParentColor := False;
+    btnReadInFileName.Color := clWindow;
+    btnReadInFileName.Caption := '';
+    btnReadInFileName.ShowHint := True;
+    btnReadInFileName.ParentShowHint := False;
+    btnReadInFileName.Cursor := crHandPoint;
+    btnReadInFileName.Visible := False;
+    btnReadInFileName.OnClick := btnReadFileF5Click;
+    FReadInFileBtn := TsSpeedButton.Create(Self);
+    FReadInFileBtn.Parent := btnReadInFileName;
+    FReadInFileBtn.Align := alClient;
+    FReadInFileBtn.Flat := True;
+    FReadInFileBtn.ShowCaption := False;
+    FReadInFileBtn.ShowHint := True;
+    FReadInFileBtn.ParentShowHint := False;
+    FReadInFileBtn.Cursor := crHandPoint;
+    FReadInFileBtn.Margin := 0;
+    FReadInFileBtn.Spacing := 0;
+    FReadInFileBtn.OnClick := btnReadFileF5Click;
+    AssignReadGlyph(FReadInFileBtn);
+  end;
   LocalizeFileNameBarButtons;
   if Assigned(edtFileName) then
   begin
@@ -3736,6 +3965,7 @@ end;
 procedure TfrmMain.LayoutFileNameBarButtons;
 var
   X, H, TopY: Integer;
+  BL: IInterface;
 
   procedure DockRight(ACtl: TControl);
   begin
@@ -3752,6 +3982,7 @@ begin
   if not Assigned(pnlTop1) then Exit;
   if FFileNameBarLayingOut then Exit;
   FFileNameBarLayingOut := True;
+  BL := BidiLayoutScope([pnlTop1]);
   H := pnlTop1.ClientHeight - 2;
   if H < 16 then
     H := 16;
@@ -3772,34 +4003,45 @@ begin
         X := 42;
       edtFileName.SetBounds(1, TopY, X - 2, H);
     end;
-    if Assigned(btnClearFileName) and Assigned(edtFileName) then
+    if Assigned(edtFileName) then
     begin
-      btnClearFileName.SetBounds(
-        edtFileName.Left + edtFileName.Width - Max(edtFileName.Height, 18) - 18,
-        edtFileName.Top + Max(0, (edtFileName.Height - 16) div 2), 16, 16);
-      btnClearFileName.Anchors := [akTop, akRight];
+      { Ordem dentro do campo, da esquerda para a direita:
+        texto | icone Ler | X | botao de abrir arquivo do proprio edit. }
+      X := edtFileName.Left + edtFileName.Width - Max(edtFileName.Height, 18) - 18;
+      TopY := edtFileName.Top + Max(0, (edtFileName.Height - 16) div 2);
+      if Assigned(btnClearFileName) then
+      begin
+        btnClearFileName.Visible := not FileNameEditIsBlank;
+        btnClearFileName.SetBounds(X, TopY, 16, 16);
+        btnClearFileName.Anchors := [akTop, akRight];
+      end;
+      if Assigned(btnReadInFileName) then
+      begin
+        btnReadInFileName.Visible := not FileNameEditIsBlank;
+        if Assigned(btnClearFileName) then
+          X := btnClearFileName.Left - 18;
+        btnReadInFileName.SetBounds(X, TopY, 16, 16);
+        btnReadInFileName.Anchors := [akTop, akRight];
+      end;
     end;
   finally
     pnlTop1.EnableAlign;
     FFileNameBarLayingOut := False;
   end;
+  if Assigned(btnReadInFileName) and btnReadInFileName.Visible then
+    btnReadInFileName.BringToFront;
   if Assigned(btnClearFileName) then
     btnClearFileName.BringToFront;
 end;
 
 procedure TfrmMain.SyncReadFileF5Button;
-var
-  Path: string;
-  ShowBtn: Boolean;
 begin
+  { A leitura fica no icone dentro do campo, a esquerda do X.
+    O botao solto a direita do edit nao entra: era o de abrir pasta. }
   if not Assigned(btnReadFileF5) then Exit;
-  Path := '';
-  if Assigned(edtFileName) then
-    Path := CurrentEffectiveFilePath;
-  ShowBtn := (Path <> '') and not SameText(Path, SELECTTEXT);
-  if btnReadFileF5.Visible <> ShowBtn then
+  if btnReadFileF5.Visible then
   begin
-    btnReadFileF5.Visible := ShowBtn;
+    btnReadFileF5.Visible := False;
     LayoutFileNameBarButtons;
   end;
 end;
@@ -3814,13 +4056,23 @@ begin
   else
     ShowBtn := 1;
   btnClearFileName.Visible := ShowBtn <> 0;
+  Margin := 0;
   if ShowBtn <> 0 then
   begin
     btnClearFileName.BringToFront;
     Margin := btnClearFileName.Width + Max(edtFileName.Height, 18) + 4;
-  end
-  else
-    Margin := 0;
+  end;
+  if Assigned(btnReadInFileName) then
+  begin
+    btnReadInFileName.Visible := ShowBtn <> 0;
+    if ShowBtn <> 0 then
+    begin
+      btnReadInFileName.BringToFront;
+      if Assigned(btnClearFileName) then
+        btnClearFileName.BringToFront;
+      Inc(Margin, btnReadInFileName.Width + 2);
+    end;
+  end;
   if edtFileName.HandleAllocated then
     SendMessage(edtFileName.Handle, EM_SETMARGINS, EC_RIGHTMARGIN, MakeLParam(0, Margin));
 end;
@@ -4037,6 +4289,18 @@ begin
     btnClearFileName.ShowHint := True;
     btnClearFileName.ParentShowHint := False;
     btnClearFileName.Hint := TrText('FileBar.ClearFileNameHint');
+  end;
+  if Assigned(btnReadInFileName) then
+  begin
+    btnReadInFileName.ShowHint := True;
+    btnReadInFileName.ParentShowHint := False;
+    btnReadInFileName.Hint := TrText('FileBar.ReadFileF5Hint');
+  end;
+  if Assigned(FReadInFileBtn) then
+  begin
+    FReadInFileBtn.ShowHint := True;
+    FReadInFileBtn.ParentShowHint := False;
+    FReadInFileBtn.Hint := TrText('FileBar.ReadFileF5Hint');
   end;
   SyncClearFileNameButton;
   UpdateFileNameEditHint;
@@ -5232,47 +5496,80 @@ begin
   end;
 end;
 
-function ReadPythonMacroFileSampleForAI(const APath: String): String;
+function ReadPythonMacroFileSampleForAI(const AOwner: TfrmMain): String;
 var
-  F: TextFile;
-  LineText: String;
-  SB: TStringList;
-  LineCount, TotalCh: Integer;
+  Samples: TStringList;
+  Requested, SampleCount, SelectedCount, SelectedOrdinal, SampleOrdinal: Integer;
+  TargetOrdinal, TargetLine, LineIndex, TotalLines: Int64;
+  MaxLineChars, I: Integer;
+  Item: TListItem;
+  LineText: string;
+
+  function SampleRank(const AIndex, ATotal, ACount: Int64): Int64;
+  begin
+    if ACount <= 1 then
+      Result := 0
+    else
+      Result := (AIndex * (ATotal - 1)) div (ACount - 1);
+  end;
+
+  procedure AddSampleLine(const ALineIndex: Int64);
+  begin
+    if (ALineIndex < 0) or (ALineIndex >= TotalLines) then Exit;
+    LineText := AOwner.GetLineContent(ALineIndex);
+    if Length(LineText) > MaxLineChars then
+      LineText := Copy(LineText, 1, MaxLineChars) + '...';
+    Samples.Add(Format('L%d: %s', [ALineIndex + 1, LineText]));
+  end;
+
 begin
   Result := '';
-  if (APath = '') or not FileExists(APath) then Exit;
-  SB := TStringList.Create;
+  if not Assigned(AOwner) or not Assigned(AOwner.ListView1) or
+     not Assigned(AOwner.FSourceFileStream) then Exit;
+  Requested := PrefPythonMacroSampleLines;
+  Samples := TStringList.Create;
   try
-    AssignFile(F, APath);
-    try
-      Reset(F);
-    except
-      Exit;
-    end;
-    try
-      LineCount := 0;
-      TotalCh := 0;
-      while (not Eof(F)) and (LineCount < FF_PY_MACRO_SAMPLE_MAX_LINES) and (TotalCh < FF_PY_MACRO_MAX_TOTAL) do
+    TotalLines := totalLines;
+    if TotalLines <= 0 then
+      TotalLines := AOwner.ListView1.Items.Count;
+    if TotalLines <= 0 then Exit;
+    MaxLineChars := Max(32,
+      (FASTFILE_AI_MAX_CONTEXT_CHARS div 2 div Max(1, Requested)) - 64);
+    SelectedCount := AOwner.ListView1.SelCount;
+    if SelectedCount > 0 then
+    begin
+      SampleCount := Min(Requested, SelectedCount);
+      Item := AOwner.ListView1.GetNextItem(nil, sdAll, [isSelected]);
+      SelectedOrdinal := 0;
+      SampleOrdinal := 0;
+      while Assigned(Item) and (SampleOrdinal < SampleCount) do
       begin
-        ReadLn(F, LineText);
-        if Trim(LineText) = '' then Continue;
-        if (LineCount = 0) and (Length(LineText) >= 3) and
-           (Ord(LineText[1]) = $EF) and (Ord(LineText[2]) = $BB) and (Ord(LineText[3]) = $BF) then
-          LineText := Copy(LineText, 4, MaxInt);
-        LineText := Utf8HeuristicToDisplayString(LineText);
-        if Length(LineText) > FF_PY_MACRO_MAX_LINE_CH then
-          LineText := Copy(LineText, 1, FF_PY_MACRO_MAX_LINE_CH) + '...';
-        Inc(LineCount);
-        SB.Add(Format('L%d: %s', [LineCount, LineText]));
-        Inc(TotalCh, Length(SB[SB.Count - 1]) + 2);
+        TargetOrdinal := SampleRank(SampleOrdinal, SelectedCount, SampleCount);
+        if SelectedOrdinal = TargetOrdinal then
+        begin
+          LineIndex := AOwner.FileLineIndexFromListRow(Item.Index);
+          AddSampleLine(LineIndex);
+          Inc(SampleOrdinal);
+        end;
+        Inc(SelectedOrdinal);
+        Item := AOwner.ListView1.GetNextItem(Item, sdAll, [isSelected]);
       end;
-    finally
-      CloseFile(F);
+      Result := Format(TrText('AI_PY_MACRO_SAMPLE_SELECTED'),
+        [Samples.Count, SelectedCount]) + #13#10 + Samples.Text;
+    end
+    else
+    begin
+      SampleCount := Min(Requested, Integer(Min(TotalLines, Int64(MaxInt))));
+      for I := 0 to SampleCount - 1 do
+      begin
+        TargetLine := SampleRank(I, TotalLines, SampleCount);
+        AddSampleLine(TargetLine);
+      end;
+      Result := Format(TrText('AI_PY_MACRO_SAMPLE_FILE'),
+        [Samples.Count, TotalLines]) + #13#10 + Samples.Text;
     end;
-    if SB.Count > 0 then
-      Result := SB.Text;
   finally
-    SB.Free;
+    Samples.Free;
   end;
 end;
 
@@ -6187,6 +6484,44 @@ begin
   end;
 end;
 
+procedure TfrmMain.LanguageComboWndProc(var Message: TMessage);
+var
+  OpenMru: Boolean;
+begin
+  { A troca de idioma bombeia mensagens. Um clique que sobrou, ou CB_SHOWDROPDOWN,
+    reabre a lista da skin e ela fica o tempo todo ao lado do overlay. }
+  if FLanguageSwitching then
+  begin
+    case Message.Msg of
+      WM_LBUTTONDOWN, WM_LBUTTONDBLCLK, WM_LBUTTONUP,
+      WM_KEYDOWN, CN_KEYDOWN, WM_SYSKEYDOWN, CN_SYSKEYDOWN,
+      CB_SHOWDROPDOWN:
+        begin
+          Message.Result := 0;
+          Exit;
+        end;
+    end;
+  end;
+  OpenMru := False;
+  case Message.Msg of
+    WM_LBUTTONDOWN, WM_LBUTTONDBLCLK:
+      OpenMru := True;
+    WM_KEYDOWN, CN_KEYDOWN, WM_SYSKEYDOWN, CN_SYSKEYDOWN:
+      OpenMru := (TWMKey(Message).CharCode = VK_F4) or
+        ((TWMKey(Message).CharCode = VK_DOWN) and (GetKeyState(VK_MENU) < 0));
+  end;
+  if OpenMru and (not FUpdatingLanguageCombo) then
+  begin
+    Message.Result := 0;
+    if comboLanguage.CanFocus and not comboLanguage.Focused then
+      comboLanguage.SetFocus;
+    LanguageComboDropDown(comboLanguage);
+    Exit;
+  end;
+  if Assigned(FOldLanguageComboWndProc) then
+    FOldLanguageComboWndProc(Message);
+end;
+
 procedure TfrmMain.comboViewEncodingChange(Sender: TObject);
 begin
   if FUpdatingViewEncodingCombo then Exit;
@@ -6253,7 +6588,6 @@ type
   private
     FOwner: TfrmMain;
     FFileName: string;
-    FNeedle: AnsiString;
     FNeedleText: string;
     FEncoding: string;
     FCaseSensitive: Boolean;
@@ -6273,11 +6607,18 @@ type
     FProgBytes: Int64;
     FProgTotal: Int64;
     FAbortMsg: string;
+    FHitBuffer: TInt64DynArray;
+    FHitBufferCount: Integer;
+    FHitsCap: Integer;
+    FLastProgTick: DWORD;
     procedure NotifyOwner;
     procedure SyncFilterProgress;
     procedure SyncFilterFailed;
     procedure SyncHitLimitNote;
-    function LineMatches(const LineAnsi: AnsiString): Boolean;
+    procedure FlushHitBuffer;
+    function TryAddHit(const ALineNum: Int64): Boolean;
+    function ScanHit(const ALineNum, ALineStartByte: Int64): Boolean;
+    function ScanProgress(const ABytesDone: Int64): Boolean;
   protected
     procedure Execute; override;
   public
@@ -6305,9 +6646,15 @@ type
     FProgLines: Int64;
     FProgTotalLines: Int64;
     FAbortMsg: string;
+    FMatchCount: Int64;
+    FJumpIdx: Integer;
+    FScanFileSize: Int64;
+    FLastProgTick: DWORD;
     procedure NotifyOwner;
     procedure SyncFilterProgress;
     procedure SyncFilterFailed;
+    function ScanHit(const ALineNum, ALineStartByte: Int64): Boolean;
+    function ScanProgress(const ABytesDone: Int64): Boolean;
   protected
     procedure Execute; override;
   public
@@ -6325,7 +6672,10 @@ type
     FOutputFile: string;
     FFilteredCount: Int64;
     FUseHitsFile: Boolean;
+    FHitsFileStream: TFileStream;
     FHitsList: TInt64DynArray;
+    FExplicitLines: TInt64DynArray;
+    FAllSequentialLines: Boolean;
     FBits: PFFByteArray;
     FBitsSize: Integer;
     FJumpTable: TInt64DynArray;
@@ -6337,10 +6687,12 @@ type
     FVerifyExport: Boolean;
     FExportedCount: Int64;
     FSuccess: Boolean;
+    FErrorMessage: string;
     FPercent: Integer;
     FLoadingMsg: string;
     FSyncFilteredIdx: Int64;
     FSyncLineAnsi: AnsiString;
+    FSyncLineMatched: Boolean;
     procedure SyncShowLoading;
     procedure SyncHideLoading;
     procedure SyncFinish;
@@ -6352,13 +6704,16 @@ type
   protected
     procedure Execute; override;
   public
+    destructor Destroy; override;
     function LinePassesExportVerify(const ALineAnsi: AnsiString): Boolean;
     constructor Create(AOwner: TfrmMain; const ASourceFile, AOutputFile: string;
       AFilteredCount: Int64; AUseHitsFile: Boolean; const AHitsList: TInt64DynArray;
       ABits: PFFByteArray; ABitsSize: Integer; const AJumpTable: TInt64DynArray;
       AFilterTotalLines: Int64; AUseStreamExport: Boolean;
       const AVerifyNeedle: string; AVerifyCaseSensitive: Boolean;
-      AVerifyMatchMode: TFilterMatchMode; AVerifyExport: Boolean);
+      AVerifyMatchMode: TFilterMatchMode; AVerifyExport: Boolean;
+      const AExplicitLines: TInt64DynArray = nil;
+      AAllSequentialLines: Boolean = False);
   end;
 
   TConsumerAIReaderThread = class(TThread)
@@ -6663,8 +7018,24 @@ begin
 end;
            
 procedure TfrmMain.ChangeControlsLayout(NewBidiMode: TBidiMode);
-begin // Changing layout of controls when BidiMode is changed
-  ReflectControls(Self, True);
+begin   // Changing layout of controls when BidiMode is changed
+  ApplyBidiContentViews;
+  BidiApplyForm(Self);
+end;
+
+{ Right-to-left UI: the views that show file content / paths keep a
+  left-to-right text direction (their position in the window is still mirrored). }
+procedure TfrmMain.ApplyBidiContentViews;
+begin
+  BidiKeepLtr(ListView1);
+  ApplyReadListViewColumnOrder(ListView1);
+  BidiKeepLtr(sListBox1);
+  BidiKeepLtr(dbgFile);
+  BidiKeepLtr(edtFileName);
+  BidiKeepLtr(edtSearch);
+  BidiKeepLtr(FoundFiles);
+  BidiKeepLtr(mmTimer);
+  BidiApplyForm(Self);
 end;
 
 { --- TScriptEngineReaderThread --------------------------------------------- }
@@ -7430,7 +7801,7 @@ end;
 
 procedure TfrmMain.LocalizeTopToolbar;
 var
-  CaptionW, Delta: Integer;
+  BL: IInterface;
 begin
   { Tab caption in the page control }
   if Assigned(sTabSheet2) then
@@ -7579,7 +7950,7 @@ begin
   if Assigned(FindButton)     then FindButton.Caption     := TrText('Find');
   if Assigned(StopButton)     then StopButton.Caption     := TrText('Stop');
   { --- Split By Lines components ------------------------------------------ }
-  if Assigned(gbxSplitByLines)            then gbxSplitByLines.Caption            := TrText('Generating new file by source and target lines');
+  if Assigned(gbxSplitByLines)            then gbxSplitByLines.Caption            := TrText('SplitByLines.RangeTitle');
   if Assigned(lblFromSplitByLine)         then lblFromSplitByLine.Caption         := TrText('From:');
   if Assigned(lblToSplitByLine)           then lblToSplitByLine.Caption           := TrText('To:');
   if Assigned(btnExecuteSplitFileByLines) then btnExecuteSplitFileByLines.Caption := TrText('Execute');
@@ -7588,22 +7959,22 @@ begin
   begin
     edtOutputSplitByLineText.BoundLabel.MaxWidth := 0;
     edtOutputSplitByLineText.BoundLabel.Caption := TrText('Output FileName:');
-    { Portuguese caption is much wider than English; keep the edit to the right of the full label. }
-    CaptionW := Canvas.TextWidth(edtOutputSplitByLineText.BoundLabel.Caption) + 16;
-    if CaptionW < 180 then CaptionW := 180;
-    Delta := CaptionW - edtOutputSplitByLineText.Left;
-    if Delta <> 0 then
-    begin
-      edtOutputSplitByLineText.Left := CaptionW;
-      edtOutputSplitByLineText.Width := edtOutputSplitByLineText.Width - Delta;
-      if edtOutputSplitByLineText.Width < 200 then
-        edtOutputSplitByLineText.Width := 200;
-    end;
   end;
   { --- Split By Files components ------------------------------------------ }
-  if Assigned(gbxSplitByFiles)              then gbxSplitByFiles.Caption              := TrText('Generating splitted files - max 100');
+  if Assigned(gbxSplitByFiles) then
+    gbxSplitByFiles.Caption := Format(TrText('SplitByFiles.MaxCaption'), [PrefSplitFilesMax]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SPLIT_FILES_MAX]) + ')';
+  if Assigned(trkFiles) then
+  begin
+    if trkFiles.Position > PrefSplitFilesMax then
+      trkFiles.Position := PrefSplitFilesMax;
+    trkFiles.Max := PrefSplitFilesMax;
+  end;
   if Assigned(btnExecuteSplitFileByFiles)   then btnExecuteSplitFileByFiles.Caption   := TrText('Execute');
   if Assigned(btnAskAISplitFileByFiles)    then btnAskAISplitFileByFiles.Caption    := TrText('Assistant.Offer.AskAI');
+  { The two labels are positioned from each other's Left: use the left-to-right picture. }
+  BL := BidiLayoutScope([BidiParentOf(lblTrackBarFileInfoSplitFile),
+    BidiParentOf(lblTrackBarFileValueSplitFile)]);
   if Assigned(lblTrackBarFileInfoSplitFile) then
   begin
     lblTrackBarFileInfoSplitFile.Caption := TrText('Files:');
@@ -7630,6 +8001,7 @@ begin
   if Assigned(lblFileDtCreation)  then lblFileDtCreation.Caption  := TrText('Creation Date:');
   if Assigned(lblTotalCharacters) then lblTotalCharacters.Caption := TrText('Total characters:');
   if Assigned(lblTotalLines)      then lblTotalLines.Caption      := TrText('Total lines:');
+  LayoutSplitFilePage;
   { --- Exported Lines tab buttons ----------------------------------------- }
   if Assigned(sSpeedButton18) then sSpeedButton18.Caption := TrText('Return');
   if Assigned(sSpeedButton19) then sSpeedButton19.Caption := TrText('Copy');
@@ -7977,6 +8349,7 @@ const
 var
   InsertAt, Extra, I: Integer;
   Ctl: TControl;
+  BL: IInterface;
 
   procedure PlaceBtn(var ABtn: TsSpeedButton; ALeft: Integer; AOnClick: TNotifyEvent);
   begin
@@ -8002,6 +8375,7 @@ var
     ABtn.OnClick := AOnClick;
   end;
 begin
+  BL := BidiLayoutScope([PanelToolButtons]);
   if Assigned(PanelToolButtons) and (not Assigned(btnMainAskFiles)) then
   begin
     btnMainAskFiles := TsSpeedButton.Create(Self);
@@ -8071,8 +8445,8 @@ begin
         Ctl.Left := Ctl.Left + Extra;
     end;
 
-    PlaceBtn(btnMainSplitEqualParts, InsertAt, miSplitEqualPartsClick);
-    PlaceBtn(btnMainMergeFiles, InsertAt + BTN_W, miMergeFilesClick);
+    PlaceBtn(btnMainMergeFiles, InsertAt, miMergeFilesClick);
+    PlaceBtn(btnMainSplitEqualParts, InsertAt + BTN_W, miSplitEqualPartsClick);
     PlaceBtn(btnMainSplitFiles, InsertAt + BTN_W * 2, miSplitFilesClick);
     PlaceBtn(btnMainMergeLines, InsertAt + BTN_W * 3, miMergeLinesClick);
     PlaceBtn(btnMainCompareMerge, InsertAt + BTN_W * 4, miCompareMergeHistoryClick);
@@ -8089,8 +8463,10 @@ procedure TfrmMain.EnsureMainToolbarExitButtonLast;
 var
   I, MaxRight, L: Integer;
   Ctl: TControl;
+  BL: IInterface;
 begin
   if not Assigned(PanelToolButtons) or not Assigned(btnClose) then Exit;
+  BL := BidiLayoutScope([PanelToolButtons]);
   { Ordem final: ... Mais ferramentas | Agente IA | Hub | Sobre | Fechar. }
   if Assigned(btnMainAskFiles) and Assigned(btnMainAgentHub) and btnMainAskFiles.Visible and
      btnMainAgentHub.Visible then
@@ -8167,15 +8543,19 @@ begin
   FitMainRibbons;
 end;
 
-{ Groups btnMainSplitByPattern / btnMainSplitEqualParts / btnMainExtractParts /
-  btnShowTabFindFile / sSpeedButton9 into a single Word-style gallery dropdown
-  button, hiding the originals (their handlers/shortcuts stay untouched). }
+{ Groups btnMainSplitByPattern / btnMainExtractParts / btnShowTabFindFile /
+  sSpeedButton9 into a single Word-style gallery dropdown button, hiding the
+  originals (their handlers/shortcuts stay untouched). Equal parts stays on the
+  main toolbar, immediately after Merge files. }
 procedure TfrmMain.CreateMainToolsGalleryButton;
+var
+  BL: IInterface;
 begin
   if not Assigned(PanelToolButtons) or Assigned(btnMainToolsGallery) then Exit;
   if not Assigned(btnMainSplitByPattern) or not Assigned(btnMainSplitEqualParts)
     or not Assigned(btnMainExtractParts) or not Assigned(btnShowTabFindFile)
     or not Assigned(sSpeedButton9) then Exit;
+  BL := BidiLayoutScope([PanelToolButtons]);
 
   btnMainToolsGallery := TsSpeedButton.Create(Self);
   btnMainToolsGallery.Parent := PanelToolButtons;
@@ -8199,7 +8579,6 @@ begin
   btnMainToolsGallery.OnClick := btnMainToolsGalleryClick;
 
   btnMainSplitByPattern.Visible  := False;
-  btnMainSplitEqualParts.Visible := False;
   btnMainExtractParts.Visible    := False;
   btnShowTabFindFile.Visible     := False;
   sSpeedButton9.Visible          := False;
@@ -8228,6 +8607,16 @@ begin
     btnMainPythonMacro.Reflected := True;
     btnMainPythonMacro.OnClick := miScriptEngineClick;
   end;
+end;
+
+{ Screen position for a popup form shown under AAnchor: its left edge, or (right-to-left
+  UI) the form's right edge aligned with the anchor's right edge. }
+function PopupFormAnchorPoint(AAnchor: TControl; AForm: TForm): TPoint;
+begin
+  if BidiIsRtl then
+    Result := AAnchor.ClientToScreen(Point(AAnchor.Width - AForm.Width, AAnchor.Height))
+  else
+    Result := AAnchor.ClientToScreen(Point(0, AAnchor.Height));
 end;
 
 procedure TfrmMain.btnMainToolsGalleryClick(Sender: TObject);
@@ -8267,9 +8656,9 @@ begin
   FormPopupToolGallery.HandleNeeded;
   if DefaultManager <> nil then
     DefaultManager.UpdateScale(FormPopupToolGallery);
-  FormPopupToolGallery.RelayoutChrome;
+  FormPopupToolGallery.RelayoutFrame;
 
-  P := btnMainToolsGallery.ClientToScreen(Point(0, btnMainToolsGallery.Height));
+  P := PopupFormAnchorPoint(btnMainToolsGallery, FormPopupToolGallery);
   ShowPopupForm(FormPopupToolGallery, P, False);
   FormPopupToolGallery.FocusSearch;
 end;
@@ -8494,10 +8883,10 @@ begin
     RefreshFindOccBarState;
   end;
   if Assigned(FFindOccPeek) then
-    FFindOccPeek.ApplySoftChrome;
+    FFindOccPeek.ApplySoftFrame;
   ApplyListViewLineToolCaptions;
   if Assigned(FFilterPeek) then
-    FFilterPeek.ApplySoftChrome;
+    FFilterPeek.ApplySoftFrame;
   if Assigned(FFilterFloat) then
     FFilterFloat.Caption := TrText('Filter / Grep');
   if Assigned(FFindOccFloat) then
@@ -8508,7 +8897,7 @@ begin
     RefreshBookmarkBarList;
   end;
   if Assigned(FBookmarkPeek) then
-    FBookmarkPeek.ApplySoftChrome;
+    FBookmarkPeek.ApplySoftFrame;
   if Assigned(FBookmarkFloat) then
     FBookmarkFloat.Caption := TrText('BookmarkBar.Title');
   LocalizeFileSearchGallery;
@@ -8534,6 +8923,7 @@ procedure TfrmMain.EnsureConsumerAIPanel;
 var
   TargetParent: TWinControl;
   InputHost: TsPanel;
+  BL: IInterface;
 begin
   if Assigned(FConsumerAIPanel) then
     Exit;
@@ -8543,6 +8933,8 @@ begin
   else
     TargetParent := pnlMain;
 
+  { splListview (shared splitter) is re-aligned alRight below: left-to-right picture. }
+  BL := BidiLayoutScope([TargetParent]);
   TargetParent.DisableAlign;
   try
     FConsumerAIPanel := TsPanel.Create(Self);
@@ -8735,6 +9127,7 @@ procedure TfrmMain.EnsureConsumerRAGPanel;
 var
   TargetParent: TWinControl;
   InputHost: TsPanel;
+  BL: IInterface;
 begin
   if Assigned(FConsumerRAGPanel) then
     Exit;
@@ -8744,6 +9137,8 @@ begin
   else
     TargetParent := pnlMain;
 
+  { splListview (shared splitter) is re-aligned alRight below: left-to-right picture. }
+  BL := BidiLayoutScope([TargetParent]);
   TargetParent.DisableAlign;
   try
     FConsumerRAGPanel := TsPanel.Create(Self);
@@ -11494,13 +11889,30 @@ begin
   end;
 end;
 
-procedure TfrmMain.ToolbarOverflowButtonClick(Sender: TObject);
+{ Shows APopup under AAnchor: at its left edge, or (right-to-left UI) at its right
+  edge with the menu growing leftwards. }
+procedure PopupMenuUnderControl(APopup: TPopupMenu; AAnchor: TControl);
 var
   P: TPoint;
 begin
+  if (APopup = nil) or (AAnchor = nil) then Exit;
+  if BidiIsRtl then
+  begin
+    P := AAnchor.ClientToScreen(Point(AAnchor.Width, AAnchor.Height));
+    APopup.Alignment := paRight;
+  end
+  else
+  begin
+    P := AAnchor.ClientToScreen(Point(0, AAnchor.Height));
+    APopup.Alignment := paLeft;
+  end;
+  APopup.Popup(P.X, P.Y);
+end;
+
+procedure TfrmMain.ToolbarOverflowButtonClick(Sender: TObject);
+begin
   if not Assigned(FToolbarOverflowPopup) or not Assigned(FToolbarOverflowButton) then Exit;
-  P := FToolbarOverflowButton.ClientToScreen(Point(0, FToolbarOverflowButton.Height));
-  FToolbarOverflowPopup.Popup(P.X, P.Y);
+  PopupMenuUnderControl(FToolbarOverflowPopup, FToolbarOverflowButton);
 end;
 
 { =========================================================================== }
@@ -11519,6 +11931,7 @@ var
   SuggestCloseBtn, SuggestCopyBtn, SuggestExportBtn: TsSpeedButton;
   PopMenu: TPopupMenu;
   MenuItem: TMenuItem;
+  BL: IInterface;
 begin
   if Assigned(FScriptEnginePanel) then
   begin
@@ -11532,6 +11945,8 @@ begin
   else
     TargetParent := pnlMain;
 
+  { splListview (shared splitter) is re-aligned alRight below: left-to-right picture. }
+  BL := BidiLayoutScope([TargetParent]);
   TargetParent.DisableAlign;
   try
     FScriptEnginePanel := TsPanel.Create(Self);
@@ -12976,7 +13391,8 @@ begin
      FScriptExportBannerPanel.Visible then
   begin
     P := FScriptExportBannerPanel.ClientToScreen(
-      Point(12, Max(8, FScriptExportBannerPanel.Height div 2)));
+      Point(BidiX(FScriptExportBannerPanel.ClientWidth, 12),
+        Max(8, FScriptExportBannerPanel.Height div 2)));
     R := Rect(P.X, P.Y, P.X + 2, P.Y + 2);
     FScriptExportBalloon.ShowHint(R);
   end;
@@ -13033,6 +13449,8 @@ begin
 end;
 
 procedure TfrmMain.FitScriptEngineHeaderButtons;
+var
+  BL: IInterface;
 begin
   LocalizeScriptExportBanner;
   if Assigned(FScriptTitleLabel) then
@@ -13049,6 +13467,8 @@ begin
     FScriptScopeSelRB.Caption := TrText('Selected / checked lines only');
   if Assigned(FScriptSuggestionsButton) then
   begin
+    { Align is re-assigned here in left-to-right terms: run on the un-mirrored picture. }
+    BL := BidiLayoutScope([BidiParentOf(FScriptSuggestionsButton)]);
     FScriptSuggestionsButton.Align := alRight;
     FScriptSuggestionsButton.Caption := TrText('Examples');
     FitSpeedButtonWidth(FScriptSuggestionsButton, 70, 24);
@@ -13232,7 +13652,7 @@ begin
   else
     Scr := '';
   Ex := TailMacroExamplesTextForAI;
-  Sample := ReadPythonMacroFileSampleForAI(P);
+  Sample := ReadPythonMacroFileSampleForAI(Self);
   if Assigned(FTailMacroEditorMemo) then
     ShowFastFileAIPythonMacroHelp(Self, pyaiTail, P, Scr, Ex, Sample, FTailMacroEditorMemo);
 end;
@@ -15804,7 +16224,7 @@ begin
   else
     Scr := '';
   Ex := ScriptExamplesTextForAI;
-  Sample := ReadPythonMacroFileSampleForAI(P);
+  Sample := ReadPythonMacroFileSampleForAI(Self);
   if Assigned(FScriptEditorMemo) then
     ShowFastFileAIPythonMacroHelp(Self, pyaiScript, P, Scr, Ex, Sample, FScriptEditorMemo);
 end;
@@ -17002,6 +17422,10 @@ begin
   if Assigned(FCheckListBox) then
     FCheckListBox.OnContextPopup := ListView1ContextPopup;
 
+  AddItem(TrText('SelectRange.Menu'), miSelectLinesByRangeClick,
+    0, MenuIconIndex('select all.bmp', 10));
+  AddSep;
+
   { --- Line ops first (Insert…Clear) --- }
   AddItem(TrText('&Insert line before'), miInsertLineClick,
     ShortCut(Ord('I'), [ssCtrl, ssShift]), MenuIconIndex('plus.bmp', 17));
@@ -17290,6 +17714,7 @@ begin
       RefreshFilterBarState;
     RefreshFileReadTimerCaption;
     RetranslateOperationTimerLog;
+    RefreshWorkflowNextStepsI18n;
     Step('FilterBar + timer caption');
   finally
     if FreezeRedraw then
@@ -17341,6 +17766,20 @@ begin
       LANG_ROMANIAN:  LangCode := 'ro';
       LANG_HUNGARIAN: LangCode := 'hu';
       LANG_CZECH:     LangCode := 'cs';
+      LANG_ARABIC:    LangCode := 'ar';
+      LANG_HEBREW:    LangCode := 'he';
+      $0039:          LangCode := 'hi'; { LANG_HINDI is absent in Delphi 10.4 headers. }
+      LANG_RUSSIAN:   LangCode := 'ru';
+      LANG_KOREAN:    LangCode := 'ko';
+      LANG_DUTCH:     LangCode := 'nl';
+      LANG_TURKISH:   LangCode := 'tr';
+      LANG_UKRAINIAN: LangCode := 'uk';
+      LANG_THAI:      LangCode := 'th';
+      LANG_GREEK:     LangCode := 'el';
+      LANG_NORWEGIAN: LangCode := 'nb';
+      LANG_SWEDISH:   LangCode := 'sv';
+      LANG_DANISH:    LangCode := 'da';
+      LANG_ICELANDIC: LangCode := 'is';
       LANG_CHINESE:
         begin
           { SUBLANG: 0x01 Traditional, 0x02 Simplified, 0x03 HK, 0x04 Singapore }
@@ -17354,9 +17793,886 @@ begin
     end;
   end;
   SetCurrentLanguage(AppLanguageFromCode(LangCode));
+  LoadLanguageMru;
+  RememberLanguageMru(AppLanguageCode(GetCurrentLanguage));
+end;
+
+const
+  LANG_MRU_MAX = 16;
+
+function AppLanguageOptionCaption(ALang: TAppLanguage): string;
+begin
+  case ALang of
+    alPortuguese:   Result := Tr('language.option.portuguese_brazil', 'Portuguese (Brazil)');
+    alSpanish:      Result := Tr('language.option.spanish', 'Spanish');
+    alFrench:       Result := Tr('language.option.french', 'French');
+    alGerman:       Result := Tr('language.option.german', 'German');
+    alItalian:      Result := Tr('language.option.italian', 'Italian');
+    alPolish:       Result := Tr('language.option.polish', 'Polish');
+    alPortuguesePT: Result := Tr('language.option.portuguese_portugal', 'Portuguese (Portugal)');
+    alRomanian:     Result := Tr('language.option.romanian', 'Romanian');
+    alHungarian:    Result := Tr('language.option.hungarian', 'Hungarian');
+    alCzech:        Result := Tr('language.option.czech', 'Czech');
+    alJapanese:     Result := Tr('language.option.japanese', 'Japanese');
+    alChineseSimplified:  Result := Tr('language.option.chinese_simplified', 'Chinese (Simplified)');
+    alChineseTraditional: Result := Tr('language.option.chinese_traditional', 'Chinese (Traditional)');
+    alArabic:       Result := Tr('language.option.arabic', 'Arabic');
+    alHebrew:       Result := Tr('language.option.hebrew', 'Hebrew');
+    alHindi:        Result := Tr('language.option.hindi', 'Hindi');
+    alRussian:      Result := Tr('language.option.russian', 'Russian');
+    alKorean:       Result := Tr('language.option.korean', 'Korean');
+    alDutch:        Result := Tr('language.option.dutch', 'Dutch');
+    alTurkish:      Result := Tr('language.option.turkish', 'Turkish');
+    alUkrainian:    Result := Tr('language.option.ukrainian', 'Ukrainian');
+    alThai:         Result := Tr('language.option.thai', 'Thai');
+    alGreek:        Result := Tr('language.option.greek', 'Greek');
+    alNorwegian:    Result := Tr('language.option.norwegian', 'Norwegian');
+    alSwedish:      Result := Tr('language.option.swedish', 'Swedish');
+    alDanish:       Result := Tr('language.option.danish', 'Danish');
+    alIcelandic:    Result := Tr('language.option.icelandic', 'Icelandic');
+  else
+    Result := Tr('language.option.english', 'English');
+  end;
+end;
+
+function AppLanguageComboIndex(ALang: TAppLanguage): Integer;
+begin
+  Result := Ord(ALang);
+end;
+
+function AppLanguageFromComboIndex(AIndex: Integer): TAppLanguage;
+begin
+  if (AIndex >= Ord(Low(TAppLanguage))) and (AIndex <= Ord(High(TAppLanguage))) then
+    Result := TAppLanguage(AIndex)
+  else
+    Result := alEnglish;
+end;
+
+procedure TfrmMain.LoadLanguageMru;
+var
+  S, One, Rest: string;
+  P: Integer;
+  Code: string;
+begin
+  if not Assigned(FLangMru) then
+    FLangMru := TStringList.Create;
+  FLangMru.CaseSensitive := False;
+  FLangMru.Clear;
+  if IniName = '' then Exit;
+  S := Trim(sStoreUtils.ReadIniString(APPLICATION_NAME, INI_LANGUAGE_MRU, IniName));
+  Rest := S;
+  while Rest <> '' do
+  begin
+    P := Pos(';', Rest);
+    if P = 0 then
+    begin
+      One := Trim(Rest);
+      Rest := '';
+    end
+    else
+    begin
+      One := Trim(Copy(Rest, 1, P - 1));
+      Delete(Rest, 1, P);
+    end;
+    if One = '' then
+      Continue;
+    Code := AppLanguageCode(AppLanguageFromCode(One));
+    if FLangMru.IndexOf(Code) >= 0 then
+      Continue;
+    FLangMru.Add(Code);
+    if FLangMru.Count >= LANG_MRU_MAX then
+      Break;
+  end;
+end;
+
+procedure TfrmMain.SaveLanguageMru;
+var
+  I: Integer;
+  S: string;
+begin
+  if IniName = '' then Exit;
+  S := '';
+  if Assigned(FLangMru) then
+    for I := 0 to FLangMru.Count - 1 do
+    begin
+      if S <> '' then
+        S := S + ';';
+      S := S + FLangMru[I];
+    end;
+  sStoreUtils.WriteIniStr(APPLICATION_NAME, INI_LANGUAGE_MRU, S, IniName);
+end;
+
+procedure TfrmMain.RememberLanguageMru(const ACode: string);
+var
+  Code: string;
+  I: Integer;
+begin
+  if not Assigned(FLangMru) then
+    LoadLanguageMru;
+  Code := AppLanguageCode(AppLanguageFromCode(ACode));
+  I := FLangMru.IndexOf(Code);
+  if I = 0 then Exit;
+  if I > 0 then
+    FLangMru.Delete(I);
+  FLangMru.Insert(0, Code);
+  while FLangMru.Count > LANG_MRU_MAX do
+    FLangMru.Delete(FLangMru.Count - 1);
+  SaveLanguageMru;
+end;
+
+var
+  GLangPopupPid: DWORD;
+  GLangPopupMain: HWND;
+  GLangPopupCombo: HWND;
+  GLangPopupZone: TRect;
+
+function EnumHideLangPopup(Wnd: HWND; LParam: LPARAM): BOOL; stdcall;
+var
+  Pid: DWORD;
+  R: TRect;
+  Cls: array[0..127] of Char;
+  N: Integer;
+  S: string;
+  W, H: Integer;
+begin
+  Result := True;
+  if not IsWindowVisible(Wnd) then Exit;
+  GetWindowThreadProcessId(Wnd, Pid);
+  if Pid <> GLangPopupPid then Exit;
+  if (Wnd = GLangPopupMain) or (Wnd = GLangPopupCombo) or (Wnd = Application.Handle) then
+    Exit;
+  N := GetClassName(Wnd, Cls, Length(Cls));
+  if N > 0 then
+  begin
+    SetString(S, Cls, N);
+    if (Pos('SmoothLoading', S) > 0) or (Pos('TfrmMain', S) > 0) then
+      Exit;
+  end;
+  if not GetWindowRect(Wnd, R) then Exit;
+  W := R.Right - R.Left;
+  H := R.Bottom - R.Top;
+  { Lista vazia da combo: alta e estreita. O overlay de carregamento e largo
+    e quase tao alto quanto largo, entao fica de fora. }
+  if (W < 40) or (H < 48) or (H > 720) or (W > 480) then Exit;
+  if (W > 320) and (H <= W) then Exit;
+  if (R.Right <= GLangPopupZone.Left) or (R.Left >= GLangPopupZone.Right) or
+     (R.Bottom <= GLangPopupZone.Top) or (R.Top >= GLangPopupZone.Bottom) then
+    Exit;
+  ShowWindow(Wnd, SW_HIDE);
+end;
+
+procedure TfrmMain.CloseLanguageDropDown;
+var
+  I: Integer;
+  F: TCustomForm;
+  RCombo: TRect;
+
+  procedure HideWnd(AWnd: HWND);
+  begin
+    if (AWnd <> 0) and IsWindow(AWnd) then
+      ShowWindow(AWnd, SW_HIDE);
+  end;
+
+  procedure HideSkinBorders(AForm: TCustomForm);
+  var
+    J: Integer;
+    SP: TsSkinProvider;
+  begin
+    for J := 0 to AForm.ComponentCount - 1 do
+      if AForm.Components[J] is TsSkinProvider then
+      begin
+        SP := TsSkinProvider(AForm.Components[J]);
+        if Assigned(SP.BorderForm) and Assigned(SP.BorderForm.AForm) then
+        begin
+          if SP.BorderForm.AForm.HandleAllocated then
+            HideWnd(SP.BorderForm.AForm.Handle);
+          SP.BorderForm.AForm.Visible := False;
+        end;
+      end;
+  end;
+
+  procedure HideCustomForm(AForm: TCustomForm);
+  begin
+    if AForm = nil then Exit;
+    if AForm.HandleAllocated then
+      HideWnd(AForm.Handle);
+    AForm.Visible := False;
+    HideSkinBorders(AForm);
+  end;
+
+  function IsLanguagePopup(AForm: TCustomForm): Boolean;
+  begin
+    Result := Assigned(comboLanguage) and
+      ((AForm.Owner = comboLanguage) or
+       SameText(AForm.Name, 'comboLanguageForm') or
+       (AForm.ClassName = 'TacItemsPopupForm') or
+       (AForm is TFormPopupMruList));
+  end;
+
+begin
+  { A lista da skin e desenhada numa TacGlowForm, que nao aparece em
+    Screen.Forms. Por isso o fechamento anterior deixava o retangulo azul. }
+  if FLanguageSwitching and Assigned(FormPopupMruList) then
+    HideCustomForm(FormPopupMruList);
+  if Assigned(comboLanguage) and Assigned(comboLanguage.FPopupWindow) and
+     (comboLanguage.FPopupWindow is TCustomForm) then
+    HideCustomForm(TCustomForm(comboLanguage.FPopupWindow));
+
+  for I := Screen.CustomFormCount - 1 downto 0 do
+  begin
+    F := Screen.CustomForms[I];
+    if (F = nil) or (F = Self) then Continue;
+    if Pos('SmoothLoading', F.ClassName) > 0 then Continue;
+    if not IsLanguagePopup(F) then Continue;
+    if F.Visible or (F.HandleAllocated and IsWindowVisible(F.Handle)) then
+      HideCustomForm(F);
+  end;
+
+  if not FLanguageSwitching then
+  begin
+    if Assigned(comboLanguage) and comboLanguage.DroppedDown then
+      comboLanguage.DroppedDown := False;
+    Exit;
+  end;
+
+  if not Assigned(comboLanguage) or not comboLanguage.HandleAllocated then Exit;
+  GetWindowRect(comboLanguage.Handle, RCombo);
+  GLangPopupPid := GetCurrentProcessId;
+  GLangPopupMain := Handle;
+  GLangPopupCombo := comboLanguage.Handle;
+  GLangPopupZone := Rect(RCombo.Left - 12, RCombo.Top - 640,
+    RCombo.Left + 380, RCombo.Bottom + 6);
+  EnumWindows(@EnumHideLangPopup, 0);
+  if comboLanguage.DroppedDown then
+    comboLanguage.DroppedDown := False;
+end;
+
+procedure TfrmMain.LanguageComboDropDown(Sender: TObject);
+begin
+  CloseLanguageDropDown;
+  if FLanguageSwitching or FUpdatingLanguageCombo then Exit;
+  if Assigned(FormPopupMruList) and FormPopupMruList.Visible then
+  begin
+    FormPopupMruList.ClosePopup(False);
+    Exit;
+  end;
+  if FLangMruPosted then Exit;
+  FLangMruPosted := True;
+  PostMessage(Handle, WM_USER + 443, 0, 0);
+end;
+
+procedure TfrmMain.WMLanguageMruPopup(var Msg: TMessage);
+var
+  P: TPoint;
+  W: Integer;
+  CR: TRect;
+  Items: TStringList;
+  Seen: TStringList;
+  I: Integer;
+  Lang: TAppLanguage;
+  Code: string;
+begin
+  FLangMruPosted := False;
+  if FLanguageSwitching then Exit;
+  CloseLanguageDropDown;
+  if ((GetAsyncKeyState(VK_LBUTTON) < 0) or (GetAsyncKeyState(VK_RBUTTON) < 0)) and
+     (Msg.WParam < 20) then
+  begin
+    FLangMruPosted := True;
+    PostMessage(Handle, WM_USER + 443, Msg.WParam + 1, 0);
+    Exit;
+  end;
+  if Assigned(FormPopupMruList) and FormPopupMruList.Visible then Exit;
+  if not Assigned(comboLanguage) then Exit;
+  if not Assigned(FLangMru) then
+    LoadLanguageMru;
+  if not Assigned(FLangPopupCodes) then
+    FLangPopupCodes := TStringList.Create;
+  FLangPopupCodes.Clear;
+  Items := TStringList.Create;
+  Seen := TStringList.Create;
+  try
+    Seen.CaseSensitive := False;
+    for I := 0 to FLangMru.Count - 1 do
+    begin
+      Code := AppLanguageCode(AppLanguageFromCode(FLangMru[I]));
+      if Seen.IndexOf(Code) >= 0 then
+        Continue;
+      Seen.Add(Code);
+      Items.Add(AppLanguageOptionCaption(AppLanguageFromCode(Code)));
+      FLangPopupCodes.Add(Code);
+    end;
+    for I := 0 to Ord(High(TAppLanguage)) do
+    begin
+      Lang := AppLanguageFromComboIndex(I);
+      Code := AppLanguageCode(Lang);
+      if Seen.IndexOf(Code) >= 0 then
+        Continue;
+      Seen.Add(Code);
+      Items.Add(AppLanguageOptionCaption(Lang));
+      FLangPopupCodes.Add(Code);
+    end;
+    if comboLanguage.HandleAllocated then
+    begin
+      GetWindowRect(comboLanguage.Handle, CR);
+      W := CR.Right - CR.Left;
+      P := Point(CR.Left, CR.Top);
+    end
+    else
+    begin
+      W := comboLanguage.Width;
+      P := comboLanguage.ClientToScreen(Point(0, 0));
+    end;
+    ShowMruListPopup(Self, TrText('Language.Mru.Title'),
+      MruMoreCaption('MRU.ShowMore'), Items, W, P, LanguageMruPick,
+      TrText('Language.Mru.MoreHint'), nil, nil, comboLanguage, nil,
+      0, nil, LanguageMruDrawIcon);
+  finally
+    Seen.Free;
+    Items.Free;
+  end;
+end;
+
+{ Small country flag for the language list. Each language maps to the country
+  where that language (or that variant) is official. Drawn left to right inside
+  ARect, so a right-to-left layout only moves the flag, it does not mirror it. }
+procedure DrawLanguageFlag(C: TCanvas; const R: TRect; const ACode: string);
+const
+  CBlueUK   = TColor($00692101); { #012169 }
+  CRedUK    = TColor($002E10C8); { #C8102E }
+  CGreenBR  = TColor($003B9C00); { #009C3B }
+  CYellowBR = TColor($0000CCFF); { #FFCC00 }
+  CBlueBR   = TColor($00762700); { #002776 }
+  CRedES    = TColor($001B15AA); { #AA151B }
+  CYellowES = TColor($0000BFF1); { #F1BF00 }
+  CBlueFR   = TColor($00A45500); { #0055A4 }
+  CRedFR    = TColor($003541EF); { #EF4135 }
+  CRedDE    = TColor($000000DD);
+  CGoldDE   = TColor($0000CEFF); { #FFCE00 }
+  CGreenIT  = TColor($00469200); { #009246 }
+  CRedIT    = TColor($00372BCE); { #CE2B37 }
+  CRedPL    = TColor($003C14DC); { #DC143C }
+  CGreenPT  = TColor($00006600);
+  CRedPT    = TColor($000000FF);
+  CYellowPT = TColor($0000D7FF); { #FFD700 }
+  CBlueRO   = TColor($007F2B00); { #002B7F }
+  CYellowRO = TColor($0016D1FC); { #FCD116 }
+  CRedRO    = TColor($002611CE); { #CE1126 }
+  CRedHU    = TColor($003929CE); { #CE2939 }
+  CGreenHU  = TColor($00507047); { #477050 }
+  CBlueCZ   = TColor($007E4511); { #11457E }
+  CRedCN    = TColor($001029DE); { #DE2910 }
+  CYellowCN = TColor($0000DEFF); { #FFDE00 }
+  CRedTW    = TColor($000000FE);
+  CBlueTW   = TColor($00950000); { #000095 }
+  CGreenSA  = TColor($00356C00); { #006C35 }
+  CBlueIL   = TColor($00B83800); { #0038B8 }
+  CSaffronIN = TColor($003399FF); { #FF9933 }
+  CGreenIN   = TColor($00088813); { #138808 }
+  CBlueIN    = TColor($00800000); { #000080 }
+  CBlueRU    = TColor($00A63900); { #0039A6 }
+  CRedRU     = TColor($001E2BD5); { #D52B1E }
+  CRedKR     = TColor($003A2ECD); { #CD2E3A }
+  CBlueKR    = TColor($00A04700); { #0047A0 }
+  CRedNL     = TColor($003621AE); { #AE2136 }
+  CBlueNL    = TColor($008B4621); { #21468B }
+  CRedTR     = TColor($00300AE3); { #E30A30 }
+  CBlueUA    = TColor($00B75700); { #0057B7 }
+  CYellowUA  = TColor($0000D7FF); { #FFD700 }
+  CRedTH     = TColor($003119A5); { #A51931 }
+  CBlueTH    = TColor($004A2A2D); { #2D2A4A }
+  CBlueGR    = TColor($00AF5E0D); { #0D5EAF }
+  CRedNO     = TColor($002F0CBA); { #BA0C2F }
+  CBlueNO    = TColor($005B2000); { #00205B }
+  CBlueSE    = TColor($00A76A00); { #006AA7 }
+  CYellowSE  = TColor($0000CCFE); { #FECC00 }
+  CRedDK     = TColor($00300CC6); { #C60C30 }
+  CBlueIS    = TColor($009C5202); { #02529C }
+  CRedIS     = TColor($00351EDC); { #DC1E35 }
+var
+  W, H, Saved, Third, Band, Stripe, Inset, CX, CY: Integer;
+  Code: string;
+  Diamond: array[0..2] of TPoint;
+
+  procedure Fill(AColor: TColor);
+  begin
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := AColor;
+    C.Pen.Style := psClear;
+    C.FillRect(R);
+  end;
+
+  procedure HBand(AFrom, ATo: Integer; AColor: TColor);
+  begin
+    if ATo <= AFrom then Exit;
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := AColor;
+    C.Pen.Style := psClear;
+    C.FillRect(Rect(R.Left, R.Top + AFrom, R.Right, R.Top + ATo));
+  end;
+
+  procedure VBand(AFrom, ATo: Integer; AColor: TColor);
+  begin
+    if ATo <= AFrom then Exit;
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := AColor;
+    C.Pen.Style := psClear;
+    C.FillRect(Rect(R.Left + AFrom, R.Top, R.Left + ATo, R.Bottom));
+  end;
+
+  procedure Disc(ACX, ACY, ARad: Integer; AColor: TColor);
+  begin
+    if ARad < 1 then Exit;
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := AColor;
+    C.Pen.Style := psClear;
+    C.Ellipse(ACX - ARad, ACY - ARad, ACX + ARad + 1, ACY + ARad + 1);
+  end;
+
+  procedure Star(ACX, ACY, ROut, RIn: Integer; AColor: TColor);
+  var
+    Pts: array[0..9] of TPoint;
+    I: Integer;
+    Ang, RR: Double;
+  begin
+    if ROut < 2 then Exit;
+    for I := 0 to 9 do
+    begin
+      Ang := -Pi / 2 + I * (Pi / 5);
+      if (I and 1) = 0 then
+        RR := ROut
+      else
+        RR := RIn;
+      Pts[I].X := ACX + Round(Cos(Ang) * RR);
+      Pts[I].Y := ACY + Round(Sin(Ang) * RR);
+    end;
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := AColor;
+    C.Pen.Style := psSolid;
+    C.Pen.Width := 1;
+    C.Pen.Color := AColor;
+    C.Polygon(Pts);
+  end;
+
+  procedure DrawIndia;
+  var
+    I, Radius: Integer;
+    Ang: Double;
+  begin
+    Third := H div 3;
+    HBand(0, Third, CSaffronIN);
+    HBand(Third, Third * 2, clWhite);
+    HBand(Third * 2, H, CGreenIN);
+    CX := R.Left + W div 2;
+    CY := R.Top + H div 2;
+    Radius := Max(H div 7, 1);
+    Disc(CX, CY, Radius, CBlueIN);
+    if Radius > 1 then
+    begin
+      Disc(CX, CY, Radius - 1, clWhite);
+      C.Pen.Style := psSolid;
+      C.Pen.Width := 1;
+      C.Pen.Color := CBlueIN;
+      for I := 0 to 23 do
+      begin
+        Ang := I * Pi / 12;
+        C.MoveTo(CX, CY);
+        C.LineTo(CX + Round(Cos(Ang) * Radius), CY + Round(Sin(Ang) * Radius));
+      end;
+    end;
+  end;
+
+  procedure DrawKorea;
+  var
+    Radius, I, Side, X, Y, DX, DY: Integer;
+  begin
+    Fill(clWhite);
+    CX := R.Left + W div 2;
+    CY := R.Top + H div 2;
+    Radius := Max(H div 4, 2);
+    C.Brush.Color := CRedKR;
+    C.Pen.Style := psClear;
+    C.Pie(CX - Radius, CY - Radius, CX + Radius + 1, CY + Radius + 1,
+      CX + Radius, CY, CX - Radius, CY);
+    C.Brush.Color := CBlueKR;
+    C.Pie(CX - Radius, CY - Radius, CX + Radius + 1, CY + Radius + 1,
+      CX - Radius, CY, CX + Radius, CY);
+    Disc(CX - Radius div 2, CY, Max(Radius div 2, 1), CRedKR);
+    Disc(CX + Radius div 2, CY, Max(Radius div 2, 1), CBlueKR);
+    C.Pen.Style := psSolid;
+    C.Pen.Color := clBlack;
+    C.Pen.Width := 1;
+    for Side := 0 to 3 do
+    begin
+      DX := 1;
+      if (Side and 1) <> 0 then DX := -1;
+      DY := 1;
+      if Side >= 2 then DY := -1;
+      X := CX - DX * (W * 3 div 8);
+      Y := CY - DY * (H * 3 div 8);
+      for I := 0 to 2 do
+      begin
+        C.MoveTo(X + DX * I, Y - DY * I);
+        if (Side = 0) or ((Side = 1) and (I = 1)) or
+           ((Side = 2) and (I <> 1)) then
+          C.LineTo(X + DX * (I + 3), Y + DY * (3 - I))
+        else
+        begin
+          C.LineTo(X + DX * (I + 1), Y + DY * (1 - I));
+          C.MoveTo(X + DX * (I + 2), Y + DY * (2 - I));
+          C.LineTo(X + DX * (I + 3), Y + DY * (3 - I));
+        end;
+      end;
+    end;
+  end;
+
+  procedure DrawUK;
+  var
+    CrossW, Fimb: Integer;
+  begin
+    Fill(CBlueUK);
+    C.Pen.Style := psSolid;
+    C.Pen.Mode := pmCopy;
+    C.Pen.Color := clWhite;
+    C.Pen.Width := Max(H div 5, 2);
+    C.MoveTo(R.Left, R.Top);
+    C.LineTo(R.Right, R.Bottom);
+    C.MoveTo(R.Right - 1, R.Top);
+    C.LineTo(R.Left - 1, R.Bottom);
+    C.Pen.Color := CRedUK;
+    C.Pen.Width := Max(H div 10, 1);
+    C.MoveTo(R.Left, R.Top);
+    C.LineTo(R.Right, R.Bottom);
+    C.MoveTo(R.Right - 1, R.Top);
+    C.LineTo(R.Left - 1, R.Bottom);
+    Fimb := Max(H div 3, 3);
+    CrossW := Max(H div 5, 2);
+    C.Pen.Style := psClear;
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := clWhite;
+    C.FillRect(Rect(R.Left, R.Top + (H - Fimb) div 2, R.Right, R.Top + (H + Fimb) div 2));
+    C.FillRect(Rect(R.Left + (W - Fimb) div 2, R.Top, R.Left + (W + Fimb) div 2, R.Bottom));
+    C.Brush.Color := CRedUK;
+    C.FillRect(Rect(R.Left, R.Top + (H - CrossW) div 2, R.Right, R.Top + (H + CrossW) div 2));
+    C.FillRect(Rect(R.Left + (W - CrossW) div 2, R.Top, R.Left + (W + CrossW) div 2, R.Bottom));
+  end;
+
+  procedure DrawIsrael;
+  var
+    Arm: Integer;
+    Up, Down: array[0..3] of TPoint;
+  begin
+    Fill(clWhite);
+    Stripe := Max(H div 7, 1);
+    Inset := Max(H div 6, 1);
+    HBand(Inset, Inset + Stripe, CBlueIL);
+    HBand(H - Inset - Stripe, H - Inset, CBlueIL);
+    CX := R.Left + W div 2;
+    CY := R.Top + H div 2;
+    Arm := Max(H div 5, 3);
+    C.Pen.Style := psSolid;
+    C.Pen.Color := CBlueIL;
+    C.Pen.Width := 1;
+    C.Brush.Style := bsClear;
+    Up[0] := Point(CX, CY - Arm);
+    Up[1] := Point(CX - Round(Arm * 0.86), CY + Arm div 2);
+    Up[2] := Point(CX + Round(Arm * 0.86), CY + Arm div 2);
+    Up[3] := Up[0];
+    Down[0] := Point(CX, CY + Arm);
+    Down[1] := Point(CX - Round(Arm * 0.86), CY - Arm div 2);
+    Down[2] := Point(CX + Round(Arm * 0.86), CY - Arm div 2);
+    Down[3] := Down[0];
+    C.Polyline(Up);
+    C.Polyline(Down);
+  end;
+
+  procedure DrawThailand;
+  var
+    S: Integer;
+  begin
+    S := H div 6;
+    if S < 1 then S := 1;
+    HBand(0, S, CRedTH);
+    HBand(S, S * 2, clWhite);
+    HBand(S * 2, H - S * 2, CBlueTH);
+    HBand(H - S * 2, H - S, clWhite);
+    HBand(H - S, H, CRedTH);
+  end;
+
+  procedure DrawGreece;
+  var
+    I, Stripe, CantonW, CantonH, Arm: Integer;
+  begin
+    Fill(CBlueGR);
+    Stripe := H div 9;
+    if Stripe < 1 then Stripe := 1;
+    for I := 0 to 8 do
+      if (I and 1) <> 0 then
+        HBand(I * Stripe, (I + 1) * Stripe, clWhite);
+    CantonH := Stripe * 5;
+    if CantonH > H then
+      CantonH := H;
+    CantonW := CantonH;
+    if CantonW > (W * 2) div 3 then
+      CantonW := (W * 2) div 3;
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := CBlueGR;
+    C.Pen.Style := psClear;
+    C.FillRect(Rect(R.Left, R.Top, R.Left + CantonW, R.Top + CantonH));
+    Arm := Max(CantonH div 5, 1);
+    C.Brush.Color := clWhite;
+    C.FillRect(Rect(R.Left, R.Top + (CantonH - Arm) div 2,
+      R.Left + CantonW, R.Top + (CantonH + Arm) div 2));
+    C.FillRect(Rect(R.Left + (CantonW - Arm) div 2, R.Top,
+      R.Left + (CantonW + Arm) div 2, R.Top + CantonH));
+  end;
+
+  { Nordic cross. The vertical bar sits left of center. AFimbriation is the
+    outline around the cross; pass clNone to draw the cross alone. }
+  procedure DrawNordic(AField, ACross, AFimbriation: TColor);
+  var
+    CrossW, Fimb, X0, Y0: Integer;
+  begin
+    Fill(AField);
+    CrossW := Max(H div 5, 2);
+    if AFimbriation = clNone then
+      Fimb := 0
+    else
+      Fimb := Max(CrossW div 3, 1);
+    X0 := (W * 5) div 16;
+    Y0 := H div 2;
+    if Fimb > 0 then
+    begin
+      VBand(X0 - CrossW div 2 - Fimb, X0 + (CrossW + 1) div 2 + Fimb, AFimbriation);
+      HBand(Y0 - CrossW div 2 - Fimb, Y0 + (CrossW + 1) div 2 + Fimb, AFimbriation);
+    end;
+    VBand(X0 - CrossW div 2, X0 + (CrossW + 1) div 2, ACross);
+    HBand(Y0 - CrossW div 2, Y0 + (CrossW + 1) div 2, ACross);
+  end;
+
+begin
+  W := R.Right - R.Left;
+  H := R.Bottom - R.Top;
+  if (W < 4) or (H < 4) then Exit;
+  Code := Trim(ACode);
+  Saved := SaveDC(C.Handle);
+  try
+    IntersectClipRect(C.Handle, R.Left, R.Top, R.Right, R.Bottom);
+    if SameText(Code, 'pt-BR') then
+    begin
+      Fill(CGreenBR);
+      CX := R.Left + W div 2;
+      CY := R.Top + H div 2;
+      Diamond[0] := Point(R.Left + W div 12, CY);
+      Diamond[1] := Point(CX, R.Top + H div 7);
+      Diamond[2] := Point(R.Right - W div 12, CY);
+      C.Brush.Style := bsSolid;
+      C.Brush.Color := CYellowBR;
+      C.Pen.Style := psClear;
+      C.Polygon(Diamond);
+      { the lower half of the diamond }
+      Diamond[1] := Point(CX, R.Bottom - H div 7);
+      C.Polygon(Diamond);
+      Disc(CX, CY, Max(H div 5, 2), CBlueBR);
+    end
+    else if SameText(Code, 'es') then
+    begin
+      Fill(CRedES);
+      Band := H div 4;
+      HBand(Band, H - Band, CYellowES);
+    end
+    else if SameText(Code, 'fr') then
+    begin
+      Third := W div 3;
+      VBand(0, Third, CBlueFR);
+      VBand(Third, Third * 2, clWhite);
+      VBand(Third * 2, W, CRedFR);
+    end
+    else if SameText(Code, 'de') then
+    begin
+      Third := H div 3;
+      HBand(0, Third, clBlack);
+      HBand(Third, Third * 2, CRedDE);
+      HBand(Third * 2, H, CGoldDE);
+    end
+    else if SameText(Code, 'it') then
+    begin
+      Third := W div 3;
+      VBand(0, Third, CGreenIT);
+      VBand(Third, Third * 2, clWhite);
+      VBand(Third * 2, W, CRedIT);
+    end
+    else if SameText(Code, 'pl') then
+    begin
+      HBand(0, H div 2, clWhite);
+      HBand(H div 2, H, CRedPL);
+    end
+    else if SameText(Code, 'pt-PT') then
+    begin
+      Band := (W * 2) div 5;
+      VBand(0, Band, CGreenPT);
+      VBand(Band, W, CRedPT);
+      Disc(R.Left + Band, R.Top + H div 2, Max(H div 3, 2), CYellowPT);
+      Disc(R.Left + Band, R.Top + H div 2, Max(H div 7, 1), CRedPT);
+    end
+    else if SameText(Code, 'ro') then
+    begin
+      Third := W div 3;
+      VBand(0, Third, CBlueRO);
+      VBand(Third, Third * 2, CYellowRO);
+      VBand(Third * 2, W, CRedRO);
+    end
+    else if SameText(Code, 'hu') then
+    begin
+      Third := H div 3;
+      HBand(0, Third, CRedHU);
+      HBand(Third, Third * 2, clWhite);
+      HBand(Third * 2, H, CGreenHU);
+    end
+    else if SameText(Code, 'cs') then
+    begin
+      HBand(0, H div 2, clWhite);
+      HBand(H div 2, H, CRedPL);
+      C.Brush.Style := bsSolid;
+      C.Brush.Color := CBlueCZ;
+      C.Pen.Style := psClear;
+      Diamond[0] := Point(R.Left, R.Top);
+      Diamond[1] := Point(R.Left + (W * 5) div 11, R.Top + H div 2);
+      Diamond[2] := Point(R.Left, R.Bottom);
+      C.Polygon(Diamond);
+    end
+    else if SameText(Code, 'ja') then
+    begin
+      Fill(clWhite);
+      Disc(R.Left + W div 2, R.Top + H div 2, Max((H * 3) div 10, 2), CRedPL);
+    end
+    else if SameText(Code, 'zh-CN') then
+    begin
+      Fill(CRedCN);
+      Star(R.Left + W div 5, R.Top + (H * 2) div 5, Max(H div 4, 2), Max(H div 9, 1), CYellowCN);
+    end
+    else if SameText(Code, 'zh-TW') then
+    begin
+      Fill(CRedTW);
+      C.Brush.Style := bsSolid;
+      C.Brush.Color := CBlueTW;
+      C.Pen.Style := psClear;
+      C.FillRect(Rect(R.Left, R.Top, R.Left + W div 2, R.Top + H div 2));
+      Disc(R.Left + W div 4, R.Top + H div 4, Max(H div 7, 2), clWhite);
+    end
+    else if SameText(Code, 'ar') then
+    begin
+      { Saudi Arabia: green field, the inscription as a white bar (not the
+        creed itself) and the sword underneath. }
+      Fill(CGreenSA);
+      C.Brush.Style := bsSolid;
+      C.Brush.Color := clWhite;
+      C.Pen.Style := psClear;
+      C.FillRect(Rect(R.Left + W div 6, R.Top + H div 4, R.Right - W div 6, R.Top + (H * 9) div 20));
+      C.Pen.Style := psSolid;
+      C.Pen.Color := clWhite;
+      C.Pen.Width := Max(H div 12, 1);
+      CY := R.Top + (H * 7) div 10;
+      C.MoveTo(R.Left + W div 6, CY);
+      C.LineTo(R.Right - W div 5, CY);
+      C.MoveTo(R.Right - W div 5, CY - Max(H div 8, 1));
+      C.LineTo(R.Right - W div 5, CY + Max(H div 8, 1));
+    end
+    else if SameText(Code, 'he') then
+      DrawIsrael
+    else if SameText(Code, 'hi') then
+      DrawIndia
+    else if SameText(Code, 'ru') then
+    begin
+      Third := H div 3;
+      HBand(0, Third, clWhite);
+      HBand(Third, Third * 2, CBlueRU);
+      HBand(Third * 2, H, CRedRU);
+    end
+    else if SameText(Code, 'ko') then
+      DrawKorea
+    else if SameText(Code, 'nl') then
+    begin
+      Third := H div 3;
+      HBand(0, Third, CRedNL);
+      HBand(Third, Third * 2, clWhite);
+      HBand(Third * 2, H, CBlueNL);
+    end
+    else if SameText(Code, 'tr') then
+    begin
+      Fill(CRedTR);
+      CX := R.Left + (W * 2) div 5;
+      CY := R.Top + H div 2;
+      Disc(CX, CY, Max(H div 3, 2), clWhite);
+      Disc(CX + Max(H div 10, 1), CY, Max(H div 4, 1), CRedTR);
+      Star(R.Left + (W * 2) div 3, CY, Max(H div 5, 2), Max(H div 10, 1), clWhite);
+    end
+    else if SameText(Code, 'uk') then
+    begin
+      HBand(0, H div 2, CBlueUA);
+      HBand(H div 2, H, CYellowUA);
+    end
+    else if SameText(Code, 'th') then
+      DrawThailand
+    else if SameText(Code, 'el') then
+      DrawGreece
+    else if SameText(Code, 'nb') then
+      DrawNordic(CRedNO, CBlueNO, clWhite)
+    else if SameText(Code, 'sv') then
+      DrawNordic(CBlueSE, CYellowSE, clNone)
+    else if SameText(Code, 'da') then
+      DrawNordic(CRedDK, clWhite, clNone)
+    else if SameText(Code, 'is') then
+      DrawNordic(CBlueIS, CRedIS, clWhite)
+    else
+      DrawUK; { en, and anything unrecognised }
+    C.Brush.Style := bsSolid;
+    C.Brush.Color := TColor($00808080);
+    C.FrameRect(R);
+  finally
+    RestoreDC(C.Handle, Saved);
+  end;
+end;
+
+procedure TfrmMain.LanguageMruDrawIcon(Sender: TObject; ACanvas: TCanvas;
+  const ARect: TRect; AItemIndex: Integer);
+begin
+  if not Assigned(FLangPopupCodes) or (AItemIndex < 0) or
+     (AItemIndex >= FLangPopupCodes.Count) then
+    Exit;
+  DrawLanguageFlag(ACanvas, ARect, FLangPopupCodes[AItemIndex]);
+end;
+
+procedure TfrmMain.LanguageMruPick(Sender: TObject; const AValue: string; AIndex: Integer);
+var
+  Code: string;
+  Lang: TAppLanguage;
+begin
+  if (AIndex < 0) or not Assigned(FLangPopupCodes) or (AIndex >= FLangPopupCodes.Count) then
+    Code := ''
+  else
+    Code := FLangPopupCodes[AIndex];
+  if Code = '' then
+    Exit;
+  Lang := AppLanguageFromCode(Code);
+  if Lang = GetCurrentLanguage then
+  begin
+    RememberLanguageMru(Code);
+    Exit;
+  end;
+  if not Assigned(comboLanguage) then Exit;
+  FUpdatingLanguageCombo := True;
+  try
+    comboLanguage.ItemIndex := AppLanguageComboIndex(Lang);
+  finally
+    FUpdatingLanguageCombo := False;
+  end;
+  comboLanguageChange(comboLanguage);
 end;
 
 procedure TfrmMain.SyncLanguageComboWithCurrent;
+var
+  Lang: TAppLanguage;
 begin
   if not Assigned(comboLanguage) then Exit;
 
@@ -17365,43 +18681,22 @@ begin
     comboLanguage.Items.BeginUpdate;
     try
       comboLanguage.Items.Clear;
-      comboLanguage.Items.Add(Tr('language.option.english', 'English'));
-      comboLanguage.Items.Add(Tr('language.option.portuguese_brazil', 'Portuguese (Brazil)'));
-      comboLanguage.Items.Add(Tr('language.option.spanish', 'Spanish'));
-      comboLanguage.Items.Add(Tr('language.option.french', 'French'));
-      comboLanguage.Items.Add(Tr('language.option.german', 'German'));
-      comboLanguage.Items.Add(Tr('language.option.italian', 'Italian'));
-      comboLanguage.Items.Add(Tr('language.option.polish', 'Polish'));
-      comboLanguage.Items.Add(Tr('language.option.portuguese_portugal', 'Portuguese (Portugal)'));
-      comboLanguage.Items.Add(Tr('language.option.romanian', 'Romanian'));
-      comboLanguage.Items.Add(Tr('language.option.hungarian', 'Hungarian'));
-      comboLanguage.Items.Add(Tr('language.option.czech', 'Czech'));
-      comboLanguage.Items.Add(Tr('language.option.japanese', 'Japanese'));
-      comboLanguage.Items.Add(Tr('language.option.chinese_simplified', 'Chinese (Simplified)'));
-      comboLanguage.Items.Add(Tr('language.option.chinese_traditional', 'Chinese (Traditional)'));
+      for Lang := Low(TAppLanguage) to High(TAppLanguage) do
+        comboLanguage.Items.Add(AppLanguageOptionCaption(Lang));
     finally
       comboLanguage.Items.EndUpdate;
     end;
 
-    comboLanguage.Hint := Tr('language.combo.hint', 'Application language');
-
-    case GetCurrentLanguage of
-      alPortuguese:   comboLanguage.ItemIndex := 1;
-      alSpanish:      comboLanguage.ItemIndex := 2;
-      alFrench:       comboLanguage.ItemIndex := 3;
-      alGerman:       comboLanguage.ItemIndex := 4;
-      alItalian:      comboLanguage.ItemIndex := 5;
-      alPolish:       comboLanguage.ItemIndex := 6;
-      alPortuguesePT: comboLanguage.ItemIndex := 7;
-      alRomanian:     comboLanguage.ItemIndex := 8;
-      alHungarian:    comboLanguage.ItemIndex := 9;
-      alCzech:        comboLanguage.ItemIndex := 10;
-      alJapanese:     comboLanguage.ItemIndex := 11;
-      alChineseSimplified:  comboLanguage.ItemIndex := 12;
-      alChineseTraditional: comboLanguage.ItemIndex := 13;
-    else
-      comboLanguage.ItemIndex := 0;
+    comboLanguage.Hint := TrText('Language.Mru.Hint');
+    comboLanguage.OnDropDown := nil;
+    if not Assigned(FOldLanguageComboWndProc) then
+    begin
+      FOldLanguageComboWndProc := comboLanguage.WindowProc;
+      comboLanguage.WindowProc := LanguageComboWndProc;
     end;
+
+    comboLanguage.ItemIndex := AppLanguageComboIndex(GetCurrentLanguage);
+    CloseLanguageDropDown;
   finally
     FUpdatingLanguageCombo := False;
   end;
@@ -17414,6 +18709,8 @@ procedure LanguageSwitchTick;
 begin
   FastFileWatchdogPulse;
   TfrmSmoothLoading.KeepAlive(GLangSwitchCeiling);
+  if Assigned(frmMain) then
+    frmMain.CloseLanguageDropDown;
 end;
 
 procedure TfrmMain.comboLanguageChange(Sender: TObject);
@@ -17436,23 +18733,7 @@ var
 
   function LanguageOptionCaption(ALang: TAppLanguage): string;
   begin
-    case ALang of
-      alPortuguese:   Result := Tr('language.option.portuguese_brazil', 'Portuguese (Brazil)');
-      alSpanish:      Result := Tr('language.option.spanish', 'Spanish');
-      alFrench:       Result := Tr('language.option.french', 'French');
-      alGerman:       Result := Tr('language.option.german', 'German');
-      alItalian:      Result := Tr('language.option.italian', 'Italian');
-      alPolish:       Result := Tr('language.option.polish', 'Polish');
-      alPortuguesePT: Result := Tr('language.option.portuguese_portugal', 'Portuguese (Portugal)');
-      alRomanian:     Result := Tr('language.option.romanian', 'Romanian');
-      alHungarian:    Result := Tr('language.option.hungarian', 'Hungarian');
-      alCzech:        Result := Tr('language.option.czech', 'Czech');
-      alJapanese:     Result := Tr('language.option.japanese', 'Japanese');
-      alChineseSimplified:  Result := Tr('language.option.chinese_simplified', 'Chinese (Simplified)');
-      alChineseTraditional: Result := Tr('language.option.chinese_traditional', 'Chinese (Traditional)');
-    else
-      Result := Tr('language.option.english', 'English');
-    end;
+    Result := AppLanguageOptionCaption(ALang);
   end;
 
   { APercent = where the bar is now; ACeiling = how far it may creep while
@@ -17475,26 +18756,24 @@ begin
   if FUpdatingLanguageCombo then Exit;
   if not Assigned(comboLanguage) then Exit;
 
-  case comboLanguage.ItemIndex of
-    1:  NewLang := alPortuguese;
-    2:  NewLang := alSpanish;
-    3:  NewLang := alFrench;
-    4:  NewLang := alGerman;
-    5:  NewLang := alItalian;
-    6:  NewLang := alPolish;
-    7:  NewLang := alPortuguesePT;
-    8:  NewLang := alRomanian;
-    9:  NewLang := alHungarian;
-    10: NewLang := alCzech;
-    11: NewLang := alJapanese;
-    12: NewLang := alChineseSimplified;
-    13: NewLang := alChineseTraditional;
-  else
-    NewLang := alEnglish;
-  end;
+  NewLang := AppLanguageFromComboIndex(comboLanguage.ItemIndex);
 
   if NewLang = GetCurrentLanguage then Exit;
   OldLang := GetCurrentLanguage;
+
+  { Cobre ShowLoading: ele bombeia mensagens e um clique restante reabria a lista. }
+  FLanguageSwitching := True;
+  try
+
+  { The skinned drop-down stays on screen for the whole load and paints as an
+    empty rectangle beside the overlay. Close it before that overlay. }
+  FLangMruPosted := False;
+  if Assigned(FormPopupMruList) then
+  begin
+    FormPopupMruList.Visible := False;
+    FormPopupMruList.ClosePopup(False);
+  end;
+  CloseLanguageDropDown;
 
   { Overlay first (still in the old language): loading the new language's
     table on first use is itself slow and must not run behind a frozen UI. }
@@ -17504,6 +18783,7 @@ begin
   TfrmSmoothLoading.ShowLoading(OverlayTitle, False);
   TfrmSmoothLoading.SetCancelVisible(True);
   TfrmSmoothLoading.SnapFullyOpaque;
+  CloseLanguageDropDown;
   FastFileWatchdogBeginHeavyOp('Language switch');
   RetranslateTickProc := LanguageSwitchTick;
   TimingLog := TStringList.Create;
@@ -17588,6 +18868,8 @@ begin
       SyncLanguageComboWithCurrent;
       Mark('Cancel + revert');
     end;
+    if not Cancelled then
+      RememberLanguageMru(AppLanguageCode(NewLang));
     UpdateStatusBar(Tr('status.system_ready', 'System Ready'), iaRight);
     OverlayStep(100, 100, 'Language.Loading.Finish');
     Mark('Finish');
@@ -17604,6 +18886,10 @@ begin
     except
     end;
     TimingLog.Free;
+  end;
+  finally
+    CloseLanguageDropDown;
+    FLanguageSwitching := False;
   end;
 end;
 
@@ -17760,6 +19046,7 @@ begin
   FastFileWatchdogSetCancelProc(FastFileMainWatchdogCancelWorkers);
   FastFileWatchdogClearCancelRequest;
   FastFileWatchdogPulse;
+  ApplyBidiContentViews;
   PostMessage(Handle, WM_USER + 434, 0, 0);
 end;
 
@@ -17835,7 +19122,7 @@ begin
   FPendingLineHintControl := nil;
   FPendingLineHintRow := -1;
   FLineHintVisible := False;
-  sStatusBar1.Panels[5].Text := UnUtils.LoadConfig();
+  StatusPanelAt(5).Text := UnUtils.LoadConfig();
   if Assigned(sStatusBar1) and (sStatusBar1.Panels.Count > 9) then
   begin
     sStatusBar1.Visible := True;
@@ -17901,7 +19188,7 @@ begin
   RestoreSkinHueTabFromIni;
   StartupMark('FormCreate: skin activate');
   ApplyOperationTimerMemoLook;
-  ApplyStatusBarComboChrome;
+  ApplyStatusBarComboFrame;
 
   //HideTabsInPageCtrl(pgMain);
   pgMain.Visible := False;
@@ -17917,7 +19204,7 @@ begin
   ProgressImages.GetBitmap(0, ProgressImageFile.Picture.Bitmap);
   FShowHoriz := False; // show the horiz scrollbar
   FShowVert := False; // hide vert scrollbar
-  StartupMark('FormCreate: chrome/title/pgMain');
+  StartupMark('FormCreate: frame/title/pgMain');
   ActionClear.Execute;
   StartupMark('FormCreate: ActionClear');
   DragAcceptFiles(Handle, True); // Windows XP
@@ -18165,7 +19452,7 @@ begin
   FBookmarkSpl := nil;
   FBookmarkPeek := nil;
   FBookmarkFloat := nil;
-  FBookmarkChromeHidden := False;
+  FBookmarkFrameHidden := False;
   FBookmarkListPage := 0;
   FBtnFileSearchGallery := nil;
   FPopFileSearch := nil;
@@ -18178,7 +19465,7 @@ begin
   StartupMark('FormCreate: field init');
   EnsureFileSearchGalleryButton;
   StartupMark('FormCreate: EnsureFileSearchGalleryButton');
-  FFindOccChromeHidden := False;
+  FFindOccFrameHidden := False;
   FFindOccDroveFilter := False;
   FFindOccOfferShown := False;
   FFindOccAssistantOffered := False;
@@ -18205,12 +19492,13 @@ begin
   FBtnLvClear := nil;
   FBtnLvExport := nil;
   FBtnLvCopy := nil;
+  FBtnLvNextSteps := nil;
   FBtnLvAskAI := nil;
   FBtnLvMerge := nil;
   FBtnLvEditLines := nil;
   FBtnLvAnon := nil;
   FFilterPeek := nil;
-  FFilterBarChromeHidden := False;
+  FFilterBarFrameHidden := False;
   FDeferredFindAfterIndex := False;
   FDeferredFilterAfterIndex := False;
   FAssistantPendingExportFiltered := False;
@@ -18303,7 +19591,7 @@ procedure TfrmMain.SetupToolbarKeyboardHints;
     ABtn.ShowHint := True;
     ABtn.Hint := Tail;
     { Main ribbon buttons are alLeft: grow so long translations are not cut with "...". }
-    if (Pos('btnMain', ABtn.Name) = 1) and (ABtn.Align = alLeft) then
+    if (Pos('btnMain', ABtn.Name) = 1) and (ABtn.Align in [alLeft, alRight]) then
     begin
       GlyphW := 0;
       if Assigned(ABtn.Images) then
@@ -18358,8 +19646,10 @@ var
   S, Part: string;
   P, GlyphW, Extra, LineW, Want: Integer;
   Scalable, WantW: array of Integer;
+  BL: IInterface;
 begin
   if (APanel = nil) or (csDestroying in ComponentState) then Exit;
+  BL := BidiLayoutScope([APanel]);
   if Assigned(AScroller) and AScroller.HandleAllocated and (AScroller.ClientWidth > 48) then
     Avail := AScroller.ClientWidth
   else if (APanel.Parent <> nil) and (APanel.Parent.ClientWidth > 48) then
@@ -18454,6 +19744,11 @@ begin
         Inc(Sum, APanel.Controls[I].Width);
     if Sum < 40 then
       Sum := 40;
+    { Right-to-left: the buttons hug the right edge of the scroller, so the panel
+      fills it (exactly: wider than the scroller would make it show an arrow). }
+    if BidiIsRtl and Assigned(AScroller) and AScroller.HandleAllocated and
+       (Sum < AScroller.ClientWidth) then
+      Sum := AScroller.ClientWidth;
     { A panel wider than its buttons makes the scroller show an arrow
       even when every button already fits the work area. }
     APanel.Width := Sum;
@@ -18711,6 +20006,407 @@ begin
     btnCheckBoxesClick(btnCheckBoxes);
 end;
 
+procedure TfrmMain.SelectRangeResultLineClick(Sender: TObject);
+var
+  SelectedList: TListBox;
+  SelectedLine: Int64;
+  ResultForm: TCustomForm;
+begin
+  if not (Sender is TListBox) then Exit;
+  SelectedList := TListBox(Sender);
+  if (SelectedList.ItemIndex < 0) or
+     (not TryStrToInt64(SelectedList.Items[SelectedList.ItemIndex], SelectedLine)) or
+     (SelectedLine < 1) or (SelectedLine > totalLines) then
+    Exit;
+
+  ResultForm := GetParentForm(SelectedList);
+  if Assigned(ResultForm) then
+    ResultForm.ModalResult := mrOk;
+  EnsureReadTabVisible;
+  GotoPhysicalLine1Based(SelectedLine);
+  if not UsesProportionalZeroScanScroll then
+    UpdateStatusBar(Format(TrText('Go to line %d'), [SelectedLine]), iaRight);
+end;
+
+procedure TfrmMain.miSelectLinesByRangeClick(Sender: TObject);
+const
+  SelectionDetailsMaxLines = 100;
+var
+  InputText, Token, LeftText, RightText: string;
+  TokenStart, I, DashPos, SelectedRow, Limit, AddedCount: Integer;
+  FromLine, ToLine, LineNo, FileLineIndex: Int64;
+  SeenLines: TDictionary<Int64, Byte>;
+  LinesToAdd, SelectionDetails: TInt64List;
+  IsValid, LimitExceeded: Boolean;
+
+  function PromptForRanges(var ARanges: string): Boolean;
+  var
+    Frm: TForm;
+    HeaderPanel: TPanel;
+    TitleLabel, PromptLabel: TLabel;
+    RangeEdit: TEdit;
+    FooterPanel: TPanel;
+    Separator: TBevel;
+    BtnConfirm, BtnCancel: TButton;
+  begin
+    Frm := TForm.CreateNew(Self);
+    try
+      Frm.Caption := TrText('SelectRange.Title');
+      Frm.BorderStyle := bsDialog;
+      Frm.BorderIcons := [biSystemMenu];
+      Frm.Position := poMainFormCenter;
+      Frm.Font.Name := 'Segoe UI';
+      Frm.Font.Size := 9;
+      Frm.KeyPreview := True;
+      FfPrepareDialog(Frm, 620, 250);
+
+      HeaderPanel := TPanel.Create(Frm);
+      HeaderPanel.Parent := Frm;
+      HeaderPanel.Align := alTop;
+      HeaderPanel.Height := FfPx(76);
+      HeaderPanel.BevelOuter := bvNone;
+      HeaderPanel.ParentBackground := False;
+      HeaderPanel.Color := clWindow;
+
+      TitleLabel := TLabel.Create(Frm);
+      TitleLabel.Parent := HeaderPanel;
+      TitleLabel.SetBounds(FfPx(20), FfPx(14), Frm.ClientWidth - FfPx(40),
+        FfPx(24));
+      TitleLabel.Caption := TrText('SelectRange.Title');
+      TitleLabel.Font.Assign(Frm.Font);
+      TitleLabel.Font.Style := [fsBold];
+      TitleLabel.Font.Size := 12;
+
+      PromptLabel := TLabel.Create(Frm);
+      PromptLabel.Parent := HeaderPanel;
+      PromptLabel.SetBounds(FfPx(20), FfPx(42), Frm.ClientWidth - FfPx(40),
+        FfPx(30));
+      PromptLabel.AutoSize := False;
+      PromptLabel.WordWrap := True;
+      PromptLabel.Caption := Format(TrText('SelectRange.Prompt'), [totalLines]);
+
+      RangeEdit := TEdit.Create(Frm);
+      RangeEdit.Parent := Frm;
+      RangeEdit.SetBounds(FfPx(20), FfPx(103), Frm.ClientWidth - FfPx(40),
+        FfPx(30));
+      RangeEdit.Text := ARanges;
+      RangeEdit.Font.Assign(Frm.Font);
+      RangeEdit.Font.Size := 10;
+
+      FooterPanel := TPanel.Create(Frm);
+      FooterPanel.Parent := Frm;
+      FooterPanel.Align := alBottom;
+      FooterPanel.Height := FfPx(58);
+      FooterPanel.BevelOuter := bvNone;
+      FooterPanel.ParentBackground := False;
+      FooterPanel.Color := clBtnFace;
+
+      Separator := TBevel.Create(Frm);
+      Separator.Parent := FooterPanel;
+      Separator.Align := alTop;
+      Separator.Shape := bsTopLine;
+
+      BtnCancel := TButton.Create(Frm);
+      BtnCancel.Parent := FooterPanel;
+      BtnCancel.SetBounds(Frm.ClientWidth - FfPx(108), FfPx(15),
+        FfPx(88), FfPx(28));
+      BtnCancel.Caption := TrText('Cancel');
+      BtnCancel.ModalResult := mrCancel;
+      BtnCancel.Cancel := True;
+
+      BtnConfirm := TButton.Create(Frm);
+      BtnConfirm.Parent := FooterPanel;
+      BtnConfirm.SetBounds(Frm.ClientWidth - FfPx(204), FfPx(15),
+        FfPx(88), FfPx(28));
+      BtnConfirm.Caption := TrText('Confirm');
+      BtnConfirm.ModalResult := mrOk;
+      BtnConfirm.Default := True;
+
+      Frm.ActiveControl := RangeEdit;
+      RangeEdit.SelectAll;
+      Result := Frm.ShowModal = mrOk;
+      if Result then
+        ARanges := RangeEdit.Text;
+    finally
+      Frm.Free;
+    end;
+  end;
+
+  function ParseLineNumber(const S: string; out AValue: Int64): Boolean;
+  begin
+    Result := TryStrToInt64(Trim(S), AValue);
+  end;
+
+  procedure ShowSelectionResult(const AAddedCount, ATotalSelected: Int64;
+    ASelectedLines: TInt64List; AAllLines: Boolean);
+  var
+    Frm: TForm;
+    HeaderPanel, FooterPanel: TPanel;
+    TitleLabel, SummaryLabel, LinesLabel: TLabel;
+    SelectedList: TListBox;
+    BtnClose: TButton;
+    DetailIndex: Integer;
+    Body: string;
+  begin
+    if ATotalSelected > SelectionDetailsMaxLines then
+    begin
+      Body := Format(TrText('SelectRange.Added'),
+        [AAddedCount, ATotalSelected]) + #13#10 +
+        Format(TrText('SelectRange.ListOmitted'), [SelectionDetailsMaxLines]);
+      if Assigned(frmMain) and frmMain.HandleAllocated then
+        ShowFastFileAppNotice(frmMain, fnkInfo, TrText('Information'),
+          Body, FASTFILE_NOTICE_SECONDS)
+      else
+        FastFileMsgInfo(Body);
+      Exit;
+    end;
+
+    Frm := TForm.CreateNew(Self);
+    try
+      Frm.Caption := TrText('SelectRange.Title');
+      Frm.BorderStyle := bsDialog;
+      Frm.BorderIcons := [biSystemMenu];
+      Frm.Position := poMainFormCenter;
+      Frm.Font.Name := 'Segoe UI';
+      Frm.Font.Size := 9;
+      FfPrepareDialog(Frm, 480, 440);
+
+      HeaderPanel := TPanel.Create(Frm);
+      HeaderPanel.Parent := Frm;
+      HeaderPanel.Align := alTop;
+      HeaderPanel.Height := FfPx(112);
+      HeaderPanel.BevelOuter := bvNone;
+      HeaderPanel.ParentBackground := False;
+      HeaderPanel.Color := clWindow;
+
+      TitleLabel := TLabel.Create(Frm);
+      TitleLabel.Parent := HeaderPanel;
+      TitleLabel.SetBounds(FfPx(20), FfPx(12), Frm.ClientWidth - FfPx(40),
+        FfPx(24));
+      TitleLabel.Caption := TrText('SelectRange.Title');
+      TitleLabel.Font.Assign(Frm.Font);
+      TitleLabel.Font.Style := [fsBold];
+      TitleLabel.Font.Size := 12;
+
+      SummaryLabel := TLabel.Create(Frm);
+      SummaryLabel.Parent := HeaderPanel;
+      SummaryLabel.SetBounds(FfPx(20), FfPx(42), Frm.ClientWidth - FfPx(40),
+        FfPx(38));
+      SummaryLabel.AutoSize := False;
+      SummaryLabel.WordWrap := True;
+      SummaryLabel.Caption := Format(TrText('SelectRange.Added'),
+        [AAddedCount, ATotalSelected]);
+
+      LinesLabel := TLabel.Create(Frm);
+      LinesLabel.Parent := HeaderPanel;
+      LinesLabel.SetBounds(FfPx(20), FfPx(84), Frm.ClientWidth - FfPx(40),
+        FfPx(20));
+      LinesLabel.Caption := TrText('Prefs.Section.SelLines');
+      LinesLabel.Font.Style := [fsBold];
+
+      SelectedList := TListBox.Create(Frm);
+      SelectedList.Parent := Frm;
+      SelectedList.Align := alClient;
+      SelectedList.Font.Name := 'Consolas';
+      SelectedList.Font.Size := 9;
+      SelectedList.OnClick := SelectRangeResultLineClick;
+      if AAllLines then
+      begin
+        for DetailIndex := 1 to Integer(ATotalSelected) do
+          SelectedList.Items.Add(IntToStr(DetailIndex));
+      end
+      else if Assigned(ASelectedLines) then
+        for DetailIndex := 0 to ASelectedLines.Count - 1 do
+          SelectedList.Items.Add(IntToStr(ASelectedLines.Items[DetailIndex]));
+
+      FooterPanel := TPanel.Create(Frm);
+      FooterPanel.Parent := Frm;
+      FooterPanel.Align := alBottom;
+      FooterPanel.Height := FfPx(54);
+      FooterPanel.BevelOuter := bvNone;
+      FooterPanel.ParentBackground := False;
+      FooterPanel.Color := clBtnFace;
+
+      BtnClose := TButton.Create(Frm);
+      BtnClose.Parent := FooterPanel;
+      BtnClose.SetBounds(Frm.ClientWidth - FfPx(104), FfPx(12),
+        FfPx(84), FfPx(28));
+      BtnClose.Caption := TrText('Close');
+      BtnClose.ModalResult := mrOk;
+      BtnClose.Default := True;
+      Frm.ShowModal;
+    finally
+      Frm.Free;
+    end;
+  end;
+
+  procedure AddToPendingSelection(const ALineNo: Int64);
+  begin
+    if not SeenLines.ContainsKey(ALineNo) then
+    begin
+      SeenLines.Add(ALineNo, 0);
+      LinesToAdd.Add(ALineNo);
+    end;
+  end;
+
+begin
+  EnsureReadTabVisible;
+  if ListviewIsEmpty or (totalLines <= 0) then Exit;
+
+  InputText := '';
+  if not PromptForRanges(InputText) then
+    Exit;
+
+  Limit := PrefSelectedLinesActionMax;
+  SeenLines := TDictionary<Int64, Byte>.Create;
+  LinesToAdd := TInt64List.Create;
+  SelectionDetails := nil;
+  IsValid := True;
+  LimitExceeded := False;
+  FromLine := 0;
+  ToLine := 0;
+  try
+    if isAllChecked then
+    begin
+      ShowSelectionResult(0, totalLines, nil, True);
+      Exit;
+    end;
+
+    if Assigned(FCheckedLines) then
+    begin
+      if FCheckedLines.Count > Limit then
+      begin
+        ShowAppMessage(Format(TrText('ListView.SelLimitExceeded'),
+          [FCheckedLines.Count, Limit]));
+        Exit;
+      end;
+      for I := 0 to FCheckedLines.Count - 1 do
+        SeenLines.AddOrSetValue(FCheckedLines.Items[I], 0);
+    end;
+
+    { Preserve rows selected in the regular ListView before switching to the
+      checkbox view, whose selection can span the whole file. }
+    if (not isChecked) and Assigned(ListView1) and ListView1.HandleAllocated then
+    begin
+      SelectedRow := -1;
+      repeat
+        SelectedRow := ListView_GetNextItem(ListView1.Handle, SelectedRow,
+          LVNI_SELECTED);
+        if SelectedRow < 0 then Break;
+        FileLineIndex := FileLineIndexFromListRow(SelectedRow);
+        if (FileLineIndex >= 0) and (FileLineIndex < totalLines) then
+          AddToPendingSelection(FileLineIndex + 1);
+        if SeenLines.Count > Limit then
+        begin
+          LimitExceeded := True;
+          Break;
+        end;
+      until False;
+    end;
+
+    TokenStart := 1;
+    I := 1;
+    while (I <= Length(InputText) + 1) and IsValid and (not LimitExceeded) do
+    begin
+      if (I > Length(InputText)) or (InputText[I] in [';', ',']) then
+      begin
+        Token := Trim(Copy(InputText, TokenStart, I - TokenStart));
+        if Token = '' then
+        begin
+          IsValid := False;
+          Break;
+        end;
+        DashPos := Pos('-', Token);
+        if DashPos = 0 then
+        begin
+          if not ParseLineNumber(Token, FromLine) then
+            IsValid := False
+          else
+            ToLine := FromLine;
+        end
+        else
+        begin
+          LeftText := Copy(Token, 1, DashPos - 1);
+          RightText := Copy(Token, DashPos + 1, MaxInt);
+          if (Pos('-', RightText) > 0) or
+             (not ParseLineNumber(LeftText, FromLine)) or
+             (not ParseLineNumber(RightText, ToLine)) then
+            IsValid := False;
+        end;
+
+        if IsValid and ((FromLine < 1) or (ToLine < FromLine) or
+          (ToLine > totalLines)) then
+          IsValid := False;
+
+        if IsValid then
+        begin
+          if (ToLine - FromLine + 1) > Int64(Limit) + SeenLines.Count then
+          begin
+            LimitExceeded := True;
+            Break;
+          end;
+          for LineNo := FromLine to ToLine do
+          begin
+            AddToPendingSelection(LineNo);
+            if SeenLines.Count > Limit then
+            begin
+              LimitExceeded := True;
+              Break;
+            end;
+          end;
+        end;
+        TokenStart := I + 1;
+      end;
+      Inc(I);
+    end;
+
+    if LimitExceeded then
+    begin
+      ShowAppMessage(Format(TrText('ListView.SelLimitExceeded'),
+        [SeenLines.Count, Limit]));
+      Exit;
+    end;
+    if not IsValid then
+    begin
+      FastFileMessageBox(
+        PChar(Format(TrText('SelectRange.Invalid'), [totalLines])),
+        PChar(TrText('SelectRange.Title')), MB_OK or MB_ICONWARNING);
+      Exit;
+    end;
+
+    AddedCount := LinesToAdd.Count;
+    if SeenLines.Count <= SelectionDetailsMaxLines then
+    begin
+      SelectionDetails := TInt64List.Create;
+      for LineNo in SeenLines.Keys do
+        SelectionDetails.Add(LineNo);
+      SelectionDetails.SortUp;
+    end;
+    if LinesToAdd.Count > 0 then
+    begin
+      if not Assigned(FCheckedLines) then
+        FCheckedLines := TInt64List.Create;
+      for I := 0 to LinesToAdd.Count - 1 do
+        FCheckedLines.Add(LinesToAdd.Items[I]);
+    end;
+
+    if not isChecked then
+      ActionCheckBoxesListView.Execute
+    else
+      showChecked;
+    UpdateScriptScopeRBFromChecks;
+    UpdateListViewLineToolsEnabled;
+    if SeenLines.Count > SelectionDetailsMaxLines then
+      ShowSelectionResult(AddedCount, SeenLines.Count, nil, False)
+    else
+      ShowSelectionResult(AddedCount, SeenLines.Count, SelectionDetails, False);
+  finally
+    SelectionDetails.Free;
+    LinesToAdd.Free;
+    SeenLines.Free;
+  end;
+end;
+
 procedure TfrmMain.miZoomListViewInClick(Sender: TObject);
 begin
   EnsureReadTabVisible;
@@ -18829,6 +20525,119 @@ begin
     end;
   finally
     FStackReflowing := False;
+  end;
+end;
+
+procedure TMergeFilesDialogForm.AttachEditContextMenu(AMemo: TsMemo);
+var
+  Item: TMenuItem;
+  i: Integer;
+begin
+  if not Assigned(AMemo) then Exit;
+  if not Assigned(FEditContextMenu) then
+  begin
+    FEditContextMenu := TPopupMenu.Create(Self);
+    FEditContextMenu.OnPopup := EditContextMenuPopup;
+
+    Item := TMenuItem.Create(FEditContextMenu);
+    Item.Tag := 1;
+    Item.OnClick := EditContextMenuClick;
+    FEditContextMenu.Items.Add(Item);
+    Item := TMenuItem.Create(FEditContextMenu);
+    Item.Caption := '-';
+    FEditContextMenu.Items.Add(Item);
+    for i := 2 to 5 do
+    begin
+      Item := TMenuItem.Create(FEditContextMenu);
+      Item.Tag := i;
+      Item.OnClick := EditContextMenuClick;
+      FEditContextMenu.Items.Add(Item);
+    end;
+    Item := TMenuItem.Create(FEditContextMenu);
+    Item.Caption := '-';
+    FEditContextMenu.Items.Add(Item);
+    Item := TMenuItem.Create(FEditContextMenu);
+    Item.Tag := 6;
+    Item.OnClick := EditContextMenuClick;
+    FEditContextMenu.Items.Add(Item);
+  end;
+  AMemo.PopupMenu := FEditContextMenu;
+end;
+
+function TMergeFilesDialogForm.EditContextTarget: TCustomEdit;
+begin
+  Result := nil;
+  if Assigned(FEditContextMenu) and
+     (FEditContextMenu.PopupComponent is TCustomEdit) then
+    Result := TCustomEdit(FEditContextMenu.PopupComponent);
+end;
+
+procedure TMergeFilesDialogForm.EditContextMenuPopup(Sender: TObject);
+var
+  Target: TCustomEdit;
+  HasSelection, CanUndo: Boolean;
+begin
+  if not Assigned(FEditContextMenu) then Exit;
+  FEditContextMenu.BiDiMode := Application.BiDiMode;
+  FEditContextMenu.Items[0].Caption := TrText('Undo');
+  FEditContextMenu.Items[2].Caption := TrText('Cut');
+  FEditContextMenu.Items[3].Caption := TrText('Copy');
+  FEditContextMenu.Items[4].Caption := TrText('Paste');
+  FEditContextMenu.Items[5].Caption := TrText('Delete');
+  FEditContextMenu.Items[7].Caption := TrText('Select All');
+
+  Target := EditContextTarget;
+  if not Assigned(Target) then
+  begin
+    FEditContextMenu.Items[0].Enabled := False;
+    FEditContextMenu.Items[2].Enabled := False;
+    FEditContextMenu.Items[3].Enabled := False;
+    FEditContextMenu.Items[4].Enabled := False;
+    FEditContextMenu.Items[5].Enabled := False;
+    FEditContextMenu.Items[7].Enabled := False;
+    Exit;
+  end;
+
+  HasSelection := Target.SelLength > 0;
+  CanUndo := SendMessage(Target.Handle, EM_CANUNDO, 0, 0) <> 0;
+  FEditContextMenu.Items[0].Enabled := Target.Enabled and CanUndo;
+  FEditContextMenu.Items[2].Enabled := Target.Enabled and
+    not Target.ReadOnly and HasSelection;
+  FEditContextMenu.Items[3].Enabled := Target.Enabled and HasSelection;
+  FEditContextMenu.Items[4].Enabled := Target.Enabled and not Target.ReadOnly and
+    Clipboard.HasFormat(CF_TEXT);
+  FEditContextMenu.Items[5].Enabled := Target.Enabled and
+    not Target.ReadOnly and HasSelection;
+  FEditContextMenu.Items[7].Enabled := Target.Enabled and (Length(Target.Text) > 0);
+end;
+
+procedure TMergeFilesDialogForm.EditContextMenuClick(Sender: TObject);
+var
+  Target: TCustomEdit;
+  Action: Integer;
+begin
+  if not (Sender is TMenuItem) then Exit;
+  Target := EditContextTarget;
+  if not Assigned(Target) or not Target.Enabled then Exit;
+  Action := TMenuItem(Sender).Tag;
+  case Action of
+    1:
+      if SendMessage(Target.Handle, EM_CANUNDO, 0, 0) <> 0 then
+        SendMessage(Target.Handle, EM_UNDO, 0, 0);
+    2:
+      if not Target.ReadOnly and (Target.SelLength > 0) then
+        Target.CutToClipboard;
+    3:
+      if Target.SelLength > 0 then
+        Target.CopyToClipboard;
+    4:
+      if not Target.ReadOnly and Clipboard.HasFormat(CF_TEXT) then
+        Target.PasteFromClipboard;
+    5:
+      if not Target.ReadOnly and (Target.SelLength > 0) then
+        Target.ClearSelection;
+    6:
+      Target.SelectAll;
   end;
 end;
 
@@ -19230,7 +21039,8 @@ begin
     LblParts.Parent := Frm;
     LblParts.Left := 16;
     LblParts.Top := 80;
-    LblParts.Caption := TrText('Number of parts (2..1000):');
+    LblParts.Caption := Format(TrText('Split.PartsRange'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SPLIT_PARTS_MAX]) + ')';
 
     SpnParts := TsSpinEdit.Create(Frm);
     SpnParts.Parent := Frm;
@@ -19238,7 +21048,7 @@ begin
     SpnParts.Top := 100;
     SpnParts.Width := 120;
     SpnParts.MinValue := SPLIT_PARTS_MIN;
-    SpnParts.MaxValue := SPLIT_PARTS_MAX;
+    SpnParts.MaxValue := PrefSplitPartsMax;
     SpnParts.Value := SPLIT_PARTS_MIN;
 
     LblHint := TLabel.Create(Frm);
@@ -19305,10 +21115,9 @@ begin
     APartCount := Integer(SpnParts.Value);
     AHeader := MemoHeader.Text;
     AFooter := MemoFooter.Text;
-    if (APartCount < SPLIT_PARTS_MIN) or (APartCount > SPLIT_PARTS_MAX) then
+    if (APartCount < SPLIT_PARTS_MIN) or (APartCount > PrefSplitPartsMax) then
     begin
-      ShowAppMessage(Format(TrText('Number of parts must be between %d and %d.'),
-        [SPLIT_PARTS_MIN, SPLIT_PARTS_MAX]));
+      ShowAppMessage(Format(TrText('Split.PartsBetween'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]));
       Exit;
     end;
 
@@ -19396,7 +21205,8 @@ begin
     LblCount.Parent := Frm;
     LblCount.Left := 220;
     LblCount.Top := 16;
-    LblCount.Caption := TrText('Number of new lines:');
+    LblCount.Caption := Format(TrText('Insert.CountWithMax'), [PrefInsertMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_INSERT_MAX_LINES]) + ')';
 
     LblSelection := TLabel.Create(Frm);
     LblSelection.Parent := Frm;
@@ -19583,9 +21393,9 @@ begin
       Exit;
     end;
 
-    if (TmpCount < 1) or (TmpCount > MAX_INSERT_LINES) then
+    if (TmpCount < 1) or (TmpCount > PrefInsertMaxLines) then
     begin
-      FastFileMessageBox(PChar(Format(TrText('Number of lines must be between %d and %d.'), [1, MAX_INSERT_LINES])),
+      FastFileMessageBox(PChar(Format(TrText('Number of lines must be between %d and %d.'), [1, PrefInsertMaxLines])),
         APPLICATION_NAME, MB_OK or MB_ICONWARNING);
       Exit;
     end;
@@ -19719,10 +21529,12 @@ begin
     SpnEqualParts.Top := 100;
     SpnEqualParts.Width := 120;
     SpnEqualParts.MinValue := 2;
-    SpnEqualParts.MaxValue := 1000;
+    SpnEqualParts.MaxValue := PrefSplitPartsMax;
     SpnEqualParts.Value := 10;
     SpnEqualParts.BoundLabel.Active := True;
-    SpnEqualParts.BoundLabel.Caption := TrText('Equal parts count (2..1000, only in equal-parts mode):');
+    SpnEqualParts.BoundLabel.Caption := Format(TrText('Split.EqualPartsCount'),
+      [SPLIT_PARTS_MIN, PrefSplitPartsMax]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SPLIT_PARTS_MAX]) + ')';
 
     LblRegexExamples := TLabel.Create(Frm);
     LblRegexExamples.Parent := Frm;
@@ -19904,9 +21716,9 @@ begin
 
     if AUseEqualParts then
     begin
-      if (AEqualPartsCount < 2) or (AEqualPartsCount > 1000) then
+      if (AEqualPartsCount < SPLIT_PARTS_MIN) or (AEqualPartsCount > PrefSplitPartsMax) then
       begin
-        ShowAppMessage(TrText('Number of parts must be between 2 and 1000.'));
+        ShowAppMessage(Format(TrText('Split.PartsBetween'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]));
         Exit;
       end;
     end
@@ -19994,6 +21806,310 @@ begin
   FCompareMergeHosted := TfrmCompareMerge.ExecuteEmbedded(Self, tabMerge, CurPath, CurPath);
   MergeFrm := TfrmCompareMerge(FCompareMergeHosted);
   MergeFrm.OnEscapeEmbedded := HostedTabCancel;
+end;
+
+procedure TfrmMain.EnsureWorkflowNextSteps;
+var
+  Divider: TPanel;
+begin
+  if Assigned(FWorkflowNextPanel) or not Assigned(pnlMain) then Exit;
+
+  FWorkflowNextPanel := TPanel.Create(Self);
+  FWorkflowNextPanel.Visible := False;
+  FWorkflowNextPanel.Align := alTop;
+  FWorkflowNextPanel.Height := 74;
+  FWorkflowNextPanel.BevelOuter := bvNone;
+  FWorkflowNextPanel.ParentColor := False;
+  FWorkflowNextPanel.Color := $00F7FAFC;
+  FWorkflowNextPanel.DoubleBuffered := True;
+  FWorkflowNextPanel.OnResize := LayoutWorkflowNextSteps;
+  FWorkflowNextPanel.Parent := pnlMain;
+
+  FWorkflowAccent := TPanel.Create(FWorkflowNextPanel);
+  FWorkflowAccent.Parent := FWorkflowNextPanel;
+  FWorkflowAccent.Align := alLeft;
+  FWorkflowAccent.Width := 5;
+  FWorkflowAccent.BevelOuter := bvNone;
+  FWorkflowAccent.ParentColor := False;
+  FWorkflowAccent.Color := $00D48831;
+
+  Divider := TPanel.Create(FWorkflowNextPanel);
+  Divider.Parent := FWorkflowNextPanel;
+  Divider.Align := alBottom;
+  Divider.Height := 1;
+  Divider.BevelOuter := bvNone;
+  Divider.ParentColor := False;
+  Divider.Color := $00DEE8F2;
+
+  FWorkflowTitle := TLabel.Create(FWorkflowNextPanel);
+  FWorkflowTitle.Parent := FWorkflowNextPanel;
+  FWorkflowTitle.SetBounds(16, 4, 420, 18);
+  FWorkflowTitle.Font.Assign(Font);
+  FWorkflowTitle.Font.Style := [fsBold];
+  FWorkflowTitle.Font.Size := 10;
+
+  FWorkflowDescription := TLabel.Create(FWorkflowNextPanel);
+  FWorkflowDescription.Parent := FWorkflowNextPanel;
+  FWorkflowDescription.SetBounds(16, 22, 600, 16);
+  FWorkflowDescription.Font.Assign(Font);
+  FWorkflowDescription.Font.Color := clGrayText;
+
+  FWorkflowDontShow := TCheckBox.Create(FWorkflowNextPanel);
+  FWorkflowDontShow.Parent := FWorkflowNextPanel;
+  FWorkflowDontShow.Height := 22;
+  FWorkflowDontShow.OnClick := WorkflowDontShowClick;
+
+  FWorkflowClose := TButton.Create(FWorkflowNextPanel);
+  FWorkflowClose.Parent := FWorkflowNextPanel;
+  FWorkflowClose.Height := 24;
+  FWorkflowClose.OnClick := WorkflowDismissClick;
+
+  RefreshWorkflowNextStepsI18n;
+  LayoutWorkflowNextSteps(FWorkflowNextPanel);
+end;
+
+procedure TfrmMain.LayoutWorkflowNextSteps(Sender: TObject);
+const
+  BUTTON_TOP = 42;
+  BUTTON_H = 26;
+  BUTTON_GAP = 6;
+  BOTTOM_PAD = 6;
+var
+  I, X, CheckWidth, CloseWidth, Count, AvailW, MaxRight, W, PanelH, Used: Integer;
+  Widths: array of Integer;
+begin
+  if FWorkflowLayoutBusy then Exit;
+  if not Assigned(FWorkflowNextPanel) or not Assigned(FWorkflowTitle) then Exit;
+  { While the parent alignment is suspended the panel still has its default
+    width. Measuring that width wraps every button onto its own row and the
+    tall height stays after the panel is stretched. }
+  AvailW := FWorkflowNextPanel.ClientWidth;
+  if Assigned(FWorkflowNextPanel.Parent) and
+     (FWorkflowNextPanel.Parent.ClientWidth > AvailW) then
+    AvailW := FWorkflowNextPanel.Parent.ClientWidth;
+  if AvailW < 240 then
+    AvailW := 240;
+
+  FWorkflowDontShow.Width := Min(250,
+    Max(132, Length(FWorkflowDontShow.Caption) * 7 + 24));
+  FWorkflowClose.Width := Max(72,
+    Length(FWorkflowClose.Caption) * 7 + 24);
+  CheckWidth := FWorkflowDontShow.Width;
+  CloseWidth := FWorkflowClose.Width;
+  FWorkflowTitle.SetBounds(16, 4,
+    Max(120, AvailW - CheckWidth - CloseWidth - 72), 18);
+  FWorkflowDescription.SetBounds(16, 22,
+    Max(120, AvailW - 32), 16);
+  FWorkflowDontShow.SetBounds(AvailW -
+    CloseWidth - CheckWidth - 28, 4, CheckWidth, 18);
+  FWorkflowClose.SetBounds(AvailW - CloseWidth - 12,
+    2, CloseWidth, 22);
+
+  Count := Length(FWorkflowActionBtns);
+  SetLength(Widths, Count);
+  Used := 0;
+  for I := 0 to Count - 1 do
+  begin
+    if not Assigned(FWorkflowActionBtns[I]) then Continue;
+    Widths[I] := Min(180, Max(64, Length(FWorkflowActionBtns[I].Caption) * 7 + 28));
+    if Used > 0 then
+      Inc(Used, BUTTON_GAP);
+    Inc(Used, Widths[I]);
+  end;
+  MaxRight := Max(160, AvailW - 32);
+  if (Used > MaxRight) and (Used > 0) then
+  begin
+    for I := 0 to Count - 1 do
+      if Widths[I] > 0 then
+        Widths[I] := Max(56, MulDiv(Widths[I], MaxRight, Used));
+  end;
+
+  X := 16;
+  for I := 0 to Count - 1 do
+  begin
+    if not Assigned(FWorkflowActionBtns[I]) or (Widths[I] <= 0) then Continue;
+    W := Widths[I];
+    FWorkflowActionBtns[I].SetBounds(X, BUTTON_TOP, W, BUTTON_H);
+    Inc(X, W + BUTTON_GAP);
+  end;
+  if Count < 1 then
+    PanelH := 42
+  else
+    PanelH := BUTTON_TOP + BUTTON_H + BOTTOM_PAD;
+  if FWorkflowNextPanel.Height <> PanelH then
+  begin
+    FWorkflowLayoutBusy := True;
+    try
+      FWorkflowNextPanel.Height := PanelH;
+    finally
+      FWorkflowLayoutBusy := False;
+    end;
+  end;
+end;
+
+procedure TfrmMain.RefreshWorkflowNextStepsI18n;
+const
+  MAX_WORKFLOW_ACTIONS = 9;
+var
+  Activity, Actions, Summary, Id, Cap: string;
+  Parts: TStringList;
+  I, N: Integer;
+  Btn: TButton;
+begin
+  if not Assigned(FWorkflowNextPanel) then Exit;
+  if not Assigned(FWorkflowActionIds) then
+    FWorkflowActionIds := TStringList.Create;
+  FWorkflowNextPanel.BiDiMode := Application.BiDiMode;
+  FWorkflowTitle.Caption := TrText('WorkflowWizard.Title');
+  FWorkflowDontShow.Caption := TrText('WorkflowWizard.DontShowAgain');
+  FWorkflowClose.Caption := TrText('WorkflowWizard.Dismiss');
+  AssistantLastOffer(Activity, Actions, Summary);
+  if Activity = '' then
+    Summary := TrText('WorkflowWizard.Description');
+  FWorkflowDescription.Caption := Summary;
+  FWorkflowNextPanel.OnResize := nil;
+  try
+
+  for I := High(FWorkflowActionBtns) downto Low(FWorkflowActionBtns) do
+    if Assigned(FWorkflowActionBtns[I]) then
+      FWorkflowActionBtns[I].Free;
+  SetLength(FWorkflowActionBtns, 0);
+  FWorkflowActionIds.Clear;
+
+  Parts := TStringList.Create;
+  try
+    Parts.StrictDelimiter := True;
+    Parts.Delimiter := ',';
+    Parts.DelimitedText := Actions;
+    N := 0;
+    for I := 0 to Parts.Count - 1 do
+    begin
+      if N >= MAX_WORKFLOW_ACTIONS then Break;
+      Id := Trim(Parts[I]);
+      if Id = '' then Continue;
+      Cap := AssistantOfferActionCaption(Id);
+      if (Cap = '') or SameText(Cap, Id) then Continue;
+      Btn := TButton.Create(FWorkflowNextPanel);
+      Btn.Parent := FWorkflowNextPanel;
+      Btn.Height := 26;
+      Btn.Tag := FWorkflowActionIds.Add(Id);
+      Btn.Caption := Cap;
+      Btn.Font.Assign(Font);
+      Btn.Font.Style := [fsBold];
+      Btn.OnClick := WorkflowNextStepClick;
+      SetLength(FWorkflowActionBtns, N + 1);
+      FWorkflowActionBtns[N] := Btn;
+      Inc(N);
+    end;
+  finally
+    Parts.Free;
+  end;
+  LayoutWorkflowNextSteps(FWorkflowNextPanel);
+  finally
+    FWorkflowNextPanel.OnResize := LayoutWorkflowNextSteps;
+  end;
+end;
+
+procedure TfrmMain.ShowWorkflowNextSteps;
+begin
+  if not PrefShowWorkflowWizard or AssistantHostHasPendingChain then Exit;
+  SetWorkflowNextStepsVisible(True);
+end;
+
+procedure TfrmMain.SetWorkflowNextStepsVisible(const AVisible: Boolean);
+var
+  ListViewRedrawLocked, ParentRedrawLocked: Boolean;
+begin
+  if not Assigned(pnlMain) then Exit;
+  if not AVisible then
+  begin
+    if not Assigned(FWorkflowNextPanel) then Exit;
+    if not FWorkflowNextPanel.Visible then Exit;
+  end;
+  if Assigned(FWorkflowNextPanel) and
+    (FWorkflowNextPanel.Visible = AVisible) then Exit;
+
+  { Batch the panel's single resize so the owner-data ListView is not repainted repeatedly. }
+  pnlMain.DisableAlign;
+  ParentRedrawLocked := pnlMain.HandleAllocated;
+  ListViewRedrawLocked := Assigned(ListView1) and ListView1.HandleAllocated;
+  if ParentRedrawLocked then
+    SendMessage(pnlMain.Handle, WM_SETREDRAW, 0, 0);
+  if ListViewRedrawLocked then
+    ListView1.Perform(WM_SETREDRAW, 0, 0);
+  try
+    if AVisible then
+    begin
+      EnsureWorkflowNextSteps;
+      RefreshWorkflowNextStepsI18n;
+      FWorkflowDontShow.Checked := False;
+      FWorkflowNextPanel.Visible := True;
+      FWorkflowNextPanel.BringToFront;
+    end
+    else
+      FWorkflowNextPanel.Visible := False;
+  finally
+    pnlMain.EnableAlign;
+    if AVisible and Assigned(FWorkflowNextPanel) then
+    begin
+      LayoutWorkflowNextSteps(nil);
+      pnlMain.Realign;
+    end;
+    if ParentRedrawLocked then
+      SendMessage(pnlMain.Handle, WM_SETREDRAW, 1, 0);
+    if ListViewRedrawLocked then
+    begin
+      ListView1.Perform(WM_SETREDRAW, 1, 0);
+    end;
+    if ParentRedrawLocked then
+      RedrawWindow(pnlMain.Handle, nil, 0,
+        RDW_INVALIDATE or RDW_ERASE or RDW_ALLCHILDREN or RDW_UPDATENOW);
+  end;
+end;
+
+procedure TfrmMain.HideWorkflowNextSteps;
+begin
+  if Assigned(FWorkflowNextPanel) and FWorkflowNextPanel.Visible then
+    SetWorkflowNextStepsVisible(False);
+end;
+
+procedure TfrmMain.WorkflowNextStepClick(Sender: TObject);
+var
+  Idx: Integer;
+  Id: string;
+  St: TAssistantChainStep;
+begin
+  if not (Sender is TButton) or not Assigned(FWorkflowActionIds) then Exit;
+  Idx := TButton(Sender).Tag;
+  if (Idx < 0) or (Idx >= FWorkflowActionIds.Count) then Exit;
+  Id := FWorkflowActionIds[Idx];
+  HideWorkflowNextSteps;
+  if SameText(Id, 'ask_ai') then
+  begin
+    miFastFileAssistantClick(Sender);
+    Exit;
+  end;
+  St := Default(TAssistantChainStep);
+  St.ActionId := Id;
+  AssistantCbExecuteAction(St);
+end;
+
+procedure TfrmMain.WorkflowDontShowClick(Sender: TObject);
+var
+  V: TUserPrefValues;
+begin
+  if not Assigned(FWorkflowDontShow) then Exit;
+  V := GetUserPrefValues;
+  V.ShowWorkflowWizard := not FWorkflowDontShow.Checked;
+  SetUserPrefValues(V);
+  SaveUserPrefs(IniName);
+  if FWorkflowDontShow.Checked then
+    HideWorkflowNextSteps;
+end;
+
+procedure TfrmMain.WorkflowDismissClick(Sender: TObject);
+begin
+  HideWorkflowNextSteps;
 end;
 
 procedure TfrmMain.EnsureAskFilesTab;
@@ -20550,17 +22666,27 @@ end;
 function TfrmMain.LoadFilterBarHeight: Integer;
 var
   Ini: TIniFile;
+  Compact: Integer;
 begin
   Result := FILTER_BAR_DEFAULT;
-  if IniName = '' then Exit;
-  Ini := TIniFile.Create(IniName);
-  try
-    Result := Ini.ReadInteger('UIPrefs', 'FilterBarHeight', FILTER_BAR_DEFAULT);
-  finally
-    Ini.Free;
+  if IniName <> '' then
+  begin
+    Ini := TIniFile.Create(IniName);
+    try
+      Result := Ini.ReadInteger('UIPrefs', 'FilterBarHeight', FILTER_BAR_DEFAULT);
+    finally
+      Ini.Free;
+    end;
   end;
   if Result < FILTER_BAR_HEIGHT then
     Result := FILTER_BAR_HEIGHT;
+  { A dragged height above the controls is only a blank band. Open compact. }
+  if Assigned(FFilterBar) then
+  begin
+    Compact := FFilterBar.ContentHeight;
+    if (Compact > 0) and (Result > Compact) then
+      Result := Compact;
+  end;
 end;
 
 procedure TfrmMain.SaveFilterBarHeight;
@@ -20613,7 +22739,7 @@ begin
   if Assigned(FFilterSplitter) then
     FFilterSplitter.Visible := False;
   if not Assigned(FFilterSplBot) or not Assigned(FFilterBar) then Exit;
-  ShowGrip := FFilterBar.Visible and (not FFilterBarChromeHidden);
+  ShowGrip := FFilterBar.Visible and (not FFilterBarFrameHidden);
   FFilterSplBot.Visible := ShowGrip;
   if not ShowGrip then Exit;
   FFilterSplBot.BringToFront;
@@ -20796,11 +22922,11 @@ begin
   if not Assigned(FFilterBar) or not FilterBarIsFloating then Exit;
   SaveFilterFloatBounds;
   ReparentAligned(FFilterBar, pnlCenter, alTop);
-  FFilterBar.Height := LoadFilterBarHeight;
   if Assigned(FFilterFloat) then
     FFilterFloat.Hide;
   FFilterBar.SetFloatingLook(False);
   FFilterBar.RelayoutAfterDock;
+  FFilterBar.Height := LoadFilterBarHeight;
   SyncFilterBandVisible;
   SaveFilterFloatBounds;
   if Assigned(pnlCenter) then
@@ -20855,30 +22981,36 @@ var
   MinH, MaxH: Integer;
 begin
   if not Assigned(FFindOccSpl) or not Assigned(FFindOccBar) then Exit;
-  ShowSpl := FFindOccBar.Visible and (not FFindOccChromeHidden);
+  ShowSpl := FFindOccBar.Visible and (not FFindOccFrameHidden);
   FFindOccSpl.Visible := ShowSpl;
   FFindOccSpl.BringToFront;
   if not ShowSpl then Exit;
   if FFindOccBar.Expanded then
-    MinH := FFindOccBar.ChromeHeight + FfPx(FIND_OCC_LIST_MIN_H)
+    MinH := FFindOccBar.FrameHeight + FfPx(FIND_OCC_LIST_TIGHT_H)
   else
-    MinH := FFindOccBar.ChromeHeight;
+    MinH := FFindOccBar.FrameHeight;
   if FindOccBarIsFloating then
   begin
     FFindOccSpl.MinSize := MinH;
     FFindOccSpl.MaxSize := 0;
     Exit;
   end;
-  MaxH := MinH;
-  if Assigned(pnlCenter) and (pnlCenter.ClientHeight > FfPx(180)) then
+  MaxH := 0;
+  if Assigned(pnlCenter) and (pnlCenter.ClientHeight > 0) then
   begin
-    MaxH := pnlCenter.ClientHeight - FfPx(140);
+    MaxH := pnlCenter.ClientHeight - FfPx(FIND_OCC_FILE_LIST_RESERVE);
+    { Short window: still allow dragging, file ListView keeps at least a header + rows. }
+    if MaxH < MinH + FfPx(60) then
+      MaxH := Min(MinH + FfPx(60), pnlCenter.ClientHeight - FfPx(90));
     if MaxH < MinH then
       MaxH := MinH;
   end;
+  { Hit list hidden: the docked bar has a fixed height, nothing to drag open. }
+  if not FFindOccBar.Expanded then
+    MaxH := MinH;
   FFindOccSpl.MinSize := MinH;
   FFindOccSpl.MaxSize := MaxH;
-  if (not FindOccBarIsFloating) and (FFindOccBar.Height > MaxH) then
+  if (not FindOccBarIsFloating) and (MaxH > 0) and (FFindOccBar.Height > MaxH) then
     FFindOccBar.Height := MaxH;
 end;
 
@@ -20896,6 +23028,13 @@ begin
   end;
 end;
 
+procedure TfrmMain.FindOccListToggled(Sender: TObject);
+begin
+  if Assigned(pnlCenter) then
+    pnlCenter.Realign;
+  SyncFindOccSplitter;
+end;
+
 procedure TfrmMain.FindOccSplResized(Sender: TObject);
 begin
   SaveFindOccDockHeight;
@@ -20909,8 +23048,14 @@ var
   DefH, Half, MaxH: Integer;
 begin
   if not Assigned(FFindOccBar) or not Assigned(pnlCenter) or FindOccBarIsFloating then Exit;
+  if not FFindOccBar.Expanded then
+  begin
+    if FFindOccBar.ListCollapsed then
+      FFindOccBar.ToggleHitList;
+    Exit;
+  end;
   DefH := FFindOccBar.PreferredExpandedHeight;
-  MaxH := pnlCenter.ClientHeight - FfPx(140);
+  MaxH := pnlCenter.ClientHeight - FfPx(FIND_OCC_FILE_LIST_RESERVE);
   if MaxH < DefH then
     MaxH := DefH;
   Half := pnlCenter.ClientHeight div 2;
@@ -21000,7 +23145,7 @@ begin
   FFindOccFloat.Show;
   FFindOccFloat.BringToFront;
   FFindOccBar.Visible := True;
-  FFindOccChromeHidden := False;
+  FFindOccFrameHidden := False;
   if Assigned(FFindOccPeek) then
     FFindOccPeek.Visible := False;
   SaveFindOccFloatBounds;
@@ -21019,9 +23164,9 @@ begin
   SaveFindOccFloatBounds;
   FFindOccBar.SetFloatingLook(False);
   ReparentAligned(FFindOccBar, pnlCenter, alTop);
-  if FFindOccKeepHits and (FFilteredCount > 0) then
+  if FFindOccKeepHits and (FFilteredCount > 0) and not FFindOccBar.ListCollapsed then
   begin
-    if FFindOccBar.UserHeight > FfPx(FIND_OCC_BAR_HEIGHT) then
+    if FFindOccBar.UserHeight >= FFindOccBar.ExpandedMinHeight then
       FFindOccBar.Height := FFindOccBar.UserHeight
     else
       FFindOccBar.Height := FFindOccBar.PreferredExpandedHeight;
@@ -21032,7 +23177,7 @@ begin
     FFindOccFloat.Hide;
   FFindOccBar.RelayoutAfterDock;
   FFindOccBar.Visible := True;
-  FFindOccChromeHidden := False;
+  FFindOccFrameHidden := False;
   SyncFindOccSplitter;
   SaveFindOccFloatBounds;
   if Assigned(pnlCenter) then
@@ -21093,6 +23238,7 @@ var
   B: TsSpeedButton;
   M: TMethod;
   Cap: string;
+  BL: IInterface;
 begin
   if Assigned(FBtnFileSearchGallery) and Assigned(FBtnFileSearchGallery.Parent) then
   begin
@@ -21102,6 +23248,8 @@ begin
   FBtnFileSearchGallery := nil;
   if not Assigned(btnExport) or not Assigned(btnExport.Parent) then Exit;
   ParentPnl := btnExport.Parent;
+  { btnExport.Left below is read in left-to-right terms. }
+  BL := BidiLayoutScope([ParentPnl]);
 
   { Remove orphaned copies / stray AlphaSkins dropdown arrows from earlier bugs. }
   for I := ParentPnl.ControlCount - 1 downto 0 do
@@ -21223,11 +23371,11 @@ procedure TfrmMain.FileSearchPopupPopup(Sender: TObject);
 var
   FindVisible, FilterVisible, BookmarkVisible: Boolean;
 begin
-  FindVisible := Assigned(FFindOccBar) and FFindOccBar.Visible and (not FFindOccChromeHidden);
+  FindVisible := Assigned(FFindOccBar) and FFindOccBar.Visible and (not FFindOccFrameHidden);
   if FindOccBarIsFloating and Assigned(FFindOccFloat) then
     FindVisible := FFindOccFloat.Visible and Assigned(FFindOccBar) and FFindOccBar.Visible;
-  FilterVisible := IsFilterBarChromeVisible;
-  BookmarkVisible := Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkChromeHidden);
+  FilterVisible := IsFilterBarFrameVisible;
+  BookmarkVisible := Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkFrameHidden);
   if BookmarkBarIsFloating and Assigned(FBookmarkFloat) then
     BookmarkVisible := FBookmarkFloat.Visible and Assigned(FBookmarkBar) and FBookmarkBar.Visible;
   if Assigned(FMiToggleFindOcc) then
@@ -21263,11 +23411,11 @@ begin
   EnsureFileSearchGalleryButton;
   if not Assigned(FBtnFileSearchGallery) then Exit;
 
-  FindVisible := Assigned(FFindOccBar) and FFindOccBar.Visible and (not FFindOccChromeHidden);
+  FindVisible := Assigned(FFindOccBar) and FFindOccBar.Visible and (not FFindOccFrameHidden);
   if FindOccBarIsFloating and Assigned(FFindOccFloat) then
     FindVisible := FFindOccFloat.Visible and Assigned(FFindOccBar) and FFindOccBar.Visible;
-  FilterVisible := IsFilterBarChromeVisible;
-  BookmarkVisible := Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkChromeHidden);
+  FilterVisible := IsFilterBarFrameVisible;
+  BookmarkVisible := Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkFrameHidden);
   if BookmarkBarIsFloating and Assigned(FBookmarkFloat) then
     BookmarkVisible := FBookmarkFloat.Visible and Assigned(FBookmarkBar) and FBookmarkBar.Visible;
 
@@ -21302,7 +23450,7 @@ begin
     HintBookmark := CapBookmark;
   end;
 
-  { Same form/chrome as Mais ferramentas — identical fonts, hosts, icons layout. }
+  { Same form/frame as Mais ferramentas — identical fonts, hosts, icons layout. }
   if Assigned(FormPopupToolGallery) then
     FreeAndNil(FormPopupToolGallery);
 
@@ -21334,9 +23482,9 @@ begin
   FormPopupToolGallery.HandleNeeded;
   if DefaultManager <> nil then
     DefaultManager.UpdateScale(FormPopupToolGallery);
-  FormPopupToolGallery.RelayoutChrome;
+  FormPopupToolGallery.RelayoutFrame;
 
-  P := FBtnFileSearchGallery.ClientToScreen(Point(0, FBtnFileSearchGallery.Height));
+  P := PopupFormAnchorPoint(FBtnFileSearchGallery, FormPopupToolGallery);
   ShowPopupForm(FormPopupToolGallery, P, False);
   FormPopupToolGallery.FocusSearch;
 end;
@@ -21376,14 +23524,14 @@ var
   FindVisible: Boolean;
 begin
   EnsureFindOccBar;
-  FindVisible := Assigned(FFindOccBar) and FFindOccBar.Visible and (not FFindOccChromeHidden);
+  FindVisible := Assigned(FFindOccBar) and FFindOccBar.Visible and (not FFindOccFrameHidden);
   if FindOccBarIsFloating and Assigned(FFindOccFloat) then
     FindVisible := FFindOccFloat.Visible and Assigned(FFindOccBar) and FFindOccBar.Visible;
   if FindVisible then
   begin
     if FindOccBarIsFloating and Assigned(FFindOccFloat) then
       FFindOccFloat.Hide;
-    HideFindOccBarChrome;
+    HideFindOccBarFrame;
   end
   else
   begin
@@ -21394,7 +23542,7 @@ begin
         FFindOccFloat.Show;
       if Assigned(FFindOccBar) then
         FFindOccBar.Visible := True;
-      FFindOccChromeHidden := False;
+      FFindOccFrameHidden := False;
       RefreshFindOccBarState;
     end
     else
@@ -21405,8 +23553,8 @@ end;
 procedure TfrmMain.FileSearchToggleFilterClick(Sender: TObject);
 begin
   EnsureFilterBar;
-  if IsFilterBarChromeVisible then
-    HideFilterBarChrome
+  if IsFilterBarFrameVisible then
+    HideFilterBarFrame
   else
     ShowFilterBar(True);
 end;
@@ -21416,14 +23564,14 @@ var
   BookmarkVisible: Boolean;
 begin
   EnsureBookmarkBar;
-  BookmarkVisible := Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkChromeHidden);
+  BookmarkVisible := Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkFrameHidden);
   if BookmarkBarIsFloating and Assigned(FBookmarkFloat) then
     BookmarkVisible := FBookmarkFloat.Visible and Assigned(FBookmarkBar) and FBookmarkBar.Visible;
   if BookmarkVisible then
   begin
     if BookmarkBarIsFloating and Assigned(FBookmarkFloat) then
       FBookmarkFloat.Hide;
-    HideBookmarkBarChrome;
+    HideBookmarkBarFrame;
   end
   else
   begin
@@ -21433,7 +23581,7 @@ begin
         FBookmarkFloat.Show;
       if Assigned(FBookmarkBar) then
         FBookmarkBar.Visible := True;
-      FBookmarkChromeHidden := False;
+      FBookmarkFrameHidden := False;
       RefreshBookmarkBarList;
     end
     else
@@ -21663,7 +23811,7 @@ end;
 
 procedure TfrmMain.RefreshReadViewAfterReparent;
 { After undock/dock, VCL ScaleForPPI can inflate ListView/header fonts.
-  Force chrome + zoom back from stored base size (not from the scaled Font.Size). }
+  Force frame + zoom back from stored base size (not from the scaled Font.Size). }
 var
   UiFont: string;
   WantSize, Pct: Integer;
@@ -21885,24 +24033,121 @@ begin
     FloatReadView;
 end;
 
-procedure TfrmMain.AssistantCbNotifyPanelVisible(AVisible: Boolean);
+procedure TfrmMain.EnsureAssistantSideDock;
+begin
+  if Assigned(FAssistantSideDock) then Exit;
+  FAssistantSideDock := TsPanel.Create(Self);
+  FAssistantSideDock.Align := alRight;
+  FAssistantSideDock.Width := FfPx(460);
+  FAssistantSideDock.Constraints.MinWidth := FfPx(300);
+  FAssistantSideDock.BevelOuter := bvNone;
+  FAssistantSideDock.Caption := '';
+  FAssistantSideDock.Visible := False;
+  FAssistantSideDock.ParentColor := True;
+  FAssistantSideDock.DoubleBuffered := True;
+
+  FAssistantSideSplit := TsSplitter.Create(Self);
+  FAssistantSideSplit.Width := 6;
+  FAssistantSideSplit.Cursor := crHSplit;
+  FAssistantSideSplit.MinSize := FfPx(280);
+  FAssistantSideSplit.AutoSnap := False;
+  FAssistantSideSplit.Visible := False;
+end;
+
+procedure TfrmMain.HideAssistantSideDock;
+begin
+  if Assigned(FAssistantSideDock) then
+    FAssistantSideDock.Visible := False;
+  if Assigned(FAssistantSideSplit) then
+    FAssistantSideSplit.Visible := False;
+end;
+
+procedure TfrmMain.ShowAssistantInAgentChat;
 var
-  W: TObject;
+  Agent: TfrmAgentWorkspace;
+begin
+  if not (FAgentHosted is TfrmAgentWorkspace) then Exit;
+  Agent := TfrmAgentWorkspace(FAgentHosted);
+  HideAssistantSideDock;
+  if Assigned(FAssistantPanel) and (FAssistantPanel.Parent <> Agent.pnlChat) then
+  begin
+    FAssistantPanel.Parent := Agent.pnlChat;
+    FAssistantPanel.Align := alClient;
+  end;
+  if Assigned(FAssistantPanel) then
+    FAssistantPanel.Visible := True;
+  Agent.ShowChat;
+  RelayoutFastFileAssistantAfterDock;
+end;
+
+procedure TfrmMain.ShowAssistantBesideActivePage;
+var
+  Page: TWinControl;
+  Agent: TfrmAgentWorkspace;
+  BL: IInterface;
+begin
+  if not Assigned(FAssistantPanel) then Exit;
+  if not Assigned(pgMain) or not Assigned(pgMain.ActivePage) then Exit;
+  if pgMain.ActivePage = FAgentTab then
+  begin
+    ShowAssistantInAgentChat;
+    Exit;
+  end;
+  EnsureAssistantSideDock;
+  Page := pgMain.ActivePage;
+  { The dock/grip are moved between pages and re-aligned (alRight, Left) in left-to-right
+    terms: un-mirror the old and the new page while doing so. }
+  BL := BidiLayoutScope([Page, BidiParentOf(FAssistantSideDock),
+    BidiParentOf(FAssistantSideSplit)]);
+  Page.DisableAlign;
+  try
+    if FAssistantSideDock.Parent <> Page then
+    begin
+      FAssistantSideDock.Parent := Page;
+      FAssistantSideDock.Align := alRight;
+      FAssistantSideDock.Width := FfCapSidePanelWidth(Page.ClientWidth, FfPx(460), 300);
+      FAssistantSideSplit.Parent := Page;
+    end;
+    FAssistantSideDock.Visible := True;
+    FAssistantSideSplit.Visible := True;
+    if FAssistantPanel.Parent <> FAssistantSideDock then
+    begin
+      FAssistantPanel.Parent := FAssistantSideDock;
+      FAssistantPanel.Align := alClient;
+    end;
+    FAssistantPanel.Visible := True;
+    FAssistantPanel.BringToFront;
+  finally
+    Page.EnableAlign;
+  end;
+  { Keep the grip to the left of the chat, same order as the agent chat pane. }
+  FAssistantSideSplit.Align := alNone;
+  FAssistantSideSplit.Left := FAssistantSideDock.Left - 1;
+  FAssistantSideSplit.Align := alRight;
+  if FAgentHosted is TfrmAgentWorkspace then
+  begin
+    Agent := TfrmAgentWorkspace(FAgentHosted);
+    if Agent.ChatVisible then
+      Agent.HideChat;
+  end;
+  RelayoutFastFileAssistantAfterDock;
+end;
+
+procedure TfrmMain.AssistantCbNotifyPanelVisible(AVisible: Boolean);
 begin
   if not Assigned(FAssistantPanel) then Exit;
   if AVisible then
   begin
-    W := EnsureAgentWorkspace;
-    if W is TfrmAgentWorkspace then
-    begin
-      TfrmAgentWorkspace(W).ShowChat;
-      if Assigned(pgMain) and (pgMain.ActivePage <> FAgentTab) then
-        ShowTab(FAgentTab);
-    end;
+    EnsureAgentWorkspace;
+    if Assigned(pgMain) and (pgMain.ActivePage = FAgentTab) then
+      ShowAssistantInAgentChat
+    else
+      ShowAssistantBesideActivePage;
   end
   else
   begin
     PersistAssistantLayout;
+    HideAssistantSideDock;
     if FAgentHosted is TfrmAgentWorkspace then
       TfrmAgentWorkspace(FAgentHosted).HideChat;
   end;
@@ -21917,7 +24162,7 @@ begin
   Host := EnsureAgentWorkspace;
   if (not (Host is TfrmAgentWorkspace)) or Assigned(FAssistantPanel) then Exit;
 
-  { The chat is a pane of the AI agent tab (right side), not a panel of the main form. }
+  { Created inside the agent chat pane. Contextual Ask AI reparents it beside the current tab. }
   FAssistantPanel := TsPanel.Create(Self);
   FAssistantPanel.Parent := TfrmAgentWorkspace(Host).pnlChat;
   FAssistantPanel.Align := alClient;
@@ -22241,6 +24486,7 @@ begin
       Inc(FFindSearchId);
       FFindThread.Terminate;
       FFindThread := nil;
+      if FBgLoadKind = 2 then BgLoadEnd;
       UpdateStatusBar(TrText('Search cancelled.'), iaRight);
     end;
     Exit;
@@ -22792,9 +25038,8 @@ end;
 
 function TfrmMain.CanStreamExportFilteredLines: Boolean;
 begin
-  { temp.txt (denso) ou temp_ckpt.txt (ficheiros >2 GB): ambos sao indices de 20 bytes/linha. }
-  Result := (Assigned(FIndexFileStream) or Assigned(FCkptFileStream)) and
-    (not UsesProportionalZeroScanScroll);
+  { O leitor MMF de exportacao usa um offset por linha; o checkpoint e esparso. }
+  Result := Assigned(FIndexFileStream) and (not UsesProportionalZeroScanScroll);
 end;
 
 function TfrmMain.SuggestAssistantFilteredExportPath(const APattern: string): string;
@@ -24005,6 +26250,8 @@ begin
     MView := AddItem(MainMenu1.Items, TrText('&View'), nil, 0, MenuIconIndex('normal view.bmp', 1));
     AddItem(MView, TrText('&Word wrap'), miToggleWordWrapClick, ShortCut(Ord('W'), [ssCtrl]), MenuIconIndex('word wrap.bmp', 11));
     AddItem(MView, TrText('S&elect (checkbox list)'), miSelectClick, ShortCut(Ord('S'), [ssCtrl, ssShift]), MenuIconIndex('select all.bmp', 10));
+    AddItem(MView, TrText('SelectRange.Menu'), miSelectLinesByRangeClick,
+      0, MenuIconIndex('select all.bmp', 10));
     AddSeparator(MView);
     AddItem(MView, TrText('Zoom &in (list)'), miZoomListViewInClick, ShortCut(VK_ADD, [ssCtrl]),
       MenuIconIndex(READ_TB_ICON_ZOOM_IN, MenuIconIndex(FF_MENU_BMP_ZOOM_LIST, MenuIconIndex('forward.bmp', 2))));
@@ -24567,7 +26814,7 @@ begin
     FormPopupScaling := TFormPopupScaling.Create(Self);
 
   PopupScalingRestoreCaption := DefaultUIScaleCaption;
-  p := SpeedBtnPPI.ClientToScreen(Point(0, SpeedBtnPPI.Height));
+  p := PopupFormAnchorPoint(SpeedBtnPPI, FormPopupScaling);
   ShowPopupForm(FormPopupScaling, p);
 end;
 
@@ -24623,9 +26870,14 @@ var
   IconIndex, Spacing, LeftMargin: Integer;
   IconY, TextY: Integer;
   IconWidth, TextWidth: Integer;
+  LogicalIdx, PanelSpan: Integer;
 begin
+  { Logical (design) index: the engine reverses the panels in right-to-left mode. }
+  LogicalIdx := StatusPanelLogical(Panel.Index);
+  { Mirrors an x offset inside the panel rectangle (identity when left-to-right). }
+  PanelSpan := Rect.Left + Rect.Right;
   // We only want to custom draw the first panel (Index 0)
-  if Panel.Index = 0 then
+  if LogicalIdx = 0 then
   begin
     // 1. Clear the panel background
     StatusBar.Canvas.FillRect(Rect);
@@ -24655,32 +26907,40 @@ begin
       iaLeft:
       begin
         // Draw Icon at the start
-        ImageList1.Draw(StatusBar.Canvas, Rect.Left + LeftMargin, IconY, IconIndex);
+        ImageList1.Draw(StatusBar.Canvas,
+          BidiLeft(PanelSpan, Rect.Left + LeftMargin, IconWidth), IconY, IconIndex);
 
         // Draw Text after the Icon
-        StatusBar.Canvas.TextOut(Rect.Left + LeftMargin + IconWidth + Spacing, TextY, TextContent);
+        StatusBar.Canvas.TextOut(
+          BidiLeft(PanelSpan, Rect.Left + LeftMargin + IconWidth + Spacing, TextWidth),
+          TextY, TextContent);
       end;
 
       // CASE B: ICON ON THE RIGHT (Text -> Icon)
       iaRight:
       begin
         // Draw Text at the start
-        StatusBar.Canvas.TextOut(Rect.Left + LeftMargin, TextY, TextContent);
+        StatusBar.Canvas.TextOut(
+          BidiLeft(PanelSpan, Rect.Left + LeftMargin, TextWidth), TextY, TextContent);
 
         // Draw Icon after the Text
-        ImageList1.Draw(StatusBar.Canvas, Rect.Left + LeftMargin + TextWidth + Spacing, IconY, IconIndex);
+        ImageList1.Draw(StatusBar.Canvas,
+          BidiLeft(PanelSpan, Rect.Left + LeftMargin + TextWidth + Spacing, IconWidth),
+          IconY, IconIndex);
       end;
     end;
   end
-  else if Panel.Index = 1 then begin // Paint glyph on a status panel
+  else if LogicalIdx = 1 then begin // Paint glyph on a status panel
     StatusBar.Canvas.Font.Color := DataModule1.sSkinManager1.Palette[pcLabelText];
     SetImagesPPI(CharImageList16, GetPPI(sStatusBar1.SkinData));
-    CharImageList16.Draw(StatusBar.Canvas, Rect.Left + 2, Rect.Top + 4, 25);
+    CharImageList16.Draw(StatusBar.Canvas,
+      BidiLeft(PanelSpan, Rect.Left + 2, CharImageList16.Width), Rect.Top + 4, 25);
   end
-  else if Panel.Index = 3 then begin // Paint glyph on a status panel
+  else if LogicalIdx = 3 then begin // Paint glyph on a status panel
     StatusBar.Canvas.Font.Color := DataModule1.sSkinManager1.Palette[pcLabelText];
     SetImagesPPI(CharImageList16, GetPPI(sStatusBar1.SkinData));
-    CharImageList16.Draw(StatusBar.Canvas, Rect.Left + 2, Rect.Top + 4, 30);
+    CharImageList16.Draw(StatusBar.Canvas,
+      BidiLeft(PanelSpan, Rect.Left + 2, CharImageList16.Width), Rect.Top + 4, 30);
   end;
 end;
 
@@ -25611,7 +27871,7 @@ end;
 
 procedure TfrmMain.sSkinManager1FontChanged(Sender: TObject; const DefOldFontName, FontName: string);
 begin
-  sStatusBar1.Panels[4].Text := 'Font ' + Font.Name + '; ' + IntToStr(Font.Size) + 'px';
+  StatusPanelAt(4).Text := 'Font ' + Font.Name + '; ' + IntToStr(Font.Size) + 'px';
 end;    
 
 function TfrmMain.FormatMillisecondsToDateTime(const ms: integer): string;
@@ -26480,7 +28740,7 @@ begin
   end;
 end;
 
-procedure TfrmMain.ExpandReadFileChromeToPage;
+procedure TfrmMain.ExpandReadFileFrameToPage;
 var
   R: TRect;
   TopH, NeedW, NeedH: Integer;
@@ -26559,7 +28819,7 @@ begin
   if tabReadFile.HandleAllocated then
     ShowWindow(tabReadFile.Handle, SW_SHOW);
 
-  ExpandReadFileChromeToPage;
+  ExpandReadFileFrameToPage;
   RefreshReadViewLayout;
 
   { Discard the previous page's skin cache after the hosted HWNDs and bounds settle. }
@@ -27055,7 +29315,15 @@ begin
   end;
   BH := Max(FfPx(18), StripH - FfPx(4));
   BW := BH + FfPx(8);
-  FTabMenuBtn.SetBounds(pgMain.ClientWidth - BW - FfPx(2), Max(0, (StripH - BH) div 2), BW, BH);
+  { The tab strip is mirrored in right-to-left mode (the page control places its own
+    children, the layout engine does not flip them): the button sits at the left end. }
+  FTabMenuBtn.SetBounds(
+    BidiLeft(pgMain.ClientWidth, pgMain.ClientWidth - BW - FfPx(2), BW),
+    Max(0, (StripH - BH) div 2), BW, BH);
+  if BidiIsRtl then
+    FTabMenuBtn.Anchors := [akTop, akLeft]
+  else
+    FTabMenuBtn.Anchors := [akTop, akRight];
   FTabMenuBtn.Visible := True;
   FTabMenuBtn.BringToFront;
 end;
@@ -27068,8 +29336,13 @@ end;
 
 procedure TfrmMain.TabMenuBtnClick(Sender: TObject);
 begin
-  ShowMainTabContextMenu(TTabSheet(pgMain.ActivePage),
-    FTabMenuBtn.ClientToScreen(Point(FTabMenuBtn.Width, FTabMenuBtn.Height)), True);
+  if BidiIsRtl then
+    { the button sits at the left end of the (mirrored) tab strip: menu grows rightwards }
+    ShowMainTabContextMenu(TTabSheet(pgMain.ActivePage),
+      FTabMenuBtn.ClientToScreen(Point(0, FTabMenuBtn.Height)), False)
+  else
+    ShowMainTabContextMenu(TTabSheet(pgMain.ActivePage),
+      FTabMenuBtn.ClientToScreen(Point(FTabMenuBtn.Width, FTabMenuBtn.Height)), True);
 end;
 
 procedure TfrmMain.miTabCtxGoToClick(Sender: TObject);
@@ -27415,6 +29688,12 @@ begin
     if AList.Count = 0 then
     begin
       ShowAppMessage(TrText('No lines entered. Operation cancelled.'));
+      Exit;
+    end;
+    if AList.Count > PrefMergeMaxLines then
+    begin
+      ShowAppMessage(Format(TrText('ListView.SelLimitExceeded'),
+        [AList.Count, PrefMergeMaxLines]));
       Exit;
     end;
 
@@ -28124,7 +30403,8 @@ begin
   LblParts.Parent := SB;
   LblParts.Left := M;
   LblParts.Top := Y;
-  LblParts.Caption := TrText('Number of parts:');
+  LblParts.Caption := Format(TrText('Split.PartsRange'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]) +
+    ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SPLIT_PARTS_MAX]) + ')';
   Inc(Y, 18);
 
   Frm.SpnParts := TsSpinEdit.Create(SB);
@@ -28133,7 +30413,7 @@ begin
   Frm.SpnParts.Top := Y;
   Frm.SpnParts.Width := 120;
   Frm.SpnParts.MinValue := SPLIT_PARTS_MIN;
-  Frm.SpnParts.MaxValue := SPLIT_PARTS_MAX;
+  Frm.SpnParts.MaxValue := PrefSplitPartsMax;
   Frm.SpnParts.Value := 10;
   Inc(Y, 28 + FF_SPLIT_EQUAL_PARTS_GAP);
 
@@ -28152,6 +30432,7 @@ begin
   Frm.MemoHeader.Width := Max(200, SB.ClientWidth - 2 * M);
   Frm.MemoHeader.Anchors := [akLeft, akTop, akRight];
   Frm.MemoHeader.ScrollBars := ssVertical;
+  Frm.AttachEditContextMenu(Frm.MemoHeader);
   Inc(Y, Frm.MemoHeader.Height + FF_SPLIT_EQUAL_PARTS_GAP);
 
   LblFooter := TLabel.Create(SB);
@@ -28169,6 +30450,7 @@ begin
   Frm.MemoFooter.Width := Max(200, SB.ClientWidth - 2 * M);
   Frm.MemoFooter.Anchors := [akLeft, akTop, akRight];
   Frm.MemoFooter.ScrollBars := ssVertical;
+  Frm.AttachEditContextMenu(Frm.MemoFooter);
   Inc(Y, Frm.MemoFooter.Height + FF_SPLIT_EQUAL_PARTS_GAP);
 
   Frm.LblHint2 := TLabel.Create(SB);
@@ -28200,8 +30482,7 @@ begin
   HeaderStr := Frm.MemoHeader.Text;
   FooterStr := Frm.MemoFooter.Text;
 
-  if DoSplitEqualPartsFromDialog(SourceFile, PartCount, HeaderStr, FooterStr) then
-    CloseActiveTabSheet;
+  DoSplitEqualPartsFromDialog(SourceFile, PartCount, HeaderStr, FooterStr);
 end;
 
 function TfrmMain.DoSplitEqualPartsFromDialog(const SourceFile: String; const PartCount: Integer;
@@ -28209,8 +30490,10 @@ function TfrmMain.DoSplitEqualPartsFromDialog(const SourceFile: String; const Pa
 var
   Fs: TFileStream;
   CurOpen: String;
+  KnownTotalLines: Int64;
 begin
   Result := False;
+  KnownTotalLines := FastFileKnownLineCount(SourceFile);
   if SourceFile = '' then
   begin
     ShowAppMessage(TrText('Source file is required.'));
@@ -28242,7 +30525,7 @@ begin
 
   if PartCount < 2 then
   begin
-    ShowAppMessage(TrText('Number of parts must be between 2 and 1000.'));
+    ShowAppMessage(Format(TrText('Split.PartsBetween'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]));
     Exit;
   end;
 
@@ -28254,6 +30537,16 @@ begin
      SameText(ExpandFileName(SourceFile), ExpandFileName(CurOpen)) then
   begin
     if not EnsureWritableSession then Exit;
+    if (KnownTotalLines <= 0) and FOpenDiskSnapValid and
+       SameText(ExpandFileName(SourceFile), ExpandFileName(FOpenDiskSnapPath)) and
+       UnUtils.SameFileSizeAndWriteTime(SourceFile, FOpenDiskSnapSize, FOpenDiskSnapWrite) then
+    begin
+      if not FZeroScanMode and (totalLines > 0) then
+        KnownTotalLines := totalLines
+      else if FZeroScanMode and not FZeroScanEstimatedLines and
+              (FZeroScanPhysicalLineCount > 0) then
+        KnownTotalLines := FZeroScanPhysicalLineCount;
+    end;
     FSplitClosedSourcePath := ExpandFileName(CurOpen);
     FSplitRestoreTotalLines := totalLines;
     FSplitRestoreZeroScan := FZeroScanMode;
@@ -28269,8 +30562,8 @@ begin
   if not ConfirmDiskSpaceForSplitEqual(SourceFile) then
     Exit;
 
-  { Line count runs in TSplitEqualPartsThread (keeps UI responsive on large files). }
-  TSplitEqualPartsThread.Create(SourceFile, PartCount, 0, True, True, HeaderStr, FooterStr);
+  { Reuse an exact count when available; the thread scans only when no valid count exists. }
+  TSplitEqualPartsThread.Create(SourceFile, PartCount, KnownTotalLines, True, True, HeaderStr, FooterStr);
   Result := True;
 end;
 
@@ -28400,7 +30693,8 @@ begin
   LblTotal.Parent := SB;
   LblTotal.Left := M;
   LblTotal.Top := Y;
-  LblTotal.Caption := TrText('SplitFileFraction.TotalPartsLabel');
+  LblTotal.Caption := Format(TrText('Split.FractionTotalRange'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]) +
+    ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SPLIT_PARTS_MAX]) + ')';
   Inc(Y, 18);
 
   Frm.SpnFracTotal := TsSpinEdit.Create(SB);
@@ -28409,7 +30703,7 @@ begin
   Frm.SpnFracTotal.Top := Y;
   Frm.SpnFracTotal.Width := 120;
   Frm.SpnFracTotal.MinValue := SPLIT_PARTS_MIN;
-  Frm.SpnFracTotal.MaxValue := SPLIT_PARTS_MAX;
+  Frm.SpnFracTotal.MaxValue := PrefSplitPartsMax;
   Frm.SpnFracTotal.Value := 8;
   Frm.SpnFracTotal.OnChange := SplitFractionSpinChange;
   Inc(Y, 28 + FF_SPLIT_FRACTION_GAP);
@@ -28581,7 +30875,7 @@ begin
 
   if TotalParts < 2 then
   begin
-    ShowAppMessage(TrText('Number of parts must be between 2 and 1000.'));
+    ShowAppMessage(Format(TrText('Split.PartsBetween'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]));
     Exit;
   end;
   if (PartFrom < 1) or (PartTo > TotalParts) or (PartFrom > PartTo) then
@@ -28760,7 +31054,7 @@ var
   PnlBottom, PnlBtn: TPanel;
   SB: TScrollBox;
   Y: Integer;
-  LblSource, LblMode: TLabel;
+  LblSource, LblMode, LblEx: TLabel;
 begin
   if Assigned(FSplitByPatternHosted) then
   begin
@@ -28912,7 +31206,8 @@ begin
   Frm.LblEqualParts.Parent := SB;
   Frm.LblEqualParts.Left := M;
   Frm.LblEqualParts.Top := Y;
-  Frm.LblEqualParts.Caption := TrText('Number of parts:');
+  Frm.LblEqualParts.Caption := Format(TrText('Split.PartsRange'), [SPLIT_PARTS_MIN, PrefSplitPartsMax]) +
+    ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SPLIT_PARTS_MAX]) + ')';
   Inc(Y, 18);
 
   Frm.SpnEqualParts := TsSpinEdit.Create(SB);
@@ -28921,7 +31216,7 @@ begin
   Frm.SpnEqualParts.Top := Y;
   Frm.SpnEqualParts.Width := 120;
   Frm.SpnEqualParts.MinValue := 2;
-  Frm.SpnEqualParts.MaxValue := 1000;
+  Frm.SpnEqualParts.MaxValue := PrefSplitPartsMax;
   Frm.SpnEqualParts.Value := 10;
   Inc(Y, 28 + FF_SPLIT_BY_PATTERN_GAP);
 
@@ -28994,7 +31289,25 @@ begin
   Frm.EdtPattern.Top := Y;
   Frm.EdtPattern.Width := Max(240, SB.ClientWidth - 2 * M);
   Frm.EdtPattern.Anchors := [akLeft, akTop, akRight];
-  Inc(Y, 26 + FF_SPLIT_BY_PATTERN_GAP);         
+  Frm.EdtPattern.Hint := TrText('Regex.ExamplesHint');
+  Frm.EdtPattern.ShowHint := True;
+  Inc(Y, 26);
+
+  LblEx := TLabel.Create(SB);
+  Frm.LblRegexExamples := LblEx;
+  LblEx.Parent := SB;
+  LblEx.Left := M;
+  LblEx.Top := Y;
+  LblEx.Width := Max(240, SB.ClientWidth - 2 * M);
+  LblEx.Height := 32;
+  LblEx.WordWrap := True;
+  LblEx.AutoSize := False;
+  LblEx.Anchors := [akLeft, akTop, akRight];
+  LblEx.Caption := TrText('Regex.Examples');
+  LblEx.Hint := TrText('Regex.ExamplesHint');
+  LblEx.ShowHint := True;
+  LblEx.Font.Color := clGrayText;
+  Inc(Y, 32 + FF_SPLIT_BY_PATTERN_GAP);         
 
   Frm.LblHeader2 := TLabel.Create(SB);
   Frm.LblHeader2.Parent := SB;
@@ -29060,12 +31373,15 @@ var
   SB: TScrollBox;
   Avail, WorkH, HGuide, HHdr, HFtr, Y, AvailBar, WSuggest, WTalk: Integer;
   PBottom: TWinControl;
+  BL: IInterface;
 begin
   if not Assigned(FSplitPatternScrollBox) or not Assigned(FSplitByPatternHosted) then Exit;
   if FSplitPatternMemoGuideDefH <= 0 then
     FSplitPatternMemoGuideDefH := 136;
   SB := FSplitPatternScrollBox;
   Frm := TMergeFilesDialogForm(FSplitByPatternHosted);
+  { Left/Width values below are left-to-right: lay out the un-mirrored picture. }
+  BL := BidiLayoutScope([SB, BidiParentOf(Frm.BtnRegexSuggestAI)]);
   Avail := SB.ClientHeight;
   WorkH := GetSystemMetrics(SM_CYFULLSCREEN);
   if WorkH < 480 then
@@ -29222,6 +31538,7 @@ begin
     Frm.SpnEqualParts.Visible := not RegexMode;
     Frm.SpnEqualParts.Enabled := not RegexMode;
   end;
+  if Assigned(Frm.LblRegexExamples) then Frm.LblRegexExamples.Visible := RegexMode;
   if Assigned(Frm.LblRegexGuide) then Frm.LblRegexGuide.Visible := RegexMode;
   if Assigned(Frm.BtnRegexAI) then Frm.BtnRegexAI.Visible := RegexMode;
   if Assigned(Frm.BtnRegexSuggestAI) then Frm.BtnRegexSuggestAI.Visible := RegexMode;
@@ -29353,9 +31670,11 @@ procedure TfrmMain.LayoutSplitPatternAiBanner(SB: TScrollBox; Frm: TMergeFilesDi
 var
   BW: Integer;
   ShowBn: Boolean;
+  BL: IInterface;
 begin
   if (not Assigned(Frm)) or (not Assigned(SB)) or (not Assigned(Frm.MemoRegexGuide)) then Exit;
   if Frm.FSplitPatternMemoAnchorY < 0 then Exit;
+  BL := BidiLayoutScope([SB]);
   ShowBn := Assigned(Frm.LblRegexAiBanner) and Frm.LblRegexAiBanner.Visible;
   BW := 92;
   if Assigned(Frm.BtnRegexAiBannerDismiss) then
@@ -29502,8 +31821,7 @@ begin
     0:
       begin
         EqualPartsCount := Frm.SpnEqualParts.Value;
-        if DoSplitEqualPartsFromDialog(SourceFile, EqualPartsCount, HeaderStr, FooterStr) then
-          CloseActiveTabSheet;
+        DoSplitEqualPartsFromDialog(SourceFile, EqualPartsCount, HeaderStr, FooterStr);
       end;
     1:
       begin
@@ -30484,6 +32802,9 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
+  FreeAndNil(FWorkflowActionIds);
+  FreeAndNil(FSplitLinesSampleLines);
+  FreeAndNil(FSplitLinesForcedLines);
   FreeAndNil(FAnonPendingHist);
   GFFCompareMergeFileHook := nil;
   PopupScalingSkinData := nil;
@@ -30525,6 +32846,11 @@ begin
     sStatusBar1.WindowProc := FOldStatusBarWndProcForCombo;
     FHookedStatusBarForViewEncoding := False;
   end;
+  if Assigned(comboLanguage) and Assigned(FOldLanguageComboWndProc) then
+  begin
+    comboLanguage.WindowProc := FOldLanguageComboWndProc;
+    FOldLanguageComboWndProc := nil;
+  end;
 
   // === Cleanup new features ===
   if FTailActive then
@@ -30551,6 +32877,8 @@ begin
   FreeAndNil(FRecentFilesLastOpened);
   FreeAndNil(FRecentFiles);
   FreeAndNil(FOpenTabsMru);
+  FreeAndNil(FLangMru);
+  FreeAndNil(FLangPopupCodes);
   FreeAndNil(FClosedTabs);
   if Assigned(pgMain) then
     pgMain.OnChange := nil;
@@ -30613,6 +32941,7 @@ begin
   if (FSearchCommandLoadPath <> '') and
     not SameFileName(ExpandFileName(CurrentEffectiveFilePath), FSearchCommandLoadPath) then
     ClearSearchCommandLoad;
+  HideWorkflowNextSteps;
   SetOperationStatus(fssLoading, Tr('status.file_reading', 'Reading file...'));
   FFreshFileRead := True;
   FastFileWatchdogClearCancelRequest;
@@ -30638,8 +32967,8 @@ begin
           Exit;
         end;
       end;
-      sStatusBar1.Panels[4].Text := TrText('Cache in disk');
-      sStatusBar1.Panels[4].Text := sStatusBar1.Panels[4].Text + ' ' + FloatToStr(fileSize) + ' bytes';
+      StatusPanelAt(4).Text := TrText('Cache in disk');
+      StatusPanelAt(4).Text := StatusPanelAt(4).Text + ' ' + FloatToStr(fileSize) + ' bytes';
       fSearch := edtSearch.Text;
       try
         ActionClear.Execute;
@@ -31743,11 +34072,11 @@ begin
     totalLinesExport := FCheckedLines.Count - 1;
   end;
 
-  if totalLinesExport > EXPORT_CLIPBOARD_MAX_LINES then
+  if totalLinesExport > PrefExportClipboardMaxLines then
   begin
     UnUtils.MessageBox(TrText('Information'),
       Format(TrText('Too many lines to export to the clipboard (%d; max %d). Reduce the range or save to a text file.'),
-        [totalLinesExport, EXPORT_CLIPBOARD_MAX_LINES]));
+        [totalLinesExport, PrefExportClipboardMaxLines]));
     Exit;
   end;
 
@@ -32587,15 +34916,17 @@ end;
 procedure TfrmMain.changeBidiMode;
 begin
   LockForms(DataModule1.sSkinManager1);
-  if Application.BiDiMode = bdLeftToRight then begin
-    Application.BiDiMode := bdRightToLeft;
-    sSpeedButton10.ImageIndex := 1;
-  end
-  else begin
-    Application.BiDiMode := bdLeftToRight;
-    sSpeedButton10.ImageIndex := 0;
+  try
+    { Manual override of the direction chosen by the UI language (toggle). }
+    BidiSetManual(not BidiIsRtl);
+    if BidiIsRtl then
+      sSpeedButton10.ImageIndex := 1
+    else
+      sSpeedButton10.ImageIndex := 0;
+    BidiApplyAllForms;
+  finally
+    UnLockForms(DataModule1.sSkinManager1, False);
   end;
-  ChangeControlsLayout(Application.BidiMode);
   DataModule1.sSkinManager1.RepaintForms;
 end;
 
@@ -33513,7 +35844,7 @@ end; *)
 begin
   sw.Stop;
   mainForm.showInfoStatus(Format(TrText(TIME_TO_DELETELINES), [TimerResult]));
-  mainForm.lblInfoFileTime.Caption := mainForm.sStatusBar1.Panels[0].Text;
+  mainForm.lblInfoFileTime.Caption := mainForm.StatusPanelAt(0).Text;
   mainForm.ShowStatusOK;
   Synchronize(mainForm.BeginRead);
 end;
@@ -33904,7 +36235,7 @@ begin
       sw.Stop;
       //showInfoStatus(Format('Saved file %s from %d temp files generated.', [ffilename, totalFiles]));
       showInfoStatus(Format(ELAPSEDTIME, [FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
-      frmMain.lblInfoFileTime.Caption := frmMain.sStatusBar1.Panels[0].Text;
+      frmMain.lblInfoFileTime.Caption := frmMain.StatusPanelAt(0).Text;
       FreeAndNil(sw);
     end;
   finally
@@ -34006,7 +36337,7 @@ end;
 
 procedure TfrmMain.showInfoStatus(const status: string);
 begin
-  sStatusBar1.Panels[0].Text := status;
+  StatusPanelAt(0).Text := status;
 end;
 
 procedure TfrmMain.SplitFile(const ffilename: String; const silentMode: Boolean = False);
@@ -34222,7 +36553,7 @@ begin
       sw.Stop;
       //showInfoStatus(Format('Total generated files: %d of file %s', [totalFiles, fileName]));
       showInfoStatus(Format(ELAPSEDTIME, [FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
-      frmMain.lblInfoFileTime.Caption := frmMain.sStatusBar1.Panels[0].Text;
+      frmMain.lblInfoFileTime.Caption := frmMain.StatusPanelAt(0).Text;
       FreeAndNil(sw);
     end;
   finally
@@ -34301,7 +36632,7 @@ begin
       end;
       sw.Stop;
       showInfoStatus(Format(ELAPSEDTIME, [FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
-      mainForm.lblInfoFileTime.Caption := mainForm.sStatusBar1.Panels[0].Text;
+      mainForm.lblInfoFileTime.Caption := mainForm.StatusPanelAt(0).Text;
     finally
       FreeAndNil(sw);
     end;
@@ -34328,7 +36659,7 @@ begin
     splitFileByLines(newTextFileName, spnFromSplitByLine.Value, spnToSplitByLine.Value);
     sw.Stop;
     showInfoStatus(Format(ELAPSEDTIME, [FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
-    mainForm.lblInfoFileTime.Caption := mainForm.sStatusBar1.Panels[0].Text;
+    mainForm.lblInfoFileTime.Caption := mainForm.StatusPanelAt(0).Text;
   finally
     FreeAndNil(sw);
   end;
@@ -34360,6 +36691,7 @@ var
   lastTargetLine, targetLine: Int64;
   SourcePath: string;
 begin
+  try
   SourcePath := CurrentEffectiveFilePath;
   if (SourcePath = '') or (not FileExists(SourcePath)) or (totalFiles < 1) then
   begin
@@ -34413,7 +36745,12 @@ begin
       Post;
       First;
     end;
-  end; //end with clFiles do  
+  end; //end with clFiles do
+  finally
+    if Assigned(FSplitLinesPreviewText) and (not FSplitLinesRefreshing) then
+      RefreshSplitLinesPreview;
+    UpdateSplitFilesToolsEnabled;
+  end;
 end;
 
 procedure TfrmMain.dbgFilesKeyDown(Sender: TObject; var Key: Word;
@@ -34490,7 +36827,7 @@ begin
     end; //end with clFiles do
     sw.Stop;
     showInfoStatus(Format(ELAPSEDTIME, [FormatMillisecondsToDateTime(sw.ElapsedMilliseconds)]));
-    mainForm.lblInfoFileTime.Caption := mainForm.sStatusBar1.Panels[0].Text;
+    mainForm.lblInfoFileTime.Caption := mainForm.StatusPanelAt(0).Text;
   finally
     FreeAndNil(sw);
   end;
@@ -34751,6 +37088,7 @@ begin
   lblFileDtCreationValue.Caption := FormatDateTime('dd/mm/yyyy', creationTime); //DateToStr(creationTime);
   InitSplitByLineOutputName;
   tableTempFiles(trkFiles.Position);
+  LayoutSplitFilePage;
 end;
 
 procedure TfrmMain.btnSplitFilesClick(Sender: TObject);
@@ -34773,6 +37111,1463 @@ begin
     Src := Trim(edtFileName.Text);
   if (Src = '') or SameText(Src, SELECTTEXT) then Exit;
   edtOutputSplitByLineText.Text := newFileName(Src);
+end;
+
+procedure TfrmMain.LayoutSplitFilePage;
+var
+  M, Y, Gap, BtnH, ExecW, AskW, RightEdge: Integer;
+  Path: string;
+  HasFile: Boolean;
+  CreatedAt, AccessedAt, ModifiedAt: TDateTime;
+  W1, W2, W3, Avail, XPos, InnerW, MemoH, OutW: Integer;
+  BL: IInterface;
+
+  function TextW(AFont: TFont; const S: string): Integer;
+  var
+    Bmp: TBitmap;
+  begin
+    Bmp := TBitmap.Create;
+    try
+      Bmp.Canvas.Font.Assign(AFont);
+      Result := Bmp.Canvas.TextWidth(S);
+    finally
+      Bmp.Free;
+    end;
+  end;
+
+  procedure PlaceLabel(L: TsLabel; X, YPos: Integer);
+  begin
+    if not Assigned(L) then Exit;
+    L.AutoSize := True;
+    L.Left := X;
+    L.Top := YPos;
+  end;
+
+  procedure StyleFact(Lbl, Val: TsLabel);
+  begin
+    if Assigned(Lbl) then
+    begin
+      Lbl.AutoSize := True;
+      Lbl.Transparent := True;
+      Lbl.Font.Style := [];
+    end;
+    if Assigned(Val) then
+    begin
+      Val.AutoSize := True;
+      Val.Transparent := True;
+      if (Val.Caption = '') or (Val.Caption = '-') then
+        Val.Font.Style := []
+      else
+        Val.Font.Style := [fsBold];
+    end;
+  end;
+
+  function FactW(Lbl, Val: TsLabel): Integer;
+  begin
+    Result := 0;
+    if Assigned(Lbl) then
+      Result := Lbl.Width;
+    if Assigned(Val) then
+      Result := Result + FfPx(6) + Val.Width;
+  end;
+
+  procedure PlacePair(Lbl, Val: TsLabel; X, YPos: Integer);
+  begin
+    if Assigned(Lbl) then
+    begin
+      Lbl.Left := X;
+      Lbl.Top := YPos;
+    end;
+    if Assigned(Val) then
+    begin
+      if Assigned(Lbl) then
+        Val.Left := Lbl.Left + Lbl.Width + FfPx(6)
+      else
+        Val.Left := X;
+      Val.Top := YPos;
+    end;
+  end;
+
+  procedure CenterOn(L: TsLabel; Against: TControl);
+  begin
+    if not Assigned(L) or not Assigned(Against) then Exit;
+    L.Top := Against.Top + (Against.Height - L.Height) div 2;
+  end;
+
+begin
+  if FSplitLinesLayingOut then Exit;
+  if not Assigned(gbxInfoFileSplit) or not Assigned(gbxSplitByLines) then Exit;
+  { Absolute Left/Width math below is left-to-right: run it on the un-mirrored picture. }
+  BL := BidiLayoutScope([gbxInfoFileSplit, gbxSplitByLines, FSplitLinesPreview,
+    FSplitLinesActions, BidiParentOf(lblFileName), BidiParentOf(lblTotalLines),
+    BidiParentOf(lblFromSplitByLine), BidiParentOf(spnFromSplitByLine),
+    BidiParentOf(edtOutputSplitByLineText)]);
+  FSplitLinesLayingOut := True;
+  try
+    Path := '';
+    if Assigned(edtFileName) then
+      Path := Trim(edtFileName.Text);
+    HasFile := (Path <> '') and (not SameText(Path, SELECTTEXT));
+    if Assigned(lblFileNameValue) then
+    begin
+      if HasFile then
+        lblFileNameValue.Caption := Path
+      else
+        lblFileNameValue.Caption := TrText('SplitByLines.Info.NoFile');
+    end;
+    if Assigned(lblTotalLinesValue) then
+    begin
+      if HasFile and (totalLines > 0) then
+        lblTotalLinesValue.Caption := UnUtils.FormatNumber(totalLines)
+      else
+        lblTotalLinesValue.Caption := '-';
+    end;
+    if Assigned(lblTotalCharactersValue) then
+    begin
+      if HasFile and (totalCharacters > 0) then
+        lblTotalCharactersValue.Caption := UnUtils.FormatNumber(totalCharacters)
+      else
+        lblTotalCharactersValue.Caption := '-';
+    end;
+    if Assigned(lblFileDtCreationValue) then
+    begin
+      lblFileDtCreationValue.Caption := '-';
+      if HasFile and FileExists(Path) then
+      begin
+        CreatedAt := 0;
+        AccessedAt := 0;
+        ModifiedAt := 0;
+        try
+          DSiWin32.DSiGetFileTimes(Path, CreatedAt, AccessedAt, ModifiedAt);
+          if CreatedAt > 0 then
+            lblFileDtCreationValue.Caption := FormatDateTime('dd/mm/yyyy', CreatedAt);
+        except
+          lblFileDtCreationValue.Caption := '-';
+        end;
+      end;
+    end;
+
+    M := FfPx(16);
+    if Assigned(pnlSplitMain) then
+      pnlSplitMain.Height := FfPx(84);
+    gbxInfoFileSplit.Align := alClient;
+    PlaceLabel(lblFileName, M, FfPx(20));
+    if Assigned(lblFileName) then
+    begin
+      lblFileName.Transparent := True;
+      lblFileName.Font.Style := [];
+    end;
+    if Assigned(lblFileName) and Assigned(lblFileNameValue) then
+    begin
+      lblFileNameValue.AutoSize := False;
+      lblFileNameValue.Transparent := True;
+      if HasFile then
+        lblFileNameValue.Font.Style := [fsBold]
+      else
+        lblFileNameValue.Font.Style := [];
+      lblFileNameValue.EllipsisPosition := epPathEllipsis;
+      lblFileNameValue.Left := lblFileName.Left + lblFileName.Width + FfPx(8);
+      lblFileNameValue.Top := lblFileName.Top;
+      lblFileNameValue.Height := lblFileName.Height;
+      lblFileNameValue.Width := gbxInfoFileSplit.ClientWidth - lblFileNameValue.Left - M;
+      if lblFileNameValue.Width < FfPx(40) then
+        lblFileNameValue.Width := FfPx(40);
+    end;
+
+    StyleFact(lblTotalLines, lblTotalLinesValue);
+    StyleFact(lblTotalCharacters, lblTotalCharactersValue);
+    StyleFact(lblFileDtCreation, lblFileDtCreationValue);
+    W1 := FactW(lblTotalLines, lblTotalLinesValue);
+    W2 := FactW(lblTotalCharacters, lblTotalCharactersValue);
+    W3 := FactW(lblFileDtCreation, lblFileDtCreationValue);
+    Avail := gbxInfoFileSplit.ClientWidth - (2 * M);
+    Gap := FfPx(40);
+    if (W1 + W2 + W3 + (2 * Gap)) > Avail then
+      Gap := FfPx(16);
+    Y := FfPx(46);
+    XPos := M;
+    PlacePair(lblTotalLines, lblTotalLinesValue, XPos, Y);
+    XPos := XPos + W1 + Gap;
+    PlacePair(lblTotalCharacters, lblTotalCharactersValue, XPos, Y);
+    XPos := XPos + W2 + Gap;
+    PlacePair(lblFileDtCreation, lblFileDtCreationValue, XPos, Y);
+
+    if not Assigned(pnlSplitByLines) then Exit;
+    pnlSplitByLines.BevelOuter := bvNone;
+    pnlSplitByLines.Caption := '';
+    EnsureSplitFilesTools;
+    EnsureSplitLinesPreview;
+
+    gbxSplitByLines.Align := alTop;
+    gbxSplitByLines.Caption := TrText('SplitByLines.RangeTitle');
+    if Assigned(spnFromSplitByLine) then
+    begin
+      spnFromSplitByLine.BoundLabel.Active := False;
+      spnFromSplitByLine.Anchors := [akLeft, akTop];
+    end;
+    if Assigned(spnToSplitByLine) then
+    begin
+      spnToSplitByLine.BoundLabel.Active := False;
+      spnToSplitByLine.Anchors := [akLeft, akTop];
+    end;
+
+    Y := FfPx(28);
+    if Assigned(lblFromSplitByLine) and Assigned(spnFromSplitByLine) then
+    begin
+      lblFromSplitByLine.AutoSize := True;
+      lblFromSplitByLine.Transparent := True;
+      lblFromSplitByLine.Left := M;
+      spnFromSplitByLine.SetBounds(
+        lblFromSplitByLine.Left + lblFromSplitByLine.Width + FfPx(8),
+        Y, FfPx(128), spnFromSplitByLine.Height);
+      CenterOn(lblFromSplitByLine, spnFromSplitByLine);
+    end;
+    if Assigned(lblToSplitByLine) and Assigned(spnFromSplitByLine) and
+       Assigned(spnToSplitByLine) then
+    begin
+      lblToSplitByLine.AutoSize := True;
+      lblToSplitByLine.Transparent := True;
+      lblToSplitByLine.Left := spnFromSplitByLine.Left + spnFromSplitByLine.Width + FfPx(22);
+      spnToSplitByLine.SetBounds(
+        lblToSplitByLine.Left + lblToSplitByLine.Width + FfPx(8),
+        Y, FfPx(128), spnToSplitByLine.Height);
+      CenterOn(lblToSplitByLine, spnToSplitByLine);
+    end;
+    if Assigned(FSplitLinesOfTotal) and Assigned(spnToSplitByLine) then
+    begin
+      if totalLines > 0 then
+        FSplitLinesOfTotal.Caption := Format(TrText('SplitByLines.OfTotal'),
+          [UnUtils.FormatNumber(totalLines)])
+      else
+        FSplitLinesOfTotal.Caption := '';
+      FSplitLinesOfTotal.AutoSize := True;
+      FSplitLinesOfTotal.Left := spnToSplitByLine.Left + spnToSplitByLine.Width + FfPx(14);
+      CenterOn(FSplitLinesOfTotal, spnToSplitByLine);
+      FSplitLinesOfTotal.Visible := (FSplitLinesOfTotal.Caption <> '') and
+        (FSplitLinesOfTotal.Left + FSplitLinesOfTotal.Width <=
+          gbxSplitByLines.ClientWidth - M);
+    end;
+
+    if Assigned(edtOutputSplitByLineText) and Assigned(spnFromSplitByLine) then
+    begin
+      OutW := TextW(edtOutputSplitByLineText.Font,
+        edtOutputSplitByLineText.BoundLabel.Caption) + FfPx(12);
+      edtOutputSplitByLineText.Anchors := [akLeft, akTop];
+      edtOutputSplitByLineText.Left := M + OutW;
+      edtOutputSplitByLineText.Top := spnFromSplitByLine.Top +
+        spnFromSplitByLine.Height + FfPx(14);
+      edtOutputSplitByLineText.Width := gbxSplitByLines.ClientWidth -
+        edtOutputSplitByLineText.Left - M;
+      if edtOutputSplitByLineText.Width < FfPx(180) then
+        edtOutputSplitByLineText.Width := FfPx(180);
+      gbxSplitByLines.Height := edtOutputSplitByLineText.Top +
+        edtOutputSplitByLineText.Height + FfPx(16);
+    end
+    else
+      gbxSplitByLines.Height := Y + FfPx(78);
+
+    if Assigned(FSplitLinesActions) then
+    begin
+      FSplitLinesActions.Align := alBottom;
+      FSplitLinesActions.Height := FfPx(52);
+    end;
+    if Assigned(FSplitLinesPreview) then
+    begin
+      FSplitLinesPreview.Align := alClient;
+      FSplitLinesPreview.Caption := TrText('SplitByLines.Preview.Title');
+    end;
+    pnlSplitByLines.Realign;
+
+    if Assigned(FSplitLinesPreview) then
+    begin
+      InnerW := FSplitLinesPreview.ClientWidth - (2 * M);
+      if InnerW < FfPx(80) then
+        InnerW := FfPx(80);
+      Y := FfPx(24);
+      if Assigned(FSplitLinesPreviewText) then
+        FSplitLinesPreviewText.SetBounds(M, Y, InnerW, FfPx(20));
+      Y := Y + FfPx(26);
+      if Assigned(FSplitLinesBar) then
+        FSplitLinesBar.SetBounds(M, Y, InnerW, FfPx(44));
+      Y := Y + FfPx(52);
+      if Assigned(FSplitLinesSampleCaption) then
+        FSplitLinesSampleCaption.SetBounds(M, Y, InnerW, FfPx(18));
+      Y := Y + FfPx(22);
+      if Assigned(FSplitLinesSample) then
+      begin
+        MemoH := FSplitLinesPreview.ClientHeight - Y - FfPx(12);
+        if MemoH < FfPx(32) then
+          MemoH := FfPx(32);
+        FSplitLinesSample.SetBounds(M, Y, InnerW, MemoH);
+        if FSplitLinesSample.Columns.Count >= 2 then
+        begin
+          FSplitLinesSample.Columns[0].Width := FfPx(96);
+          OutW := FSplitLinesSample.ClientWidth - FSplitLinesSample.Columns[0].Width - FfPx(4);
+          if OutW < FfPx(120) then
+            OutW := FfPx(120);
+          FSplitLinesSample.Columns[1].Width := OutW;
+        end;
+      end;
+      { Empty state: a centred message in the middle of the card. }
+      if Assigned(FSplitLinesEmpty) and Assigned(FSplitLinesEmptyHint) then
+      begin
+        Y := (FSplitLinesPreview.ClientHeight - FfPx(60)) div 2;
+        if Y < FfPx(28) then
+          Y := FfPx(28);
+        FSplitLinesEmpty.SetBounds(M, Y, InnerW, FfPx(24));
+        FSplitLinesEmptyHint.SetBounds(M, Y + FfPx(28), InnerW, FfPx(36));
+      end;
+    end;
+
+    { Footer: plain buttons at the right, like the merge/split tool tabs. }
+    BtnH := FfPx(26);
+    Gap := FfPx(8);
+    ExecW := FfPx(96);
+    AskW := FfPx(110);
+    Y := FfPx(12);
+    if Assigned(FSplitLinesActions) then
+      Y := (FSplitLinesActions.ClientHeight - BtnH) div 2;
+    if Y < FfPx(4) then
+      Y := FfPx(4);
+    if Assigned(FSplitLinesBtnExecute) then
+    begin
+      FSplitLinesBtnExecute.Caption := TrText('Execute');
+      ExecW := TextW(FSplitLinesBtnExecute.Font, FSplitLinesBtnExecute.Caption) + FfPx(36);
+      if ExecW < FfPx(96) then
+        ExecW := FfPx(96);
+    end;
+    if Assigned(FSplitLinesBtnAskAI) then
+    begin
+      FSplitLinesBtnAskAI.Caption := TrText('Assistant.Offer.AskAI');
+      AskW := TextW(FSplitLinesBtnAskAI.Font, FSplitLinesBtnAskAI.Caption) + FfPx(36);
+      if AskW < FfPx(110) then
+        AskW := FfPx(110);
+    end;
+    RightEdge := M;
+    if Assigned(FSplitLinesActions) then
+      RightEdge := FSplitLinesActions.ClientWidth - M;
+    if Assigned(FSplitLinesBtnExecute) then
+    begin
+      FSplitLinesBtnExecute.SetBounds(RightEdge - ExecW, Y, ExecW, BtnH);
+      RightEdge := FSplitLinesBtnExecute.Left - Gap;
+    end;
+    if Assigned(FSplitLinesBtnAskAI) then
+    begin
+      FSplitLinesBtnAskAI.SetBounds(RightEdge - AskW, Y, AskW, BtnH);
+      RightEdge := FSplitLinesBtnAskAI.Left;
+    end;
+    if Assigned(FSplitLinesFooterHint) then
+    begin
+      FSplitLinesFooterHint.Caption := TrText('SplitByLines.FooterHint');
+      InnerW := RightEdge - M - FfPx(12);
+      FSplitLinesFooterHint.Visible := InnerW >= FfPx(48);
+      if FSplitLinesFooterHint.Visible then
+        FSplitLinesFooterHint.SetBounds(M, Y, InnerW, BtnH);
+    end;
+
+    RefreshSplitLinesPreview;
+  finally
+    FSplitLinesLayingOut := False;
+  end;
+end;
+
+procedure TfrmMain.EnsureSplitLinesPreview;
+begin
+  if not Assigned(pnlSplitByLines) then Exit;
+
+  if not Assigned(FSplitLinesActions) then
+  begin
+    FSplitLinesActions := TsPanel.Create(Self);
+    FSplitLinesActions.Parent := pnlSplitByLines;
+    FSplitLinesActions.Align := alBottom;
+    FSplitLinesActions.BevelOuter := bvNone;
+    FSplitLinesActions.Height := FfPx(52);
+    FSplitLinesActions.Caption := '';
+    FSplitLinesActions.TabOrder := 2;
+  end;
+  { The designer's toolbar-style speed buttons give way to plain buttons,
+    the same footer the merge / split tool tabs use. }
+  if Assigned(btnAskAISplitByLines) then
+    btnAskAISplitByLines.Visible := False;
+  if Assigned(btnExecuteSplitFileByLines) then
+    btnExecuteSplitFileByLines.Visible := False;
+  if not Assigned(FSplitLinesBtnAskAI) then
+  begin
+    FSplitLinesBtnAskAI := TButton.Create(Self);
+    FSplitLinesBtnAskAI.Parent := FSplitLinesActions;
+    FSplitLinesBtnAskAI.Caption := TrText('Assistant.Offer.AskAI');
+    FSplitLinesBtnAskAI.OnClick := btnAskAISplitByLinesClick;
+  end;
+  if not Assigned(FSplitLinesBtnExecute) then
+  begin
+    FSplitLinesBtnExecute := TButton.Create(Self);
+    FSplitLinesBtnExecute.Parent := FSplitLinesActions;
+    FSplitLinesBtnExecute.Caption := TrText('Execute');
+    FSplitLinesBtnExecute.Default := True;
+    FSplitLinesBtnExecute.OnClick := btnExecuteSplitFileByLinesClick;
+  end;
+
+  if not Assigned(FSplitLinesFooterHint) then
+  begin
+    FSplitLinesFooterHint := TsLabel.Create(Self);
+    FSplitLinesFooterHint.Parent := FSplitLinesActions;
+    FSplitLinesFooterHint.AutoSize := False;
+    FSplitLinesFooterHint.Transparent := True;
+    FSplitLinesFooterHint.Layout := tlCenter;
+    FSplitLinesFooterHint.EllipsisPosition := epEndEllipsis;
+    FSplitLinesFooterHint.Font.Color := clGrayText;
+    FSplitLinesFooterHint.Caption := '';
+  end;
+
+  if not Assigned(FSplitLinesOfTotal) and Assigned(gbxSplitByLines) then
+  begin
+    FSplitLinesOfTotal := TsLabel.Create(Self);
+    FSplitLinesOfTotal.Parent := gbxSplitByLines;
+    FSplitLinesOfTotal.AutoSize := True;
+    FSplitLinesOfTotal.Transparent := True;
+    FSplitLinesOfTotal.Caption := '';
+  end;
+
+  if not Assigned(FSplitLinesPreview) then
+  begin
+    FSplitLinesPreview := TsGroupBox.Create(Self);
+    FSplitLinesPreview.Parent := pnlSplitByLines;
+    FSplitLinesPreview.Align := alClient;
+    FSplitLinesPreview.AlignWithMargins := True;
+    FSplitLinesPreview.Margins.SetBounds(0, FfPx(8), 0, 0);
+    FSplitLinesPreview.Caption := TrText('SplitByLines.Preview.Title');
+
+    FSplitLinesPreviewText := TsLabel.Create(Self);
+    FSplitLinesPreviewText.Parent := FSplitLinesPreview;
+    FSplitLinesPreviewText.AutoSize := False;
+    FSplitLinesPreviewText.WordWrap := False;
+    FSplitLinesPreviewText.EllipsisPosition := epEndEllipsis;
+    FSplitLinesPreviewText.Transparent := True;
+    FSplitLinesPreviewText.Font.Style := [fsBold];
+    FSplitLinesPreviewText.Caption := '';
+
+    FSplitLinesBar := TPaintBox.Create(Self);
+    FSplitLinesBar.Parent := FSplitLinesPreview;
+    FSplitLinesBar.Color := clBtnFace;
+    FSplitLinesBar.OnPaint := SplitLinesPreviewPaint;
+
+    FSplitLinesEmpty := TsLabel.Create(Self);
+    FSplitLinesEmpty.Parent := FSplitLinesPreview;
+    FSplitLinesEmpty.AutoSize := False;
+    FSplitLinesEmpty.Transparent := True;
+    FSplitLinesEmpty.Alignment := taCenter;
+    FSplitLinesEmpty.Layout := tlCenter;
+    FSplitLinesEmpty.Font.Size := 11;
+    FSplitLinesEmpty.Font.Style := [fsBold];
+    FSplitLinesEmpty.Caption := '';
+    FSplitLinesEmpty.Visible := False;
+
+    FSplitLinesEmptyHint := TsLabel.Create(Self);
+    FSplitLinesEmptyHint.Parent := FSplitLinesPreview;
+    FSplitLinesEmptyHint.AutoSize := False;
+    FSplitLinesEmptyHint.WordWrap := True;
+    FSplitLinesEmptyHint.Transparent := True;
+    FSplitLinesEmptyHint.Alignment := taCenter;
+    FSplitLinesEmptyHint.Font.Color := clGrayText;
+    FSplitLinesEmptyHint.Caption := '';
+    FSplitLinesEmptyHint.Visible := False;
+
+    if Assigned(spnFromSplitByLine) then
+      spnFromSplitByLine.OnChange := SplitLinesRangeChanged;
+    if Assigned(spnToSplitByLine) then
+      spnToSplitByLine.OnChange := SplitLinesRangeChanged;
+    if Assigned(edtOutputSplitByLineText) then
+      edtOutputSplitByLineText.OnChange := SplitLinesRangeChanged;
+  end;
+
+  if not Assigned(FSplitLinesSampleCaption) then
+  begin
+    FSplitLinesSampleCaption := TsLabel.Create(Self);
+    FSplitLinesSampleCaption.Parent := FSplitLinesPreview;
+    FSplitLinesSampleCaption.AutoSize := False;
+    FSplitLinesSampleCaption.Transparent := True;
+    FSplitLinesSampleCaption.Layout := tlBottom;
+    FSplitLinesSampleCaption.Font.Color := clGrayText;
+    FSplitLinesSampleCaption.Caption := '';
+    FSplitLinesSampleCaption.Visible := False;
+  end;
+
+  if not Assigned(FSplitLinesSample) then
+  begin
+    { Same look as the main reading grid: Line # | Content, Courier New. }
+    FSplitLinesSample := TListView.Create(Self);
+    FSplitLinesSample.Parent := FSplitLinesPreview;
+    FSplitLinesSample.Align := alNone;
+    FSplitLinesSample.ViewStyle := vsReport;
+    FSplitLinesSample.ReadOnly := True;
+    FSplitLinesSample.RowSelect := True;
+    FSplitLinesSample.GridLines := True;
+    FSplitLinesSample.HideSelection := False;
+    FSplitLinesSample.MultiSelect := True;
+    FSplitLinesSample.ShowWorkAreas := False;
+    FSplitLinesSample.TabStop := True;
+    FSplitLinesSample.OnSelectItem := SplitLinesSampleSelectItem;
+    FSplitLinesSample.OnKeyDown := SplitLinesSampleKeyDown;
+    FSplitLinesSample.ParentFont := False;
+    FSplitLinesSample.Font.Charset := ANSI_CHARSET;
+    FSplitLinesSample.Font.Name := 'Courier New';
+    FSplitLinesSample.Font.Height := -13;
+    FSplitLinesSample.Font.Color := clWindowText;
+    with FSplitLinesSample.Columns.Add do
+    begin
+      Caption := TrText('Line #');
+      Alignment := taRightJustify;
+      Width := FfPx(96);
+    end;
+    with FSplitLinesSample.Columns.Add do
+    begin
+      Caption := TrText('Content');
+      Width := FfPx(600);
+    end;
+    FSplitLinesSample.Visible := False;
+    { Raw file lines stay left-to-right. }
+    BidiKeepLtr(FSplitLinesSample);
+  end
+  else if FSplitLinesSample.Columns.Count >= 2 then
+  begin
+    FSplitLinesSample.Columns[0].Caption := TrText('Line #');
+    FSplitLinesSample.Columns[1].Caption := TrText('Content');
+  end;
+
+  if not Assigned(FSplitLinesSampleLines) then
+    FSplitLinesSampleLines := TInt64List.Create;
+  if not Assigned(FSplitLinesForcedLines) then
+    FSplitLinesForcedLines := TInt64List.Create;
+
+  { Same strip as the file list: Copy, Clear, Export, Translate, Anonymize,
+    Edit lines, Merge lines, Ask AI. It acts on the rows selected here. }
+  if not Assigned(FSplitLinesTools) and Assigned(FSplitLinesPreview) then
+  begin
+    FSplitLinesTools := TsPanel.Create(Self);
+    FSplitLinesTools.Parent := FSplitLinesPreview;
+    FSplitLinesTools.Align := alBottom;
+    FSplitLinesTools.Height := FfPx(34);
+    FSplitLinesTools.BevelOuter := bvNone;
+    FSplitLinesTools.Caption := '';
+    FSplitLinesTools.Padding.Left := 8;
+    FSplitLinesTools.Padding.Top := 5;
+    FSplitLinesTools.Padding.Right := 8;
+    FSplitLinesTools.Padding.Bottom := 5;
+    FSplitLinesTools.Visible := False;
+
+    FSplitBtnCopy := TsSpeedButton.Create(Self);
+    FSplitBtnCopy.Parent := FSplitLinesTools;
+    FSplitBtnCopy.Tag := 1;
+    FSplitBtnCopy.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnCopy);
+
+    FSplitBtnClear := TsSpeedButton.Create(Self);
+    FSplitBtnClear.Parent := FSplitLinesTools;
+    FSplitBtnClear.Tag := 2;
+    FSplitBtnClear.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnClear);
+
+    FSplitBtnExport := TsSpeedButton.Create(Self);
+    FSplitBtnExport.Parent := FSplitLinesTools;
+    FSplitBtnExport.Tag := 3;
+    FSplitBtnExport.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnExport);
+
+    FSplitBtnTranslate := TsSpeedButton.Create(Self);
+    FSplitBtnTranslate.Parent := FSplitLinesTools;
+    FSplitBtnTranslate.Tag := 4;
+    FSplitBtnTranslate.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnTranslate);
+
+    FSplitBtnAnon := TsSpeedButton.Create(Self);
+    FSplitBtnAnon.Parent := FSplitLinesTools;
+    FSplitBtnAnon.Tag := 5;
+    FSplitBtnAnon.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnAnon);
+
+    FSplitBtnEdit := TsSpeedButton.Create(Self);
+    FSplitBtnEdit.Parent := FSplitLinesTools;
+    FSplitBtnEdit.Tag := 6;
+    FSplitBtnEdit.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnEdit);
+
+    FSplitBtnMerge := TsSpeedButton.Create(Self);
+    FSplitBtnMerge.Parent := FSplitLinesTools;
+    FSplitBtnMerge.Tag := 7;
+    FSplitBtnMerge.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnMerge);
+
+    FSplitBtnAskAI := TsSpeedButton.Create(Self);
+    FSplitBtnAskAI.Parent := FSplitLinesTools;
+    FSplitBtnAskAI.Tag := 8;
+    FSplitBtnAskAI.OnClick := SplitLinesToolClick;
+    StyleListViewLineToolBtn(FSplitBtnAskAI);
+  end;
+  ApplySplitLinesToolCaptions;
+end;
+
+procedure TfrmMain.SplitLinesRangeChanged(Sender: TObject);
+begin
+  RefreshSplitLinesPreview;
+end;
+
+procedure TfrmMain.ApplySplitToolStripCaptions(APanel: TsPanel;
+  ACopy, AClear, AExport, ATranslate, AAnon, AEdit, AMerge, AAsk: TsSpeedButton);
+
+  procedure FitWidth(ABtn: TsSpeedButton; AMinWidth: Integer);
+  begin
+    if not Assigned(ABtn) then Exit;
+    ABtn.Width := Max(AMinWidth, FFMeasureTextWidth(ABtn.Font, ABtn.Caption) + 24);
+  end;
+
+begin
+  if Assigned(ACopy) then
+  begin
+    ACopy.Caption := TrText('Assistant.CopyReply');
+    ACopy.Hint := TrText('ListView.CopyLinesHint');
+    ACopy.ShowHint := True;
+  end;
+  if Assigned(AClear) then
+  begin
+    AClear.Caption := TrText('Assistant.ClearReply');
+    AClear.Hint := TrText('ListView.ClearLinesHint');
+    AClear.ShowHint := True;
+  end;
+  if Assigned(AExport) then
+  begin
+    AExport.Caption := TrText('FilterBar.Export');
+    AExport.Hint := TrText('ListView.ExportLinesHint');
+    AExport.ShowHint := True;
+  end;
+  if Assigned(ATranslate) then
+  begin
+    ATranslate.Caption := TrText('Assistant.TranslateBtn') + ' ' + #$25BE;
+    ATranslate.Hint := Format(TrText('ListView.TranslateHint'), [PrefTranslateMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_TRANSLATE_MAX_LINES]) + ')';
+    ATranslate.ShowHint := True;
+  end;
+  if Assigned(AAnon) then
+  begin
+    AAnon.Caption := TrText('LineEditor.Anon');
+    AAnon.Hint := Format(TrText('ListView.AnonymizeHint'), [PrefAnonymizeMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_ANONYMIZE_MAX_LINES]) + ')';
+    AAnon.ShowHint := True;
+  end;
+  if Assigned(AEdit) then
+  begin
+    AEdit.Caption := TrText('ListView.EditLines');
+    AEdit.Hint := Format(TrText('ListView.EditLinesHint'), [PrefSelectedLinesActionMax]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SELECTED_LINES_ACTION_MAX]) + ')';
+    AEdit.ShowHint := True;
+  end;
+  if Assigned(AMerge) then
+  begin
+    AMerge.Caption := TrText('ListView.MergeLines');
+    AMerge.Hint := Format(TrText('ListView.MergeLinesHint'), [PrefMergeMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_MERGE_MAX_LINES]) + ')';
+    AMerge.ShowHint := True;
+  end;
+  if Assigned(AAsk) then
+  begin
+    AAsk.Caption := TrText('ListView.AskAI');
+    AAsk.Hint := TrText('ListView.AskAIHint');
+    AAsk.ShowHint := True;
+  end;
+  FitWidth(ACopy, 56);
+  FitWidth(AClear, 56);
+  FitWidth(AExport, 64);
+  FitWidth(ATranslate, 72);
+  FitWidth(AAnon, 72);
+  FitWidth(AEdit, 72);
+  FitWidth(AMerge, 80);
+  FitWidth(AAsk, 80);
+  ApplyLineLimitLabel(APanel);
+  LayoutSplitToolStrip(APanel, [ACopy, AClear, AExport, ATranslate, AAnon, AEdit, AMerge, AAsk]);
+end;
+
+procedure TfrmMain.ApplyLineLimitLabel(APanel: TsPanel);
+const
+  LimitTag = 9041;
+var
+  I: Integer;
+  Lbl: TsLabel;
+begin
+  if not Assigned(APanel) then Exit;
+  Lbl := nil;
+  for I := 0 to APanel.ControlCount - 1 do
+    if (APanel.Controls[I] is TsLabel) and (APanel.Controls[I].Tag = LimitTag) then
+    begin
+      Lbl := TsLabel(APanel.Controls[I]);
+      Break;
+    end;
+  if not Assigned(Lbl) then
+  begin
+    Lbl := TsLabel.Create(Self);
+    Lbl.Tag := LimitTag;
+    Lbl.Parent := APanel;
+    Lbl.Align := alLeft;
+    Lbl.AlignWithMargins := True;
+    Lbl.Margins.SetBounds(4, 0, 8, 0);
+    Lbl.Layout := tlCenter;
+    Lbl.Transparent := True;
+    Lbl.ParentFont := False;
+    Lbl.Font.Assign(APanel.Font);
+    Lbl.Font.Color := clGrayText;
+    Lbl.ShowHint := True;
+    Lbl.AutoSize := False;
+  end;
+  Lbl.Caption := Format(TrText('Limit.ActionLines'), [PrefSelectedLinesActionMax]) +
+    ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SELECTED_LINES_ACTION_MAX]) + ')';
+  Lbl.Hint := TrText('Limit.ActionLinesHint');
+  Lbl.Width := FFMeasureTextWidth(Lbl.Font, Lbl.Caption) + 8;
+end;
+
+procedure TfrmMain.ApplySplitLinesToolCaptions;
+begin
+  ApplySplitToolStripCaptions(FSplitLinesTools,
+    FSplitBtnCopy, FSplitBtnClear, FSplitBtnExport, FSplitBtnTranslate,
+    FSplitBtnAnon, FSplitBtnEdit, FSplitBtnMerge, FSplitBtnAskAI);
+  ApplySplitToolStripCaptions(FSplitFilesTools,
+    FSplitFilesBtnCopy, FSplitFilesBtnClear, FSplitFilesBtnExport, FSplitFilesBtnTranslate,
+    FSplitFilesBtnAnon, FSplitFilesBtnEdit, FSplitFilesBtnMerge, FSplitFilesBtnAskAI);
+end;
+
+procedure TfrmMain.LayoutSplitToolStrip(APanel: TsPanel; const ABtns: array of TsSpeedButton);
+var
+  I, X: Integer;
+  BL: IInterface;
+begin
+  if not Assigned(APanel) then Exit;
+  { Left-to-right picture: the engine mirrors the strip again when the scope ends. }
+  BL := BidiLayoutScope([APanel]);
+  { Ordem visual, da esquerda para a direita. Com alRight o VCL ordena pela borda
+    direita atual, por isso as posicoes sao fixadas antes de alinhar. }
+  APanel.DisableAlign;
+  try
+    X := 0;
+    for I := Low(ABtns) to High(ABtns) do
+    begin
+      if not Assigned(ABtns[I]) then Continue;
+      ABtns[I].Align := alNone;
+      ABtns[I].AlignWithMargins := True;
+      ABtns[I].Margins.SetBounds(4, 0, 0, 0);
+      ABtns[I].Left := X;
+      Inc(X, ABtns[I].Width + 4);
+    end;
+    for I := Low(ABtns) to High(ABtns) do
+      if Assigned(ABtns[I]) then
+        ABtns[I].Align := alRight;
+  finally
+    APanel.EnableAlign;
+  end;
+end;
+
+procedure TfrmMain.LayoutSplitLinesToolBtns;
+begin
+  LayoutSplitToolStrip(FSplitLinesTools,
+    [FSplitBtnCopy, FSplitBtnClear, FSplitBtnExport, FSplitBtnTranslate,
+     FSplitBtnAnon, FSplitBtnEdit, FSplitBtnMerge, FSplitBtnAskAI]);
+end;
+
+procedure TfrmMain.UpdateSplitLinesToolsEnabled;
+var
+  CanUse: Boolean;
+begin
+  CanUse := Assigned(FSplitLinesSample) and FSplitLinesSample.Visible and
+    (FSplitLinesSample.SelCount > 0) and (not FLvTextJobBusy);
+  if Assigned(FSplitBtnCopy) then FSplitBtnCopy.Enabled := CanUse;
+  if Assigned(FSplitBtnClear) then FSplitBtnClear.Enabled := CanUse;
+  if Assigned(FSplitBtnExport) then FSplitBtnExport.Enabled := CanUse;
+  if Assigned(FSplitBtnTranslate) then FSplitBtnTranslate.Enabled := CanUse;
+  if Assigned(FSplitBtnAnon) then FSplitBtnAnon.Enabled := CanUse;
+  if Assigned(FSplitBtnEdit) then FSplitBtnEdit.Enabled := CanUse;
+  if Assigned(FSplitBtnMerge) then FSplitBtnMerge.Enabled := CanUse;
+  if Assigned(FSplitBtnAskAI) then FSplitBtnAskAI.Enabled := CanUse;
+end;
+
+procedure TfrmMain.AdjustSplitLinesSampleBounds;
+var
+  ToolsH, MemoH, M, ContentW: Integer;
+  BL: IInterface;
+begin
+  if not Assigned(FSplitLinesPreview) or not Assigned(FSplitLinesSample) then Exit;
+  if not FSplitLinesSample.Visible then Exit;
+  BL := BidiLayoutScope([FSplitLinesPreview]);
+  M := FfPx(16);
+  ToolsH := 0;
+  if Assigned(FSplitLinesTools) and FSplitLinesTools.Visible then
+    ToolsH := FSplitLinesTools.Height;
+  MemoH := FSplitLinesPreview.ClientHeight - FSplitLinesSample.Top - FfPx(8) - ToolsH;
+  if MemoH < FfPx(32) then
+    MemoH := FfPx(32);
+  FSplitLinesSample.Height := MemoH;
+  FSplitLinesSample.Width := FSplitLinesPreview.ClientWidth - FSplitLinesSample.Left - M;
+  if FSplitLinesSample.Columns.Count >= 2 then
+  begin
+    FSplitLinesSample.Columns[0].Width := FfPx(96);
+    ContentW := FSplitLinesSample.ClientWidth - FSplitLinesSample.Columns[0].Width - FfPx(4);
+    if ContentW < FfPx(120) then
+      ContentW := FfPx(120);
+    FSplitLinesSample.Columns[1].Width := ContentW;
+  end;
+end;
+
+procedure TfrmMain.RunSplitPreviewLineAction(AClick: TNotifyEvent);
+var
+  I: Integer;
+  Item: TListItem;
+begin
+  if FLvTextJobBusy then Exit;
+  if not Assigned(AClick) or not Assigned(FSplitLinesSample) or
+     not Assigned(FSplitLinesSampleLines) then Exit;
+  if not Assigned(FSplitLinesForcedLines) then
+    FSplitLinesForcedLines := TInt64List.Create;
+  FSplitLinesForcedLines.Clear;
+  for I := 0 to FSplitLinesSample.Items.Count - 1 do
+  begin
+    Item := FSplitLinesSample.Items[I];
+    if Item.Selected and (Item.Index < FSplitLinesSampleLines.Count) and
+       (FSplitLinesSampleLines.Items[Item.Index] > 0) then
+      FSplitLinesForcedLines.Add(FSplitLinesSampleLines.Items[Item.Index]);
+  end;
+  if FSplitLinesForcedLines.Count = 0 then
+  begin
+    ShowAppMessage(TrText('ListView.NeedSelection'));
+    Exit;
+  end;
+  EnsureSplitSourceReadable;
+  try
+    AClick(nil);
+  finally
+    FSplitLinesForcedLines.Clear;
+    UpdateListViewLineToolsEnabled;
+    UpdateSplitLinesToolsEnabled;
+    UpdateSplitFilesToolsEnabled;
+  end;
+end;
+
+procedure TfrmMain.EnsureSplitSourceReadable;
+var
+  Path: string;
+begin
+  if Assigned(FSourceFileStream) then Exit;
+  if Assigned(FIndexReadThread) then Exit;
+  if TfrmSmoothLoading.HeavyFileMutateHoldActive then Exit;
+  Path := CurrentEffectiveFilePath;
+  if (Path = '') or (not FileExists(Path)) then Exit;
+  ReopenFileStreamsOnly(Path, True);
+end;
+
+function TfrmMain.CreateSplitToolButton(AParent: TsPanel; ATag: Integer;
+  AClick: TNotifyEvent): TsSpeedButton;
+begin
+  Result := TsSpeedButton.Create(Self);
+  Result.Parent := AParent;
+  Result.Tag := ATag;
+  Result.OnClick := AClick;
+  StyleListViewLineToolBtn(Result);
+end;
+
+procedure TfrmMain.EnsureSplitFilesTools;
+begin
+  if not Assigned(pnlGridSplitFile) then Exit;
+  if not Assigned(FSplitFilesTools) then
+  begin
+    FSplitFilesTools := TsPanel.Create(Self);
+    FSplitFilesTools.Parent := pnlGridSplitFile;
+    FSplitFilesTools.Align := alBottom;
+    FSplitFilesTools.Height := FfPx(34);
+    FSplitFilesTools.BevelOuter := bvNone;
+    FSplitFilesTools.Caption := '';
+    FSplitFilesTools.Padding.Left := 8;
+    FSplitFilesTools.Padding.Top := 5;
+    FSplitFilesTools.Padding.Right := 8;
+    FSplitFilesTools.Padding.Bottom := 5;
+    FSplitFilesTools.Visible := True;
+
+    FSplitFilesBtnCopy := CreateSplitToolButton(FSplitFilesTools, 1, SplitFilesToolClick);
+    FSplitFilesBtnClear := CreateSplitToolButton(FSplitFilesTools, 2, SplitFilesToolClick);
+    FSplitFilesBtnExport := CreateSplitToolButton(FSplitFilesTools, 3, SplitFilesToolClick);
+    FSplitFilesBtnTranslate := CreateSplitToolButton(FSplitFilesTools, 4, SplitFilesToolClick);
+    FSplitFilesBtnAnon := CreateSplitToolButton(FSplitFilesTools, 5, SplitFilesToolClick);
+    FSplitFilesBtnEdit := CreateSplitToolButton(FSplitFilesTools, 6, SplitFilesToolClick);
+    FSplitFilesBtnMerge := CreateSplitToolButton(FSplitFilesTools, 7, SplitFilesToolClick);
+    FSplitFilesBtnAskAI := CreateSplitToolButton(FSplitFilesTools, 8, SplitFilesToolClick);
+    pnlGridSplitFile.Realign;
+  end;
+  if Assigned(dsFiles) and not Assigned(dsFiles.OnDataChange) then
+    dsFiles.OnDataChange := SplitFilesDataChange;
+  ApplySplitLinesToolCaptions;
+  UpdateSplitFilesToolsEnabled;
+end;
+
+procedure TfrmMain.UpdateSplitFilesToolsEnabled;
+var
+  AFrom, ATo: Int64;
+  CanUse: Boolean;
+begin
+  CanUse := (not FLvTextJobBusy) and SplitFilesCurrentRange(AFrom, ATo);
+  if Assigned(FSplitFilesBtnCopy) then FSplitFilesBtnCopy.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnClear) then FSplitFilesBtnClear.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnExport) then FSplitFilesBtnExport.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnTranslate) then FSplitFilesBtnTranslate.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnAnon) then FSplitFilesBtnAnon.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnEdit) then FSplitFilesBtnEdit.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnMerge) then FSplitFilesBtnMerge.Enabled := CanUse;
+  if Assigned(FSplitFilesBtnAskAI) then FSplitFilesBtnAskAI.Enabled := CanUse;
+end;
+
+procedure TfrmMain.SplitFilesDataChange(Sender: TObject; Field: TField);
+begin
+  UpdateSplitFilesToolsEnabled;
+end;
+
+function TfrmMain.SplitFilesCurrentRange(out AFrom, ATo: Int64): Boolean;
+begin
+  Result := False;
+  AFrom := 0;
+  ATo := 0;
+  if not Assigned(clFiles) or (not clFiles.Active) or clFiles.IsEmpty then Exit;
+  if clFiles.State in [dsInsert, dsEdit] then Exit;
+  AFrom := StrToInt64Def(Trim(clFilesSourceLine.AsString), 0);
+  ATo := StrToInt64Def(Trim(clFilesTargetLine.AsString), 0);
+  if (AFrom < 1) or (ATo < AFrom) then Exit;
+  Result := True;
+end;
+
+procedure TfrmMain.LoadSplitSampleTexts(const APath: string; AFrom, ACount: Int64;
+  ATexts: TStringList);
+const
+  MaxBytes = 48 * 1024 * 1024;
+  MaxChars = 400;
+var
+  FS: TFileStream;
+  Buf: TBytes;
+  N, I, CurLen: Integer;
+  LineNo: Int64;
+  Cur: AnsiString;
+  S: string;
+  B, Term: Byte;
+  Size: Int64;
+
+  procedure KeepLine;
+  var
+    J: Integer;
+  begin
+    if (LineNo < AFrom) or (ATexts.Count >= ACount) then Exit;
+    S := DisplayTextFromFileBytes(Cur, EffectiveDisplayEncoding);
+    for J := 1 to Length(S) do
+      if S[J] < ' ' then
+        S[J] := ' ';
+    if Length(S) > MaxChars then
+      S := Copy(S, 1, MaxChars) + '...';
+    ATexts.Add(S);
+  end;
+
+begin
+  if not Assigned(ATexts) then Exit;
+  ATexts.Clear;
+  if (APath = '') or (ACount < 1) or (AFrom < 1) or (not FileExists(APath)) then Exit;
+  Size := UnUtils.GetFileSize(APath);
+  if (Size < 0) or (Size > MaxBytes) then Exit;
+  if Assigned(FSourceFileStream) then
+    Term := FSourceLineTermByte
+  else
+    Term := LineTermByteForFile(APath);
+  if Term = 0 then
+    Term := 10;
+  FS := nil;
+  try
+    try
+      FS := TFileStream.Create(APath, fmOpenRead or fmShareDenyNone);
+      SetLength(Buf, 65536);
+      LineNo := 1;
+      Cur := '';
+      CurLen := 0;
+      while True do
+      begin
+        N := FS.Read(Buf[0], Length(Buf));
+        if N <= 0 then
+        begin
+          KeepLine;
+          Break;
+        end;
+        for I := 0 to N - 1 do
+        begin
+          B := Buf[I];
+          if B = Term then
+          begin
+            KeepLine;
+            Cur := '';
+            CurLen := 0;
+            Inc(LineNo);
+            if LineNo >= AFrom + ACount then
+              Exit;
+          end
+          else if (B <> 10) and (B <> 13) and (CurLen < MaxChars) and (LineNo >= AFrom) then
+          begin
+            Cur := Cur + AnsiChar(B);
+            Inc(CurLen);
+          end;
+        end;
+      end;
+    except
+      ATexts.Clear;
+    end;
+  finally
+    FS.Free;
+  end;
+end;
+
+procedure TfrmMain.RunSplitFilesLineAction(AClick: TNotifyEvent);
+var
+  AFrom, ATo, N, L: Int64;
+  Limit, Shown: Integer;
+begin
+  if FLvTextJobBusy then Exit;
+  if not Assigned(AClick) then Exit;
+  if not SplitFilesCurrentRange(AFrom, ATo) then
+  begin
+    ShowAppMessage(TrText('ListView.NeedSelection'));
+    Exit;
+  end;
+  N := ATo - AFrom + 1;
+  Limit := PrefSelectedLinesActionMax;
+  if N > Limit then
+  begin
+    if N > High(Integer) then
+      Shown := High(Integer)
+    else
+      Shown := Integer(N);
+    ShowAppMessage(Format(TrText('ListView.SelLimitExceeded'), [Shown, Limit]));
+    Exit;
+  end;
+  if not Assigned(FSplitLinesForcedLines) then
+    FSplitLinesForcedLines := TInt64List.Create;
+  FSplitLinesForcedLines.Clear;
+  for L := AFrom to ATo do
+    FSplitLinesForcedLines.Add(L);
+  EnsureSplitSourceReadable;
+  try
+    AClick(nil);
+  finally
+    FSplitLinesForcedLines.Clear;
+    UpdateListViewLineToolsEnabled;
+    UpdateSplitLinesToolsEnabled;
+    UpdateSplitFilesToolsEnabled;
+  end;
+end;
+
+procedure TfrmMain.SplitFilesTranslatePopup(Sender: TObject);
+begin
+  if not Assigned(FPopLvTranslate) or not Assigned(FSplitFilesBtnTranslate) then Exit;
+  PopupMenuUnderControl(FPopLvTranslate, FSplitFilesBtnTranslate);
+end;
+
+procedure TfrmMain.RunSplitFilesAnonymize;
+var
+  AFrom, ATo, L: Int64;
+begin
+  if FLvTextJobBusy then Exit;
+  if not SplitFilesCurrentRange(AFrom, ATo) then
+  begin
+    ShowAppMessage(TrText('ListView.NeedSelection'));
+    Exit;
+  end;
+  EnsureSplitSourceReadable;
+  if not Assigned(FSplitLinesForcedLines) then
+    FSplitLinesForcedLines := TInt64List.Create;
+  FSplitLinesForcedLines.Clear;
+  { A parte cabe no limite: o dialogo tambem oferece "linhas selecionadas". }
+  if (ATo - AFrom + 1) <= PrefAnonymizeMaxLines then
+    for L := AFrom to ATo do
+      FSplitLinesForcedLines.Add(L);
+  try
+    DoAnonymize(ascLineRange, AFrom, ATo);
+  finally
+    FSplitLinesForcedLines.Clear;
+    UpdateListViewLineToolsEnabled;
+    UpdateSplitLinesToolsEnabled;
+    UpdateSplitFilesToolsEnabled;
+  end;
+end;
+
+procedure TfrmMain.SplitFilesToolClick(Sender: TObject);
+begin
+  if not (Sender is TComponent) then Exit;
+  case TComponent(Sender).Tag of
+    1: RunSplitFilesLineAction(ListViewLineCopyClick);
+    2: RunSplitFilesLineAction(ListViewLineClearClick);
+    3: RunSplitFilesLineAction(ListViewLineExportClick);
+    4:
+      begin
+        EnsureListViewLineTools;
+        RunSplitFilesLineAction(SplitFilesTranslatePopup);
+      end;
+    5: RunSplitFilesAnonymize;
+    6: RunSplitFilesLineAction(ListViewLineEditClick);
+    7: RunSplitFilesLineAction(ListViewLineMergeClick);
+    8: RunSplitFilesLineAction(ListViewLineAskAIClick);
+  end;
+end;
+
+procedure TfrmMain.SplitLinesTranslatePopup(Sender: TObject);
+begin
+  if not Assigned(FPopLvTranslate) or not Assigned(FSplitBtnTranslate) then Exit;
+  PopupMenuUnderControl(FPopLvTranslate, FSplitBtnTranslate);
+end;
+
+procedure TfrmMain.SplitLinesToolClick(Sender: TObject);
+begin
+  if not (Sender is TComponent) then Exit;
+  case TComponent(Sender).Tag of
+    1: RunSplitPreviewLineAction(ListViewLineCopyClick);
+    2: RunSplitPreviewLineAction(ListViewLineClearClick);
+    3: RunSplitPreviewLineAction(ListViewLineExportClick);
+    4:
+      begin
+        EnsureListViewLineTools;
+        RunSplitPreviewLineAction(SplitLinesTranslatePopup);
+      end;
+    5: RunSplitPreviewLineAction(ListViewLineAnonClick);
+    6: RunSplitPreviewLineAction(ListViewLineEditClick);
+    7: RunSplitPreviewLineAction(ListViewLineMergeClick);
+    8: RunSplitPreviewLineAction(ListViewLineAskAIClick);
+  end;
+end;
+
+procedure TfrmMain.SplitLinesSampleSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
+begin
+  UpdateSplitLinesToolsEnabled;
+end;
+
+procedure TfrmMain.SplitLinesSampleKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var
+  I: Integer;
+begin
+  if (Key = Ord('A')) and (ssCtrl in Shift) and Assigned(FSplitLinesSample) then
+  begin
+    for I := 0 to FSplitLinesSample.Items.Count - 1 do
+      FSplitLinesSample.Items[I].Selected := True;
+    Key := 0;
+    UpdateSplitLinesToolsEnabled;
+  end;
+end;
+
+procedure TfrmMain.RefreshSplitLinesPreview;
+const
+  SampleMax = 40;
+var
+  FromLine, ToLine, Count, I, Shown: Int64;
+  Pct: Integer;
+  OutName, Key, Path: string;
+  HasFile, HaveRange, ShowSample, CanIndex: Boolean;
+  Item: TListItem;
+  Texts: TStringList;
+
+  function CleanLine(const S: string): string;
+  var
+    J: Integer;
+  begin
+    Result := S;
+    for J := 1 to Length(Result) do
+      if Result[J] < ' ' then
+        Result[J] := ' ';
+    if Length(Result) > 400 then
+      Result := Copy(Result, 1, 400) + '...';
+  end;
+
+  function SampleLine(LineNo: Int64): string;
+  begin
+    Result := '';
+    try
+      if LineNo >= 1 then
+        Result := GetLineContent(LineNo - 1);
+    except
+      Result := '';
+    end;
+    Result := CleanLine(Result);
+  end;
+
+begin
+  if FSplitLinesRefreshing then Exit;
+  if not Assigned(FSplitLinesPreviewText) then Exit;
+  FSplitLinesRefreshing := True;
+  try
+  if (totalLines > 0) and Assigned(spnFromSplitByLine) and Assigned(spnToSplitByLine) then
+  begin
+    if spnFromSplitByLine.MinValue <> 1 then
+      spnFromSplitByLine.MinValue := 1;
+    if spnToSplitByLine.MinValue <> 1 then
+      spnToSplitByLine.MinValue := 1;
+    if spnFromSplitByLine.MaxValue <> totalLines then
+      spnFromSplitByLine.MaxValue := totalLines;
+    if spnToSplitByLine.MaxValue <> totalLines then
+      spnToSplitByLine.MaxValue := totalLines;
+  end;
+  FromLine := 1;
+  ToLine := 1;
+  Count := 0;
+  if Assigned(spnFromSplitByLine) then
+    FromLine := spnFromSplitByLine.Value;
+  if Assigned(spnToSplitByLine) then
+    ToLine := spnToSplitByLine.Value;
+  OutName := '';
+  if Assigned(edtOutputSplitByLineText) then
+    OutName := ExtractFileName(Trim(edtOutputSplitByLineText.Text));
+  if OutName = '' then
+    OutName := '-';
+  Path := '';
+  if Assigned(edtFileName) then
+    Path := Trim(edtFileName.Text);
+  HasFile := (Path <> '') and (not SameText(Path, SELECTTEXT));
+  if (not FSplitLinesLayingOut) and HasFile and (totalLines > 0) and
+     Assigned(lblTotalLinesValue) and
+     (lblTotalLinesValue.Caption <> UnUtils.FormatNumber(totalLines)) then
+  begin
+    FSplitLinesRefreshing := False;
+    LayoutSplitFilePage;
+    Exit;
+  end;
+
+  HaveRange := totalLines > 0;
+  ShowSample := False;
+  if not HaveRange then
+    FSplitLinesPreviewText.Caption := ''
+  else if (FromLine < 1) or (ToLine < FromLine) then
+    FSplitLinesPreviewText.Caption := TrText('SplitByLines.Preview.BadRange')
+  else if ToLine > totalLines then
+    FSplitLinesPreviewText.Caption := Format(TrText('SplitByLines.Preview.Beyond'),
+      [UnUtils.FormatNumber(totalLines)])
+  else
+  begin
+    Count := ToLine - FromLine + 1;
+    Pct := Round(100.0 * Count / totalLines);
+    if Pct < 1 then
+      Pct := 1;
+    if Pct > 100 then
+      Pct := 100;
+    FSplitLinesPreviewText.Caption := Format(TrText('SplitByLines.Preview.Summary'),
+      [UnUtils.FormatNumber(FromLine), UnUtils.FormatNumber(ToLine),
+       UnUtils.FormatNumber(Count), Pct, OutName]);
+    ShowSample := True;
+  end;
+
+  { Empty state replaces summary, bar and grid while there is nothing to map. }
+  FSplitLinesPreviewText.Visible := HaveRange;
+  if Assigned(FSplitLinesBar) then
+    FSplitLinesBar.Visible := HaveRange;
+  if Assigned(FSplitLinesEmpty) and Assigned(FSplitLinesEmptyHint) then
+  begin
+    FSplitLinesEmpty.Visible := not HaveRange;
+    FSplitLinesEmptyHint.Visible := not HaveRange;
+    if not HaveRange then
+    begin
+      if HasFile then
+      begin
+        FSplitLinesEmpty.Caption := TrText('SplitByLines.Empty.NotReadTitle');
+        FSplitLinesEmptyHint.Caption := TrText('SplitByLines.Empty.NotReadHint');
+      end
+      else
+      begin
+        FSplitLinesEmpty.Caption := TrText('SplitByLines.Empty.NoFileTitle');
+        FSplitLinesEmptyHint.Caption := TrText('SplitByLines.Preview.NoFile');
+      end;
+    end;
+  end;
+
+  if Assigned(FSplitLinesSample) and Assigned(FSplitLinesSampleCaption) then
+  begin
+    FSplitLinesSample.Visible := ShowSample;
+    FSplitLinesSampleCaption.Visible := ShowSample;
+    if Assigned(FSplitLinesTools) then
+    begin
+      FSplitLinesTools.Visible := HaveRange;
+      if HaveRange then
+        FSplitLinesTools.BringToFront;
+    end;
+    if not ShowSample then
+    begin
+      if FSplitLinesSampleKey <> '' then
+      begin
+        FSplitLinesSampleKey := '';
+        FSplitLinesSample.Items.Clear;
+        if Assigned(FSplitLinesSampleLines) then
+          FSplitLinesSampleLines.Clear;
+      end;
+    end
+    else
+    begin
+      if Count <= SampleMax then
+        FSplitLinesSampleCaption.Caption := TrText('SplitByLines.Preview.SampleAll')
+      else
+        FSplitLinesSampleCaption.Caption := Format(TrText('SplitByLines.Preview.SampleSome'),
+          [SampleMax, UnUtils.FormatNumber(Count)]);
+      Key := IntToStr(FromLine) + ':' + IntToStr(ToLine) + ':' +
+        IntToStr(totalLines) + ':' + Path;
+      if Key <> FSplitLinesSampleKey then
+      begin
+        if Count > SampleMax then
+          Shown := SampleMax
+        else
+          Shown := Count;
+        if not Assigned(FSplitLinesSampleLines) then
+          FSplitLinesSampleLines := TInt64List.Create;
+        EnsureSplitSourceReadable;
+        CanIndex := Assigned(FSourceFileStream) and
+          (HasLineSearchIndex or UsesProportionalZeroScanScroll);
+        Texts := nil;
+        if not CanIndex then
+        begin
+          Texts := TStringList.Create;
+          LoadSplitSampleTexts(CurrentEffectiveFilePath, FromLine, Shown, Texts);
+        end;
+        FSplitLinesSample.Items.BeginUpdate;
+        try
+          FSplitLinesSample.Items.Clear;
+          FSplitLinesSampleLines.Clear;
+          for I := 0 to Shown - 1 do
+          begin
+            Item := FSplitLinesSample.Items.Add;
+            Item.Caption := UnUtils.FormatNumber(FromLine + I);
+            if CanIndex then
+              Item.SubItems.Add(SampleLine(FromLine + I))
+            else if Assigned(Texts) and (I < Texts.Count) then
+              Item.SubItems.Add(Texts[I])
+            else
+              Item.SubItems.Add('');
+            FSplitLinesSampleLines.Add(FromLine + I);
+          end;
+          FSplitLinesSampleKey := Key;
+          if FSplitLinesSample.Items.Count > 0 then
+            FSplitLinesSample.Items[0].Selected := True;
+        finally
+          FSplitLinesSample.Items.EndUpdate;
+          Texts.Free;
+        end;
+      end;
+    end;
+  end;
+
+  if Assigned(FSplitLinesBar) and FSplitLinesBar.Visible then
+    FSplitLinesBar.Invalidate;
+  AdjustSplitLinesSampleBounds;
+  UpdateSplitLinesToolsEnabled;
+  UpdateSplitFilesToolsEnabled;
+  finally
+    FSplitLinesRefreshing := False;
+  end;
+end;
+
+procedure TfrmMain.SplitLinesPreviewPaint(Sender: TObject);
+var
+  Box: TPaintBox;
+  Track: TRect;
+  Total, A, B, Count: Int64;
+  InnerW, X1, X2, Pct, TW, TH: Integer;
+  Mark, PctText: string;
+  Bad: Boolean;
+  SelColor: TColor;
+
+  function InkFor(AColor: TColor): TColor;
+  var
+    Rgb, Lum: Integer;
+  begin
+    Rgb := ColorToRGB(AColor);
+    Lum := (GetRValue(Rgb) * 299 + GetGValue(Rgb) * 587 + GetBValue(Rgb) * 114) div 1000;
+    if Lum > 150 then
+      Result := clBlack
+    else
+      Result := clWhite;
+  end;
+
+begin
+  Box := TPaintBox(Sender);
+  { No background fill: the skinned group box shows through behind the track. }
+  Box.Canvas.Brush.Style := bsSolid;
+  Box.Canvas.Pen.Style := psSolid;
+  Box.Canvas.Pen.Width := 1;
+  if Box.Width < FfPx(24) then Exit;
+
+  Track := Rect(0, FfPx(2), Box.Width, FfPx(2) + FfPx(22));
+  Box.Canvas.Pen.Color := ColorToRGB(clSilver);
+  Box.Canvas.Brush.Color := ColorToRGB(clWindow);
+  Box.Canvas.RoundRect(Track.Left, Track.Top, Track.Right, Track.Bottom, FfPx(12), FfPx(12));
+
+  Total := totalLines;
+  A := 1;
+  B := 1;
+  Bad := Total <= 0;
+  if Assigned(spnFromSplitByLine) then
+    A := spnFromSplitByLine.Value;
+  if Assigned(spnToSplitByLine) then
+    B := spnToSplitByLine.Value;
+  if (A < 1) or (B < A) or (B > Total) then
+    Bad := True;
+  if not Bad then
+  begin
+    InnerW := Track.Right - Track.Left - FfPx(6);
+    if InnerW < 1 then
+      InnerW := 1;
+    X1 := Track.Left + FfPx(3) + Round((A - 1) / Total * InnerW);
+    X2 := Track.Left + FfPx(3) + Round(B / Total * InnerW);
+    if X2 < X1 + FfPx(8) then
+      X2 := X1 + FfPx(8);
+    if X2 > Track.Right - FfPx(3) then
+      X2 := Track.Right - FfPx(3);
+    if X1 > X2 - FfPx(8) then
+      X1 := X2 - FfPx(8);
+    if X1 < Track.Left + FfPx(3) then
+      X1 := Track.Left + FfPx(3);
+    if BidiIsRtl then
+    begin
+      { Right-to-left: the range grows from the right edge. }
+      InnerW := Box.Width - X2;
+      X2 := Box.Width - X1;
+      X1 := InnerW;
+    end;
+    SelColor := ColorToRGB(clHighlight);
+    Box.Canvas.Pen.Color := SelColor;
+    Box.Canvas.Brush.Color := SelColor;
+    Box.Canvas.RoundRect(X1, Track.Top + FfPx(3), X2, Track.Bottom - FfPx(3),
+      FfPx(8), FfPx(8));
+
+    Count := B - A + 1;
+    Pct := Round(100.0 * Count / Total);
+    if Pct < 1 then
+      Pct := 1;
+    if Pct > 100 then
+      Pct := 100;
+    PctText := IntToStr(Pct) + '%';
+    Box.Canvas.Font.Assign(Box.Font);
+    Box.Canvas.Font.Style := [fsBold];
+    Box.Canvas.Font.Color := InkFor(SelColor);
+    Box.Canvas.Brush.Style := bsClear;
+    TW := Box.Canvas.TextWidth(PctText);
+    TH := Box.Canvas.TextHeight(PctText);
+    if (X2 - X1) >= TW + FfPx(12) then
+      Box.Canvas.TextOut(
+        X1 + ((X2 - X1) - TW) div 2,
+        Track.Top + ((Track.Bottom - Track.Top) - TH) div 2,
+        PctText);
+  end;
+
+  Box.Canvas.Font.Assign(Font);
+  Box.Canvas.Font.Size := 8;
+  Box.Canvas.Font.Style := [];
+  Box.Canvas.Font.Color := ColorToRGB(clGrayText);
+  Box.Canvas.Brush.Style := bsClear;
+  Box.Canvas.TextOut(BidiLeft(Box.Width, 0, Box.Canvas.TextWidth('1')),
+    Track.Bottom + FfPx(3), '1');
+  if Total > 0 then
+  begin
+    Mark := UnUtils.FormatNumber(Total);
+    Box.Canvas.TextOut(
+      BidiLeft(Box.Width, Box.Width - Box.Canvas.TextWidth(Mark), Box.Canvas.TextWidth(Mark)),
+      Track.Bottom + FfPx(3), Mark);
+  end;
 end;
 
 procedure TfrmMain.tabSplitFileShow(Sender: TObject);
@@ -34809,6 +38604,7 @@ begin
   end;
   if not fileIsEmpty then
     tableTempFiles(trkFiles.Position);
+  LayoutSplitFilePage;
 end;
 
 procedure TfrmMain.pgcSplitFilesChange(Sender: TObject);
@@ -35660,7 +39456,7 @@ begin
     RefreshLanguageRuntimeCache;
 
   if (sStatusBar1.Panels.Count > 4) then
-    sStatusBar1.Panels[4].Text := BuildStatusModeText;
+    StatusPanelAt(4).Text := BuildStatusModeText;
   UpdateWhitespaceMarksLegendHint;
 
   // Panel 6: Line / Col
@@ -35675,20 +39471,20 @@ begin
   begin
     FLastStatusLine := SelLine;
     if SelLine > 0 then
-      sStatusBar1.Panels[6].Text := Format(FTrLineColFormat, [SelLine, 1])
+      StatusPanelAt(6).Text := Format(FTrLineColFormat, [SelLine, 1])
     else
-      sStatusBar1.Panels[6].Text := FTrLineColZero;
+      StatusPanelAt(6).Text := FTrLineColZero;
   end;
   // Panel 7: Total lines
   if totalLines <> FLastStatusCount then
   begin
     FLastStatusCount := totalLines;
-    sStatusBar1.Panels[7].Text := Format(FTrLinesFormat, [totalLines]);
+    StatusPanelAt(7).Text := Format(FTrLinesFormat, [totalLines]);
   end;
   { Painel 8: apenas o combo (sem texto duplicado); hint mostra deteccao + modo }
   if (sStatusBar1.Panels.Count > 8) then
   begin
-    sStatusBar1.Panels[8].Text := '';
+    StatusPanelAt(8).Text := '';
     if Assigned(comboViewEncoding) then
     begin
       if (comboViewEncoding.ItemIndex > 0) then
@@ -35742,11 +39538,12 @@ end;
 procedure TfrmMain.EnsureTopFileQuickActions;
 const
   STRIP_H = 34;
-  { File-path row (~48) + tools strip under timer; extra for AlphaControls chrome. }
+  { File-path row (~48) + tools strip under timer; extra for AlphaControls frame. }
   TOP_HOST_H = 92;
 var
   ClearW, CopyW, MoreW: Integer;
   StripHost: TWinControl;
+  BL: IInterface;
 
   function LinkCaptionWidth(ABtn: TsSpeedButton; const ACaption: string;
     AMinW: Integer): Integer;
@@ -35781,6 +39578,8 @@ begin
   { Strip under pnlTimerLog only (like FLvTools under the list). Do NOT put it on
     pnlTop alBottom — that steals height from pnlFileButtons and clips All/Linha. }
   if not Assigned(pnlTop) or not Assigned(pnlTimerLog) then Exit;
+  { Align/Left are re-assigned in left-to-right terms below (this runs repeatedly). }
+  BL := BidiLayoutScope([pnlTop, pnlTimerLog, FTopQuickActions]);
   StripHost := pnlTimerLog;
 
   if not Assigned(FPopupTopFileOptions) then
@@ -35892,6 +39691,7 @@ const
   TOP_HOST_H = 92;
 var
   ClearW, CopyW, MoreW: Integer;
+  BL: IInterface;
 
   function LinkCaptionWidth(ABtn: TsSpeedButton; const ACaption: string;
     AMinW: Integer): Integer;
@@ -35912,6 +39712,7 @@ var
   end;
 begin
   if not Assigned(FTopQuickActions) or not Assigned(pnlTimerLog) then Exit;
+  BL := BidiLayoutScope([pnlTop, pnlTimerLog, FTopQuickActions]);
   if Assigned(pnlTop) then
     pnlTop.Height := TOP_HOST_H;
   if not Assigned(FTopQuickActions.Parent) or (FTopQuickActions.Parent <> pnlTimerLog) then
@@ -36077,13 +39878,10 @@ begin
 end;
 
 procedure TfrmMain.TopFileOptionsClick(Sender: TObject);
-var
-  P: TPoint;
 begin
   if not Assigned(FPopupTopFileOptions) or not Assigned(FBtnTopFileOptions) then Exit;
   BuildTopFileOptionsPopup;
-  P := FBtnTopFileOptions.ClientToScreen(Point(0, FBtnTopFileOptions.Height));
-  FPopupTopFileOptions.Popup(P.X, P.Y);
+  PopupMenuUnderControl(FPopupTopFileOptions, FBtnTopFileOptions);
 end;
 
 procedure TfrmMain.TopFileOptionsPopup(Sender: TObject);
@@ -36331,7 +40129,7 @@ begin
     FListViewZoomBaseFontSize := 1;
   Pct := Round((100.0 * Sz) / FListViewZoomBaseFontSize);
   if Pct < 1 then Pct := 1;
-  sStatusBar1.Panels[9].Text := '';
+  StatusPanelAt(9).Text := '';
   if Assigned(comboZoom) then
     RememberWheelZoomInCombo(Pct, True);
 end;
@@ -36374,17 +40172,54 @@ begin
   Result := PtInRect(R, ScreenPos);
 end;
 
+{ The design-time panel order has owner-drawn panels at the start (0, 1, 3) and a plain
+  text panel last; when the engine reversed the panels the first panel is plain text
+  and the last one is owner-drawn. }
+function TfrmMain.StatusBarPanelsReflected: Boolean;
+begin
+  Result := Assigned(sStatusBar1) and (sStatusBar1.Panels.Count >= 10) and
+    (sStatusBar1.Panels[0].Style <> psOwnerDraw) and
+    (sStatusBar1.Panels[sStatusBar1.Panels.Count - 1].Style = psOwnerDraw);
+end;
+
+function TfrmMain.StatusPanelPhys(ALogical: Integer): Integer;
+begin
+  Result := ALogical;
+  if StatusBarPanelsReflected then
+    Result := sStatusBar1.Panels.Count - 1 - ALogical;
+end;
+
+function TfrmMain.StatusPanelLogical(APhysical: Integer): Integer;
+begin
+  Result := APhysical;
+  if StatusBarPanelsReflected then
+    Result := sStatusBar1.Panels.Count - 1 - APhysical;
+end;
+
+function TfrmMain.StatusPanelAt(ALogical: Integer): TStatusPanel;
+begin
+  Result := sStatusBar1.Panels[StatusPanelPhys(ALogical)];
+end;
+
 function TfrmMain.StatusBarPanelRectByWidths(const Index: Integer): TRect;
 var
-  I, L: Integer;
+  I, L, P: Integer;
 begin
   Result := Rect(0, 0, 0, 0);
   if (Index < 0) or (not Assigned(sStatusBar1)) or (Index >= sStatusBar1.Panels.Count) then
     Exit;
+  P := sStatusBar1.Panels.Count;
   L := 0;
-  for I := 0 to Index - 1 do
-    Inc(L, sStatusBar1.Panels[I].Width);
-  Result := Rect(L, 0, L + sStatusBar1.Panels[Index].Width, sStatusBar1.ClientHeight);
+  { Right-to-left: the panels end up in reverse order, so the panels that come later in
+    the design order sit to the left (also computed before the engine reversed them,
+    so combos placed over the panels already match the final picture). }
+  if BidiIsRtl then
+    for I := Index + 1 to P - 1 do
+      Inc(L, StatusPanelAt(I).Width)
+  else
+    for I := 0 to Index - 1 do
+      Inc(L, StatusPanelAt(I).Width);
+  Result := Rect(L, 0, L + StatusPanelAt(Index).Width, sStatusBar1.ClientHeight);
 end;
 
 function TfrmMain.HitTestStatusModeSegment(X, Y: Integer): Integer;
@@ -36392,7 +40227,7 @@ var
   R: TRect;
   Full, Part: string;
   Parts: TStringList;
-  i, LeftX, W, GapW, P: Integer;
+  i, LeftX, W, GapW, P, FullW: Integer;
   Pnt: TPoint;
 begin
   { 0=Mode 1=Wrap 2=Tail 3=Filter 4=Marks 5=View; -1 = miss. }
@@ -36400,16 +40235,18 @@ begin
   if not Assigned(sStatusBar1) or (sStatusBar1.Panels.Count <= 4) then Exit;
   if not sStatusBar1.HandleAllocated then Exit;
 
-  sStatusBar1.Perform(SB_GETRECT, 4, Integer(@R));
+  sStatusBar1.Perform(SB_GETRECT, StatusPanelPhys(4), Integer(@R));
   if (R.Right <= R.Left) then
     R := StatusBarPanelRectByWidths(4);
   Pnt := Point(X, Y);
   if not PtInRect(R, Pnt) then Exit;
 
-  Full := Trim(sStatusBar1.Panels[4].Text);
+  Full := Trim(StatusPanelAt(4).Text);
   if Full = '' then
     Full := BuildStatusModeText;
   if Full = '' then Exit;
+  sStatusBar1.Canvas.Font.Assign(sStatusBar1.Font);
+  FullW := sStatusBar1.Canvas.TextWidth(Full);
 
   Parts := TStringList.Create;
   try
@@ -36432,6 +40269,9 @@ begin
     sStatusBar1.Canvas.Font.Assign(sStatusBar1.Font);
     GapW := sStatusBar1.Canvas.TextWidth('  ');
     LeftX := R.Left + 4;
+    { Right-to-left: the panel text is right-aligned (Latin runs keep their order). }
+    if BidiIsRtl then
+      LeftX := Max(R.Left + 4, R.Right - 4 - FullW);
     for i := 0 to Parts.Count - 1 do
     begin
       W := sStatusBar1.Canvas.TextWidth(Parts[i]);
@@ -36457,12 +40297,12 @@ begin
       begin
         if FFilterActive then
         begin
-          if FFilterBarChromeHidden or (not Assigned(FFilterBar)) or (not FFilterBar.Visible) then
+          if FFilterBarFrameHidden or (not Assigned(FFilterBar)) or (not FFilterBar.Visible) then
             ShowFilterBar(True)
           else
           begin
             ClearFilter;
-            HideFilterBarChrome;
+            HideFilterBarFrame;
             UpdateStatusBar(TrText('Filter cleared.'), iaRight);
           end;
         end
@@ -36475,7 +40315,7 @@ begin
   UpdateInfoPanels;
 end;
 
-procedure TfrmMain.ApplyStatusBarComboChrome;
+procedure TfrmMain.ApplyStatusBarComboFrame;
   procedure StyleOne(C: TsComboBox);
   begin
     if not Assigned(C) then Exit;
@@ -36507,9 +40347,13 @@ procedure TfrmMain.LayoutViewEncodingCombo;
 var
   R: TRect;
   M, H, Tp, Wc, Ch: Integer;
+  BL: IInterface;
 begin
   if (not Assigned(comboViewEncoding)) or (not Assigned(sStatusBar1)) then Exit;
   if sStatusBar1.Panels.Count <= 8 then Exit;
+  { The combo is placed over its panel; the rectangle below is already the final
+    (visual) one, so give the engine the un-mirrored picture of it. }
+  BL := BidiLayoutScope([sStatusBar1]);
   if comboViewEncoding.Parent <> sStatusBar1 then
     comboViewEncoding.Parent := sStatusBar1;
   H := sStatusBar1.ClientHeight;
@@ -36521,7 +40365,7 @@ begin
   Ch := Min(comboViewEncoding.Height, H - 2);
   if Ch < 18 then Ch := Min(21, H - 2);
   Tp := Max(1, (H - Ch) div 2);
-  comboViewEncoding.SetBounds(R.Left + M, Tp, Wc, Ch);
+  comboViewEncoding.SetBounds(BidiLeft(sStatusBar1.ClientWidth, R.Left + M, Wc), Tp, Wc, Ch);
   comboViewEncoding.Visible := True;
   comboViewEncoding.BringToFront;
   EnsureFileFormatPopupMenus;
@@ -36533,9 +40377,11 @@ procedure TfrmMain.LayoutLanguageCombo;
 var
   R: TRect;
   M, H, Tp, Wc, Ch: Integer;
+  BL: IInterface;
 begin
   if (not Assigned(comboLanguage)) or (not Assigned(sStatusBar1)) then Exit;
   if sStatusBar1.Panels.Count <= 2 then Exit;
+  BL := BidiLayoutScope([sStatusBar1]);
   H := sStatusBar1.ClientHeight;
   if H < 4 then Exit;
   R := StatusBarPanelRectByWidths(2);
@@ -36545,7 +40391,7 @@ begin
   Ch := Min(comboLanguage.Height, H - 2);
   if Ch < 18 then Ch := Min(21, H - 2);
   Tp := Max(1, (H - Ch) div 2);
-  comboLanguage.SetBounds(R.Left + M, Tp, Wc, Ch);
+  comboLanguage.SetBounds(BidiLeft(sStatusBar1.ClientWidth, R.Left + M, Wc), Tp, Wc, Ch);
   comboLanguage.Visible := True;
   comboLanguage.BringToFront;
 end;
@@ -36554,9 +40400,11 @@ procedure TfrmMain.LayoutZoomCombo;
 var
   R: TRect;
   M, H, Tp, Wc, Ch: Integer;
+  BL: IInterface;
 begin
   if (not Assigned(comboZoom)) or (not Assigned(sStatusBar1)) then Exit;
   if sStatusBar1.Panels.Count <= 9 then Exit;
+  BL := BidiLayoutScope([sStatusBar1]);
   if comboZoom.Parent <> sStatusBar1 then
     comboZoom.Parent := sStatusBar1;
   H := sStatusBar1.ClientHeight;
@@ -36568,7 +40416,7 @@ begin
   Ch := Min(comboZoom.Height, H - 2);
   if Ch < 18 then Ch := Min(21, H - 2);
   Tp := Max(1, (H - Ch) div 2);
-  comboZoom.SetBounds(R.Left + M, Tp, Wc, Ch);
+  comboZoom.SetBounds(BidiLeft(sStatusBar1.ClientWidth, R.Left + M, Wc), Tp, Wc, Ch);
   comboZoom.Visible := True;
   comboZoom.BringToFront;
 end;
@@ -36592,9 +40440,9 @@ var
 
   procedure SetPanelWidth(AIndex, AWidth: Integer);
   begin
-    if sStatusBar1.Panels[AIndex].Width <> AWidth then
+    if StatusPanelAt(AIndex).Width <> AWidth then
     begin
-      sStatusBar1.Panels[AIndex].Width := AWidth;
+      StatusPanelAt(AIndex).Width := AWidth;
       WidthsChanged := True;
     end;
   end;
@@ -36636,17 +40484,17 @@ begin
   W8 := FfPx(210);
   W9 := FfPx(96);
 
-  ModeTxt := Trim(sStatusBar1.Panels[4].Text);
+  ModeTxt := Trim(StatusPanelAt(4).Text);
   if ModeTxt = '' then
     ModeTxt := BuildStatusModeText;
   W4 := Max(FfPx(300), StatusBarTextWidth(ModeTxt) + Pad);
 
-  EolTxt := Trim(sStatusBar1.Panels[5].Text);
+  EolTxt := Trim(StatusPanelAt(5).Text);
   if EolTxt = '' then
     EolTxt := EolStatusBarCaption(FDetectedEol);
   W5 := Max(FfPx(56), StatusBarTextWidth(EolTxt) + Pad);
 
-  LineTxt := Trim(sStatusBar1.Panels[6].Text);
+  LineTxt := Trim(StatusPanelAt(6).Text);
   if LineTxt = '' then
   begin
     if FTrLineColZero <> '' then
@@ -36656,7 +40504,7 @@ begin
   end;
   W6 := Max(FfPx(110), StatusBarTextWidth(LineTxt) + Pad);
 
-  LinesTxt := Trim(sStatusBar1.Panels[7].Text);
+  LinesTxt := Trim(StatusPanelAt(7).Text);
   if LinesTxt = '' then
   begin
     if FTrLinesFormat <> '' then
@@ -36675,7 +40523,7 @@ begin
   if (Need + FfPx(90) > Avail) then
   begin
     ModeTxt := CompactModeText;
-    sStatusBar1.Panels[4].Text := ModeTxt;
+    StatusPanelAt(4).Text := ModeTxt;
     W4 := Max(FfPx(260), StatusBarTextWidth(ModeTxt) + Pad);
     Need := W1 + W2 + W3 + W4 + W5 + W6 + W7 + W8 + W9;
   end;
@@ -36744,6 +40592,7 @@ begin
     LayoutViewEncodingCombo;
     LayoutZoomCombo;
   end;
+  LayoutStatusCancelButton;
 end;
 
 procedure TfrmMain.RememberWheelZoomInCombo(const APct: Integer; const AForce: Boolean = False);
@@ -36954,10 +40803,14 @@ end;
 
 procedure TfrmMain.LayoutPPIPanel(Sender: TObject);
 var
-  Ppi, Pad, Gap, LblW, BtnW, PanelW, Chrome: Integer;
+  Ppi, Pad, Gap, LblW, BtnW, PanelW, Frame: Integer;
   Bmp: TBitmap;
+  BL: IInterface;
 begin
   if not Assigned(sPanel1) or not Assigned(SpeedBtnPPI) or not Assigned(sSkinSelector1) then Exit;
+  { Absolute left-to-right math: lay out the un-mirrored picture. }
+  BL := BidiLayoutScope([sPanel1, BidiParentOf(sPanel1), BidiParentOf(sSkinSelector1),
+    BidiParentOf(SpeedBtnPPI)]);
   Ppi := GetPPI(sSkinProvider1.SkinData);
   if Ppi < 96 then Ppi := 96;
   Pad := MulDiv(4, Ppi, 96);
@@ -36981,11 +40834,11 @@ begin
   finally
     Bmp.Free;
   end;
-  Chrome := sPanel1.Width - sPanel1.ClientWidth;
+  Frame := sPanel1.Width - sPanel1.ClientWidth;
   sSkinSelector1.Left := Pad + LblW;
   SpeedBtnPPI.SetBounds(sSkinSelector1.Left + sSkinSelector1.Width + Gap, SpeedBtnPPI.Top,
     BtnW, SpeedBtnPPI.Height);
-  PanelW := SpeedBtnPPI.Left + BtnW + Pad + Chrome;
+  PanelW := SpeedBtnPPI.Left + BtnW + Pad + Frame;
   sPanel1.SetBounds(ClientWidth - PanelW - Pad, sPanel1.Top, PanelW, sPanel1.Height);
   if sSkinSelector1.BoundLabel.Active then
     sSkinSelector1.BoundLabel.AlignLabel;
@@ -37279,7 +41132,7 @@ begin
   FActivityStatusActive := False;
   if not Assigned(sStatusBar1) then Exit;
   FCurrentIconAlignment := Alignment;
-  sStatusBar1.Panels[0].Text := TextMsg;
+  StatusPanelAt(0).Text := TextMsg;
   if (sStatusBar1.Handle <> 0) and IsWindow(sStatusBar1.Handle) then
     sStatusBar1.Repaint;
 end;
@@ -37333,7 +41186,7 @@ var
   Seg: Integer;
 begin
   P := Point(X, Y);
-  sStatusBar1.Perform(SB_GETRECT, 1, Integer(@R1));
+  sStatusBar1.Perform(SB_GETRECT, StatusPanelPhys(1), Integer(@R1));
   if PtInRect(R1, P) then
   begin
     sStatusBar1.Cursor := crHandPoint;
@@ -37343,7 +41196,7 @@ begin
 
   if sStatusBar1.Panels.Count > 5 then
   begin
-    sStatusBar1.Perform(SB_GETRECT, 5, Integer(@REol));
+    sStatusBar1.Perform(SB_GETRECT, StatusPanelPhys(5), Integer(@REol));
     if (REol.Right <= REol.Left) then
       REol := StatusBarPanelRectByWidths(5);
     if PtInRect(REol, P) then
@@ -37388,7 +41241,7 @@ begin
   if Button <> mbLeft then Exit;
   P := Point(X, Y);
 
-  sStatusBar1.Perform(SB_GETRECT, 1, Integer(@R1));
+  sStatusBar1.Perform(SB_GETRECT, StatusPanelPhys(1), Integer(@R1));
   if PtInRect(R1, P) then
   begin
     ExecutePanelIndexOne;
@@ -37397,7 +41250,7 @@ begin
 
   if sStatusBar1.Panels.Count > 5 then
   begin
-    sStatusBar1.Perform(SB_GETRECT, 5, Integer(@REol));
+    sStatusBar1.Perform(SB_GETRECT, StatusPanelPhys(5), Integer(@REol));
     if (REol.Right <= REol.Left) then
       REol := StatusBarPanelRectByWidths(5);
     if PtInRect(REol, P) then
@@ -37736,8 +41589,13 @@ begin
     ReleaseKeepReadTab;
     AssistantHostNotifyReadFinished(Trim(fFileName));
   end
-  else if FKeepReadTabAfterLoad and HandleAllocated then
-    ScheduleKeepReadTab;
+  else
+  begin
+    if FKeepReadTabAfterLoad and HandleAllocated then
+      ScheduleKeepReadTab;
+    if FFreshFileRead then
+      ShowWorkflowNextSteps;
+  end;
   AppendOperationTimerLog(timer);
 end;
 
@@ -37759,6 +41617,8 @@ begin
   FZeroScanEndLineStartByte := 0;
   FZeroScanEndScrollOffset := 0;
   FSourceFileSize := 0;
+  FNoIdxScanSize := 0;
+  FNoIdxScanLine := -1;
   if Assigned(FSourceFileStream) then FreeAndNil(FSourceFileStream);
   if Assigned(FIndexFileStream)  then FreeAndNil(FIndexFileStream);
   if Assigned(FCkptFileStream)   then FreeAndNil(FCkptFileStream);
@@ -37860,6 +41720,7 @@ var
   Thr: TThread;
 begin
   { Indexacao (TReadFileThread/MMF), filtro, busca e FSourceFileStream impedem rename do original. }
+  BgLoadEnd;
   TfrmSmoothLoading.RequestCancel;
   WaitForActiveIndexReadThread;
   if Assigned(FFilterThread) then
@@ -37964,6 +41825,94 @@ var
     AStart1 := StartOffset;
     AEndEx1 := EndOffset;
     Result := True;
+  end;
+
+  { Sem temp.txt/ckpt: localiza a linha varrendo o arquivo. A busca continua de
+    onde a anterior parou, para a previa nao reler o arquivo a cada linha. }
+  function ScanUnindexedLine(ALine: Int64; out AStart1, AEndEx1: Int64): Boolean;
+  const
+    MaxScan = 32 * 1024 * 1024;
+  var
+    Pos0, Line, Start0, Size: Int64;
+    Buf: array[0..65535] of Byte;
+    N, I: Integer;
+    Term: Byte;
+  begin
+    Result := False;
+    AStart1 := 0;
+    AEndEx1 := 0;
+    if (ALine < 0) or (not Assigned(FSourceFileStream)) then Exit;
+    Size := SourceFileSize64;
+    if Size <= 0 then
+      Size := FSourceFileStream.Size;
+    if (Size <= 0) or (Size > MaxScan) then Exit;
+    Term := FSourceLineTermByte;
+    if Term = 0 then Term := 10;
+
+    if (FNoIdxScanSize <> Size) or (ALine < FNoIdxScanLine) then
+    begin
+      FNoIdxScanSize := Size;
+      FNoIdxScanLine := -1;
+      FNoIdxScanStart0 := 0;
+      FNoIdxScanEnd0 := 0;
+    end;
+
+    if FNoIdxScanLine = ALine then
+    begin
+      AStart1 := FNoIdxScanStart0 + 1;
+      AEndEx1 := FNoIdxScanEnd0 + 1;
+      Result := True;
+      Exit;
+    end;
+
+    if FNoIdxScanLine >= 0 then
+    begin
+      Pos0 := FNoIdxScanEnd0;
+      Line := FNoIdxScanLine + 1;
+    end
+    else
+    begin
+      Pos0 := 0;
+      Line := 0;
+    end;
+    Start0 := Pos0;
+    FileStreamSeek64(FSourceFileStream, Pos0, Word(soFromBeginning));
+    while Line <= ALine do
+    begin
+      N := FSourceFileStream.Read(Buf, SizeOf(Buf));
+      if N <= 0 then
+      begin
+        if (Line = ALine) and (Start0 <= Size) then
+        begin
+          FNoIdxScanStart0 := Start0;
+          FNoIdxScanEnd0 := Size;
+          FNoIdxScanLine := ALine;
+          AStart1 := Start0 + 1;
+          AEndEx1 := Size + 1;
+          Result := True;
+        end;
+        Exit;
+      end;
+      for I := 0 to N - 1 do
+      begin
+        if Buf[I] = Term then
+        begin
+          if Line = ALine then
+          begin
+            FNoIdxScanStart0 := Start0;
+            FNoIdxScanEnd0 := Pos0 + I + 1;
+            FNoIdxScanLine := ALine;
+            AStart1 := Start0 + 1;
+            AEndEx1 := FNoIdxScanEnd0 + 1;
+            Result := True;
+            Exit;
+          end;
+          Inc(Line);
+          Start0 := Pos0 + I + 1;
+        end;
+      end;
+      Inc(Pos0, N);
+    end;
   end;
 
 begin
@@ -38121,8 +42070,8 @@ begin
         end;
       end;
     end
-    else
-      Exit;  { no index available }
+    else if not ScanUnindexedLine(LineIndex, StartOffset, EndOffset) then
+      Exit;
     Result := Done;
   except
     Result := False;
@@ -38192,6 +42141,8 @@ begin
   IndexFileName := FastFileExeDirPath(TEMPFILE);
   CkptFileName := FastFileExeDirPath(TEMP_CKPT_FILE);
   FSourceFileSize := 0;
+  FNoIdxScanSize := 0;
+  FNoIdxScanLine := -1;
   try
     FSourceFileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
     FSourceFileSize := UnUtils.GetFileSize(AFileName);
@@ -39028,6 +42979,7 @@ var
   Bmp: TBitmap;
   FirstIdx, LastIdx: Integer;
   HitX: Integer;
+  ContentR: TRect;
   dCharWidth: Double;
   PixelTextStart, PixelTextEnd: Integer;
   CopyLen, StartCharIdx, EndCharIdx: Integer;
@@ -39107,7 +43059,15 @@ begin
     Inc(R.Right);
 
   HitX := 8;
-  if ListView1.Columns.Count > 0 then
+  if BidiIsRtl and ReadListViewContentRect(ListView1, ContentR) then
+  begin
+    HitX := ContentR.Left + 8;
+    if HitX < 2 then
+      HitX := 2;
+    if (ListView1.ClientWidth > 4) and (HitX > ListView1.ClientWidth - 2) then
+      HitX := ListView1.ClientWidth - 2;
+  end
+  else if ListView1.Columns.Count > 0 then
     HitX := ListView1.Columns[0].Width + 8;
 
   StartRowIdx := GetRowIndexAt(HitX, R.Top);
@@ -39138,7 +43098,10 @@ begin
 
   Col0Width := ListView1.Columns[0].Width;
   ScrollOffset := GetScrollPos(ListView1.Handle, SB_HORZ);
-  OriginX := Col0Width + COL1_LEFT_INSET - ScrollOffset;
+  if BidiIsRtl and ReadListViewContentRect(ListView1, ContentR) then
+    OriginX := ContentR.Left
+  else
+    OriginX := Col0Width + COL1_LEFT_INSET - ScrollOffset;
 
   SelLeft := R.Left;
   SelRight := R.Right;
@@ -39169,8 +43132,8 @@ begin
 
       if Length(LineS) > LONG_LINE_THRESH then
       begin
-        PixelTextStart := (SelLeft + ScrollOffset) - Col0Width - COL1_LEFT_INSET;
-        PixelTextEnd := (SelRight + ScrollOffset) - Col0Width - COL1_LEFT_INSET;
+        PixelTextStart := SelLeft - OriginX;
+        PixelTextEnd := SelRight - OriginX;
         if PixelTextStart < 0 then
           PixelTextStart := 0;
         if PixelTextEnd < 0 then
@@ -39858,7 +43821,7 @@ begin
   RelayoutMainPages(False);
   AdjustListViewColumnsWidth;
   LayoutStatusBarPanels;
-  ApplyStatusBarComboChrome;
+  ApplyStatusBarComboFrame;
   LayoutLanguageCombo;
   LayoutViewEncodingCombo;
   LayoutZoomCombo;
@@ -39867,7 +43830,8 @@ begin
     FCheckListBox.Invalidate;
   RefreshIdleLogoWorkspaceLayout;
   if IsReadFileTabActive and (FListViewZoomBatchDepth = 0) then
-    RelayoutReadFileChrome;
+    RelayoutReadFileFrame;
+  LayoutSplitFilePage;
   SyncFindOccSplitter;
   SyncFilterSplitterVisible;
   SyncBookmarkSplitter;
@@ -40270,6 +44234,51 @@ begin
   end;
 end;
 
+function ReadListViewContentRect(LV: TListView; out R: TRect): Boolean;
+var
+  Row: Integer;
+begin
+  Result := False;
+  R := Rect(0, 0, 0, 0);
+  if (LV = nil) or (not LV.HandleAllocated) or (LV.Columns.Count < 2) then
+    Exit;
+  Row := 0;
+  if (LV.Items.Count > 0) and (LV.TopItem <> nil) then
+    Row := LV.TopItem.Index;
+  Result := ListView_GetSubItemRect(LV.Handle, Row, 1, LVIR_LABEL, @R);
+end;
+
+{ Visual column order only. SubItem indexes stay the same, so the file text
+  in each cell is unchanged. In RTL the line-number column is the rightmost
+  and the view is scrolled so that column sits at the right edge. }
+procedure ApplyReadListViewColumnOrder(LV: TListView);
+var
+  N, I, Pos, Total: Integer;
+  Order: array of Integer;
+begin
+  if (LV = nil) or (LV.Columns.Count < 1) then Exit;
+  LV.HandleNeeded;
+  if not LV.HandleAllocated then Exit;
+  N := LV.Columns.Count;
+  SetLength(Order, N);
+  if BidiIsRtl then
+    for I := 0 to N - 1 do
+      Order[I] := N - 1 - I
+  else
+    for I := 0 to N - 1 do
+      Order[I] := I;
+  ListView_SetColumnOrderArray(LV.Handle, N, @Order[0]);
+  Total := 0;
+  for I := 0 to N - 1 do
+    Inc(Total, LV.Columns[I].Width);
+  Pos := GetScrollPos(LV.Handle, SB_HORZ);
+  if BidiIsRtl then
+    ListView_Scroll(LV.Handle, Total - LV.ClientWidth - Pos, 0)
+  else if Pos <> 0 then
+    ListView_Scroll(LV.Handle, -Pos, 0);
+  LV.Invalidate;
+end;
+
 procedure TfrmMain.ConfigureListViewColumnsForMode;
 var
   I: Integer;
@@ -40313,6 +44322,7 @@ begin
 
   AdjustListViewColumnsWidth;
   ApplyCsvSortHeader;
+  ApplyReadListViewColumnOrder(ListView1);
   ListView1.Invalidate;
   if isChecked then
     SyncSelectModeListViewHeader;
@@ -41009,6 +45019,19 @@ begin
   AssistantSubmitQuestion;
 end;
 
+procedure TfrmMain.FilterRegexAskAI(Sender: TObject);
+var
+  Pat, Prompt: string;
+begin
+  Pat := '';
+  if Assigned(FFilterBar) then
+    Pat := Trim(FFilterBar.GetPattern);
+  if Pat = '' then
+    Pat := '-';
+  Prompt := TrText('AI.Context.FilterRegex') + sLineBreak + Pat;
+  SearchCommandAskAI(Prompt);
+end;
+
 procedure TfrmMain.SearchCommandAskAI(const APrompt: string);
 begin
   if Trim(APrompt) = '' then Exit;
@@ -41102,13 +45125,16 @@ begin
 end;
 
 procedure TfrmMain.editFile(const AInitialOp: TOperationType;
-  const AForceListRow: Integer; const AInsertAfter: Boolean);
+  const AForceListRow: Integer; const AInsertAfter: Boolean;
+  const ASelectFilterMatch: Boolean);
 var
   Op: TOperationType;
   LineNum: Int64;
   LineIdx: Int64;
   RowIdx: Integer;
   CurrentContent, OriginalContent: String;
+  FilterNeedle, FilterHaystack: string;
+  FilterMatchPos: Integer;
   MaxPhys: Int64;
   AppendAfterEof: Boolean;
   MergeDeletes: TList;
@@ -41184,6 +45210,45 @@ begin
   begin
     FindSelStart := FLastFoundCol;
     FindSelLen := FLastFoundMatchLen;
+  end;
+  { Filtro ativo ou lista de Ocorrencias (Find): seleciona o trecho pesquisado na linha aberta. }
+  if (FindSelStart < 0) and (not AppendAfterEof) and (CurrentContent <> '') then
+  begin
+    FilterNeedle := '';
+    if (FFilterActive or FFindOccKeepHits or ASelectFilterMatch) and (FFilterText <> '') and
+       (FFilterStreamMatchMode in [fmmContains, fmmPrefix]) then
+    begin
+      FilterNeedle := FFilterText;
+      FilterHaystack := CurrentContent;
+      if not FFilterStreamCaseSensitive then
+      begin
+        FilterNeedle := UnicodeUpperCaseW(FilterNeedle);
+        FilterHaystack := UnicodeUpperCaseW(FilterHaystack);
+      end;
+      FilterMatchPos := Pos(FilterNeedle, FilterHaystack);
+      if (FilterMatchPos > 0) and
+         ((FFilterStreamMatchMode <> fmmPrefix) or (FilterMatchPos = 1)) then
+      begin
+        FindSelStart := FilterMatchPos - 1;
+        FindSelLen := Length(FFilterText);
+      end;
+    end;
+    if (FindSelStart < 0) and (FFindText <> '') then
+    begin
+      FilterHaystack := CurrentContent;
+      FilterNeedle := FFindText;
+      if not FFindCaseSensitive then
+      begin
+        FilterNeedle := UnicodeUpperCaseW(FilterNeedle);
+        FilterHaystack := UnicodeUpperCaseW(FilterHaystack);
+      end;
+      FilterMatchPos := Pos(FilterNeedle, FilterHaystack);
+      if FilterMatchPos > 0 then
+      begin
+        FindSelStart := FilterMatchPos - 1;
+        FindSelLen := Length(FFindText);
+      end;
+    end;
   end;
 
   MergeDeletes := TList.Create;
@@ -41354,7 +45419,7 @@ begin
     HitRow := GetRowIndexAt(P.X, P.Y);
     if HitRow >= 0 then
     begin
-      editFile(otEdit, HitRow);
+      editFile(otEdit, HitRow, False, True);
       Exit;
     end;
   end;
@@ -42364,11 +46429,184 @@ begin
   UpdateStatusBar(Tr('status.file_read_cancelled', 'File reading cancelled'), iaRight);
 end;
 
+procedure TfrmMain.BgLoadBegin(AKind: Integer);
+begin
+  if FBgLoadKind <> AKind then
+    FBgLoadStart := GetTickCount;
+  FBgLoadKind := AKind;
+  FBgLoadLastPaint := 0;
+  SyncStatusCancelButton;
+end;
+
+procedure TfrmMain.SyncStatusCancelButton;
+begin
+  if not Assigned(sStatusBar1) then Exit;
+  if FBgLoadKind = 0 then
+  begin
+    if Assigned(FStatusCancelBtn) then
+      FStatusCancelBtn.Visible := False;
+    Exit;
+  end;
+  if not Assigned(FStatusCancelBtn) then
+  begin
+    FStatusCancelBtn := TsSpeedButton.Create(Self);
+    FStatusCancelBtn.Parent := sStatusBar1;
+    FStatusCancelBtn.Flat := True;
+    FStatusCancelBtn.ParentShowHint := False;
+    FStatusCancelBtn.ShowHint := True;
+    FStatusCancelBtn.Cursor := crHandPoint;
+    FStatusCancelBtn.SkinData.SkinSection := 'TOOLBUTTON';
+    FStatusCancelBtn.OnClick := StatusCancelBtnClick;
+  end;
+  FStatusCancelBtn.Caption := #$2716 + ' ' + TrText('BgLoad.CancelButton');
+  FStatusCancelBtn.Hint := TrText('BgLoad.CancelHint');
+  LayoutStatusCancelButton;
+  FStatusCancelBtn.Visible := True;
+  FStatusCancelBtn.BringToFront;
+end;
+
+procedure TfrmMain.LayoutStatusCancelButton;
+var
+  R: TRect;
+  W, H, M: Integer;
+  BL: IInterface;
+begin
+  if not (Assigned(FStatusCancelBtn) and Assigned(sStatusBar1)) then Exit;
+  if sStatusBar1.Panels.Count = 0 then Exit;
+  BL := BidiLayoutScope([sStatusBar1]);
+  H := sStatusBar1.ClientHeight;
+  if H < 8 then Exit;
+  R := StatusBarPanelRectByWidths(0);
+  M := FfPx(3);
+  W := StatusBarTextWidth(FStatusCancelBtn.Caption) + FfPx(22);
+  if W > (R.Right - R.Left) div 2 then
+    W := (R.Right - R.Left) div 2;
+  FStatusCancelBtn.SetBounds(BidiLeft(sStatusBar1.ClientWidth, R.Right - M - W, W),
+    1, W, H - 2);
+end;
+
+procedure TfrmMain.StatusCancelBtnClick(Sender: TObject);
+begin
+  CancelBgSearch;
+end;
+
+procedure TfrmMain.CancelBgSearch;
+var
+  WasFindOcc, Any: Boolean;
+begin
+  Any := False;
+  if Assigned(FFindThread) then
+  begin
+    Inc(FFindSearchId);
+    FFindThread.Terminate;
+    FFindThread := nil;
+    Any := True;
+  end;
+  if Assigned(FFilterThread) then
+  begin
+    WasFindOcc := FFindOccDroveFilter;
+    BgLoadEnd;
+    ClearFilter;
+    if WasFindOcc then
+    begin
+      FFindOccDroveFilter := False;
+      RefreshFindOccBarState;
+    end;
+    Any := True;
+  end;
+  BgLoadEnd;
+  if Any then
+    UpdateStatusBar(TrText('BgLoad.Cancelled'), iaRight);
+end;
+
+procedure TfrmMain.BgLoadEnd;
+begin
+  FBgLoadKind := 0;
+  if Assigned(FStatusCancelBtn) then
+    FStatusCancelBtn.Visible := False;
+  if not FBgLoadShown then Exit;
+  FBgLoadShown := False;
+  TfrmSmoothLoading.HideLoading;
+end;
+
+procedure TfrmMain.BgLoadProgress(const ADone, ATotal: Int64; AIsLines: Boolean);
+const
+  SHOW_AFTER_MS = 600;
+  PAINT_EVERY_MS = 150;
+var
+  Now_, Elapsed, Eta: Int64;
+  Pct, Kind: Integer;
+  Detail, Msg: string;
+
+  function FmtSecs(ASecs: Int64): string;
+  begin
+    if ASecs < 0 then ASecs := 0;
+    if ASecs >= 3600 then
+      Result := Format('%d:%.2d:%.2d', [ASecs div 3600, (ASecs mod 3600) div 60, ASecs mod 60])
+    else
+      Result := Format('%.2d:%.2d', [ASecs div 60, ASecs mod 60]);
+  end;
+
+  function FmtBytes(const AB: Int64): string;
+  begin
+    if AB >= Int64(1024) * 1024 * 1024 then
+      Result := FormatFloat('0.00', AB / (1024.0 * 1024 * 1024)) + ' GB'
+    else
+      Result := FormatFloat('0.0', AB / (1024.0 * 1024)) + ' MB';
+  end;
+begin
+  if FBgLoadKind = 0 then Exit;
+  Kind := FBgLoadKind;
+  if FBgLoadShown and TfrmSmoothLoading.CancelRequested then
+  begin
+    CancelBgSearch;
+    Exit;
+  end;
+  Now_ := GetTickCount;
+  if not FBgLoadShown then
+  begin
+    if Cardinal(Now_) - FBgLoadStart < SHOW_AFTER_MS then Exit;
+    { Another operation already owns the overlay: keep status-bar progress only. }
+    if TfrmSmoothLoading.IsShowing then Exit;
+    if Kind = 2 then Msg := TrText('BgLoad.Finding')
+    else if FFindOccDroveFilter then Msg := TrText('BgLoad.FindingAll')
+    else Msg := TrText('BgLoad.Filtering');
+    TfrmSmoothLoading.ShowLoading(Msg, True);
+    FBgLoadShown := True;
+    FBgLoadLastPaint := 0;
+  end;
+  if (FBgLoadLastPaint <> 0) and (Cardinal(Now_) - FBgLoadLastPaint < PAINT_EVERY_MS) and
+    (ADone < ATotal) then Exit;
+  FBgLoadLastPaint := Cardinal(Now_);
+  if FBgLoadLastPaint = 0 then FBgLoadLastPaint := 1;
+  if ATotal > 0 then
+  begin
+    Pct := Integer((ADone * 100) div ATotal);
+    if Pct > 100 then Pct := 100;
+    if Pct < 0 then Pct := 0;
+  end
+  else
+    Pct := 0;
+  Elapsed := (Cardinal(Now_) - FBgLoadStart) div 1000;
+  if AIsLines then
+    Detail := UnUtils.FormatNumber(ADone) + ' / ' + UnUtils.FormatNumber(ATotal) + ' ' + TrText('lines')
+  else
+    Detail := FmtBytes(ADone) + ' / ' + FmtBytes(ATotal);
+  Detail := Detail + '  |  ' + Format(TrText('SearchCmd.ProgressElapsed'), [FmtSecs(Elapsed)]);
+  if (ADone > 0) and (ATotal > ADone) and (Elapsed > 0) then
+  begin
+    Eta := Round(Elapsed * ((ATotal - ADone) / ADone));
+    Detail := Detail + '  |  ' + Format(TrText('SearchCmd.ProgressEta'), [FmtSecs(Eta)]);
+  end;
+  TfrmSmoothLoading.UpdateProgressWithDetail(Pct, Detail);
+end;
+
 procedure TfrmMain.UpdateFindSearchProgress(const BytesDone, TotalBytes: Int64);
 begin
   if TotalBytes <= 0 then Exit;
   UpdateStatusBar(TrText('Searching') + ' ' + UnUtils.FormatNumber(BytesDone) + ' / ' +
     UnUtils.FormatNumber(TotalBytes) + ' B', iaRight);
+  BgLoadProgress(BytesDone, TotalBytes, False);
 end;
 
 procedure TfrmMain.CaptureOpenFileDiskSnapshot;
@@ -42496,10 +46734,15 @@ end;
 procedure TfrmMain.miUserPrefsClick(Sender: TObject);
 var
   OldDefaultPPI: Integer;
+  ShowWorkflowWizardNow: Boolean;
 begin
   OldDefaultPPI := DefaultUIScalePPI;
-  if not TfrmUserPrefs.Execute then Exit;
+  if not TfrmUserPrefs.Execute(ShowWorkflowWizardNow) then Exit;
   SaveUserPrefs(IniName);
+  if not PrefShowWorkflowWizard then
+    HideWorkflowNextSteps;
+  if ShowWorkflowWizardNow then
+    ShowWorkflowNextSteps;
   { Apply a new default scale right away when the current scale follows the default. }
   if (DefaultUIScalePPI <> OldDefaultPPI) and (IniName <> '') and
      (sStoreUtils.ReadIniInteger(APPLICATION_NAME, 'UIScalePPI', 0, IniName) = 0) then
@@ -43342,8 +47585,10 @@ begin
   else
     FEncoding := '';
   FEncoding := ResolveTextEncoding(AFileName, FEncoding);
-  FNeedle := UnicodeTextToFileBytes(ANeedle, FEncoding);
   FCaseSensitive := ACaseSensitive;
+  SetLength(FHitBuffer, 8192);
+  FHitBufferCount := 0;
+  FHitsCap := 0;
   SetLength(FHits, 0);
   FHitsDisk := nil;
   FHitsDiskTempPath := '';
@@ -43363,10 +47608,66 @@ begin
   Resume;
 end;
 
-function TFilterStreamThread.LineMatches(const LineAnsi: AnsiString): Boolean;
+procedure TFilterStreamThread.FlushHitBuffer;
 begin
-  Result := UnicodeLineMatches(LineAnsi, FNeedleText, FEncoding, FCaseSensitive,
-    FMatchMode = fmmPrefix);
+  if (FHitBufferCount > 0) and Assigned(FHitsDisk) then
+  begin
+    FHitsDisk.WriteBuffer(FHitBuffer[0], FHitBufferCount * SizeOf(Int64));
+    FHitBufferCount := 0;
+  end;
+end;
+
+function TFilterStreamThread.TryAddHit(const ALineNum: Int64): Boolean;
+begin
+  { False = page full; caller must NOT advance past this line. }
+  Result := False;
+  if FFilteredCount >= FMaxHits then
+  begin
+    FHitLimitSoft := True;
+    Exit;
+  end;
+  if Assigned(FHitsDisk) then
+  begin
+    FHitBuffer[FHitBufferCount] := ALineNum;
+    Inc(FHitBufferCount);
+    if FHitBufferCount = Length(FHitBuffer) then
+      FlushHitBuffer;
+  end
+  else
+  begin
+    if FFilteredCount >= FHitsCap then
+    begin
+      if FHitsCap < 1024 then
+        FHitsCap := 1024
+      else
+        FHitsCap := FHitsCap * 2;
+      SetLength(FHits, FHitsCap);
+    end;
+    FHits[FFilteredCount] := ALineNum;
+  end;
+  Inc(FFilteredCount);
+  Result := True;
+end;
+
+function TFilterStreamThread.ScanHit(const ALineNum, ALineStartByte: Int64): Boolean;
+begin
+  Result := TryAddHit(ALineNum);
+  if not Result then
+  begin
+    FSavedResumeByte := ALineStartByte;
+    FSavedResumeLine := ALineNum;
+  end;
+end;
+
+function TFilterStreamThread.ScanProgress(const ABytesDone: Int64): Boolean;
+begin
+  Result := (not Terminated) and (FAbortMsg = '');
+  if Result and (GetTickCount - FLastProgTick > 400) then
+  begin
+    FProgBytes := ABytesDone;
+    Synchronize(SyncFilterProgress);
+    FLastProgTick := GetTickCount;
+  end;
 end;
 
 procedure TFilterStreamThread.SyncFilterProgress;
@@ -43457,43 +47758,13 @@ end;
 
 procedure TFilterStreamThread.Execute;
 var
-  Src: TFileStream;
-  FileSize, CurPos, LineNum, LineStartPos, StartCount: Int64;
-  ReadN, P, Q: Integer;
-  Buf: array of Byte;
-  Chunk, Pending, LineAnsi: AnsiString;
-  LastTick: DWORD;
-  PendLen: Integer;
+  StartCount: Int64;
   TermCh: AnsiChar;
-
-  function TryAddHit(const ALineNum: Int64): Boolean;
-  var
-    HitI64: Int64;
-  begin
-    { False = page full; caller must NOT advance past this line. }
-    Result := False;
-    if FFilteredCount >= FMaxHits then
-    begin
-      FHitLimitSoft := True;
-      Exit;
-    end;
-    if Assigned(FHitsDisk) then
-    begin
-      HitI64 := ALineNum;
-      FHitsDisk.WriteBuffer(HitI64, SizeOf(Int64));
-    end
-    else
-    begin
-      SetLength(FHits, Length(FHits) + 1);
-      FHits[High(FHits)] := ALineNum;
-    end;
-    Inc(FFilteredCount);
-    Result := True;
-  end;
-
+  Matcher: TFastLineMatcher;
 begin
   FHitsDisk := nil;
   FHitsDiskTempPath := '';
+  FHitBufferCount := 0;
   StartCount := 0;
   if FAppendMode then
   begin
@@ -43518,91 +47789,21 @@ begin
     Synchronize(SyncFilterFailed);
     Exit;
   end;
-  Src := nil;
+  Matcher := nil;
   try
-    Src := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyNone);
-    FileSize := Src.Size;
     TermCh := LineTermCharForFile(FFileName);
-    FProgTotal := FileSize;
+    FProgTotal := FastFileSize(FFileName);
     FProgBytes := 0;
-    if FResumeBytePos > 0 then
-      CurPos := FResumeBytePos
-    else
-      CurPos := 0;
-    if FResumeLineNum > 0 then
-      LineNum := FResumeLineNum
-    else
-      LineNum := 0;
-    Pending := '';
-    SetLength(Buf, FILTER_STREAM_BUF_SIZE);
-    LastTick := GetTickCount;
-    while (CurPos < FileSize) and (not Terminated) and (FAbortMsg = '') and
-          (not FHitLimitSoft) do
-    begin
-      ReadN := FILTER_STREAM_BUF_SIZE;
-      if CurPos + ReadN > FileSize then ReadN := Integer(FileSize - CurPos);
-      if ReadN <= 0 then Break;
-      Src.Seek(CurPos, Word(soFromBeginning));
-      ReadN := Src.Read(Buf[0], ReadN);
-      if ReadN <= 0 then Break;
-      SetString(Chunk, PAnsiChar(@Buf[0]), ReadN);
-      P := 1;
-      while (P <= Length(Chunk)) and (not FHitLimitSoft) do
-      begin
-        Q := P;
-        while (Q <= Length(Chunk)) and (Chunk[Q] <> TermCh) do Inc(Q);
-        if Q > Length(Chunk) then
-        begin
-          Pending := Pending + Copy(Chunk, P, MaxInt);
-          Break;
-        end;
-        PendLen := Length(Pending);
-        LineStartPos := CurPos + (P - 1) - PendLen;
-        if LineStartPos < 0 then
-          LineStartPos := 0;
-        LineAnsi := Pending + Copy(Chunk, P, Q - P);
-        Pending := '';
-        if LineMatches(LineAnsi) then
-        begin
-          if not TryAddHit(LineNum) then
-          begin
-            FSavedResumeByte := LineStartPos;
-            FSavedResumeLine := LineNum;
-            Break;
-          end;
-        end;
-        if FAbortMsg <> '' then Break;
-        Inc(LineNum);
-        P := Q + 1;
-      end;
-      Inc(CurPos, ReadN);
-      if GetTickCount - LastTick > 400 then
-      begin
-        FProgBytes := CurPos;
-        Synchronize(SyncFilterProgress);
-        LastTick := GetTickCount;
-      end;
-    end;
-    if (FAbortMsg = '') and (not Terminated) and (not FHitLimitSoft) and (Pending <> '') then
-    begin
-      LineStartPos := CurPos - Length(Pending);
-      if LineStartPos < 0 then
-        LineStartPos := 0;
-      if LineMatches(Pending) then
-      begin
-        if not TryAddHit(LineNum) then
-        begin
-          FSavedResumeByte := LineStartPos;
-          FSavedResumeLine := LineNum;
-        end
-        else
-          Inc(LineNum);
-      end
-      else
-        Inc(LineNum);
-    end;
+    Matcher := TFastLineMatcher.Create(FNeedleText, FEncoding, FCaseSensitive,
+      FMatchMode = fmmPrefix, Byte(TermCh));
+    FLastProgTick := GetTickCount;
+    FastScanFileLines(FFileName, Matcher, Byte(TermCh), FResumeBytePos,
+      FResumeLineNum, FILTER_STREAM_BUF_SIZE, ScanHit, ScanProgress);
+    if (not Assigned(FHitsDisk)) and (Length(FHits) <> FFilteredCount) then
+      SetLength(FHits, FFilteredCount);
     if (FAbortMsg = '') and (not Terminated) then
     begin
+      FlushHitBuffer;
       Synchronize(NotifyOwner);
       if FHitLimitSoft then
         Synchronize(SyncHitLimitNote);
@@ -43614,6 +47815,7 @@ begin
       Synchronize(SyncFilterFailed);
     end;
   end;
+  Matcher.Free;
   if Assigned(FHitsDisk) then
   begin
     FHitsDisk.Free;
@@ -43621,7 +47823,6 @@ begin
     if (not FAppendMode) and (FHitsDiskTempPath <> '') then
       SysUtils.DeleteFile(FHitsDiskTempPath);
   end;
-  if Assigned(Src) then Src.Free;
 end;
 
 { ============================================================================ }
@@ -43702,6 +47903,39 @@ begin
     FOwner.FinishFilterThreadFailed(FAbortMsg);
 end;
 
+function TFilterThread.ScanHit(const ALineNum, ALineStartByte: Int64): Boolean;
+var
+  ByteIdx: Int64;
+begin
+  Result := not Terminated;
+  if (not Result) or (ALineNum < 0) or (ALineNum >= FTotalLines) then Exit;
+  ByteIdx := ALineNum div 8;
+  if ByteIdx >= FBitsSize then Exit;
+  FBits^[ByteIdx] := FBits^[ByteIdx] or (1 shl (ALineNum mod 8));
+  if (FMatchCount mod 1024) = 0 then
+  begin
+    if FJumpIdx >= Length(FJumpTable) then
+      SetLength(FJumpTable, FJumpIdx + 1024);
+    FJumpTable[FJumpIdx] := ALineNum;
+    Inc(FJumpIdx);
+  end;
+  Inc(FMatchCount);
+end;
+
+function TFilterThread.ScanProgress(const ABytesDone: Int64): Boolean;
+begin
+  Result := not Terminated;
+  if Result and (GetTickCount - FLastProgTick > 400) then
+  begin
+    if FScanFileSize > 0 then
+      FProgLines := Round(FTotalLines * (ABytesDone / FScanFileSize))
+    else
+      FProgLines := 0;
+    Synchronize(SyncFilterProgress);
+    FLastProgTick := GetTickCount;
+  end;
+end;
+
 { ============================================================================ }
 { THREAD: export filtered lines (assistant / large match sets)                 }
 { ============================================================================ }
@@ -43722,7 +47956,10 @@ constructor TExportFilteredLinesThread.Create(AOwner: TfrmMain; const ASourceFil
   const AHitsList: TInt64DynArray; ABits: PFFByteArray; ABitsSize: Integer;
   const AJumpTable: TInt64DynArray; AFilterTotalLines: Int64; AUseStreamExport: Boolean;
   const AVerifyNeedle: string; AVerifyCaseSensitive: Boolean;
-  AVerifyMatchMode: TFilterMatchMode; AVerifyExport: Boolean);
+  AVerifyMatchMode: TFilterMatchMode; AVerifyExport: Boolean;
+  const AExplicitLines: TInt64DynArray; AAllSequentialLines: Boolean);
+var
+  HitsCount: Int64;
 begin
   inherited Create(True);
   FreeOnTerminate := True;
@@ -43731,9 +47968,27 @@ begin
   FOutputFile := AOutputFile;
   FFilteredCount := AFilteredCount;
   FUseHitsFile := AUseHitsFile;
+  FHitsFileStream := nil;
+  if FUseHitsFile then
+  begin
+    FHitsFileStream := ZeroScanOpenFilterHitsReader(HitsCount);
+    if not Assigned(FHitsFileStream) or (HitsCount < AFilteredCount) then
+    begin
+      FreeAndNil(FHitsFileStream);
+      raise EInOutError.Create('The filter results file is unavailable or incomplete.');
+    end;
+  end;
   FHitsList := AHitsList;
-  FBits := ABits;
-  FBitsSize := ABitsSize;
+  FExplicitLines := AExplicitLines;
+  FAllSequentialLines := AAllSequentialLines;
+  FBits := nil;
+  FBitsSize := 0;
+  if Assigned(ABits) and (ABitsSize > 0) then
+  begin
+    GetMem(FBits, ABitsSize);
+    Move(ABits^, FBits^, ABitsSize);
+    FBitsSize := ABitsSize;
+  end;
   FJumpTable := AJumpTable;
   FFilterTotalLines := AFilterTotalLines;
   FUseStreamExport := AUseStreamExport;
@@ -43743,9 +47998,18 @@ begin
   FVerifyNeedle := AVerifyNeedle;
   FExportedCount := 0;
   FSuccess := False;
+  FErrorMessage := '';
   FLoadingMsg := TrText('Exporting lines to file...');
   FPercent := 0;
   Resume;
+end;
+
+destructor TExportFilteredLinesThread.Destroy;
+begin
+  FreeAndNil(FHitsFileStream);
+  if Assigned(FBits) then
+    FreeMem(FBits);
+  inherited;
 end;
 
 procedure TExportFilteredLinesThread.SyncShowLoading;
@@ -43764,7 +48028,19 @@ begin
   AgentLog(Format('export filtered lines finished: ok=%s exported=%d exists=%s file=%s',
     [BoolToStr(FSuccess, True), FExportedCount, BoolToStr(FileExists(FOutputFile), True), FOutputFile]));
   if FSuccess and FileExists(FOutputFile) then
-    ShowGeneratedFileDialog(FOutputFile, FExportedCount)
+  begin
+    DeleteSourceLineIndexCache(FOutputFile, False);
+    if Assigned(FOwner) then
+      FOwner.FForceIndexThisOpen := True;
+    ShowGeneratedFileDialog(FOutputFile, FExportedCount);
+    if Assigned(FOwner) and
+       (not SameFileName(ExpandFileName(FOwner.CurrentEffectiveFilePath),
+         ExpandFileName(FOutputFile))) then
+      FOwner.FForceIndexThisOpen := False;
+  end
+  else if FErrorMessage <> '' then
+    FastFileMessageBox(PChar(TrText('Error') + #13#10 + FErrorMessage),
+      PChar(TrText('Assistant.Status.ExportMatching')), MB_OK or MB_ICONERROR)
   else if FSuccess then
     FastFileMessageBox(PChar(Format(TrText('%d filtered line(s) exported to file.'),
       [FExportedCount])), PChar(TrText('Assistant.Status.ExportMatching')),
@@ -43781,9 +48057,18 @@ var
   j: Integer;
 begin
   FSyncLineAnsi := '';
-  if not Assigned(FOwner) then Exit;
+  FSyncLineMatched := False;
+  if not Assigned(FOwner) then
+  begin
+    FErrorMessage := TrText('The selected lines could not be read for export.');
+    Exit;
+  end;
   RealIdx := FilteredIdxToReal(FSyncFilteredIdx);
-  if RealIdx < 0 then Exit;
+  if RealIdx < 0 then
+  begin
+    FErrorMessage := TrText('The selected lines could not be read for export.');
+    Exit;
+  end;
   S := FOwner.GetLineContent(RealIdx);
   j := 1;
   while j <= Length(S) do
@@ -43795,8 +48080,7 @@ begin
     FSyncLineAnsi := UnicodeTextToFileBytes(S, FOwner.EffectiveDisplayEncoding)
   else
     FSyncLineAnsi := UnicodeTextToFileBytes(S, '');
-  if not LinePassesExportVerify(FSyncLineAnsi) then
-    FSyncLineAnsi := '';
+  FSyncLineMatched := LinePassesExportVerify(FSyncLineAnsi);
 end;
 
 function TExportFilteredLinesThread.FilteredIdxToReal(FilteredIdx: Int64): Int64;
@@ -43804,19 +48088,23 @@ var
   JumpIdx: Integer;
   StartReal, Count, I: Int64;
   ByteIdx, BitIdx: Integer;
-  HitsStream: TFileStream;
 begin
   Result := -1;
   if (FilteredIdx < 0) or (FilteredIdx >= FFilteredCount) then Exit;
+  if Length(FExplicitLines) > 0 then
+  begin
+    if FilteredIdx <= High(FExplicitLines) then
+      Result := FExplicitLines[FilteredIdx];
+    Exit;
+  end;
+  if FAllSequentialLines then
+  begin
+    Result := FilteredIdx;
+    Exit;
+  end;
   if FUseHitsFile then
   begin
-    HitsStream := ZeroScanOpenFilterHitsReader(I);
-    try
-      if Assigned(HitsStream) then
-        Result := ZeroScanReadFilterHit(HitsStream, FilteredIdx);
-    finally
-      HitsStream.Free;
-    end;
+    Result := ZeroScanReadFilterHit(FHitsFileStream, FilteredIdx);
     Exit;
   end;
   if Length(FHitsList) > 0 then
@@ -43981,11 +48269,13 @@ begin
       if Terminated or TfrmSmoothLoading.CancelRequested then Break;
       FSyncFilteredIdx := Idx;
       Synchronize(SyncReadOneLine);
-      if FSyncLineAnsi <> '' then
-        DestWriter.WriteLine(FSyncLineAnsi)
-      else
-        DestWriter.WriteLine('');
-      Inc(FExportedCount);
+      if FErrorMessage <> '' then
+        raise EInOutError.Create(FErrorMessage);
+      if FSyncLineMatched then
+      begin
+        DestWriter.WriteLine(FSyncLineAnsi);
+        Inc(FExportedCount);
+      end;
       Inc(Done);
       Inc(Idx);
       if (Done mod FF_EXPORT_OWNER_PROGRESS_EVERY) = 0 then
@@ -44007,9 +48297,12 @@ begin
 end;
 
 procedure TExportFilteredLinesThread.Execute;
+var
+  E: Exception;
 begin
   if FFilteredCount <= 0 then
   begin
+    FErrorMessage := TrText('Filter has no results to export.');
     Synchronize(SyncFinish);
     Exit;
   end;
@@ -44020,8 +48313,18 @@ begin
     else
       ExecuteOwnerLineExport;
   except
+    on E: Exception do
+    begin
+      FErrorMessage := E.Message;
+      FSuccess := False;
+      Synchronize(SyncHideLoading);
+    end;
+  end;
+  if Terminated or TfrmSmoothLoading.CancelRequested then
+  begin
     FSuccess := False;
-    Synchronize(SyncHideLoading);
+    if FErrorMessage = '' then
+      FErrorMessage := TrText('Operation cancelled.');
   end;
   Synchronize(SyncFinish);
 end;
@@ -44045,6 +48348,7 @@ var
   RegexReady: Boolean;
   ComNeedUninit: Boolean;
   ComHr: HRESULT;
+  FastMatcher: TFastLineMatcher;
 begin
   SourceStream := nil;
   IndexStream := nil;
@@ -44098,12 +48402,43 @@ begin
     end;
     IndexStream := TFileStream.Create(FIndexFileName, fmOpenRead or fmShareDenyNone);
     FSize := SourceStream.Size;
+    SetLength(FJumpTable, (FTotalLines div 1024) + 2);
+    FProgTotalLines := FTotalLines;
+
+    if FMatchMode <> fmmRegex then
+    begin
+      { Varredura sequencial do ficheiro: sem seeks por linha no indice. }
+      FreeAndNil(IndexStream);
+      FreeAndNil(SourceStream);
+      FastMatcher := TFastLineMatcher.Create(FNeedleText, FEncoding, FCaseSensitive,
+        FMatchMode = fmmPrefix, Byte(LineTermCharForFile(FFileName)));
+      try
+        if not FastMatcher.WideEncoding then
+        begin
+          FMatchCount := 0;
+          FJumpIdx := 0;
+          FScanFileSize := FSize;
+          FLastProgTick := GetTickCount;
+          if FNeedleText <> '' then
+            FastScanFileLines(FFileName, FastMatcher,
+              Byte(LineTermCharForFile(FFileName)), 0, 0, FILTER_STREAM_BUF_SIZE,
+              ScanHit, ScanProgress);
+          FFilteredCount := FMatchCount;
+          SetLength(FJumpTable, FJumpIdx);
+          if not Terminated then Synchronize(NotifyOwner);
+          Exit;
+        end;
+      finally
+        FastMatcher.Free;
+      end;
+      SourceStream := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyNone);
+      IndexStream := TFileStream.Create(FIndexFileName, fmOpenRead or fmShareDenyNone);
+    end;
+
     SetLength(OffsetStr, 18);
     NeedleLen := Length(FNeedle);
     MatchCount := 0;
     JumpIdx := 0;
-    SetLength(FJumpTable, (FTotalLines div 1024) + 2);
-    FProgTotalLines := FTotalLines;
 
     I := 0;
     while (I < FTotalLines) and (not Terminated) do
@@ -45503,7 +49838,7 @@ begin
     StartFilter(Needle, CS, Mode)
   else
     StartFilterStream(Needle, CS, Mode);
-  if not FFilterBarChromeHidden then
+  if not FFilterBarFrameHidden then
     ShowFilterBar(False)
   else
     RefreshFilterBarState;
@@ -45920,6 +50255,7 @@ begin
     FFindThread := TFindInFileThread.Create(Self, CurrentEffectiveFilePath, '', FFindText,
       FFindCaseSensitive, StartPos, ADirection, FFindSearchId, False, '', 0,
       True, AvgB, EstLines, True, BlockPath);
+    BgLoadBegin(2);
     Exit;
   end;
   DensePath := FastFileExeDirPath(TEMPFILE);
@@ -45943,6 +50279,7 @@ begin
     FFindThread := TFindInFileThread.Create(Self, CurrentEffectiveFilePath, '', FFindText, FFindCaseSensitive,
       StartPos, ADirection, FFindSearchId, True, CkptPath, totalLines, False, 256, totalLines,
       ZsFast, BlockPath);
+  BgLoadBegin(2);
 end;
 
 procedure TfrmMain.FindThreadDone(const AFound: Boolean; const ALineIndex: Int64; const AFilePos: Int64; const ASearchId: Integer; const AErrorMsg: string);
@@ -45954,6 +50291,7 @@ begin
   // Discard stale results from a previous (cancelled) search
   if ASearchId <> FFindSearchId then Exit;
   FFindThread := nil;
+  BgLoadEnd;
 
   if AErrorMsg <> '' then begin
     FastFileMessageBox(PChar(TrText('Search error: ') + AErrorMsg), PChar(TrText('Search')), MB_OK or MB_ICONERROR);
@@ -46634,9 +50972,9 @@ procedure TfrmMain.UpdateEolStatusPanel;
 begin
   if not Assigned(sStatusBar1) or (sStatusBar1.Panels.Count <= 5) then Exit;
   if (CurrentEffectiveFilePath <> '') and FileExists(CurrentEffectiveFilePath) then
-    sStatusBar1.Panels[5].Text := EolStatusBarCaption(FDetectedEol)
+    StatusPanelAt(5).Text := EolStatusBarCaption(FDetectedEol)
   else
-    sStatusBar1.Panels[5].Text := '';
+    StatusPanelAt(5).Text := '';
 end;
 
 function TfrmMain.EolStatusBarCaption(AKind: TLineEndingKind): string;
@@ -46855,14 +51193,20 @@ procedure TfrmMain.ShowEolFormatPopup(const AScreenPos: TPoint);
 begin
   EnsureFileFormatPopupMenus;
   if Assigned(FPopupEolFormat) then
+  begin
+    if BidiIsRtl then FPopupEolFormat.Alignment := paRight else FPopupEolFormat.Alignment := paLeft;
     FPopupEolFormat.Popup(AScreenPos.X, AScreenPos.Y);
+  end;
 end;
 
 procedure TfrmMain.ShowEncodingFormatPopup(const AScreenPos: TPoint);
 begin
   EnsureFileFormatPopupMenus;
   if Assigned(FPopupEncodingFormat) then
+  begin
+    if BidiIsRtl then FPopupEncodingFormat.Alignment := paRight else FPopupEncodingFormat.Alignment := paLeft;
     FPopupEncodingFormat.Popup(AScreenPos.X, AScreenPos.Y);
+  end;
 end;
 
 procedure TfrmMain.ApplyViewEncodingById(const AEncId: string);
@@ -47907,12 +52251,25 @@ var
 
   procedure DrawSample(const Glyph: string; const CChar: Char; const Caption: string);
   var
-    W: Integer;
+    W, GW: Integer;
   begin
     C.Font.Color := WhitespaceMarkColor(CChar, clWindowText);
     C.Font.Style := [fsBold];
+    GW := C.TextWidth(Glyph);
+    if BidiIsRtl then
+    begin
+      { Right-to-left: X is the right edge of the next sample; samples run leftwards. }
+      C.TextOut(X - GW, Y, Glyph);
+      Dec(X, GW + 2);
+      C.Font.Color := clWindowText;
+      C.Font.Style := [];
+      W := C.TextWidth(Caption);
+      C.TextOut(X - W, Y, Caption);
+      Dec(X, W + 10);
+      Exit;
+    end;
     C.TextOut(X, Y, Glyph);
-    Inc(X, C.TextWidth(Glyph) + 2);
+    Inc(X, GW + 2);
     C.Font.Color := clWindowText;
     C.Font.Style := [];
     C.TextOut(X, Y, Caption);
@@ -47928,7 +52285,10 @@ begin
   C.FillRect(Box.ClientRect);
   C.Font.Assign(ListView1.Font);
   C.Font.Size := Max(7, ListView1.Font.Size - 2);
-  X := 6;
+  if BidiIsRtl then
+    X := Box.ClientWidth - 6
+  else
+    X := 6;
   Y := 4;
   DrawSample(#187' ', #9, TrText('Mark legend: Tab'));
   DrawSample(#183, ' ', TrText('Mark legend: Space'));
@@ -47937,6 +52297,16 @@ begin
   DrawSample(#164, #0, TrText('Mark legend: NUL'));
   C.Font.Color := FF_CL_MARK_CTRL;
   C.Font.Style := [fsBold];
+  if BidiIsRtl then
+  begin
+    C.TextOut(X - C.TextWidth('^A'), Y, '^A');
+    Dec(X, C.TextWidth('^A') + 2);
+    C.Font.Color := clWindowText;
+    C.Font.Style := [];
+    C.TextOut(X - C.TextWidth(TrText('Mark legend: Other controls')), Y,
+      TrText('Mark legend: Other controls'));
+    Exit;
+  end;
   C.TextOut(X, Y, '^A');
   Inc(X, C.TextWidth('^A') + 2);
   C.Font.Color := clWindowText;
@@ -49736,9 +54106,13 @@ begin
   Message.MinMaxInfo^.ptMaxTrackSize.Y := Extent.Y;
 end;
 
-procedure TfrmMain.RelayoutReadFileChrome;
+procedure TfrmMain.RelayoutReadFileFrame;
+var
+  BL: IInterface;
 begin
   if FReadViewLayoutBusy or not Assigned(tabReadFile) or not Assigned(pnlMain) then Exit;
+  { The scroll bar below is re-aligned (alRight) in left-to-right terms. }
+  BL := BidiLayoutScope([BidiParentOf(ScrollBarVertical), BidiParentOf(ScrollBarHorizontal)]);
   FReadViewLayoutBusy := True;
   try
     SyncHostedTabFormsVisibility;
@@ -49829,7 +54203,7 @@ begin
     tabReadFile.TabVisible := True;
     pgMain.ActivePage := tabReadFile;
   end;
-  RelayoutReadFileChrome;
+  RelayoutReadFileFrame;
   if FListViewZoomBatchDepth = 0 then
     SyncSelectModeListViewHeader;
   if Assigned(ListView1) and ListView1.HandleAllocated then
@@ -49860,9 +54234,17 @@ end;
 function TfrmMain.ListViewContentRightEdge: Integer;
 var
   Col0W: Integer;
+  R: TRect;
 begin
   Result := 2;
   if not Assigned(ListView1) then Exit;
+  if BidiIsRtl and ReadListViewContentRect(ListView1, R) then
+  begin
+    Result := R.Right;
+    if Result < 2 then
+      Result := 2;
+    Exit;
+  end;
   Result := ListView1.ClientWidth - 2;
   if ListView1.Columns.Count >= 2 then
   begin
@@ -49876,6 +54258,7 @@ end;
 procedure TfrmMain.ExpandColumnBlockSelectionToContentWidth;
 var
   RightX, LeftX: Integer;
+  ContentR: TRect;
 begin
   if not FHasSelection then Exit;
   if FFindMatchSelection then Exit;
@@ -49900,7 +54283,9 @@ begin
   begin
     RightX := ListViewContentRightEdge;
     LeftX := 4;
-    if ListView1.Columns.Count > 0 then
+    if BidiIsRtl and ReadListViewContentRect(ListView1, ContentR) then
+      LeftX := ContentR.Left + 4
+    else if ListView1.Columns.Count > 0 then
       LeftX := ListView1.Columns[0].Width + 4;
     if FBlockEndPoint.X >= FBlockStartPoint.X then
       FBlockEndPoint.X := RightX
@@ -51034,9 +55419,9 @@ begin
     Exit;
   end;
   EnsureFilterBar;
-  { Ctrl+L toggles: show bar when hidden; hide chrome when already visible. }
-  if IsFilterBarChromeVisible then
-    HideFilterBarChrome
+  { Ctrl+L toggles: show bar when hidden; hide frame when already visible. }
+  if IsFilterBarFrameVisible then
+    HideFilterBarFrame
   else
     ShowFilterBar(True);
 end;
@@ -51062,6 +55447,7 @@ begin
   FFilterBar.Visible := False;
   FFilterBar.OnApply := FilterBarApply;
   FFilterBar.OnCommand := OpenSearchCommand;
+  FFilterBar.OnAskAI := FilterRegexAskAI;
   FFilterBar.OnClear := FilterBarClear;
   FFilterBar.OnContinue := FilterBarContinue;
   FFilterBar.OnExport := FilterBarExport;
@@ -51071,7 +55457,7 @@ begin
   FFilterBar.OnTearOff := FilterBarTearOff;
   FFilterBar.OnHeightChanged := FilterBarHeightChanged;
   FFilterBar.ApplyCaptions;
-  FFilterBar.ApplySoftChrome;
+  FFilterBar.ApplySoftFrame;
 
   FFilterPadTop := TsPanel.Create(Self);
   FFilterPadTop.Parent := pnlCenter;
@@ -51181,7 +55567,8 @@ begin
   if Assigned(FBtnLvTranslate) then
   begin
     FBtnLvTranslate.Caption := TrText('Assistant.TranslateBtn') + ' ' + #$25BE;
-    FBtnLvTranslate.Hint := TrText('ListView.TranslateHint');
+    FBtnLvTranslate.Hint := Format(TrText('ListView.TranslateHint'), [PrefTranslateMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_TRANSLATE_MAX_LINES]) + ')';
     FBtnLvTranslate.ShowHint := True;
   end;
   if Assigned(FBtnLvClear) then
@@ -51202,6 +55589,12 @@ begin
     FBtnLvCopy.Hint := TrText('ListView.CopyLinesHint');
     FBtnLvCopy.ShowHint := True;
   end;
+  if Assigned(FBtnLvNextSteps) then
+  begin
+    FBtnLvNextSteps.Caption := TrText('WorkflowWizard.OpenBtn');
+    FBtnLvNextSteps.Hint := TrText('WorkflowWizard.OpenHint');
+    FBtnLvNextSteps.ShowHint := True;
+  end;
   if Assigned(FBtnLvAskAI) then
   begin
     FBtnLvAskAI.Caption := TrText('ListView.AskAI');
@@ -51211,48 +55604,57 @@ begin
   if Assigned(FBtnLvMerge) then
   begin
     FBtnLvMerge.Caption := TrText('ListView.MergeLines');
-    FBtnLvMerge.Hint := TrText('ListView.MergeLinesHint');
+    FBtnLvMerge.Hint := Format(TrText('ListView.MergeLinesHint'), [PrefMergeMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_MERGE_MAX_LINES]) + ')';
     FBtnLvMerge.ShowHint := True;
   end;
   if Assigned(FBtnLvEditLines) then
   begin
     FBtnLvEditLines.Caption := TrText('ListView.EditLines');
-    FBtnLvEditLines.Hint := Format(TrText('ListView.EditLinesHint'), [PrefSelectedLinesActionMax]);
+    FBtnLvEditLines.Hint := Format(TrText('ListView.EditLinesHint'), [PrefSelectedLinesActionMax]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_SELECTED_LINES_ACTION_MAX]) + ')';
     FBtnLvEditLines.ShowHint := True;
   end;
   if Assigned(FBtnLvAnon) then
   begin
     FBtnLvAnon.Caption := TrText('LineEditor.Anon');
-    FBtnLvAnon.Hint := Format(TrText('ListView.AnonymizeHint'), [PrefSelectedLinesActionMax]);
+    FBtnLvAnon.Hint := Format(TrText('ListView.AnonymizeHint'), [PrefAnonymizeMaxLines]) +
+      ' (' + Format(TrText('Limit.DefaultValue'), [DEF_ANONYMIZE_MAX_LINES]) + ')';
     FBtnLvAnon.ShowHint := True;
   end;
   FitWidth(FBtnLvTranslate, 72);
   FitWidth(FBtnLvClear, 56);
   FitWidth(FBtnLvExport, 64);
   FitWidth(FBtnLvCopy, 56);
+  FitWidth(FBtnLvNextSteps, 72);
   FitWidth(FBtnLvMerge, 80);
   FitWidth(FBtnLvAskAI, 80);
   FitWidth(FBtnLvEditLines, 72);
   FitWidth(FBtnLvAnon, 72);
+  ApplyLineLimitLabel(FLvTools);
   LayoutListViewLineToolBtns;
 end;
 
 procedure TfrmMain.LayoutListViewLineToolBtns;
 var
-  Btns: array[0..7] of TsSpeedButton;
+  Btns: array[0..8] of TsSpeedButton;
   I, X: Integer;
+  BL: IInterface;
 begin
   if not Assigned(FLvTools) then Exit;
+  { Left-to-right picture: the engine mirrors the strip again when the scope ends. }
+  BL := BidiLayoutScope([FLvTools]);
   { Ordem visual, da esquerda para a direita. Com alRight o VCL ordena pela borda
     direita atual, por isso as posicoes sao fixadas antes de alinhar. }
-  Btns[0] := FBtnLvCopy;
-  Btns[1] := FBtnLvClear;
-  Btns[2] := FBtnLvExport;
-  Btns[3] := FBtnLvTranslate;
-  Btns[4] := FBtnLvAnon;
-  Btns[5] := FBtnLvEditLines;
-  Btns[6] := FBtnLvMerge;
-  Btns[7] := FBtnLvAskAI;
+  Btns[0] := FBtnLvNextSteps;
+  Btns[1] := FBtnLvCopy;
+  Btns[2] := FBtnLvClear;
+  Btns[3] := FBtnLvExport;
+  Btns[4] := FBtnLvTranslate;
+  Btns[5] := FBtnLvAnon;
+  Btns[6] := FBtnLvEditLines;
+  Btns[7] := FBtnLvMerge;
+  Btns[8] := FBtnLvAskAI;
   FLvTools.DisableAlign;
   try
     X := 0;
@@ -51321,6 +55723,14 @@ var
       FBtnLvAnon.Width := 100;
       FBtnLvAnon.OnClick := ListViewLineAnonClick;
       StyleListViewLineToolBtn(FBtnLvAnon);
+    end;
+    if not Assigned(FBtnLvNextSteps) then
+    begin
+      FBtnLvNextSteps := TsSpeedButton.Create(Self);
+      FBtnLvNextSteps.Parent := FLvTools;
+      FBtnLvNextSteps.Width := 96;
+      FBtnLvNextSteps.OnClick := ListViewNextStepsClick;
+      StyleListViewLineToolBtn(FBtnLvNextSteps);
     end;
     LayoutListViewLineToolBtns;
   end;
@@ -51608,18 +56018,26 @@ begin
   if not EnsureWritableSession then Exit;
   if not EnsureOpenFileNotStaleForMutate then Exit;
 
-  { Acima do limite das preferencias a selecao nao entra (o arquivo inteiro continua disponivel). }
+  { Selecao acima do teto de descaracterizar abre o dialogo mesmo assim, para
+    o limite aparecer na tela. Nao monta a lista enorme so para contar. }
   SelCount := SelectedFileLineCountFast;
-  if SelCount > PrefSelectedLinesActionMax then
+  if AScope = ascSelection then
   begin
-    if AScope = ascSelection then
+    if (SelCount > 0) and (SelCount <= PrefAnonymizeMaxLines) then
     begin
-      ShowAppMessage(Format(TrText('ListView.SelLimitExceeded'),
-        [SelCount, PrefSelectedLinesActionMax]));
-      Exit;
+      Lines := TInt64List.Create;
+      try
+        if CollectSelectedFileLines(Lines) then
+          SelCount := Lines.Count
+        else
+          SelCount := 0;
+      finally
+        Lines.Free;
+      end;
     end;
-    SelCount := 0;
   end
+  else if SelCount > PrefSelectedLinesActionMax then
+    SelCount := 0
   else if SelCount > 0 then
   begin
     Lines := TInt64List.Create;
@@ -51639,6 +56057,7 @@ begin
   Params.Encoding := Enc;
   Params.FileSize := SourceFileSize64;
   Params.SelectedCount := SelCount;
+  Params.MaxLines := PrefAnonymizeMaxLines;
   Params.TotalLines := totalLines;
   Params.TotalLinesExact := not UsesProportionalZeroScanScroll;
   Params.InitialScope := AScope;
@@ -51978,29 +56397,66 @@ function TfrmMain.CollectSelectedFileLines(ALines: TInt64List): Boolean;
 var
   I, SelIdx: Integer;
   Line1Based: Int64;
+  FilteredIdx, LineCount: Int64;
 begin
   Result := False;
   if not Assigned(ALines) then Exit;
   ALines.Clear;
-  { Duplicados saem depois da ordenacao (IndexOf por item seria quadratico). }
+  if Assigned(FSplitLinesForcedLines) and (FSplitLinesForcedLines.Count > 0) then
+  begin
+    for I := 0 to FSplitLinesForcedLines.Count - 1 do
+      ALines.Add(FSplitLinesForcedLines.Items[I]);
+    Result := True;
+    Exit;
+  end;
   if isChecked and Assigned(FCheckListBox) then
   begin
-    for I := 0 to FCheckListBox.Items.Count - 1 do
-      if FCheckListBox.Checked[I] then
+    if isAllChecked then
+    begin
+      if FFilterActive then
+        LineCount := FFilteredCount
+      else
+        LineCount := totalLines;
+      for FilteredIdx := 0 to LineCount - 1 do
       begin
-        Line1Based := NativeInt(FCheckListBox.Items.Objects[I]);
+        if FFilterActive then
+          Line1Based := FilteredIndexToReal(FilteredIdx) + 1
+        else
+          Line1Based := FilteredIdx + 1;
         if Line1Based > 0 then
           ALines.Add(Line1Based);
       end;
-    if (ALines.Count = 0) and Assigned(FCheckedLines) then
+    end
+    else if Assigned(FCheckedLines) and (FCheckedLines.Count > 0) then
+    begin
       for I := 0 to FCheckedLines.Count - 1 do
-        if FCheckedLines.Items[I] > 0 then
-          ALines.Add(FCheckedLines.Items[I]);
-    if (ALines.Count = 0) and (FCheckListBox.ItemIndex >= 0) and
+      begin
+        Line1Based := FCheckedLines.Items[I];
+        if (Line1Based > 0) and
+           ((not FFilterActive) or
+            (FilteredIndexForRealLine(Line1Based - 1) >= 0)) then
+          ALines.Add(Line1Based);
+      end;
+    end
+    else
+      for I := 0 to FCheckListBox.Items.Count - 1 do
+        if FCheckListBox.Checked[I] then
+        begin
+          Line1Based := NativeInt(FCheckListBox.Items.Objects[I]);
+          if (Line1Based > 0) and
+             ((not FFilterActive) or
+              (FilteredIndexForRealLine(Line1Based - 1) >= 0)) then
+            ALines.Add(Line1Based);
+        end;
+    if (ALines.Count = 0) and (not isAllChecked) and
+       ((not Assigned(FCheckedLines)) or (FCheckedLines.Count = 0)) and
+       (FCheckListBox.ItemIndex >= 0) and
        (FCheckListBox.ItemIndex < FCheckListBox.Items.Count) then
     begin
       Line1Based := NativeInt(FCheckListBox.Items.Objects[FCheckListBox.ItemIndex]);
-      if Line1Based > 0 then
+      if (Line1Based > 0) and
+         ((not FFilterActive) or
+          (FilteredIndexForRealLine(Line1Based - 1) >= 0)) then
         ALines.Add(Line1Based);
     end;
   end
@@ -52032,24 +56488,51 @@ end;
 function TfrmMain.SelectedFileLineCountFast: Integer;
 var
   I: Integer;
+  N: Int64;
 begin
+  if Assigned(FSplitLinesForcedLines) and (FSplitLinesForcedLines.Count > 0) then
+  begin
+    Result := FSplitLinesForcedLines.Count;
+    Exit;
+  end;
   Result := 0;
   if isChecked and Assigned(FCheckListBox) then
   begin
-    for I := 0 to FCheckListBox.Items.Count - 1 do
-      if FCheckListBox.Checked[I] then
-        Inc(Result);
-    if (Result = 0) and Assigned(FCheckedLines) then
-      Result := FCheckedLines.Count;
-    if (Result = 0) and (FCheckListBox.ItemIndex >= 0) then
+    if isAllChecked then
+    begin
+      if FFilterActive then
+        N := FFilteredCount
+      else
+        N := totalLines;
+      if N > MaxInt then
+        Result := MaxInt
+      else
+        Result := Integer(N);
+      Exit;
+    end;
+    if Assigned(FCheckedLines) and (FCheckedLines.Count > 0) then
+    begin
+      for I := 0 to FCheckedLines.Count - 1 do
+        if (FCheckedLines.Items[I] > 0) and
+           ((not FFilterActive) or
+            (FilteredIndexForRealLine(FCheckedLines.Items[I] - 1) >= 0)) then
+          Inc(Result);
+    end
+    else
+      for I := 0 to FCheckListBox.Items.Count - 1 do
+        if FCheckListBox.Checked[I] then
+          Inc(Result);
+    if (Result = 0) and
+       ((not Assigned(FCheckedLines)) or (FCheckedLines.Count = 0)) and
+       (FCheckListBox.ItemIndex >= 0) then
       Result := 1;
   end
   else if Assigned(ListView1) and ListView1.HandleAllocated then
     Result := ListView1.SelCount;
 end;
 
-{ Linhas selecionadas para uma acao da barra, respeitando o limite das preferencias
-  (AMax > 0 aperta mais o limite, p.ex. para pedidos a IA). }
+{ Linhas selecionadas para uma acao da barra.
+  AMax > 0 usa esse teto (mesclar, traduzir). AMax = 0 usa o teto geral. }
 function TfrmMain.CollectSelectedLinesForAction(ALines: TInt64List; AMax: Integer): Boolean;
 var
   N, Limit: Integer;
@@ -52057,9 +56540,10 @@ begin
   Result := False;
   if not Assigned(ALines) then Exit;
   ALines.Clear;
-  Limit := PrefSelectedLinesActionMax;
-  if (AMax > 0) and (AMax < Limit) then
-    Limit := AMax;
+  if AMax > 0 then
+    Limit := AMax
+  else
+    Limit := PrefSelectedLinesActionMax;
   N := SelectedFileLineCountFast;
   if N <= 0 then
   begin
@@ -52118,6 +56602,8 @@ begin
     FBtnLvExport.Enabled := CanUse;
   if Assigned(FBtnLvCopy) then
     FBtnLvCopy.Enabled := CanUse;
+  if Assigned(FBtnLvNextSteps) then
+    FBtnLvNextSteps.Enabled := (not ListviewIsEmpty) and (not FLvTextJobBusy);
   if Assigned(FBtnLvAskAI) then
     FBtnLvAskAI.Enabled := CanUse;
   if Assigned(FBtnLvMerge) then
@@ -52218,6 +56704,26 @@ begin
   RequestPostEditRefresh;
 end;
 
+procedure TfrmMain.ListViewNextStepsClick(Sender: TObject);
+var
+  PrevClick: TNotifyEvent;
+begin
+  if AssistantHostHasPendingChain then Exit;
+  EnsureWorkflowNextSteps;
+  if not Assigned(FWorkflowDontShow) then Exit;
+  { Setting Checked fires OnClick and would hide the panel or rewrite the preference. }
+  PrevClick := FWorkflowDontShow.OnClick;
+  FWorkflowDontShow.OnClick := nil;
+  try
+    SetWorkflowNextStepsVisible(True);
+    if Assigned(FWorkflowNextPanel) and FWorkflowNextPanel.Visible then
+      RefreshWorkflowNextStepsI18n;
+    FWorkflowDontShow.Checked := not PrefShowWorkflowWizard;
+  finally
+    FWorkflowDontShow.OnClick := PrevClick;
+  end;
+end;
+
 procedure TfrmMain.ListViewLineCopyClick(Sender: TObject);
 var
   Lines: TInt64List;
@@ -52306,9 +56812,12 @@ begin
     OwnerComp := Application.MainForm
   else
     OwnerComp := Self;
+  { The memo and the button swap sides in right-to-left mode: anchor the popup to the
+    span that covers both (identical to memo-left .. button-right when left-to-right). }
   ShowMruListPopup(OwnerComp, TrText('Assistant.RecentQuestions'),
     MruMoreCaption('Assistant.RecentQuestionsMore'), FRecent,
-    FBtnMru.BoundsRect.Right - FMemo.Left, Point(CR.Left, CR.Bottom),
+    Max(FBtnMru.BoundsRect.Right, FMemo.BoundsRect.Right) - Min(FBtnMru.Left, FMemo.Left),
+    Point(CR.Left - (FMemo.Left - Min(FBtnMru.Left, FMemo.Left)), CR.Bottom),
     MruPick, TrText('Assistant.RecentQuestionsMoreHint'),
     nil, MruRemove, FBtnMru, MruClearAll, Handle);
 end;
@@ -52505,7 +57014,7 @@ begin
   Lines := TInt64List.Create;
   Texts := TStringList.Create;
   try
-    if not CollectSelectedLinesForAction(Lines) then Exit;
+    if not CollectSelectedLinesForAction(Lines, PrefMergeMaxLines) then Exit;
     if not LoadSelectedLineTexts(Lines, Texts) then Exit;
     if Lines.Count < 1 then Exit;
 
@@ -52545,36 +57054,69 @@ end;
 procedure TfrmMain.ListViewLineExportClick(Sender: TObject);
 var
   Lines: TInt64List;
-  Texts: TStringList;
+  ExplicitLines, EmptyHits: TInt64DynArray;
   OutFile: string;
-  I, J: Integer;
-  CleanLine: string;
+  I: Integer;
 begin
+  if ((not Assigned(FSplitLinesForcedLines)) or (FSplitLinesForcedLines.Count = 0)) and
+     (FFilterActive or (FFindOccKeepHits and (FFilteredCount > 0))) then
+  begin
+    ExportOrCopyFilterResults(False);
+    Exit;
+  end;
+
+  if ((not Assigned(FSplitLinesForcedLines)) or (FSplitLinesForcedLines.Count = 0)) and
+     isChecked and isAllChecked and (not FFilterActive) then
+  begin
+    if totalLines <= 0 then Exit;
+    if not SaveDialog1.Execute then Exit;
+    OutFile := SaveDialog1.FileName;
+    if SameFileName(ExpandFileName(OutFile),
+       ExpandFileName(CurrentEffectiveFilePath)) then
+    begin
+      ShowAppMessage(TrText('SplitByLines.Error.SameOutput'));
+      Exit;
+    end;
+    try
+      TExportFilteredLinesThread.Create(Self, CurrentEffectiveFilePath, OutFile,
+        totalLines, False, nil, nil, 0, nil, totalLines,
+        CanStreamExportFilteredLines, '', False, fmmContains, False, nil, True);
+      UpdateStatusBar(TrText('Exporting lines to file...'), iaRight);
+    except
+      on E: Exception do
+        FastFileMessageBox(PChar(TrText('Error') + #13#10 + E.Message),
+          PChar(TrText('Assistant.Status.ExportMatching')), MB_OK or MB_ICONERROR);
+    end;
+    Exit;
+  end;
+
   { Selection-scoped export: never ask all-vs-selection (user already selected). }
   EnsureListViewLineTools;
   Lines := TInt64List.Create;
-  Texts := TStringList.Create;
   try
     if not CollectSelectedLinesForAction(Lines) then Exit;
-    if not LoadSelectedLineTexts(Lines, Texts) then Exit;
-    for I := 0 to Texts.Count - 1 do
-    begin
-      CleanLine := Texts[I];
-      J := 1;
-      while J <= Length(CleanLine) do
-        if CleanLine[J] = #0 then
-          Delete(CleanLine, J, 1)
-        else
-          Inc(J);
-      Texts[I] := CleanLine;
-    end;
+    SetLength(ExplicitLines, Lines.Count);
+    for I := 0 to Lines.Count - 1 do
+      ExplicitLines[I] := Lines.Items[I] - 1;
     if not SaveDialog1.Execute then Exit;
     OutFile := SaveDialog1.FileName;
-    Texts.SaveToFile(OutFile);
-    UpdateStatusBar(Format(TrText('ListView.ExportedLines'), [Texts.Count]), iaRight);
-    ShowGeneratedFileDialog(OutFile, Texts.Count);
+    if SameFileName(ExpandFileName(OutFile),
+       ExpandFileName(CurrentEffectiveFilePath)) then
+    begin
+      ShowAppMessage(TrText('SplitByLines.Error.SameOutput'));
+      Exit;
+    end;
+    try
+      TExportFilteredLinesThread.Create(Self, CurrentEffectiveFilePath, OutFile,
+        Length(ExplicitLines), False, EmptyHits, nil, 0, nil, totalLines,
+        CanStreamExportFilteredLines, '', False, fmmContains, False, ExplicitLines);
+      UpdateStatusBar(TrText('Exporting lines to file...'), iaRight);
+    except
+      on E: Exception do
+        FastFileMessageBox(PChar(TrText('Error') + #13#10 + E.Message),
+          PChar(TrText('Assistant.Status.ExportMatching')), MB_OK or MB_ICONERROR);
+    end;
   finally
-    Texts.Free;
     Lines.Free;
   end;
 end;
@@ -52643,18 +57185,19 @@ procedure TfrmMain.ListViewLineAnonClick(Sender: TObject);
 begin
   EnsureListViewLineTools;
   if FLvTextJobBusy then Exit;
-  DoAnonymize(ascSelection);
+  if ((not Assigned(FSplitLinesForcedLines)) or (FSplitLinesForcedLines.Count = 0)) and
+     isChecked and isAllChecked and (not FFilterActive) then
+    DoAnonymize(ascWholeFile)
+  else
+    DoAnonymize(ascSelection);
 end;
 
 procedure TfrmMain.ListViewLineTranslateClick(Sender: TObject);
-var
-  P: TPoint;
 begin
   EnsureListViewLineTools;
   if FLvTextJobBusy then Exit;
   if not Assigned(FPopLvTranslate) or not Assigned(FBtnLvTranslate) then Exit;
-  P := FBtnLvTranslate.ClientToScreen(Point(0, FBtnLvTranslate.Height));
-  FPopLvTranslate.Popup(P.X, P.Y);
+  PopupMenuUnderControl(FPopLvTranslate, FBtnLvTranslate);
 end;
 
 procedure TfrmMain.ListViewLineTranslateLangClick(Sender: TObject);
@@ -52672,7 +57215,7 @@ begin
   if not Assigned(FLvPendingOld) then
     FLvPendingOld := TStringList.Create;
   { A traducao vai inteira num pedido a IA: alem do limite geral, no maximo 40 linhas. }
-  if not CollectSelectedLinesForAction(FLvPendingLines, 40) then Exit;
+  if not CollectSelectedLinesForAction(FLvPendingLines, PrefTranslateMaxLines) then Exit;
   if not LoadSelectedLineTexts(FLvPendingLines, FLvPendingOld) then Exit;
   Src := '';
   for I := 0 to FLvPendingOld.Count - 1 do
@@ -52743,11 +57286,16 @@ begin
 end;
 
 procedure TfrmMain.ShowFilterBar(AFocusEdit: Boolean);
+var
+  Opening: Boolean;
 begin
   FFilterBarRestorePending := False;
   EnsureFilterBar;
   if not Assigned(FFilterBar) then Exit;
-  FFilterBarChromeHidden := False;
+  Opening := FFilterBarFrameHidden or (not FFilterBar.Visible);
+  if FilterBarIsFloating and Assigned(FFilterFloat) then
+    Opening := not FFilterFloat.Visible;
+  FFilterBarFrameHidden := False;
   if Assigned(FFilterPeek) then
     FFilterPeek.Visible := False;
   if FilterBarIsFloating then
@@ -52761,11 +57309,20 @@ begin
   end
   else
   begin
-    FFilterBar.Height := LoadFilterBarHeight;
+    { Startup and each fresh open hug the controls. A saved tall height
+      only left a blank band above the file list. }
+    if Opening then
+      FFilterBar.Height := LoadFilterBarHeight;
     FFilterBar.Visible := True;
     SyncFilterBandVisible;
   end;
-  FFilterBar.ApplySoftChrome;
+  FFilterBar.ApplySoftFrame;
+  if Opening and (not FilterBarIsFloating) then
+  begin
+    FFilterBar.Height := LoadFilterBarHeight;
+    SyncFilterBandVisible;
+    SaveFilterBarHeight;
+  end;
   RefreshFilterBarState;
   if AFocusEdit then
   begin
@@ -52775,10 +57332,10 @@ begin
   SaveFilterBarVisiblePref;
 end;
 
-procedure TfrmMain.HideFilterBarChrome;
+procedure TfrmMain.HideFilterBarFrame;
 begin
   FFilterBarRestorePending := False;
-  FFilterBarChromeHidden := True;
+  FFilterBarFrameHidden := True;
   SaveFilterBarHeight;
   SaveFilterFloatBounds;
   if FilterBarIsFloating and Assigned(FFilterFloat) then
@@ -52791,16 +57348,16 @@ begin
     FFilterPeek.Visible := FFilterActive;
     if FFilterPeek.Visible then
     begin
-      FFilterPeek.ApplySoftChrome;
+      FFilterPeek.ApplySoftFrame;
       FFilterPeek.BringToFront;
     end;
   end;
   SaveFilterBarVisiblePref;
 end;
 
-function TfrmMain.IsFilterBarChromeVisible: Boolean;
+function TfrmMain.IsFilterBarFrameVisible: Boolean;
 begin
-  Result := Assigned(FFilterBar) and (not FFilterBarChromeHidden);
+  Result := Assigned(FFilterBar) and (not FFilterBarFrameHidden);
   if not Result then Exit;
   if FilterBarIsFloating then
     Result := Assigned(FFilterFloat) and FFilterFloat.Visible
@@ -52817,7 +57374,7 @@ begin
   if FFilterBarRestorePending then Exit;
   Ini := TIniFile.Create(IniName);
   try
-    Ini.WriteBool('UIPrefs', 'FilterBarVisible', IsFilterBarChromeVisible);
+    Ini.WriteBool('UIPrefs', 'FilterBarVisible', IsFilterBarFrameVisible);
   finally
     Ini.Free;
   end;
@@ -52910,7 +57467,7 @@ end;
 
 procedure TfrmMain.RefreshFilterBarState;
 var
-  Status: string;
+  Status, Hover: string;
   Busy: Boolean;
   Pat: string;
 begin
@@ -52919,7 +57476,10 @@ begin
   Pat := FFilterBar.GetPattern;
   if Pat = '' then
     Pat := Trim(FFilterText);
-  FFilterBar.SetModeHint(FilterBarModeHintText(Pat));
+  Hover := '';
+  if EffectiveFilterMatchMode(Pat) = fmmRegex then
+    Hover := TrText('Regex.ExamplesHint');
+  FFilterBar.SetModeHint(FilterBarModeHintText(Pat), Hover);
   if Busy then
     Status := TrText('Filtering...')
   else if FFilterActive then
@@ -52929,11 +57489,13 @@ begin
     else
       Status := Format(TrText('Filter: %d/%d'), [FFilteredCount, FFilterTotalLines]);
   end
+  else if EffectiveFilterMatchMode(Pat) = fmmRegex then
+    Status := TrText('Regex.Examples')
   else
     Status := '';
   FFilterBar.SetStatus(Status, FFilterActive, FFilterStreamPartial, Busy);
   FFilterBar.SetResultsActionsVisible(FFilterActive and (FFilteredCount > 0) and (not Busy));
-  if Assigned(FFilterPeek) and FFilterBarChromeHidden then
+  if Assigned(FFilterPeek) and FFilterBarFrameHidden then
     FFilterPeek.Visible := FFilterActive;
 end;
 
@@ -53032,7 +57594,7 @@ end;
 
 procedure TfrmMain.FilterBarHide(Sender: TObject);
 begin
-  HideFilterBarChrome;
+  HideFilterBarFrame;
 end;
 
 procedure TfrmMain.FilterBarExport(Sender: TObject);
@@ -53048,9 +57610,8 @@ end;
 procedure TfrmMain.ExportOrCopyFilterResults(AToClipboard: Boolean);
 var
   SelOnly: Boolean;
-  SelCount, I, j, OutCount: Integer;
+  SelCount, I, OutCount: Integer;
   RealIdx: Int64;
-  LineS: string;
   ClipWide: WideString;
   SL: TStringList;
   OutFile: string;
@@ -53058,6 +57619,12 @@ var
   Item: TListItem;
   Line1Based: Int64;
   UseChecks: Boolean;
+  SelectedLines: TInt64List;
+  ExplicitLines, HitsCopy: TInt64DynArray;
+  ExportCount: Int64;
+  CopyShown, CopyCancelled: Boolean;
+  CopyTotal: Int64;
+  CopyStart, CopyLastPaint: Cardinal;
 
   function CountCheckedInFilter: Integer;
   var
@@ -53073,6 +57640,40 @@ var
       if FilteredIndexForRealLine(L1 - 1) >= 0 then
         Inc(Result);
     end;
+  end;
+
+  function CleanLine(const S: string): string;
+  begin
+    if Pos(#0, S) > 0 then
+      Result := StringReplace(S, #0, '', [rfReplaceAll])
+    else
+      Result := S;
+  end;
+
+  { Returns True when the user cancelled through the overlay. }
+  function CopyTick(const ADone: Int64): Boolean;
+  var
+    Pct: Integer;
+  begin
+    Result := False;
+    if (ADone and 1023) <> 0 then Exit;
+    if not CopyShown then
+    begin
+      if (GetTickCount - CopyStart < 500) or TfrmSmoothLoading.IsShowing then Exit;
+      TfrmSmoothLoading.ShowLoading(TrText('BgLoad.Copying'), True);
+      CopyShown := True;
+    end;
+    if GetTickCount - CopyLastPaint >= 120 then
+    begin
+      CopyLastPaint := GetTickCount;
+      if CopyTotal > 0 then Pct := Integer((ADone * 100) div CopyTotal) else Pct := 0;
+      if Pct > 100 then Pct := 100;
+      TfrmSmoothLoading.UpdateProgressWithDetail(Pct, UnUtils.FormatNumber(ADone) + ' / ' +
+        UnUtils.FormatNumber(CopyTotal) + ' ' + TrText('lines'));
+      TfrmSmoothLoading.FlushPaint;
+    end;
+    Result := TfrmSmoothLoading.PumpCancelInput;
+    if Result then CopyCancelled := True;
   end;
 
 begin
@@ -53098,6 +57699,8 @@ begin
     SelCount := CountCheckedInFilter
   else if Assigned(ListView1) and ListView1.HandleAllocated then
     SelCount := ListView1.SelCount;
+  if isAllChecked then
+    SelCount := 0;
 
   SelOnly := False;
   if SelCount > 0 then
@@ -53126,6 +57729,59 @@ begin
     if Ans <> mrYes then Exit;
   end;
 
+  if not AToClipboard then
+  begin
+    SetLength(ExplicitLines, 0);
+    if SelOnly then
+    begin
+      SelectedLines := TInt64List.Create;
+      try
+        if not CollectSelectedFileLines(SelectedLines) then Exit;
+        SetLength(ExplicitLines, SelectedLines.Count);
+        for I := 0 to SelectedLines.Count - 1 do
+          ExplicitLines[I] := SelectedLines.Items[I] - 1;
+      finally
+        SelectedLines.Free;
+      end;
+      ExportCount := Length(ExplicitLines);
+    end
+    else
+      ExportCount := FFilteredCount;
+
+    if ExportCount <= 0 then
+    begin
+      ShowAppMessage(TrText('FilterBar.NoResults'));
+      Exit;
+    end;
+    if not SaveDialog1.Execute then Exit;
+    OutFile := SaveDialog1.FileName;
+    if SameFileName(ExpandFileName(OutFile),
+       ExpandFileName(CurrentEffectiveFilePath)) then
+    begin
+      ShowAppMessage(TrText('SplitByLines.Error.SameOutput'));
+      Exit;
+    end;
+
+    HitsCopy := FFilterHitsList;
+    try
+      TExportFilteredLinesThread.Create(Self, CurrentEffectiveFilePath, OutFile,
+        ExportCount, FFilterUseHitsFile, HitsCopy, FFilterBits, FFilterBitsSize,
+        FFilterJumpTable, FFilterTotalLines, CanStreamExportFilteredLines,
+        '', False, fmmContains, False, ExplicitLines);
+      UpdateStatusBar(TrText('Exporting lines to file...'), iaRight);
+    except
+      on E: Exception do
+        FastFileMessageBox(PChar(TrText('Error') + #13#10 + E.Message),
+          PChar(TrText('Assistant.Status.ExportMatching')), MB_OK or MB_ICONERROR);
+    end;
+    Exit;
+  end;
+
+  CopyShown := False;
+  CopyCancelled := False;
+  CopyStart := GetTickCount;
+  CopyLastPaint := 0;
+  if SelOnly then CopyTotal := SelCount else CopyTotal := FFilteredCount;
   SL := TStringList.Create;
   try
     SL.BeginUpdate;
@@ -53140,14 +57796,8 @@ begin
             if Line1Based <= 0 then Continue;
             RealIdx := Line1Based - 1;
             if FilteredIndexForRealLine(RealIdx) < 0 then Continue;
-            LineS := GetLineContent(RealIdx);
-            j := 1;
-            while j <= Length(LineS) do
-              if LineS[j] = #0 then
-                Delete(LineS, j, 1)
-              else
-                Inc(j);
-            SL.Add(LineS);
+            SL.Add(CleanLine(GetLineContent(RealIdx)));
+            if CopyTick(SL.Count) then Break;
           end;
         end
         else if Assigned(ListView1) then
@@ -53158,14 +57808,8 @@ begin
             RealIdx := FileLineIndexFromListRow(Item.Index);
             if RealIdx >= 0 then
             begin
-              LineS := GetLineContent(RealIdx);
-              j := 1;
-              while j <= Length(LineS) do
-                if LineS[j] = #0 then
-                  Delete(LineS, j, 1)
-                else
-                  Inc(j);
-              SL.Add(LineS);
+              SL.Add(CleanLine(GetLineContent(RealIdx)));
+              if CopyTick(SL.Count) then Break;
             end;
             Item := ListView1.GetNextItem(Item, sdAll, [isSelected]);
           end;
@@ -53177,20 +57821,19 @@ begin
         begin
           RealIdx := FilteredIndexToReal(I);
           if RealIdx < 0 then Continue;
-          LineS := GetLineContent(RealIdx);
-          j := 1;
-          while j <= Length(LineS) do
-            if LineS[j] = #0 then
-              Delete(LineS, j, 1)
-            else
-              Inc(j);
-          SL.Add(LineS);
+          SL.Add(CleanLine(GetLineContent(RealIdx)));
+          if CopyTick(SL.Count) then Break;
         end;
       end;
     finally
       SL.EndUpdate;
     end;
 
+    if CopyCancelled then
+    begin
+      UpdateStatusBar(TrText('BgLoad.Cancelled'), iaRight);
+      Exit;
+    end;
     OutCount := SL.Count;
     if OutCount <= 0 then
     begin
@@ -53200,27 +57843,23 @@ begin
 
     if AToClipboard then
     begin
-      ClipWide := '';
-      for I := 0 to SL.Count - 1 do
+      SL.LineBreak := #13#10;
+      ClipWide := WideString(SL.Text);
+      if (Length(ClipWide) >= 2) and (Copy(ClipWide, Length(ClipWide) - 1, 2) = #13#10) then
+        SetLength(ClipWide, Length(ClipWide) - 2);
+      if CopyShown then
       begin
-        if ClipWide <> '' then
-          ClipWide := ClipWide + WideString(#13#10);
-        ClipWide := ClipWide + WideString(SL[I]);
+        CopyShown := False;
+        TfrmSmoothLoading.HideLoading;
       end;
       ClipboardSetUnicodeText(ClipWide);
       ShowAppMessage(Format(TrText('%d filtered line(s) copied to the clipboard.'), [OutCount]));
       UpdateStatusBar(Format(TrText('%d filtered line(s) copied to the clipboard.'), [OutCount]), iaRight);
     end
-    else
-    begin
-      if not SaveDialog1.Execute then Exit;
-      OutFile := SaveDialog1.FileName;
-      SL.SaveToFile(OutFile);
-      UpdateStatusBar(Format(TrText('%d filtered line(s) exported to file.'), [OutCount]), iaRight);
-      ShowGeneratedFileDialog(OutFile, OutCount);
-    end;
   finally
     SL.Free;
+    if CopyShown then
+      TfrmSmoothLoading.HideLoading;
   end;
 end;
 
@@ -53269,6 +57908,7 @@ begin
     MaxHits := FILTER_STREAM_MAX_HITS;
   FFilterThread := TFilterStreamThread.Create(Self, CurrentEffectiveFilePath, AText,
     ACaseSensitive, AMatchMode, MaxHits, 0, 0, False);
+  BgLoadBegin(1);
   FAssistantFilterSoftCap := False;
 end;
 
@@ -53322,6 +57962,7 @@ begin
   FFilterThread := TFilterStreamThread.Create(Self, CurrentEffectiveFilePath, FFilterText,
     FFilterStreamCaseSensitive, FFilterStreamMatchMode, MaxHits,
     FFilterStreamResumeByte, FFilterStreamResumeLine, True);
+  BgLoadBegin(1);
 end;
 
 procedure TfrmMain.StartFilter(const AText: String; ACaseSensitive: Boolean;
@@ -53342,6 +57983,8 @@ begin
   FFilteredCount := 0;
   SetLength(FFilterJumpTable, 0);
   FFilterStreamPartial := False;
+  FFilterStreamCaseSensitive := ACaseSensitive;
+  FFilterStreamMatchMode := AMatchMode;
   IndexPath := FastFileExeDirPath(TEMPFILE);
   CkptPath := FastFileExeDirPath(TEMP_CKPT_FILE);
   if not Assigned(FIndexFileStream) then
@@ -53354,6 +57997,7 @@ begin
   FFilterText := AText;
   UpdateStatusBar(TrText('Filtering...'), iaRight);
   FFilterThread := TFilterThread.Create(Self, edtFileName.Text, IndexPath, AText, ACaseSensitive, FilterTotalLines, AMatchMode);
+  BgLoadBegin(1);
   FAssistantFilterSoftCap := False;
 end;
 
@@ -53362,6 +58006,7 @@ begin
   UpdateStatusBar(TrText('Filtering') + ' ' + UnUtils.FormatNumber(LinesDone) + ' / ' +
     UnUtils.FormatNumber(TotalLines) + ' ' + TrText('lines'), iaRight);
   RefreshFilterBarState;
+  BgLoadProgress(LinesDone, TotalLines, True);
 end;
 
 procedure TfrmMain.UpdateFilterStreamProgress(const BytesDone, TotalBytes: Int64);
@@ -53372,12 +58017,15 @@ begin
   else
     UpdateStatusBar(TrText('Filtering...'), iaRight);
   RefreshFilterBarState;
+  if TotalBytes > 0 then
+    BgLoadProgress(BytesDone, TotalBytes, False);
 end;
 
 procedure TfrmMain.FinishFilterThreadFailed(const AMsg: string);
 var
   SavedLine: Int64;
 begin
+  BgLoadEnd;
   FFilterThread := nil;
   if Assigned(FFilterBits) then begin FreeMem(FFilterBits); FFilterBits := nil; end;
   FFilterBitsSize := 0;
@@ -53431,6 +58079,7 @@ procedure TfrmMain.FilterThreadDone;
 var
   SavedLine: Int64;
 begin
+  BgLoadEnd;
   FFilterThread := nil;
 
   { Find Occurrences: keep hits for the clickable list, do NOT remap ListView. }
@@ -53533,6 +58182,8 @@ end;
 
 procedure TfrmMain.ClearFilter;
 begin
+  if FBgLoadKind = 1 then
+    BgLoadEnd;
   if Assigned(FFilterThread) then begin
     FFilterThread.Terminate;
     FFilterThread := nil;
@@ -53570,7 +58221,7 @@ begin
   if isChecked then
     showChecked;
   RefreshFilterBarState;
-  if Assigned(FFilterPeek) and FFilterBarChromeHidden then
+  if Assigned(FFilterPeek) and FFilterBarFrameHidden then
     FFilterPeek.Visible := False;
   RefreshFindOccBarState;
 end;
@@ -53602,17 +58253,20 @@ begin
   FFindOccBar.OnClear := FindOccClear;
   FFindOccBar.OnHide := FindOccHide;
   FFindOccBar.OnFloat := FindOccBarFloat;
+  FFindOccBar.OnListToggled := FindOccListToggled;
   FFindOccBar.OnTearOff := FindOccBarTearOff;
   FFindOccBar.OnHitClick := FindOccHitClick;
   FFindOccBar.OnListPagePrev := FindOccListPagePrev;
   FFindOccBar.OnListPageNext := FindOccListPageNext;
   FFindOccBar.ApplyCaptions;
-  FFindOccBar.ApplySoftChrome;
+  FFindOccBar.ApplySoftFrame;
   if IniName <> '' then
   begin
     Ini := TIniFile.Create(IniName);
     try
       FFindOccBar.UserHeight := Ini.ReadInteger('UIPrefs', 'FindOccDockHeight', 0);
+      if FFindOccBar.UserHeight > FFindOccBar.PreferredExpandedHeight then
+        FFindOccBar.UserHeight := FFindOccBar.PreferredExpandedHeight;
     finally
       Ini.Free;
     end;
@@ -53636,7 +58290,7 @@ procedure TfrmMain.ShowFindOccBar;
 begin
   EnsureFindOccBar;
   if not Assigned(FFindOccBar) then Exit;
-  FFindOccChromeHidden := False;
+  FFindOccFrameHidden := False;
   if Assigned(FFindOccPeek) then
     FFindOccPeek.Visible := False;
   if FindOccBarIsFloating then
@@ -53662,13 +58316,13 @@ begin
     FFindOccBar.SetSearchText(FFindText);
 end;
 
-procedure TfrmMain.HideFindOccBarChrome;
+procedure TfrmMain.HideFindOccBarFrame;
 begin
   if not Assigned(FFindOccBar) then Exit;
   if FindOccBarIsFloating and Assigned(FFindOccFloat) then
     FFindOccFloat.Hide;
   FFindOccBar.Visible := False;
-  FFindOccChromeHidden := True;
+  FFindOccFrameHidden := True;
   SyncFindOccSplitter;
   if Assigned(FFindOccPeek) and (not FindOccBarIsFloating) then
     FFindOccPeek.Visible := FFindOccOfferShown or FFindOccDroveFilter;
@@ -53749,7 +58403,7 @@ begin
   SyncFindOccSplitter;
   if Assigned(FFindOccPeek) then
     FFindOccPeek.Visible := False;
-  FFindOccChromeHidden := False;
+  FFindOccFrameHidden := False;
   UpdateStatusBar(TrText('FindOcc.Cleared'), iaRight);
 end;
 
@@ -53778,8 +58432,8 @@ begin
   FFindOccFilterOffered := False;
   FFindOccListPage := 0;
   FFindOccKeepHits := False;
-  if IsFilterBarChromeVisible then
-    HideFilterBarChrome;
+  if IsFilterBarFrameVisible then
+    HideFilterBarFrame;
   if Assigned(FFindOccBar) then
     FFindOccBar.ClearHitList;
   FFilterText := Needle;
@@ -54072,7 +58726,7 @@ end;
 
 procedure TfrmMain.FindOccHide(Sender: TObject);
 begin
-  HideFindOccBarChrome;
+  HideFindOccBarFrame;
 end;
 
 procedure TfrmMain.FindOccPeekRestore(Sender: TObject);
@@ -54242,6 +58896,8 @@ begin
     Facts := Facts + 'find_occ_list=1;';
 
   NotifyAssistantPostAction(AActivityId, ASummary, Facts, OfferUI);
+  if Assigned(FWorkflowNextPanel) and FWorkflowNextPanel.Visible then
+    RefreshWorkflowNextStepsI18n;
 end;
 
 procedure TfrmMain.OfferAssistantAfterFind;
@@ -54485,7 +59141,7 @@ begin
     else
     begin
       RefreshBookmarkBarList;
-      HideBookmarkBarChrome;
+      HideBookmarkBarFrame;
     end;
     Exit;
   end;
@@ -54514,7 +59170,7 @@ begin
   else
   begin
     RefreshBookmarkBarList;
-    HideBookmarkBarChrome;
+    HideBookmarkBarFrame;
   end;
 end;
 
@@ -54742,7 +59398,7 @@ begin
   if isChecked then showChecked;
   RefreshBookmarkBarList;
   if BookmarkCount = 0 then
-    HideBookmarkBarChrome;
+    HideBookmarkBarFrame;
 end;
 
 function TfrmMain.BookmarkCount: Integer;
@@ -54816,7 +59472,7 @@ begin
   FBookmarkFloat.Show;
   FBookmarkFloat.BringToFront;
   FBookmarkBar.Visible := True;
-  FBookmarkChromeHidden := False;
+  FBookmarkFrameHidden := False;
   if Assigned(FBookmarkPeek) then
     FBookmarkPeek.Visible := False;
   if Assigned(pnlCenter) then
@@ -54857,8 +59513,10 @@ begin
     FBookmarkFloat.Hide;
   FBookmarkBar.SetFloatingLook(False);
   FBookmarkBar.RelayoutAfterDock;
+  if FBookmarkBar.Height < FBookmarkBar.Constraints.MinHeight then
+    FBookmarkBar.Height := FBookmarkBar.Constraints.MinHeight;
   FBookmarkBar.Visible := True;
-  FBookmarkChromeHidden := False;
+  FBookmarkFrameHidden := False;
   if Assigned(pnlCenter) then
     pnlCenter.Realign;
   SyncBookmarkSplitter;
@@ -54870,7 +59528,7 @@ var
   MinH, MaxH: Integer;
 begin
   if not Assigned(FBookmarkSpl) or not Assigned(FBookmarkBar) then Exit;
-  ShowSpl := FBookmarkBar.Visible and (not FBookmarkChromeHidden);
+  ShowSpl := FBookmarkBar.Visible and (not FBookmarkFrameHidden);
   FBookmarkSpl.Visible := ShowSpl;
   if not ShowSpl then Exit;
   FBookmarkSpl.BringToFront;
@@ -54994,12 +59652,14 @@ begin
   FBookmarkBar.OnListPagePrev := BookmarkBarListPagePrev;
   FBookmarkBar.OnListPageNext := BookmarkBarListPageNext;
   FBookmarkBar.ApplyCaptions;
-  FBookmarkBar.ApplySoftChrome;
+  FBookmarkBar.ApplySoftFrame;
   if IniName <> '' then
   begin
     Ini := TIniFile.Create(IniName);
     try
       FBookmarkBar.UserHeight := Ini.ReadInteger('UIPrefs', 'BookmarkDockHeight', 0);
+      if FBookmarkBar.UserHeight > FBookmarkBar.PreferredHeight then
+        FBookmarkBar.UserHeight := FBookmarkBar.PreferredHeight;
     finally
       Ini.Free;
     end;
@@ -55023,7 +59683,7 @@ procedure TfrmMain.ShowBookmarkBar;
 begin
   EnsureBookmarkBar;
   if not Assigned(FBookmarkBar) then Exit;
-  FBookmarkChromeHidden := False;
+  FBookmarkFrameHidden := False;
   if Assigned(FBookmarkPeek) then
     FBookmarkPeek.Visible := False;
   if BookmarkBarIsFloating then
@@ -55044,18 +59704,20 @@ begin
       FBookmarkBar.Height := FBookmarkBar.PreferredHeight;
     FBookmarkBar.BringToFront;
     FBookmarkBar.RelayoutAfterDock;
+    if FBookmarkBar.Height < FBookmarkBar.Constraints.MinHeight then
+      FBookmarkBar.Height := FBookmarkBar.Constraints.MinHeight;
   end;
   RefreshBookmarkBarList;
   SyncBookmarkSplitter;
 end;
 
-procedure TfrmMain.HideBookmarkBarChrome;
+procedure TfrmMain.HideBookmarkBarFrame;
 begin
   if not Assigned(FBookmarkBar) then Exit;
   if BookmarkBarIsFloating and Assigned(FBookmarkFloat) then
     FBookmarkFloat.Hide;
   FBookmarkBar.Visible := False;
-  FBookmarkChromeHidden := True;
+  FBookmarkFrameHidden := True;
   SyncBookmarkSplitter;
   if Assigned(FBookmarkPeek) and (not BookmarkBarIsFloating) then
     FBookmarkPeek.Visible := BookmarkCount > 0;
@@ -55179,13 +59841,13 @@ begin
     ToggleBookmark(RealLine);
     RefreshBookmarkBarList;
     if BookmarkCount = 0 then
-      HideBookmarkBarChrome;
+      HideBookmarkBarFrame;
     Exit;
   end;
   ListView1.Invalidate;
   RefreshBookmarkBarList;
   if BookmarkCount = 0 then
-    HideBookmarkBarChrome;
+    HideBookmarkBarFrame;
 end;
 
 procedure TfrmMain.BookmarkBarClear(Sender: TObject);
@@ -55274,7 +59936,7 @@ end;
 
 procedure TfrmMain.BookmarkBarHide(Sender: TObject);
 begin
-  HideBookmarkBarChrome;
+  HideBookmarkBarFrame;
 end;
 
 procedure TfrmMain.BookmarkBarPeekRestore(Sender: TObject);
@@ -55304,8 +59966,8 @@ end;
 procedure TfrmMain.miShowBookmarkBarClick(Sender: TObject);
 begin
   EnsureReadTabVisible;
-  if Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkChromeHidden) then
-    HideBookmarkBarChrome
+  if Assigned(FBookmarkBar) and FBookmarkBar.Visible and (not FBookmarkFrameHidden) then
+    HideBookmarkBarFrame
   else
     ShowBookmarkBar;
 end;
@@ -56901,9 +61563,9 @@ begin
     HelpBody := StringReplace(HelpBody, MK_HELP_VIEW_ZOOM_OUT,
       '  Ctrl+Num- .......... Zoom out list font (View menu)', [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_COMPARE_MERGE,
-      '  Ctrl+Shift+H ....... Compare / merge + session history tab (two-file diff, journal)', [rfReplaceAll]);
+      TrText('  Ctrl+Shift+H ....... Compare / merge + session history (two-file diff, journal)'), [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_COMPARE_MERGE_RELOAD_1,
-      '  Session history Reload: a worker thread reads the journal tail, filters lines, loads the preview file and optional color scan; the progress bar covers that work first, then filling the memo and list on the UI thread.', [rfReplaceAll]);
+      TrText('  Session history Reload: a worker thread reads the journal tail, filters lines, loads the preview file and optional color scan; the progress bar covers that work first, then filling the memo and list on the UI thread.'), [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_COMPARE_MERGE_RELOAD_2,
       '  The loading overlay is not stay-on-top, and the UI yields often (including a short wait for queued input) so you can use Alt+Tab and other applications during a long reload.', [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_ZERO_SCAN,
@@ -56925,7 +61587,12 @@ begin
     HelpBody := StringReplace(HelpBody, MK_HELP_VERSION,
       'Version ' + APPLICATION_VERSION, [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_RECENT,
-      'glob / grep (3.0.5.240 - 3.0.5.244)' + #13#10 +
+      TrText('FF_HELP.RecentFeaturesBlock8') + #13#10 +
+      TrText('FF_HELP.RecentFeaturesBlock7') + #13#10 +
+      TrText('FF_HELP.RecentFeaturesBlock6') + #13#10 +
+      TrText('FF_HELP.RecentFeaturesBlock5') + #13#10 +
+      TrText('FF_HELP.RecentFeaturesBlock4') + #13#10 +
+      'glob / grep (3.0.5.240 - 3.0.5.249)' + #13#10 +
       SearchCommandHelp + #13#10#13#10 +
       TrText('FF_HELP.RecentFeaturesBlock3') + #13#10 +
       TrText('FF_HELP.RecentFeaturesBlock2') + #13#10 +
@@ -57149,12 +61816,10 @@ begin
   FHandlingReadShortcut := True;
   try
   { ESC: cancel background Find (antes de limpar filtro / selecao) }
-  if (Key = VK_ESCAPE) and (Shift = []) and Assigned(FFindThread) then
+  if (Key = VK_ESCAPE) and (Shift = []) and
+    (Assigned(FFindThread) or (Assigned(FFilterThread) and (FBgLoadKind <> 0))) then
   begin
-    Inc(FFindSearchId);
-    FFindThread.Terminate;
-    FFindThread := nil;
-    UpdateStatusBar(TrText('Search cancelled.'), iaRight);
+    CancelBgSearch;
     Key := 0;
     Exit;
   end;
@@ -57665,6 +62330,23 @@ begin
        ((Key = Ord('X')) or (Key = Ord('x')) or (Key = Ord('V')) or (Key = Ord('v'))) then
     begin
       Message.Result := 1;
+      Exit;
+    end;
+  end;
+  { Enter no nome do arquivo / Localizar: tratar aqui, senao o botao Default
+    "Aplicar" da barra de filtro (visivel) captura o Enter e o campo nao le. }
+  if (Key = VK_RETURN) and (Shift = []) then
+  begin
+    if Assigned(edtFileName) and edtFileName.HandleAllocated and edtFileName.Focused then
+    begin
+      Message.Result := 1;
+      DoRead;
+      Exit;
+    end;
+    if Assigned(edtSearch) and edtSearch.HandleAllocated and edtSearch.Focused then
+    begin
+      Message.Result := 1;
+      btnSearchClick(edtSearch);
       Exit;
     end;
   end;

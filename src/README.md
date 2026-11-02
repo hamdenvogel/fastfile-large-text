@@ -3,7 +3,7 @@
 **Professional high-performance text file editor for large files — Delphi 7 / Win32**
 
 > Edition: **Professional** — FastFile is a professional-grade product for production-size data.  
-> Version: **`3.0.5.244`** — **FastFile Professional 3.0.5** (14 UI languages; CSV column sort without loading the file; grep named-group table; session filter and encoding; internal glob/grep; read-only AI diagnosis; fast line edit; parallel Win64 line index; source check)  
+> Version: **`3.0.5.268`** — **FastFile Professional 3.0.5** (shorter next-steps guide; Read icon in the path field; 28 UI languages, including Arabic and Hebrew with right-to-left layout; Thai, Greek, Norwegian, Swedish, Danish and Icelandic with left-to-right layout; next steps that follow the current activity; Equal parts on the main toolbar; refreshed Preferences; visible line limits; split-by-lines preview; regex examples with AI; recent languages; CSV column sort; grep named groups; internal glob/grep; read-only AI diagnosis)  
 > Developer: Hamden Vogel  
 > Copyright © 2025–2026. All rights reserved.
 
@@ -21,7 +21,7 @@
 8. [Open mode and Zero Scan](#open-mode-and-zero-scan)
 9. [Atomic write pattern](#atomic-write-pattern)
 10. [Segmented heavy operations](#segmented-heavy-operations)
-11. [Session history journal](#session-history-journal)
+11. [Session log](#session-log)
 12. [Compare / Merge and diff engine](#compare--merge-and-diff-engine)
 13. [Internationalization](#internationalization)
 14. [Files on disk](#files-on-disk)
@@ -193,16 +193,23 @@ policy explicitly selected, path-only glob and an early-limit grep. The existing
 automatic/indexed opening policy may build a full line index before running
 the command; this change does not silently override that user preference.
 
-### Latest releases (**3.0.5.243** · 3.0.5.239 · 3.0.5.232 · 3.0.5.225 · 3.0.5.210 · 3.0.5.100 · 3.0.5.0 · 3.0.4.0 · 3.0.3.0 · 3.0.2.0 · 3.0.1.0 · 3.0.0.0 · 2.1.7.31 · 2.1.7.30 · 2.1.7.29 · 2.1.7.25 · 2.1.7.21 · 2.1.7.17 · 2.1.7.13 · 2.1.7.11 · 2.1.7.9 · 2.1.7.7)
+### Latest releases (**3.0.5.268** · 3.0.5.265 · 3.0.5.261 · 3.0.5.254 · 3.0.5.249 · 3.0.5.244 · 3.0.5.243 · 3.0.5.239 · 3.0.5.232 · 3.0.5.225 · 3.0.5.210 · 3.0.5.100 · 3.0.5.0 · 3.0.4.0 · 3.0.3.0 · 3.0.2.0 · 3.0.1.0 · 3.0.0.0 · 2.1.7.31 · 2.1.7.30 · 2.1.7.29 · 2.1.7.25 · 2.1.7.21 · 2.1.7.17 · 2.1.7.13 · 2.1.7.11 · 2.1.7.9 · 2.1.7.7)
 
-- **★ 3.0.5.243 (current) — internal glob/grep and optional file operands:** internal tracks **.240** (parser, path/content matching, paged results and bookmarks), **.241** (modal AI suggestions with explicit execution), **.242** (bare-name launchers, six bar buttons, Assistant/agent/diagnosis), **.243** (validate/load optional file, bounded GB streaming). See the [command guide](#internal-glob--grep-commands) for examples, source authorization, per-line limits and exact 80-GiB sparse-test scope. F1 shares the localized command help; EXE metadata and `APPLICATION_VERSION` are **3.0.5.243**.
-- **★ 3.0.5.239 (previous release) — AI diagnosis, fast line edit, parallel Win64 index, source check:** **AI diagnosis** (toolbar, Tools, **Ctrl+Alt+U**; `uAgentHub` / `uAgentHubWorkspace` / `uAgentDiscovery` / `uAgentHubModel`) is read-only: specialists for inventory, structure, content, SQL, privacy and actions (Discovery → Plan → Delegate → Evaluate → Aggregate → Synthesize). Edits stay on the AI agent. **Fast line edit** from 32 MB (`uFastLineEdit`: in place, shift or rewrite via the existing line index; `.ffj` journal recovered at startup) and a before/after list of only the lines that change (`uLinesChangePreview`). **Win64 parallel line index** from 128 MB (`uLineIndexScan`: SSE2 bit maps, bounded RAM; sequential SWAR below that and on Win32); index temps via `TTemporaryFileStream`. Line editor **Extract** (`uLineExtract`) and a short Python preview before the full run (`uScriptRunPreview`). **Source check** without running user code (`uSourceValidators`: JSON/HTML/SQL in-process; Java/Go/C# via javac, gofmt, csc) and **Source code with AI** help (`uSourceCodeHelpDlg`). Agent **describe_files** (`uAgentDescribe`), which-files inference in 14 languages (`uAgentTargets`), and a per-line Python macro after Accept (preview; original file unchanged). Multi-folder picker (`uFolderPickDlg`) and **What can I do?** (`uAICapabilitiesDlg`) on the Assistant, the agent and diagnosis. Internal tracks **3.0.5.233–239** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock3` · `DOC_TREADFILETHREAD_EXECUTE.md`.
+- **★ 3.0.5.268 (current) — shorter next-steps guide and Read in the path field:** internal tracks **.266** (the guide stays on one shorter row so the file list stays visible), **.267** (a Read icon inside the path field, left of the clear X), **.268** (same Read glyph as the toolbar, hosted so it stays visible). F1 `FF_HELP.RecentFeaturesBlock8`. EXE metadata and `APPLICATION_VERSION` are **3.0.5.268**.
+- **★ 3.0.5.265 — 28 languages and activity-based next steps:** internal tracks **.262** (Thai, Greek, Norwegian, Swedish, Danish and Icelandic; 28 UI languages, all left to right), **.263** (a file-list button to the left of Copy reopens the next-steps guide), **.264** (next steps follow the current activity instead of one fixed list), **.265** (each activity offers more follow-up actions). F1 `FF_HELP.RecentFeaturesBlock7`. EXE metadata and `APPLICATION_VERSION` were **3.0.5.265**.
+- **★ 3.0.5.261 — Preferences and reusable next-steps guide:** refreshed Preferences and added **Show guide now**, which reopens the guide without reading another file. F1 `FF_HELP.RecentFeaturesBlock6` covers the 22 languages of that release.
+- **★ 3.0.5.255–260 (internal) — workflow, split and localization:** .255 adds Hindi, Russian, Korean, Dutch, Turkish and Ukrainian (22 UI languages); .256 processes equal-parts output from memory-mapped chunks without loading the whole file and leaves the split tab active; .257 localizes the editing context menu and revises session-history wording; .258 adds the next-steps guide and Preferences option to suppress it; .259 removes resizing flicker and refreshes the panel; .260 fixes guide initialization before a file read.
+- **★ 3.0.5.255–261 (internal tracks through 3.0.5.261) — 22 languages and the next-steps guide:** six additional languages; equal-parts processing over mapped chunks with the split tab retained; localized editing context menu; next-steps guide with a Preferences toggle and **Show guide now**; stable, flicker-free guide initialization; refreshed Preferences. F1 `FF_HELP.RecentFeaturesBlock6`.
+- **★ 3.0.5.254 — right-to-left UI, Arabic and Hebrew, Equal parts on the toolbar:** internal tracks **.250** (`uBidiLayout` mirrors forms, dialogs and controls created in code; file text stays left to right), **.251** (Arabic and Hebrew fully translated in `uI18nRtl.pas`; 16 UI languages at that time; choosing either turns right-to-left on), **.252** (a country flag beside each language name), **.253** (file-list columns read from the right in Arabic and Hebrew; the language menu widens so names are not cut off), **.254** (Equal parts sits on the main toolbar right after Merge files, Ctrl+Shift+P, and still under More tools). F1 `FF_HELP.RecentFeaturesBlock5`. EXE metadata and `APPLICATION_VERSION` were **3.0.5.254**.
+- **★ 3.0.5.249 — visible limits, split preview, regex examples, recent languages:** internal tracks **.245** (Find, Filter and Bookmarks open compact, with a bottom grip and Close beside Clear), **.246** (glob/grep recent commands in `mru_search_cmd.ini`; Ask AI docks beside the active page), **.247** (Split by lines preview and the file-list tool strip; saving scans the file and writes a new one), **.248** (Options line limits with the default on the field; mouse wheel scrolls the page), **.249** (recent languages in `LanguageMRU`; Filter and the line editor show regex examples; Ask AI proposes a pattern and does not run it). F1 `FF_HELP.RecentFeaturesBlock4`. EXE metadata and `APPLICATION_VERSION` are **3.0.5.249**.
+- **★ 3.0.5.243 — internal glob/grep and optional file operands:** internal tracks **.240** (parser, path/content matching, paged results and bookmarks), **.241** (modal AI suggestions with explicit execution), **.242** (bare-name launchers, six bar buttons, Assistant/agent/diagnosis), **.243** (validate/load optional file, bounded GB streaming). See the [command guide](#internal-glob--grep-commands) for examples, source authorization, per-line limits and exact 80-GiB sparse-test scope. F1 shares the localized command help; that release synced EXE metadata and `APPLICATION_VERSION` to **3.0.5.243**.
+- **★ 3.0.5.239 (previous release) — AI diagnosis, fast line edit, parallel Win64 index, source check:** **AI diagnosis** (toolbar, Tools, **Ctrl+Alt+U**; `uAgentHub` / `uAgentHubWorkspace` / `uAgentDiscovery` / `uAgentHubModel`) is read-only: specialists for inventory, structure, content, SQL, privacy and actions (Discovery → Plan → Delegate → Evaluate → Aggregate → Synthesize). Edits stay on the AI agent. **Fast line edit** from 32 MB (`uFastLineEdit`: in place, shift or rewrite via the existing line index; `.ffj` recovery log replayed at startup) and a before/after list of only the lines that change (`uLinesChangePreview`). **Win64 parallel line index** from 128 MB (`uLineIndexScan`: SSE2 bit maps, bounded RAM; sequential SWAR below that and on Win32); index temps via `TTemporaryFileStream`. Line editor **Extract** (`uLineExtract`) and a short Python preview before the full run (`uScriptRunPreview`). **Source check** without running user code (`uSourceValidators`: JSON/HTML/SQL in-process; Java/Go/C# via javac, gofmt, csc) and **Source code with AI** help (`uSourceCodeHelpDlg`). Agent **describe_files** (`uAgentDescribe`), which-files inference in 14 languages (`uAgentTargets`), and a per-line Python macro after Accept (preview; original file unchanged). Multi-folder picker (`uFolderPickDlg`) and **What can I do?** (`uAICapabilitiesDlg`) on the Assistant, the agent and diagnosis. Internal tracks **3.0.5.233–239** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock3` · `DOC_TREADFILETHREAD_EXECUTE.md`.
 - **★ 3.0.5.232 (previous within 3.0.5) — AI agent on files, anonymize, history details, custom PPI:** new **AI agent** (toolbar, Tools menu, **Ctrl+Alt+G**; `uAgentWorkspace` / `uAgentLoop` / `uAgentProtocol` / `uAgentTools` / `uAgentActions` / `uAgentBridge` / `uAgentPrefs`): pick files/folders, describe the request in plain words (14 languages) or **SQL** (`uAgentSql`: SELECT with WHERE / GROUP BY / ORDER BY / SUM / COUNT; UPDATE / DELETE / INSERT / ALTER become proposals; typed SQL runs without AI), whole-word vs partial matching (`uAgentMatchIntent`); tabs Answer / Proposed edits / Revised prompt / Files found; nothing is written before **Accept**, accepted edits use the core streaming routines (`uAgentPatch`, GB files, Cancel); **time to decide** (20 s, 5..600 s in Preferences) with timer badge; replace-all pre-count (0 hits = nothing proposed); no false "done" claims; replies in the UI language; buttons enabled only when there is content; "File(s) generated successfully" window (`uExportDoneDlg`, "Folder:" / "File:") + "Last generated file"; UTF-16 read fix. **Anonymize data** (`uAnonymize` / `uAnonymizeDialog`, **Ctrl+Alt+D** or whole file; same type and length, preview, undo/redo, before/after in history). Session-history **event details** (`uHistLineDetailDlg`: double-click/Enter, F3 / Shift+F3, field-by-field compare, export TXT/CSV/JSON). **Custom PPI** toolbar button synced with the status-bar zoom; language switch retranslates on-screen texts; layout follows display changes (`FfFitCaptions`, `WM_DISPLAYCHANGE`); split-view refresh fix. Internal tracks **3.0.5.226–232** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock2`.
 - **★ 3.0.5.225 (previous within 3.0.5) — session history, Line editor, EOL policy, fast merge, stability:** **Find Occurrences** bar after Ctrl+F (F3 / Shift+F3, paged clickable hits, Load more) and **Search tools** gallery (`uFindOccurrencesBar`, `UnitPopupFileSearchGallery`); AI-First **post-action pipeline** ("What next?" chips + bridge memory, `uAssistantPostAction` / `uAssistantPipelineStore`); EOL/encoding detect + convert (`uFileFormatConvert`); docked **Bookmarks** bar (Ctrl+B, `uBookmarkBar`); professional message boxes (`uFastFileMsgDlg`); **Options** dialog (`uUserPrefs` / `uPrefsDialog`); MRU partial find (`uMruFind`); exception guard + hang/memory **watchdog** (`uFastFileAppGuard` / `uFastFileWatchdog`); **paged RAM-safe history preview** (`uHistPagedPreview`), Ctrl+wheel in history, export by legend; faster startup with many tabs and cancellable language switch; **CR+LF / LF / CR** in all routines (`uEolPolicy`); compare/merge history rework (substring highlight, paged **Changed lines** index `uHistChangedIndex`, merge-history MRU, dockable panels); diff synced scroll + threaded cancellable **apply left↔right** for 50 GB files (`uMergeApply`); **drag-to-reorder tabs**; renewed **Line editor** (find/replace F3/F4/Shift+F4, undo/redo, clear, previous/next line Alt+↑/↓, Ask AI); session history **checkboxes / select all / delete**, sort by line or date, **date range** with AlphaSkins `TsDateEdit`, export TXT/CSV, Ask AI, legend-colored selection; time messages translated and **17 units saved as UTF-8 with BOM** (no garbled accents). Internal tracks **3.0.5.211–225** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.RecentFeaturesBlock`.
 - **★ 3.0.5.210 (previous within 3.0.5) — 14 UI languages + lazy-load i18n:** **Japanese** (12th) and **Chinese Simplified / Traditional** (13th/14th, `zh-CN` / `zh-TW`) with full `uI18n` **Set14** coverage; language combo + Assistente + Windows `LANG_CHINESE` detection. Startup fills **English + active language only** (`PutNV` allow-list; other languages load on first switch). Internal tracks **3.0.5.207–210** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.AssistantBlock`.
 - **★ 3.0.5.100 (previous within 3.0.5) — FilterBar MRU, status-bar toggles, assistant polish, count_matching, More tools gradient:** **Ctrl+L** opens a docked **FilterBar** (pattern combo, Apply/Continue/Clear/Hide, peek strip; MRU last **20** patterns in `ASkin.ini` `[FilterRecentPatterns]`). Click status-bar **Mode/Wrap/Tail/Filter/Marks/View** to toggle. Assistant soft chrome (`TsPanel` CustomColor); AI-first local **`count_matching_lines`** (contains/partial). **More tools** gallery soft-blue gradient items; search/ESC polish. Internal tracks **3.0.5.91–101** in `CHANGELOG_IMPLEMENTACOES.md`. Internal **3.0.5.136–137:** Assistente **Validar fonte** (Python/JS/JSX/TS/TSX; chat *carregar o fonte pra validar*) — see [`DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`](DOC_ASSISTENTE_IA_VALIDAR_FONTE.md).
 - **★ 3.0.5.0 (previous within 3.0.5) — AI Assistant compose (docs/code), Clear/Copy, safety lock, `fastfile_assistant`:** generate Word/RTF/DOCX/ODT/PDF summaries and multi-language source via Ctrl+Alt+A; outputs in **`fastfile_assistant\`**; Clear/Copy; safety lock blocks malware/OS shell and `.exe`/`.bat`/`.vbs`. Internal tracks **3.0.5.1–5** · F1 `FF_HELP.AssistantBlock` · `uFastFileComposeExport`.
-- **★ 3.0.4.0 (release) — Advanced AI Chat (file) on GB+ files, chat scroll, preview encoding, Read/About polish:** **Advanced AI Chat (file)** (Ctrl+Alt+R) opens any-size files fast — `ConsumerRAG.py` defaults to **FastTextRAG** streaming lexical search (no upfront embeddings), so a **3.6 GB TXT** opens quickly; full semantic index is **opt-in** (`--semantic-index`). **Cancel loading** / **Close** no longer freeze the UI (non-blocking `StopConsumerRAGProcess`: `TerminateProcess` + timed 750 ms reader wait; panel hides at once; buttons always clickable). **Compare / Merge** preview and session history fix mojibake via encoding auto-detect (UTF-8 / ANSI / UTF-16, `uTextEncoding`) and **UTF-8** journal (`uFileSessionHistory`). **Mouse wheel** (and Ctrl+wheel) over any AI chat sidebar (SQL, Advanced, Assistant, Script) scrolls that transcript, not the main list. **Read** (Ctrl+1 / toolbar) with a file already open now opens the file browser and loads the chosen file. Toolbar **About** button shortened (`titlebar.about`, 11 languages). Internal tracks **3.0.4.1–5** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.AIChatFileBlock`. Rebuild FastFile (Delphi) + `data-lake-duckdb-main\build_exe_consumer_rag.bat`. See [AI Chat plugins](#ai-chat-plugins-consumerai--consumerrag).
+- **★ 3.0.4.0 (release) — Advanced AI Chat (file) on GB+ files, chat scroll, preview encoding, Read/About polish:** **Advanced AI Chat (file)** (Ctrl+Alt+R) opens any-size files fast — `ConsumerRAG.py` defaults to **FastTextRAG** streaming lexical search (no upfront embeddings), so a **3.6 GB TXT** opens quickly; full semantic index is **opt-in** (`--semantic-index`). **Cancel loading** / **Close** no longer freeze the UI (non-blocking `StopConsumerRAGProcess`: `TerminateProcess` + timed 750 ms reader wait; panel hides at once; buttons always clickable). **Compare / Merge** preview and session history fix mojibake via encoding auto-detect (UTF-8 / ANSI / UTF-16, `uTextEncoding`) and UTF-8 session logs (`uFileSessionHistory`). **Mouse wheel** (and Ctrl+wheel) over any AI chat sidebar (SQL, Advanced, Assistant, Script) scrolls that transcript, not the main list. **Read** (Ctrl+1 / toolbar) with a file already open now opens the file browser and loads the chosen file. Toolbar **About** button shortened (`titlebar.about`, 11 languages). Internal tracks **3.0.4.1–5** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.AIChatFileBlock`. Rebuild FastFile (Delphi) + `data-lake-duckdb-main\build_exe_consumer_rag.bat`. See [AI Chat plugins](#ai-chat-plugins-consumerai--consumerrag).
 - **★ 3.0.3.0 (release) — Win64 host + fast SWAR index + timer log:** Delphi **10.4.2 Sydney Win64** build (`Build\Win64\FastFile.exe`) alongside Delphi 7 Win32 (`Build\Win32\`); per-platform `Skins\` deploy; **operation timer log** (upper-right) fixed on Win64 (`TListBox` + `AppendOperationTimerLog`); **`uLineIndexScan.pas`** SWAR LF scan (8-byte; 32-byte wide when AVX2); smooth F5 progress ~22 Hz; parallel part-file scan **disabled** after sparse-index regression. Internal tracks **3.0.3.1–5** in `CHANGELOG_IMPLEMENTACOES.md` · F1 `FF_HELP.Win64IndexBlock`.
 - **★ 3.0.2.0 (release) — Idle workspace brand + vertical block selection fix:** empty workspace shows blue gradient, high-res logo/watermark (1200 px PNG), centered title text, stable layout when AI assistant toggles; **Ctrl/Alt+drag** column block keeps selected width on mouse up (ListView + checklist); **F11** extends block to full content width only when pressed; Lanczos paint cache, no startup rectangle flash. Internal tracks **3.0.2.1–3** in `CHANGELOG_IMPLEMENTACOES.md` · `DOC_IDLE_LOGO_WORKSPACE.md`.
 - **★ 3.0.1.0 (release) — Assistant recent files, companion EXE download, AI Chat panels:** natural-language **open Nth recent file** (`open_recent_file`); reliable auto-download of `ConsumerAI.exe` / `ConsumerRAG.exe` / `ScriptEngine.exe` (PyInstaller cookie, URLMon fallback, PE validation); UI **AI Chat** / **Advanced AI Chat** introduced (later renamed to **AI Chat (SQL)** / **Advanced AI Chat (file)**); `ResolveConsumerSourceFilePath` for `[READ ONLY]` tabs; assistant `MemoReply` panel restored. Internal tracks **3.0.1.1–5** in `CHANGELOG_IMPLEMENTACOES.md`.
@@ -212,7 +219,7 @@ the command; this change does not silently override that user preference.
 - **2.1.7.29 (release) — Menu reorg & EmEditor analytics (GB+):** top-level **Tools** / **Session** / slim **Options** (`RebuildMainMenu`, `uI18n` menu keys, 11 languages); **`uEmEditorFeatures.pas`** — **Character Code Value** (View), **Extract Frequent Strings**, **Delete Duplicate Lines** (Tools › Filter and analysis); MMF scan + bucket spill + on-disk dedup hash; worker threads with progress **GB | MB/s | ETA**; disk-space check before dedup rewrite; F1 help block `FF_HELP.EmEditorBlock`; menu-bar hints **Alt+T / Alt+S**.
 - **2.1.7.25 (release) — Zero Scan shortcuts, extract file parts & last line:** **Zero Scan** without dense index now supports **Ctrl+G** (physical line), **Replace All** streaming, batch delete via MMF, and F1 help section (`DOC_ZS_ATALHOS.md`); **Shift+End** discovers the last physical line (regressive proportional scan; files **> 256 MB** use background LF count with progress); **Ctrl+Shift+Q** **Extract file parts** (renamed from fraction) with translated output names `parte_1_de_8`, scrollable success dialog, Zero Scan line count, and ListView restore after export; on exit **`temp.txt`** + **`temp_ckpt.txt`** are deleted from the app folder.
 - **2.1.7.21 (release) — Tail macro Python, split fix & script engine GB+:** **Tail macro (Python)** panel (`uTailMacro.pas`) runs `transform(line, ctx)` on each new tail line via ScriptEngine; examples + Talk with AI; reprocess new lines (**Ctrl+Shift+R**); include macro results in tail export (**Ctrl+Shift+L**); `uTailExportDialog` fully i18n (11 languages); **split equal parts** now uses balanced **line count** with LF boundaries (`FastFileCountLinesLf` — no mid-record cuts); **script engine large-file mode** — sparse index (`temp_ckpt.txt`), direct **OUTFILE** to disk, lightweight memo; i18n for tail macro / export / `Create blank lines`.
-- **2.1.7.17 (release) — Line autofill & edit polish:** EmEditor-style **drag on Line # column** inserts blank rows (preview while dragging); does not interfere with **Ctrl/Alt** vertical block select in the content column; **Ctrl+Z / Ctrl+Y** for whole autofill blocks (`BatchKind=1`, journal **BAUT**); CSV mode inserts delimiter-only blank rows; **`RestoreCsvModeAfterPostEdit`** keeps CSV/hide-header after post-edit reload; batch **Delete** refreshes ListView without F5 (drops stale `temp.txt`, uses rebuilt `temp_ckpt.txt`); missing paths auto-removed from **Recent files**; i18n autofill/BAUT strings (11 languages).
+- **2.1.7.17 (release) — Line autofill & edit polish:** EmEditor-style **drag on Line # column** inserts blank rows (preview while dragging); does not interfere with **Ctrl/Alt** vertical block select in the content column; **Ctrl+Z / Ctrl+Y** for whole autofill blocks (`BatchKind=1`, session-log **BAUT**); CSV mode inserts delimiter-only blank rows; **`RestoreCsvModeAfterPostEdit`** keeps CSV/hide-header after post-edit reload; batch **Delete** refreshes ListView without F5 (drops stale `temp.txt`, uses rebuilt `temp_ckpt.txt`); missing paths auto-removed from **Recent files**; i18n autofill/BAUT strings (11 languages).
 - **2.1.7.13 (release) — Script engine & macro panel:** `ScriptEngine.py` byte-level `PROGRESS:` on RUNFILE (GB+ files); smooth-loading overlay updates progress/detail (`BeginScriptEngineProgress`, readable `lblDetail`); Python/Tail example titles via `TrText` (`PY_MACRO_EX_*`, `SCRIPT_ENGINE_EXAMPLES_*`) — fixes mojibake in suggestion panels; auto-download `ScriptEngine.exe` / `ConsumerAI.exe` / `ConsumerRAG.exe` from `hvogel.com.br/fastfile_executables/` when missing locally; **Ctrl+Alt+E** without a loaded file switches to Read tab + safe `SetFocus` (no `EInvalidOperation`); `uI18n` split into smaller procedures for Delphi 7 compiler limits.
 - **2.1.7.11 (release) — Undo/Redo stability:** async line edit and undo/redo via `TEditFileThread` (no UI-thread `RunEditWait` freeze on large files); `BeginReadSilent` + `FFreshFileRead` keeps the undo stack after edits; **Yes/No confirmation** before Ctrl+Z / Ctrl+Y with line-specific message and content preview; `UndoRedoBusy` while a worker is running; undo recorded only after successful disk write.
 - **2.1.7.9 (release) — Search, read-only session, Undo/Redo (initial):** `CurrentEffectiveFilePath` when tab shows `[READ ONLY]` (fixes Ctrl+F / Ctrl+H / tail); case-insensitive find (BMH + F3 on same line); find-match highlight in Content column; read-only blocks Replace/Replace All; undo stack for edit/insert/delete/paste/single replace — **Ctrl+Z**, **Ctrl+Y**, **Ctrl+Shift+Z** (up to 100 levels); i18n for undo/redo status (11 languages).
@@ -226,6 +233,7 @@ the command; this change does not silently override that user preference.
 - Script macro panel shortcuts hardened in all three memos via `Application.OnMessage` (Ctrl+C/Ctrl+Insert, Ctrl+V/Shift+Insert, Ctrl+A/Ctrl+T).
 - ScriptEngine large-file throughput improved (larger protocol/read batches, reduced protocol noise, bulk output append in Delphi).
 - Python Macro panel UX updated: dedicated top title bar and automatic scope radio sync with Select/checked-lines mode.
+- Python macro AI now receives a bounded, evenly distributed sample of selected rows, or of the whole source file when nothing is selected. Sample size is configurable in Options (default 20, range 1–100); the sample preserves source line numbers and is included in the context preview.
 - ConsumerAI shutdown stability improved (reader thread lifetime fix to prevent invalid-thread-handle crashes on close/destroy).
 
 ---
@@ -240,8 +248,8 @@ the command; this change does not silently override that user preference.
 | **Single instance** | `CreateFileMapping("MyACMap")` mutex in `FastFile.dpr` |
 | **Segmented ops** | Optional chunked Replace All / batch delete (~250 k lines/segment) |
 | **Undo / Redo** | `TUndoRecord` stack (up to 100); async apply via `TEditFileThread`; **Yes/No** confirm before undo/redo; **Ctrl+Z** / **Ctrl+Y** / **Ctrl+Shift+Z**; line edit, insert, delete, paste, single replace, **line autofill blocks** (not Replace All) |
-| **14-language i18n** | Runtime lookup tables in `uI18n`; language persisted in `ASkin.ini`; lazy-load at startup |
-| **Append-only journal** | Per-file edit history in `FastFileSessionHistory\*.log` |
+| **22-language i18n** | Runtime lookup tables in `uI18n`; language persisted in `ASkin.ini`; lazy-load at startup; offline-generated Unicode catalogs |
+| **Append-only session log** | Per-file edit history in `FastFileSessionHistory\*.log` |
 | **Smart open / search** | Automatic index vs. Zero Scan by file size; manual overrides in **View** / **Edit** menus; prefs in `ASkin.ini` |
 
 **See also:** [Open mode and Zero Scan](#open-mode-and-zero-scan) · technical deep-dive: [`fastfile_arquitetura_bigdata.md`](fastfile_arquitetura_bigdata.md) · **Zero Scan operations portability (Find/Filter/Replace roadmap):** [`DOC_ZERO_SCAN_OPERACOES_PORTABILIDADE.md`](DOC_ZERO_SCAN_OPERACOES_PORTABILIDADE.md) · **impact summary (Zero Scan + segmented ops):** [`DOC_ZERO_SCAN_IMPACTOS_E_SEGMENTADO.md`](DOC_ZERO_SCAN_IMPACTOS_E_SEGMENTADO.md) · **Zero Scan shortcuts (F1 map):** [`DOC_ZS_ATALHOS.md`](DOC_ZS_ATALHOS.md) · Unicode ListView proposal: [`DOC_UNICODE_LISTVIEW_PROPOSTA.md`](DOC_UNICODE_LISTVIEW_PROPOSTA.md)
@@ -303,7 +311,7 @@ Src\
 ├── uFastFileAIScreenHelp.pas — “Talk with AI” modal for Split-by-Regex tab + prompt assembly
 ├── uVBScriptRegex.pas    — VBScript.RegExp normalize / compile-check (shared with MainUnit)
 ├── uLineDiffCore.pas     — LCS DP diff engine for two TStringList instances
-├── uFileSessionHistory.pas — Append-only session journal per data file
+├── uFileSessionHistory.pas — Append-only session log per data file
 ├── uI18n.pas             — Internationalization (14 languages, lazy-load + runtime lookup)
 ├── uTextEncoding.pas     — UTF-8 / UTF-16 / ANSI helpers for Delphi 7 ANSI VCL
 ├── MruHelper.pas         — MRU popup component (persists to .ini)
@@ -351,6 +359,7 @@ Main form `frmMain`. Responsibilities:
 - **Recent Files UX:** softer selection rendering (no persistent blue fill), translated tagline/close/menu launcher, and optional "keep as first tab" ordering when startup hub is enabled.
 - **Bookmark rendering:** bookmarked rows use blue background + white text in both virtual ListView and Select-mode checklist.
 - **Word-wrap navigation precision:** Ctrl+G/F2/Shift+F2 keep exact target selection in checklist mode with filtered/clamped offsets.
+- **Additive line-range selection:** **View → Select lines by range...** accepts one-based ranges such as `5-20; 200-400`. It adds to the existing selection, converts current ListView selections into checklist selections without losing them, and supports repeated additions; the total is bounded by the selected-lines-per-action preference.
 - **Undo/Redo:** `TUndoRecord` stack; `ApplyEditWithUndo` / `StartAsyncUndoRedo` (async workers); `CommitPendingEditUndoIfNeeded` / `CommitPendingUndoRedoIfNeeded` in `TEditFileThread.FinishThread`; confirmation dialogs; `RefreshFile` → `BeginReadSilent` preserves stack (F5 clears via `FFreshFileRead`).
 - **Segmented heavy ops:** `EffectiveUseSegmentedHeavyOps` + policy in **Options**; full spec: **[DOC_SEGMENTED_HEAVY_OPS.md](DOC_SEGMENTED_HEAVY_OPS.md)**; summary: `ROADMAP_COMERCIAL_FASTFILE.md` appendix, `ARQUITETURA_TECNICA_FASTFILE.md` § 4.1.1. Read toolbar: zoom/find/marks quick buttons beside word wrap.
 
@@ -385,7 +394,7 @@ CreateFile(GENERIC_READ, FILE_SHARE_READ|WRITE)
 
 ### `uFileSessionHistory.pas`
 
-Append-only journal, one file per data file opened. Thread-safe via `GFFHistLock: TCriticalSection`.
+Append-only session log, one file per data file opened. Thread-safe via `GFFHistLock: TCriticalSection`.
 
 - **Path:** `<exe>\FastFileSessionHistory\ffhist_<FNV1a-32>_<basename>.log`
 - **FNV-1a 32-bit hash** over the lowercased absolute path (collision-resistant naming).
@@ -415,7 +424,7 @@ All worker threads follow the same lifecycle: show overlay → do work → atomi
 | `TSplitFileThread` | Split file by line ranges | direct output files |
 | `TSplitEqualPartsThread` | Split file into N equal-size parts (LF-aligned) | direct output files |
 | `TMergeFilesThread` | Merge two files at byte offset or line range | `mrg` |
-| `THistoryReloadThread` | Reload session journal for Compare/Merge UI | — |
+| `THistoryReloadThread` | Reload session log for Compare/Merge UI | — |
 
 ### Temp file naming
 
@@ -575,7 +584,7 @@ Same segmentation strategy: for each segment, writes only the **lines to keep** 
 
 ---
 
-## Session history journal
+## Session log
 
 ```
 FastFileSessionHistory\
@@ -590,7 +599,7 @@ Each line in the log:
 
 Operations logged: `INS`, `EDT`, `DEL`, `RPLALL`.
 
-Read back by `THistoryReloadThread` in `uCompareMergeUI`: scans the tail of the journal (256 KiB progress granularity), filters to the currently open file, colorizes entries by operation type, displays in `lvHistFile`.
+Read back by `THistoryReloadThread` in `uCompareMergeUI`: scans the tail of the session log (256 KiB progress granularity), filters to the currently open file, colorizes entries by operation type, displays in `lvHistFile`.
 
 ---
 
@@ -598,7 +607,7 @@ Read back by `THistoryReloadThread` in `uCompareMergeUI`: scans the tail of the 
 
 `TfrmCompareMerge` (`uCompareMergeUI.pas`) has two tabs and is now hosted in the main `tabMerge` (embedded mode, non-modal):
 
-- **History tab:** `lvHistFile` (journal entries colored by INS/EDT/DEL/RPLALL) + `mmoJournal` (raw journal preview).
+- **History tab:** `lvHistFile` (session-log entries colored by INS/EDT/DEL/RPLALL) + `mmoJournal` (raw session-log preview).
 - **Diff tab:** two virtual `TListView` (`lvLeft` / `lvRight`) showing `TFFDiffRow` records. Sync-scroll via `tmrSync`. Context menus show "Apply left→right" / "Apply right→left" **only on changed lines** (`ffdkChange`, `ffdkInsert`, `ffdkDelete`).
 - **Async diff run:** `btnRunDiff` uses `TDiffWorkerThread` + `TfrmSmoothLoading` progress updates, keeping the UI responsive while reading and building diff rows.
 - **Large-file fast mode:** dynamic force-range threshold (`FFComputeDynamicForceRangeBytes`) auto-switches to bounded range diff when files are large; an explicit **Fast mode for large files** checkbox controls this behavior.
@@ -606,16 +615,16 @@ Read back by `THistoryReloadThread` in `uCompareMergeUI`: scans the tail of the 
 - **Apply edge-case safety:** when an insert operation has no direct anchor line (`line 0` / beyond EOF), the content is appended at file end (no silent loss).
 - **Visual semantics:** missing-side rows render blank line number (not `0`); colors/legend aligned to meaning: green=equal, yellow=added on right, red=removed on left, blue=changed.
 
-Merging: `TEditFileThread.RunEditWait` is called per changed line. `TouchHistoryIfSameFile` triggers a ListView + journal reload if the edited file is the one open in the main form. `WM_SETREDRAW` prevents flickering during batch apply.
+Merging: `TEditFileThread.RunEditWait` is called per changed line. `TouchHistoryIfSameFile` triggers a ListView + session-log reload if the edited file is the one open in the main form. `WM_SETREDRAW` prevents flickering during batch apply.
 
 ---
 
 ## Internationalization
 
-`uI18n.pas` supports **14 languages** resolved at runtime:
+`uI18n.pas` supports **28 languages** resolved at runtime:
 
 ```
-en | pt-BR | pt-PT | es | fr | de | it | pl | ro | hu | cs | ja | zh-CN | zh-TW
+en | pt-BR | es | fr | de | it | pl | pt-PT | ro | hu | cs | ja | zh-CN | zh-TW | ar | he | hi | ru | ko | nl | tr | uk | th | el | nb | sv | da | is
 ```
 
 Two lookup tables per language (key-based and English-text-based), stored as sorted `TStringList` for O(log n) binary search (`FastIndexOfName`). At startup only **English + the active language** are populated (`PutNV` allow-list); other languages load on first switch.
@@ -627,6 +636,22 @@ ApplyTranslationsToForm(AForm)  // iterates all components recursively
 ```
 
 Language code stored in `ASkin.ini → Language` (e.g. `pt-BR`, `zh-CN`, `zh-TW`). Changed via language combo → persisted immediately.
+
+Hindi (`hi`, devanagari), Russian (`ru`), Korean (`ko`), Dutch (`nl`), Turkish (`tr`), Ukrainian (`uk`), Thai (`th`), Greek (`el`), Norwegian Bokmål (`nb`), Swedish (`sv`), Danish (`da`) and Icelandic (`is`) use **left-to-right** layouts. Only Arabic and Hebrew select RTL automatically; the existing manual BiDi override remains available.
+
+The twelve added catalogs live in `tools/i18n/*.json`, with a shared source snapshot in `tools/i18n/catalog.json`. `tools/gen_extra_i18n.py` validates every entry and emits `uI18nExtra.pas` offline using UTF-16 character constants (including surrogate pairs). It preserves Delphi format parameters, pipe separators and line breaks and refuses missing translations.
+
+```text
+tests\i18ndump\build.cmd
+python tools\gen_extra_i18n.py --catalog
+python tools\gen_extra_i18n.py --check
+python tools\gen_extra_i18n.py
+tests\i18ndump\build_tests.cmd
+tests\i18ndump\build.cmd
+python tools\gen_extra_i18n.py --check --runtime
+```
+
+After refreshing the source snapshot, update all six translations and their catalog fingerprint before emission. Case-insensitive aliases must have the same translation; intentional unchanged technical tokens require explicit reasons. Never run external translation services on application source or UI text. Generated catalogs are compiled into the executable; no translation service or JSON file is required at runtime.
 
 ---
 
@@ -654,7 +679,7 @@ All paths relative to `ExtractFilePath(Application.ExeName)` unless noted.
 | `mru_location.ini` | — | MRU for the location field (25 items) |
 | `mru_content.ini` | — | MRU for the search/content field (25 items) |
 | `ff_*.tmp` | — | Atomic operation temporaries; cleaned up after each operation |
-| `FastFileSessionHistory\ffhist_*.log` | — | Session edit journals (one per data file) |
+| `FastFileSessionHistory\ffhist_*.log` | — | Session logs (one per data file) |
 | `Log_FastFile<ddmmyyyyhhnn>.txt` | — | Async error log (written by `LogAsync`) |
 | `<name>.delta` | — | Delta patch file saved by the Delta Editor |
 | `extensionFiles.txt` | — | Extension list for open-file dialogs |
@@ -679,6 +704,7 @@ Section: `[FastFile]`
 | `Top` | Integer | — | Main window Y position |
 | `Left` | Integer | — | Main window X position |
 | `Language` | String | `pt-BR` | Active language code |
+| `LanguageMRU` | String | — | Recent language codes, separated by `;` (v3.0.5.249) |
 | `SegmentHeavyOps` | 0 / 1 | `0` | Enable segmented Replace All and batch delete |
 | `OpenFilePolicy` | 0 / 1 / 2 | `0` | `0` = auto (≥10 GB → instant), `1` = always index, `2` = always instant |
 | `ForceZeroScan` | 0 / 1 | `0` | Force instant Zero Scan on every open (strongest override) |
@@ -687,6 +713,8 @@ Section: `[FastFile]`
 | `FilterCasePolicy` | 0 / 1 / 2 | `0` | Filter: auto / match case / ignore case |
 
 Read/written via `sStoreUtils.ReadIniInteger` / `WriteIniStr` (AlphaControls). Open/search/filter prefs use `TIniFile` in `LoadSmartSearchPrefs` / `SaveSmartSearchPrefs` (`MainUnit.pas`).
+
+Line limits live in `[UserPrefs]` of the same INI (`uUserPrefs`): `AnonymizeMaxLines` 1000, `MergeMaxLines` 1000, `TranslateMaxLines` 40, `ExportClipboardMaxLines` 500, `ExportFileMaxLines` 100000, `InsertMaxLines` 2000, `SplitFilesMax` 100, `SplitPartsMax` 1000. An empty or out-of-range value returns to that default. Recent glob/grep commands are in `mru_search_cmd.ini`, section `[Commands]`.
 
 ---
 
@@ -768,7 +796,7 @@ Requires `GROQ_API_KEY` (and optional `GROQ_MODEL`, `EMBEDDING_MODEL`) via `.env
 APPLICATION_NAME              = 'FastFile'                 // also the [FastFile] INI section
 APPLICATION_EDITION           = 'Professional'
 APPLICATION_DISPLAY_NAME      = 'FastFile Professional'    // window title, About, idle logo
-APPLICATION_VERSION           = '3.0.5.243'
+APPLICATION_VERSION           = '3.0.5.268'
 ASKIN_INI                     = 'ASkin.ini'
 XMLFOLDERS                    = 'folders.xml'
 XMLFILES                      = 'files.xml'

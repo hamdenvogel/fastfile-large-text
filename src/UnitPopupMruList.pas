@@ -1,6 +1,6 @@
 unit UnitPopupMruList;
 
-{ MRU dropdown: Mais ferramentas search chrome + card-styled rows
+{ MRU dropdown: Mais ferramentas search frame + card-styled rows
   (gradient, icon, hover). Shared by recent files, Filter/Grep and Assistente. }
 
 interface
@@ -14,6 +14,10 @@ type
   TMruListPickEvent = procedure(Sender: TObject; const AValue: string;
     AIndex: Integer) of object;
   TMruListPathActionEvent = procedure(Sender: TObject; const APath: string) of object;
+  { Optional picture drawn instead of the default glyph. AItemIndex is the
+    index in the original list (the same index OnPick receives). }
+  TMruItemIconEvent = procedure(Sender: TObject; ACanvas: TCanvas;
+    const ARect: TRect; AItemIndex: Integer) of object;
 
   TFormPopupMruList = class(TForm)
     sPanel1: TsPanel;
@@ -47,6 +51,7 @@ type
   private
     FShownTick: Cardinal;
     FAll: TStringList;
+    FSubs: TStringList;
     FItemTags: TList;
     FExpanded: Boolean;
     FFilling: Boolean;
@@ -57,6 +62,7 @@ type
     FOnProperties: TMruListPathActionEvent;
     FOnRemove: TMruListPathActionEvent;
     FOnClearAll: TNotifyEvent;
+    FOnItemIcon: TMruItemIconEvent;
     FMoreCaption: string;
     FMoreHint: string;
     FHoldPhase: Integer;
@@ -110,7 +116,8 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure LoadList(const ATitle, AMoreCaption: string; AItems: TStrings;
-      const AMoreHint: string = '');
+      const AMoreHint: string = ''; ADescriptions: TStrings = nil);
+    function SubtitleOf(AAllIndex: Integer): string;
     procedure PrepareLayout(AWidth: Integer);
     procedure FocusSearch;
     procedure ClosePopup(AnimationAllowed: Boolean = False);
@@ -128,7 +135,9 @@ procedure ShowMruListPopup(AOwner: TComponent; const ATitle, AMoreCaption: strin
   AOnRemove: TMruListPathActionEvent = nil;
   AKeepOpen: TWinControl = nil;
   AOnClearAll: TNotifyEvent = nil;
-  AOwnerWnd: HWND = 0);
+  AOwnerWnd: HWND = 0;
+  ADescriptions: TStrings = nil;
+  AOnItemIcon: TMruItemIconEvent = nil);
 
 { Frees the shared popup when its window owner is AOwnerWnd.
   A modal dialog must call this before its own window is destroyed. }
@@ -142,7 +151,7 @@ implementation
 {$R *.dfm}
 
 uses
-  uI18n, uMruFind, sSkinManager, uFastFileMsgDlg;
+  uI18n, uMruFind, sSkinManager, uFastFileMsgDlg, uBidiLayout;
 
 const
   MRU_TITLE_H = 26;
@@ -283,6 +292,7 @@ begin
   if Assigned(sSkinProvider1) then
     sSkinProvider1.AllowExtBorders := False;
   FAll := TStringList.Create;
+  FSubs := TStringList.Create;
   FItemTags := TList.Create;
   FMoreCaption := '...';
   FIgnorePick := False;
@@ -297,6 +307,10 @@ begin
   FGlyphPx := 16;
   FGlyphLocked := False;
   FHoldTimer := TTimer.Create(Self);
+  { Owner-draw already places the icon and the label. A right-to-left list box
+    would also mirror the canvas and park the scrollbar on the left, which
+    clips Arabic and Hebrew glyphs. }
+  BidiKeepLtr(lstItems);
   FHoldTimer.Enabled := False;
   FHoldTimer.Interval := 100;
   FHoldTimer.OnTimer := HoldTimerTick;
@@ -315,6 +329,7 @@ begin
   FHoldPhase := 0;
   FOpenHold := False;
   FreeAndNil(FItemTags);
+  FreeAndNil(FSubs);
   FreeAndNil(FAll);
   inherited;
 end;
@@ -726,8 +741,17 @@ begin
   ApplySearchCue;
 end;
 
+function TFormPopupMruList.SubtitleOf(AAllIndex: Integer): string;
+begin
+  Result := '';
+  if (AAllIndex >= 0) and Assigned(FSubs) and (AAllIndex < FSubs.Count) then
+    Result := FSubs[AAllIndex];
+end;
+
 procedure TFormPopupMruList.LoadList(const ATitle, AMoreCaption: string; AItems: TStrings;
-  const AMoreHint: string);
+  const AMoreHint: string; ADescriptions: TStrings);
+var
+  I: Integer;
 begin
   if Assigned(lblHeader) then
     lblHeader.Caption := ATitle;
@@ -736,8 +760,15 @@ begin
     FMoreCaption := '...';
   FMoreHint := Trim(AMoreHint);
   FAll.Clear;
+  FSubs.Clear;
   if Assigned(AItems) then
     FAll.Assign(AItems);
+  if Assigned(ADescriptions) then
+    for I := 0 to FAll.Count - 1 do
+      if I < ADescriptions.Count then
+        FSubs.Add(ADescriptions[I])
+      else
+        FSubs.Add('');
   FExpanded := False;
   if Assigned(edtSearch) then
     edtSearch.Text := '';
@@ -788,7 +819,8 @@ begin
         AnyMatch := False;
         for I := 0 to FAll.Count - 1 do
           if MruTextMatches(FAll[I], Needle) or
-             MruTextMatches(ExtractFileName(FAll[I]), Needle) then
+             MruTextMatches(ExtractFileName(FAll[I]), Needle) or
+             MruTextMatches(SubtitleOf(I), Needle) then
           begin
             AddItemTagged(FAll[I], I);
             AnyMatch := True;
@@ -828,7 +860,8 @@ end;
 
 procedure TFormPopupMruList.PrepareLayout(AWidth: Integer);
 var
-  W, N, RowH, ListH, BodyPad, NeedH: Integer;
+  W, N, RowH, ListH, BodyPad, NeedH, I, TW, Need, FlagW, FlagH: Integer;
+  Bmp: TBitmap;
 begin
   Constraints.MinHeight := 0;
   Constraints.MaxHeight := 0;
@@ -904,6 +937,7 @@ begin
     lstItems.ParentColor := False;
     lstItems.ParentFont := False;
     lstItems.Font.Name := UiFontName;
+    lstItems.Font.Charset := DEFAULT_CHARSET;
     lstItems.Font.Height := ScaledPx(-12);
     lstItems.Font.Color := MRU_TEXT;
     lstItems.DoubleBuffered := True;
@@ -929,6 +963,37 @@ begin
     ListH := ScaledPx(80);
 
   NeedH := ScaledPx(MRU_HEADER_H) + ScaledPx(MRU_HEADER_SEP_H) + ListH + (BodyPad * 2);
+  { Language rows carry a flag plus a translated name. The anchor (the status
+    combo) is narrower than those names, and the ellipsis then slices them. }
+  if Assigned(FOnItemIcon) and Assigned(lstItems) and (lstItems.Items.Count > 0) then
+  begin
+    Bmp := TBitmap.Create;
+    try
+      Bmp.Canvas.Font.Name := UiFontName;
+      Bmp.Canvas.Font.Charset := DEFAULT_CHARSET;
+      Bmp.Canvas.Font.Height := ScaledPx(-12);
+      TW := 0;
+      for I := 0 to lstItems.Items.Count - 1 do
+      begin
+        Need := Bmp.Canvas.TextWidth(lstItems.Items[I]);
+        if Need > TW then
+          TW := Need;
+      end;
+    finally
+      Bmp.Free;
+    end;
+    FlagH := IconSize;
+    if FlagH < 10 then
+      FlagH := 10;
+    FlagW := (FlagH * 3) div 2;
+    Need := TW + FlagW + ScaledPx(10) * 3 + ScaledPx(MRU_ACCENT_W) +
+      (BodyPad * 2) + GetSystemMetrics(SM_CXVSCROLL) + ScaledPx(20);
+    if Need > W then
+      W := Need;
+    if (Screen.WorkAreaWidth > ScaledPx(80)) and
+       (W > Screen.WorkAreaWidth - ScaledPx(40)) then
+      W := Screen.WorkAreaWidth - ScaledPx(40);
+  end;
   { Largura externa = largura do edtFileName, para as bordas verticais coincidirem. }
   Width := W;
   Height := NeedH;
@@ -1123,7 +1188,9 @@ begin
         NewHint := Trim(TrText('MRU.RemoveItemHint'));
       if NewHint = '' then
         NewHint := Trim(TrText('MRU.RemoveFromList'));
-    end;
+    end
+    else if (AAction = MRU_ACT_NONE) and (ItemTag(AIndex) >= 0) then
+      NewHint := Trim(SubtitleOf(ItemTag(AIndex)));
   end;
   if NewHint = lstItems.Hint then Exit;
   lstItems.Hint := NewHint;
@@ -1222,6 +1289,19 @@ begin
   X := ACard.Right - Pad;
   ARemoveR := Classes.Rect(0, 0, 0, 0);
   APropsR := Classes.Rect(0, 0, 0, 0);
+  if BidiIsRtl then
+  begin
+    { Right-to-left: the action icons sit at the left end of the card. }
+    X := ACard.Left + Pad;
+    if Assigned(FOnRemove) then
+    begin
+      ARemoveR := Classes.Rect(X, Mid, X + Sz, Mid + Sz);
+      X := ARemoveR.Right + Gap;
+    end;
+    if Assigned(FOnProperties) then
+      APropsR := Classes.Rect(X, Mid, X + Sz, Mid + Sz);
+    Exit;
+  end;
   if Assigned(FOnRemove) then
   begin
     ARemoveR := Classes.Rect(X - Sz, Mid, X, Mid + Sz);
@@ -1268,7 +1348,11 @@ begin
   while I < FAll.Count do
   begin
     if SameText(FAll[I], APath) then
-      FAll.Delete(I)
+    begin
+      FAll.Delete(I);
+      if I < FSubs.Count then
+        FSubs.Delete(I);
+    end
     else
       Inc(I);
   end;
@@ -1381,13 +1465,30 @@ var
   Tag: NativeInt;
   Raw, Title, Sub: string;
   Selected, Hot, IsMore, IsNone, IsClearAll, IsPath, ShowActs, ShowRemove, ShowProps: Boolean;
-  IconIdx, Pad, IconSz, Gap, Mid: Integer;
+  IconIdx, Pad, IconSz, Gap, Mid, FlagW, FlagH: Integer;
   Flags: UINT;
+  UseFlag: Boolean;
 
   procedure DrawActionGlyph(const R: TRect; AGlyph: Integer);
   begin
     if (R.Right <= R.Left) then Exit;
     DrawMruGlyph(C, R.Left, R.Top, AGlyph);
+  end;
+
+  procedure DrawLine(const S: string; var R: TRect; AExtra: UINT);
+  var
+    Need: TRect;
+    Use: UINT;
+  begin
+    Use := Flags or AExtra;
+    if S <> '' then
+    begin
+      Need := Classes.Rect(0, 0, 0, 0);
+      DrawText(C.Handle, PChar(S), Length(S), Need, Use or DT_CALCRECT);
+      if (Need.Right - Need.Left) > (R.Right - R.Left) then
+        Use := Use or DT_END_ELLIPSIS;
+    end;
+    DrawText(C.Handle, PChar(S), Length(S), R, Use);
   end;
 
 begin
@@ -1396,6 +1497,12 @@ begin
   C.Brush.Color := MRU_SURFACE;
   C.Brush.Style := bsSolid;
   C.Pen.Style := psSolid;
+  { The item rect can stop short of the client when a scrollbar is present.
+    Paint the whole row so the left side is not left as a cut strip. }
+  if Rect.Left > 0 then
+    Rect.Left := 0;
+  if (LB.ClientWidth > 0) and (Rect.Right < LB.ClientWidth) then
+    Rect.Right := LB.ClientWidth;
   C.FillRect(Rect);
   if (Index < 0) or (Index >= LB.Items.Count) then Exit;
 
@@ -1416,8 +1523,26 @@ begin
   Pad := ScaledPx(10);
   IconSz := IconSize;
   Gap := ScaledPx(10);
-  Mid := Card.Top + (Card.Bottom - Card.Top - IconSz) div 2;
-  IconR := Classes.Rect(Card.Left + Pad, Mid, Card.Left + Pad + IconSz, Mid + IconSz);
+  { A custom icon (language flags) is a 3:2 picture; the glyph stays square. }
+  UseFlag := Assigned(FOnItemIcon) and (Tag >= 0);
+  if UseFlag then
+  begin
+    FlagH := IconSz;
+    if FlagH > (Card.Bottom - Card.Top) - ScaledPx(8) then
+      FlagH := (Card.Bottom - Card.Top) - ScaledPx(8);
+    if FlagH < 10 then
+      FlagH := 10;
+    FlagW := (FlagH * 3) div 2;
+  end
+  else
+  begin
+    FlagW := IconSz;
+    FlagH := IconSz;
+  end;
+  Mid := Card.Top + (Card.Bottom - Card.Top - FlagH) div 2;
+  IconR := Classes.Rect(Card.Left + Pad, Mid, Card.Left + Pad + FlagW, Mid + FlagH);
+  if BidiIsRtl then
+    IconR := BidiRect(IconR, Card.Left + Card.Right); { mirror inside the card }
 
   if IsMore then
   begin
@@ -1435,15 +1560,35 @@ begin
   else
     IconIdx := GLYPH_CLOCK;
 
-  DrawMruGlyph(C, IconR.Left, IconR.Top, IconIdx);
+  if UseFlag then
+    FOnItemIcon(Self, C, IconR, Tag)
+  else
+    DrawMruGlyph(C, IconR.Left, IconR.Top, IconIdx);
 
   TextR := Card;
-  TextR.Left := IconR.Right + Gap;
-  TextR.Right := Card.Right - Pad;
+  if BidiIsRtl then
+  begin
+    TextR.Left := Card.Left + Pad;
+    TextR.Right := IconR.Left - Gap;
+  end
+  else
+  begin
+    TextR.Left := IconR.Right + Gap;
+    TextR.Right := Card.Right - Pad;
+  end;
   ShowRemove := (not IsMore) and (not IsNone) and (not IsClearAll) and Assigned(FOnRemove);
   ShowProps := IsPath and Assigned(FOnProperties);
   ShowActs := ShowRemove or ShowProps;
-  if ShowActs then
+  if ShowActs and BidiIsRtl then
+  begin
+    { action icons are at the left end: the text starts after the rightmost one }
+    ActionIconRects(Card, PropsR, RemoveR);
+    if ShowProps and (PropsR.Right < TextR.Right) then
+      TextR.Left := PropsR.Right + ScaledPx(6)
+    else if ShowRemove and (RemoveR.Right < TextR.Right) then
+      TextR.Left := RemoveR.Right + ScaledPx(6);
+  end
+  else if ShowActs then
   begin
     ActionIconRects(Card, PropsR, RemoveR);
     if ShowProps and (PropsR.Left > TextR.Left) then
@@ -1454,8 +1599,13 @@ begin
   if TextR.Right <= TextR.Left then Exit;
 
   C.Font.Name := UiFontName;
+  C.Font.Charset := DEFAULT_CHARSET;
   C.Brush.Style := bsClear;
-  Flags := DT_SINGLELINE or DT_END_ELLIPSIS or DT_NOPREFIX or DT_LEFT;
+  { DT_END_ELLIPSIS is added only when the string does not fit. On a
+    right-to-left line it otherwise clips glyphs that would have fitted. }
+  Flags := BidiDrawFlags(DT_SINGLELINE or DT_NOPREFIX or DT_LEFT);
+  if IsPath then
+    Flags := Flags and not UINT(DT_RTLREADING); { paths keep left-to-right reading order }
 
   if IsMore or IsClearAll then
   begin
@@ -1467,48 +1617,51 @@ begin
       C.Font.Color := MRU_CLEAR_ALL_TEXT
     else
       C.Font.Color := MRU_MORE_TEXT;
-    DrawText(C.Handle, PChar(Raw), Length(Raw), TextR, Flags or DT_VCENTER);
-  end
-  else if IsPath then
-  begin
-    Title := ExtractFileName(Raw);
-    if Title = '' then
-      Title := Raw;
-    Sub := ExcludeTrailingPathDelimiter(ExtractFilePath(Raw));
-    TitleR := TextR;
-    TitleR.Bottom := TitleR.Top + ((TextR.Bottom - TextR.Top) div 2) + ScaledPx(1);
-    SubR := TextR;
-    SubR.Top := TitleR.Bottom - ScaledPx(1);
-    C.Font.Height := ScaledPx(-12);
-    C.Font.Style := [fsBold];
-    if Selected then
-      C.Font.Color := clHighlight
-    else
-      C.Font.Color := MRU_TEXT;
-    DrawText(C.Handle, PChar(Title), Length(Title), TitleR, Flags or DT_BOTTOM);
-    C.Font.Height := ScaledPx(-11);
-    C.Font.Style := [];
-    C.Font.Color := MRU_MUTED;
-    if Sub <> '' then
-      DrawText(C.Handle, PChar(Sub), Length(Sub), SubR, Flags or DT_TOP);
+    DrawLine(Raw, TextR, DT_VCENTER);
   end
   else
   begin
-    C.Font.Height := ScaledPx(-12);
-    if IsNone then
+    Title := Raw;
+    Sub := '';
+    if IsPath then
     begin
-      C.Font.Style := [];
-      C.Font.Color := MRU_MUTED;
+      Title := ExtractFileName(Raw);
+      if Title = '' then
+        Title := Raw;
+      Sub := ExcludeTrailingPathDelimiter(ExtractFilePath(Raw));
     end
-    else
+    else if not IsNone then
+      Sub := SubtitleOf(Tag);
+    if Sub <> '' then
     begin
-      C.Font.Style := [];
+      TitleR := TextR;
+      TitleR.Bottom := TitleR.Top + ((TextR.Bottom - TextR.Top) div 2) + ScaledPx(1);
+      SubR := TextR;
+      SubR.Top := TitleR.Bottom - ScaledPx(1);
+      C.Font.Height := ScaledPx(-12);
+      C.Font.Style := [fsBold];
       if Selected then
         C.Font.Color := clHighlight
       else
         C.Font.Color := MRU_TEXT;
+      DrawLine(Title, TitleR, DT_BOTTOM);
+      C.Font.Height := ScaledPx(-11);
+      C.Font.Style := [];
+      C.Font.Color := MRU_MUTED;
+      DrawLine(Sub, SubR, DT_TOP);
+    end
+    else
+    begin
+      C.Font.Height := ScaledPx(-12);
+      C.Font.Style := [];
+      if IsNone then
+        C.Font.Color := MRU_MUTED
+      else if Selected then
+        C.Font.Color := clHighlight
+      else
+        C.Font.Color := MRU_TEXT;
+      DrawLine(Raw, TextR, DT_VCENTER);
     end;
-    DrawText(C.Handle, PChar(Raw), Length(Raw), TextR, Flags or DT_VCENTER);
   end;
 
   if ShowActs then
@@ -1554,9 +1707,12 @@ procedure ShowMruListPopup(AOwner: TComponent; const ATitle, AMoreCaption: strin
   AOnRemove: TMruListPathActionEvent;
   AKeepOpen: TWinControl;
   AOnClearAll: TNotifyEvent;
-  AOwnerWnd: HWND);
+  AOwnerWnd: HWND;
+  ADescriptions: TStrings;
+  AOnItemIcon: TMruItemIconEvent);
 var
   KeepR: TRect;
+  PopPos: TPoint;
 begin
   if not Assigned(AItems) or (AItems.Count = 0) then Exit;
   Application.CancelHint;
@@ -1582,6 +1738,7 @@ begin
   FormPopupMruList.OnProperties := AOnProperties;
   FormPopupMruList.OnRemove := AOnRemove;
   FormPopupMruList.OnClearAll := AOnClearAll;
+  FormPopupMruList.FOnItemIcon := AOnItemIcon;
   if Assigned(AKeepOpen) and AKeepOpen.HandleAllocated then
   begin
     GetWindowRect(AKeepOpen.Handle, KeepR);
@@ -1590,13 +1747,17 @@ begin
   end
   else
     FormPopupMruList.FKeepOpenRect := Rect(0, 0, 0, 0);
-  FormPopupMruList.LoadList(ATitle, AMoreCaption, AItems, AMoreHint);
+  FormPopupMruList.LoadList(ATitle, AMoreCaption, AItems, AMoreHint, ADescriptions);
   FormPopupMruList.PrepareLayout(AWidth);
   FormPopupMruList.HandleNeeded;
   if DefaultManager <> nil then
     DefaultManager.UpdateScale(FormPopupMruList);
   FormPopupMruList.PrepareLayout(AWidth);
-  FormPopupMruList.PlaceAndShowStandalone(AScreenPos);
+  PopPos := AScreenPos;
+  { Right-to-left: align the popup's right edge with the anchor's right edge. }
+  if BidiIsRtl and ((AScreenPos.X <> 0) or (AScreenPos.Y <> 0)) then
+    PopPos.X := AScreenPos.X + AWidth - FormPopupMruList.Width;
+  FormPopupMruList.PlaceAndShowStandalone(PopPos);
   if Assigned(FormPopupMruList.lstItems) and FormPopupMruList.lstItems.HandleAllocated then
     FormPopupMruList.lstItems.Invalidate;
 end;

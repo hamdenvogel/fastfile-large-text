@@ -909,11 +909,12 @@ begin
     if not ValidRange(Step.FilterText) then
       Exit('error=export_lines needs "range":"<first>-<last>"');
   end;
-  if (Id = 'split_equal_parts') and ((P.Parts < 2) or (P.Parts > 1000)) then
-    Exit('error=split_equal_parts needs "parts" between 2 and 1000');
-  if (Id = 'extract_file_parts') and ((P.TotalParts < 2) or (P.PartFrom < 1) or
-     (P.PartTo < P.PartFrom) or (P.PartTo > P.TotalParts)) then
-    Exit('error=extract_file_parts needs total_parts >= 2 and 1 <= part_from <= part_to <= total_parts');
+  if (Id = 'split_equal_parts') and ((P.Parts < 2) or (P.Parts > PrefSplitPartsMax)) then
+    Exit('error=split_equal_parts needs "parts" between 2 and ' + IntToStr(PrefSplitPartsMax));
+  if (Id = 'extract_file_parts') and ((P.TotalParts < 2) or (P.TotalParts > PrefSplitPartsMax) or
+     (P.PartFrom < 1) or (P.PartTo < P.PartFrom) or (P.PartTo > P.TotalParts)) then
+    Exit('error=extract_file_parts needs total_parts between 2 and ' + IntToStr(PrefSplitPartsMax) +
+      ' and 1 <= part_from <= part_to <= total_parts');
   if Id = 'sort_csv_column' then
   begin
     if (Step.LineNo < 1) and (Trim(Step.FilterText) = '') then

@@ -626,7 +626,8 @@ uses
   uI18n, uFileSessionHistory, uSmoothLoading, uLineEditor, UnConsts,
   StrUtils, uAnonymize, uDiskSpaceCheck, uTextEncoding, uFastFileMsgDlg, uUserPrefs,
   uFastFilePaths, uMruFind, UnitPopupMruList, uFastFileScale, uEolPolicy,
-  uFastFileAssistant, uAssistantPipelineStore, uHistLineDetailDlg, uExportDoneDlg;
+  uFastFileAssistant, uAssistantPipelineStore, uHistLineDetailDlg, uExportDoneDlg,
+  uBidiLayout;
 
 function SetWindowTheme(hwnd: HWND; pszSubAppName, pszSubIdList: PWideChar): HRESULT; stdcall;
   external 'uxtheme.dll' name 'SetWindowTheme';
@@ -1368,12 +1369,14 @@ var
   topBase, hAvail, hHint, hLegend, hJournal, hLv, paneAvail, desiredJournalH,
     cw, y, yP, wList, xJ: Integer;
   listVis, jDocked, pDocked, topArea: Boolean;
+  BL: IInterface;
 begin
   if not Assigned(TabSheetHistory) or not Assigned(mmoJournal) then Exit;
   cw := TabSheetHistory.ClientWidth - 16;
   topBase := lblJournalHint.Top;
   hAvail := TabSheetHistory.ClientHeight - topBase - 8 - cHistExportBarH;
   if hAvail < 120 then Exit;
+  BL := BidiLayoutScope([TabSheetHistory]);
   EnsureJournalGrid;
   EnsureChangedLinesList;
   EnsureHistPreviewGrid;
@@ -3935,10 +3938,12 @@ end;
 procedure TfrmCompareMerge.LayoutHistSourceMru;
 var
   cw, x, w: Integer;
+  BL: IInterface;
 begin
   if not Assigned(FedtHistSource) or not Assigned(TabSheetHistory) then Exit;
   cw := TabSheetHistory.ClientWidth - 16;
   if cw < 120 then Exit;
+  BL := BidiLayoutScope([TabSheetHistory]);
   FedtHistSource.SetBounds(8, 5, cw - 30, 22);
   FbtnHistSourceMru.SetBounds(8 + cw - 28, 4, 28, 24);
   if not Assigned(FchkHistShowAll) or not Assigned(FchkHistChangedList) then Exit;
@@ -4221,8 +4226,17 @@ begin
   if FedtHistSource.HandleAllocated then
   begin
     GetWindowRect(FedtHistSource.Handle, CR);
-    W := FbtnHistSourceMru.BoundsRect.Right - FedtHistSource.Left;
-    P := Point(CR.Left, CR.Bottom);
+    if BidiIsRtl then
+    begin
+      { mirrored row: the button sits to the left of the edit }
+      W := FedtHistSource.BoundsRect.Right - FbtnHistSourceMru.Left;
+      P := Point(CR.Left + FbtnHistSourceMru.Left - FedtHistSource.Left, CR.Bottom);
+    end
+    else
+    begin
+      W := FbtnHistSourceMru.BoundsRect.Right - FedtHistSource.Left;
+      P := Point(CR.Left, CR.Bottom);
+    end;
   end
   else
   begin
@@ -4611,8 +4625,10 @@ procedure TfrmCompareMerge.LayoutChgPager(AX, AY, AW: Integer);
 var
   pager: Boolean;
   bw: Integer;
+  BL: IInterface;
 begin
   if not Assigned(FedtChgGoto) then Exit;
+  BL := BidiLayoutScope([TabSheetHistory]);
   { Sempre visivel com a lista: com uma pagina so' os botoes ficam desativados ("1 / 1"). }
   pager := AW > 0;
   FbtnChgFirst.Visible := pager;
@@ -4893,7 +4909,9 @@ var
   Widths: array[0..4] of Integer;
   i, x, w, row, first, last, used, extra: Integer;
   Bmp: TBitmap;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([TabSheetHistory]);
   FChgToolsH := 0;
   Btns[0] := FbtnChgAll;
   Btns[1] := FbtnChgDel;
@@ -4954,8 +4972,10 @@ var
   Btns: array[0..4] of TButton;
   i, x, w: Integer;
   Bmp: TBitmap;
+  BL: IInterface;
 begin
   if not Assigned(FpnJrnTools) or not Assigned(FbtnJrnAll) then Exit;
+  BL := BidiLayoutScope([FpnJrnTools]);
   Btns[0] := FbtnJrnAll;
   Btns[1] := FbtnJrnDel;
   Btns[2] := FbtnJrnSort;
@@ -5162,8 +5182,13 @@ var
   ix: Integer;
 begin
   if Button <> mbLeft then Exit;
-  if X >= cChgCheckW then Exit;
   if not Assigned(FlbChangedLines) then Exit;
+  { the check box is at the right edge when mirrored }
+  if BidiIsRtl then
+  begin
+    if FlbChangedLines.ClientWidth - X >= cChgCheckW then Exit;
+  end
+  else if X >= cChgCheckW then Exit;
   ix := FlbChangedLines.ItemAtPos(Point(X, Y), True);
   if ix < 0 then Exit;
   ChgToggleAt(ix);
@@ -5749,7 +5774,17 @@ begin
     AddItem(2, 'Hist.SortMenu.DateAsc', FJrnSort);
     AddItem(0, 'Hist.SortMenu.LogOrder', FJrnSort);
   end;
-  P := ABtn.ClientToScreen(Point(0, ABtn.Height));
+  if BidiIsRtl then
+  begin
+    { right edge of the menu aligned with the right edge of the button }
+    P := ABtn.ClientToScreen(Point(ABtn.Width, ABtn.Height));
+    FpmHistSort.Alignment := paRight;
+  end
+  else
+  begin
+    P := ABtn.ClientToScreen(Point(0, ABtn.Height));
+    FpmHistSort.Alignment := paLeft;
+  end;
   FpmHistSort.Popup(P.X, P.Y);
 end;
 
@@ -5836,9 +5871,11 @@ function TfrmCompareMerge.LayoutHistDateRow(AX, AY, AW, AH: Integer; ALblFrom, A
 var
   wF, wT, wE, x, cw: Integer;
   Bmp: TBitmap;
+  BL: IInterface;
 begin
   Result := 0;
   if not Assigned(AFrom) then Exit;
+  BL := BidiLayoutScope([BidiParentOf(AFrom)]);
   if AW <= 0 then
   begin
     ALblFrom.Visible := False;
@@ -6685,12 +6722,29 @@ begin
   end
   else
     C.Font.Style := [];
-  DrawHistCheckBox(C, Rect, ChgIsSel(HciSpanKey(R.Ln0, R.Ln1)));
+  if BidiIsRtl then
+  begin
+    { the check box sits on the right edge (3 px margin on both sides of the 13 px box) }
+    RWhen := Rect;
+    RWhen.Left := Rect.Right - 19;
+    DrawHistCheckBox(C, RWhen, ChgIsSel(HciSpanKey(R.Ln0, R.Ln1)));
+  end
+  else
+    DrawHistCheckBox(C, Rect, ChgIsSel(HciSpanKey(R.Ln0, R.Ln1)));
   C.Brush.Style := bsClear;
   C.Font.Color := clBlack;
   Txt := ChgItemText(R);
   xWhen := Rect.Left + cChgCheckW + 4;
-  C.TextOut(xWhen, Rect.Top + 2, Txt);
+  if BidiIsRtl then
+  begin
+    { text anchored to the right edge, clipped inside the item }
+    RWhen := Rect;
+    RWhen.Left := Rect.Left + 2;
+    RWhen.Right := Rect.Right - cChgCheckW - 4;
+    C.TextRect(RWhen, Max(RWhen.Left, RWhen.Right - C.TextWidth(Txt)), Rect.Top + 2, Txt);
+  end
+  else
+    C.TextOut(xWhen, Rect.Top + 2, Txt);
   When := ChgFormatWhen(R.LastTs);
   if When = '' then Exit;
   C.Font.Name := 'Segoe UI';
@@ -6701,6 +6755,12 @@ begin
   RWhen.Left := xWhen;
   RWhen.Top := Rect.Bottom - FChgWhenH - 3;
   RWhen.Right := Rect.Right - 2;
+  if BidiIsRtl then
+  begin
+    RWhen.Left := Rect.Left + 2;
+    RWhen.Right := Rect.Right - cChgCheckW - 4;
+    xWhen := Max(RWhen.Left, RWhen.Right - C.TextWidth(When));
+  end;
   C.TextRect(RWhen, xWhen, RWhen.Top, When);
   C.Font.Assign(FlbChangedLines.Font);
 end;
@@ -7192,7 +7252,9 @@ procedure TfrmCompareMerge.BuildLegendLabels;
 var
   L: TLabel;
   x, y, ci: Integer;
+  BL: IInterface;
 begin
+  BL := BidiLayoutScope([BidiParentOf(lblLegend)]);
   if Assigned(lblLegend.Parent) then
     for ci := lblLegend.Parent.ControlCount - 1 downto 0 do
       if (lblLegend.Parent.Controls[ci] is TLabel) and
@@ -7277,12 +7339,12 @@ end;
 procedure TfrmCompareMerge.pbHistLegendPaint(Sender: TObject);
 var
   C: TCanvas;
-  x, h, w: Integer;
+  x, h, w, PW: Integer;
   R: TRect;
   procedure Chip(const Cap: string; Bg: TColor);
   begin
     w := C.TextWidth(Cap) + 12;
-    R := Rect(x, 1, x + w, h - 2);
+    R := BidiRect(Rect(x, 1, x + w, h - 2), PW);
     C.Brush.Color := Bg;
     C.Brush.Style := bsSolid;
     C.Pen.Color := RGB(160, 160, 160);
@@ -7301,9 +7363,14 @@ begin
   C.Font.Name := 'Segoe UI';
   C.Font.Size := 8;
   C.Font.Color := clWindowText;
+  PW := TPaintBox(Sender).Width;
   x := 0;
   C.Brush.Style := bsClear;
-  C.TextOut(x, 2, TrText('Journal colors:') + ' ');
+  { chips are laid out left-to-right and mirrored (right-to-left) in RTL }
+  if BidiIsRtl then
+    C.TextOut(PW - C.TextWidth(TrText('Journal colors:') + ' '), 2, TrText('Journal colors:') + ' ')
+  else
+    C.TextOut(x, 2, TrText('Journal colors:') + ' ');
   Inc(x, C.TextWidth(TrText('Journal colors:') + ' ') + 4);
   Chip(' ' + TrText('HistLegend.Inserted') + ' (INS/BINS/BAUT) ', BrushForHistTag(2));
   Chip(' ' + TrText('HistLegend.Deleted') + ' (DEL/BDEL) ', BrushForHistTag(3));
@@ -7315,8 +7382,10 @@ end;
 procedure TfrmCompareMerge.BuildHistoryJournalLegend;
 var
   ci, x, y, cw: Integer;
+  BL: IInterface;
 begin
   if not Assigned(lblJournalHint) or not Assigned(lblJournalHint.Parent) then Exit;
+  BL := BidiLayoutScope([lblJournalHint.Parent]);
   { Remover chips antigos (TLabel) se ainda existirem. }
   for ci := lblJournalHint.Parent.ControlCount - 1 downto 0 do
     if (lblJournalHint.Parent.Controls[ci] is TLabel) and
@@ -7768,6 +7837,8 @@ begin
   FsgJournal.OnSelectCell := sgJournalSelectCell;
   FsgJournal.OnDblClick := sgJournalDblClick;
   FsgJournal.OnKeyDown := sgJournalKeyDown;
+  { Journal text stays left-to-right (owner-drawn cells assume LTR). }
+  BidiKeepLtr(FsgJournal);
   FsgJournal.Hint := TrText('HistDetail.GridHint');
   FsgJournal.ShowHint := True;
   FpmJrnCtx := TPopupMenu.Create(Self);
@@ -8024,6 +8095,8 @@ begin
   FsgHist.OnDrawCell := sgHistDrawCell;
   FsgHist.OnMouseDown := sgHistMouseDown;
   FsgHist.OnSelectCell := sgHistSelectCell;
+  { Journal text/line numbers stay left-to-right (owner-drawn cells + X hit-tests assume LTR). }
+  BidiKeepLtr(FsgHist);
   { No WindowProc subclass — see FormCreate comment. }
   if Assigned(lvHistFile) then
   begin
@@ -8433,6 +8506,7 @@ end;
 procedure TfrmCompareMerge.LayoutHistExportBar;
 var
   i, x, h: Integer;
+  BL: IInterface;
 
   procedure Place(ACtrl: TControl; AWidth: Integer);
   begin
@@ -8456,6 +8530,7 @@ var
 
 begin
   if not Assigned(FHistExportBar) then Exit;
+  BL := BidiLayoutScope([FHistExportBar]);
   h := FHistExportBar.ClientHeight;
   x := 0;
   FHistExportLbl.SetBounds(x, (h - FHistExportLbl.Height) div 2, FHistExportLbl.Width, FHistExportLbl.Height);
@@ -9339,8 +9414,10 @@ end;
 procedure TfrmCompareMerge.LayoutDiffHeaderControls;
 var
   RightEdge, CapW, RowTop, BtnH, Gap, LvTop: Integer;
+  BL: IInterface;
 begin
   if not Assigned(TabSheetDiff) then Exit;
+  BL := BidiLayoutScope([TabSheetDiff]);
   RightEdge := TabSheetDiff.ClientWidth - 8;
   if RightEdge < 200 then RightEdge := 200;
 
@@ -9405,8 +9482,10 @@ end;
 procedure TfrmCompareMerge.LayoutDiffListViews;
 var
   W, H, Lw, tw: Integer;
+  BL: IInterface;
 begin
   if not Assigned(TabSheetDiff) then Exit;
+  BL := BidiLayoutScope([TabSheetDiff]);
   LayoutDiffHeaderControls;
   W := TabSheetDiff.ClientWidth - 16;
   H := TabSheetDiff.ClientHeight - lvLeft.Top - 8;
@@ -9555,6 +9634,12 @@ begin
     lvHistFile.Visible := False;
     lvHistFile.Enabled := False;
   end;
+  { File paths, diff views and the journal memo hold code/paths: keep them left-to-right. }
+  BidiKeepLtr(lvLeft);
+  BidiKeepLtr(lvRight);
+  BidiKeepLtr(mmoJournal);
+  BidiKeepLtr(edtLeftFile);
+  BidiKeepLtr(edtRightFile);
   mmoJournal.Visible := False;
   mmoJournal.Font.Charset := DEFAULT_CHARSET;
   mmoJournal.Font.Name := 'Consolas';
