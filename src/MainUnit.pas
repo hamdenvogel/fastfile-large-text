@@ -1506,8 +1506,20 @@ type
     FRecentFilesTabWired: Boolean;
     FRecentFilesSortColumn: Integer;
     FRecentFilesSortAsc: Boolean;
+    FRecentFilesListPage: Integer;
+    FRecentFoldersListPage: Integer;
     FRecentFilesTypeImages: TImageList;
     FRecentFilesExtToImage: TStringList;
+    FRecentFilesHead: TPanel;
+    FRecentFilesPager: TPanel;
+    FRecentFilesBtnPrev: TButton;
+    FRecentFilesBtnNext: TButton;
+    FRecentFilesLblPage: TLabel;
+    FRecentFoldersHead: TPanel;
+    FRecentFoldersPager: TPanel;
+    FRecentFoldersBtnPrev: TButton;
+    FRecentFoldersBtnNext: TButton;
+    FRecentFoldersLblPage: TLabel;
 
     // Line content cache (avoids repeated file seeks for same page)
     FCacheOffset: Int64;
@@ -2265,6 +2277,15 @@ type
     procedure WireRecentFilesTabEvents;
     procedure LocalizeRecentFilesTab;
     procedure ApplyRecentFilesTabVisualStyle;
+    procedure EnsureRecentFilesChrome;
+    procedure LayoutRecentFilesColumns(ALV: TListView);
+    procedure LayoutRecentFilesBottomBar;
+    procedure UpdateRecentFilesPagerUI(ATotal, APageSize: Integer);
+    procedure UpdateRecentFoldersPagerUI(ATotal, APageSize: Integer);
+    procedure RecentFilesPagePrevClick(Sender: TObject);
+    procedure RecentFilesPageNextClick(Sender: TObject);
+    procedure RecentFoldersPagePrevClick(Sender: TObject);
+    procedure RecentFoldersPageNextClick(Sender: TObject);
     procedure PopulateRecentFilesTab;
     procedure UpdateRecentFilesTabEmptyState;
     procedure LoadRecentFilesTabPrefs;
@@ -2290,6 +2311,14 @@ type
     procedure RecentTabCloseClick(Sender: TObject);
     procedure RecentTabFilesCustomDrawItem(Sender: TCustomListView; Item: TListItem;
       State: TCustomDrawState; var DefaultDraw: Boolean);
+    procedure RecentTabFoldersCustomDrawItem(Sender: TCustomListView; Item: TListItem;
+      State: TCustomDrawState; var DefaultDraw: Boolean);
+    procedure RecentTabFilesAdvancedCustomDrawSubItem(Sender: TCustomListView; Item: TListItem;
+      SubItem: Integer; State: TCustomDrawState; Stage: TCustomDrawStage;
+      var DefaultDraw: Boolean);
+    procedure RecentTabFoldersAdvancedCustomDrawSubItem(Sender: TCustomListView; Item: TListItem;
+      SubItem: Integer; State: TCustomDrawState; Stage: TCustomDrawStage;
+      var DefaultDraw: Boolean);
     procedure RecentTabFilesColumnClick(Sender: TObject; Column: TListColumn);
     procedure RecentTabFilesCompare(Sender: TObject; Item1, Item2: TListItem;
       Data: Integer; var Compare: Integer);
@@ -19545,9 +19574,21 @@ begin
   
   FRecentFilesSortColumn := 4; { Default sort by Last loaded }
   FRecentFilesSortAsc := False;
+  FRecentFilesListPage := 0;
+  FRecentFoldersListPage := 0;
   FRecentTabPopupMenu := nil;
   FRecentTabRemoveItem := nil;
   FRecentFilesTypeImages := nil;
+  FRecentFilesHead := nil;
+  FRecentFilesPager := nil;
+  FRecentFilesBtnPrev := nil;
+  FRecentFilesBtnNext := nil;
+  FRecentFilesLblPage := nil;
+  FRecentFoldersHead := nil;
+  FRecentFoldersPager := nil;
+  FRecentFoldersBtnPrev := nil;
+  FRecentFoldersBtnNext := nil;
+  FRecentFoldersLblPage := nil;
   FRecentFilesExtToImage := TStringList.Create;
   FRecentFilesExtToImage.CaseSensitive := False;
   FTrLinePrefix := 'Line:';
@@ -24767,10 +24808,10 @@ begin
   Tab := FindRecentFilesTab;
   if Assigned(Tab) then
   begin
+    ShowTab(Tab);
     WireRecentFilesTabEvents;
     LocalizeRecentFilesTab;
     PopulateRecentFilesTab;
-    ShowTab(Tab);
   end
   else
     ShowRecentFilesTabIfNeeded;
@@ -28423,10 +28464,10 @@ begin
   begin
     Tab := FindRecentFilesTab;
     if not Assigned(Tab) then Exit;
+    ShowTab(Tab);
     WireRecentFilesTabEvents;
     LocalizeRecentFilesTab;
     PopulateRecentFilesTab;
-    ShowTab(Tab);
     Exit;
   end;
 
@@ -29721,9 +29762,43 @@ var
   SB: TScrollBox;
   LblDest, LblSource, LblInfo: TLabel;
   EdtDest: TsFilenameEdit;
+  Gap, YBtn, XBtn, WAsk, WOk, WCancel: Integer;
+
+  procedure ClearMergeTabChildren;
+  begin
+    if not Assigned(tabMergeFiles) then Exit;
+    while tabMergeFiles.ControlCount > 0 do
+      tabMergeFiles.Controls[0].Free;
+  end;
+
+  procedure LayoutMergeFooterButtons;
+  begin
+    { Right-to-left placement with measured captions so Ask AI / Confirm / Cancel
+      never sit on top of each other (FfFitCaptions must not grow this row). }
+    Gap := FfPx(10);
+    YBtn := Max(FfPx(8), (PnlBtn.ClientHeight - FfPx(26)) div 2);
+    WAsk := Max(FfPx(110),
+      FFMeasureTextWidth(Frm.BtnAskAI.Font, Frm.BtnAskAI.Caption) + FfPx(36));
+    WOk := Max(FfPx(76),
+      FFMeasureTextWidth(Frm.BtnOk.Font, Frm.BtnOk.Caption) + FfPx(36));
+    WCancel := Max(FfPx(76),
+      FFMeasureTextWidth(Frm.BtnCancel.Font, Frm.BtnCancel.Caption) + FfPx(36));
+    PnlBtn.Width := FfPx(8) + WAsk + Gap + WOk + Gap + WCancel + FfPx(8);
+    XBtn := PnlBtn.ClientWidth - FfPx(8);
+    Dec(XBtn, WCancel);
+    Frm.BtnCancel.SetBounds(XBtn, YBtn, WCancel, FfPx(26));
+    Dec(XBtn, Gap + WOk);
+    Frm.BtnOk.SetBounds(XBtn, YBtn, WOk, FfPx(26));
+    Dec(XBtn, Gap + WAsk);
+    Frm.BtnAskAI.SetBounds(XBtn, YBtn, WAsk, FfPx(26));
+  end;
 begin
   if Assigned(FMergeFilesHosted) then
+  begin
+    TMergeFilesDialogForm(FMergeFilesHosted).Parent := nil;
     FreeAndNil(FMergeFilesHosted);
+  end;
+  ClearMergeTabChildren;
 
   if Assigned(tabMergeFiles) then
     tabMergeFiles.Caption := TrText('Merge files');
@@ -29741,40 +29816,40 @@ begin
   PnlBottom := TPanel.Create(Frm);
   PnlBottom.Parent := Frm;
   PnlBottom.Align := alBottom;
-  PnlBottom.Height := 52;
+  PnlBottom.Height := FfPx(52);
   PnlBottom.BevelOuter := bvNone;
   PnlBottom.Caption := '';
+  PnlBottom.HelpKeyword := 'ff-nofit';
 
   PnlBtn := TPanel.Create(PnlBottom);
   PnlBtn.Parent := PnlBottom;
   PnlBtn.Align := alRight;
-  PnlBtn.Width := 304;
+  PnlBtn.Width := FfPx(304);
   PnlBtn.BevelOuter := bvNone;
   PnlBtn.Caption := '';
+  PnlBtn.HelpKeyword := 'ff-nofit';
 
   Frm.BtnAskAI := TButton.Create(PnlBtn);
   Frm.BtnAskAI.Parent := PnlBtn;
-  Frm.BtnAskAI.Left := 8;
-  Frm.BtnAskAI.Top := 11;
-  Frm.BtnAskAI.Width := 110;
   Frm.BtnAskAI.Caption := TrText('Assistant.Offer.AskAI');
   Frm.BtnAskAI.OnClick := MergeFilesAskAIClick;
+  Frm.BtnAskAI.HelpKeyword := 'ff-nofit';
 
   Frm.BtnOk := TButton.Create(PnlBtn);
   Frm.BtnOk.Parent := PnlBtn;
-  Frm.BtnOk.Left := 126;
-  Frm.BtnOk.Top := 11;
-  Frm.BtnOk.Width := 76;
   Frm.BtnOk.Caption := TrText('Confirm');
   Frm.BtnOk.OnClick := MergeFilesTabConfirm;
+  Frm.BtnOk.Default := True;
+  Frm.BtnOk.HelpKeyword := 'ff-nofit';
 
   Frm.BtnCancel := TButton.Create(PnlBtn);
   Frm.BtnCancel.Parent := PnlBtn;
-  Frm.BtnCancel.Left := Frm.BtnOk.Left + Frm.BtnOk.Width + 10;
-  Frm.BtnCancel.Top := 11;
-  Frm.BtnCancel.Width := 76;
   Frm.BtnCancel.Caption := TrText('Cancel');
   Frm.BtnCancel.OnClick := HostedTabCancel;
+  Frm.BtnCancel.Cancel := True;
+  Frm.BtnCancel.HelpKeyword := 'ff-nofit';
+
+  LayoutMergeFooterButtons;
 
   SB := TScrollBox.Create(Frm);
   SB.Parent := Frm;
@@ -29926,6 +30001,7 @@ begin
 
   Frm.Visible := True;
   Frm.BringToFront;
+  LayoutMergeFooterButtons;
 end;
 
 procedure TfrmMain.MergeFilesTabConfirm(Sender: TObject);
@@ -60057,6 +60133,10 @@ begin
   FRecentFilesExtToImage.Values[Ext] := IntToStr(Result);
 end;
 
+const
+  RECENT_FILES_PAGE_SIZE = 10;
+  RECENT_FOLDERS_PAGE_SIZE = 12;
+
 function TfrmMain.FindRecentFilesTab: TsTabSheet;
 begin
   Result := nil;
@@ -60067,6 +60147,330 @@ end;
 function TfrmMain.RecentFilesTabFind(const AName: string): TComponent;
 begin
   Result := FindComponent(AName);
+end;
+
+procedure TfrmMain.EnsureRecentFilesChrome;
+var
+  LblFiles, LblFolders: TLabel;
+
+  procedure SoftPanel(APnl: TPanel; AColor: TColor);
+  begin
+    if not Assigned(APnl) then Exit;
+    try
+      APnl.BevelOuter := bvNone;
+      APnl.Caption := '';
+      APnl.ParentBackground := False;
+      APnl.ParentColor := False;
+      APnl.Color := AColor;
+    except
+    end;
+  end;
+
+  procedure MakeHead(AParent: TWinControl; var AHead: TPanel; ALabel: TLabel);
+  begin
+    if not Assigned(AParent) then Exit;
+    if not Assigned(AHead) then
+    begin
+      AHead := TPanel.Create(Self);
+      AHead.Parent := AParent;
+      AHead.Align := alTop;
+      AHead.Height := FfPx(30);
+    end;
+    SoftPanel(AHead, $00F0F0F0);
+    if not Assigned(ALabel) then Exit;
+    try
+      if ALabel.Parent <> AHead then
+        ALabel.Parent := AHead;
+      ALabel.Align := alNone;
+      ALabel.Left := FfPx(10);
+      ALabel.Top := FfPx(6);
+      ALabel.AutoSize := True;
+      ALabel.Transparent := True;
+      ALabel.Font.Name := 'Segoe UI';
+      ALabel.Font.Style := [fsBold];
+      ALabel.Font.Height := -MulDiv(12, Screen.PixelsPerInch, 96);
+      ALabel.Font.Color := $00333333;
+    except
+    end;
+  end;
+
+  procedure MakePager(AParent: TWinControl; var APager: TPanel;
+    var APrev, ANext: TButton; var ALbl: TLabel;
+    APrevClick, ANextClick: TNotifyEvent);
+  begin
+    if not Assigned(AParent) then Exit;
+    if not Assigned(APager) then
+    begin
+      APager := TPanel.Create(Self);
+      APager.Parent := AParent;
+      APager.Align := alBottom;
+      APager.Height := FfPx(34);
+
+      APrev := TButton.Create(Self);
+      APrev.Parent := APager;
+      APrev.SetBounds(FfPx(8), FfPx(5), FfPx(32), FfPx(24));
+      APrev.Caption := '<';
+      APrev.OnClick := APrevClick;
+      APrev.ShowHint := True;
+
+      ANext := TButton.Create(Self);
+      ANext.Parent := APager;
+      ANext.SetBounds(FfPx(44), FfPx(5), FfPx(32), FfPx(24));
+      ANext.Caption := '>';
+      ANext.OnClick := ANextClick;
+      ANext.ShowHint := True;
+
+      ALbl := TLabel.Create(Self);
+      ALbl.Parent := APager;
+      ALbl.SetBounds(FfPx(86), FfPx(8), FfPx(160), FfPx(18));
+      ALbl.AutoSize := True;
+      ALbl.Transparent := True;
+      ALbl.Font.Name := 'Segoe UI';
+      ALbl.Font.Height := -MulDiv(11, Screen.PixelsPerInch, 96);
+    end;
+    SoftPanel(APager, $00F5F5F5);
+    if Assigned(APrev) then
+      APrev.Hint := TrText('BookmarkBar.PagePrevHint');
+    if Assigned(ANext) then
+      ANext.Hint := TrText('BookmarkBar.PageNextHint');
+    if Assigned(ALbl) then
+      ALbl.Font.Color := $00666666;
+  end;
+
+  procedure PlaceList(ALV: TListView; AParent: TWinControl);
+  begin
+    if not Assigned(ALV) or not Assigned(AParent) then Exit;
+    try
+      ALV.Align := alNone;
+      if ALV.Parent <> AParent then
+        ALV.Parent := AParent;
+      ALV.Align := alClient;
+    except
+    end;
+  end;
+begin
+  if csLoading in ComponentState then Exit;
+  if csDestroying in ComponentState then Exit;
+  { FormCreate still wires/localizes; chrome/align only after FormShow. }
+  if not FormShowed then Exit;
+  if not Assigned(pnlRecentFiles) or not Assigned(pnlRecentFolders) then Exit;
+  if not Assigned(tabRecentFiles) then Exit;
+  { Avoid AlphaSkins/align work before the tab host has a window. }
+  if not tabRecentFiles.HandleAllocated then
+  begin
+    if Assigned(pgMain) and pgMain.HandleAllocated then
+    try
+      tabRecentFiles.HandleNeeded;
+    except
+      Exit;
+    end;
+    if not tabRecentFiles.HandleAllocated then Exit;
+  end;
+
+  SoftPanel(pnlRecentFiles, clWindow);
+  SoftPanel(pnlRecentFolders, $00FAFAFA);
+  try
+    if pnlRecentFolders.Align = alRight then
+      pnlRecentFolders.Width := FfPx(248);
+  except
+  end;
+  SoftPanel(Panel1, $00F0F0F0);
+  if Assigned(Splitter2) then
+  try
+    Splitter2.Width := FfPx(5);
+  except
+  end;
+
+  { Clear list Align before stacking head/pager so VCL never has two alBottom kids. }
+  if Assigned(lvRecentFiles) then
+  try
+    lvRecentFiles.Align := alNone;
+  except
+  end;
+  if Assigned(lvRecentFolders) then
+  try
+    lvRecentFolders.Align := alNone;
+  except
+  end;
+
+  LblFiles := lblRecentFiles;
+  LblFolders := lblRecentFolders;
+  try
+    MakeHead(pnlRecentFiles, FRecentFilesHead, LblFiles);
+    MakePager(pnlRecentFiles, FRecentFilesPager, FRecentFilesBtnPrev, FRecentFilesBtnNext,
+      FRecentFilesLblPage, RecentFilesPagePrevClick, RecentFilesPageNextClick);
+    MakeHead(pnlRecentFolders, FRecentFoldersHead, LblFolders);
+    MakePager(pnlRecentFolders, FRecentFoldersPager, FRecentFoldersBtnPrev, FRecentFoldersBtnNext,
+      FRecentFoldersLblPage, RecentFoldersPagePrevClick, RecentFoldersPageNextClick);
+    PlaceList(lvRecentFiles, pnlRecentFiles);
+    PlaceList(lvRecentFolders, pnlRecentFolders);
+  except
+    { Chrome is cosmetic; never abort tab init on skin/align glitches. }
+  end;
+end;
+
+procedure TfrmMain.LayoutRecentFilesColumns(ALV: TListView);
+var
+  Avail, W0, W1, W2, W3, W4, W5, W6: Integer;
+begin
+  if not Assigned(ALV) then Exit;
+  while ALV.Columns.Count < 7 do
+    ALV.Columns.Add;
+  Avail := Max(FfPx(420), ALV.ClientWidth - 4);
+  W6 := Max(FfPx(44), FFMeasureTextWidth(ALV.Font, ALV.Columns[6].Caption) + FfPx(16));
+  W2 := FfPx(72);
+  W3 := FfPx(118);
+  W4 := FfPx(118);
+  W5 := FfPx(72);
+  W0 := MulDiv(Avail - W2 - W3 - W4 - W5 - W6, 34, 100);
+  W1 := Avail - W0 - W2 - W3 - W4 - W5 - W6;
+  if W0 < FfPx(120) then W0 := FfPx(120);
+  if W1 < FfPx(120) then W1 := FfPx(120);
+  ALV.Columns.BeginUpdate;
+  try
+    ALV.Columns[0].Width := W0;
+    ALV.Columns[1].Width := W1;
+    ALV.Columns[2].Width := W2;
+    ALV.Columns[2].Alignment := taRightJustify;
+    ALV.Columns[3].Width := W3;
+    ALV.Columns[4].Width := W4;
+    ALV.Columns[5].Width := W5;
+    ALV.Columns[6].Width := W6;
+    ALV.Columns[6].Alignment := taCenter;
+  finally
+    ALV.Columns.EndUpdate;
+  end;
+end;
+
+procedure TfrmMain.LayoutRecentFilesBottomBar;
+var
+  Pnl: TPanel;
+  Chk: TCheckBox;
+  B1, B2, B3: TButton;
+  Gap, Y, X, W1, W2, W3, Total: Integer;
+begin
+  if not (Assigned(RecentFilesTabFind('pnlBottom')) and (RecentFilesTabFind('pnlBottom') is TPanel)) then Exit;
+  Pnl := RecentFilesTabFind('pnlBottom') as TPanel;
+  Pnl.Height := FfPx(56);
+  try
+    Pnl.ParentBackground := False;
+    Pnl.ParentColor := False;
+    Pnl.Color := $00F0F0F0;
+  except
+  end;
+  Gap := FfPx(10);
+  Y := FfPx(14);
+  B1 := nil; B2 := nil; B3 := nil; Chk := nil;
+  if Assigned(RecentFilesTabFind('btnOpenFile')) and (RecentFilesTabFind('btnOpenFile') is TButton) then
+    B1 := RecentFilesTabFind('btnOpenFile') as TButton;
+  if Assigned(RecentFilesTabFind('btnOpenSelected')) and (RecentFilesTabFind('btnOpenSelected') is TButton) then
+    B2 := RecentFilesTabFind('btnOpenSelected') as TButton;
+  if Assigned(RecentFilesTabFind('Button4')) and (RecentFilesTabFind('Button4') is TButton) then
+    B3 := RecentFilesTabFind('Button4') as TButton;
+  if Assigned(RecentFilesTabFind('chkDontShow')) and (RecentFilesTabFind('chkDontShow') is TCheckBox) then
+    Chk := RecentFilesTabFind('chkDontShow') as TCheckBox;
+
+  W1 := FfPx(100); W2 := FfPx(118); W3 := FfPx(84);
+  if Assigned(B1) then
+    W1 := Max(W1, FFMeasureTextWidth(B1.Font, B1.Caption) + FfPx(28));
+  if Assigned(B2) then
+    W2 := Max(W2, FFMeasureTextWidth(B2.Font, B2.Caption) + FfPx(28));
+  if Assigned(B3) then
+    W3 := Max(W3, FFMeasureTextWidth(B3.Font, B3.Caption) + FfPx(28));
+  Total := W1 + Gap + W2 + Gap + W3;
+  X := Max(FfPx(12), (Pnl.ClientWidth - Total) div 2);
+  if Assigned(B1) then B1.SetBounds(X, Y, W1, FfPx(28));
+  Inc(X, W1 + Gap);
+  if Assigned(B2) then B2.SetBounds(X, Y, W2, FfPx(28));
+  Inc(X, W2 + Gap);
+  if Assigned(B3) then B3.SetBounds(X, Y, W3, FfPx(28));
+  if Assigned(Chk) then
+  begin
+    Chk.Left := FfPx(12);
+    Chk.Top := Y + FfPx(4);
+    Chk.Width := Max(FfPx(160), Min(X - Gap - FfPx(16),
+      FFMeasureTextWidth(Chk.Font, Chk.Caption) + FfPx(28)));
+  end;
+end;
+
+procedure TfrmMain.UpdateRecentFilesPagerUI(ATotal, APageSize: Integer);
+var
+  PageCount: Integer;
+begin
+  if APageSize < 1 then APageSize := RECENT_FILES_PAGE_SIZE;
+  PageCount := (ATotal + APageSize - 1) div APageSize;
+  if PageCount < 1 then PageCount := 1;
+  if FRecentFilesListPage >= PageCount then
+    FRecentFilesListPage := PageCount - 1;
+  if FRecentFilesListPage < 0 then
+    FRecentFilesListPage := 0;
+  if Assigned(FRecentFilesLblPage) then
+  begin
+    if ATotal <= 0 then
+      FRecentFilesLblPage.Caption := ''
+    else
+      FRecentFilesLblPage.Caption := Format(TrText('BookmarkBar.PageFmt'),
+        [FRecentFilesListPage + 1, PageCount, ATotal]);
+  end;
+  if Assigned(FRecentFilesBtnPrev) then
+    FRecentFilesBtnPrev.Enabled := FRecentFilesListPage > 0;
+  if Assigned(FRecentFilesBtnNext) then
+    FRecentFilesBtnNext.Enabled := FRecentFilesListPage < PageCount - 1;
+  if Assigned(FRecentFilesPager) then
+    FRecentFilesPager.Visible := ATotal > APageSize;
+end;
+
+procedure TfrmMain.UpdateRecentFoldersPagerUI(ATotal, APageSize: Integer);
+var
+  PageCount: Integer;
+begin
+  if APageSize < 1 then APageSize := RECENT_FOLDERS_PAGE_SIZE;
+  PageCount := (ATotal + APageSize - 1) div APageSize;
+  if PageCount < 1 then PageCount := 1;
+  if FRecentFoldersListPage >= PageCount then
+    FRecentFoldersListPage := PageCount - 1;
+  if FRecentFoldersListPage < 0 then
+    FRecentFoldersListPage := 0;
+  if Assigned(FRecentFoldersLblPage) then
+  begin
+    if ATotal <= 0 then
+      FRecentFoldersLblPage.Caption := ''
+    else
+      FRecentFoldersLblPage.Caption := Format(TrText('BookmarkBar.PageFmt'),
+        [FRecentFoldersListPage + 1, PageCount, ATotal]);
+  end;
+  if Assigned(FRecentFoldersBtnPrev) then
+    FRecentFoldersBtnPrev.Enabled := FRecentFoldersListPage > 0;
+  if Assigned(FRecentFoldersBtnNext) then
+    FRecentFoldersBtnNext.Enabled := FRecentFoldersListPage < PageCount - 1;
+  if Assigned(FRecentFoldersPager) then
+    FRecentFoldersPager.Visible := ATotal > APageSize;
+end;
+
+procedure TfrmMain.RecentFilesPagePrevClick(Sender: TObject);
+begin
+  if FRecentFilesListPage <= 0 then Exit;
+  Dec(FRecentFilesListPage);
+  PopulateRecentFilesTab;
+end;
+
+procedure TfrmMain.RecentFilesPageNextClick(Sender: TObject);
+begin
+  Inc(FRecentFilesListPage);
+  PopulateRecentFilesTab;
+end;
+
+procedure TfrmMain.RecentFoldersPagePrevClick(Sender: TObject);
+begin
+  if FRecentFoldersListPage <= 0 then Exit;
+  Dec(FRecentFoldersListPage);
+  PopulateRecentFilesTab;
+end;
+
+procedure TfrmMain.RecentFoldersPageNextClick(Sender: TObject);
+begin
+  Inc(FRecentFoldersListPage);
+  PopulateRecentFilesTab;
 end;
 
 procedure TfrmMain.LocalizeRecentFilesTab;
@@ -60159,99 +60563,98 @@ var
   Btn: TButton;
   Chk: TCheckBox;
   Lbl: TLabel;
-  RemoveColWidth: Integer;
+  PnlHead: TPanel;
   TitleTop, TitleFontH, TagFontH, GapTitleTag, TagH, PadL: Integer;
 begin
   Tab := FindRecentFilesTab;
   if not Assigned(Tab) then Exit;
+  if not FormShowed then Exit;
 
-  { Keep visual language aligned with the app: clean Tahoma typography,
-    report view, stable selection behavior and practical column sizing. }
+  EnsureRecentFilesChrome;
+
   if Assigned(RecentFilesTabFind('lvRecentFiles')) and (RecentFilesTabFind('lvRecentFiles') is TListView) then
   begin
     LV := RecentFilesTabFind('lvRecentFiles') as TListView;
     EnsureRecentFilesTypeImages;
     LV.SmallImages := FRecentFilesTypeImages;
     LV.Align := alClient;
-    LV.Font.Name := 'Tahoma';
-    LV.Font.Size := 9;
+    LV.Color := clWindow;
+    LV.Font.Name := 'Segoe UI';
+    LV.Font.Color := $00444444;
+    LV.Font.Height := -MulDiv(11, Screen.PixelsPerInch, 96);
     LV.ReadOnly := True;
     LV.RowSelect := True;
-    LV.HideSelection := True;
+    LV.HideSelection := False;
     LV.GridLines := False;
+    LV.HotTrack := False;
     LV.DoubleBuffered := True;
     LV.ViewStyle := vsReport;
-    LV.Columns.BeginUpdate;
-    try
-      if LV.Columns.Count > 0 then LV.Columns[0].Width := 240;
-      if LV.Columns.Count > 1 then LV.Columns[1].Width := 520;
-      if LV.Columns.Count > 2 then LV.Columns[2].Width := 96;
-      if LV.Columns.Count > 3 then LV.Columns[3].Width := 130;
-      if LV.Columns.Count > 4 then LV.Columns[4].Width := 140;
-      if LV.Columns.Count > 5 then LV.Columns[5].Width := 88;
-      if LV.Columns.Count > 6 then
-      begin
-        LV.Canvas.Font.Assign(LV.Font);
-        RemoveColWidth := LV.Canvas.TextWidth(LV.Columns[6].Caption) + 20;
-        if RemoveColWidth < 30 then
-          RemoveColWidth := 30;
-        LV.Columns[6].Width := RemoveColWidth;
-      end;
-    finally
-      LV.Columns.EndUpdate;
-    end;
+    LayoutRecentFilesColumns(LV);
   end;
 
   if Assigned(RecentFilesTabFind('lvRecentFolders')) and (RecentFilesTabFind('lvRecentFolders') is TListView) then
   begin
     LV := RecentFilesTabFind('lvRecentFolders') as TListView;
     LV.Align := alClient;
-    LV.Font.Name := 'Tahoma';
-    LV.Font.Size := 9;
+    LV.Color := clWindow;
+    LV.Font.Name := 'Segoe UI';
+    LV.Font.Color := $00444444;
+    LV.Font.Height := -MulDiv(11, Screen.PixelsPerInch, 96);
     LV.ReadOnly := True;
     LV.RowSelect := True;
-    LV.HideSelection := True;
+    LV.HideSelection := False;
     LV.GridLines := False;
+    LV.HotTrack := False;
     LV.DoubleBuffered := True;
     LV.ViewStyle := vsReport;
     if LV.Columns.Count > 0 then
-      LV.Columns[0].Width := 300;
-  end;
-
-  if Assigned(RecentFilesTabFind('lblRecentFiles')) and (RecentFilesTabFind('lblRecentFiles') is TLabel) then
-  begin
-    Lbl := RecentFilesTabFind('lblRecentFiles') as TLabel;
-    Lbl.Font.Name := 'Tahoma';
-    Lbl.Font.Style := [fsBold];
-  end;
-  if Assigned(RecentFilesTabFind('lblRecentFolders')) and (RecentFilesTabFind('lblRecentFolders') is TLabel) then
-  begin
-    Lbl := RecentFilesTabFind('lblRecentFolders') as TLabel;
-    Lbl.Font.Name := 'Tahoma';
-    Lbl.Font.Style := [fsBold];
+      LV.Columns[0].Width := Max(FfPx(160), LV.ClientWidth - 8);
   end;
 
   if Assigned(RecentFilesTabFind('pnlHeader')) and (RecentFilesTabFind('pnlHeader') is TPanel) then
   begin
-    { Title + tagline spacing (was cramped: title ~30px tall ending at Y=38
-      with tagline also at Y=38; tagline stayed at design -11px while title grew). }
-    TitleTop := MulDiv(10, Screen.PixelsPerInch, 96);
-    TitleFontH := MulDiv(24, Screen.PixelsPerInch, 96);
-    TagFontH := MulDiv(13, Screen.PixelsPerInch, 96);
-    GapTitleTag := MulDiv(10, Screen.PixelsPerInch, 96);
-    TagH := MulDiv(44, Screen.PixelsPerInch, 96);
-    PadL := MulDiv(14, Screen.PixelsPerInch, 96);
+    PnlHead := TPanel(RecentFilesTabFind('pnlHeader'));
+    try
+      { Light neutral banner — works with Notes Plastic / light skins (no white-on-pale). }
+      PnlHead.BevelOuter := bvNone;
+      PnlHead.ParentBackground := False;
+      PnlHead.ParentColor := False;
+      PnlHead.Color := $00F1F1F1;
+    except
+    end;
+    TitleTop := FfPx(12);
+    TitleFontH := FfPx(26);
+    TagFontH := FfPx(12);
+    GapTitleTag := FfPx(6);
+    TagH := FfPx(38);
+    PadL := FfPx(18);
 
     if Assigned(RecentFilesTabFind('lblTitle')) and (RecentFilesTabFind('lblTitle') is TLabel) then
     begin
       Lbl := RecentFilesTabFind('lblTitle') as TLabel;
       Lbl.Font.Name := 'Segoe UI';
       Lbl.Font.Style := [fsBold];
-      Lbl.Font.Color := clWhite;
+      Lbl.Font.Color := $00333333;
       Lbl.Font.Height := -TitleFontH;
       Lbl.Left := PadL;
       Lbl.Top := TitleTop;
       Lbl.AutoSize := True;
+      Lbl.Transparent := True;
+    end;
+
+    if Assigned(RecentFilesTabFind('lblVersion')) and (RecentFilesTabFind('lblVersion') is TLabel) then
+    begin
+      Lbl := RecentFilesTabFind('lblVersion') as TLabel;
+      Lbl.Caption := 'v' + APPLICATION_VERSION;
+      Lbl.Font.Name := 'Segoe UI';
+      Lbl.Font.Style := [];
+      Lbl.Font.Color := $00888888;
+      Lbl.Font.Height := -FfPx(11);
+      Lbl.AutoSize := True;
+      Lbl.Transparent := True;
+      Lbl.Anchors := [akTop, akRight];
+      Lbl.Left := Max(PadL, Tab.ClientWidth - Lbl.Width - PadL);
+      Lbl.Top := TitleTop + FfPx(8);
     end;
 
     if Assigned(RecentFilesTabFind('lblTagline')) and (RecentFilesTabFind('lblTagline') is TLabel) then
@@ -60259,49 +60662,56 @@ begin
       Lbl := RecentFilesTabFind('lblTagline') as TLabel;
       Lbl.Font.Name := 'Segoe UI';
       Lbl.Font.Style := [];
+      Lbl.Font.Color := $005A5A5A;
       Lbl.Font.Height := -TagFontH;
       Lbl.WordWrap := True;
       Lbl.AutoSize := False;
+      Lbl.Transparent := True;
       Lbl.Left := PadL;
-      if Assigned(Tab) then
-        Lbl.Width := Max(200, Tab.ClientWidth - PadL * 2)
-      else
-        Lbl.Width := MulDiv(900, Screen.PixelsPerInch, 96);
+      Lbl.Width := Max(200, Tab.ClientWidth - PadL * 2);
       Lbl.Height := TagH;
       if Assigned(RecentFilesTabFind('lblTitle')) and (RecentFilesTabFind('lblTitle') is TLabel) then
         Lbl.Top := (RecentFilesTabFind('lblTitle') as TLabel).Top +
           (RecentFilesTabFind('lblTitle') as TLabel).Height + GapTitleTag
       else
         Lbl.Top := TitleTop + TitleFontH + GapTitleTag;
-      TPanel(RecentFilesTabFind('pnlHeader')).Height :=
-        Lbl.Top + Lbl.Height + MulDiv(12, Screen.PixelsPerInch, 96);
+      PnlHead.Height := Lbl.Top + Lbl.Height + FfPx(14);
     end
     else
-      TPanel(RecentFilesTabFind('pnlHeader')).Height :=
-        MulDiv(100, Screen.PixelsPerInch, 96);
+      PnlHead.Height := FfPx(96);
   end;
 
   if Assigned(RecentFilesTabFind('btnOpenFile')) and (RecentFilesTabFind('btnOpenFile') is TButton) then
   begin
     Btn := RecentFilesTabFind('btnOpenFile') as TButton;
-    Btn.Font.Name := 'Tahoma';
+    Btn.Font.Name := 'Segoe UI';
   end;
   if Assigned(RecentFilesTabFind('btnOpenSelected')) and (RecentFilesTabFind('btnOpenSelected') is TButton) then
   begin
     Btn := RecentFilesTabFind('btnOpenSelected') as TButton;
     Btn.Default := True;
-    Btn.Font.Name := 'Tahoma';
+    Btn.Font.Name := 'Segoe UI';
   end;
   if Assigned(RecentFilesTabFind('Button4')) and (RecentFilesTabFind('Button4') is TButton) then
   begin
     Btn := RecentFilesTabFind('Button4') as TButton;
-    Btn.Font.Name := 'Tahoma';
+    Btn.Font.Name := 'Segoe UI';
   end;
   if Assigned(RecentFilesTabFind('chkDontShow')) and (RecentFilesTabFind('chkDontShow') is TCheckBox) then
   begin
     Chk := RecentFilesTabFind('chkDontShow') as TCheckBox;
-    Chk.Font.Name := 'Tahoma';
+    Chk.Font.Name := 'Segoe UI';
   end;
+  if Assigned(FRecentFilesBtnPrev) then
+    FRecentFilesBtnPrev.Hint := TrText('BookmarkBar.PagePrevHint');
+  if Assigned(FRecentFilesBtnNext) then
+    FRecentFilesBtnNext.Hint := TrText('BookmarkBar.PageNextHint');
+  if Assigned(FRecentFoldersBtnPrev) then
+    FRecentFoldersBtnPrev.Hint := TrText('BookmarkBar.PagePrevHint');
+  if Assigned(FRecentFoldersBtnNext) then
+    FRecentFoldersBtnNext.Hint := TrText('BookmarkBar.PageNextHint');
+
+  LayoutRecentFilesBottomBar;
 end;
 
 procedure TfrmMain.UpdateRecentFilesTabEmptyState;
@@ -60334,6 +60744,7 @@ var
   LV: TListView;
   Chk: TCheckBox;
 begin
+  EnsureRecentFilesChrome;
   if FRecentFilesTabWired then Exit;
 
   if Assigned(RecentFilesTabFind('btnOpenFile')) and (RecentFilesTabFind('btnOpenFile') is TButton) then
@@ -60355,6 +60766,7 @@ begin
     LV.OnChange := RecentTabFilesChange;
     LV.OnKeyDown := RecentTabFilesKeyDown;
     LV.OnCustomDrawItem := RecentTabFilesCustomDrawItem;
+    LV.OnAdvancedCustomDrawSubItem := RecentTabFilesAdvancedCustomDrawSubItem;
     LV.OnColumnClick := RecentTabFilesColumnClick;
     LV.OnMouseDown := RecentTabFilesMouseDown;
     LV.OnMouseMove := RecentTabFilesMouseMove;
@@ -60377,6 +60789,8 @@ begin
   begin
     LV := RecentFilesTabFind('lvRecentFolders') as TListView;
     LV.OnDblClick := RecentTabFoldersDblClick;
+    LV.OnCustomDrawItem := RecentTabFoldersCustomDrawItem;
+    LV.OnAdvancedCustomDrawSubItem := RecentTabFoldersAdvancedCustomDrawSubItem;
   end;
 
   if Assigned(RecentFilesTabFind('chkDontShow')) and (RecentFilesTabFind('chkDontShow') is TCheckBox) then
@@ -60402,22 +60816,24 @@ var
   LVFiles, LVFolders: TListView;
   BtnOpenSelected: TButton;
   Item: TListItem;
-  I: Integer;
-  FilePath, Dir, SessionStr: string;
+  I, J, N, Base, PageCount: Integer;
+  FilePath, Dir, SessionStr, S1, S2: string;
   Folders: TStringList;
+  Indices: array of Integer;
+  Tmp: Integer;
 
   function SessionFileExistsFor(const AFilePath: string): Boolean;
   var
     SafeName: string;
-    J: Integer;
+    K: Integer;
     C: Char;
   begin
     SafeName := AFilePath;
-    for J := 1 to Length(SafeName) do
+    for K := 1 to Length(SafeName) do
     begin
-      C := SafeName[J];
+      C := SafeName[K];
       if PosBMH(C, ILLEGAL_FILENAME_CHARS) > 0 then
-        SafeName[J] := '_';
+        SafeName[K] := '_';
     end;
     Result := FileExists(FastFileSessionPath(SafeName));
   end;
@@ -60470,86 +60886,195 @@ var
       Result := Format('%.2f GB', [ASize / GB]);
   end;
 
+  function ColTextForIndex(AIdx, ACol: Integer): string;
+  var
+    P: string;
+  begin
+    Result := '';
+    if (AIdx < 0) or (AIdx >= FRecentFiles.Count) then Exit;
+    P := Trim(FRecentFiles[AIdx]);
+    case ACol of
+      0: Result := ExtractFileName(P);
+      1: Result := ExcludeTrailingPathDelimiter(ExtractFileDir(P));
+      2:
+        if FileExists(P) then
+          Result := SizeToText(FileSizeInt64(P))
+        else
+          Result := '-';
+      3:
+        if FileExists(P) then
+          Result := FileModStamp(P)
+        else
+          Result := '-';
+      4:
+        if Assigned(FRecentFilesLastOpened) and (AIdx < FRecentFilesLastOpened.Count) then
+          Result := Trim(FRecentFilesLastOpened[AIdx]);
+      5:
+        if SessionFileExistsFor(P) then
+          Result := '* ' + TrText('saved');
+    end;
+  end;
+
+  function ParseSizeToBytes(const AText: string): Int64;
+  var
+    N: Extended;
+    T: string;
+  begin
+    T := UpperCase(Trim(AText));
+    Result := -1;
+    if (T = '') or (T = '-') then Exit;
+    T := StringReplace(T, ',', '.', [rfReplaceAll]);
+    if PosBMH(' GB', T) > 0 then
+      N := StrToFloatDef(StringReplace(T, ' GB', '', []), 0)
+    else if PosBMH(' MB', T) > 0 then
+      N := StrToFloatDef(StringReplace(T, ' MB', '', []), 0) / 1024
+    else if PosBMH(' KB', T) > 0 then
+      N := StrToFloatDef(StringReplace(T, ' KB', '', []), 0) / 1024 / 1024
+    else if PosBMH(' B', T) > 0 then
+      N := StrToFloatDef(StringReplace(T, ' B', '', []), 0) / 1024 / 1024 / 1024
+    else
+      N := StrToFloatDef(T, 0);
+    Result := Round(N * 1024 * 1024 * 1024);
+  end;
+
+  function CompareIndices(A, B: Integer): Integer;
+  var
+    IA, IB: Int64;
+  begin
+    S1 := ColTextForIndex(A, FRecentFilesSortColumn);
+    S2 := ColTextForIndex(B, FRecentFilesSortColumn);
+    if FRecentFilesSortColumn = 2 then
+    begin
+      IA := ParseSizeToBytes(S1);
+      IB := ParseSizeToBytes(S2);
+      if IA < IB then Result := -1
+      else if IA > IB then Result := 1
+      else Result := 0;
+    end
+    else
+      Result := CompareText(S1, S2);
+    if not FRecentFilesSortAsc then
+      Result := -Result;
+  end;
+
+  procedure AddFileRow(AIdx: Integer);
+  begin
+    FilePath := Trim(FRecentFiles[AIdx]);
+    if FilePath = '' then Exit;
+    Item := LVFiles.Items.Add;
+    Item.Caption := ExtractFileName(FilePath);
+    Item.ImageIndex := RecentFilesImageIndexFor(FilePath);
+    Item.Data := Pointer(NativeInt(AIdx));
+    Dir := ExcludeTrailingPathDelimiter(ExtractFileDir(FilePath));
+    Item.SubItems.Add(Dir);
+    if FileExists(FilePath) then
+    begin
+      Item.SubItems.Add(SizeToText(FileSizeInt64(FilePath)));
+      Item.SubItems.Add(FileModStamp(FilePath));
+    end
+    else
+    begin
+      Item.SubItems.Add('-');
+      Item.SubItems.Add('-');
+    end;
+    if Assigned(FRecentFilesLastOpened) and (AIdx < FRecentFilesLastOpened.Count) and
+       (Trim(FRecentFilesLastOpened[AIdx]) <> '') then
+      Item.SubItems.Add(FRecentFilesLastOpened[AIdx])
+    else
+      Item.SubItems.Add('-');
+    if SessionFileExistsFor(FilePath) then
+      SessionStr := '* ' + TrText('saved')
+    else
+      SessionStr := '';
+    Item.SubItems.Add(SessionStr);
+    Item.SubItems.Add('X');
+  end;
+
 begin
+  EnsureRecentFilesChrome;
   if not (Assigned(RecentFilesTabFind('lvRecentFiles')) and (RecentFilesTabFind('lvRecentFiles') is TListView)) then Exit;
   if not (Assigned(RecentFilesTabFind('lvRecentFolders')) and (RecentFilesTabFind('lvRecentFolders') is TListView)) then Exit;
+  if not Assigned(FRecentFiles) then Exit;
 
   LVFiles := RecentFilesTabFind('lvRecentFiles') as TListView;
   LVFolders := RecentFilesTabFind('lvRecentFolders') as TListView;
+  LayoutRecentFilesColumns(LVFiles);
+
+  N := FRecentFiles.Count;
+  SetLength(Indices, N);
+  for I := 0 to N - 1 do
+    Indices[I] := I;
+  { Stable enough for N<=25: bubble by current sort column. }
+  for I := 0 to N - 2 do
+    for J := I + 1 to N - 1 do
+      if CompareIndices(Indices[I], Indices[J]) > 0 then
+      begin
+        Tmp := Indices[I];
+        Indices[I] := Indices[J];
+        Indices[J] := Tmp;
+      end;
+
+  PageCount := (N + RECENT_FILES_PAGE_SIZE - 1) div RECENT_FILES_PAGE_SIZE;
+  if PageCount < 1 then PageCount := 1;
+  if FRecentFilesListPage >= PageCount then
+    FRecentFilesListPage := PageCount - 1;
+  if FRecentFilesListPage < 0 then
+    FRecentFilesListPage := 0;
+  Base := FRecentFilesListPage * RECENT_FILES_PAGE_SIZE;
 
   LVFiles.Items.BeginUpdate;
   try
     LVFiles.Items.Clear;
-    for I := 0 to FRecentFiles.Count - 1 do
+    for I := 0 to RECENT_FILES_PAGE_SIZE - 1 do
     begin
-      FilePath := Trim(FRecentFiles[I]);
-      if FilePath = '' then Continue;
-
-      Item := LVFiles.Items.Add;
-      Item.Caption := ExtractFileName(FilePath);
-      Item.ImageIndex := RecentFilesImageIndexFor(FilePath);
-      Dir := ExcludeTrailingPathDelimiter(ExtractFileDir(FilePath));
-      Item.SubItems.Add(Dir);
-      if FileExists(FilePath) then
-      begin
-        Item.SubItems.Add(SizeToText(FileSizeInt64(FilePath)));
-        Item.SubItems.Add(FileModStamp(FilePath));
-      end
-      else
-      begin
-        Item.SubItems.Add('-');
-        Item.SubItems.Add('-');
-      end;
-
-      if Assigned(FRecentFilesLastOpened) and (I < FRecentFilesLastOpened.Count) and
-         (Trim(FRecentFilesLastOpened[I]) <> '') then
-        Item.SubItems.Add(FRecentFilesLastOpened[I])
-      else
-        Item.SubItems.Add('-');
-
-      if SessionFileExistsFor(FilePath) then
-        SessionStr := '* ' + TrText('saved')
-      else
-        SessionStr := '';
-      Item.SubItems.Add(SessionStr);
-      Item.SubItems.Add('X');  { delete column visual marker }
+      J := Base + I;
+      if J >= N then Break;
+      AddFileRow(Indices[J]);
     end;
   finally
     LVFiles.Items.EndUpdate;
   end;
+  UpdateRecentFilesPagerUI(N, RECENT_FILES_PAGE_SIZE);
 
   Folders := TStringList.Create;
   try
     Folders.Sorted := True;
     Folders.Duplicates := dupIgnore;
     Folders.CaseSensitive := False;
-    for I := 0 to LVFiles.Items.Count - 1 do
+    for I := 0 to N - 1 do
     begin
-      if LVFiles.Items[I].SubItems.Count > 0 then
-      begin
-        Dir := Trim(LVFiles.Items[I].SubItems[0]);
-        if Dir <> '' then
-          Folders.Add(Dir);
-      end;
+      Dir := ExcludeTrailingPathDelimiter(ExtractFileDir(Trim(FRecentFiles[I])));
+      if Dir <> '' then
+        Folders.Add(Dir);
     end;
+
+    PageCount := (Folders.Count + RECENT_FOLDERS_PAGE_SIZE - 1) div RECENT_FOLDERS_PAGE_SIZE;
+    if PageCount < 1 then PageCount := 1;
+    if FRecentFoldersListPage >= PageCount then
+      FRecentFoldersListPage := PageCount - 1;
+    if FRecentFoldersListPage < 0 then
+      FRecentFoldersListPage := 0;
+    Base := FRecentFoldersListPage * RECENT_FOLDERS_PAGE_SIZE;
 
     LVFolders.Items.BeginUpdate;
     try
       LVFolders.Items.Clear;
-      for I := 0 to Folders.Count - 1 do
+      for I := 0 to RECENT_FOLDERS_PAGE_SIZE - 1 do
       begin
+        J := Base + I;
+        if J >= Folders.Count then Break;
         Item := LVFolders.Items.Add;
-        Item.Caption := Folders[I];
+        Item.Caption := Folders[J];
       end;
+      if LVFolders.Columns.Count > 0 then
+        LVFolders.Columns[0].Width := Max(FfPx(160), LVFolders.ClientWidth - 8);
     finally
       LVFolders.Items.EndUpdate;
     end;
+    UpdateRecentFoldersPagerUI(Folders.Count, RECENT_FOLDERS_PAGE_SIZE);
   finally
     Folders.Free;
   end;
-
-  if (LVFiles.Items.Count > 1) and (FRecentFilesSortColumn >= 0) then
-    LVFiles.AlphaSort;
 
   if Assigned(RecentFilesTabFind('btnOpenSelected')) and (RecentFilesTabFind('btnOpenSelected') is TButton) then
   begin
@@ -60557,6 +61082,7 @@ begin
     BtnOpenSelected.Enabled := Assigned(LVFiles.Selected);
   end;
 
+  LayoutRecentFilesBottomBar;
   UpdateRecentFilesTabEmptyState;
 end;
 
@@ -60695,6 +61221,55 @@ begin
   RemoveRecentFileByPath(FilePath);
 end;
 
+procedure RecentTabApplyRowCanvas(Sender: TCustomListView; Item: TListItem;
+  State: TCustomDrawState; const AMissing, AHasSession: Boolean);
+{ Cool blue-grey zebra matching Notes Plastic; soft charcoal text (no hard black / beige). }
+begin
+  Sender.Canvas.Font.Style := [];
+  if cdsSelected in State then
+  begin
+    Sender.Canvas.Brush.Color := $00F0E4D6; { RGB D6 E4 F0 }
+    Sender.Canvas.Font.Color := $00333333;
+    Sender.Canvas.Font.Style := [fsBold];
+  end
+  else if AMissing then
+  begin
+    Sender.Canvas.Brush.Color := $00F4F4F4;
+    Sender.Canvas.Font.Color := $00909090;
+  end
+  else
+  begin
+    if Odd(Item.Index) then
+      Sender.Canvas.Brush.Color := $00FAF6F2 { RGB F2 F6 FA }
+    else
+      Sender.Canvas.Brush.Color := clWindow;
+    Sender.Canvas.Font.Color := $00444444;
+    if AHasSession then
+      Sender.Canvas.Font.Style := [fsBold];
+  end;
+end;
+
+procedure TfrmMain.RecentTabFoldersCustomDrawItem(Sender: TCustomListView;
+  Item: TListItem; State: TCustomDrawState; var DefaultDraw: Boolean);
+begin
+  DefaultDraw := True;
+  if not Assigned(Item) then Exit;
+  RecentTabApplyRowCanvas(Sender, Item, State, False, False);
+end;
+
+procedure TfrmMain.RecentTabFoldersAdvancedCustomDrawSubItem(Sender: TCustomListView;
+  Item: TListItem; SubItem: Integer; State: TCustomDrawState; Stage: TCustomDrawStage;
+  var DefaultDraw: Boolean);
+begin
+  DefaultDraw := True;
+  if Stage <> cdPrePaint then Exit;
+  if not Assigned(Item) then Exit;
+  RecentTabApplyRowCanvas(Sender, Item, State, False, False);
+  { Keep folder path a touch softer than the selected emphasis. }
+  if not (cdsSelected in State) then
+    Sender.Canvas.Font.Color := $005A5A5A;
+end;
+
 procedure TfrmMain.RecentTabFilesCustomDrawItem(Sender: TCustomListView;
   Item: TListItem; State: TCustomDrawState; var DefaultDraw: Boolean);
 var
@@ -60707,39 +61282,57 @@ begin
 
   FilePath := IncludeTrailingPathDelimiter(Item.SubItems[0]) + Item.Caption;
   HasSession := (Item.SubItems.Count > 4) and (Trim(Item.SubItems[4]) <> '');
+  RecentTabApplyRowCanvas(Sender, Item, State, not FileExists(FilePath), HasSession);
+end;
+
+procedure TfrmMain.RecentTabFilesAdvancedCustomDrawSubItem(Sender: TCustomListView;
+  Item: TListItem; SubItem: Integer; State: TCustomDrawState; Stage: TCustomDrawStage;
+  var DefaultDraw: Boolean);
+var
+  FilePath: string;
+  HasSession, Missing: Boolean;
+begin
+  DefaultDraw := True;
+  if Stage <> cdPrePaint then Exit;
+  if not Assigned(Item) then Exit;
+  if Item.SubItems.Count < 1 then Exit;
+
+  FilePath := IncludeTrailingPathDelimiter(Item.SubItems[0]) + Item.Caption;
+  Missing := not FileExists(FilePath);
+  HasSession := (Item.SubItems.Count > 4) and (Trim(Item.SubItems[4]) <> '');
+  RecentTabApplyRowCanvas(Sender, Item, State, Missing, HasSession);
+  if cdsSelected in State then Exit;
+  if Missing then Exit;
 
   Sender.Canvas.Font.Style := [];
-  if cdsSelected in State then
-  begin
-    Sender.Canvas.Brush.Color := $00F2F2F2;
-    Sender.Canvas.Font.Color := clWindowText;
-    Sender.Canvas.Font.Style := [fsBold];
-  end
-  else if not FileExists(FilePath) then
-  begin
-    Sender.Canvas.Brush.Color := clInfoBk;
-    Sender.Canvas.Font.Color := clGrayText
-  end
-  else if HasSession then
-  begin
-    Sender.Canvas.Brush.Color := clWindow;
-    Sender.Canvas.Font.Color := clNavy;
-    Sender.Canvas.Font.Style := [fsBold];
-  end
+  case SubItem of
+    0: { Folder }
+      Sender.Canvas.Font.Color := $00686868;
+    1: { Size }
+      Sender.Canvas.Font.Color := $00505050;
+    2, 3: { Modified / Last loaded }
+      Sender.Canvas.Font.Color := $00707070;
+    4: { Session }
+      begin
+        if HasSession then
+          Sender.Canvas.Font.Color := $004A7A58
+        else
+          Sender.Canvas.Font.Color := $00A0A0A0;
+      end;
+    5: { Remove }
+      begin
+        Sender.Canvas.Font.Color := $007070B0;
+        Sender.Canvas.Font.Style := [fsBold];
+      end;
   else
-  begin
-    Sender.Canvas.Brush.Color := clWindow;
-    Sender.Canvas.Font.Color := clWindowText;
+    Sender.Canvas.Font.Color := $00444444;
   end;
 end;
 
 procedure TfrmMain.RecentTabFilesColumnClick(Sender: TObject; Column: TListColumn);
-var
-  LV: TListView;
 begin
   if not (Sender is TListView) then Exit;
   if Column.Index = 6 then Exit;  { delete column is not sortable }
-  LV := TListView(Sender);
 
   if FRecentFilesSortColumn = Column.Index then
     FRecentFilesSortAsc := not FRecentFilesSortAsc
@@ -60753,7 +61346,8 @@ begin
       FRecentFilesSortAsc := True;
   end;
 
-  LV.AlphaSort;
+  FRecentFilesListPage := 0;
+  PopulateRecentFilesTab;
   SaveRecentFilesTabPrefs;
 end;
 
@@ -60967,6 +61561,12 @@ begin
 
   ShowEnabled := IsRecentFilesStartupEnabled;
 
+  if ShowEnabled then
+  begin
+    EnsureRecentFilesTabFirstWhenEnabled;
+    ShowTab(Tab); { allocate page handle before chrome/align }
+  end;
+
   WireRecentFilesTabEvents;
   LocalizeRecentFilesTab;
   PopulateRecentFilesTab;
@@ -60976,10 +61576,6 @@ begin
     Chk := RecentFilesTabFind('chkDontShow') as TCheckBox;
     Chk.Checked := not ShowEnabled;
   end;
-
-  if not ShowEnabled then Exit;
-  EnsureRecentFilesTabFirstWhenEnabled;
-  ShowTab(Tab);
 end;
 
 function TfrmMain.IsRecentFilesStartupEnabled: Boolean;
@@ -61024,11 +61620,11 @@ begin
   Tab := FindRecentFilesTab;
   if not Assigned(Tab) then Exit;
 
+  EnsureRecentFilesTabFirstWhenEnabled;
+  ShowTab(Tab); { handle first — chrome/align needs the page HWND }
   WireRecentFilesTabEvents;
   LocalizeRecentFilesTab;
   PopulateRecentFilesTab;
-  EnsureRecentFilesTabFirstWhenEnabled;
-  ShowTab(Tab);
 end;
 
 { ============================================================================ }
