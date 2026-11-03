@@ -5631,7 +5631,7 @@ object frmMain: TfrmMain
         Height = 110
         Align = alTop
         BevelOuter = bvNone
-        Color = clNavy
+        Color = 15856113
         ParentBackground = False
         TabOrder = 0
         object lblTitle: TLabel
@@ -5641,7 +5641,7 @@ object frmMain: TfrmMain
           Height = 32
           Caption = 'FastFile'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWhite
+          Font.Color = 3355443
           Font.Height = -24
           Font.Name = 'Segoe UI'
           Font.Style = [fsBold]
@@ -5659,7 +5659,7 @@ object frmMain: TfrmMain
             'editors can'#39't keep up. Exclusive features like Python macros, AI' +
             ' to extract/analyze files, and much more.'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = 12303291
+          Font.Color = 6579300
           Font.Height = -13
           Font.Name = 'Segoe UI'
           Font.Style = []
@@ -5674,7 +5674,7 @@ object frmMain: TfrmMain
           Height = 13
           Alignment = taRightJustify
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = 7838088
+          Font.Color = 8947848
           Font.Height = -11
           Font.Name = 'Segoe UI'
           Font.Style = []
@@ -5767,10 +5767,10 @@ object frmMain: TfrmMain
           end
           object lvRecentFolders: TListView
             Left = 0
-            Top = -107
+            Top = 0
             Width = 201
-            Height = 328
-            Align = alBottom
+            Height = 221
+            Align = alClient
             Columns = <
               item
                 AutoSize = True
@@ -5806,10 +5806,10 @@ object frmMain: TfrmMain
           end
           object lvRecentFiles: TListView
             Left = 0
-            Top = -107
+            Top = 0
             Width = 823
-            Height = 328
-            Align = alBottom
+            Height = 221
+            Align = alClient
             Columns = <
               item
                 Caption = 'File Name'
