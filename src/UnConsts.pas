@@ -10,7 +10,7 @@ const
   APPLICATION_NAME = 'FastFile';
   APPLICATION_EDITION = 'Professional';
   APPLICATION_DISPLAY_NAME = APPLICATION_NAME + ' ' + APPLICATION_EDITION;
-  APPLICATION_VERSION = '3.0.5.268';
+  APPLICATION_VERSION = '3.0.5.269';
   APPLICATION_FULLNAME = 'Professional editor for huge text files';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
@@ -434,7 +434,14 @@ const
     '*******************************************************'#13#10 +
     ''#13#10 +
     '-------------------------------------------------------'#13#10 +
-    '  v3.0.5.268  (2026-11-02)  (current)'#13#10 +
+    '  v3.0.5.269  (2026-11-04)  (current)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Two more interface languages:'#13#10 +
+    '    Finnish and Vietnamese bring the application to 30 languages.'#13#10 +
+    '    Both use a left-to-right layout.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.268  (2026-11-02)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  Read icon glyph and visibility:'#13#10 +
     '    The in-field icon uses the same Read drawing as the toolbar,'#13#10 +

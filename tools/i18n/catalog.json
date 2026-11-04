@@ -1,5 +1,5 @@
 {
-  "sha256": "64f08d98dca28e20ee3db2484d1ca13b28b6f6a8fff049fff7e0ef5c4b7945ac",
+  "sha256": "4c33b5510b75706dbd9b833c03e890d85aced76571e7b23abc63b54d9fa06525",
   "entries": [
     {"kind": "K", "key": "consumer_ai.connected", "source": "FastFile AI connected"},
     {"kind": "K", "key": "consumer_ai.initializing", "source": "Initializing FastFile AI..."},
@@ -3428,6 +3428,8 @@
     {"kind": "T", "key": "WorkflowWizard.OpenBtn", "source": "Next step"},
     {"kind": "T", "key": "WorkflowWizard.OpenHint", "source": "Show the next-step guide."},
     {"kind": "T", "key": "FF_HELP.RecentFeaturesBlock7", "source": "RECENT UPDATES (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, Greek, Norwegian, Swedish, Danish and Icelandic bring\r\n    the interface to 28 languages. All six read left to right.\r\n  Next steps follow the current activity, such as find, filter,\r\n    split, merge or read, instead of one fixed list.\r\n  Each activity offers more follow-up actions.\r\n  A button to the left of Copy reopens the next-steps guide.\r\n"},
-    {"kind": "T", "key": "FF_HELP.RecentFeaturesBlock8", "source": "RECENT UPDATES (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  The next-steps guide is shorter, so the file list stays visible.\r\n  A Read icon sits inside the file path field, left of the clear X.\r\n  It uses the same glyph as Read on the toolbar and loads that path.\r\n"}
+    {"kind": "T", "key": "FF_HELP.RecentFeaturesBlock8", "source": "RECENT UPDATES (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  The next-steps guide is shorter, so the file list stays visible.\r\n  A Read icon sits inside the file path field, left of the clear X.\r\n  It uses the same glyph as Read on the toolbar and loads that path.\r\n"},
+    {"kind": "K", "key": "language.option.finnish", "source": "Finnish"},
+    {"kind": "K", "key": "language.option.vietnamese", "source": "Vietnamese"}
   ]
 }

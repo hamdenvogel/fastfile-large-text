@@ -1,5 +1,5 @@
 {
-  "sha256": "64f08d98dca28e20ee3db2484d1ca13b28b6f6a8fff049fff7e0ef5c4b7945ac",
+  "sha256": "4c33b5510b75706dbd9b833c03e890d85aced76571e7b23abc63b54d9fa06525",
   "unchanged": {
     "28": "No translatable words.",
     "149": "The token AI is kept unchanged.",
@@ -3463,6 +3463,8 @@
     "3424": "Næsta skref",
     "3425": "Sýna leiðsögn fyrir næsta skref.",
     "3426": "NÝJUSTU UPPFÆRSLUR (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Tælenska, gríska, norska, sænska, danska og íslenska færa\r\n    viðmótið í 28 tungumál. Öll sex lesast frá vinstri til hægri.\r\n  Næstu skref fylgja núverandi aðgerð, svo sem leit, sía,\r\n    skipting, sameining eða lestur, í stað eins fasts lista.\r\n  Hver aðgerð býður upp á fleiri framhaldsaðgerðir.\r\n  Hnappur vinstra megin við Afrita opnar leiðarvísinn aftur.\r\n",
-    "3427": "NÝLEGA UPPFÆRSLUR (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Leiðarvísir næstu skrefa er lægri, svo skráarlistinn er áfram sýnilegur.\r\n  Lesa-tákn er í slóðarreitnum, vinstra megin við hreinsa-X.\r\n  Það notar sömu teikningu og Lesa á verkfærastikunni og hleður þeirri slóð.\r\n"
+    "3427": "NÝLEGA UPPFÆRSLUR (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Leiðarvísir næstu skrefa er lægri, svo skráarlistinn er áfram sýnilegur.\r\n  Lesa-tákn er í slóðarreitnum, vinstra megin við hreinsa-X.\r\n  Það notar sömu teikningu og Lesa á verkfærastikunni og hleður þeirri slóð.\r\n",
+    "3428": "Finnska",
+    "3429": "Víetnamska"
   }
 }

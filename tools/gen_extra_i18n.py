@@ -27,6 +27,8 @@ LANGUAGES = {
     "sv": ("Swedish", "swedish"),
     "da": ("Danish", "danish"),
     "is": ("Icelandic", "icelandic"),
+    "fi": ("Finnish", "finnish"),
+    "vi": ("Vietnamese", "vietnamese"),
 }
 BASE_LANGUAGES = {
     "en", "pt-BR", "es", "fr", "de", "it", "pl", "pt-PT",

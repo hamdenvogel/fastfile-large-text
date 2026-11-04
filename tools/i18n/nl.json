@@ -1,5 +1,5 @@
 {
-  "sha256": "64f08d98dca28e20ee3db2484d1ca13b28b6f6a8fff049fff7e0ef5c4b7945ac",
+  "sha256": "4c33b5510b75706dbd9b833c03e890d85aced76571e7b23abc63b54d9fa06525",
   "unchanged": {
     "95": "Help is the standard Dutch menu label; its mnemonic remains functional.",
     "149": "AI is the established technical abbreviation for artificial intelligence.",
@@ -3475,15 +3475,15 @@
     "3404": "Nederlands",
     "3405": "Turks",
     "3406": "Oekraïens",
-    "3415": "Klaar voor de volgende stap?",
-    "3409": "Het bestand is klaar. Kies wat u hierna wilt doen.",
-    "3412": "Regels bewerken",
-    "3408": "Vergelijken / samenvoegen",
-    "3413": "Bestanden samenvoegen",
     "3407": "AI vragen",
+    "3408": "Vergelijken / samenvoegen",
+    "3409": "Het bestand is klaar. Kies wat u hierna wilt doen.",
     "3410": "Sluiten",
     "3411": "Deze handleiding niet meer tonen",
+    "3412": "Regels bewerken",
+    "3413": "Bestanden samenvoegen",
     "3414": "Volgende stappen tonen na het lezen van een bestand",
+    "3415": "Klaar voor de volgende stap?",
     "3416": "Handleiding nu tonen",
     "3417": "RECENTE UPDATES (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  De interface is nu beschikbaar in 22 talen, waaronder Hindi, Russisch en Koreaans,\r\n    plus Nederlands, Turks en Oekraïens. Hindi gebruikt een indeling van links naar rechts.\r\n  Het opdelen in gelijke delen verwerkt MMF-blokken zonder het hele bestand te laden;\r\n    het tabblad voor splitsen blijft na afloop geopend.\r\n  Na het lezen van een bestand stelt de vervolgstappengids nuttige acties voor.\r\n    U kunt de gids opnieuw openen of uitschakelen via Opties.\r\n  Het contextmenu van de editor en de termen voor sessiegeschiedenis zijn vertaald.\r\n  De gids en Opties hebben een nieuw ontwerp; de gids start zonder flikkering\r\n    en onderbreekt het lezen van bestanden niet.\r\n",
     "3418": "Thais",
@@ -3495,6 +3495,8 @@
     "3424": "Volgende stap",
     "3425": "Handleiding voor de volgende stap tonen.",
     "3426": "RECENTE UPDATES (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, Grieks, Noors, Zweeds, Deens en IJslands brengen\r\n    de interface naar 28 talen. Alle zes lopen van links naar rechts.\r\n  Volgende stappen volgen de huidige actie, zoals zoeken, filteren,\r\n    splitsen, samenvoegen of lezen, in plaats van één vaste lijst.\r\n  Elke actie biedt meer vervolgstappen.\r\n  Een knop links van Kopiëren opent de gids opnieuw.\r\n",
-    "3427": "RECENTE UPDATES (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  De gids voor volgende stappen is lager, zodat de bestandslijst zichtbaar blijft.\r\n  Een Lees-pictogram staat in het padveld, links van de wis-X.\r\n  Het gebruikt dezelfde tekening als Lees op de balk en laadt dat pad.\r\n"
+    "3427": "RECENTE UPDATES (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  De gids voor volgende stappen is lager, zodat de bestandslijst zichtbaar blijft.\r\n  Een Lees-pictogram staat in het padveld, links van de wis-X.\r\n  Het gebruikt dezelfde tekening als Lees op de balk en laadt dat pad.\r\n",
+    "3428": "Fins",
+    "3429": "Vietnamees"
   }
 }

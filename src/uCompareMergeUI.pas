@@ -1370,12 +1370,21 @@ var
     cw, y, yP, wList, xJ: Integer;
   listVis, jDocked, pDocked, topArea: Boolean;
   BL: IInterface;
+  DidFreeze: Boolean;
 begin
+  if FClosing or (csDestroying in ComponentState) then Exit;
   if not Assigned(TabSheetHistory) or not Assigned(mmoJournal) then Exit;
   cw := TabSheetHistory.ClientWidth - 16;
   topBase := lblJournalHint.Top;
   hAvail := TabSheetHistory.ClientHeight - topBase - 8 - cHistExportBarH;
   if hAvail < 120 then Exit;
+  DidFreeze := BidiIsRtl and TabSheetHistory.HandleAllocated;
+  if DidFreeze then
+  begin
+    BidiSuspendUpdates;
+    SendMessage(TabSheetHistory.Handle, WM_SETREDRAW, 0, 0);
+  end;
+  try
   BL := BidiLayoutScope([TabSheetHistory]);
   EnsureJournalGrid;
   EnsureChangedLinesList;
@@ -1514,6 +1523,16 @@ begin
   if Assigned(lvHistFile) then
     lvHistFile.Visible := False;
   BuildHistoryJournalLegend;
+  finally
+    BL := nil; { EndLayout + scope redraw before outer unlock }
+    if DidFreeze and TabSheetHistory.HandleAllocated then
+    begin
+      SendMessage(TabSheetHistory.Handle, WM_SETREDRAW, 1, 0);
+      RedrawWindow(TabSheetHistory.Handle, nil, 0,
+        RDW_ERASE or RDW_INVALIDATE or RDW_ALLCHILDREN);
+      BidiResumeUpdates;
+    end;
+  end;
 end;
 
 procedure TfrmCompareMerge.UpdateHistPreviewColWidths(ACw: Integer);
@@ -9879,6 +9898,12 @@ procedure TfrmCompareMerge.ApplyUiLanguage;
   end;
 
 begin
+  if FClosing or (csDestroying in ComponentState) then Exit;
+  { Batch paints + pause BiDi timer while captions/layout flip (RTL flicker). }
+  BidiSuspendUpdates;
+  if HandleAllocated then
+    SendMessage(Handle, WM_SETREDRAW, 0, 0);
+  try
   { Chaves inglesas explicitas: a traducao generica por texto atual falha ao trocar de idioma. }
   lblLeft.Caption := TrText('Left file');
   lblRight.Caption := TrText('Right file');
@@ -9945,6 +9970,15 @@ begin
   LayoutHistoryTab;
   ApplyMergeListViewColumnCaptions;
   EnsureJournalLeftGutterMargin;
+  finally
+    if HandleAllocated then
+    begin
+      SendMessage(Handle, WM_SETREDRAW, 1, 0);
+      RedrawWindow(Handle, nil, 0,
+        RDW_ERASE or RDW_INVALIDATE or RDW_ALLCHILDREN);
+    end;
+    BidiResumeUpdates;
+  end;
 end;
 
 procedure TfrmCompareMerge.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
@@ -9961,12 +9995,12 @@ begin
   if Assigned(Th) then
   begin
     Th.Terminate;
-    { WaitFor bloqueava a fila do modal. Espera com bomba de mensagens ate OnTerminate
-      limpar FHistoryReloadThread (Delphi 7: TThread sem WaitFor com timeout). }
+    { Drain Synchronize only — ProcessMessages re-entered main-form localization
+      (ApplyRecentFilesTabVisualStyle AV after Arabic ↔ PT-BR). }
     tlim := GetTickCount + 180000;
     while Assigned(FHistoryReloadThread) do
     begin
-      Application.ProcessMessages;
+      while CheckSynchronize do;
       if Integer(GetTickCount - tlim) >= 0 then
         Break;
       Sleep(5);

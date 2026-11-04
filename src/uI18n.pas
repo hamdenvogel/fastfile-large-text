@@ -12,7 +12,8 @@ type
                    alChineseSimplified, alChineseTraditional,
                    alArabic, alHebrew,
                    alHindi, alRussian, alKorean, alDutch, alTurkish, alUkrainian,
-                   alThai, alGreek, alNorwegian, alSwedish, alDanish, alIcelandic);
+                   alThai, alGreek, alNorwegian, alSwedish, alDanish, alIcelandic,
+                   alFinnish, alVietnamese);
 
 { True for right-to-left UI languages (Arabic, Hebrew). The UI then switches to
   BiDiMode = bdRightToLeft and every form is mirrored (see uBidiLayout). }
@@ -81,7 +82,7 @@ uses
 
 type
   TAppLanguageSet = set of TAppLanguage;
-  TExtraLanguage = alHindi..alIcelandic;
+  TExtraLanguage = alHindi..alVietnamese;
 
 var
   GCurrentLanguage: TAppLanguage = alEnglish;
@@ -56171,6 +56172,12 @@ begin
   Set16('language.option.icelandic',
     'Icelandic', 'Islandês', 'Islandés', 'Islandais', 'Isländisch', 'Islandese', 'Islandzki',
     'Islandês', 'Islandeză', 'Izlandi', 'Islandština', 'アイスランド語', '冰岛语', '冰島語', 'الآيسلندية', 'איסלנדית');
+  Set16('language.option.finnish',
+    'Finnish', 'Finlandês', 'Finés', 'Finnois', 'Finnisch', 'Finlandese', 'Fiński',
+    'Finlandês', 'Finlandeză', 'Finn', 'Finština', 'フィンランド語', '芬兰语', '芬蘭語', 'الفنلندية', 'פינית');
+  Set16('language.option.vietnamese',
+    'Vietnamese', 'Vietnamita', 'Vietnamita', 'Vietnamien', 'Vietnamesisch', 'Vietnamita', 'Wietnamski',
+    'Vietnamita', 'Vietnameză', 'Vietnámi', 'Vietnamština', 'ベトナム語', '越南语', '越南語', 'الفيتنامية', 'וייטנאמית');
 end;
 
 procedure FillTranslationDataBody;
@@ -57538,6 +57545,8 @@ begin
     $001D: Result := alSwedish;   { LANG_SWEDISH }
     $0006: Result := alDanish;     { LANG_DANISH }
     $000F: Result := alIcelandic; { LANG_ICELANDIC }
+    $000B: Result := alFinnish;   { LANG_FINNISH }
+    $002A: Result := alVietnamese; { LANG_VIETNAMESE }
   else
     Result := alEnglish;
   end;
@@ -57589,7 +57598,7 @@ begin
     alChineseTraditional: Result := GTextChineseTraditional;
     alArabic:       Result := GTextArabic;
     alHebrew:       Result := GTextHebrew;
-    alHindi..alIcelandic: Result := GExtraTextTables[Lang];
+    alHindi..alVietnamese: Result := GExtraTextTables[Lang];
   else
     Result := GTextEnglish;
   end;
@@ -57614,7 +57623,7 @@ begin
     alChineseTraditional: Result := GChineseTraditional;
     alArabic:       Result := GArabic;
     alHebrew:       Result := GHebrew;
-    alHindi..alIcelandic: Result := GExtraTables[Lang];
+    alHindi..alVietnamese: Result := GExtraTables[Lang];
   else
     Result := GEnglish;
   end;
@@ -57719,6 +57728,12 @@ begin
   else if (Normalized = 'is') or (Normalized = 'is-is') or (Normalized = 'is_is') or
           (Normalized = 'icelandic') then
     Result := alIcelandic
+  else if (Normalized = 'fi') or (Normalized = 'fi-fi') or (Normalized = 'fi_fi') or
+          (Normalized = 'finnish') then
+    Result := alFinnish
+  else if (Normalized = 'vi') or (Normalized = 'vi-vn') or (Normalized = 'vi_vn') or
+          (Normalized = 'vietnamese') then
+    Result := alVietnamese
   else
     Result := alEnglish;
 end;
@@ -57753,6 +57768,8 @@ begin
     alSwedish:      Result := 'sv';
     alDanish:       Result := 'da';
     alIcelandic:    Result := 'is';
+    alFinnish:      Result := 'fi';
+    alVietnamese:   Result := 'vi';
   else
     Result := 'en';
   end;
@@ -57859,6 +57876,8 @@ begin
     alSwedish:      Result := 'Swedish';
     alDanish:       Result := 'Danish';
     alIcelandic:    Result := 'Icelandic';
+    alFinnish:      Result := 'Finnish';
+    alVietnamese:   Result := 'Vietnamese';
   else
     Result := 'English';
   end;

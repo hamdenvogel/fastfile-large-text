@@ -53,6 +53,13 @@ function BidiHasManual: Boolean;
   again when the language changes). }
 procedure BidiSyncApplication;
 
+{ Pause the periodic re-apply timer (language switch, heavy layout, shutdown).
+  Nestable; each Suspend needs a matching Resume. }
+procedure BidiSuspendUpdates;
+procedure BidiResumeUpdates;
+{ Kill the BiDi timer for good (application shutdown). }
+procedure BidiShutdown;
+
 { --- layout ---------------------------------------------------------------- }
 procedure BidiApplyForm(AForm: TCustomForm);
 procedure BidiApplyControl(AContainer: TWinControl);
@@ -365,18 +372,20 @@ type
 
 var
   GHooks: TBidiHooks = nil;
+  GWndHook: HHOOK = 0;
+  GTimer: UINT_PTR = 0;
+  GInPass: Boolean = False;
+  GSuspendCount: Integer = 0;
 
 procedure TBidiHooks.ActiveFormChanged(Sender: TObject);
 begin
   if Assigned(GPrevActiveFormChange) then
     GPrevActiveFormChange(Sender);
+  if (GSuspendCount > 0) then Exit;
   if (Screen.ActiveForm <> nil) and BidiIsRtl and
      (FindMark(Screen.ActiveForm, False) = nil) then
     BidiApplyForm(Screen.ActiveForm);
 end;
-
-var
-  GWndHook: HHOOK = 0;
 
 { Every form (including ad-hoc dialogs and VCL message boxes) is mirrored right
   before Windows shows it: WM_SHOWWINDOW sent by ShowWindow (lParam = 0). }
@@ -385,7 +394,7 @@ var
   P: PCWPStruct;
   C: TWinControl;
 begin
-  if Code = HC_ACTION then
+  if (Code = HC_ACTION) and (GSuspendCount = 0) then
   begin
     P := PCWPStruct(LParam);
     if (P <> nil) and (P^.message = WM_SHOWWINDOW) and (P^.wParam <> 0) and
@@ -402,9 +411,42 @@ begin
   Result := CallNextHookEx(GWndHook, Code, WParam, LParam);
 end;
 
-var
-  GTimer: UINT_PTR = 0;
-  GInPass: Boolean = False;
+procedure UpdateTimer; forward;
+
+procedure BidiSuspendUpdates;
+begin
+  Inc(GSuspendCount);
+  if GTimer <> 0 then
+  begin
+    KillTimer(0, GTimer);
+    GTimer := 0;
+  end;
+end;
+
+procedure BidiResumeUpdates;
+begin
+  if GSuspendCount > 0 then
+    Dec(GSuspendCount);
+  UpdateTimer;
+end;
+
+procedure BidiShutdown;
+begin
+  Inc(GSuspendCount); { stay suspended; no matching Resume on exit }
+  if GTimer <> 0 then
+  begin
+    KillTimer(0, GTimer);
+    GTimer := 0;
+  end;
+end;
+
+procedure RedrawUnlock(AHwnd: HWND);
+begin
+  if AHwnd = 0 then Exit;
+  SendMessage(AHwnd, WM_SETREDRAW, 1, 0);
+  RedrawWindow(AHwnd, nil, 0,
+    RDW_ERASE or RDW_INVALIDATE or RDW_ALLCHILDREN);
+end;
 
 { Safety net for controls created in code after the form was mirrored (dynamic
   bars, side docks, popups): visible forms are re-checked a few times a second
@@ -415,7 +457,7 @@ var
   I: Integer;
   F: TCustomForm;
 begin
-  if GInPass or (Screen = nil) or (not BidiIsRtl) then Exit;
+  if (GSuspendCount > 0) or GInPass or (Screen = nil) or (not BidiIsRtl) then Exit;
   GInPass := True;
   try
     try
@@ -435,10 +477,21 @@ end;
 
 procedure UpdateTimer;
 begin
+  if (GSuspendCount > 0) then
+  begin
+    if GTimer <> 0 then
+    begin
+      KillTimer(0, GTimer);
+      GTimer := 0;
+    end;
+    Exit;
+  end;
   if BidiIsRtl then
   begin
+    { 400 ms: enough as a safety net for late-created controls; 150 ms caused
+      visible flicker on dense forms (compare/merge history) during layout. }
     if GTimer = 0 then
-      GTimer := SetTimer(0, 0, 150, @BidiTimerProc);
+      GTimer := SetTimer(0, 0, 400, @BidiTimerProc);
   end
   else if GTimer <> 0 then
   begin
@@ -475,6 +528,7 @@ procedure BidiApplyForm(AForm: TCustomForm);
 var
   Rtl: Boolean;
   Want: TBiDiMode;
+  H: HWND;
 begin
   if (AForm = nil) or (csDestroying in AForm.ComponentState) then Exit;
   Rtl := BidiIsRtl;
@@ -489,9 +543,20 @@ begin
   if SelfMirroringForm(AForm) then Exit;
   { Left-to-right and never mirrored: nothing to do (and no marks to create). }
   if (not Rtl) and (FindMark(AForm, False) = nil) then Exit;
-  ApplyContainer(AForm, Rtl);
-  if Rtl then
-    ReapplyKeepLtr(AForm);
+  H := 0;
+  if AForm.HandleAllocated then
+  begin
+    H := AForm.Handle;
+    SendMessage(H, WM_SETREDRAW, 0, 0);
+  end;
+  try
+    ApplyContainer(AForm, Rtl);
+    if Rtl then
+      ReapplyKeepLtr(AForm);
+  finally
+    if H <> 0 then
+      RedrawUnlock(H);
+  end;
 end;
 
 procedure BidiApplyControl(AContainer: TWinControl);
@@ -511,15 +576,21 @@ var
   I: Integer;
   Frms: TList;
 begin
-  BidiSyncApplication;
-  Frms := TList.Create;
+  { Pause the periodic timer so it does not re-enter while we mirror. }
+  BidiSuspendUpdates;
   try
-    for I := 0 to Screen.CustomFormCount - 1 do
-      Frms.Add(Screen.CustomForms[I]);
-    for I := 0 to Frms.Count - 1 do
-      BidiApplyForm(TCustomForm(Frms[I]));
+    BidiSyncApplication;
+    Frms := TList.Create;
+    try
+      for I := 0 to Screen.CustomFormCount - 1 do
+        Frms.Add(Screen.CustomForms[I]);
+      for I := 0 to Frms.Count - 1 do
+        BidiApplyForm(TCustomForm(Frms[I]));
+    finally
+      Frms.Free;
+    end;
   finally
-    Frms.Free;
+    BidiResumeUpdates;
   end;
 end;
 
@@ -553,6 +624,7 @@ type
   TBidiLayoutScope = class(TInterfacedObject)
   private
     FList: array of TWinControl;
+    FRedrawHwnd: HWND;
   public
     constructor Create(const AContainers: array of TWinControl);
     destructor Destroy; override;
@@ -563,6 +635,7 @@ var
   I, N: Integer;
 begin
   inherited Create;
+  FRedrawHwnd := 0;
   N := 0;
   SetLength(FList, Length(AContainers));
   for I := 0 to High(AContainers) do
@@ -570,9 +643,16 @@ begin
     begin
       FList[N] := AContainers[I];
       Inc(N);
-      BidiBeginLayout(AContainers[I]);
     end;
   SetLength(FList, N);
+  { One coherent paint after un-mirror → layout → re-mirror (cuts RTL flicker). }
+  if BidiIsRtl and (N > 0) and FList[0].HandleAllocated then
+  begin
+    FRedrawHwnd := FList[0].Handle;
+    SendMessage(FRedrawHwnd, WM_SETREDRAW, 0, 0);
+  end;
+  for I := 0 to N - 1 do
+    BidiBeginLayout(FList[I]);
 end;
 
 destructor TBidiLayoutScope.Destroy;
@@ -584,6 +664,8 @@ begin
       BidiEndLayout(FList[I]);
     except
     end;
+  if FRedrawHwnd <> 0 then
+    RedrawUnlock(FRedrawHwnd);
   inherited;
 end;
 

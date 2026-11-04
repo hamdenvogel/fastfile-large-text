@@ -35,7 +35,7 @@ scrolls as smoothly as a 10 KB one.
 - **Recent languages** – the language list keeps the ones you used first. Type to search. The list closes while the new language loads. Each name has a country flag.
 - **Right to left** – Arabic and Hebrew mirror forms, dialogs and controls. File text stays left to right. In those languages the file-list columns read from the right.
 - **Equal parts on the toolbar** – the button sits right after Merge files (Ctrl+Shift+P) and opens Split file into equal parts.
-- **28 languages** – English, Português (BR/PT), Español, Français, Deutsch, Italiano, Polski, Română, Magyar, Čeština, 日本語, 简体中文, 繁體中文, العربية, עברית, हिन्दी, Русский, 한국어, Nederlands, Türkçe, Українська, ไทย, Ελληνικά, Norsk, Svenska, Dansk, Íslenska.
+- **30 languages** – English, Português (BR/PT), Español, Français, Deutsch, Italiano, Polski, Română, Magyar, Čeština, 日本語, 简体中文, 繁體中文, العربية, עברית, हिन्दी, Русский, 한국어, Nederlands, Türkçe, Українська, ไทย, Ελληνικά, Norsk, Svenska, Dansk, Íslenska, Suomi, Tiếng Việt.
 - **Unicode localization** – Hindi, Russian, Korean, Dutch, Turkish, Ukrainian, Thai, Greek, Norwegian, Swedish, Danish and Icelandic use left-to-right layouts. Translation catalogs are generated offline with checks for missing entries, format parameters and separators.
 - **Skinnable UI** – AlphaSkins themes and adjustable UI scaling (PPI) for high-DPI monitors.
 

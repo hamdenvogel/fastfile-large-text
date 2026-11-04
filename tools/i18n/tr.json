@@ -1,5 +1,5 @@
 {
-  "sha256": "64f08d98dca28e20ee3db2484d1ca13b28b6f6a8fff049fff7e0ef5c4b7945ac",
+  "sha256": "4c33b5510b75706dbd9b833c03e890d85aced76571e7b23abc63b54d9fa06525",
   "unchanged": {
     "736": "Python is the proper name of the programming language and is used as a technical label.",
     "962": "Unicode is the formal name of the character-encoding standard; U+ is its canonical notation.",
@@ -3436,15 +3436,15 @@
     "3404": "Felemenkçe",
     "3405": "Türkçe",
     "3406": "Ukraynaca",
-    "3415": "Sonraki adıma hazır mısınız?",
-    "3409": "Dosyanız hazır. Bundan sonra ne yapmak istediğinizi seçin.",
-    "3412": "Satırları düzenle",
-    "3408": "Karşılaştır / birleştir",
-    "3413": "Dosyaları birleştir",
     "3407": "Yapay zekâya sor",
+    "3408": "Karşılaştır / birleştir",
+    "3409": "Dosyanız hazır. Bundan sonra ne yapmak istediğinizi seçin.",
     "3410": "Kapat",
     "3411": "Bu kılavuzu bir daha gösterme",
+    "3412": "Satırları düzenle",
+    "3413": "Dosyaları birleştir",
     "3414": "Dosya okunduktan sonra sonraki adımları göster",
+    "3415": "Sonraki adıma hazır mısınız?",
     "3416": "Kılavuzu şimdi göster",
     "3417": "SON GÜNCELLEMELER (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Arayüz artık Hintçe, Rusça ve Korece dahil 22 dili destekliyor;\r\n    ayrıca Felemenkçe, Türkçe ve Ukraynaca da var. Hintçe soldan sağa düzen kullanır.\r\n  Eşit parçalara bölme, dosyanın tamamını yüklemeden MMF bloklarını işler;\r\n    işlem bitince bölme sekmesi açık kalır.\r\n  Dosya okunduktan sonra sonraki adımlar kılavuzu yararlı işlemler önerir.\r\n    Tercihler'den yeniden açabilir veya kapatabilirsiniz.\r\n  Düzenleyicinin bağlam menüsü ve oturum geçmişi terimleri yerelleştirildi.\r\n  Kılavuz ve Tercihler yeniden tasarlandı; kılavuz titreme olmadan başlar\r\n    ve dosya okuma işlemini kesintiye uğratmaz.\r\n",
     "3418": "Tayca",
@@ -3456,6 +3456,8 @@
     "3424": "Sonraki adım",
     "3425": "Sonraki adım kılavuzunu göster.",
     "3426": "SON GÜNCELLEMELER (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Tayca, Yunanca, Norveççe, İsveççe, Danca ve İzlandaca çıkarır\r\n    arayüzü 28 dile. Altısı da soldan sağa okunur.\r\n  Sonraki adımlar geçerli işleme uyar, örneğin bul, süz,\r\n    böl, birleştir veya oku; sabit bir liste değildir.\r\n  Her işlem daha fazla sonraki eylem sunar.\r\n  Kopyala düğmesinin solundaki düğme kılavuzu yeniden açar.\r\n",
-    "3427": "SON GÜNCELLEMELER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Sonraki adımlar kılavuzu daha alçak; dosya listesi görünür kalır.\r\n  Oku simgesi yol alanında, temizleme X'inin solundadır.\r\n  Araç çubuğundaki Oku ile aynı çizimi kullanır ve o yolu yükler.\r\n"
+    "3427": "SON GÜNCELLEMELER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Sonraki adımlar kılavuzu daha alçak; dosya listesi görünür kalır.\r\n  Oku simgesi yol alanında, temizleme X'inin solundadır.\r\n  Araç çubuğundaki Oku ile aynı çizimi kullanır ve o yolu yükler.\r\n",
+    "3428": "Fince",
+    "3429": "Vietnamca"
   }
 }

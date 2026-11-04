@@ -3,11 +3,17 @@
 **Data:** 2 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64)  
 **Pasta:** `FileReadThread-2\Src` (host D10: `delphi10_4_2\FastFile\src`)  
-**Versão publicada actual:** **`3.0.5.268`** — guia de próximos passos mais baixo e ícone de Ler no campo do caminho. As entregas **3.0.5.262–265** (28 idiomas e próximos passos por atividade) e **3.0.5.245–261** permanecem no histórico, sem repetição.
+**Versão publicada actual:** **`3.0.5.269`** — interface em **30 idiomas** (finlandês e vietnamita). As entregas **3.0.5.266–268** (guia mais baixo / ícone de Ler), **3.0.5.262–265** (28 idiomas e próximos passos por atividade) e **3.0.5.245–261** permanecem no histórico, sem repetição.
 
 ---
 
-## ★ FastFile 3.0.5.268 (atual) — Ícone de Ler visível e correto (02/11/2026)
+## ★ FastFile 3.0.5.269 (atual) — 30 idiomas (finlandês e vietnamita) (04/11/2026)
+
+- Finlandês (`fi`) e vietnamita (`vi`) ampliam a interface de 28 para **30 idiomas**. Ambos usam layout da esquerda para a direita; catálogo em `tools/i18n` emitido em `uI18nExtra.pas`.
+- Combo de idiomas, bandeiras, detecção Windows e rótulos `language.option.*` nos 16 idiomas base (incl. AR/HE).
+- **Sync:** `APPLICATION_VERSION` **3.0.5.269**, `HISTORY`, metadados de `FastFile.dproj` e documentação.
+
+## ★ FastFile 3.0.5.268 — Ícone de Ler visível e correto (02/11/2026)
 
 - O ícone no campo do caminho usa o mesmo desenho do botão **Ler** da barra (não o de abrir pasta) e fica numa janela própria, como o X, para não ficar escondido atrás do edit.
 - **Sync:** `APPLICATION_VERSION` **3.0.5.268**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock8`) nos 28 idiomas e metadados de `FastFile.dproj`.

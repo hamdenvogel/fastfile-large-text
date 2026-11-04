@@ -11516,6 +11516,12 @@ begin
         + #2354' '#2360#2370#2330#2368' '#2342#2367#2326#2340#2368' '#2352#2361#2340#2368' '#2361#2376#2404#13#10'  '#2346#2338#2364#2375#2306' '#2310#2311#2325#2344' '#2346#2341' '#2347#2364#2368#2354#2381#2337' '#2350#2375#2306', '#2360#2366#2347#2364' '#2325#2352#2344#2375' '#2357#2366#2354#2375' X '#2325#2375
         + ' '#2348#2366#2312#2306' '#2323#2352' '#2361#2376#2404#13#10'  '#2351#2361' '#2335#2370#2354#2348#2366#2352' '#2325#2375' '#2346#2338#2364#2375#2306' '#2332#2376#2360#2366' '#2361#2368' '#2330#2367#2361#2381#2344' '#2361#2376' '#2324#2352' '#2313#2360#2368' '#2346#2341' '#2325#2379' '#2354#2379#2337' '#2325
         + #2352#2340#2366' '#2361#2376#2404#13#10);
+  Put(False,
+    'language.option.finnish',
+    #2347#2367#2344#2367#2358);
+  Put(False,
+    'language.option.vietnamese',
+    #2357#2367#2351#2340#2344#2366#2350#2368);
 end;
 
 procedure AddRussianPart01(const Put: TExtraPutProc);
@@ -23259,6 +23265,12 @@ begin
         + #1074' '#1085#1080#1078#1077', '#1087#1086#1101#1090#1086#1084#1091' '#1089#1087#1080#1089#1086#1082' '#1092#1072#1081#1083#1072' '#1086#1089#1090#1072#1105#1090#1089#1103' '#1074#1080#1076#1080#1084#1099#1084'.'#13#10'  '#1047#1085#1072#1095#1086#1082' '#171#1063#1080#1090#1072#1090#1100#187' '#1074' '#1087#1086
         + #1083#1077' '#1087#1091#1090#1080', '#1089#1083#1077#1074#1072' '#1086#1090' '#1082#1088#1077#1089#1090#1080#1082#1072' '#1086#1095#1080#1089#1090#1082#1080'.'#13#10'  '#1058#1086#1090' '#1078#1077' '#1088#1080#1089#1091#1085#1086#1082', '#1095#1090#1086' '#1091' '#171#1063#1080#1090#1072#1090#1100#187' '
         + #1085#1072' '#1087#1072#1085#1077#1083#1080', '#1080' '#1079#1072#1075#1088#1091#1078#1072#1077#1090' '#1101#1090#1086#1090' '#1087#1091#1090#1100'.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    #1060#1080#1085#1089#1082#1080#1081);
+  Put(False,
+    'language.option.vietnamese',
+    #1042#1100#1077#1090#1085#1072#1084#1089#1082#1080#1081);
 end;
 
 procedure AddKoreanPart01(const Put: TExtraPutProc);
@@ -34178,6 +34190,12 @@ begin
     #52572#44540' '#50629#45936#51060#53944' (v3.0.5.266 '#8211' v3.0.5.268)'#13#10'-----------------------------------'
         + '----------------------------'#13#10'  '#45796#51020' '#45800#44228' '#50504#45236#44032' '#45908' '#45230#50500#51256' '#54028#51068' '#47785#47197#51060' '#44228#49549' '#48372#51077#45768#45796'.'#13#10'  '#51069#44592' '
         + #50500#51060#53080#51060' '#44221#47196' '#54596#46300' '#50504', '#51648#50864#44592' X '#50812#51901#50640' '#51080#49845#45768#45796'.'#13#10'  '#46020#44396' '#47784#51020#51032' '#51069#44592#50752' '#44057#51008' '#44536#47548#51060#47728' '#54644#45817' '#44221#47196#47484' '#48520#47084#50741#45768#45796'.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    #54592#46976#46300#50612);
+  Put(False,
+    'language.option.vietnamese',
+    #48288#53944#45224#50612);
 end;
 
 procedure AddDutchPart01(const Put: TExtraPutProc);
@@ -45868,6 +45886,12 @@ begin
         + 'is lager, zodat de bestandslijst zichtbaar blijft.'#13#10'  Een Lees-pictogr'
         + 'am staat in het padveld, links van de wis-X.'#13#10'  Het gebruikt dezelfde '
         + 'tekening als Lees op de balk en laadt dat pad.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Fins');
+  Put(False,
+    'language.option.vietnamese',
+    'Vietnamees');
 end;
 
 procedure AddTurkishPart01(const Put: TExtraPutProc);
@@ -57457,6 +57481,12 @@ begin
         + 'a al'#231'ak; dosya listesi g'#246'r'#252'n'#252'r kal'#305'r.'#13#10'  Oku simgesi yol alan'#305'nda, tem'
         + 'izleme X''inin solundad'#305'r.'#13#10'  Ara'#231' '#231'ubu'#287'undaki Oku ile ayn'#305' '#231'izimi kull'
         + 'an'#305'r ve o yolu y'#252'kler.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Fince');
+  Put(False,
+    'language.option.vietnamese',
+    'Vietnamca');
 end;
 
 procedure AddUkrainianPart01(const Put: TExtraPutProc);
@@ -69006,6 +69036,12 @@ begin
         + #1078#1095#1080#1081', '#1090#1086#1078' '#1089#1087#1080#1089#1086#1082' '#1092#1072#1081#1083#1091' '#1083#1080#1096#1072#1108#1090#1100#1089#1103' '#1074#1080#1076#1080#1084#1080#1084'.'#13#10'  '#1055#1110#1082#1090#1086#1075#1088#1072#1084#1072' '#171#1063#1080#1090#1072#1090#1080#187' '#1074' '#1087#1086#1083
         + #1110' '#1096#1083#1103#1093#1091', '#1083#1110#1074#1086#1088#1091#1095' '#1074#1110#1076' X '#1086#1095#1080#1097#1077#1085#1085#1103'.'#13#10'  '#1058#1086#1081' '#1089#1072#1084#1080#1081' '#1084#1072#1083#1102#1085#1086#1082', '#1097#1086' '#1074' '#171#1063#1080#1090#1072#1090#1080#187' '#1085
         + #1072' '#1087#1072#1085#1077#1083#1110', '#1110' '#1079#1072#1074#1072#1085#1090#1072#1078#1091#1108' '#1094#1077#1081' '#1096#1083#1103#1093'.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    #1060#1110#1085#1089#1100#1082#1072);
+  Put(False,
+    'language.option.vietnamese',
+    #1042''''#1108#1090#1085#1072#1084#1089#1100#1082#1072);
 end;
 
 procedure AddThaiPart01(const Put: TExtraPutProc);
@@ -80273,6 +80309,12 @@ begin
         + '---------------------------------'#13#10'  '#3588#3641#3656#3617#3639#3629#3586#3633#3657#3609#3605#3629#3609#3606#3633#3604#3652#3611#3648#3605#3637#3657#3618#3621#3591' '#3592#3638#3591#3618#3633#3591#3648
         + #3627#3655#3609#3619#3634#3618#3585#3634#3619#3652#3615#3621#3660#13#10'  '#3652#3629#3588#3629#3609#3629#3656#3634#3609#3629#3618#3641#3656#3651#3609#3594#3656#3629#3591#3614#3634#3608' '#3595#3657#3634#3618#3586#3629#3591' X '#3621#3657#3634#3591#13#10'  '#3651#3594#3657#3616#3634#3614#3648#3604#3637#3618#3623#3585
         + #3633#3610' '#3629#3656#3634#3609' '#3610#3609#3649#3606#3610#3648#3588#3619#3639#3656#3629#3591#3617#3639#3629' '#3649#3621#3632#3650#3627#3621#3604#3614#3634#3608#3609#3633#3657#3609#13#10);
+  Put(False,
+    'language.option.finnish',
+    #3615#3636#3609#3649#3621#3609#3604#3660);
+  Put(False,
+    'language.option.vietnamese',
+    #3648#3623#3637#3618#3604#3609#3634#3617);
 end;
 
 procedure AddGreekPart01(const Put: TExtraPutProc);
@@ -92086,6 +92128,12 @@ begin
         + #959' '#913#957#940#947#957#969#963#951' '#949#943#957#945#953' '#963#964#959' '#960#949#948#943#959' '#948#953#945#948#961#959#956#942#962', '#945#961#953#963#964#949#961#940' '#945#960#972' '#964#959' X.'#13#10'  '#935#961#951#963#953#956#959#960#959#953
         + #949#943' '#964#959' '#943#948#953#959' '#963#967#941#948#953#959' '#956#949' '#964#959' '#913#957#940#947#957#969#963#951' '#963#964#951' '#947#961#945#956#956#942' '#954#945#953' '#966#959#961#964#974#957#949#953' '#964#951' '#948#953#945#948#961#959#956#942'.'#13
         + #10);
+  Put(False,
+    'language.option.finnish',
+    #934#953#957#955#945#957#948#953#954#940);
+  Put(False,
+    'language.option.vietnamese',
+    #914#953#949#964#957#945#956#953#954#940);
 end;
 
 procedure AddNorwegianPart01(const Put: TExtraPutProc);
@@ -103606,6 +103654,12 @@ begin
         + ' er lavere, s'#229' fillisten forblir synlig.'#13#10'  Et Les-ikon st'#229'r i banefel'
         + 'tet, til venstre for X for t'#248'mming.'#13#10'  Det bruker samme tegning som Le'
         + 's p'#229' verkt'#248'ylinjen og laster den banen.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Finsk');
+  Put(False,
+    'language.option.vietnamese',
+    'Vietnamesisk');
 end;
 
 procedure AddSwedishPart01(const Put: TExtraPutProc);
@@ -115137,6 +115191,12 @@ begin
         + ' l'#228'gre, s'#229' fillistan syns fortfarande.'#13#10'  En L'#228's-ikon sitter i s'#246'kv'#228'gs'
         + 'f'#228'ltet, till v'#228'nster om rensa-X.'#13#10'  Den anv'#228'nder samma bild som L'#228's i '
         + 'verktygsf'#228'ltet och laddar den s'#246'kv'#228'gen.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Finska');
+  Put(False,
+    'language.option.vietnamese',
+    'Vietnamesiska');
 end;
 
 procedure AddDanishPart01(const Put: TExtraPutProc);
@@ -126673,6 +126733,12 @@ begin
         + 'lavere, s'#229' fillisten forbliver synlig.'#13#10'  Et L'#230's-ikon sidder i stifelt'
         + 'et, til venstre for ryd-X.'#13#10'  Det bruger samme tegning som L'#230's p'#229' v'#230'rk'
         + 't'#248'jslinjen og indl'#230'ser den sti.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Finsk');
+  Put(False,
+    'language.option.vietnamese',
+    'Vietnamesisk');
 end;
 
 procedure AddIcelandicPart01(const Put: TExtraPutProc);
@@ -138184,6 +138250,22956 @@ begin
         + 'l'#230'gri, svo skr'#225'arlistinn er '#225'fram s'#253'nilegur.'#13#10'  Lesa-t'#225'kn er '#237' sl'#243#240'arr'
         + 'eitnum, vinstra megin vi'#240' hreinsa-X.'#13#10'  '#222'a'#240' notar s'#246'mu teikningu og Le'
         + 'sa '#225' verkf'#230'rastikunni og hle'#240'ur '#254'eirri sl'#243#240'.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Finnska');
+  Put(False,
+    'language.option.vietnamese',
+    'V'#237'etnamska');
+end;
+
+procedure AddFinnishPart01(const Put: TExtraPutProc);
+begin
+  Put(False,
+    'consumer_ai.connected',
+    'FastFile AI yhdistetty');
+  Put(False,
+    'consumer_ai.initializing',
+    'Alustetaan FastFile AI...');
+  Put(False,
+    'consumer_ai.program_version_prefix',
+    'FastFile AI - Versio ');
+  Put(False,
+    'consumer_ai.starting_session',
+    'ladataan AI-tukea ...');
+  Put(False,
+    'language.combo.hint',
+    'Sovelluksen kieli');
+  Put(False,
+    'language.option.arabic',
+    'arabia');
+  Put(False,
+    'language.option.chinese_simplified',
+    'kiina (yksinkertaistettu)');
+  Put(False,
+    'language.option.chinese_traditional',
+    'kiina (perinteinen)');
+  Put(False,
+    'language.option.czech',
+    't'#353'ekki');
+  Put(False,
+    'language.option.english',
+    'englanti');
+  Put(False,
+    'language.option.french',
+    'ranska');
+  Put(False,
+    'language.option.german',
+    'saksa');
+  Put(False,
+    'language.option.hebrew',
+    'heprea');
+  Put(False,
+    'language.option.hungarian',
+    'unkari');
+  Put(False,
+    'language.option.italian',
+    'italia');
+  Put(False,
+    'language.option.japanese',
+    'japani');
+  Put(False,
+    'language.option.polish',
+    'puola');
+  Put(False,
+    'language.option.portuguese_brazil',
+    'portugali (Brasilia)');
+  Put(False,
+    'language.option.portuguese_portugal',
+    'portugali (Portugali)');
+  Put(False,
+    'language.option.romanian',
+    'romania');
+  Put(False,
+    'language.option.spanish',
+    'espanja');
+  Put(False,
+    'popup.calculator',
+    'Laskin');
+  Put(False,
+    'popup.change_bidimode',
+    'Vaihda BidiMode');
+  Put(False,
+    'popup.listview.clear',
+    'Tyhjenn'#228);
+  Put(False,
+    'popup.listview.delete_lines',
+    'Poista rivit');
+  Put(False,
+    'popup.listview.export_clipboard',
+    'Vie leikep'#246'yd'#228'lle');
+  Put(False,
+    'popup.listview.export_file',
+    'Vie tiedostoon');
+  Put(False,
+    'popup.listview.read',
+    'Lue');
+  Put(False,
+    'popup.listview.separator',
+    '-');
+  Put(False,
+    'popup.listview.show_checkboxes',
+    'N'#228'yt'#228' valintaruudut');
+  Put(False,
+    'popup.listview.split_files',
+    'Jaa tiedostot');
+  Put(False,
+    'popup.listview.write',
+    'Kirjoita');
+  Put(False,
+    'popup.magnifier',
+    'Suurennuslasi');
+  Put(False,
+    'popup.random_skin',
+    'Satunnainen teema');
+  Put(False,
+    'popup.select_skin',
+    'Valitse teema');
+  Put(False,
+    'popup.selectskin_dialog',
+    'SelectSkin-valintaikkuna');
+  Put(False,
+    'popup.show_hints',
+    'N'#228'yt'#228' vihjeet');
+  Put(False,
+    'status.cancelled_prefix',
+    'Peruttu:');
+  Put(False,
+    'status.failed_prefix',
+    'Ep'#228'onnistui:');
+  Put(False,
+    'status.file_read_cancelled',
+    'Tiedoston lukeminen peruttu');
+  Put(False,
+    'status.file_read_failed',
+    'Tiedoston lukeminen ep'#228'onnistui');
+  Put(False,
+    'status.file_reading',
+    'Luetaan tiedostoa...');
+  Put(False,
+    'status.loading_prefix',
+    'Ladataan:');
+  Put(False,
+    'status.operation',
+    'toiminto');
+  Put(False,
+    'status.pending_prefix',
+    'Odottaa:');
+  Put(False,
+    'status.system_ready',
+    'J'#228'rjestelm'#228' valmis');
+  Put(False,
+    'titlebar.about',
+    'Tietoja');
+  Put(False,
+    'titlebar.tools',
+    'Ty'#246'kalut');
+  Put(False,
+    'toolbar.about_fastfile',
+    'Tietoja FastFileista');
+  Put(False,
+    'toolbar.change_bidimode',
+    'Vaihda'#13#10'BidiMode');
+  Put(False,
+    'toolbar.close',
+    'Sulje');
+  Put(False,
+    'toolbar.find_files',
+    'Etsi tiedostoja');
+  Put(False,
+    'toolbar.line_hints_on',
+    'Rivivihjeet (P'#196#196'LL'#196')');
+  Put(False,
+    'toolbar.select_skin',
+    'Valitse'#13#10'teema');
+  Put(False,
+    'toolbar.top_toolbar_tab',
+    'Yl'#228'ty'#246'kalurivi');
+  Put(False,
+    'toolbar.word_wrap_on',
+    'Automaattinen rivinvaihto (P'#196#196'LL'#196')');
+  Put(True,
+    '  Ctrl+Alt+R ........ Toggle read-only session (blocks disk writes fro'
+        + 'm the Read tab)',
+    '  Ctrl+Alt+R ........ Vaihda vain luku -istunto (est'#228#228' levykirjoitukse'
+        + 't Lue-v'#228'lilehdelt'#228')');
+  Put(True,
+    '  Ctrl+Num+ .......... Zoom in list font (View menu)',
+    '  Ctrl+Num+ .......... Suurenna listan fonttia (N'#228'yt'#228'-valikko)');
+  Put(True,
+    '  Ctrl+Num- .......... Zoom out list font (View menu)',
+    '  Ctrl+Num- .......... Pienenn'#228' listan fonttia (N'#228'yt'#228'-valikko)');
+  Put(True,
+    '  Ctrl+Shift+G .... Go to byte offset (1-based file position; $ = hex)',
+    '  Ctrl+Shift+G .... Siirry tavuosoitteeseen (1-pohjainen tiedostosijai'
+        + 'nti); $ = hex)');
+  Put(True,
+    '  Ctrl+Shift+H ....... Compare / merge + session history (two-file dif'
+        + 'f, journal)',
+    '  Ctrl+Shift+H ....... Vertaa / yhdist'#228' + istuntohistoria (kahden tied'
+        + 'oston diff, istuntoloki)');
+  Put(True,
+    '  Filter (Ctrl+L) .... View over index; Yes=prefix / No=contains / OK='
+        + 'VBScript regex',
+    '  Suodatin (Ctrl+L) .... Telakoitu FilterBar: kirjoita/valitse malli ('
+        + 'MRU 20), K'#228'yt'#228'/Jatka/Tyhjenn'#228'/Piilota; t'#228'sm'#228'ys Asetuksissa (etuliite/s'
+        + 'is'#228'lt'#228#228'/regex)');
+  Put(True,
+    '  Filter is view-only (no disk rewrite). Regex uses Windows VBScript.R'
+        + 'egExp on each line preview.',
+    '  Suodatin on vain n'#228'kym'#228' (ei levykirjoitusta). Telakoitu FilterBar (C'
+        + 'trl+L); t'#228'sm'#228'ystila Asetuksissa; regex = VBScript.RegExp rivi kerralla'
+        + 'an.');
+  Put(True,
+    '  Line-prefix step: Yes = line starts with text; No = contains anywher'
+        + 'e (view only, no file rewrite).',
+    '  Rivietuliitevaihe: Kyll'#228' = rivi alkaa tekstill'#228'; Ei = sis'#228'lt'#228#228' miss'#228
+        + ' tahansa (vain n'#228'kym'#228', ei tiedoston uudelleenkirjoitusta).');
+  Put(True,
+    '  Session history Reload: a worker thread reads the journal tail, filt'
+        + 'ers lines, loads the preview file and optional color scan; the progres'
+        + 's bar covers that work first, then filling the memo and list on the UI'
+        + ' thread.',
+    '  Istuntohistorian Lataa uudelleen: ty'#246's'#228'ie lukee istuntolokin h'#228'nn'#228'n,'
+        + ' suodattaa rivit, lataa esikatselutiedoston ja valinnaisen v'#228'ritarkist'
+        + 'uksen; edistymispalkki kattaa ensin tuon ty'#246'n, sitten muistion ja list'
+        + 'an t'#228'yt'#246'n UI-s'#228'ikeess'#228'.');
+  Put(True,
+    '  The loading overlay is not stay-on-top, and the UI yields often (inc'
+        + 'luding a short wait for queued input) so you can use Alt+Tab and other'
+        + ' applications during a long reload.',
+    '  Latauspeite ei ole aina p'#228#228'll'#228', ja UI antaa usein vuoron (my'#246's lyhyt'
+        + ' odotus jonossa olevalle sy'#246'tteelle), joten voit k'#228'ytt'#228#228' Alt+Tabia ja '
+        + 'muita sovelluksia pitk'#228'n uudelleenlatauksen aikana.');
+  Put(True,
+    ' (DEFAULT view)',
+    ' (OLETUSN'#196'KYM'#196')');
+  Put(True,
+    ' Attributes ',
+    ' Attribuutit ');
+  Put(True,
+    ' Size ',
+    ' Koko ');
+  Put(True,
+    ' line(s) copied to clipboard.',
+    ' rivi('#228') kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    ' updated successfully.',
+    ' p'#228'ivitetty onnistuneesti.');
+  Put(True,
+    '%d blank line(s) added by line autofill at line %d.',
+    '%d tyhj'#228#228' rivi('#228') lis'#228'tty rivit'#228'yt'#246'll'#228' riville %d.');
+  Put(True,
+    '%d change(s) proposed. Review them in Proposed edits.',
+    '%d muutosta ehdotettu. Tarkista ne kohdassa Ehdotetut muokkaukset.');
+  Put(True,
+    '%d filtered line(s) copied to the clipboard.',
+    '%d suodatettua rivi('#228') kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    '%d filtered line(s) exported to file.',
+    '%d suodatettua rivi('#228') viety tiedostoon.');
+  Put(True,
+    '%d line(s) inserted starting at line %d.',
+    '%d rivi('#228') lis'#228'tty alkaen rivist'#228' %d.');
+  Put(True,
+    '%d line(s) pasted starting at line %d.',
+    '%d rivi('#228') liitetty alkaen rivist'#228' %d.');
+  Put(True,
+    '%d line(s) were past the end of the file and were skipped.',
+    '%d rivi('#228') oli tiedoston lopun j'#228'lkeen ja ne ohitettiin.');
+  Put(True,
+    '%d marked lines were copied to the clipboard.',
+    '%d merkitty'#228' rivi'#228' kopioitiin leikep'#246'yd'#228'lle.');
+  Put(True,
+    '%d proposal(s) overlapped the applied change and were removed.',
+    '%d ehdotusta meni p'#228#228'llekk'#228'in sovelletun muutoksen kanssa ja ne poiste'
+        + 'ttiin.');
+  Put(True,
+    '%d tail line(s) exported to file.',
+    '%d loppurivi('#228') viety tiedostoon.');
+  Put(True,
+    '&AI (Consumer)',
+    '&AI (Consumer)');
+  Put(True,
+    '&About FastFile',
+    '&Tietoja FastFileista');
+  Put(True,
+    '&Clear',
+    '&Tyhjenn'#228);
+  Put(True,
+    '&Close',
+    '&Sulje');
+  Put(True,
+    '&Copy',
+    '&Kopioi');
+  Put(True,
+    '&Delete line',
+    '&Poista rivi');
+  Put(True,
+    '&Edit',
+    '&Muokkaa');
+  Put(True,
+    '&Edit line',
+    '&Muokkaa rivi'#228);
+  Put(True,
+    '&Export...',
+    '&Vie...');
+  Put(True,
+    '&File',
+    '&Tiedosto');
+  Put(True,
+    '&Find...',
+    '&Etsi...');
+  Put(True,
+    '&Full screen view',
+    '&Koko n'#228'yt'#246'n n'#228'kym'#228);
+  Put(True,
+    '&Go to byte offset...',
+    '&Siirry tavuosoitteeseen...');
+  Put(True,
+    '&Go to line...',
+    '&Siirry riville...');
+  Put(True,
+    '&Help',
+    '&Ohje');
+  Put(True,
+    '&Help / Shortcuts',
+    '&Ohje / Pikan'#228'pp'#228'imet');
+  Put(True,
+    '&Insert line',
+    '&Lis'#228#228' rivi');
+  Put(True,
+    '&Insert line before',
+    '&Lis'#228#228' rivi ennen');
+  Put(True,
+    '&Load session now',
+    '&Lataa istunto nyt');
+end;
+
+procedure AddFinnishPart02(const Put: TExtraPutProc);
+begin
+  Put(True,
+    '&Macros with Python',
+    '&Makrot Pythonilla');
+  Put(True,
+    '&Merge lines',
+    '&Yhdist'#228' rivit');
+  Put(True,
+    '&More info / Splash...',
+    '&Lis'#228'tietoja / Aloitusruutu...');
+  Put(True,
+    '&Next bookmark',
+    '&Seuraava kirjanmerkki');
+  Put(True,
+    '&Open file...',
+    '&Avaa tiedosto...');
+  Put(True,
+    '&Options',
+    '&Asetukset');
+  Put(True,
+    '&Pause / Resume follow',
+    '&Keskeyt'#228' / Jatka seurantaa');
+  Put(True,
+    '&Recent files',
+    '&Viimeisimm'#228't tiedostot');
+  Put(True,
+    '&Replace',
+    '&Korvaa');
+  Put(True,
+    '&Save session now',
+    '&Tallenna istunto nyt');
+  Put(True,
+    '&Talk with AI',
+    '&Keskustele AI:n kanssa');
+  Put(True,
+    '&Toggle bookmark',
+    '&Vaihda kirjanmerkki');
+  Put(True,
+    '&Version History',
+    '&Versiohistoria');
+  Put(True,
+    '&View',
+    '&N'#228'yt'#228);
+  Put(True,
+    '&Word wrap',
+    '&Automaattinen rivinvaihto');
+  Put(True,
+    '(Check "Is Regex")',
+    '(Valitse "On Regex")');
+  Put(True,
+    '(No auto-detected patterns for this file format.)',
+    '(Ei automaattisesti tunnistettuja malleja t'#228'lle tiedostomuodolle.)');
+  Put(True,
+    '(Processed %d of %d selected/visible lines.)',
+    '(K'#228'sitelty %d / %d valittua/n'#228'kyv'#228#228' rivi'#228'.)');
+  Put(True,
+    '(Uncheck "Is Regex")',
+    '(Poista valinta "On Regex")');
+  Put(True,
+    '(Use this only if your lines really start with <User ...>)',
+    '(K'#228'yt'#228' t'#228't'#228' vain, jos rivisi todella alkavat <User ...>)');
+  Put(True,
+    '(Yes = Case Sensitive / No = Ignorar)',
+    '(Kyll'#228' = kirjainkoon erottelu / Ei = ohita kirjainkoko)');
+  Put(True,
+    '(Yes = Case Sensitive / No = Ignore case)',
+    '(Kyll'#228' = kirjainkoon erottelu / Ei = ohita kirjainkoko)');
+  Put(True,
+    '(empty)',
+    '(tyhj'#228')');
+  Put(True,
+    '(text unavailable)',
+    '(teksti ei saatavilla)');
+  Put(True,
+    '--- File lines (for AI) ---',
+    '--- Tiedoston rivit (AI:lle) ---');
+  Put(True,
+    '1 marked line was copied to the clipboard.',
+    '1 merkitty rivi kopioitiin leikep'#246'yd'#228'lle.');
+  Put(True,
+    '1. Split on specific string:',
+    '1. Jaa tietyn merkkijonon kohdalla:');
+  Put(True,
+    '1. Split: Start a new file when a line matches',
+    '1. Jaa: Aloita uusi tiedosto, kun rivi t'#228'sm'#228#228);
+  Put(True,
+    '10. Find/remove numbers (replace with space):',
+    '10. Etsi/poista numerot (korvaa v'#228'lily'#246'nnill'#228'):');
+  Put(True,
+    '11. Letters including accents:',
+    '11. Kirjaimet, mukaan lukien aksentit:');
+  Put(True,
+    '12. Email validation:',
+    '12. S'#228'hk'#246'postin tarkistus:');
+  Put(True,
+    '13. CPF validation:',
+    '13. CPF-tarkistus:');
+  Put(True,
+    '14. Date validation (dd/mm/yyyy):',
+    '14. P'#228'iv'#228'm'#228#228'r'#228'n tarkistus (pp/kk/vvvv):');
+  Put(True,
+    '15. Phone validation with area code:',
+    '15. Puhelinnumeron tarkistus suuntanumerolla:');
+  Put(True,
+    '1b. Split when specialty/category changes (sorted file):',
+    '1b. Jaa, kun erikoisala/kategoria vaihtuu (lajiteltu tiedosto):');
+  Put(True,
+    '2. Split on Regex:',
+    '2. Jaa Regexill'#228':');
+  Put(True,
+    '2. Split: Equal parts (N parts)',
+    '2. Jaa: Yht'#228' suuret osat (N osaa)');
+  Put(True,
+    '3. CSV example (new file when line starts with ID + ";"):',
+    '3. CSV-esimerkki (uusi tiedosto, kun rivi alkaa ID + ";"):');
+  Put(True,
+    '3. Regex Match: Extract all occurrences',
+    '3. Regex Match: Poimi kaikki esiintym'#228't');
+  Put(True,
+    '3. Split into N equal parts:',
+    '3. Jaa N yht'#228' suureen osaan:');
+  Put(True,
+    '4. Regex Test: Write "true"/"false"',
+    '4. Regex Test: Kirjoita "true"/"false"');
+  Put(True,
+    '4. XML tag with optional leading spaces:',
+    '4. XML-tunniste valinnaisilla alkuun tulevilla v'#228'lily'#246'nneill'#228':');
+  Put(True,
+    '5. Regex Replace: Replace matches',
+    '5. Regex Replace: Korvaa t'#228'sm'#228'ykset');
+  Put(True,
+    '5. Timestamped log lines:',
+    '5. Aikaleimalliset lokirivit:');
+  Put(True,
+    '6. Regex Filter: Keep only lines where regex matches',
+    '6. Regex Filter: S'#228'ilyt'#228' vain rivit, joissa regex t'#228'sm'#228#228);
+  Put(True,
+    '6. Section markers (BEGIN or START):',
+    '6. Osion merkit (BEGIN tai START):');
+  Put(True,
+    '7. GUID/UUID at line start:',
+    '7. GUID/UUID rivin alussa:');
+  Put(True,
+    '8. NDJSON object line (starts with {):',
+    '8. NDJSON-objektirivi (alkaa {):');
+  Put(True,
+    '9. Remove everything that is NOT a letter (replace with space):',
+    '9. Poista kaikki mik'#228' EI ole kirjain (korvaa v'#228'lily'#246'nnill'#228'):');
+  Put(True,
+    'AI',
+    'AI');
+  Put(True,
+    'AI &agent on files',
+    'AI-&agentti tiedostoissa');
+  Put(True,
+    'AI (RAG) workspace panel.',
+    'AI (RAG) -ty'#246'tilapaneeli.');
+  Put(True,
+    'AI Chat (SQL)',
+    'AI-chat (SQL)');
+  Put(True,
+    'AI Chat (SQL) (Ctrl+Shift+A)',
+    'AI-chat (SQL) (Ctrl+Shift+A)');
+  Put(True,
+    'AI Chat Python plugin (ConsumerAI.exe) failed to start (corrupt PyInst'
+        + 'aller build). Delete ConsumerAI.exe beside FastFile, rebuild with data'
+        + '-lake-duckdb-main\build_exe_lancedb.bat, upload to FTP, or place a val'
+        + 'id dist\ConsumerAI.exe in Build.',
+    'AI Chat Python -laajennus (ConsumerAI.exe) ei k'#228'ynnistynyt (vioittunut'
+        + ' PyInstaller-koonnos). Poista FastFilen vieress'#228' oleva ConsumerAI.exe,'
+        + ' rakenna uudelleen data-lake-duckdb-main\build_exe_lancedb.bat -tiedos'
+        + 'tolla, lataa FTP:lle tai sijoita kelvollinen dist\ConsumerAI.exe Build'
+        + '-kansioon.');
+  Put(True,
+    'AI Panel',
+    'AI-paneeli');
+  Put(True,
+    'AI agent',
+    'AI-agentti');
+  Put(True,
+    'AI help - Regex split',
+    'AI-ohje - Regex-jako');
+  Put(True,
+    'AI suggestions could not be retrieved:',
+    'AI-ehdotuksia ei voitu hakea:');
+  Put(True,
+    'AI workspace panel.',
+    'AI-ty'#246'tilapaneeli.');
+  Put(True,
+    'AI-generated suggestions',
+    'AI-ehdotukset');
+  Put(True,
+    'AI.Context.AfterDestinationLine',
+    'kohderivin %d j'#228'lkeen');
+  Put(True,
+    'AI.Context.AllSourceLines',
+    'kaikki l'#228'hderivit');
+  Put(True,
+    'AI.Context.BeginningOfDestination',
+    'kohteen alkuun');
+  Put(True,
+    'AI.Context.CsvColumns',
+    'Eroteltu n'#228'kym'#228'. Seuraavat rivit ovat tiedosto, erotin, sarakkeet ja n'
+        + 'ykyinen lajittelu. Ehdota sarakej'#228'rjestyst'#228', suodatinta tai grepi'#228' nim'
+        + 'ettyine ryhmineen.');
+  Put(True,
+    'AI.Context.EndOfDestination',
+    'kohteen loppuun');
+  Put(True,
+    'AI.Context.FilterRegex',
+    'Suodatin k'#228'ytt'#228#228' VBScriptin s'#228#228'nn'#246'llisi'#228' lausekkeita eik'#228' lookbehindia'
+        + '. Seuraava rivi on nykyinen malli. Ehdota yksi malli ja selit'#228' se.');
+  Put(True,
+    'AI.Context.LineEditorRegex',
+    'Etsi-kentt'#228' k'#228'ytt'#228#228' Delphin s'#228#228'nn'#246'llist'#228' lauseketta. Vastaa vain malli'
+        + 'lla ensimm'#228'isell'#228' rivill'#228', sitten yhdell'#228' lyhyell'#228' lauseella. Seuraava'
+        + ' rivi on nykyinen malli.');
+  Put(True,
+    'AI.Context.MergeFiles',
+    'Tarkista t'#228'm'#228' FastFilen yhdist'#228'misasetus. '#196'l'#228' suorita sit'#228'. Selit'#228' sen'
+        + ' vaikutus ja olennaiset turvallisuusn'#228'k'#246'kohdat. Vastaa t'#228'm'#228'n pyynn'#246'n k'
+        + 'ielell'#228'.'#13#10'Kohde: %s'#13#10'L'#228'hde: %s'#13#10'L'#228'hderivit: %s'#13#10'Lis'#228'yskohta: %s');
+  Put(True,
+    'AI.Context.SearchGroups',
+    'grep-tulokset. Seuraavat rivit ovat komento ja rivit. Kerro, mik'#228' erot'
+        + 'tuu ja mik'#228' suodatin, vienti tai sarakej'#228'rjestys kannattaisi seuraavak'
+        + 'si.');
+  Put(True,
+    'AI.Context.Session',
+    'Avoimen tiedoston istunto. Seuraavat rivit ovat tiedosto, suodatin, ko'
+        + 'odaus ja kirjanmerkkien m'#228#228'r'#228'.');
+  Put(True,
+    'AI.Context.SplitByFiles',
+    'Tarkista t'#228'm'#228' FastFilen jako tiedostoittain -asetus. '#196'l'#228' suorita sit'#228'.'
+        + ' Selit'#228' m'#228#228'ritetyt osat ja olennaiset turvallisuusn'#228'k'#246'kohdat. Vastaa t'
+        + #228'm'#228'n pyynn'#246'n kielell'#228'.'#13#10'L'#228'hdetiedosto: %s'#13#10'L'#228'hderivit: %s'#13#10'Pyydetyt os'
+        + 'at: %s'#13#10'M'#228#228'ritetyt rivit: %s'#13#10'Rivit: %s');
+  Put(True,
+    'AI.Context.SplitByLines',
+    'Tarkista t'#228'm'#228' FastFilen rivipoiminta-asetus. '#196'l'#228' suorita sit'#228'. Selit'#228' '
+        + 'valittu alue ja olennaiset turvallisuusn'#228'k'#246'kohdat. Vastaa t'#228'm'#228'n pyynn'#246
+        + 'n kielell'#228'.'#13#10'L'#228'hdetiedosto: %s'#13#10'Rivej'#228' yhteens'#228': %s'#13#10'Inklusiivinen alu'
+        + 'e: %s..%s'#13#10'Tulostiedosto: %s');
+  Put(True,
+    'AICaps.AskDone',
+    'Vastaus listaan "Mit'#228' voin tehd'#228'?" on valmis.');
+  Put(True,
+    'AICaps.AskHint',
+    'Kysy AI:lta valitusta kohteesta (tai koko listasta, jos mit'#228#228'n ei ole '
+        + 'valittu). Vastaus n'#228'kyy vastausalueella.');
+  Put(True,
+    'AICaps.AskPrompt',
+    'Kysymyksesi valitusta kohteesta (tai koko listasta):');
+  Put(True,
+    'AICaps.Busy',
+    'AI on varattu toiseen pyynt'#246#246'n. Yrit'#228' uudelleen, kun se on valmis.');
+  Put(True,
+    'AICaps.Button',
+    'Mit'#228' voin tehd'#228'?');
+  Put(True,
+    'AICaps.ButtonHint.Agent',
+    'Kaikki, mit'#228' AI-agentti voi tehd'#228', esimerkkien kanssa. F1 t'#228'll'#228' v'#228'lile'
+        + 'hdell'#228' avaa my'#246's t'#228'm'#228'n.');
+  Put(True,
+    'AICaps.ButtonHint.Assistant',
+    'Kaikki, mit'#228' AI-avustaja voi tehd'#228', esimerkkien kanssa. F1 t'#228'ss'#228' panee'
+        + 'lissa avaa my'#246's t'#228'm'#228'n.');
+  Put(True,
+    'AICaps.ButtonHint.Hub',
+    'Kaikki, mit'#228' AI-diagnostiikka voi tehd'#228', esimerkkien kanssa. F1 t'#228'll'#228' '
+        + 'v'#228'lilehdell'#228' avaa my'#246's t'#228'm'#228'n.');
+  Put(True,
+    'AICaps.Copied',
+    'Kopioitu!');
+  Put(True,
+    'AICaps.CopyHint',
+    'Kopioi valitun kohteen; jos mit'#228#228'n ei ole valittu, kopioi koko listan.');
+  Put(True,
+    'AICaps.ExamplePrefix',
+    'Esimerkki:');
+  Put(True,
+    'AICaps.ExampleReady',
+    'Esimerkki sijoitettu pyynt'#246'kentt'#228#228'n: muokkaa tarvittaessa ja napsauta '
+        + 'L'#228'het'#228'.');
+  Put(True,
+    'AICaps.Export',
+    'Vie...');
+  Put(True,
+    'AICaps.ExportFilter',
+    'Tekstitiedosto (*.txt)|*.txt|Markdown (*.md)|*.md');
+  Put(True,
+    'AICaps.ExportHint',
+    'Tallentaa koko listan esimerkkien kanssa teksti- (.txt) tai Markdown- '
+        + '(.md) tiedostoon.');
+  Put(True,
+    'AICaps.Filter',
+    'Kirjoita suodattaaksesi listaa...');
+  Put(True,
+    'AICaps.Intro.Agent',
+    'Luen valitsemasi tiedostot, vastaan tarkalla datalla ja ehdotan muokka'
+        + 'uksia, jotka tarkistat ennen tallennusta. Valitse kohde ja napsauta "K'
+        + #228'yt'#228' esimerkki'#228'" kokeillaksesi.');
+  Put(True,
+    'AICaps.Intro.Assistant',
+    'Ty'#246'skentelen avoimen tiedoston kanssa ja suoritan FastFilen ominaisuuk'
+        + 'sia puolestasi askel askeleelta. Valitse kohde ja napsauta "K'#228'yt'#228' esim'
+        + 'erkki'#228'" kokeillaksesi.');
+  Put(True,
+    'AICaps.Intro.Hub',
+    'Inventoin valitsemasi kansiot ja tiedostot ja suoritan erikoisanalyyse'
+        + 'ja (vain luku). Valitse kohde ja napsauta "K'#228'yt'#228' esimerkki'#228'" kokeillak'
+        + 'sesi.');
+  Put(True,
+    'AICaps.Item.AgentMode',
+    'Agentti-painike: v'#228'litt'#228#228' pyynn'#246'n AI-agentille useille tiedostoille, t'
+        + 'arkkoja m'#228#228'ri'#228', SQL:'#228#228' ja muokkauksia, jotka tarkistat.|Kaikissa C:\da'
+        + 'dos -kansion .csv-tiedostoissa, kuinka monella rivill'#228' on tyhj'#228' s'#228'hk'#246'p'
+        + 'osti?');
+  Put(True,
+    'AICaps.Item.Analyze',
+    'Lukee ja analysoi sis'#228'll'#246'n: yhteenvedot, mallit, selitykset ja vertail'
+        + 'ut.|Tiivist'#228' t'#228'm'#228'n lokin p'#228#228'virheet ja kerro, mik'#228' toistuu eniten.');
+  Put(True,
+    'AICaps.Item.Anon',
+    'Anonymisoi henkil'#246'tiedot, kuten nimet, s'#228'hk'#246'postit, puhelinnumerot ja '
+        + 'asiakirjanumerot.|Anonymisoi t'#228'm'#228'n tiedoston s'#228'hk'#246'postit ja puhelinnum'
+        + 'erot.');
+  Put(True,
+    'AICaps.Item.Chain',
+    'Ketjuttaa useita vaiheita yhdess'#228' pyynn'#246'ss'#228' (suodata, vie, luo asiakir'
+        + 'ja...).|Suodata ERROR-rivit, vie ne uuteen tiedostoon ja luo niist'#228' PD'
+        + 'F.');
+  Put(True,
+    'AICaps.Item.Code',
+    'Luo l'#228'hdekoodia (Python, JavaScript, TypeScript/React, Java, Go, C#, P'
+        + 'ascal, SQL, JSON, HTML...) tiedostosta tai kuvauksesta, tarkistaa synt'
+        + 'aksin, korjaa virheet AI:lla ja selitt'#228#228', mit'#228' koodi tekee.|Luo Python'
+        + '-skripti, joka lukee clientes.csv:n ja n'#228'ytt'#228#228' s'#228'hk'#246'postit.');
+  Put(True,
+    'AICaps.Item.Consumer',
+    'Vastaa tiedoston sis'#228'lt'#246#228' koskeviin kysymyksiin AI-chatilla (SQL-chat '
+        + 'ja edistynyt chat).|Avaa SQL-chat clientes.csv:lle ja kysy, kuinka mon'
+        + 'ta asiakasta on kaupungeittain.');
+  Put(True,
+    'AICaps.Item.Count',
+    'Tarkat m'#228#228'r'#228't suoraan tiedostosta (rivit, esiintym'#228't, summat), ei kosk'
+        + 'aan arvioita.|Kuinka monella rivill'#228' on ERROR?');
+  Put(True,
+    'AICaps.Item.CsvSort',
+    'Lajittelee avoimen erotellun n'#228'kym'#228'n sarakkeen mukaan. Tiedosto s'#228'ilyy'
+        + ' levyll'#228'.|Lajittele t'#228'm'#228' tiedosto status-sarakkeen mukaan, laskevaan j'
+        + #228'rjestykseen.');
+end;
+
+procedure AddFinnishPart03(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'AICaps.Item.Describe',
+    'Selitt'#228#228', mik'#228' kukin ladattu tai valittu tiedosto on ja mihin se on ta'
+        + 'rkoitettu: muoto, koodaus, erotin ja sarakkeet, koko, rivit, n'#228'ytteet '
+        + 'ja miten tiedostot liittyv'#228't.|Mihin t'#228'm'#228' tiedosto on tarkoitettu? Mit'#228
+        + ' valitut tiedostot ovat?');
+  Put(True,
+    'AICaps.Item.Doc',
+    'Luo asiakirjoja tiedoston sis'#228'll'#246'st'#228': PDF, Word, HTML, Markdown, rapor'
+        + 'tit.|Luo PDF-raportti t'#228'm'#228'n lokin virheist'#228'.');
+  Put(True,
+    'AICaps.Item.Edits',
+    'Ehdottaa muokkauksia (korvaa, lis'#228#228' tai poista rivej'#228'), jotka hyv'#228'ksyt'
+        + ' tai hylk'#228#228't yksi kerrallaan ennen tallennusta.|Poista tyhj'#228't rivit ti'
+        + 'edoston lopusta.');
+  Put(True,
+    'AICaps.Item.Exact',
+    'Tarkka haku rivinumeroilla ja mink'#228' tahansa rivialueen lukeminen, my'#246's'
+        + ' valtavista tiedostoista.|N'#228'yt'#228' rivit 120'#8211'140.');
+  Put(True,
+    'AICaps.Item.Export',
+    'Vie rivit, t'#228'sm'#228#228'v'#228't rivit tai suodatustulos uuteen tiedostoon; poista'
+        + 'a kaksoisrivej'#228'.|Vie ERROR-rivit uuteen tiedostoon.');
+  Put(True,
+    'AICaps.Item.Filter',
+    'N'#228'ytt'#228#228' vain t'#228'sm'#228#228'v'#228't rivit (sis'#228'lt'#228#228', alkaa tai regex) ja kopioi tul'
+        + 'oksen.|N'#228'yt'#228' vain WARN-rivit.');
+  Put(True,
+    'AICaps.Item.Find',
+    'Etsii teksti'#228' avoimesta tiedostosta (seuraava, edellinen, kaikki esiin'
+        + 'tym'#228't) ja hakee muista tiedostoista.|Etsi kaikki timeout-esiintym'#228't.');
+  Put(True,
+    'AICaps.Item.Goto',
+    'Siirtyy riville, tavuosoitteeseen, tiedoston alkuun tai loppuun ja hal'
+        + 'litsee kirjanmerkkej'#228'.|Siirry riville 5000.');
+  Put(True,
+    'AICaps.Item.HowTo',
+    'Selitt'#228#228' FastFilen k'#228'yt'#246'n: valikot, pikan'#228'pp'#228'imet ja ominaisuudet.|Mit'
+        + 'en vertaan kahta tiedostoa?');
+  Put(True,
+    'AICaps.Item.HubActions',
+    'Ehdottaa konkreettisia seuraavia vaiheita (vain luku): mit'#228' siivota, v'
+        + 'ied'#228', anonymisoida tai l'#228'hett'#228#228' AI-agentille.|T'#228'm'#228'n kansion perusteell'
+        + 'a, mit'#228' teen seuraavaksi?');
+  Put(True,
+    'AICaps.Item.HubContent',
+    'Skannaa tiedostojen sis'#228'lt'#246#228' teemojen, virheiden, kaksoiskappaleiden j'
+        + 'a toistuvien mallien varalta valinnassa.|N'#228'iss'#228' .log-tiedostoissa, mit'
+        + 'k'#228' ovat yleisimm'#228't virheet ja miss'#228' ne kasautuvat?');
+  Put(True,
+    'AICaps.Item.HubInventory',
+    'Rakentaa inventaarion valituista kansioista ja tiedostoista: m'#228#228'r'#228't, p'
+        + #228#228'tteet, koot ja suurimmat kansiot.|Inventoi t'#228'm'#228' kansio: kuinka monta'
+        + ' tiedostoa p'#228#228'tteitt'#228'in ja mitk'#228' kansiot ovat suurimpia?');
+  Put(True,
+    'AICaps.Item.HubMulti',
+    'Toimii useissa kansioissa ja tiedostoissa kerralla samalla diagnoosipy'
+        + 'ynn'#246'll'#228'.|Vertaa n'#228'it'#228' kahta kansiota: mik'#228' eroaa tiedostotyypeiss'#228' ja '
+        + 'koossa?');
+  Put(True,
+    'AICaps.Item.HubPrivacy',
+    'Etsii henkil'#246'tietoja (PII), kuten s'#228'hk'#246'posteja, puhelimia ja asiakirja'
+        + 'numeroita valinnasta.|Skannaa n'#228'm'#228' kansiot s'#228'hk'#246'postien, puhelimien ja'
+        + ' CPF/SSN-tyyppisten numeroiden varalta.');
+  Put(True,
+    'AICaps.Item.HubReport',
+    'Tuottaa luettavan diagnoosiraportin: yhteenveto, havainnot vakavuuden '
+        + 'mukaan ja rajoitukset.|Kirjoita johdon yhteenveto t'#228'm'#228'n kansion riskei'
+        + 'st'#228' ja havainnoista.');
+  Put(True,
+    'AICaps.Item.HubSql',
+    'Diagnosoi CSV- ja taulukkotiedostoja: sarakkeet, erottimet, tyypit ja '
+        + 'esimerkkikysymykset SQL:ll'#228'.|Mitk'#228' CSV-tiedostot n'#228'ytt'#228'v'#228't taulukkomai'
+        + 'silta t'#228#228'll'#228', ja mit'#228' sarakkeita niiss'#228' on?');
+  Put(True,
+    'AICaps.Item.HubStructure',
+    'Kartoittaa kansiopuun ja rakenteen: syvyys, tyhj'#228't kansiot, nime'#228'misma'
+        + 'llit ja outo asettelu.|Kuvaile t'#228'm'#228'n projektikansion rakenne ja merkit'
+        + 'se kaikki ep'#228'tavallinen.');
+  Put(True,
+    'AICaps.Item.HubToAgent',
+    'Diagnostiikka on vain luku; muokkausten, anonymisoinnin tai makrojen s'
+        + 'oveltamiseen jatka AI-agentti-v'#228'lilehdell'#228'.|Diagnoosin j'#228'lkeen avaa AI'
+        + '-agentti anonymisoimaan l'#246'ydetyt s'#228'hk'#246'postit.');
+  Put(True,
+    'AICaps.Item.Macro',
+    'Kirjoittaa Python-makron ja ajaa sen tiedoston tai kunkin valitun tied'
+        + 'oston jokaisella rivill'#228' tarkistuksen ja esikatselun j'#228'lkeen; tulos me'
+        + 'nee makropaneeliin.|Aja Python-makro clientes.csv:n jokaisella rivill'#228
+        + ' muuntaaksesi p'#228'iv'#228'm'#228#228'r'#228't muotoon yyyy-mm-dd.');
+  Put(True,
+    'AICaps.Item.Multi',
+    'Toimii useissa tiedostoissa ja kansioissa kerralla: etsi, vertaa ja mu'
+        + 'uta niit'#228' yhdess'#228' pyynn'#246'ss'#228'.|Kaikissa .log-tiedostoissa, mitk'#228' sis'#228'lt'#228
+        + 'v'#228't sanan timeout?');
+  Put(True,
+    'AICaps.Item.Open',
+    'Avaa tiedostoja (my'#246's viimeisimpi'#228'), lataa tiedoston uudelleen ja n'#228'yt'
+        + 't'#228#228' avausikkunan.|Avaa tiedosto C:\logs\app.log.');
+  Put(True,
+    'AICaps.Item.Replace',
+    'Korvaa tekstin koko tiedostossa.|Korvaa http:// https://:ll'#228' koko tied'
+        + 'ostossa.');
+  Put(True,
+    'AICaps.Item.SearchCommands',
+    'glob etsii polkuja. grep hakee sis'#228'lt'#246#228'. Nimetyist'#228' ryhmist'#228' (?<name>)'
+        + ' tulee sarakkeita. Pelk'#228't nimet avaavat AI-ohjeen.|glob "*.log"');
+  Put(True,
+    'AICaps.Item.Session',
+    'Tallentaa ja avaa uudelleen tiedoston, rivin, suodattimen, kirjanmerki'
+        + 't ja koodauksen yhdess'#228' .ffsession-tiedostossa.|Tallenna t'#228'm'#228' istunto.');
+  Put(True,
+    'AICaps.Item.Split',
+    'Jakaa suuret tiedostot yht'#228' suuriin osiin tai mallin mukaan, tai poimi'
+        + 'i niist'#228' osia.|Jaa t'#228'm'#228' tiedosto 4 yht'#228' suureen osaan.');
+  Put(True,
+    'AICaps.Item.Sql',
+    'SQL-kyselyt CSV- ja erotelluille tiedostoille: suodattimet, summat, ry'
+        + 'hmittelyt ja sijoitukset.|N'#228'yt'#228' SQL:ll'#228' 10 asiakasta, joilla on suurin'
+        + ' summa sales.csv:ss'#228'.');
+  Put(True,
+    'AICaps.Item.SqlChange',
+    'Muuttaa dataa SQL:ll'#228' (UPDATE, DELETE) muokkauksina, jotka tarkistat e'
+        + 'nnen tallennusta.|Vaihda Biancan kaupunki S'#227'o Pauloksi clientes.csv:ss'
+        + #228'.');
+  Put(True,
+    'AICaps.Item.Tabs',
+    'Avaa Vertaa-, Yhdist'#228' rivit-, Yhdist'#228' tiedostot- ja Viimeisimm'#228't-v'#228'lil'
+        + 'ehdet, istunnot ja asetukset.|Avaa tiedostojen vertailu -v'#228'lilehti.');
+  Put(True,
+    'AICaps.Item.Tail',
+    'Seuraa tiedostoa reaaliajassa (tail) ja keskeytt'#228#228' sen.|Seuraa t'#228't'#228' lo'
+        + 'kia reaaliajassa.');
+  Put(True,
+    'AICaps.Item.Undo',
+    'Kumoaa ja tekee uudelleen muutoksia, monistaa ja liitt'#228#228' rivej'#228', muokk'
+        + 'aa rivi'#228'.|Kumoa viimeisin muutos.');
+  Put(True,
+    'AICaps.Item.View',
+    'Vaihtaa n'#228'kym'#228#228': automaattinen rivinvaihto, zoomaus, v'#228'lily'#246'ntimerkit,'
+        + ' CSV-tila, koko n'#228'ytt'#246'.|Ota automaattinen rivinvaihto k'#228'ytt'#246#246'n ja zoom'
+        + 'aa sis'#228#228'n.');
+  Put(True,
+    'AICaps.NoMatch',
+    'Mik'#228#228'n kohde ei vastaa suodatinta.');
+  Put(True,
+    'AICaps.Saved',
+    'Tallennettu!');
+  Put(True,
+    'AICaps.Sec.AI',
+    'AI, asiakirjat ja ohje');
+  Put(True,
+    'AICaps.Sec.AgentOnly',
+    'Analyysi ja muokkaukset tiedostoissasi');
+  Put(True,
+    'AICaps.Sec.AssistantOnly',
+    'Luovuta AI-agentille');
+  Put(True,
+    'AICaps.Sec.HubOnly',
+    'Kansion ja tiedoston diagnoosi');
+  Put(True,
+    'AICaps.Sec.Tools',
+    'Tiedostoty'#246'kalut');
+  Put(True,
+    'AICaps.Sec.View',
+    'Avaa, navigoi ja n'#228'yt'#228);
+  Put(True,
+    'AICaps.Title.Agent',
+    'AI-agentti: mit'#228' voin tehd'#228'?');
+  Put(True,
+    'AICaps.Title.Assistant',
+    'AI-avustaja: mit'#228' voin tehd'#228'?');
+  Put(True,
+    'AICaps.Title.Hub',
+    'AI-diagnostiikka: mit'#228' voin tehd'#228'?');
+  Put(True,
+    'AICaps.UseExample',
+    'K'#228'yt'#228' esimerkki'#228);
+  Put(True,
+    'AICaps.UseExampleHint',
+    'Laittaa esimerkin pyynt'#246'kentt'#228#228'n; voit muokata sit'#228' ennen l'#228'hett'#228'mist'#228
+        + '.');
+  Put(True,
+    'AI_PROMPT_CTX_TRUNCATED',
+    '...[katkaistu]');
+  Put(True,
+    'AI_PROMPT_HDR_EXAMPLES',
+    '--- Esimerkit / skannauslohko (voi olla katkaistu) ---');
+  Put(True,
+    'AI_PROMPT_HDR_FOCUS_Q',
+    '--- Kohdistettu kysymys ---');
+  Put(True,
+    'AI_PROMPT_HDR_OPT_NOTE',
+    '--- Valinnainen huomautus ---');
+  Put(True,
+    'AI_PROMPT_HDR_PATTERN',
+    '--- Nykyinen malli-kentt'#228' ---');
+  Put(True,
+    'AI_PROMPT_HDR_SOURCE',
+    '--- L'#228'hdepolku ---');
+  Put(True,
+    'AI_PROMPT_HDR_TASK',
+    '--- Teht'#228'v'#228' ---');
+  Put(True,
+    'AI_PROMPT_HEADER',
+    '[FastFile - Jaa mallilla/Regexill'#228' - rajattu avustaja]');
+  Put(True,
+    'AI_PROMPT_REPLY_LANG',
+    'Vastaa samalla kielell'#228' kuin FastFilen k'#228'ytt'#246'liittym'#228'.');
+  Put(True,
+    'AI_PROMPT_RULES_P1',
+    'S'#228#228'nn'#246't: Keskustele VAIN s'#228#228'nn'#246'llisist'#228' lausekkeista tekstirivien jaka'
+        + 'miseen tai suodattamiseen FastFiless'#228' (VBScript-yhteensopiva regex).');
+  Put(True,
+    'AI_PROMPT_RULES_P2',
+    'Hylk'#228#228' asiaankuulumattomat pyynn'#246't (muut kielet, SQL, yleinen koodaus,'
+        + ' muut tuotteet). K'#228'yt'#228' selke'#228#228' Markdownia.');
+  Put(True,
+    'AI_PROMPT_RULES_P3',
+    'Muotoilu: kirjoita kukin ehdotettu regex omalle rivilleen muodossa: Re'
+        + 'gex: <pattern>. FastFile tunnistaa n'#228'm'#228' rivit validoidakseen ne VBScri'
+        + 'pt.RegExpill'#228' ja n'#228'ytt'#228#228'kseen kopiointivalmiit mallit.');
+  Put(True,
+    'AI_PROMPT_TASK_0',
+    'TEHT'#196'V'#196': Ehdota k'#228'yt'#228'nn'#246'llisi'#228' VBScript-yhteensopivia s'#228#228'nn'#246'llisi'#228' lau'
+        + 'sekkeita l'#228'hdetiedoston jakamiseen mielekk'#228'isiin osiin. K'#228'yt'#228' kontekst'
+        + 'in sarake-/erotinvihjeit'#228'. Anna ytimekk'#228#228't regex-rivit ja yhden rivin '
+        + 'perustelu kullekin.');
+  Put(True,
+    'AI_PROMPT_TASK_1',
+    'TEHT'#196'V'#196': Tarkista ja paranna t'#228'm'#228'n tiedoston jakamisen "Nykyinen malli'
+        + '". Selit'#228' ongelmat (jos on) ja ehdota parempaa regexi'#228'.');
+  Put(True,
+    'AI_PROMPT_TASK_2',
+    'TEHT'#196'V'#196': Vastaa VAIN t'#228'h'#228'n kohdistettuun kysymykseen regexist'#228' rivien '
+        + 'jakamiseen tai suodattamiseen t'#228'll'#228' n'#228'yt'#246'll'#228'.');
+  Put(True,
+    'AI_PY_HELP_TITLE_SCRIPT',
+    'AI-ohje - Python-makro');
+  Put(True,
+    'AI_PY_HELP_TITLE_TAIL',
+    'AI-ohje - Tail Python -makro');
+  Put(True,
+    'AI_PY_MACRO_ACT_MRU',
+    'viimeisin pyynt'#246' valittu');
+  Put(True,
+    'AI_PY_MACRO_ACT_PASTE',
+    'koodi liitetty editoriin');
+  Put(True,
+    'AI_PY_MACRO_ACT_RESPONSE',
+    'AI-vastaus');
+  Put(True,
+    'AI_PY_MACRO_ACT_TYPING',
+    'pyynt'#246'tekstin muokkaus');
+  Put(True,
+    'AI_PY_MACRO_APPLIED',
+    'Koodi sovellettu skriptieditoriin. Ctrl+Z kumoaa sen.');
+  Put(True,
+    'AI_PY_MACRO_APPLY',
+    'K'#228'yt'#228);
+  Put(True,
+    'AI_PY_MACRO_APPLY_CLOSE',
+    'K'#228'yt'#228' ja sulje');
+  Put(True,
+    'AI_PY_MACRO_APPLY_CLOSE_HINT',
+    'Laita generoitu koodi skriptieditoriin ja sulje t'#228'm'#228' ikkuna');
+  Put(True,
+    'AI_PY_MACRO_APPLY_HINT',
+    'Laita generoitu koodi skriptieditoriin ja pid'#228' t'#228'm'#228' ikkuna auki (Ctrl+'
+        + 'Z kumoaa)');
+  Put(True,
+    'AI_PY_MACRO_CANCELLED',
+    'Pyynt'#246' peruttu. Edellinen vastaus s'#228'ilytettiin.');
+  Put(True,
+    'AI_PY_MACRO_CONTACTING',
+    'Otetaan yhteytt'#228' avustajaan...');
+  Put(True,
+    'AI_PY_MACRO_CTX_LABEL',
+    'Kontekstin esikatselu (l'#228'hetet'#228#228'n pyynt'#246'si kanssa)');
+  Put(True,
+    'AI_PY_MACRO_FAILED',
+    'Pyynt'#246' ep'#228'onnistui: %s');
+  Put(True,
+    'AI_PY_MACRO_FAILED_UNKNOWN',
+    'Vastausta ei saatu (ei teknist'#228' tietoa). Tarkista verkko/palomuuri ja '
+        + 'API Gateway -yhteys t'#228'lt'#228' PC:lt'#228'.');
+  Put(True,
+    'AI_PY_MACRO_FINISHED',
+    'Valmis. Napsauta K'#228'yt'#228' k'#228'ytt'#228#228'ksesi koodia skriptieditorissa tai K'#228'yt'#228
+        + ' ja sulje.');
+  Put(True,
+    'AI_PY_MACRO_HDR_EXAMPLES',
+    'Sis'#228#228'nrakennetut esimerkit (viite):');
+  Put(True,
+    'AI_PY_MACRO_HDR_FOCUS',
+    'K'#228'ytt'#228'j'#228'n pyynt'#246' (pakollinen fokus):');
+  Put(True,
+    'AI_PY_MACRO_HDR_SCRIPT',
+    'Nykyinen skripti editorissa:');
+  Put(True,
+    'AI_PY_MACRO_NOTE_HINT',
+    'Kuvaile, mit'#228' makron tulisi tehd'#228' (v'#228'hint'#228#228'n %d merkki'#228'). Esimerkki: m'
+        + 'uuta 3. CSV-sarake isoiksi kirjaimiksi, ohita tyhj'#228't rivit.');
+  Put(True,
+    'AI_PY_MACRO_NOTE_REQUIRED',
+    'Anna v'#228'hint'#228#228'n %d merkki'#228' kuvaten, mit'#228' haluat Python-makron tekev'#228'n.');
+  Put(True,
+    'AI_PY_MACRO_NOTE_TITLE',
+    'Mit'#228' makron tulisi tehd'#228'?');
+  Put(True,
+    'AI_PY_MACRO_PASTE_BTN',
+    'Liit'#228' skriptieditoriin');
+  Put(True,
+    'AI_PY_MACRO_PASTE_EMPTY',
+    'Vastauksesta ei l'#246'ytynyt liitett'#228'v'#228#228' Python-makrokoodia.');
+  Put(True,
+    'AI_PY_MACRO_PREV_PENDING',
+    'Peruttu pyynt'#246' valmistuu viel'#228' taustalla. Odota muutama sekunti ja yri'
+        + 't'#228' uudelleen.');
+  Put(True,
+    'AI_PY_MACRO_REDO',
+    'Tee uudelleen');
+  Put(True,
+    'AI_PY_MACRO_REDONE',
+    'Tehty uudelleen: %s.');
+  Put(True,
+    'AI_PY_MACRO_REDO_HINT',
+    'Tee uudelleen kumottu muutos (Ctrl+Y tai Ctrl+Shift+Z)');
+  Put(True,
+    'AI_PY_MACRO_RESP_LABEL',
+    'Generoitu Python-koodi');
+  Put(True,
+    'AI_PY_MACRO_SAMPLE_FILE',
+    'Edustava n'#228'yte: %d / %d l'#228'hdetiedoston rivi'#228);
+  Put(True,
+    'AI_PY_MACRO_SAMPLE_SELECTED',
+    'Edustava n'#228'yte: %d / %d valittua rivi'#228);
+  Put(True,
+    'AI_PY_MACRO_SCOPE_SCRIPT',
+    'T'#228'm'#228' avustaja auttaa vain kirjoittamaan Python-koodia FastFilen skript'
+        + 'imakroille (def transform(line, ctx)). Se ei vastaa muihin aiheisiin.');
+  Put(True,
+    'AI_PY_MACRO_SCOPE_TAIL',
+    'T'#228'm'#228' avustaja auttaa vain kirjoittamaan Python-koodia Tail-makrolle (d'
+        + 'ef transform(line, ctx)). Se ei vastaa muihin aiheisiin.');
+  Put(True,
+    'AI_PY_MACRO_UNDO',
+    'Kumoa');
+  Put(True,
+    'AI_PY_MACRO_UNDONE',
+    'Kumottu: %s.');
+  Put(True,
+    'AI_PY_MACRO_UNDO_HINT',
+    'Kumoa viimeisin muutos t'#228'll'#228' n'#228'yt'#246'll'#228' (Ctrl+Z): pyynt'#246'teksti, viimeisi'
+        + 'n pyynt'#246', AI-vastaus tai editoriin liitetty koodi');
+  Put(True,
+    'AI_PY_MACRO_WAIT_CLOSE',
+    'Odota, ett'#228' avustaja valmistuu, ennen sulkemista.');
+  Put(True,
+    'AI_PY_MACRO_WAIT_SENDING',
+    'L'#228'hetet'#228#228'n pyynt'#246#228' AI:lle...');
+  Put(True,
+    'AI_PY_MACRO_WAIT_TITLE',
+    'Generoidaan Python-makroa AI:lla');
+  Put(True,
+    'AI_PY_MACRO_WAIT_WAITING',
+    'Odotetaan AI-vastausta... %d s (Peruuta lopettaa odottamisen)');
+end;
+
+procedure AddFinnishPart04(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'AI_PY_PROMPT_FILTER_MANDATE',
+    'PAKOLLISTA t'#228'lle pyynn'#246'lle: s'#228'ilyt'#228' vain numerot 0-9, puolipiste ; ja '
+        + '#. K'#228'yt'#228' import re ylh'#228#228'll'#228' ja: return re.sub(r"[^0-9;#]", "", line). '
+        + #196'L'#196' k'#228'yt'#228' line[:N], line[i] tai range sarakkeiden sijainteihin.');
+  Put(True,
+    'AI_PY_PROMPT_HDR_SAMPLE',
+    'Edustavat l'#228'hderivit (vain konteksti; '#228'l'#228' toista niit'#228' vastauksessa):');
+  Put(True,
+    'AI_PY_PROMPT_HEADER',
+    '[FastFile - Python-makroavustaja - rajattu]');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P1',
+    'S'#228#228'nn'#246't: Anna VAIN Python-l'#228'hdekoodia FastFile-makroille muodossa def '
+        + 'transform(line, ctx): joka palauttaa muunnetun rivin (tai None ohittaa'
+        + 'kseen).');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P2',
+    'K'#228'yt'#228' vain Pythonin vakiokirjastoa, ellei k'#228'ytt'#228'j'#228' erikseen pyyd'#228' muut'
+        + 'a. Ei tiedosto-I/O:ta, ellei se ole tarpeen annetulle teht'#228'v'#228'lle.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P3',
+    'Hylk'#228#228' asiaankuulumattomat kysymykset. Vastaa FastFilen k'#228'ytt'#246'liittym'#228
+        + 'n kielell'#228'. Tulosta t'#228'ydellinen ajettava skripti def transform(line, c'
+        + 'tx) -funktiolla.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P4',
+    #196'l'#228' koskaan liit'#228' n'#228'ytetiedoston datarivej'#228' vastaukseen. K'#228'yt'#228' t'#228'sm'#228'll'
+        + 'een yht'#228' ```python -aitaa. Sen sis'#228'll'#228' vain def transform(line, ctx) j'
+        + 'a apudef:it '#8212' ei # Teste, ei print-demoja, ei kaksoisia ``` -rivej'#228'.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P5',
+    'Toteuta t'#228'sm'#228'lleen se, mit'#228' k'#228'ytt'#228'j'#228' pyysi transform(line, ctx):ss'#228'. E'
+        + 'i keksittyj'#228' sarakeindeksej'#228', ellei k'#228'ytt'#228'j'#228' nime'#228' niit'#228'. Ei pinnallis'
+        + 'ia stubbeja (vain strip, return line), kun suodatusta pyydettiin. Esim'
+        + 'erkki: s'#228'ilyt'#228' vain numerot, puolipiste ja # -> import re; return re.s'
+        + 'ub(r"[^0-9;#]", "", line).');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P6',
+    'Tiedoston'#228'ytteen rivit (jos on) ovat vain kontekstia erottimen/muodon '
+        + 'ymm'#228'rt'#228'miseen '#8212' '#228'l'#228' koskaan toista tai lainaa niit'#228' vastauksessasi.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P7',
+    'Vastaa VAIN YHDELL'#196' ```python -lohkolla '#8212' ei proosaa, ei L1:/L2:-rivej'
+        + #228', ei n'#228'ytedataa, ei kysymyksi'#228'. '#196'l'#228' koskaan k'#228'yt'#228' line[:N] tai line[i'
+        + '], ellei k'#228'ytt'#228'j'#228' erikseen pyyt'#228'nyt sijainteja tai osamerkkijonoa.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P8',
+    'Tulostusmuoto: s'#228'ilyt'#228' rivin alkuper'#228'inen j'#228'rjestys ja muoto. Kun s'#228'il'
+        + 'yt'#228't/poimit merkkej'#228', yhdist'#228' ne '''' (tyhj'#228' merkkijono, esim. "".join(.'
+        + '..)). '#196'L'#196' KOSKAAN lis'#228#228' v'#228'lily'#246'ntej'#228', pilkkuja, sarkaimia, lainausmerk'
+        + 'kej'#228' tai otsikoita arvojen v'#228'liin, ellei k'#228'ytt'#228'j'#228' erikseen pyyd'#228' eroti'
+        + 'nta.');
+  Put(True,
+    'AI_PY_PROMPT_TASK_SCRIPT',
+    'Ehdota tai paranna Python-makroa Script Engine -paneelille: def transf'
+        + 'orm(line, ctx) n'#228'kyville tai valituille riveille.');
+  Put(True,
+    'AI_PY_PROMPT_TASK_TAIL',
+    'Ehdota tai paranna Tail-makroa: Python def transform(line, ctx) ajetaa'
+        + 'n kerran jokaiselle uudelle riville Tail-tilan ollessa P'#196#196'LL'#196'.');
+  Put(True,
+    'AI_SPLIT_CONTACTING',
+    'Otetaan yhteytt'#228' avustajaan...');
+  Put(True,
+    'AI_SPLIT_CONTEXT_LABEL',
+    'Kontekstin esikatselu (l'#228'hetet'#228#228'n pyynt'#246'si kanssa):');
+  Put(True,
+    'AI_SPLIT_FAILED',
+    'Vastausta ei saatu: %s');
+  Put(True,
+    'AI_SPLIT_FAILED_UNKNOWN',
+    'Vastausta ei saatu (ei teknist'#228' tietoa). Tarkista verkko/palomuuri ja '
+        + 'API Gateway -yhteys t'#228'lt'#228' PC:lt'#228'.');
+  Put(True,
+    'AI_SPLIT_FINISHED',
+    'Valmis.');
+  Put(True,
+    'AI_SPLIT_NOTE_HINT',
+    'Valinnainen huomautus esiasetuksille 1'#8211'2. Esiasetus 3: kirjoita t'#228'h'#228'n '
+        + 'vain regex-kysymyksesi (pakollinen, v'#228'hint'#228#228'n %d merkki'#228').');
+  Put(True,
+    'AI_SPLIT_NOTE_REQUIRED',
+    'Anna v'#228'hint'#228#228'n %d merkki'#228' kohdistettuun regex-kysymykseesi.');
+  Put(True,
+    'AI_SPLIT_PRESET_1',
+    'Ehdota regex-malleja tiedoston kontekstista');
+  Put(True,
+    'AI_SPLIT_PRESET_2',
+    'Tarkista tai paranna nykyist'#228' malliani');
+  Put(True,
+    'AI_SPLIT_PRESET_3',
+    'Kohdistettu regex-kysymys (k'#228'yt'#228' alla olevaa huomautusta)');
+  Put(True,
+    'AI_SPLIT_SCOPE',
+    'T'#228'm'#228' avustaja keskustelee vain s'#228#228'nn'#246'llisist'#228' lausekkeista teksttiedos'
+        + 'tojen jakamiseen FastFiless'#228' (VBScript-tyylinen regex). Asiaankuulumat'
+        + 'tomat pyynn'#246't hyl'#228't'#228#228'n. Valitse esiasetus ja lis'#228#228' valinnaisesti lyhyt'
+        + ' huomautus.');
+  Put(True,
+    'AI_SPLIT_TRUNCATED',
+    '[...]');
+  Put(True,
+    'AI_SPLIT_VALIDATION_NONE_PASTE',
+    'Liitett'#228'v'#228#228' regexi'#228' ei l'#246'ytynyt.');
+  Put(True,
+    'AI_SPLIT_VALIDATION_PASTE_HDR',
+    'Kopioi Pattern-kentt'#228#228'n '#8212' kukin alla oleva rivi on yksi VBScript-valmi'
+        + 's regex (liit'#228' yksi rivi kerrallaan):');
+  Put(True,
+    'AI_SPLIT_VALIDATION_REJECT_HDR',
+    'Ehdotukset, jotka eiv'#228't k'#228#228'nny FastFiless'#228' (VBScript.RegExp):');
+  Put(True,
+    'AI_SPLIT_WAIT_CLOSE',
+    'Odota, ett'#228' avustaja valmistuu, ennen sulkemista.');
+  Put(True,
+    'About',
+    'Tietoja');
+  Put(True,
+    'About FastFile',
+    'Tietoja FastFileista');
+  Put(True,
+    'Accept',
+    'Hyv'#228'ksy');
+  Put(True,
+    'Accept all',
+    'Hyv'#228'ksy kaikki');
+  Put(True,
+    'Accessed',
+    'K'#228'ytetty');
+  Put(True,
+    'Active',
+    'Aktiivinen');
+  Put(True,
+    'Add files...',
+    'Lis'#228#228' tiedostoja...');
+  Put(True,
+    'Add folder...',
+    'Lis'#228#228' kansio...');
+  Put(True,
+    'Add-ons',
+    'Lis'#228'osat');
+  Put(True,
+    'Add/Update',
+    'Lis'#228#228'/P'#228'ivit'#228);
+  Put(True,
+    'Advanced AI Chat (file)',
+    'Edistynyt AI-chat (tiedosto)');
+  Put(True,
+    'Advanced AI Chat (file) (Ctrl+Alt+R)',
+    'Edistynyt AI-chat (tiedosto) (Ctrl+Alt+R)');
+  Put(True,
+    'Advanced AI Chat (file) Python plugin (ConsumerRAG.exe) not found.',
+    'Edistyneen AI-chatin (tiedosto) Python-laajennusta (ConsumerRAG.exe) e'
+        + 'i l'#246'ytynyt.');
+  Put(True,
+    'Advanced Text Editor',
+    'Edistynyt tekstieditori');
+  Put(True,
+    'After Date:',
+    'P'#228'iv'#228'm'#228#228'r'#228'n j'#228'lkeen:');
+  Put(True,
+    'After Time:',
+    'Ajan j'#228'lkeen:');
+  Put(True,
+    'Agent.Action',
+    'FastFile-toiminto');
+  Put(True,
+    'Agent.ActionConfirm',
+    'Suorita t'#228'm'#228' FastFile-toiminto nyt?');
+  Put(True,
+    'Agent.ActionPreview',
+    'Suorittaa FastFile-ominaisuuden, kun napsautat Hyv'#228'ksy. Ominaisuudet, '
+        + 'joilla on oma ikkuna, avaavat sen, jotta voit tarkistaa asetukset ja v'
+        + 'ahvistaa.');
+  Put(True,
+    'Agent.ActionStarted',
+    'FastFile-toiminto k'#228'ynnistetty p'#228#228'ikkunassa.');
+  Put(True,
+    'Agent.ActionsOneByOne',
+    'Listan FastFile-toiminnot on hyv'#228'ksytt'#228'v'#228' yksi kerrallaan.');
+  Put(True,
+    'Agent.ActionsRun',
+    'Suoritetaan %d FastFile-toiminto(a) p'#228#228'ikkunassa...');
+  Put(True,
+    'Agent.AskEmptyArea',
+    'T'#228'm'#228' alue on tyhj'#228'.');
+  Put(True,
+    'Agent.AskFailed',
+    'AI-pyynt'#246' ep'#228'onnistui: %s');
+  Put(True,
+    'Agent.AskNoAnswer',
+    'AI ei palauttanut vastausta.');
+  Put(True,
+    'Agent.AskQuestion',
+    'Mit'#228' haluat kysy'#228' AI:lta t'#228'st'#228' sis'#228'll'#246'st'#228'?');
+  Put(True,
+    'Agent.AskingStep',
+    'Kysyt'#228#228'n AI:lta (vaihe %d)...');
+  Put(True,
+    'Agent.Assistant.Busy',
+    'Avustaja on varattu toiseen pyynt'#246#246'n. Yrit'#228' uudelleen, kun se on valmi'
+        + 's.');
+  Put(True,
+    'Agent.Assistant.Done',
+    'Avustaja vastasi. Sen vastaus on agentin vastauksen alla.');
+  Put(True,
+    'Agent.Assistant.NoReply',
+    'Avustaja valmistui ilman vastausta. Katso Avustaja-paneeli.');
+  Put(True,
+    'Agent.Assistant.ReplyHeader',
+    '--- FastFile-avustaja ---');
+  Put(True,
+    'Agent.Assistant.Unavailable',
+    'Avustaja-paneeli ei ole k'#228'ytett'#228'viss'#228', joten pyynt'#246#228' ei voitu v'#228'litt'#228#228
+        + ' sille.');
+  Put(True,
+    'Agent.Assistant.Working',
+    'FastFile-avustaja k'#228'sittelee pyynt'#246#228'...');
+  Put(True,
+    'Agent.Bridge.Busy',
+    'AI-agentti on varattu toiseen pyynt'#246#246'n. Odota sen valmistumista tai py'
+        + 's'#228'yt'#228' se.');
+  Put(True,
+    'Agent.Bridge.RejectConfirm',
+    'Hyl'#228't'#228#228'nk'#246' %d ehdotettua muokkausta? Mit'#228#228'n ei kirjoiteta.');
+  Put(True,
+    'Agent.ChangeLine',
+    'Muuta rivi'#228' %d');
+  Put(True,
+    'Agent.Chat.Button',
+    'Chat');
+  Put(True,
+    'Agent.Chat.Hint',
+    'N'#228'yt'#228' tai piilota AI-chat-ruutu (avustaja, asiakirjat, l'#228'hteen validoi'
+        + 'nti, FastFile-ohje).');
+  Put(True,
+    'Agent.Copied',
+    'Kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Agent.CopyPaths',
+    'Kopioi polut');
+  Put(True,
+    'Agent.CountAnswer',
+    '%s rivi('#228') sis'#228'lt'#228#228' "%s" %s tiedostossa:');
+  Put(True,
+    'Agent.CountNote',
+    'T'#228'm'#228' laskee rivit, jotka sis'#228'lt'#228'v'#228't tekstin, ei erillisi'#228' henkil'#246'it'#228' t'
+        + 'ai tietueita.');
+  Put(True,
+    'Agent.DeleteLine',
+    'Poista rivi %d');
+  Put(True,
+    'Agent.EditsExpired',
+    'Aika loppui (%d s): ehdotetut muokkaukset hyl'#228'ttiin eik'#228' mit'#228#228'n kirjoi'
+        + 'tettu. L'#228'het'#228' pyynt'#246' uudelleen tehd'#228'ksesi ne uudelleen.');
+  Put(True,
+    'Agent.EditsNote',
+    'Muutos n'#228'kyy oikealla (kaksoisnapsauta suurentaaksesi). Mit'#228#228'n ei kirj'
+        + 'oiteta, ennen kuin napsautat Hyv'#228'ksy.');
+  Put(True,
+    'Agent.ExpireHint',
+    'P'#228#228't'#228' %d sekunnin kuluessa: Hyv'#228'ksy, Hylk'#228#228' tai Hyv'#228'ksy kaikki. Sen j'#228
+        + 'lkeen ehdotukset hyl'#228't'#228#228'n ja pyynt'#246' on l'#228'hetett'#228'v'#228' uudelleen. Muuta t'#228
+        + 't'#228' aikaa kohdassa Asetukset > Asetukset.');
+  Put(True,
+    'Agent.ExpireIn',
+    'Vanhenee %d s');
+  Put(True,
+    'Agent.ExpiredShort',
+    'Aika loppui');
+  Put(True,
+    'Agent.FindCount',
+    '%d / %d');
+  Put(True,
+    'Agent.FindNoMatch',
+    'ei osumia');
+  Put(True,
+    'Agent.FindRootsHint',
+    'Suodata l'#228'hteit'#228'...');
+  Put(True,
+    'Agent.FullText',
+    'N'#228'yt'#228' koko teksti');
+  Put(True,
+    'Agent.Guide',
+    '1) Lis'#228#228' tiedostoja tai kansioita  '#8594'  2) Kuvaile mit'#228' haluat ja napsau'
+        + 'ta L'#228'het'#228'  '#8594'  3) Lue vastaus ja tarkista muokkaukset. Mit'#228#228'n ei tallen'
+        + 'neta, ennen kuin hyv'#228'ksyt.');
+  Put(True,
+    'Agent.ItemCount',
+    '%d kohde(tta)');
+  Put(True,
+    'Agent.Macro.Caption',
+    'Python-makro jokaisella rivill'#228);
+  Put(True,
+    'Agent.Macro.FileMissing',
+    'Tiedostoa ei l'#246'ytynyt: %s');
+  Put(True,
+    'Agent.Macro.Preview',
+    'Hyv'#228'ksynn'#228'ss'#228' tiedosto avautuu Python-makropaneelissa ja t'#228'm'#228' skripti '
+        + 'ajetaan jokaisella rivill'#228' esikatselulla ensimm'#228'isist'#228' riveist'#228' ennen '
+        + 't'#228'ytt'#228' ajoa. Tulos menee paneeliin; alkuper'#228'ist'#228' tiedostoa ei muuteta.');
+  Put(True,
+    'Agent.Macro.Running',
+    'Agenttimakro: valmistellaan %s...');
+  Put(True,
+    'Agent.Macro.SelectedOnly',
+    'vain valitut rivit');
+  Put(True,
+    'Agent.ModelToolCall',
+    'AI-malli yritti ajaa koodia vastaamisen sijaan, ja AI-palvelu hylk'#228'si '
+        + 'vastauksen. L'#228'het'#228' pyynt'#246' uudelleen.');
+  Put(True,
+    'Agent.NewNothingToSave',
+    'Ei mit'#228#228'n tallennettavaa; alue oli jo tyhj'#228'.');
+  Put(True,
+    'Agent.NewPromptSaved',
+    'Pyynt'#246' tallennettu Viimeisimpiin pyynt'#246'ihin. Valmis uuteen.');
+  Put(True,
+    'Agent.NewSaveFailed',
+    'Tallennus ep'#228'onnistui, joten mit'#228#228'n ei tyhjennetty:');
+  Put(True,
+    'Agent.NewSaved',
+    'Tallennettu kohteeseen %s. Valmis uuteen.');
+  Put(True,
+    'Agent.NothingToCopy',
+    'Ei mit'#228#228'n kopioitavaa.');
+  Put(True,
+    'Agent.PickFilesTitle',
+    'Valitse tiedostot, jotka agentti lukee');
+  Put(True,
+    'Agent.PickFolderLabel',
+    'Kansio:');
+  Put(True,
+    'Agent.PickFolderOk',
+    'Valitse kansio');
+  Put(True,
+    'Agent.PickFolderTitle',
+    'Valitse yksi tai useampi kansio, jotka agentti lukee');
+  Put(True,
+    'Agent.PreviewLoading',
+    'Luetaan rivej'#228' tiedostosta...');
+  Put(True,
+    'Agent.PreviewMore',
+    '... ja viel'#228' %s rivi('#228') (ei n'#228'y esikatselussa; kaikki sovelletaan Hyv'#228
+        + 'ksy-painikkeella)');
+end;
+
+procedure AddFinnishPart05(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Agent.PreviewZoomHint',
+    'Kaksoisnapsauta suurentaaksesi');
+  Put(True,
+    'Agent.Recent',
+    'Viimeisimm'#228't pyynn'#246't');
+  Put(True,
+    'Agent.RecentCount',
+    '%d viimeisint'#228' pyynt'#246#228' '#8211' napsauta valitaksesi');
+  Put(True,
+    'Agent.RecentEmpty',
+    '(ei viel'#228' viimeisimpi'#228' pyynt'#246'j'#228')');
+  Put(True,
+    'Agent.RecentHint',
+    'K'#228'yt'#228' aiempaa pyynt'#246#228' uudelleen. Luettelossa on haku, poisto ja poista'
+        + ' kaikki. Alt+Down avaa sen tekstiruudusta.');
+  Put(True,
+    'Agent.RemoveAll',
+    'Poista kaikki');
+  Put(True,
+    'Agent.RemoveAllConfirm',
+    'Poistetaanko kaikki %d l'#228'hdett'#228' luettelosta? Levyn tiedostoihin ei kos'
+        + 'keta.');
+  Put(True,
+    'Agent.RemoveSelected',
+    'Poista valitut');
+  Put(True,
+    'Agent.RootRecent',
+    'Viimeisimm'#228't');
+  Put(True,
+    'Agent.RootRecentHint',
+    'Viimeisimm'#228't tiedostot ja kansiot: napsauta lis'#228't'#228'ksesi uudelleen (Alt'
+        + '+Down suodatusruudussa). Etsi, poista kohteita, ominaisuudet ja poista'
+        + ' kaikki, kuten muissa viimeisimmiss'#228' luetteloissa.');
+  Put(True,
+    'Agent.RootRecentMissing',
+    'Ei l'#246'ytynyt (poistettu viimeisimmist'#228'):'#13#10'%s');
+  Put(True,
+    'Agent.RootRecentTitle',
+    'Viimeisimm'#228't tiedostot ja kansiot');
+  Put(True,
+    'Agent.RootsHint',
+    'Ctrl+napsautus tai Shift+napsautus valitsee useita. Del poistaa valinn'
+        + 'an; napsauta hiiren kakkospainikkeella saadaksesi lis'#228#228'.');
+  Put(True,
+    'Agent.SelectAll',
+    'Valitse kaikki');
+  Put(True,
+    'Agent.SendHint',
+    'Ctrl+Enter l'#228'hett'#228#228' my'#246's.');
+  Put(True,
+    'Agent.SqlChanges',
+    '%d rivi('#228') muutettavaksi %d ehdotuksessa. Mit'#228#228'n ei ole viel'#228' kirjoite'
+        + 'ttu: tarkista ne v'#228'lilehdell'#228' "Ehdotetut muokkaukset" ja napsauta "Hyv'
+        + #228'ksy".');
+  Put(True,
+    'Agent.SqlDirect',
+    'SQL-lause havaittu: FastFile suorittaa suoraan ilman AI:ta.');
+  Put(True,
+    'Agent.SqlNoChange',
+    'Mik'#228#228'n rivi ei muuttuisi, joten mit'#228#228'n ei ehdotettu.');
+  Put(True,
+    'Agent.SqlQuery',
+    'FastFilen suorittama SQL-lause:');
+  Put(True,
+    'Agent.SqlRowsAll',
+    'Tulos: %d rivi('#228'):');
+  Put(True,
+    'Agent.SqlRowsSome',
+    'Tulos: n'#228'ytet'#228#228'n %d / %d rivi'#228':');
+  Put(True,
+    'Agent.SqlRunning',
+    'Suoritetaan SQL:'#228#228'...');
+  Put(True,
+    'Agent.SqlSkipped',
+    'Huom: %s j'#228'tti pois %d arvoa, jotka eiv'#228't ole numeroita.');
+  Put(True,
+    'Agent.Step1',
+    '1. Valitse tiedostot tai kansiot');
+  Put(True,
+    'Agent.Step2',
+    '2. Kuvaile, mit'#228' haluat');
+  Put(True,
+    'Agent.Step3',
+    '3. Tarkista tulos');
+  Put(True,
+    'Agent.ToolAsk',
+    'Kysy AI:lta');
+  Put(True,
+    'Agent.ToolAskHint',
+    'Esit'#228' AI:lle kysymys t'#228'st'#228' sis'#228'll'#246'st'#228'. Vastaus n'#228'kyy kohdassa Vastaus.');
+  Put(True,
+    'Agent.ToolClear',
+    'Tyhjenn'#228);
+  Put(True,
+    'Agent.ToolClearAnswerHint',
+    'Tyhjenn'#228' vastaus.');
+  Put(True,
+    'Agent.ToolClearPromptHint',
+    'Tyhjenn'#228' pyynn'#246'n teksti.');
+  Put(True,
+    'Agent.ToolClearRootsHint',
+    'Poista valitut l'#228'hteet (tai kaikki, vahvistuksen j'#228'lkeen).');
+  Put(True,
+    'Agent.ToolCopy',
+    'Kopioi');
+  Put(True,
+    'Agent.ToolCopyHint',
+    'Kopioi leikep'#246'yd'#228'lle (valittu teksti tai kaikki).');
+  Put(True,
+    'Agent.ToolCopyRootsHint',
+    'Kopioi valittujen l'#228'hteiden polut (tai kaikkien).');
+  Put(True,
+    'Agent.ToolNew',
+    'Uusi');
+  Put(True,
+    'Agent.ToolNewAnswerHint',
+    'Tallenna pyynt'#246' ja vastaus tekstitiedostoon (AgentHistory-kansio) ja t'
+        + 'yhjenn'#228' sitten vastaus');
+  Put(True,
+    'Agent.ToolNewPromptHint',
+    'Tallenna t'#228'm'#228' pyynt'#246' Viimeisimpiin pyynt'#246'ihin ja tyhjenn'#228' se uuden alo'
+        + 'ittamiseksi');
+  Put(True,
+    'Agent.ToolNewRootsHint',
+    'Tallenna tiedosto- ja kansioluettelo tekstitiedostoon (AgentHistory-ka'
+        + 'nsio) ja poista ne kaikki');
+  Put(True,
+    'Agent.TotalFound',
+    'Yhteens'#228': %d tietuetta l'#246'ytyi.');
+  Put(True,
+    'Agent.TotalFoundFor',
+    'Yhteens'#228': %d tietuetta l'#246'ytyi kohteelle %s.');
+  Put(True,
+    'Agent.TotalShort',
+    'Yhteens'#228': %d tietuetta');
+  Put(True,
+    'All',
+    'Kaikki');
+  Put(True,
+    'All files (*.*)',
+    'Kaikki tiedostot (*.*)');
+  Put(True,
+    'All files (*.*)|*.*',
+    'Kaikki tiedostot (*.*)|*.*');
+  Put(True,
+    'All lines captured in this Tail session',
+    'Kaikki t'#228'ss'#228' Tail-istunnossa kaapatut rivit');
+  Put(True,
+    'All visible lines',
+    'Kaikki n'#228'kyv'#228't rivit');
+  Put(True,
+    'Allow',
+    'Salli');
+  Put(True,
+    'Allow animation',
+    'Salli animaatio');
+  Put(True,
+    'Already running...',
+    'Jo k'#228'ynniss'#228'...');
+  Put(True,
+    'Also save macro results to file:',
+    'Tallenna my'#246's makron tulokset tiedostoon:');
+  Put(True,
+    'Alternate - drop numeric duplicate suffix from profile URL:',
+    'Vaihtoehto '#8211' poista numeerinen kaksoisp'#228#228'te profiilin URL-osoitteesta:');
+  Put(True,
+    'Anon.AllCaps',
+    'K'#228'sittele ISOLLA KIRJOITETUT sanat nimin'#228);
+  Put(True,
+    'Anon.Apply',
+    'Anonymisoi...');
+  Put(True,
+    'Anon.BusyClose',
+    'Anonymisointi kirjoittaa viel'#228' tiedostoon. Odota, ett'#228' se valmistuu en'
+        + 'nen sulkemista.');
+  Put(True,
+    'Anon.Cancel',
+    'Peruuta');
+  Put(True,
+    'Anon.CancelledPartial',
+    'Anonymisointi peruutettu. Ilman kumoamistietoja jo k'#228'sitelty osa j'#228#228' a'
+        + 'nonymisoiduksi.');
+  Put(True,
+    'Anon.CancelledReverted',
+    'Anonymisointi peruutettu. Tiedosto palautettiin alkuper'#228'iseen tilaan.');
+  Put(True,
+    'Anon.Codes',
+    'Koodit (kirjaimet + numerot, esim. ABC-123)');
+  Put(True,
+    'Anon.Col.Anonymized',
+    'Anonymisoitu');
+  Put(True,
+    'Anon.Col.Line',
+    'Rivi');
+  Put(True,
+    'Anon.Col.Original',
+    'Alkuper'#228'inen');
+  Put(True,
+    'Anon.Columns',
+    'Sarakkeet:');
+  Put(True,
+    'Anon.Columns.Hint',
+    'Anonymisoitavat sarakkeet, esim. 2,4-6 (tyhj'#228' = kaikki)');
+  Put(True,
+    'Anon.ConfirmNoUndo',
+    'Anonymisoidaanko %s (%s) suoraan tiedostoon ILMAN kumoamistietoja?'#13#10#13#10
+        + 'T'#228't'#228' ei voi kumota. Varmista, ett'#228' sinulla on kopio alkuper'#228'isest'#228' tie'
+        + 'dostosta.');
+  Put(True,
+    'Anon.ConfirmSample',
+    'Esimerkki muutoksesta (esikatselusta):');
+  Put(True,
+    'Anon.ConfirmSample.Line',
+    'Rivi %d:');
+  Put(True,
+    'Anon.ConfirmUndo',
+    'Anonymisoidaanko %s (%s) suoraan tiedostoon?'#13#10#13#10'Tiedoston koko ja rivi'
+        + 'asettelu pysyv'#228't samoina. Voit kumota my'#246'hemmin Ctrl+Z:lla.');
+  Put(True,
+    'Anon.Consistent',
+    'Johdonmukainen (sama arvo '#8594' sama korvaus)');
+  Put(True,
+    'Anon.Dates',
+    'P'#228'iv'#228'm'#228#228'r'#228't ja ajat');
+  Put(True,
+    'Anon.Delimiter.Comma',
+    'Pilkku (,)');
+  Put(True,
+    'Anon.Delimiter.None',
+    'Ei erotinta');
+  Put(True,
+    'Anon.Delimiter.Pipe',
+    'Pystyviiva (|)');
+  Put(True,
+    'Anon.Delimiter.Semicolon',
+    'Puolipiste (;)');
+  Put(True,
+    'Anon.Delimiter.Tab',
+    'Sarkain');
+  Put(True,
+    'Anon.Desc.Lines',
+    '%d valittua rivi'#228);
+  Put(True,
+    'Anon.Desc.Range',
+    'rivit %d'#8211'%d');
+  Put(True,
+    'Anon.Desc.WholeFile',
+    'koko tiedosto');
+  Put(True,
+    'Anon.Detail.Anonymized',
+    'Anonymisoitu:');
+  Put(True,
+    'Anon.Detail.Original',
+    'Alkuper'#228'inen:');
+  Put(True,
+    'Anon.Done',
+    'Anonymisointi valmis: %d rivi('#228') muutettu, %s uudelleenkirjoitettu aja'
+        + 'ssa %s.');
+  Put(True,
+    'Anon.DoneUndoHint',
+    'Paina Ctrl+Z (Kumoa) palauttaaksesi alkuper'#228'iset tiedot.');
+  Put(True,
+    'Anon.Emails',
+    'S'#228'hk'#246'postiosoitteet');
+  Put(True,
+    'Anon.ErrColumns',
+    'Virheellinen sarakeluettelo. K'#228'yt'#228' numeroita ja v'#228'lej'#228', kuten 1,3,5-7.');
+  Put(True,
+    'Anon.ErrNoSelection',
+    'Yht'#228#228'n rivi'#228' ei ole valittu. Valitse rivej'#228' luettelosta tai valitse to'
+        + 'inen laajuus.');
+  Put(True,
+    'Anon.ErrRange',
+    'Virheellinen riviv'#228'li. K'#228'yt'#228' numeroita v'#228'lill'#228' 1'#8211'%s siten, ett'#228' "alkae'
+        + 'n" ei ole suurempi kuin "asti".');
+  Put(True,
+    'Anon.Failed',
+    'Anonymisointi ep'#228'onnistui: %s');
+  Put(True,
+    'Anon.FailedPartial',
+    'Anonymisointi ep'#228'onnistui: %s'#13#10#13#10'Ilman kumoamistietoja osa tiedostosta'
+        + ' voi olla jo anonymisoitu.');
+  Put(True,
+    'Anon.FailedReverted',
+    'Anonymisointi ep'#228'onnistui: %s'#13#10#13#10'Tiedosto palautettiin alkuper'#228'iseen t'
+        + 'ilaan.');
+  Put(True,
+    'Anon.Hist.DeleteAll',
+    'Kaikki anonymisointitapahtumat');
+  Put(True,
+    'Anon.Hist.DeleteAllConfirm',
+    'Poistetaanko kaikki anonymisointitapahtumat t'#228'm'#228'n tiedoston historiast'
+        + 'a?'#13#10#13#10'Vain historia muuttuu: tiedoston data ja kumoaminen pysyv'#228't enna'
+        + 'llaan.');
+  Put(True,
+    'Anon.Hist.DeleteLine',
+    'Rivin %d tapahtumat');
+  Put(True,
+    'Anon.Hist.DeleteLineConfirm',
+    'Poistetaanko historiasta anonymisointitapahtumat, jotka sis'#228'lt'#228'v'#228't riv'
+        + 'in %d?'#13#10#13#10'Vain historia muuttuu: tiedoston data ja kumoaminen pysyv'#228't '
+        + 'ennallaan.');
+  Put(True,
+    'Anon.Hist.DeleteMenu',
+    'Poista anonymisointi historiasta');
+  Put(True,
+    'Anon.Hist.Deleted',
+    'Historiasta poistetut anonymisointimerkinn'#228't: %d');
+  Put(True,
+    'Anon.Hist.Lines',
+    'Anonymisoi data: %d rivi('#228') rivist'#228' %d');
+  Put(True,
+    'Anon.Hist.NoDetail',
+    '(vain yhteenveto: ennen/j'#228'lkeen tallennetaan rivikohtaisesti enint'#228#228'n '
+        + '2000 riville; vanhemmilla tietueilla sit'#228' ei ole)');
+  Put(True,
+    'Anon.Hist.Tag',
+    'ANONYMISOITU');
+  Put(True,
+    'Anon.Hist.WholeFile',
+    'Anonymisoi data: koko tiedosto');
+  Put(True,
+    'Anon.HistoryNote',
+    'Anonymisoitu: %s');
+end;
+
+procedure AddFinnishPart06(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Anon.Info',
+    'Laajuus: %s. Esikatselu: %d / %d rivi('#228') muuttuu. Arvioitu kumoamisdat'
+        + 'a: %s.');
+  Put(True,
+    'Anon.InfoNoUndo',
+    'Laajuus: %s. Esikatselu: %d / %d rivi('#228') muuttuu. Ilman kumoamisdataa '
+        + 'muutos on pysyv'#228'.');
+  Put(True,
+    'Anon.JournalMissing',
+    'T'#228'm'#228'n anonymisoinnin kumoamisdata ei ole en'#228#228' saatavilla. Toiminto poi'
+        + 'stettiin kumoa-luettelosta.');
+  Put(True,
+    'Anon.KeepUndo',
+    'S'#228'ilyt'#228' kumoamisdata (mahdollistaa Kumoa / Tee uudelleen)');
+  Put(True,
+    'Anon.KeepWords',
+    'S'#228'ilyt'#228' sanat:');
+  Put(True,
+    'Anon.KeepWords.Hint',
+    'Sanat, joita ei saa muuttaa, erotettuina v'#228'lily'#246'nneill'#228' tai pilkuilla');
+  Put(True,
+    'Anon.Key',
+    'Avain:');
+  Put(True,
+    'Anon.Key.Hint',
+    'Sama avain tuottaa samat korvaukset my'#246's muissa tiedostoissa. Pid'#228' se '
+        + 'salaisena.');
+  Put(True,
+    'Anon.Menu',
+    'Anonymisoi data');
+  Put(True,
+    'Anon.Menu.File',
+    'Anonymisoi koko tiedosto...');
+  Put(True,
+    'Anon.Menu.Selected',
+    'Anonymisoi valitut rivit...');
+  Put(True,
+    'Anon.MinDigits',
+    'v'#228'h. numeroita:');
+  Put(True,
+    'Anon.NewKey',
+    'Uusi avain');
+  Put(True,
+    'Anon.NothingChanged',
+    'Valitussa laajuudessa ei ole anonymisoitavaa n'#228'ill'#228' asetuksilla. Tiedo'
+        + 'stoa ei muutettu.');
+  Put(True,
+    'Anon.Numbers',
+    'Numerot ja arvot');
+  Put(True,
+    'Anon.Options',
+    'Asetukset');
+  Put(True,
+    'Anon.Preview',
+    'Esikatselu (laajuuden ensimm'#228'iset rivit; harmaa = muuttumaton):');
+  Put(True,
+    'Anon.Progress.Apply',
+    'Anonymisoidaan dataa...');
+  Put(True,
+    'Anon.Progress.Detail',
+    '%s / %s '#183' %.1f MB/s '#183' j'#228'ljell'#228' %s');
+  Put(True,
+    'Anon.Progress.EtaCalc',
+    'lasketaan...');
+  Put(True,
+    'Anon.Progress.Redo',
+    'Tehd'#228#228'n anonymisointi uudelleen...');
+  Put(True,
+    'Anon.Progress.Revert',
+    'Palautetaan:');
+  Put(True,
+    'Anon.Progress.Undo',
+    'Kumotaan anonymisointia...');
+  Put(True,
+    'Anon.RedoConfirm',
+    'Tehd'#228#228'nk'#246' %s anonymisointi uudelleen?');
+  Put(True,
+    'Anon.Redone',
+    'Anonymisointi tehty uudelleen: %s');
+  Put(True,
+    'Anon.Refresh',
+    'P'#228'ivit'#228' esikatselu');
+  Put(True,
+    'Anon.Refreshed',
+    '(esikatselu p'#228'ivitetty klo %s)');
+  Put(True,
+    'Anon.ResolveFailed',
+    'Valittuja rivej'#228' ei l'#246'ytynyt tiedostosta. Odota, ett'#228' tiedoston lataus'
+        + ' valmistuu, ja yrit'#228' uudelleen.');
+  Put(True,
+    'Anon.Scope',
+    'Laajuus');
+  Put(True,
+    'Anon.Scope.File',
+    'Koko tiedosto (%s)');
+  Put(True,
+    'Anon.Scope.LimitNote',
+    'Valinta tai riviv'#228'li voi k'#228'ytt'#228#228' enint'#228#228'n %d rivi'#228'. Koko tiedostoa ei '
+        + 'ole rajoitettu. Muuta t'#228'm'#228' Asetuksissa.');
+  Put(True,
+    'Anon.Scope.Range',
+    'Riviv'#228'li (alkaen '#8211' asti):');
+  Put(True,
+    'Anon.Scope.Selection',
+    'Valitut rivit (%d / %d)');
+  Put(True,
+    'Anon.Scope.TotalLines',
+    'Tiedostossa on %s rivi('#228').');
+  Put(True,
+    'Anon.SkipHeader',
+    'S'#228'ilyt'#228' ensimm'#228'inen rivi (otsikko)');
+  Put(True,
+    'Anon.SwapFailed',
+    'Toimintoa ei voitu suorittaa loppuun: %s');
+  Put(True,
+    'Anon.Title',
+    'Anonymisoi data');
+  Put(True,
+    'Anon.Truncated',
+    '(pitk'#228' rivi: vain alku n'#228'ytet'#228#228'n)');
+  Put(True,
+    'Anon.UndoConfirm',
+    'Kumotaanko %s anonymisointi? Alkuper'#228'iset tiedot palautetaan.');
+  Put(True,
+    'Anon.UndoMismatch',
+    'Tiedostoa muutettiin anonymisoinnin j'#228'lkeen (t'#228'm'#228'n kumoamishistorian u'
+        + 'lkopuolella), joten sit'#228' ei voi kumota turvallisesti. Mit'#228#228'n ei muutet'
+        + 'tu ja toiminto poistettiin luettelosta.');
+  Put(True,
+    'Anon.Undone',
+    'Anonymisointi kumottu: %s');
+  Put(True,
+    'Anon.What',
+    'Mit'#228' anonymisoidaan');
+  Put(True,
+    'Anon.Words',
+    'Sanat:');
+  Put(True,
+    'Anon.Words.All',
+    'Kaikki sanat');
+  Put(True,
+    'Anon.Words.Names',
+    'Nimet (isolla alkukirjaimella kirjoitetut sanat)');
+  Put(True,
+    'Anon.Words.None',
+    'S'#228'ilyt'#228' kaikki sanat');
+  Put(True,
+    'Anonymize from line %d to the end',
+    'Anonymisoi rivist'#228' %d loppuun');
+  Put(True,
+    'Anonymize lines %d-%d',
+    'Anonymisoi rivit %d'#8211'%d');
+  Put(True,
+    'Anonymize name after %s (VBScript-safe; no lookbehind):',
+    'Anonymisoi nimi kohteen %s j'#228'lkeen (VBScript-turvallinen; ei lookbehin'
+        + 'dia):');
+  Put(True,
+    'Anonymize the whole file',
+    'Anonymisoi koko tiedosto');
+  Put(True,
+    'Another edit or undo is still in progress. Please wait.',
+    'Toinen muokkaus tai kumoaminen on viel'#228' k'#228'ynniss'#228'. Odota hetki.');
+  Put(True,
+    'Another script or tail macro is already running.',
+    'Toinen skripti tai Tail-makro on jo k'#228'ynniss'#228'.');
+  Put(True,
+    'Answer',
+    'Vastaus');
+  Put(True,
+    'Anywhere in the line - integer 100 or more (may match multiple columns'
+        + '):',
+    'Miss'#228' tahansa rivill'#228' '#8211' kokonaisluku 100 tai enemm'#228'n (voi osua useisii'
+        + 'n sarakkeisiin):');
+  Put(True,
+    'Appearance',
+    'Ulkoasu');
+  Put(True,
+    'Application language',
+    'Sovelluksen kieli');
+  Put(True,
+    'Apply %d change(s) to the left file on disk?',
+    'K'#228'ytet'#228#228'nk'#246' %d muutosta vasempaan tiedostoon levyll'#228'?');
+  Put(True,
+    'Apply %d change(s) to the right file on disk?',
+    'K'#228'ytet'#228#228'nk'#246' %d muutosta oikeaan tiedostoon levyll'#228'?');
+  Put(True,
+    'Apply every proposed edit?',
+    'K'#228'ytet'#228#228'nk'#246' kaikki ehdotetut muokkaukset?');
+  Put(True,
+    'Apply left to right (disk)',
+    'K'#228'yt'#228' vasen oikeaan (levy)');
+  Put(True,
+    'Apply right to left (disk)',
+    'K'#228'yt'#228' oikea vasempaan (levy)');
+  Put(True,
+    'Apply selected merge to the left file (disk)',
+    'K'#228'yt'#228' valittu yhdist'#228'minen vasempaan tiedostoon (levy)');
+  Put(True,
+    'Apply selected merge to the right file (disk)',
+    'K'#228'yt'#228' valittu yhdist'#228'minen oikeaan tiedostoon (levy)');
+  Put(True,
+    'Apply the edit to %s?',
+    'K'#228'ytet'#228#228'nk'#246' muokkaus kohteeseen %s?');
+  Put(True,
+    'Apply to:',
+    'K'#228'yt'#228' kohteeseen:');
+  Put(True,
+    'Applying edits... %d%%',
+    'K'#228'ytet'#228#228'n muokkauksia... %d%%');
+  Put(True,
+    'Applying merge...',
+    'K'#228'ytet'#228#228'n yhdist'#228'mist'#228'...');
+  Put(True,
+    'Archive',
+    'Arkisto');
+  Put(True,
+    'Are you sure you want to delete this session history log file and its '
+        + 'directory?',
+    'Haluatko varmasti poistaa t'#228'm'#228'n istunnon historialokitiedoston ja sen '
+        + 'hakemiston?');
+  Put(True,
+    'Arquivo de '#237'ndice n'#227'o encontrado (temp.txt). Releia o arquivo primeiro'
+        + '.',
+    'Indeksitiedostoa ei l'#246'ytynyt (temp.txt). Lue tiedosto ensin uudelleen.');
+  Put(True,
+    'Ask AI',
+    'Kysy AI:lta');
+  Put(True,
+    'Asking the model again...',
+    'Kysyt'#228#228'n AI:lta uudelleen...');
+  Put(True,
+    'Assistant.Agent.CannotStart',
+    'AI-agentti ei voinut k'#228'ynnist'#228#228' t'#228't'#228' pyynt'#246#228'.');
+  Put(True,
+    'Assistant.Agent.Chip.Accept',
+    'Hyv'#228'ksy kaikki');
+  Put(True,
+    'Assistant.Agent.Chip.Reject',
+    'Hylk'#228#228' kaikki');
+  Put(True,
+    'Assistant.Agent.Chip.Review',
+    'Tarkista Agentissa');
+  Put(True,
+    'Assistant.Agent.FromAgent',
+    'T'#228'm'#228' pyynt'#246' tuli AI-agentilta, joten sit'#228' ei l'#228'hetetty takaisin sille.'
+        + ' Kysy se AI-agentin v'#228'lilehdell'#228' toisin sanoin.');
+  Put(True,
+    'Assistant.Agent.NoChanges',
+    'AI-agentti valmistui ehdottamatta muutoksia.');
+  Put(True,
+    'Assistant.Agent.Proposed',
+    '%d muokkausta ehdotettu '#8211' mit'#228#228'n ei ole viel'#228' kirjoitettu.');
+  Put(True,
+    'Assistant.Agent.Running',
+    'AI-agentti ty'#246'skentelee kohteen %s parissa... (mit'#228#228'n ei kirjoiteta en'
+        + 'nen kuin hyv'#228'ksyt)');
+  Put(True,
+    'Assistant.AgentMode',
+    'Agentti');
+  Put(True,
+    'Assistant.AgentModeHint',
+    'Agenttitila: AI-agentti lukee avoimen tiedoston ja ehdottaa muokkauksi'
+        + 'a. Mit'#228#228'n ei kirjoiteta ennen kuin napsautat Hyv'#228'ksy.');
+  Put(True,
+    'Assistant.AgentModeOff',
+    'Agenttitila pois: normaali Avustaja.');
+  Put(True,
+    'Assistant.AgentModeOn',
+    'Agenttitila p'#228#228'll'#228': pyynn'#246't menev'#228't AI-agentille (avoin tiedosto, tark'
+        + 'ista ennen kirjoittamista).');
+  Put(True,
+    'Assistant.Cancelled',
+    'Peruutettu.');
+  Put(True,
+    'Assistant.CharCountHint',
+    'Merkkej'#228' j'#228'ljell'#228' (enint'#228#228'n 500).');
+  Put(True,
+    'Assistant.ClearQuestion',
+    'Tyhjenn'#228' kysymys');
+  Put(True,
+    'Assistant.ClearReply',
+    'Tyhjenn'#228);
+  Put(True,
+    'Assistant.Compose.SummaryDocTitle',
+    'Tiedoston yhteenveto:');
+  Put(True,
+    'Assistant.ComposeFormats.Code',
+    'L'#228'hdekoodi');
+  Put(True,
+    'Assistant.ComposeFormats.Docs',
+    'Asiakirjat');
+  Put(True,
+    'Assistant.ComposeFormats.Hint',
+    'Tiedostotyypit, joita avustaja voi luoda.');
+  Put(True,
+    'Assistant.ComposeFormats.Intro',
+    'Avustaja voi luoda n'#228'm'#228' tunnisteet:');
+  Put(True,
+    'Assistant.ComposeFormats.Text',
+    'Teksti');
+  Put(True,
+    'Assistant.ComposeFormats.Title',
+    'Tuetut tiedostotyypit');
+  Put(True,
+    'Assistant.Confirm.ComposeWriteOutsideTemp',
+    'Kirjoitetaanko luotu tiedosto FastFilen temp-kansion ulkopuolelle?'#13#10'%s');
+  Put(True,
+    'Assistant.ConfirmRun',
+    'Suoritetaanko t'#228'm'#228' toiminto FastFiless'#228' nyt?');
+  Put(True,
+    'Assistant.ConsumerGate.Blocked',
+    'FastFile ei avaa Python-keskustelua t'#228'lle pyynn'#246'lle. Kokeile natiivity'
+        + #246'kalua (yhdist'#228', suodata, vie) tai muotoile uudelleen sis'#228'lt'#246'-/SQL-kys'
+        + 'ymykseksi.');
+  Put(True,
+    'Assistant.ConsumerGate.NotContentQuestion',
+    'T'#228'm'#228' vaikuttaa FastFilen editoritoiminnolta (yhdist'#228', jaa, suodata, vi'
+        + 'e jne.), ei tiedoston sis'#228'lt'#246'kysymykselt'#228'. K'#228'yt'#228' ty'#246'kalurivi'#228' tai kysy'
+        + ', miten ty'#246'kalu k'#228'ynnistet'#228#228'n.');
+  Put(True,
+    'Assistant.ConsumerGate.NotSqlQuestion',
+    'T'#228'm'#228' ei vaikuta taulukko-/SQL-kysymykselt'#228'. Tiedoston merkityksen tai '
+        + 'yhteenvedon osalta kysy t'#228'ss'#228' Avustaja-keskustelussa.');
+end;
+
+procedure AddFinnishPart07(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Assistant.CopyReply',
+    'Kopioi');
+  Put(True,
+    'Assistant.CountingDetail',
+    'Luetaan tiedostoa levylt'#228'...');
+  Put(True,
+    'Assistant.CountingFile',
+    'Lasketaan tiedoston rivej'#228'...');
+  Put(True,
+    'Assistant.Done',
+    'Valmis.');
+  Put(True,
+    'Assistant.DontShowAgain',
+    #196'l'#228' n'#228'yt'#228' t'#228't'#228' avustajaa k'#228'ynnistyksess'#228);
+  Put(True,
+    'Assistant.ElapsedAi',
+    'AI-vastausaika: %s');
+  Put(True,
+    'Assistant.ElapsedExecute',
+    'Suoritusaika: %s');
+  Put(True,
+    'Assistant.Error.ChatFileMissing',
+    'T'#228't'#228' tiedostoa ei ole olemassa. Korjaa polku kysymyksess'#228' (tai tiedost'
+        + 'onimiruudussa) ennen l'#228'hett'#228'mist'#228':'#13#10'%s');
+  Put(True,
+    'Assistant.Error.ChatPathIsFolder',
+    'Tuo polku on kansio, ei tiedosto. Anna tiedoston t'#228'ysi polku:'#13#10'%s');
+  Put(True,
+    'Assistant.Error.ComposeCancelled',
+    'Asiakirjan luonti peruutettu.');
+  Put(True,
+    'Assistant.Error.ComposeEmpty',
+    'Malli palautti tyhj'#228'n asiakirjan.');
+  Put(True,
+    'Assistant.Error.ComposeFormatUnsupported',
+    'Muotoa %s ei tueta.');
+  Put(True,
+    'Assistant.Error.ComposeGatewayEmpty',
+    'AI palautti tyhj'#228'n asiakirjan. Yrit'#228' uudelleen tai pyyd'#228' lyhyemp'#228#228' yht'
+        + 'eenvetoa.');
+  Put(True,
+    'Assistant.Error.ComposeNothingToFix',
+    'Ei korjattavaa luotua asiakirjaa. Luo ensin tiedosto tai anna .pas/.py'
+        + '/.md-polku.');
+  Put(True,
+    'Assistant.Error.ComposeWriteFailed',
+    'Luotua tiedostoa ei voitu kirjoittaa.');
+  Put(True,
+    'Assistant.Error.ComposeWriteFailedAt',
+    'Tiedostoa ei voitu tallentaa:'#13#10'%s');
+  Put(True,
+    'Assistant.Error.EmptyQuestion',
+    'Kirjoita ensin, mit'#228' haluat tehd'#228'.');
+  Put(True,
+    'Assistant.Error.ExtractRange',
+    'Virheellinen osa-alue (tarkista total_parts, part_from, part_to).');
+  Put(True,
+    'Assistant.Error.FileNotFound',
+    'Tiedostoa ei l'#246'ytynyt:');
+  Put(True,
+    'Assistant.Error.FilterTextRequired',
+    'Suodatuskuvio (filter_text) vaaditaan toiminnolle apply_filter.');
+  Put(True,
+    'Assistant.Error.HostNotReady',
+    'Avustajaa ei ole viel'#228' yhdistetty p'#228#228'ikkunaan.');
+  Put(True,
+    'Assistant.Error.LineOutOfRange',
+    'Rivinumero on avoimen tiedoston alueen ulkopuolella.');
+  Put(True,
+    'Assistant.Error.LineRangeRequired',
+    'Riviv'#228'li vaaditaan (esim. 3-10).');
+  Put(True,
+    'Assistant.Error.Network',
+    'AI-palveluun ei saatu yhteytt'#228'.');
+  Put(True,
+    'Assistant.Error.NoFileOpen',
+    'T'#228'yt'#228' ensin tiedostonimiruutu (tai avaa tiedosto) tai ilmoita t'#228'ysi po'
+        + 'lku pyynn'#246'ss'#228'si.');
+  Put(True,
+    'Assistant.Error.OutOfScopeHarmful',
+    'Estetty turvallisuussyist'#228': FastFile ei alusta levyj'#228', suorita k'#228'ytt'#246'j'
+        + #228'rjestelm'#228'komentoja, k'#228'ynnist'#228' suoritettavia tiedostoja eik'#228' luo haitt'
+        + 'aohjelmia/viruksia.'#13#10'Avustaja auttaa vain tekstitiedostojen ja FastFil'
+        + 'en sis'#228'isten ty'#246'kalujen kanssa.');
+  Put(True,
+    'Assistant.Error.PartsRange',
+    'Osien m'#228#228'r'#228'n on oltava v'#228'lill'#228' 2'#8211'1000.');
+  Put(True,
+    'Assistant.Error.PathRequired',
+    'T'#228'h'#228'n toimintoon vaaditaan tiedoston t'#228'ysi polku.');
+  Put(True,
+    'Assistant.Error.PdfUnicodeUnsupported',
+    'Yksinkertainen PDF-vienti tukee vain Windows-1252:ta. K'#228'yt'#228' DOCX-, ODT'
+        + '- tai RTF-muotoa t'#228'lle tekstille.');
+  Put(True,
+    'Assistant.Error.RecentListOutOfRange',
+    'Viimeisimpien tiedostojen luettelossa (Viimeisimm'#228't tiedostot -v'#228'lileh'
+        + 'ti) ei ole tiedostoa kohdassa %d.');
+  Put(True,
+    'Assistant.Error.ReplaceTextRequired',
+    'Korvaava teksti vaaditaan.');
+  Put(True,
+    'Assistant.Error.UnknownAction',
+    'T'#228'm'#228' pyynt'#246' ei ole tuettu FastFile-toiminto.');
+  Put(True,
+    'Assistant.Execute',
+    '&Suorita toiminto');
+  Put(True,
+    'Assistant.FileNoticeCopy',
+    'Kopioi');
+  Put(True,
+    'Assistant.FileNoticeFolder',
+    'Kansio');
+  Put(True,
+    'Assistant.FileNoticeOpen',
+    'Avaa');
+  Put(True,
+    'Assistant.FixAi.Chip',
+    'Korjaa AI:lla');
+  Put(True,
+    'Assistant.FixAi.Offer',
+    'Kohteen %s validointi ep'#228'onnistui. AI voi korjata sen.');
+  Put(True,
+    'Assistant.FixAi.Question',
+    'Korjaa tiedoston %s validointivirheet');
+  Put(True,
+    'Assistant.FixAi.Revalidated',
+    'AI korjasi tiedoston ja se validoitiin uudelleen:');
+  Put(True,
+    'Assistant.FixAi.Running',
+    'L'#228'hetet'#228#228'n tiedosto ja virheet AI:lle korjattaviksi...');
+  Put(True,
+    'Assistant.Local.ChainReadSplit',
+    'FastFile lukee tiedoston ja jakaa sen yht'#228' suuriin osiin, kun lataus v'
+        + 'almistuu.');
+  Put(True,
+    'Assistant.Local.WillApplyFilter',
+    'FastFile soveltaa rivisuodatinta avoimeen tiedostoon.');
+  Put(True,
+    'Assistant.Local.WillComposeDocument',
+    'Luodaan erillinen asiakirja. Tiedosto kirjoitetaan levylle; t'#228'm'#228' panee'
+        + 'li n'#228'ytt'#228#228' vain polun.');
+  Put(True,
+    'Assistant.Local.WillComposeFileSummary',
+    'Vaiheputki: tee tiedoston yhteenveto ja tallenna sitten Word (.rtf) -a'
+        + 'siakirja.');
+  Put(True,
+    'Assistant.Local.WillEditLine',
+    'FastFile siirtyy riville ja avaa rivieditorin.');
+  Put(True,
+    'Assistant.Local.WillExportLines',
+    'Vied'#228#228'n pyydetty riviv'#228'li tiedostoon.');
+  Put(True,
+    'Assistant.Local.WillExportLinesRange',
+    'Vied'#228#228'n rivit %s uuteen tiedostoon (polku n'#228'ytet'#228#228'n, kun vienti alkaa)'
+        + '.');
+  Put(True,
+    'Assistant.Local.WillExportMatching',
+    'Suodatetaan teksti'#228' sis'#228'lt'#228'v'#228't rivit ja vied'#228#228'n osumat .txt-tiedostoon'
+        + '.');
+  Put(True,
+    'Assistant.Local.WillExtractPart',
+    'Pura yksi osa tiedostosta (Ctrl+Shift+Q -tyyli, vahvistus vaaditaan).');
+  Put(True,
+    'Assistant.Local.WillExtractPartAskFile',
+    'Pura tiedoston osa. Tiedostoa ei ole auki '#8211' sinua pyydet'#228#228'n valitsemaa'
+        + 'n tiedosto.');
+  Put(True,
+    'Assistant.Local.WillFindText',
+    'FastFile etsii teksti'#228' avoimesta tiedostosta (ensimm'#228'inen osuma, ListV'
+        + 'iew-korostus).');
+  Put(True,
+    'Assistant.Local.WillFixDocument',
+    'Tarkistetaan luotua tiedostoa. FastFile ylikirjoittaa sen; t'#228'm'#228' paneel'
+        + 'i n'#228'ytt'#228#228' vain polun.');
+  Put(True,
+    'Assistant.Local.WillGotoLine',
+    'FastFile siirtyy pyydetylle riville (Ctrl+G) ListViewiss'#228'.');
+  Put(True,
+    'Assistant.Local.WillMergeFiles',
+    'Avaa Yhdist'#228' tiedostot liitty'#228'ksesi osiin tai yhdist'#228#228'ksesi l'#228'hteit'#228' ('
+        + 'k'#228'ytt'#228#228' avointa tiedostoa, jos sellainen on).');
+  Put(True,
+    'Assistant.Local.WillMergeFilesAskFile',
+    'Liit'#228'/yhdist'#228' tiedostoja. Tiedostoa ei ole auki '#8211' sinua pyydet'#228#228'n vali'
+        + 'tsemaan tiedosto.');
+  Put(True,
+    'Assistant.Local.WillReadFile',
+    'FastFile lataa ja lukee m'#228#228'ritt'#228'm'#228'si tiedoston (Lue-v'#228'lilehti, F5).');
+  Put(True,
+    'Assistant.Local.WillReplaceAll',
+    'Korvaa kaikki avoimessa tiedostossa (vahvistus vaaditaan).');
+  Put(True,
+    'Assistant.Local.WillShowConsumerAI',
+    'FastFile l'#228'hett'#228#228' taulukko-/SQL-kysymyksesi Python-moottorille. Vastau'
+        + 's j'#228#228' t'#228'h'#228'n Avustaja-keskusteluun.');
+  Put(True,
+    'Assistant.Local.WillShowConsumerRAG',
+    'FastFile l'#228'hett'#228#228' tiedoston sis'#228'lt'#246'kysymyksesi Python-analyysimoottori'
+        + 'lle. Vastaus j'#228#228' t'#228'h'#228'n Avustaja-keskusteluun.');
+  Put(True,
+    'Assistant.Local.WillShowReadTab',
+    'FastFile avaa Lue / lataa tiedosto -n'#228'yt'#246'n.');
+  Put(True,
+    'Assistant.Local.WillShowScriptEngine',
+    'FastFile avaa Makrot Pythonilla (Ctrl+Alt+E), jotta voit ajaa skriptin'
+        + ' tiedoston riveill'#228'.');
+  Put(True,
+    'Assistant.Local.WillShowTailMacro',
+    'FastFile avaa Tail-makron (Python) paneelin seurantatilaan.');
+  Put(True,
+    'Assistant.Local.WillSplitEqual',
+    'Jaa avoin tiedosto yht'#228' suuriin osiin (LF-turvallinen, vahvistus vaadi'
+        + 'taan).');
+  Put(True,
+    'Assistant.Local.WillSplitEqualAskFile',
+    'Jaa yht'#228' suuriin osiin. Tiedostoa ei ole auki '#8211' sinua pyydet'#228#228'n valits'
+        + 'emaan tiedosto.');
+  Put(True,
+    'Assistant.MenuItem',
+    'AI-avustaja...');
+  Put(True,
+    'Assistant.Offer.AskAI',
+    'Kysy AI:lta');
+  Put(True,
+    'Assistant.Offer.Chip.Compare',
+    'Vertaa');
+  Put(True,
+    'Assistant.Offer.Chip.ConsumerAI',
+    'SQL AI');
+  Put(True,
+    'Assistant.Offer.Chip.ConsumerRAG',
+    'Tiedostokeskustelu');
+  Put(True,
+    'Assistant.Offer.Chip.Export',
+    'Vie');
+  Put(True,
+    'Assistant.Offer.Chip.Index',
+    'Rakenna indeksi');
+  Put(True,
+    'Assistant.Offer.Chip.Merge',
+    'Yhdist'#228);
+  Put(True,
+    'Assistant.Offer.Chip.OpenRead',
+    'Avaa / lue');
+  Put(True,
+    'Assistant.Offer.Chip.Script',
+    'Skripti');
+  Put(True,
+    'Assistant.Offer.CloseHint',
+    'Hylk'#228#228' t'#228'm'#228' vinkki');
+  Put(True,
+    'Assistant.Offer.ConsumerAI',
+    'SQL- / data-AI');
+  Put(True,
+    'Assistant.Offer.ConsumerRAG',
+    'Tiedoston AI-keskustelu');
+  Put(True,
+    'Assistant.Offer.Draft.Compare',
+    'Vertailu valmis. Mit'#228' teen eroille?');
+  Put(True,
+    'Assistant.Offer.Draft.CsvSort',
+    'Lajittelin sarakkeen erotin'#228'kym'#228'ss'#228'. Mit'#228' teen seuraavaksi?');
+  Put(True,
+    'Assistant.Offer.Draft.Dedupe',
+    'Kaksoiskappaleiden poisto valmis. Ehdota tarkistus- tai vientivaiheita'
+        + '.');
+  Put(True,
+    'Assistant.Offer.Draft.Export',
+    'Vienti valmis. Mit'#228' teen seuraavaksi tuloksille tai l'#228'hdetiedostolle?');
+  Put(True,
+    'Assistant.Offer.Draft.Filter',
+    'Suodatin on k'#228'yt'#246'ss'#228'. Ehdota seuraavia vaiheita (vie osumat, jatka hak'
+        + 'ua, tyhjenn'#228' suodatin, kysy data-AI:lta).');
+  Put(True,
+    'Assistant.Offer.Draft.Find',
+    'L'#246'ysin juuri teksti'#228' tiedostosta. Ehdota hy'#246'dyllisi'#228' seuraavia vaiheit'
+        + 'a (osumaluettelo, korvaa, vie, suodata).');
+  Put(True,
+    'Assistant.Offer.Draft.FindCollect',
+    'Ker'#228'sin vastaavat rivit. Mit'#228' teen seuraavaksi (vie, korvaa, tarkenna '
+        + 'suodatinta, analysoi AI:lla)?');
+  Put(True,
+    'Assistant.Offer.Draft.Generic',
+    'Mit'#228' muuta voin tehd'#228' t'#228'lle tiedostolle FastFiless'#228'?');
+  Put(True,
+    'Assistant.Offer.Draft.GrepGroups',
+    'Grep-taulukossa on nimettyj'#228' ryhmi'#228'. Mit'#228' teen n'#228'ille sarakkeille?');
+  Put(True,
+    'Assistant.Offer.Draft.Index',
+    'Rivi-indeksi on valmis. Ehdota nopeampia haku-/suodatusty'#246'nkulkuja t'#228'l'
+        + 'le tiedostolle.');
+  Put(True,
+    'Assistant.Offer.Draft.Merge',
+    'Yhdist'#228'minen valmis. Ehdota hy'#246'dyllisi'#228' seuraavia vaiheita yhdistetyll'
+        + 'e tiedostolle.');
+  Put(True,
+    'Assistant.Offer.Draft.Read',
+    'Tiedosto on ladattu. Mit'#228' voin tehd'#228' seuraavaksi (etsi, suodata, vie, '
+        + 'SQL-/data-AI, selit'#228' tiedosto)?');
+  Put(True,
+    'Assistant.Offer.Draft.Replace',
+    'Korvaus valmis. Ehdota, miten muutokset tarkistetaan tai muokkausta ja'
+        + 'tketaan.');
+  Put(True,
+    'Assistant.Offer.Draft.Script',
+    'Skripti valmis. Ehdota, miten tulos tarkistetaan tai ajetaan toinen mu'
+        + 'unnos.');
+  Put(True,
+    'Assistant.Offer.Draft.Session',
+    'T'#228'm'#228' istunto s'#228'ilytt'#228#228' tiedoston, rivin, suodattimen, kirjanmerkit ja '
+        + 'koodauksen. Mit'#228' palautan tai muutan?');
+  Put(True,
+    'Assistant.Offer.Draft.Split',
+    'Tiedoston jako on valmis. Ehdota seuraavia vaiheita (avaa osa, yhdist'#228
+        + ' uudelleen, analysoi).');
+  Put(True,
+    'Assistant.Offer.DraftClearHint',
+    'Tyhjenn'#228' t'#228'm'#228' ehdotus');
+  Put(True,
+    'Assistant.Offer.DraftClickHint',
+    'Kaksoisnapsauta kopioidaksesi t'#228'm'#228'n ehdotuksen kysymysruutuun.');
+  Put(True,
+    'Assistant.Offer.DraftCopyHint',
+    'Kopioi t'#228'm'#228' ehdotus leikep'#246'yd'#228'lle');
+  Put(True,
+    'Assistant.Offer.FileInfo.Accessed',
+    'K'#228'ytetty');
+  Put(True,
+    'Assistant.Offer.FileInfo.Created',
+    'Luotu');
+  Put(True,
+    'Assistant.Offer.FileInfo.Lines',
+    'Rivit');
+end;
+
+procedure AddFinnishPart08(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Assistant.Offer.FileInfo.Modified',
+    'Muokattu');
+  Put(True,
+    'Assistant.Offer.FileInfo.NoFile',
+    'Tiedostoa ei ole t'#228'll'#228' hetkell'#228' ladattu.');
+  Put(True,
+    'Assistant.Offer.FileInfo.Path',
+    'Polku');
+  Put(True,
+    'Assistant.Offer.FileInfo.Size',
+    'Koko');
+  Put(True,
+    'Assistant.Offer.FileInfo.Title',
+    'Ladatun tiedoston tiedot');
+  Put(True,
+    'Assistant.Offer.FileInfo.WindowsProps',
+    'Windows-ominaisuudet...');
+  Put(True,
+    'Assistant.Offer.MoreInfo',
+    'Lis'#228'tietoja');
+  Put(True,
+    'Assistant.Offer.MoreInfoHint',
+    'N'#228'yt'#228' tietoja ladatusta tiedostosta');
+  Put(True,
+    'Assistant.Offer.Summary.Export',
+    'Vienti valmis '#8212' %d rivi('#228').');
+  Put(True,
+    'Assistant.Offer.Summary.Filter',
+    'Suodatus valmis '#8212' %d vastaavaa rivi'#228'.');
+  Put(True,
+    'Assistant.Offer.Summary.Merge',
+    'Yhdist'#228'minen onnistui.');
+  Put(True,
+    'Assistant.Offer.Summary.Read',
+    'Tiedosto valmis '#8212' %d rivi'#228' ladattu.');
+  Put(True,
+    'Assistant.Offer.Summary.Split',
+    'Jako valmis '#8212' %d osa(a) luotu.');
+  Put(True,
+    'Assistant.Offer.WhatNext',
+    'Mit'#228' haluat tehd'#228' seuraavaksi?');
+  Put(True,
+    'Assistant.Pipeline.Activity.compare',
+    'vertaa');
+  Put(True,
+    'Assistant.Pipeline.Activity.dedupe',
+    'poista kaksoiskappaleet');
+  Put(True,
+    'Assistant.Pipeline.Activity.export',
+    'vie');
+  Put(True,
+    'Assistant.Pipeline.Activity.filter',
+    'suodata');
+  Put(True,
+    'Assistant.Pipeline.Activity.find_collect',
+    'etsi osumat');
+  Put(True,
+    'Assistant.Pipeline.Activity.find_hit',
+    'etsi');
+  Put(True,
+    'Assistant.Pipeline.Activity.index',
+    'indeksi');
+  Put(True,
+    'Assistant.Pipeline.Activity.merge',
+    'yhdist'#228);
+  Put(True,
+    'Assistant.Pipeline.Activity.read',
+    'lue');
+  Put(True,
+    'Assistant.Pipeline.Activity.replace',
+    'korvaa');
+  Put(True,
+    'Assistant.Pipeline.Activity.script',
+    'skripti');
+  Put(True,
+    'Assistant.Pipeline.Activity.split',
+    'jaa');
+  Put(True,
+    'Assistant.Pipeline.ResumeDraft',
+    'Jatka siit'#228', mihin FastFiless'#228' j'#228#228'tiin. Viimeisin toiminto: %s. Yhteen'
+        + 'veto: %s.');
+  Put(True,
+    'Assistant.Pipeline.ResumeFile',
+    'Tiedosto: %s.');
+  Put(True,
+    'Assistant.Pipeline.ResumeHits',
+    'Osumat: %s.');
+  Put(True,
+    'Assistant.Pipeline.ResumeNeedle',
+    'Haku-/suodatusteksti: "%s".');
+  Put(True,
+    'Assistant.Pipeline.ResumeSuggest',
+    'Ehdota seuraavia konkreettisia vaiheita ja tarvittaessa tarkat FastFil'
+        + 'e-toiminnot.');
+  Put(True,
+    'Assistant.Popup.PasteLinesFile',
+    'Liit'#228' rivit tiedostoon');
+  Put(True,
+    'Assistant.Processing',
+    'K'#228'sitell'#228#228'n AI-avustajaa...');
+  Put(True,
+    'Assistant.ProcessingDetail',
+    'Odotetaan mallia...');
+  Put(True,
+    'Assistant.Prompt.SelectFileToJoin',
+    'Valitse liitett'#228'v'#228'/yhdistett'#228'v'#228' tiedosto (tai mik'#228' tahansa .part001-si'
+        + 'sarus)');
+  Put(True,
+    'Assistant.Prompt.SelectFileToSplit',
+    'Valitse tiedosto jaettavaksi yht'#228' suuriin osiin');
+  Put(True,
+    'Assistant.PythonBtn',
+    'Python');
+  Put(True,
+    'Assistant.PythonHint',
+    'Avaa skriptimoottori (Python-makrot) valituille tai rastitetuille List'
+        + 'View-riveille.');
+  Put(True,
+    'Assistant.RecentQuestions',
+    'Viimeisimm'#228't kysymykset');
+  Put(True,
+    'Assistant.RecentQuestionsEmpty',
+    '(ei viel'#228' viimeisimpi'#228' kysymyksi'#228')');
+  Put(True,
+    'Assistant.RecentQuestionsHint',
+    'Valitse viimeisin kysymys k'#228'ytt'#228#228'ksesi sit'#228' uudelleen alla olevassa ru'
+        + 'udussa.');
+  Put(True,
+    'Assistant.RecentQuestionsMore',
+    'N'#228'yt'#228' lis'#228#228);
+  Put(True,
+    'Assistant.RecentQuestionsMoreHint',
+    'N'#228'yt'#228' j'#228'ljell'#228' olevat viimeisimm'#228't kysymykset');
+  Put(True,
+    'Assistant.Reply',
+    'Vastaus');
+  Put(True,
+    'Assistant.Reply.LineContainsCount',
+    'Rivit, jotka sis'#228'lt'#228'v'#228't "%s": %s.');
+  Put(True,
+    'Assistant.Reply.LinePrefixCount',
+    'Rivit, jotka alkavat "%s": %s.');
+  Put(True,
+    'Assistant.Reply.LinePrefixCountScanned',
+    'Skannattuja rivej'#228' yhteens'#228': %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileAccessed',
+    'Kohteen "%s" viimeisin k'#228'ytt'#246': %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileCreated',
+    'Kohteen "%s" luontip'#228'iv'#228': %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileLineCount',
+    'Tiedostossa "%s" on %s rivi'#228'.');
+  Put(True,
+    'Assistant.Reply.OpenFileLineCountUnknown',
+    'Rivim'#228#228'r'#228' ei ole viel'#228' saatavilla. Avaa/lue tiedosto ensin (polku tied'
+        + 'ostoruudussa).');
+  Put(True,
+    'Assistant.Reply.OpenFileMetaUnavailable',
+    'T'#228'm'#228'n polun p'#228'iv'#228'm'#228#228'ri'#228'/kokoa ei voitu lukea levylt'#228'.');
+  Put(True,
+    'Assistant.Reply.OpenFileModified',
+    'Kohteen "%s" viimeisin muokkaus: %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileProps',
+    'Tiedosto "%s":'#13#10'Luotu: %s'#13#10'Muokattu: %s'#13#10'K'#228'ytetty: %s'#13#10'Koko: %s tavua.');
+  Put(True,
+    'Assistant.Reply.OpenFileSize',
+    'Kohteen "%s" koko: %s tavua.');
+  Put(True,
+    'Assistant.ReplyPlaceholder',
+    'AI-vastaukset n'#228'kyv'#228't t'#228#228'll'#228', kun napsautat L'#228'het'#228'.');
+  Put(True,
+    'Assistant.ReplyReady',
+    'Vastaus valmis.');
+  Put(True,
+    'Assistant.ReplyStyle.Applied',
+    'Vastaustyyli k'#228'yt'#246'ss'#228'.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Bullets',
+    'K'#228'yt'#228' lyhytt'#228' otsikkorivi'#228' ja sitten 3'#8211'6 luettelokohtaa. Jokaisessa ko'
+        + 'hdassa yksi selke'#228' idea. P'#228#228't'#228' rivill'#228' "Seuraava:" ja yhdell'#228' ehdotetu'
+        + 'lla toiminnolla.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Concise',
+    'Vastaa 2'#8211'4 lyhyell'#228' lauseella. Ei t'#228'ytett'#228'. Aloita tuloksella, sitten '
+        + 'yksi seuraava toiminto tarvittaessa.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Friendly',
+    'Selit'#228' selkokielell'#228' maallikolle. Lyhyit'#228' kappaleita. Tarjoa lopuksi y'
+        + 'ksi valinnainen vinkki. Ole kannustava, '#228'l'#228' alentava.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Steps',
+    'Selit'#228' numeroituina vaiheina (1., 2., 3.). Yksi toiminto per vaihe. Ma'
+        + 'initse riskit tai edellytykset lyhyesti tarvittaessa.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Technical',
+    'Kirjoita tiivis tekninen muistio: Konteksti, Mit'#228' tapahtui, Tulosmitta'
+        + 'rit (jos on), Suositus. Suosi tarkkoja termej'#228'; v'#228'lt'#228' markkinointikiel'
+        + 't'#228'.');
+  Put(True,
+    'Assistant.ReplyStyle.Bullets',
+    'Luettelokohdat');
+  Put(True,
+    'Assistant.ReplyStyle.Concise',
+    'Tiivis');
+  Put(True,
+    'Assistant.ReplyStyle.Custom',
+    'Oma malli...');
+  Put(True,
+    'Assistant.ReplyStyle.Default',
+    'Oletus');
+  Put(True,
+    'Assistant.ReplyStyle.Edit',
+    'Muokkaa...');
+  Put(True,
+    'Assistant.ReplyStyle.EditHint',
+    'Muokkaa vastausmallia / personointia (esimerkit ja uudelleenk'#228'ytett'#228'v'#228
+        + 't esiasetukset).');
+  Put(True,
+    'Assistant.ReplyStyle.EditIntro',
+    'Kuvaile, miten haluat vastaukset muotoiltavan (s'#228'vy, rakenne, kent'#228't).'
+        + ' Valitse esimerkki alta tai kirjoita oma mallisi.');
+  Put(True,
+    'Assistant.ReplyStyle.EditTitle',
+    'Personoi AI-vastaus');
+  Put(True,
+    'Assistant.ReplyStyle.Examples',
+    'Valmiit esimerkit');
+  Put(True,
+    'Assistant.ReplyStyle.Friendly',
+    'Yst'#228'v'#228'llinen selitys');
+  Put(True,
+    'Assistant.ReplyStyle.Label',
+    'Tyyli');
+  Put(True,
+    'Assistant.ReplyStyle.SaveAs',
+    'Tallenna esiasetukseksi...');
+  Put(True,
+    'Assistant.ReplyStyle.SaveAsPrompt',
+    'Esiasetuksen nimi:');
+  Put(True,
+    'Assistant.ReplyStyle.SaveAsTitle',
+    'Tallenna vastaustyyli');
+  Put(True,
+    'Assistant.ReplyStyle.Saved',
+    'Vastaustyylin esiasetus tallennettu.');
+  Put(True,
+    'Assistant.ReplyStyle.Steps',
+    'Askel askeleelta');
+  Put(True,
+    'Assistant.ReplyStyle.Technical',
+    'Tekninen raportti');
+  Put(True,
+    'Assistant.ReplyTooLargeFallback',
+    'Malli palautti hyvin suuren vastauksen. FastFile ei n'#228'yt'#228' tiedoston si'
+        + 's'#228'lt'#246#228' t'#228'ss'#228' '#8212' k'#228'yt'#228' sen sijaan toimenpiteit'#228' avoimelle tiedostolle.');
+  Put(True,
+    'Assistant.ReplyTruncated',
+    '[Vastaus lyhennetty: avustajapaneeli ei voi n'#228'ytt'#228#228' suuria tiedostodum'
+        + 'ppauksia. K'#228'yt'#228' FastFile-toimintoja (vie, suodata, korvaa) tiedostolle'
+        + '.]');
+  Put(True,
+    'Assistant.ResizeHint',
+    'Ved'#228' muuttaaksesi AI-avustajan kokoa');
+  Put(True,
+    'Assistant.RewriteBtn',
+    'Ehdota');
+  Put(True,
+    'Assistant.RewriteHint',
+    'Pyyd'#228' AI:ta ehdottamaan selke'#228'mp'#228#228' kysymyst'#228' kirjoittamastasi.');
+  Put(True,
+    'Assistant.Rewriting',
+    'Ehdotetaan selke'#228'mp'#228#228' kysymyst'#228'...');
+  Put(True,
+    'Assistant.Rewritten',
+    'Ehdotettu kysymys valmis. Tarkista se ja l'#228'het'#228' sitten.');
+  Put(True,
+    'Assistant.Send',
+    '&L'#228'het'#228);
+  Put(True,
+    'Assistant.SplitHint',
+    'Ved'#228' muuttaaksesi kysymysalueen ja vastauksen suhdetta');
+  Put(True,
+    'Assistant.Status.AnonymizeLines',
+    'Anonymisointi-ikkuna avattu.');
+  Put(True,
+    'Assistant.Status.ChainDone',
+    'Kaikki suunnitellut toiminnot k'#228'ynnistettiin.');
+  Put(True,
+    'Assistant.Status.ChainReadThenMore',
+    'Tiedoston lataus aloitettu; seuraava toiminto ajetaan, kun lukeminen v'
+        + 'almistuu.');
+  Put(True,
+    'Assistant.Status.CharCode',
+    'Merkkikoodiarvo avattu.');
+  Put(True,
+    'Assistant.Status.Checkboxes',
+    'Valintaruutuluettelotila avattu.');
+  Put(True,
+    'Assistant.Status.ComposeFixed',
+    'P'#228'ivitetty: %s');
+  Put(True,
+    'Assistant.Status.ComposeOpenInWord',
+    'Avaa tallennettu tiedosto (.rtf/.docx/.odt/.pdf) Wordissa tai yhteenso'
+        + 'pivassa sovelluksessa.');
+  Put(True,
+    'Assistant.Status.ComposePipelineDone',
+    'Putki valmis (yhteenveto + Word-tiedosto).');
+  Put(True,
+    'Assistant.Status.ComposePipelineStep1',
+    'Vaihe 1/2: tehd'#228#228'n tiedoston'#228'ytteen yhteenvetoa'#8230);
+  Put(True,
+    'Assistant.Status.ComposePipelineStep2',
+    'Vaihe 2/2: kirjoitetaan Word (.rtf) -tiedostoa'#8230);
+  Put(True,
+    'Assistant.Status.ComposeSaved',
+    'Luotu: %s');
+end;
+
+procedure AddFinnishPart09(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Assistant.Status.ComposeSavedDetail',
+    'Tiedosto tallennettu.'#13#10'Polku: %s');
+  Put(True,
+    'Assistant.Status.ComposeSavedShort',
+    'Tallennettu: %s');
+  Put(True,
+    'Assistant.Status.ComposeWillSaveTo',
+    'Tallentaa kohteeseen:'#13#10'%s');
+  Put(True,
+    'Assistant.Status.CopiedToClipboard',
+    'Kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Assistant.Status.CountingContains',
+    'Lasketaan rivej'#228' alimerkkijonon mukaan'#8230);
+  Put(True,
+    'Assistant.Status.CountingPrefixes',
+    'Lasketaan rivej'#228' etuliitteen mukaan'#8230);
+  Put(True,
+    'Assistant.Status.DedupStarted',
+    'P'#228#228'llekk'#228'isten rivien poisto aloitettu.');
+  Put(True,
+    'Assistant.Status.DelegatingRAG',
+    'Kysyt'#228#228'n tiedostoanalyysimoottoria (Python)...');
+  Put(True,
+    'Assistant.Status.DelegatingSQL',
+    'Kysyt'#228#228'n SQL-moottoria (Python)...');
+  Put(True,
+    'Assistant.Status.DeleteLine',
+    'Rivin poisto aloitettu.');
+  Put(True,
+    'Assistant.Status.EditLine',
+    'Rivieditori avattu.');
+  Put(True,
+    'Assistant.Status.Export',
+    'Vienti aloitettu.');
+  Put(True,
+    'Assistant.Status.ExportFiltered',
+    'Suodatettujen/tail-rivien vienti aloitettu.');
+  Put(True,
+    'Assistant.Status.ExportLines',
+    'Vied'#228#228'n valittua riviv'#228'li'#228' tiedostoon.');
+  Put(True,
+    'Assistant.Status.ExportLinesDetail',
+    'Vied'#228#228'n rivit %s uuteen tiedostoon:'#13#10'%s');
+  Put(True,
+    'Assistant.Status.ExportMatching',
+    'Vied'#228#228'n suodatettuja rivej'#228' tiedostoon.');
+  Put(True,
+    'Assistant.Status.ExtractStarted',
+    'Tiedoston osien poiminta aloitettu.');
+  Put(True,
+    'Assistant.Status.FilterActiveInfo',
+    'Aktiivinen suodatin: "%s" '#8212' %s osumaa%s.');
+  Put(True,
+    'Assistant.Status.FilterCleared',
+    'Suodatin tyhjennetty.');
+  Put(True,
+    'Assistant.Status.FilterContinued',
+    'Jatketaan suodatinvirtaa (lis'#228#228' osumia)...');
+  Put(True,
+    'Assistant.Status.FilterCopied',
+    'Suodatetut rivit kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Assistant.Status.FilterDialog',
+    'Suodatinikkuna avattu.');
+  Put(True,
+    'Assistant.Status.FilterInactive',
+    'Rivisuodatin ei ole aktiivinen. Avaa Suodatin/Grep (Ctrl+L) tai pyyd'#228' '
+        + 'k'#228'ytt'#228'm'#228#228'n mallia.');
+  Put(True,
+    'Assistant.Status.FilterPartialNote',
+    ' (osittainen '#8212' lis'#228#228' osumia saatavilla)');
+  Put(True,
+    'Assistant.Status.FilterStarted',
+    'Suodatus aloitettu.');
+  Put(True,
+    'Assistant.Status.Find',
+    'Etsi-ikkuna avattu.');
+  Put(True,
+    'Assistant.Status.FindStarted',
+    'Haku aloitettu (ensimm'#228'inen osuma korostetaan).');
+  Put(True,
+    'Assistant.Status.FreqStrings',
+    'Toistuvien merkkijonojen poiminta aloitettu.');
+  Put(True,
+    'Assistant.Status.GotoLine',
+    'Siirry riville suoritettu.');
+  Put(True,
+    'Assistant.Status.Help',
+    'Ohje avattu (F1).');
+  Put(True,
+    'Assistant.Status.NothingToCopy',
+    'Ei mit'#228#228'n kopioitavaa.');
+  Put(True,
+    'Assistant.Status.OpenStarted',
+    'Ladataan tiedostoa...');
+  Put(True,
+    'Assistant.Status.Replace',
+    'Etsi ja korvaa avattu.');
+  Put(True,
+    'Assistant.Status.ReplaceAll',
+    'Korvaa kaikki aloitettu.');
+  Put(True,
+    'Assistant.Status.ReplyCleared',
+    'Avustajakeskustelu tyhjennetty.');
+  Put(True,
+    'Assistant.Status.SplitStarted',
+    'Jako yht'#228' suuriin osiin aloitettu.');
+  Put(True,
+    'Assistant.Status.TabCompare',
+    'Vertaa/yhdist'#228'-v'#228'lilehti avattu.');
+  Put(True,
+    'Assistant.Status.TabMergeFiles',
+    'Yhdist'#228' tiedostot -v'#228'lilehti avattu.');
+  Put(True,
+    'Assistant.Status.TabMergeLines',
+    'Yhdist'#228' rivit -v'#228'lilehti avattu.');
+  Put(True,
+    'Assistant.Status.TabRead',
+    'Lue tiedosto -n'#228'ytt'#246' avattu.');
+  Put(True,
+    'Assistant.Status.TabRecent',
+    'Viimeisimm'#228't tiedostot -n'#228'ytt'#246' avattu.');
+  Put(True,
+    'Assistant.Status.Tail',
+    'Tail/Seuraa-tila k'#228'yt'#246'ss'#228'.');
+  Put(True,
+    'Assistant.Status.WordWrap',
+    'Rivinvaihto vaihdettu.');
+  Put(True,
+    'Assistant.Thinking',
+    'Ajatellaan...');
+  Put(True,
+    'Assistant.Title',
+    'AI-avustaja');
+  Put(True,
+    'Assistant.TranslateBtn',
+    'K'#228#228'nn'#228);
+  Put(True,
+    'Assistant.TranslateHint',
+    'K'#228#228'nn'#228' kirjoitettu teksti. Napsauta valitaksesi kielen.');
+  Put(True,
+    'Assistant.Translated',
+    'Kysymys k'#228#228'nnetty.');
+  Put(True,
+    'Assistant.Translating',
+    'K'#228#228'nnet'#228#228'n kysymyst'#228'...');
+  Put(True,
+    'Assistant.Validate.Cancelled',
+    'Validointi peruutettu (tiedostoa ei valittu).');
+  Put(True,
+    'Assistant.Validate.ExeMissing',
+    'T'#228't'#228' tiedostoa ei voi validoida: validaattori %s ei ole k'#228'ytett'#228'viss'#228' '
+        + 't'#228'll'#228' tietokoneella (sit'#228' ei l'#246'ytynyt eik'#228' sit'#228' voitu ladata). Tarkist'
+        + 'a Internet-yhteys ja yrit'#228' uudelleen; FastFilen muu toiminta jatkuu no'
+        + 'rmaalisti.');
+  Put(True,
+    'Assistant.Validate.Failed',
+    'Validointi ep'#228'onnistui.');
+  Put(True,
+    'Assistant.Validate.FileMissing',
+    'Luotua tiedostoa ei l'#246'ytynyt.');
+  Put(True,
+    'Assistant.Validate.NeedPath',
+    'L'#228'hdepolkua ei annettu. Anna t'#228'ydellinen polku tai pyyd'#228' lataamaan l'#228'h'
+        + 'detiedosto validoitavaksi.');
+  Put(True,
+    'Assistant.Validate.Ok',
+    'L'#228'hde n'#228'ytt'#228#228' kelvolliselta.');
+  Put(True,
+    'Assistant.Validate.PickTitle',
+    'Lataa l'#228'hde validoitavaksi');
+  Put(True,
+    'Assistant.Validate.Running',
+    'Validoidaan l'#228'hdett'#228'...');
+  Put(True,
+    'Assistant.Validate.SupportedLanguages',
+    'Validoidut kielet (vain syntaksi; koodia ei koskaan suoriteta):'#13#10'- Pyt'
+        + 'hon (.py)'#13#10'- JavaScript (.js, .mjs, .cjs), JSX (.jsx)'#13#10'- TypeScript (.'
+        + 'ts), TSX / React (.tsx)'#13#10'- JSON (.json), HTML (.html, .htm), SQL (.sql'
+        + '): sis'#228#228'nrakennettu FastFileen'#13#10'- Java (.java), Go (.go), C# (.cs): ku'
+        + 'n javac / gofmt / csc on asennettu t'#228'lle PC:lle (muuten FastFile kerto'
+        + 'o, mik'#228' puuttuu)'#13#10'Keskustelussa: pyyd'#228' validoimaan polku tai "lataa l'#228
+        + 'hde validoitavaksi" valitaksesi tiedoston. Painike "</> Code: learn mo'
+        + 're" selitt'#228#228' kaiken.');
+  Put(True,
+    'Assistant.Validate.Timeout',
+    'Validoinnin aikakatkaisu.');
+  Put(True,
+    'Assistant.Validate.Unsupported',
+    'T'#228't'#228' tiedostotyyppi'#228' ei voi validoida.');
+  Put(True,
+    'Assistant.ValidateHint',
+    'Tarkista l'#228'hteen syntaksi (Python, JS/TS/React, JSON, HTML, SQL, Java,'
+        + ' Go, C#). Sit'#228' ei koskaan suoriteta.');
+  Put(True,
+    'Assistant.ValidateSource',
+    'Validoi');
+  Put(True,
+    'Assistant.Wait.Connecting',
+    'Yhdistet'#228#228'n AI-yhdysk'#228'yt'#228'v'#228#228'n...');
+  Put(True,
+    'Assistant.Wait.Receiving',
+    'Vastaanotetaan vastausta...');
+  Put(True,
+    'Assistant.Wait.Sending',
+    'L'#228'hetet'#228#228'n kehotetta...');
+  Put(True,
+    'Assistant.Wait.WaitingModel',
+    'Odotetaan mallia...');
+  Put(True,
+    'Assistant.WhatDoYouWant',
+    'Mit'#228' haluaisit tehd'#228'?');
+  Put(True,
+    'At Least:',
+    'V'#228'hint'#228#228'n:');
+  Put(True,
+    'At Most:',
+    'Enint'#228#228'n:');
+  Put(True,
+    'Attention: use the ENTER key only, not TAB.',
+    'Huomio: k'#228'yt'#228' vain ENTER-n'#228'pp'#228'int'#228', ei TAB-n'#228'pp'#228'int'#228'.');
+  Put(True,
+    'Attributes',
+    'Attribuutit');
+  Put(True,
+    'Auto PPI: ',
+    'Automaattinen PPI: ');
+  Put(True,
+    'Auto scaling',
+    'Automaattinen skaalaus');
+  Put(True,
+    'Auto suggestion from file:',
+    'Automaattinen ehdotus tiedostosta:');
+  Put(True,
+    'Auto suggestion: choose a source file and leave the field to auto-dete'
+        + 'ct a practical pattern/regex.',
+    'Automaattinen ehdotus: valitse l'#228'hdetiedosto ja j'#228't'#228' kentt'#228', niin k'#228'yt'
+        + #228'nn'#246'llinen malli/regex tunnistetaan automaattisesti.');
+  Put(True,
+    'Awaiting input',
+    'Odotetaan sy'#246'tett'#228);
+  Put(True,
+    'Batch delete: %d line(s) at line %d',
+    'Er'#228'poisto: %d rivi('#228') rivill'#228' %d');
+  Put(True,
+    'Batch insert: %d line(s) at line %d',
+    'Er'#228'lis'#228'ys: %d rivi('#228') rivill'#228' %d');
+  Put(True,
+    'Batch paste %d line(s) at line %d',
+    'Er'#228'liit'#228' %d rivi('#228') rivill'#228' %d');
+  Put(True,
+    'Before Date:',
+    'Ennen p'#228'iv'#228'm'#228#228'r'#228#228':');
+  Put(True,
+    'Before Time:',
+    'Ennen aikaa:');
+  Put(True,
+    'BgLoad.CancelButton',
+    'Peruuta');
+  Put(True,
+    'BgLoad.CancelHint',
+    'Peruuta k'#228'ynniss'#228' oleva haku / suodatus (Esc)');
+  Put(True,
+    'BgLoad.Cancelled',
+    'Toiminto peruutettu.');
+  Put(True,
+    'BgLoad.Copying',
+    'Kopioidaan suodatettuja rivej'#228'...');
+  Put(True,
+    'BgLoad.Filtering',
+    'Suodatetaan tiedostoa...');
+  Put(True,
+    'BgLoad.Finding',
+    'Etsit'#228#228'n tiedostosta...');
+  Put(True,
+    'BgLoad.FindingAll',
+    'Etsit'#228#228'n kaikkia esiintymi'#228'...');
+  Put(True,
+    'Bookmark limit reached (10,000).',
+    'Kirjanmerkkiraja saavutettu (10 000).');
+  Put(True,
+    'BookmarkBar.ByteFmt',
+    'Tavupoikkeama %d');
+  Put(True,
+    'BookmarkBar.ClearAll',
+    'Tyhjenn'#228' kaikki');
+  Put(True,
+    'BookmarkBar.ClearConfirm',
+    'Tyhjennet'#228#228'nk'#246' kaikki kirjanmerkit?');
+  Put(True,
+    'BookmarkBar.CloseHint',
+    'Sulje kirjanmerkkipaneeli');
+  Put(True,
+    'BookmarkBar.Copied',
+    '%d kirjanmerkkirivi('#228') kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'BookmarkBar.CopyHint',
+    'Kopioi kaikki kirjanmerkkirivit leikep'#246'yd'#228'lle');
+  Put(True,
+    'BookmarkBar.DockHint',
+    'Telakoi kirjanmerkkipaneeli');
+  Put(True,
+    'BookmarkBar.ExportHint',
+    'Vie kaikki kirjanmerkit tiedostoon');
+  Put(True,
+    'BookmarkBar.Exported',
+    '%d kirjanmerkki('#228') viety tiedostoon.');
+  Put(True,
+    'BookmarkBar.FloatHint',
+    'Irrota kirjanmerkkipaneeli');
+  Put(True,
+    'BookmarkBar.HitLineFmt',
+    'Rivi %d: %s');
+end;
+
+procedure AddFinnishPart10(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'BookmarkBar.Next',
+    'Seuraava');
+  Put(True,
+    'BookmarkBar.PageFmt',
+    'Sivu %d / %d  (%d)');
+  Put(True,
+    'BookmarkBar.PageNextHint',
+    'Seuraava sivu');
+  Put(True,
+    'BookmarkBar.PagePrevHint',
+    'Edellinen sivu');
+  Put(True,
+    'BookmarkBar.PeekHint',
+    'Napsauta palauttaaksesi kirjanmerkkipaneelin');
+  Put(True,
+    'BookmarkBar.Prev',
+    'Edell.');
+  Put(True,
+    'BookmarkBar.Remove',
+    'Poista');
+  Put(True,
+    'BookmarkBar.RemoveHint',
+    'Poista valittu kirjanmerkki');
+  Put(True,
+    'BookmarkBar.ResizeHint',
+    'Ved'#228' muuttaaksesi kirjanmerkkiluettelon kokoa. Kaksoisnapsautus vaihta'
+        + 'a oletuskorkeuden ja puolen ikkunan v'#228'lill'#228'.');
+  Put(True,
+    'BookmarkBar.ShowPanel',
+    'N'#228'yt'#228' &kirjanmerkkipaneeli');
+  Put(True,
+    'BookmarkBar.Status.Count',
+    '%d kirjanmerkki('#228')');
+  Put(True,
+    'BookmarkBar.Title',
+    'Kirjanmerkit');
+  Put(True,
+    'Boolean flag = 1',
+    'Totuusarvolippu = 1');
+  Put(True,
+    'Boolean-like column (example: ,1, between commas):',
+    'Totuusarvon kaltainen sarake (esimerkki: ,1, pilkkujen v'#228'liss'#228'):');
+  Put(True,
+    'Broad matcher - narrow with surrounding delimiter context if you see f'
+        + 'alse positives.',
+    'Laaja t'#228'sm'#228'ytys - rajaa ymp'#228'r'#246'iv'#228'll'#228' erotinymp'#228'rist'#246'll'#228', jos n'#228'et v'#228#228'r'
+        + 'i'#228' osumia.');
+  Put(True,
+    'Broad pattern that may touch multiple numeric columns - prefer anchori'
+        + 'ng with column-specific prefixes when possible.',
+    'Laaja malli, joka voi osua useisiin numeerisiin sarakkeisiin - suosi a'
+        + 'nkkurointia sarakkeen omiin etuliitteisiin kun mahdollista.');
+  Put(True,
+    'Broken pipe while sending lines.',
+    'Rikkoutunut putki rivej'#228' l'#228'hetett'#228'ess'#228'.');
+  Put(True,
+    'Browse...',
+    'Selaa...');
+  Put(True,
+    'Build diff',
+    'Luo diff');
+  Put(True,
+    'Build time: ',
+    'Koontiaika: ');
+  Put(True,
+    'Building diff (bounded window)...',
+    'Luodaan diffi'#228' (rajattu ikkuna)...');
+  Put(True,
+    'Building line index...',
+    'Luodaan rivi-indeksi'#228'...');
+  Put(True,
+    'By comparing sample lines, the first column where characters differ is'
+        + ' around position %d. Digit tokens observed there include: %s. Sorting '
+        + 'the file by the field that should drive splitting usually gives meanin'
+        + 'gful parts.',
+    'Vertaamalla esimerkkirivej'#228' ensimm'#228'inen sarake, jossa merkit eroavat, '
+        + 'on noin kohdassa %d. Siell'#228' havaitut numeromerkit sis'#228'lt'#228'v'#228't: %s. Tied'
+        + 'oston lajittelu kent'#228'n mukaan, jonka pit'#228'isi ohjata jakoa, tuottaa yle'
+        + 'ens'#228' mielekk'#228'it'#228' osia.');
+  Put(True,
+    'By equal parts (N parts, preserving complete lines)',
+    'Yht'#228' suurina osina (N osaa, kokonaiset rivit s'#228'ilytet'#228#228'n)');
+  Put(True,
+    'By pattern / regex (new file when match is found)',
+    'Mallin / regexin mukaan (uusi tiedosto, kun osuma l'#246'ytyy)');
+  Put(True,
+    'Byte position in file (1-based; $ prefix for hex):',
+    'Tavusijainti tiedostossa (1-pohjainen); $ etuliite heksalle):');
+  Put(True,
+    'Byte position is out of range for this file.',
+    'Tavusijainti on t'#228'm'#228'n tiedoston alueen ulkopuolella.');
+  Put(True,
+    'C&SV / Column mode',
+    'C&SV / Sarake-tila');
+  Put(True,
+    'C&lose',
+    '&Sulje');
+  Put(True,
+    'CANCEL = abort.',
+    'PERUUTA = keskeyt'#228'.');
+  Put(True,
+    'CSV mode disabled.',
+    'CSV-tila pois k'#228'yt'#246'st'#228'.');
+  Put(True,
+    'CSV mode enabled.',
+    'CSV-tila k'#228'yt'#246'ss'#228'.');
+  Put(True,
+    'CSV shape - exact field count (matches well-formed rows):',
+    'CSV-muoto - tarkka kentt'#228'm'#228#228'r'#228' (t'#228'sm'#228#228' hyvin muotoiltuihin riveihin):');
+  Put(True,
+    'CSV: show header row as &data',
+    'CSV: n'#228'yt'#228' otsikkorivi &datana');
+  Put(True,
+    'Cache in disk',
+    'V'#228'limuisti levylle');
+  Put(True,
+    'Calculator',
+    'Laskin');
+  Put(True,
+    'Cancel',
+    'Peruuta');
+  Put(True,
+    'Cancel loading',
+    'Peruuta lataus');
+  Put(True,
+    'Cancelled',
+    'Peruutettu');
+  Put(True,
+    'Cancelling...',
+    'Peruutetaan...');
+  Put(True,
+    'Cannot sort the list while a search is in progress.',
+    'Luetteloa ei voi lajitella, kun haku on k'#228'ynniss'#228'.');
+  Put(True,
+    'Capture lines whose name field starts with "Dr." or "Dra.":',
+    'Kaappaa rivit, joiden nimikentt'#228' alkaa "Dr." tai "Dra.":');
+  Put(True,
+    'Capture numeric values in',
+    'Kaappaa numeeriset arvot kohteessa');
+  Put(True,
+    'Captures date (year-month-day), "T" separator, full time, and timezone'
+        + ' offset.',
+    'Kaappaa p'#228'iv'#228'm'#228#228'r'#228'n (vuosi-kuukausi-p'#228'iv'#228'), "T"-erottimen, t'#228'yden ajan'
+        + ' ja aikavy'#246'hykkeen siirron.');
+  Put(True,
+    'Captures numbers with 2-4 digits (common for prices in the R$ 50-1000 '
+        + 'range).',
+    'Kaappaa 2'#8211'4-numeroiset luvut (yleinen hinnoille alueella R$ 50'#8211'1000).');
+  Put(True,
+    'Captures the first long run of digits at the line start. Tune the mini'
+        + 'mum length {10,} after measuring columns in your layout.',
+    'Kaappaa rivin alusta ensimm'#228'isen pitk'#228'n numerosarjan. S'#228#228'd'#228' v'#228'himm'#228'isp'
+        + 'ituutta {10,} mitattuasi sarakkeet asettelussasi.');
+  Put(True,
+    'Case Sensitive',
+    'Kirjainkoon erottelu');
+  Put(True,
+    'Case sensitive',
+    'Kirjainkoon erottelu');
+  Put(True,
+    'Case sensitive search?',
+    'Kirjainkoon erotteleva haku?');
+  Put(True,
+    'Category',
+    'Luokka');
+  Put(True,
+    'Change scaling',
+    'Muuta skaalausta');
+  Put(True,
+    'CharCode.ByteOffset',
+    'Tavupoikkeama tiedostossa (1-pohjainen): %d');
+  Put(True,
+    'CharCode.Category',
+    'Luokka: %s');
+  Put(True,
+    'CharCode.Category.Control',
+    'Ohjaus');
+  Put(True,
+    'CharCode.Category.Ideograph',
+    'Ideogrammi');
+  Put(True,
+    'CharCode.Category.Letter',
+    'Kirjain');
+  Put(True,
+    'CharCode.Category.Null',
+    'Null');
+  Put(True,
+    'CharCode.Category.Number',
+    'Numero');
+  Put(True,
+    'CharCode.Category.Other',
+    'Muu');
+  Put(True,
+    'CharCode.Category.Separator',
+    'Erotin');
+  Put(True,
+    'CharCode.CharIndex',
+    'Merkki-indeksi: %d');
+  Put(True,
+    'CharCode.CharIndexLabel',
+    'Merkki-indeksi rivill'#228' (1-pohjainen):');
+  Put(True,
+    'CharCode.CodePoint',
+    'Unicode: U+%X');
+  Put(True,
+    'CharCode.Decimal',
+    'Desimaali: %d');
+  Put(True,
+    'CharCode.DisplayChar',
+    'Merkki: %s');
+  Put(True,
+    'CharCode.InvalidIndex',
+    'Virheellinen merkki-indeksi t'#228'lle riville.');
+  Put(True,
+    'CharCode.Line',
+    'Rivi: %d');
+  Put(True,
+    'CharCode.LineByteOffset',
+    'Rivin alun tavupoikkeama (1-pohjainen): %d');
+  Put(True,
+    'CharCode.NonPrintable',
+    '(ei tulostettava)');
+  Put(True,
+    'CharCode.Utf8Bytes',
+    'UTF-8-tavut: %s');
+  Put(True,
+    'Character Code Value...',
+    'Merkkikoodin arvo...');
+  Put(True,
+    'Check to enable this option.',
+    'Valitse ottaaksesi t'#228'm'#228'n asetuksen k'#228'ytt'#246#246'n.');
+  Put(True,
+    'Choose a source file to generate copy-paste regex examples from the fi'
+        + 'rst 1000 non-empty lines.',
+    'Valitse l'#228'hdetiedosto luodaksesi kopioitavia regex-esimerkkej'#228' ensimm'#228
+        + 'isist'#228' 1000 ei-tyhj'#228'st'#228' rivist'#228'.');
+  Put(True,
+    'Choose a source file to generate mode-specific examples.',
+    'Valitse l'#228'hdetiedosto luodaksesi tilakohtaisia esimerkkej'#228'.');
+  Put(True,
+    'Choose an option from the list.',
+    'Valitse vaihtoehto luettelosta.');
+  Put(True,
+    'Choose mode "By equal parts" and set N (ex: 10).',
+    'Valitse tila "Yht'#228' suurina osina" ja aseta N (esim. 10).');
+  Put(True,
+    'Choose output file name for split by lines.',
+    'Valitse tulostiedoston nimi rivijaolle.');
+  Put(True,
+    'Cleanup mojibake',
+    'Korjaa mojibake');
+  Put(True,
+    'Clear',
+    'Tyhjenn'#228);
+  Put(True,
+    'Clear'#13#10'Ctrl+Shift+X',
+    'Tyhjenn'#228#13#10'Ctrl+Shift+X');
+  Put(True,
+    'Clear a&ll bookmarks',
+    'Tyhjenn'#228' k&aikki kirjanmerkit');
+  Put(True,
+    'Clear editor',
+    'Tyhjenn'#228' editori');
+  Put(True,
+    'Clear history',
+    'Tyhjenn'#228' historia');
+  Put(True,
+    'Clear macro output',
+    'Tyhjenn'#228' makron tuloste');
+  Put(True,
+    'Clear output',
+    'Tyhjenn'#228' tuloste');
+  Put(True,
+    'Clear the current input or results.',
+    'Tyhjenn'#228' nykyinen sy'#246'te tai tulokset.');
+  Put(True,
+    'Clear transcript',
+    'Tyhjenn'#228' litteraatti');
+  Put(True,
+    'Click the AI Chat (SQL) button to start an inter-application session.',
+    'Napsauta AI-keskustelu (SQL) -painiketta aloittaaksesi sovellusten v'#228'l'
+        + 'isen istunnon.');
+  Put(True,
+    'Click the AI Chat button to start an inter-application session.',
+    'Napsauta AI-keskustelu -painiketta aloittaaksesi sovellusten v'#228'lisen i'
+        + 'stunnon.');
+  Put(True,
+    'Click the Advanced AI Chat (file) button to start a Q&A session.',
+    'Napsauta Edistynyt AI-keskustelu (tiedosto) -painiketta aloittaaksesi '
+        + 'kysymys-vastaus-istunnon.');
+  Put(True,
+    'Click to execute this action.',
+    'Napsauta suorittaaksesi t'#228'm'#228'n toiminnon.');
+  Put(True,
+    'Close',
+    'Sulje');
+  Put(True,
+    'Close'#13#10'Ctrl+Shift+W',
+    'Sulje'#13#10'Ctrl+Shift+W');
+  Put(True,
+    'Close the current tab and return to main view.',
+    'Sulje nykyinen v'#228'lilehti ja palaa p'#228#228'kuvan'#228'kym'#228#228'n.');
+  Put(True,
+    'Close this window',
+    'Sulje t'#228'm'#228' ikkuna');
+  Put(True,
+    'Colors match the list when marks are ON. Shortcut: Ctrl+Alt+M.',
+    'V'#228'rit vastaavat luetteloa, kun merkit ovat P'#196#196'LL'#196'. Pikan'#228'pp'#228'in: Ctrl+A'
+        + 'lt+M.');
+  Put(True,
+    'Column "%s" in the sample suggests a 1/0 style flag after an ISO-like '
+        + 'timestamp; adjust literals if your timestamp differs.',
+    'Sarake "%s" n'#228'ytteess'#228' viittaa 1/0-tyyliseen lippuun ISO-tyylisen aika'
+        + 'leiman j'#228'lkeen; s'#228#228'd'#228' literaaleja, jos aikaleimasi eroaa.');
+  Put(True,
+    'Column 1 in the sampled rows appears numeric-only - pattern grabs lead'
+        + 'ing digits.',
+    'Sarake 1 n'#228'ytteistetyill'#228' riveill'#228' n'#228'ytt'#228#228' olevan vain numeerinen - ma'
+        + 'lli nappaa johtavat numerot.');
+  Put(True,
+    'Column 1 mixes token shapes - pattern captures the first non-whitespac'
+        + 'e field.',
+    'Sarake 1 sekoittaa merkkimuotoja - malli kaappaa ensimm'#228'isen ei-v'#228'lily'
+        + #246'ntikent'#228'n.');
+  Put(True,
+    'Column contains numeric values suitable for range filtering.',
+    'Sarake sis'#228'lt'#228#228' numeerisia arvoja, jotka sopivat v'#228'lin suodatukseen.');
+end;
+
+procedure AddFinnishPart11(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Column uses ISO 8601 timestamp (e.g. 2022-10-13T16:50:21-03:00).',
+    'Sarake k'#228'ytt'#228#228' ISO 8601 -aikaleimaa (esim. 2022-10-13T16:50:21-03:00).');
+  Put(True,
+    'Combine multiple tests if one rule is insufficient.',
+    'Yhdist'#228' useita testej'#228', jos yksi s'#228#228'nt'#246' ei riit'#228'.');
+  Put(True,
+    'Combine with item 5 if you need both shape and business-rule checks.',
+    'Yhdist'#228' kohtaan 5, jos tarvitset sek'#228' muoto- ett'#228' liiketoimintas'#228#228'nt'#246't'
+        + 'arkistuksia.');
+  Put(True,
+    'Community: ',
+    'Yhteis'#246': ');
+  Put(True,
+    'Compare / Merge + History',
+    'Vertaa / Yhdist'#228' + Historia');
+  Put(True,
+    'Compare / merge',
+    'Vertaa / yhdist'#228);
+  Put(True,
+    'Compare / merge'#13#10'Ctrl+Shift+H',
+    'Vertaa / yhdist'#228#13#10'Ctrl+Shift+H');
+  Put(True,
+    'Compare / merge + &history tab',
+    'Vertaa / yhdist'#228' + &historia-v'#228'lilehti');
+  Put(True,
+    'Compare / merge + &history...',
+    'Vertaa / yhdist'#228' + &historia...');
+  Put(True,
+    'Compare / merge + session history',
+    'Vertaa / yhdist'#228' + istuntohistoria');
+  Put(True,
+    'Compile error',
+    'K'#228#228'nt'#246'virhe');
+  Put(True,
+    'Compiled OK - processing lines...',
+    'K'#228#228'nnetty OK - k'#228'sitell'#228#228'n rivej'#228'...');
+  Put(True,
+    'Compiling...',
+    'K'#228#228'nnet'#228#228'n...');
+  Put(True,
+    'Compressed',
+    'Pakattu');
+  Put(True,
+    'Confirm',
+    'Vahvista');
+  Put(True,
+    'Confirm AI processing',
+    'Vahvista AI-k'#228'sittely');
+  Put(True,
+    'Confirm the operation?',
+    'Vahvistetaanko toiminto?');
+  Put(True,
+    'Confirmation',
+    'Vahvistus');
+  Put(True,
+    'Confirms the line has exactly the expected number of delimiter-separat'
+        + 'ed fields for this layout.',
+    'Vahvistaa, ett'#228' rivill'#228' on juuri odotettu m'#228#228'r'#228' erotinmerkein erotettu'
+        + 'ja kentti'#228' t'#228'lle asettelulle.');
+  Put(True,
+    'Connected',
+    'Yhdistetty');
+  Put(True,
+    'Contact email:',
+    'Yhteyss'#228'hk'#246'posti:');
+  Put(True,
+    'Contact the author right now !',
+    'Ota yhteytt'#228' tekij'#228#228'n heti!');
+  Put(True,
+    'Content',
+    'Sis'#228'lt'#246);
+  Put(True,
+    'Content copied to clipboard.',
+    'Sis'#228'lt'#246' kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Content exported to memo.',
+    'Sis'#228'lt'#246' viety muistioon.');
+  Put(True,
+    'Content mode:',
+    'Sis'#228'lt'#246'tila:');
+  Put(True,
+    'Content:',
+    'Sis'#228'lt'#246':');
+  Put(True,
+    'Contents copied to the clipboard. Just paste (CTRL+V).',
+    'Sis'#228'lt'#246' kopioitu leikep'#246'yd'#228'lle. Liit'#228' vain (CTRL+V).');
+  Put(True,
+    'Continue with split now?',
+    'Jatketaanko jakoa nyt?');
+  Put(True,
+    'Continue?',
+    'Jatketaanko?');
+  Put(True,
+    'Copy',
+    'Kopioi');
+  Put(True,
+    'Copy all',
+    'Kopioi kaikki');
+  Put(True,
+    'Copy only a specific range of lines from source',
+    'Kopioi vain tietty riviv'#228'li l'#228'hteest'#228);
+  Put(True,
+    'Copy preview line',
+    'Kopioi esikatselurivi');
+  Put(True,
+    'Copy preview line (number and text)',
+    'Kopioi esikatselurivi (numero ja teksti)');
+  Put(True,
+    'Copy preview text only',
+    'Kopioi vain esikatseluteksti');
+  Put(True,
+    'Copy selected left',
+    'Kopioi valinta (vasen)');
+  Put(True,
+    'Copy selected right',
+    'Kopioi valinta (oikea)');
+  Put(True,
+    'Copy selection',
+    'Kopioi valinta');
+  Put(True,
+    'Copy selection to clipboard (same as Ctrl+C)',
+    'Kopioi valinta leikep'#246'yd'#228'lle (sama kuin Ctrl+C)');
+  Put(True,
+    'Could not apply the edit.',
+    'Muokkausta ei voitu k'#228'ytt'#228#228'.');
+  Put(True,
+    'Could not build preview for pattern/regex:',
+    'Esikatselua ei voitu luoda mallille/regexille:');
+  Put(True,
+    'Could not compute split boundaries: file too small for the requested n'
+        + 'umber of parts.',
+    'Jakorajojen laskenta ep'#228'onnistui: tiedosto on liian pieni pyydetylle o'
+        + 'sien m'#228#228'r'#228'lle.');
+  Put(True,
+    'Could not compute split boundaries: last part would be empty.',
+    'Jakorajojen laskenta ep'#228'onnistui: viimeinen osa olisi tyhj'#228'.');
+  Put(True,
+    'Could not compute split boundaries: not enough line breaks for the req'
+        + 'uested number of parts.',
+    'Jakorajojen laskenta ep'#228'onnistui: rivinvaihtoja ei ole tarpeeksi pyyde'
+        + 'tylle osien m'#228#228'r'#228'lle.');
+  Put(True,
+    'Could not count lines in the source file.',
+    'L'#228'hdetiedoston rivej'#228' ei voitu laskea.');
+  Put(True,
+    'Could not create stdin pipe.',
+    'stdin-putkea ei voitu luoda.');
+  Put(True,
+    'Could not create stdout pipe.',
+    'stdout-putkea ei voitu luoda.');
+  Put(True,
+    'Could not detect CSV format in this file.',
+    'CSV-muotoa ei voitu tunnistaa t'#228'st'#228' tiedostosta.');
+  Put(True,
+    'Could not download Python plugin %s. Error: %s',
+    'Python-liit'#228'nn'#228'ist'#228' %s ei voitu ladata. Virhe: %s');
+  Put(True,
+    'Could not finalize merge file rename operation.',
+    'Yhdist'#228'mistiedoston uudelleennime'#228'mist'#228' ei voitu viimeistell'#228'.');
+  Put(True,
+    'Could not finalize save (rename). Error %d: %s',
+    'Tallennusta ei voitu viimeistell'#228' (uudelleennime'#228'minen). Virhe %d: %s');
+  Put(True,
+    'Could not finalize script processing.',
+    'Skriptin k'#228'sittely'#228' ei voitu viimeistell'#228'.');
+  Put(True,
+    'Could not initialize COM for the regex filter.',
+    'COM:ia ei voitu alustaa regex-suodattimelle.');
+  Put(True,
+    'Could not open output file for large-file mode.',
+    'Tulostiedostoa ei voitu avata suurten tiedostojen tilassa.');
+  Put(True,
+    'Could not open source file: ',
+    'L'#228'hdetiedostoa ei voitu avata: ');
+  Put(True,
+    'Could not remove or rename the target file (in use or access denied).',
+    'Kohdetiedostoa ei voitu poistaa tai nimet'#228' uudelleen (k'#228'yt'#246'ss'#228' tai k'#228'y'
+        + 'tt'#246' estetty).');
+  Put(True,
+    'Could not replace destination file.',
+    'Kohdetiedostoa ei voitu korvata.');
+  Put(True,
+    'Could not resolve insertion position. Read destination file again and '
+        + 'retry.',
+    'Lis'#228'yssijaintia ei voitu selvitt'#228#228'. Lue kohdetiedosto uudelleen ja yri'
+        + 't'#228' uudelleen.');
+  Put(True,
+    'Could not resolve line for that byte position.',
+    'Rivi'#228' ei voitu selvitt'#228#228' kyseiselle tavusijainnille.');
+  Put(True,
+    'Could not send script to engine.',
+    'Skripti'#228' ei voitu l'#228'hett'#228#228' moottorille.');
+  Put(True,
+    'Could not start AI Chat Python plugin (ConsumerAI.exe).',
+    'AI-keskustelun Python-liit'#228'nn'#228'ist'#228' ei voitu k'#228'ynnist'#228#228' (ConsumerAI.exe'
+        + ').');
+  Put(True,
+    'Could not start Advanced AI Chat (file) Python plugin (ConsumerRAG.exe'
+        + ').',
+    'Edistyneen AI-keskustelun (tiedosto) Python-liit'#228'nn'#228'ist'#228' ei voitu k'#228'yn'
+        + 'nist'#228#228' (ConsumerRAG.exe).');
+  Put(True,
+    'Could not start Python plugin ScriptEngine.exe.',
+    'Python-liit'#228'nn'#228'ist'#228' ScriptEngine.exe ei voitu k'#228'ynnist'#228#228'.');
+  Put(True,
+    'Could not start fast file processing in script engine.',
+    'Nopeaa tiedostok'#228'sittely'#228' ei voitu k'#228'ynnist'#228#228' skriptimoottorissa.');
+  Put(True,
+    'Could not start fast tail processing in script engine.',
+    'Nopeaa tail-k'#228'sittely'#228' ei voitu k'#228'ynnist'#228#228' skriptimoottorissa.');
+  Put(True,
+    'Could not start python/py process.',
+    'python/py-prosessia ei voitu k'#228'ynnist'#228#228'.');
+  Put(True,
+    'Could not validate pattern/regex against the selected file:',
+    'Mallia/regexi'#228' ei voitu validoida valittua tiedostoa vasten:');
+  Put(True,
+    'Count character positions with a fixed font or specification sheet, th'
+        + 'en edit each (. {n} ) length. This example splits into four segments a'
+        + 'nd inserts semicolons.',
+    'Laske merkkisijainnit kiinte'#228'll'#228' fontilla tai m'#228#228'rittelytaulukolla ja '
+        + 'muokkaa sitten kutakin (. {n} ) pituutta. T'#228'm'#228' esimerkki jakaa nelj'#228#228'n'
+        + ' segmenttiin ja lis'#228#228' puolipisteit'#228'.');
+  Put(True,
+    'Counting matches...',
+    'Lasketaan osumia...');
+  Put(True,
+    'Create blank lines',
+    'Luo tyhji'#228' rivej'#228);
+  Put(True,
+    'Created',
+    'Luotu');
+  Put(True,
+    'Creation Date:',
+    'Luontip'#228'iv'#228':');
+  Put(True,
+    'Criteria',
+    'Ehdot');
+  Put(True,
+    'Csv.AskAI',
+    'Kysy AI:lta n'#228'ist'#228' sarakkeista');
+  Put(True,
+    'Csv.HeaderLine',
+    'T'#228'm'#228' rivi on sarakkeen otsikko.');
+  Put(True,
+    'Csv.SortAsc',
+    'nouseva');
+  Put(True,
+    'Csv.SortBusy',
+    'Lajitellaan %s / %s rivi'#228'. Peruuta Escill'#228'.');
+  Put(True,
+    'Csv.SortCancelled',
+    'Sarakelajittelu peruutettu.');
+  Put(True,
+    'Csv.SortCleared',
+    'Sarakelajittelu tyhjennetty.');
+  Put(True,
+    'Csv.SortDesc',
+    'laskeva');
+  Put(True,
+    'Csv.SortDone',
+    'Lajiteltu: %s (%s). Tiedosto pysyy levyll'#228'.');
+  Put(True,
+    'Csv.SortFailed',
+    'T'#228't'#228' saraketta ei voitu lajitella.');
+  Put(True,
+    'Csv.SortNeedColumn',
+    'Nime'#228' lajiteltava sarake numerolla tai otsikolla.');
+  Put(True,
+    'Csv.SortNoFilter',
+    'Tyhjenn'#228' suodatin ennen sarakkeiden lajittelua.');
+  Put(True,
+    'Csv.SortNone',
+    'tiedostoj'#228'rjestys');
+  Put(True,
+    'Ctrl+ shortcuts are shown to the right of each menu command.',
+    'Ctrl+-pikan'#228'pp'#228'imet n'#228'kyv'#228't kunkin valikkokomennon oikealla puolella.');
+  Put(True,
+    'Custom',
+    'Mukautettu');
+  Put(True,
+    'Custom PPI: ',
+    'Mukautettu PPI: ');
+  Put(True,
+    'Custom PixelsPerInch value',
+    'Mukautettu PixelsPerInch-arvo');
+  Put(True,
+    'Cut',
+    'Leikkaa');
+  Put(True,
+    'D&uplicate line',
+    'K&ahdenna rivi');
+  Put(True,
+    'Date && Time',
+    'P'#228'iv'#228'm'#228#228'r'#228' && aika');
+  Put(True,
+    'Date/Time',
+    'P'#228'iv'#228'm'#228#228'r'#228'/aika');
+  Put(True,
+    'Delete',
+    'Poista');
+  Put(True,
+    'Delete %d selected line(s) from the file?',
+    'Poistetaanko %d valittua rivi('#228') tiedostosta?');
+  Put(True,
+    'Delete Duplicate Lines...',
+    'Poista p'#228#228'llekk'#228'iset rivit...');
+  Put(True,
+    'Delete Line',
+    'Poista rivi');
+  Put(True,
+    'Delete Lines',
+    'Poista rivit');
+  Put(True,
+    'Delete confirmation',
+    'Poiston vahvistus');
+end;
+
+procedure AddFinnishPart12(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Delete lines'#13#10'Ctrl+Shift+D',
+    'Poista rivit'#13#10'Ctrl+Shift+D');
+  Put(True,
+    'Delete lines %d-%d',
+    'Poista rivit %d-%d');
+  Put(True,
+    'Delete lines (batch)',
+    'Poista rivit (er'#228')');
+  Put(True,
+    'Delete selected lines from the file.',
+    'Poista valitut rivit tiedostosta.');
+  Put(True,
+    'Deleting duplicate lines...',
+    'Poistetaan p'#228#228'llekk'#228'isi'#228' rivej'#228'...');
+  Put(True,
+    'Deleting selected lines...',
+    'Poistetaan valittuja rivej'#228'...');
+  Put(True,
+    'Deleting selected lines... (part %d of %d)',
+    'Poistetaan valittuja rivej'#228'... (osa %d / %d)');
+  Put(True,
+    'Delimited text with numeric first column detected; using regex "%s".',
+    'Eroteltu teksti, jossa ensimm'#228'inen sarake on numeerinen, tunnistettu; '
+        + 'k'#228'ytet'#228#228'n regexi'#228' "%s".');
+  Put(True,
+    'Delimiters: "-" for ranges, "," or ";" for specific lines.'#13'Spaces are '
+        + 'ignored.',
+    'Erottimet: "-" v'#228'leille, "," tai ";" tietyille riveille.'#13'V'#228'lily'#246'nnit o'
+        + 'hitetaan.');
+  Put(True,
+    'Delta File Editor',
+    'Delta-tiedostoeditori');
+  Put(True,
+    'DeltaEditor.Added: %d',
+    'Rivi %d lis'#228'tty.');
+  Put(True,
+    'DeltaEditor.Copied: %d',
+    '%d rivi('#228') kopioitu.');
+  Put(True,
+    'DeltaEditor.Hint',
+    'Enint'#228#228'n %d rivi'#228'. Muokkaa tiedostossa korvattavia rivej'#228' ja napsauta '
+        + 'sitten Yhdist'#228'. Valitse rivi muokataksesi sit'#228'.');
+  Put(True,
+    'DeltaEditor.Removed: %d',
+    '%d rivi('#228') poistettu.');
+  Put(True,
+    'DeltaEditor.Updated: %d',
+    'Rivi %d p'#228'ivitetty.');
+  Put(True,
+    'Describe what you want from these files.',
+    'Kuvaile, mit'#228' haluat n'#228'ist'#228' tiedostoista.');
+  Put(True,
+    'Destination file (current):',
+    'Kohdetiedosto (nykyinen):');
+  Put(True,
+    'Destination file is in use by another process: ',
+    'Kohdetiedosto on toisen prosessin k'#228'yt'#246'ss'#228': ');
+  Put(True,
+    'Destination file must have at least 2 lines for insertion by line.',
+    'Kohdetiedostossa on oltava v'#228'hint'#228#228'n 2 rivi'#228' rivikohtaista lis'#228'yst'#228' va'
+        + 'rten.');
+  Put(True,
+    'Destination file not found.',
+    'Kohdetiedostoa ei l'#246'ytynyt.');
+  Put(True,
+    'Destination file:',
+    'Kohdetiedosto:');
+  Put(True,
+    'Detailed Info',
+    'Yksityiskohtaiset tiedot');
+  Put(True,
+    'Details',
+    'Tiedot');
+  Put(True,
+    'Detected encoding (file):',
+    'Tunnistettu koodaus (tiedosto):');
+  Put(True,
+    'Detected host/path style domain sample from column data: %s',
+    'Tunnistettu is'#228'nt'#228'-/polkutyylinen verkkoalue-esimerkki saraketiedoista'
+        + ': %s');
+  Put(True,
+    'Detected on file: ',
+    'Tunnistettu tiedostosta: ');
+  Put(True,
+    'Detected selected line: %d (you can change it).',
+    'Tunnistettu valittu rivi: %d (voit muuttaa sit'#228').');
+  Put(True,
+    'Developed by: ',
+    'Kehitt'#228'j'#228': ');
+  Put(True,
+    'Device',
+    'Laite');
+  Put(True,
+    'Dialogs',
+    'Valintaikkunat');
+  Put(True,
+    'Diferenciar mai'#250'sculas/min'#250'sculas?',
+    'Kirjainkoon erotteleva haku?');
+  Put(True,
+    'Diff by lines (range)',
+    'Diff riveitt'#228'in (v'#228'li)');
+  Put(True,
+    'Different-text mode requires at least %d lines in the text box.',
+    'Eri tekstin tila edellytt'#228#228' v'#228'hint'#228#228'n %d rivi'#228' tekstikent'#228'ss'#228'.');
+  Put(True,
+    'Digite o texto para procurar:',
+    'Kirjoita etsitt'#228'v'#228' teksti:');
+  Put(True,
+    'Directory',
+    'Hakemisto');
+  Put(True,
+    'Disabled',
+    'Pois k'#228'yt'#246'st'#228);
+  Put(True,
+    'Discard this edit?',
+    'Hyl'#228't'#228#228'nk'#246' t'#228'm'#228' muokkaus?');
+  Put(True,
+    'Disconnected',
+    'Yhteys katkaistu');
+  Put(True,
+    'DiskSpace.Button.Cancel',
+    '&Peruuta');
+  Put(True,
+    'DiskSpace.Button.Continue',
+    '&Jatka');
+  Put(True,
+    'DiskSpace.Button.Export',
+    '&Vie');
+  Put(True,
+    'DiskSpace.Error.OperationFailed',
+    'Toimintoa ei voitu suorittaa loppuun. Syyn'#228' voi olla riitt'#228'm'#228't'#246'n levyt'
+        + 'ila, t'#228'ysi tilap'#228'iskansio tai muistinpuute. Tilap'#228'istiedostot siivotti'
+        + 'in mahdollisuuksien mukaan.');
+  Put(True,
+    'DiskSpace.Export.DialogTitle',
+    'Viennin levytilavaroitus');
+  Put(True,
+    'DiskSpace.Export.Filter',
+    'Tekstitiedostot (*.txt)|*.txt');
+  Put(True,
+    'DiskSpace.Export.Success',
+    'Viesti tallennettu kohteeseen:'#13#10'%s');
+  Put(True,
+    'DiskSpace.Op.CompareMerge',
+    'Vertaa / yhdist'#228' (k'#228'yt'#228' muutoksia)');
+  Put(True,
+    'DiskSpace.Op.MergeFiles',
+    'Yhdist'#228' tiedostot');
+  Put(True,
+    'DiskSpace.Op.MergeLines',
+    'Yhdist'#228' rivit');
+  Put(True,
+    'DiskSpace.Op.SplitEqual',
+    'Jaa tiedosto yht'#228' suuriin osiin');
+  Put(True,
+    'DiskSpace.Op.SplitFraction',
+    'Poimi tiedoston osat');
+  Put(True,
+    'DiskSpace.Op.SplitPattern',
+    'Jaa tiedosto mallin/regexin mukaan');
+  Put(True,
+    'DiskSpace.Size.About',
+    'noin %s');
+  Put(True,
+    'DiskSpace.Unit.B',
+    'B');
+  Put(True,
+    'DiskSpace.Unit.GB',
+    'GB');
+  Put(True,
+    'DiskSpace.Unit.KB',
+    'KB');
+  Put(True,
+    'DiskSpace.Unit.MB',
+    'MB');
+  Put(True,
+    'DiskSpace.Unit.TB',
+    'TB');
+  Put(True,
+    'DiskSpace.Warning.Body',
+    'Toiminto: %s'#13#10#13#10'T'#228'm'#228' toiminto saattaa tarvita %s lis'#228#228' vapaata levytil'
+        + 'aa.'#13#10'Taltio: %s'#13#10'K'#228'ytett'#228'viss'#228': %s'#13#10'Vaje: %s'#13#10#13#10'Tilap'#228'iset ty'#246'tiedosto'
+        + 't voivat olla kohteessa:'#13#10'%s'#13#10#13#10'Jos jatkat, toiminto voi keskeyty'#228' kes'
+        + 'ken tai j'#228'tt'#228#228' tilap'#228'istiedostoja levylle.'#13#10#13#10'Haluatko silti jatkaa?');
+  Put(True,
+    'DiskSpace.Warning.Title',
+    'Levytila');
+  Put(True,
+    'Do you want to continue?',
+    'Haluatko jatkaa?');
+  Put(True,
+    'Doctoralia-style CSV detected: examples assume columns doctor_id,title'
+        + ',name,city1,city2,region,specialization,reviews,newest_review_date,tel'
+        + 'emedicine,price,url,...',
+    'Doctoralia-tyylinen CSV tunnistettu: esimerkit olettavat sarakkeet doc'
+        + 'tor_id,title,name,city1,city2,region,specialization,reviews,newest_rev'
+        + 'iew_date,telemedicine,price,url,...');
+  Put(True,
+    'Does not re-read file. DEFAULT = BOM/heuristics.',
+    'Ei lue tiedostoa uudelleen. OLETUS = BOM/heuristiikka.');
+  Put(True,
+    'Does not re-read file. Pick UTF-8 / ANSI / UTF-16 / UTF-32 to force.',
+    'Ei lue tiedostoa uudelleen. Valitse UTF-8 / ANSI / UTF-16 / UTF-32 pak'
+        + 'ottaaksesi.');
+  Put(True,
+    'Does not re-read file. Pick UTF-8 / ANSI / UTF-16 to force.',
+    'Ei lue tiedostoa uudelleen. Valitse UTF-8 / ANSI / UTF-16 pakottaakses'
+        + 'i.');
+  Put(True,
+    'Don''t show this screen on startup',
+    #196'l'#228' n'#228'yt'#228' t'#228't'#228' n'#228'ytt'#246#228' k'#228'ynnistyksess'#228);
+  Put(True,
+    'Download cancelled by user.',
+    'Lataus peruutettu k'#228'ytt'#228'j'#228'n toimesta.');
+  Put(True,
+    'Downloaded Python plugin %s is invalid or incomplete (PyInstaller arch'
+        + 'ive). Rebuild with data-lake-duckdb-main\build_exe_lancedb.bat, upload'
+        + ' to FTP, then try again.',
+    'Ladattu Python-liit'#228'nn'#228'inen %s on virheellinen tai puutteellinen (PyIn'
+        + 'staller-arkisto). Rakenna uudelleen data-lake-duckdb-main\build_exe_la'
+        + 'ncedb.bat -tiedostolla, lataa FTP:lle ja yrit'#228' uudelleen.');
+  Put(True,
+    'Downloaded Python plugin is not a valid PyInstaller executable.',
+    'Ladattu Python-liit'#228'nn'#228'inen ei ole kelvollinen PyInstaller-suoritettav'
+        + 'a.');
+  Put(True,
+    'Downloading Python plugin %s ... please wait.',
+    'Ladataan Python-liit'#228'nn'#228'ist'#228' %s ... odota.');
+  Put(True,
+    'Duplicate Line',
+    'Kahdenna rivi');
+  Put(True,
+    'E&xit',
+    '&Lopeta');
+  Put(True,
+    'E&xport filtered results',
+    '&Vie suodatetut tulokset');
+  Put(True,
+    'E&xport tail / filtered lines',
+    '&Vie tail / suodatetut rivit');
+  Put(True,
+    'E&xtract file parts...',
+    'P&oimi tiedoston osat...');
+  Put(True,
+    'Each block explains the goal, then shows Regex:, then Logic:. FastFile'
+        + ' uses VBScript.RegExp (no (?<=...) lookbehind).',
+    'Kukin lohko selitt'#228#228' tavoitteen, n'#228'ytt'#228#228' sitten Regex: ja sitten Logic'
+        + ':. FastFile k'#228'ytt'#228#228' VBScript.RegExp (ei (?<=...) lookbehindia).');
+  Put(True,
+    'Each block has a short explanation, then a line starting with Regex:, '
+        + 'then Logic:. FastFile uses VBScript.RegExp - lookbehind (?<=...) is no'
+        + 't supported; lookahead (?=...) is supported.',
+    'Kussakin lohkossa on lyhyt selitys, sitten rivi alkaen Regex:, sitten '
+        + 'Logic:. FastFile k'#228'ytt'#228#228' VBScript.RegExp - lookbehind (?<=...) ei ole '
+        + 'tuettu; lookahead (?=...) on tuettu.');
+  Put(True,
+    'Edit',
+    'Muokkaa');
+  Put(True,
+    'Edit'#13#10'Ctrl+Shift+I',
+    'Muokkaa'#13#10'Ctrl+Shift+I');
+  Put(True,
+    'Edit / index',
+    'Muokkaa / indeksi');
+  Put(True,
+    'Edit Line',
+    'Muokkaa rivi'#228);
+  Put(True,
+    'Edit applied.',
+    'Muokkaus k'#228'ytetty.');
+  Put(True,
+    'Edit line replacements (.delta) and merge into the current file (ReadF'
+        + 'ileThread). Saves a .delta next to the app and runs merge in backgroun'
+        + 'd.',
+    'Muokkaa rivikorvauksia (.delta) ja yhdist'#228' nykyiseen tiedostoon (ReadF'
+        + 'ileThread). Tallentaa .delta-tiedoston sovelluksen viereen ja suoritta'
+        + 'a yhdist'#228'misen taustalla.');
+  Put(True,
+    'Edit preview',
+    'Muokkaa esikatselua');
+  Put(True,
+    'Edit selected lines in the file.',
+    'Muokkaa valittuja rivej'#228' tiedostossa.');
+  Put(True,
+    'Edit the lines to replace in the file, then click Merge. Select a row '
+        + 'to edit it.',
+    'Muokkaa tiedostossa korvattavia rivej'#228' ja napsauta sitten Yhdist'#228'. Val'
+        + 'itse rivi muokataksesi sit'#228'.');
+  Put(True,
+    'Editing file (delete %d lines)...',
+    'Muokataan tiedostoa (poista %d rivi'#228')...');
+  Put(True,
+    'Editing file (delete)...',
+    'Muokataan tiedostoa (poisto)...');
+  Put(True,
+    'Editing file (insert %d lines)...',
+    'Muokataan tiedostoa (lis'#228#228' %d rivi'#228')...');
+  Put(True,
+    'Editing file (insert)...',
+    'Muokataan tiedostoa (lis'#228'ys)...');
+  Put(True,
+    'Editing file (replace)...',
+    'Muokataan tiedostoa (korvaus)...');
+  Put(True,
+    'Editing file...',
+    'Muokataan tiedostoa...');
+  Put(True,
+    'Edits applied: %d file(s).',
+    'Muokkauksia k'#228'ytetty: %d tiedosto(a).');
+  Put(True,
+    'Elapsed time: %s',
+    'Kulunut aika: %s');
+  Put(True,
+    'EmEditor.CsvNotActive',
+    'CSV-tila pois');
+  Put(True,
+    'EmEditor.DedupColumnLabel',
+    'Sarake (1-pohjainen):');
+  Put(True,
+    'EmEditor.DedupCsvColumn',
+    'CSV-sarakkeen arvo');
+  Put(True,
+    'EmEditor.DedupDone',
+    'P'#228#228'llekk'#228'iset rivit poistettu. Uniikkeja rivej'#228' j'#228'ljell'#228': %d');
+  Put(True,
+    'EmEditor.DedupKeyGroup',
+    'P'#228#228'llekk'#228'isyystarkistus');
+  Put(True,
+    'EmEditor.DedupNeedCsv',
+    'Ota ensin CSV / Sarake-tila k'#228'ytt'#246#246'n poistaaksesi p'#228#228'llekk'#228'isyydet sar'
+        + 'akkeen mukaan.');
+  Put(True,
+    'EmEditor.DedupWholeLine',
+    'Koko rivi');
+end;
+
+procedure AddFinnishPart13(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'EmEditor.ErrorPrefix',
+    'Toimintovirhe: ');
+  Put(True,
+    'EmEditor.FreqDone',
+    'Usein esiintyv'#228't merkkijonot tallennettu kohteeseen:%s'#13#10'Merkint'#246'j'#228': %d');
+  Put(True,
+    'EmEditor.FreqModeCells',
+    'CSV-solut');
+  Put(True,
+    'EmEditor.FreqModeGroup',
+    'Laskentatila');
+  Put(True,
+    'EmEditor.FreqModeLines',
+    'Rivit');
+  Put(True,
+    'EmEditor.FreqModeWords',
+    'Sanat');
+  Put(True,
+    'EmEditor.FreqOutputHeader',
+    'merkkijono,m'#228#228'r'#228);
+  Put(True,
+    'EmEditor.MergeFailed',
+    'Lajiteltujen osien yhdist'#228'minen ep'#228'onnistui.');
+  Put(True,
+    'EmEditor.MinCountLabel',
+    'V'#228'himm'#228'ism'#228#228'r'#228':');
+  Put(True,
+    'EmEditor.NeedFile',
+    'Avaa ja lue tiedosto ensin.');
+  Put(True,
+    'EmEditor.NeedLine',
+    'Valitse ensin rivi listasta.');
+  Put(True,
+    'EmEditor.Progress.EtaCalc',
+    'arvioidaan...');
+  Put(True,
+    'EmEditor.Progress.EtaLong',
+    '> 24 h');
+  Put(True,
+    'EmEditor.Progress.EtaSoon',
+    'viimeistell'#228#228'n...');
+  Put(True,
+    'EmEditor.Progress.Finalizing',
+    'Korvataan alkuper'#228'ist'#228' tiedostoa...');
+  Put(True,
+    'EmEditor.Progress.ScanBytes',
+    '%s  %.2f / %.2f GB');
+  Put(True,
+    'EmEditor.Progress.ScanDetail',
+    '%s  %.2f / %.2f GB  |  %.0f MB/s  |  ~%s');
+  Put(True,
+    'EmEditor.Progress.Scanning',
+    'Skannataan tiedostoa...');
+  Put(True,
+    'EmEditor.Progress.Sorting',
+    'Lajitellaan osia...');
+  Put(True,
+    'EmEditor.Progress.WriteDetail',
+    '%s  %d/%d  |  ~%s');
+  Put(True,
+    'EmEditor.Progress.Writing',
+    'Kirjoitetaan tuloksia...');
+  Put(True,
+    'EmEditor.Progress.WritingBucket',
+    'Kirjoitetaan tuloksia ('#228'mp'#228'ri %d/%d)...');
+  Put(True,
+    'EmEditor.SaveFilter',
+    'CSV-tiedostot (*.csv)|*.csv|Tekstitiedostot (*.txt)|*.txt|Kaikki tiedo'
+        + 'stot (*.*)|*.*');
+  Put(True,
+    'Empty input file',
+    'Tyhj'#228' sy'#246'tetiedosto');
+  Put(True,
+    'Enable "Use Python macros on new lines" first.',
+    'Ota ensin k'#228'ytt'#246#246'n "K'#228'yt'#228' Python-makroja uusilla riveill'#228'".');
+  Put(True,
+    'Enable Python macro on each new tail line',
+    'Ota Python-makro k'#228'ytt'#246#246'n jokaisella uudella h'#228'nn'#228'n rivill'#228);
+  Put(True,
+    'Enable Tail (Ctrl+T) and append lines, or apply a filter (Ctrl+L).',
+    'Ota Tail k'#228'ytt'#246#246'n (Ctrl+T) ja lis'#228#228' rivej'#228', tai k'#228'yt'#228' suodatinta (Ctrl'
+        + '+L).');
+  Put(True,
+    'Enable Tail / Follow mode (Ctrl+T) and wait for new lines to be append'
+        + 'ed to the file.',
+    'Ota Tail / Seuraa -tila k'#228'ytt'#246#246'n (Ctrl+T) ja odota, ett'#228' uusia rivej'#228' '
+        + 'lis'#228't'#228#228'n tiedostoon.');
+  Put(True,
+    'Encrypted',
+    'Salattu');
+  Put(True,
+    'English',
+    'englanti');
+  Put(True,
+    'Enter a tail macro script first.',
+    'Anna ensin h'#228'nn'#228'n makrokomentosarja.');
+  Put(True,
+    'Enter a word to search in the file',
+    'Anna tiedostosta etsitt'#228'v'#228' sana');
+  Put(True,
+    'Enter search text.',
+    'Anna etsitt'#228'v'#228' teksti.');
+  Put(True,
+    'Enter the lines to export (e.g. 1-4 or 1,4,10):',
+    'Anna viet'#228'v'#228't rivit (esim. 1-4 tai 1,4,10):');
+  Put(True,
+    'Equal parts',
+    'Yht'#228' suuret osat');
+  Put(True,
+    'Equal parts'#13#10'Ctrl+Shift+P',
+    'Yht'#228' suuret osat'#13#10'Ctrl+Shift+P');
+  Put(True,
+    'Equal parts count (2..1000):',
+    'Yht'#228' suurten osien m'#228#228'r'#228' (2..1000):');
+  Put(True,
+    'Equal parts count (2..1000, only in equal-parts mode):',
+    'Yht'#228' suurten osien m'#228#228'r'#228' (2..1000, vain yht'#228' suurten osien tilassa):');
+  Put(True,
+    'Equal-length splits without Regex',
+    'Yht'#228' pitk'#228't jaot ilman Regexi'#228);
+  Put(True,
+    'Equal-parts mode preview: file will be split into %d parts, preserving'
+        + ' complete lines.',
+    'Yht'#228' suurten osien tilan esikatselu: tiedosto jaetaan %d osaan s'#228'ilytt'
+        + #228'en kokonaiset rivit.');
+  Put(True,
+    'Equal-parts mode preview: file will be split preserving complete lines'
+        + '.',
+    'Yht'#228' suurten osien tilan esikatselu: tiedosto jaetaan s'#228'ilytt'#228'en kokon'
+        + 'aiset rivit.');
+  Put(True,
+    'Error',
+    'Virhe');
+  Put(True,
+    'Error downloading Python plugin %s: %s',
+    'Virhe ladattaessa Python-lis'#228'osaa %s: %s');
+  Put(True,
+    'Error validating line range: ',
+    'Virhe rivialueen tarkistuksessa: ');
+  Put(True,
+    'Error: ',
+    'Virhe: ');
+  Put(True,
+    'Error: "From line" (%d) cannot be greater than "To line" (%d).',
+    'Virhe: "Alkaen rivist'#228'" (%d) ei voi olla suurempi kuin "P'#228#228'ttyen rivii'
+        + 'n" (%d).');
+  Put(True,
+    'Error: "From line" (%d) exceeds total lines in source file (%d).',
+    'Virhe: "Alkaen rivist'#228'" (%d) ylitt'#228#228' l'#228'hdetiedoston rivim'#228#228'r'#228'n (%d).');
+  Put(True,
+    'Error: "From line" cannot be empty.',
+    'Virhe: "Alkaen rivist'#228'" ei voi olla tyhj'#228'.');
+  Put(True,
+    'Error: "From line" must be a valid number.',
+    'Virhe: "Alkaen rivist'#228'" on oltava kelvollinen numero.');
+  Put(True,
+    'Error: "From line" must be at least 1.',
+    'Virhe: "Alkaen rivist'#228'" on oltava v'#228'hint'#228#228'n 1.');
+  Put(True,
+    'Error: "To line" (%d) exceeds total lines in source file (%d).',
+    'Virhe: "P'#228#228'ttyen riviin" (%d) ylitt'#228#228' l'#228'hdetiedoston rivim'#228#228'r'#228'n (%d).');
+  Put(True,
+    'Error: "To line" cannot be empty.',
+    'Virhe: "P'#228#228'ttyen riviin" ei voi olla tyhj'#228'.');
+  Put(True,
+    'Error: "To line" must be a valid number.',
+    'Virhe: "P'#228#228'ttyen riviin" on oltava kelvollinen numero.');
+  Put(True,
+    'Error: "To line" must be at least 1.',
+    'Virhe: "P'#228#228'ttyen riviin" on oltava v'#228'hint'#228#228'n 1.');
+  Put(True,
+    'Error: Could not read source file to validate line count.',
+    'Virhe: L'#228'hdetiedostoa ei voitu lukea rivim'#228#228'r'#228'n tarkistamiseksi.');
+  Put(True,
+    'Error: Source file not found: %s',
+    'Virhe: L'#228'hdetiedostoa ei l'#246'ydy: %s');
+  Put(True,
+    'Estimated output files (approx.): %d',
+    'Arvioidut tulostiedostot (n.): %d');
+  Put(True,
+    'Estimated output files (approx., based on sample): %d',
+    'Arvioidut tulostiedostot (n., otoksen perusteella): %d');
+  Put(True,
+    'Example targets ",1," style markers - edit spacing and commas for your'
+        + ' delimiter style.',
+    'Esimerkkikohteet k'#228'ytt'#228'v'#228't ",1,"-tyylisi'#228' merkkej'#228' - muokkaa v'#228'lej'#228' ja'
+        + ' pilkkuja erottimellesi.');
+  Put(True,
+    'Examples',
+    'Esimerkkej'#228);
+  Put(True,
+    'Examples:',
+    'Esimerkkej'#228':');
+  Put(True,
+    'Exclude files that match the entered text.',
+    'J'#228't'#228' pois tiedostot, jotka vastaavat annettua teksti'#228'.');
+  Put(True,
+    'Excluded',
+    'Poissuljettu');
+  Put(True,
+    'Executable not found',
+    'Suoritettavaa tiedostoa ei l'#246'ydy');
+  Put(True,
+    'Executable not found: ',
+    'Suoritettavaa tiedostoa ei l'#246'ydy: ');
+  Put(True,
+    'Execute',
+    'Suorita');
+  Put(True,
+    'Execution-style examples (based on sampled text):',
+    'Suoritustyyliset esimerkit (otostekstin perusteella):');
+  Put(True,
+    'Exit',
+    'Poistu');
+  Put(True,
+    'Exp&ort',
+    'Vi&e');
+  Put(True,
+    'Export',
+    'Vie');
+  Put(True,
+    'Export'#13#10'Ctrl+Shift+O',
+    'Vie'#13#10'Ctrl+Shift+O');
+  Put(True,
+    'Export Help Content',
+    'Vie ohjesis'#228'lt'#246);
+  Put(True,
+    'Export Lines',
+    'Vie rivit');
+  Put(True,
+    'Export finished! File saved to: %s',
+    'Vienti valmis! Tiedosto tallennettu kohteeseen: %s');
+  Put(True,
+    'Export finished! Lines copied to clipboard.',
+    'Vienti valmis! Rivit kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Export lines appended while Tail / Follow mode was active (Ctrl+T).',
+    'Vie rivit, jotka lis'#228'ttiin Tail / Seuraa -tilan ollessa aktiivinen (Ct'
+        + 'rl+T).');
+  Put(True,
+    'Export path is required.',
+    'Vientipolku on pakollinen.');
+  Put(True,
+    'Export selected lines or results.',
+    'Vie valitut rivit tai tulokset.');
+  Put(True,
+    'Export tail lines',
+    'Vie h'#228'nn'#228'n rivit');
+  Put(True,
+    'Export to ClipBoard',
+    'Vie leikep'#246'yd'#228'lle');
+  Put(True,
+    'Export to Clipboard',
+    'Vie leikep'#246'yd'#228'lle');
+  Put(True,
+    'Export transcript',
+    'Vie litteraatti');
+  Put(True,
+    'Export...',
+    'Vie...');
+  Put(True,
+    'ExportDone.ClickFile',
+    'Napsauta tiedostoa avataksesi sen FastFiless'#228':');
+  Put(True,
+    'ExportDone.Copied',
+    'Kopioitu!');
+  Put(True,
+    'ExportDone.CopyPath',
+    'Kopioi polku');
+  Put(True,
+    'ExportDone.CopyPaths',
+    'Kopioi polut');
+  Put(True,
+    'ExportDone.Details',
+    'Tiedot');
+  Put(True,
+    'ExportDone.Elapsed',
+    'Aika: %s');
+  Put(True,
+    'ExportDone.FileLabel',
+    'Tiedosto:');
+  Put(True,
+    'ExportDone.FolderLabel',
+    'Kansio:');
+  Put(True,
+    'ExportDone.Missing',
+    'Viimeksi luotua tiedostoa ei en'#228#228' ole:'#13#10'%s');
+  Put(True,
+    'ExportDone.More',
+    '... ja %d muuta tiedostoa kansiossa');
+  Put(True,
+    'ExportDone.NoneYet',
+    'Tiedostoa ei ole viel'#228' luotu.');
+  Put(True,
+    'ExportDone.OpenDefault',
+    'Avaa Windowsin oletusohjelmalla');
+  Put(True,
+    'ExportDone.OpenFolder',
+    'Avaa kansio');
+  Put(True,
+    'ExportDone.OpenInApp',
+    'Avaa FastFiless'#228);
+  Put(True,
+    'ExportDone.OpenLink',
+    'Napsauta t'#228'st'#228' avataksesi luodun tiedoston');
+  Put(True,
+    'ExportDone.Records',
+    '%d tietue(tta) viety');
+  Put(True,
+    'ExportDone.ShowLast',
+    'Viimeksi luotu tiedosto');
+end;
+
+procedure AddFinnishPart14(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'ExportDone.ShowLastHint',
+    'N'#228'yt'#228' uudelleen viimeksi luodun tiedoston ikkuna (avaa se, avaa sen ka'
+        + 'nsio tai kopioi sen polku).');
+  Put(True,
+    'ExportDone.Title',
+    'Tiedosto luotu onnistuneesti');
+  Put(True,
+    'ExportDone.TitleN',
+    '%d tiedostoa luotu onnistuneesti');
+  Put(True,
+    'ExportDone.TotalSize',
+    'Yhteens'#228': %s');
+  Put(True,
+    'Exported Lines',
+    'Viedyt rivit');
+  Put(True,
+    'Exporting',
+    'Vied'#228#228'n');
+  Put(True,
+    'Exporting lines to file...',
+    'Vied'#228#228'n rivej'#228' tiedostoon...');
+  Put(True,
+    'Exporting lines...',
+    'Vied'#228#228'n rivej'#228'...');
+  Put(True,
+    'Exporting tail lines to file...',
+    'Vied'#228#228'n h'#228'nn'#228'n rivej'#228' tiedostoon...');
+  Put(True,
+    'Extended'#13#10'borders',
+    'Laajennetut'#13#10'reunat');
+  Put(True,
+    'Extension files exclusion',
+    'Tiedostop'#228#228'tteiden poissulku');
+  Put(True,
+    'Extract Frequent Strings...',
+    'Poimi usein esiintyv'#228't merkkijonot...');
+  Put(True,
+    'Extract doctor names (Title + Name)',
+    'Poimi l'#228#228'k'#228'rien nimet (titteli + nimi)');
+  Put(True,
+    'Extract file parts from file',
+    'Poimi tiedoston osat tiedostosta');
+  Put(True,
+    'Extract only the slug after the domain in column',
+    'Poimi vain slug domainin j'#228'lkeen sarakkeessa');
+  Put(True,
+    'Extract parts',
+    'Poimi osat');
+  Put(True,
+    'Extract parts'#13#10'Ctrl+Shift+Q',
+    'Poimi osat'#13#10'Ctrl+Shift+Q');
+  Put(True,
+    'Extract.AI.Button',
+    'Luo AI:lla');
+  Put(True,
+    'Extract.AI.Explanation',
+    'AI: %s');
+  Put(True,
+    'Extract.AI.Failed',
+    'AI ei voinut vastata: %s');
+  Put(True,
+    'Extract.AI.Generated',
+    'AI:n luoma Regex: %s');
+  Put(True,
+    'Extract.AI.Hint',
+    'AI ehdottaa s'#228#228'nn'#246'llist'#228' lauseketta kuvauksesi ja sis'#228'lt'#246'otoksen perus'
+        + 'teella (l'#228'hetet'#228#228'n enint'#228#228'n 3 000 merkki'#228').');
+  Put(True,
+    'Extract.AI.Label',
+    'Kysy AI:lta:');
+  Put(True,
+    'Extract.AI.NeedText',
+    'Kuvaile ensin, mit'#228' haluat poimia.');
+  Put(True,
+    'Extract.AI.NoRegex',
+    'AI ei palauttanut kelvollista s'#228#228'nn'#246'llist'#228' lauseketta. Kokeile kuvata '
+        + 'toisella tavalla.');
+  Put(True,
+    'Extract.AI.Placeholder',
+    'Kuvaile poimittava sis'#228'lt'#246', esim. tilausnumerot, jotka alkavat PED-');
+  Put(True,
+    'Extract.AI.Recent',
+    'Viimeisimm'#228't AI-pyynn'#246't');
+  Put(True,
+    'Extract.AI.RecentEmpty',
+    'Ei viel'#228' viimeaikaisia AI-pyynt'#246'j'#228'.');
+  Put(True,
+    'Extract.AI.RecentHint',
+    'Viimeisimm'#228't AI-pyynn'#246't (F4 tai Alt+Down)');
+  Put(True,
+    'Extract.BadRegex',
+    'Virheellinen s'#228#228'nn'#246'llinen lauseke: %s');
+  Put(True,
+    'Extract.Button',
+    'Poimi...');
+  Put(True,
+    'Extract.Columns.Hint',
+    'Sarakkeiden numerot, esim. 3 tai 2,4-6');
+  Put(True,
+    'Extract.Copied',
+    'Kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Extract.CopyRegex',
+    'Kopioi regex');
+  Put(True,
+    'Extract.CopyRegexHint',
+    'Kopioi s'#228#228'nn'#246'llinen lauseke leikep'#246'yd'#228'lle');
+  Put(True,
+    'Extract.Count',
+    '%d esiintym'#228'('#228') '#183' %d merkki('#228')');
+  Put(True,
+    'Extract.CountChars',
+    '%d merkki('#228')');
+  Put(True,
+    'Extract.CustomHint',
+    'Kirjoita s'#228#228'nn'#246'llinen lauseke, tai kuvaile haluamasi kohdassa "Kysy AI'
+        + ':lta" ja napsauta "Luo AI:lla".');
+  Put(True,
+    'Extract.Delim.Auto',
+    'Automaattinen');
+  Put(True,
+    'Extract.Delimiter',
+    'Erotin:');
+  Put(True,
+    'Extract.Example',
+    'Esimerkki:');
+  Put(True,
+    'Extract.Group1',
+    'K'#228'yt'#228' kaappausryhm'#228#228' 1');
+  Put(True,
+    'Extract.Hint',
+    'Poimi numeroita, kirjaimia, s'#228'hk'#246'posteja, p'#228'iv'#228'm'#228#228'ri'#228', sarakkeita tai '
+        + 's'#228#228'nn'#246'llisen lausekkeen osumia valitusta tekstist'#228' (tai koko sis'#228'll'#246'st'
+        + #228').');
+  Put(True,
+    'Extract.KeepSpaces',
+    'S'#228'ilyt'#228' v'#228'lily'#246'nnit');
+  Put(True,
+    'Extract.Kind.AlNum',
+    'Vain kirjaimet ja numerot');
+  Put(True,
+    'Extract.Kind.Cep',
+    'CEP (Brasilian postinumero)');
+  Put(True,
+    'Extract.Kind.Cnpj',
+    'CNPJ (Brasilia)');
+  Put(True,
+    'Extract.Kind.Columns',
+    'Sarakkeet / kent'#228't (eroteltu teksti)');
+  Put(True,
+    'Extract.Kind.Cpf',
+    'CPF (Brasilia)');
+  Put(True,
+    'Extract.Kind.Custom',
+    'Mukautettu s'#228#228'nn'#246'llinen lauseke');
+  Put(True,
+    'Extract.Kind.Dates',
+    'P'#228'iv'#228'm'#228#228'r'#228't');
+  Put(True,
+    'Extract.Kind.Digits',
+    'Vain numerot (0-9)');
+  Put(True,
+    'Extract.Kind.Ips',
+    'IP-osoitteet (IPv4)');
+  Put(True,
+    'Extract.Kind.Letters',
+    'Vain kirjaimet');
+  Put(True,
+    'Extract.Kind.Money',
+    'Rahasummat (R$, US$, '#8364', '#163')');
+  Put(True,
+    'Extract.Kind.NoDigits',
+    'Poista numerot');
+  Put(True,
+    'Extract.Kind.NoSpecial',
+    'Poista erikoismerkit');
+  Put(True,
+    'Extract.Kind.Numbers',
+    'Numerot (kokonais- ja desimaaliluvut)');
+  Put(True,
+    'Extract.Kind.Phones',
+    'Puhelinnumerot');
+  Put(True,
+    'Extract.Kind.Quoted',
+    'Teksti lainausmerkeiss'#228);
+  Put(True,
+    'Extract.Kind.Special',
+    'Vain erikoismerkit');
+  Put(True,
+    'Extract.Kind.Times',
+    'Kellonajat');
+  Put(True,
+    'Extract.Kind.Urls',
+    'URL-osoitteet / linkit');
+  Put(True,
+    'Extract.Kind.Words',
+    'Sanat');
+  Put(True,
+    'Extract.MatchCase',
+    'Erota kirjainkoko');
+  Put(True,
+    'Extract.NotFound',
+    'Mit'#228#228'n ei l'#246'ytynyt.');
+  Put(True,
+    'Extract.PreviewCut',
+    '(n'#228'ytet'#228#228'n ensimm'#228'iset %d merkki'#228')');
+  Put(True,
+    'Extract.Regex',
+    'S'#228#228'nn'#246'llinen lauseke:');
+  Put(True,
+    'Extract.RegexCopied',
+    'S'#228#228'nn'#246'llinen lauseke kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'Extract.Replace',
+    'Korvaa sis'#228'lt'#246);
+  Put(True,
+    'Extract.ReplaceSel',
+    'Korvaa valinta');
+  Put(True,
+    'Extract.Result',
+    'Tulos:');
+  Put(True,
+    'Extract.Sep.NewLine',
+    'Uusi rivi');
+  Put(True,
+    'Extract.Sep.None',
+    'Ei mit'#228#228'n');
+  Put(True,
+    'Extract.Sep.Space',
+    'V'#228'lily'#246'nti');
+  Put(True,
+    'Extract.Separator',
+    'Erotin:');
+  Put(True,
+    'Extract.SourceAll',
+    'L'#228'hde: koko sis'#228'lt'#246' (%d merkki'#228')');
+  Put(True,
+    'Extract.SourceSel',
+    'L'#228'hde: valittu teksti (%d merkki'#228')');
+  Put(True,
+    'Extract.Title',
+    'Poimi sis'#228'll'#246'st'#228);
+  Put(True,
+    'Extract.Unique',
+    'Poista kaksoiskappaleet');
+  Put(True,
+    'Extract.What',
+    'Mit'#228' poimitaan:');
+  Put(True,
+    'Extracting frequent strings...',
+    'Poimitaan usein esiintyvi'#228' merkkijonoja...');
+  Put(True,
+    'Extracts digit sequences that do not start with zero and have length f'
+        + 'our or more - helps ignore long padding fields.',
+    'Poimii numerosarjat, jotka eiv'#228't ala nollalla ja joiden pituus on v'#228'hi'
+        + 'nt'#228#228'n nelj'#228' - auttaa ohittamaan pitk'#228't t'#228'ytekent'#228't.');
+  Put(True,
+    'FF_DELETE_ACCESS_DENIED',
+    'K'#228'ytt'#246' estetty. Tiedosto voi olla suojattu tai k'#228'yt'#246'ss'#228'.');
+  Put(True,
+    'FF_DELETE_COULD_NOT_DELETE',
+    'Tiedostoa ei voitu poistaa: ');
+  Put(True,
+    'FF_DELETE_SCHEDULED_REBOOT_OK',
+    'Tiedosto ajoitettiin poistettavaksi uudelleenk'#228'ynnistyksen yhteydess'#228'.');
+  Put(True,
+    'FF_DELETE_SCHEDULE_REBOOT_FAIL',
+    'Poistoa ei voitu ajoittaa uudelleenk'#228'ynnistykselle.');
+  Put(True,
+    'FF_DELETE_SCHEDULE_REBOOT_QUESTION',
+    'Ajoitetaanko automaattinen poisto seuraavan j'#228'rjestelm'#228'n uudelleenk'#228'yn'
+        + 'nistyksen yhteydess'#228'?');
+  Put(True,
+    'FF_DELETE_SHARING_VIOLATION',
+    'Jakamisristiriita. Toinen prosessi k'#228'ytt'#228#228' tiedostoa.');
+  Put(True,
+    'FF_DELETE_UNKNOWN_ERROR',
+    'Tuntematon virhe: %s');
+  Put(True,
+    'FF_HELP.AIChatFileBlock',
+    'TIEDOSTON KYSYMYKSET JA VASTAUKSET AVUSTAJASSA, CHAT-PANEELISSA JA ESI'
+        + 'KATSELUSSA (v3.0.4+)'#13#10'------------------------------------------------'
+        + '---------------'#13#10'  Esit'#228' kysymyksi'#228' avoimesta tiedostosta AI-avustajas'
+        + 'sa (Ctrl+Alt+A).'#13#10'  Python (ConsumerRAG / FastTextRAG) toimii taustall'
+        + 'a, joten'#13#10'  jopa GB+:n tiedostot (esim. 3,6 GB TXT) aukeavat nopeasti;'
+        + ' semanttinen indeksointi on valinnainen.'#13#10'  Latauksen peruutus ei en'#228#228
+        + ' lukitse k'#228'ytt'#246'liittym'#228#228': Python-lis'#228'osa'#13#10'  (ConsumerRAG.exe) pys'#228'ytet'
+        + #228#228'n taustalla.'#13#10'  Hiiren rulla (ja Ctrl+rulla) Avustajan tai Komentosa'
+        + 'rja-sivupalkin p'#228#228'll'#228#13#10'  vieritt'#228#228' kyseist'#228' litteraattia, ei p'#228#228'listaa'
+        + '.'#13#10'  Lue (Ctrl+1 / ty'#246'kalupalkki): kun tiedosto on jo auki, avaa tiedo'
+        + 'sto-'#13#10'  selaimen ja lataa valitun tiedoston heti.'#13#10'  Vertaa / yhdist'#228' '
+        + '-esikatselu ja istuntohistoria n'#228'ytt'#228'v'#228't aksentit oikein'#13#10'  (UTF-8 / A'
+        + 'NSI / UTF-16 tunnistetaan automaattisesti; istuntoloki tallennetaan UT'
+        + 'F-8:na).');
+  Put(True,
+    'FF_HELP.AssistantBlock',
+    '  Ctrl+Alt+A vaihtaa FastFile AI -avustajan (v3.0.5.254). Luonnollisen'
+        + ' kielen toiminnot + koostaminen: luo Word/RTF/DOCX/ODT/PDF-yhteenvetoj'
+        + 'a ja l'#228'hdekoodia (.py/.js/.ts/.go/.java/...). Tiedostot menev'#228't kansio'
+        + 'on fastfile_assistant\ (ei fastfile_temp). Tyhjenn'#228'/Kopioi-vastauspain'
+        + 'ikkeet. Turvalukko est'#228#228' haittaohjelmat, levyn alustuksen, OS-kuoren j'
+        + 'a vaaralliset p'#228#228'tteet. count_matching_lines laskee contains/osittaise'
+        + 't osumat paikallisesti (AI ensin). Pyyd'#228' avaamaan N:s viimeaikainen ti'
+        + 'edosto. Paikalliset ty'#246'kalut kun mahdollista (suodatin+vienti, korvaa,'
+        + ' jaa). Ctrl+L avaa telakoidun FilterBarin (MRU 20). Tilapalkin Mode/Wr'
+        + 'ap/Tail/Filter -napsautukset vaihtavat. SQL- ja tiedostosis'#228'lt'#246'kysymyk'
+        + 'set pysyv'#228't Avustajassa (Ctrl+Alt+A); Python-moottorit py'#246'riv'#228't tausta'
+        + 'lla. Kun fokus on paneelissa: Ctrl+H/L/F, Ctrl+Shift+L/Q, Ctrl+Z/Y, Ct'
+        + 'rl+C/V. K'#228'ytt'#246'liittym'#228'n kielet: 14 (sis. japani, kiina yksinkertaistet'
+        + 'tu/perinteinen). Valinnainen k'#228'ynnistys (ASkin.ini: AssistantShowOnSta'
+        + 'rtup). AssistantLog=1 lis'#228#228' Assistant.logiin.');
+  Put(True,
+    'FF_HELP.EmEditorBlock',
+    'TY'#214'KALUT / ISTUNTO / ASETUKSET (valikon uudelleenj'#228'rjestely v2.1.7.29+'
+        + ')'#13#10'---------------------------------------------------------------'#13#10'  '
+        + 'Ty'#246'kalut > Suodatin ja analyysi:'#13#10'    - N'#228'yt'#228' > Merkkikoodin arvo: Uni'
+        + 'code U+, desimaali, UTF-8-tavut,'#13#10'      tavuosoite yhdelle merkille ny'
+        + 'kyisell'#228' rivill'#228' (ei t'#228'ytt'#228' skannausta).'#13#10'    - Poimi usein esiintyv'#228't'
+        + ' merkkijonot: MMF-skannaus; rivit / sanat / CSV-solut;'#13#10'      '#228'mp'#228'rivu'
+        + 'oto kun tiedosto > 8 MB; CSV-tulos; edistyminen GB | MB/s | ETA.'#13#10'    '
+        + '- Poista kaksoisrivit: s'#228'ilytt'#228#228' ensimm'#228'isen esiintym'#228'n; koko rivi tai'
+        + ' CSV-'#13#10'      sarakkeen avain; levyll'#228' ketjutettu hash-joukko; temp-tie'
+        + 'dosto + uudelleennime'#228'minen;'#13#10'      levytilan tarkistus ennen kirjoitu'
+        + 'sta.'#13#10'  Istunto: vain-luku-istunnon vaihto; tallenna/lataa istuntotied'
+        + 'osto.'#13#10'  Asetukset: vain segment'#246'ity raskas-toimintojen k'#228'yt'#228'nt'#246' (siir'
+        + 'retty vanhasta litte'#228'st'#228' Asetukset-valikosta).');
+  Put(True,
+    'FF_HELP.IdleWorkspaceBlock',
+    'TYHJ'#196'N TY'#214'TILAN BR'#196'NDI (v3.0.2+)'#13#10'------------------------------------'
+        + '---------------------------'#13#10'  Kun dokumenttiv'#228'lilehte'#228' ei n'#228'y, keskus'
+        + 'n'#228'ytt'#246' n'#228'ytt'#228#228' pehme'#228'n'#13#10'  sinisen liukuv'#228'rin FastFile-logolla, suuren '
+        + 'vesileiman takana'#13#10'  sek'#228' keskitetyn otsikon, iskulauseen ja tekij'#228'noi'
+        + 'keustekstin.'#13#10'  K'#228'ytt'#228#228' korkearesoluutioista PNG:t'#228' (1200+ px); Lanczo'
+        + 's-skaalaus ja paint-'#13#10'  v'#228'limuisti pit'#228'v'#228't ympyr'#228'nkaaret pehmein'#228' ilma'
+        + 'n k'#228'ynnistyksen suorakulmioflashia.'#13#10'  Sijainti pysyy kiinte'#228'n'#228', kun A'
+        + 'I-avustajapaneeli avataan tai suljetaan.'#13#10'  Katso DOC_IDLE_LOGO_WORKSP'
+        + 'ACE.md l'#228'hdekansiosta.');
+  Put(True,
+    'FF_HELP.ReadPanelBlock',
+    'LUKU-PANEELI '#8212' SARAKKEEN LOHKO JA AUTOMAATTIT'#196'YTT'#214' (v3.0.2+)'#13#10'--------'
+        + '-------------------------------------------------------'#13#10'  Sis'#228'lt'#246'sara'
+        + 'ke (sarake 2): Ctrl tai Alt + ved'#228' = pystysuuntainen lohko-'#13#10'    valin'
+        + 'ta; leveys vastaa vetoa (kopioi Ctrl+C).'#13#10'  F11 aktiivisella lohkovali'
+        + 'nnalla: laajenna koko sis'#228'll'#246'n leveyteen;'#13#10'  F11 yksin (ei lohkoa): va'
+        + 'ihda koko n'#228'yt'#246'n n'#228'kym'#228'.'#13#10'  Rivi #-sarake: ved'#228' alas ilman Ctrl/Alt = '
+        + 't'#228'yt'#228' tyhj'#228't rivit automaattisesti'#13#10'    (live-esikatselu; CSV-tila lis'
+        + #228#228' vain-erotin-rivej'#228').'#13#10'  Valintaruutulista: samat Ctrl/Alt-lohkon s'#228
+        + #228'nn'#246't tekstialueella.');
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock',
+    'UUSIMMAT OMINAISUUDET (v3.0.5.211 '#8211' v3.0.5.225)'#13#10'---------------------'
+        + '------------------------------------------'#13#10'  Ctrl+F: telakoitu Etsi e'
+        + 'siintym'#228't -palkki '#8212' F3 / Shift+F3, sivutettu napsautettava osumalista,'
+        + ' Lataa lis'#228#228'.'#13#10'  Ctrl+B: telakoitu Kirjanmerkit-palkki '#8212' siirry, Edell'
+        + 'inen/Seuraava, poista, tyhjenn'#228' kaikki, Vie/Kopioi.'#13#10'  V'#228'lilehdet: ved'
+        + #228' ja pudota j'#228'rjestyksen vaihtamiseksi (j'#228'rjestys tallennetaan INI:hin'
+        + ').'#13#10'  Asetukset: MRU-koot, rivivihjeiden viive/rajat ja historian otek'
+        + 'oo.'#13#10'  Rivinp'#228#228'tteet CR+LF / LF / CR tuettu kaikissa rutiineissa; EOL-'
+        + ' ja koodausmuunnos.'#13#10'  Rivieditori: Ctrl+F / Ctrl+H etsi ja korvaa, F3'
+        + ' seuraava, F4 / Shift+F4 korvaa / korvaa kaikki,'#13#10'    Ctrl+Z / Ctrl+Y '
+        + 'kumoa/tee uudelleen, Ctrl+Shift+Del tyhjenn'#228', Alt+Up / Alt+Down edelli'
+        + 'nen/seuraava rivi,'#13#10'    Ctrl+Shift+A Kysy AI:lta, Ctrl+Enter vahvista,'
+        + ' Esc peruuta.'#13#10'  Istuntohistoria (Ctrl+Shift+H): valintaruudut + Valit'
+        + 'se kaikki + poista, lajittelu rivin tai p'#228'iv'#228'm'#228#228'r'#228'n mukaan,'#13#10'    p'#228'iv'#228
+        + 'm'#228#228'r'#228'alue Alkaen/P'#228#228'ttyen (Esc tyhjent'#228#228'), vie TXT/CSV, Kysy AI:lta, v'
+        + 'ie legendan mukaan,'#13#10'    sivutettu RAM-turvallinen esikatselu suurille'
+        + ' tiedostoille.'#13#10'  Diff kahden tiedoston v'#228'lill'#228': synkronoitu vieritys;'
+        + ' nopea, peruutettava sovellus vasen <-> oikea.'#13#10'  Avustaja: "Mit'#228' seur'
+        + 'aavaksi?" -sirut jokaisen toiminnon j'#228'lkeen; jatkaa siit'#228' mihin j'#228'it.'#13
+        + #10'  Vakaus: globaali poikkeussuoja + UI-jumi / muistivahti.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock2',
+    'UUSIMMAT OMINAISUUDET (v3.0.5.226 '#8211' v3.0.5.232)'#13#10'---------------------'
+        + '------------------------------------------'#13#10'  AI-agentti tiedostoille '
+        + '(Ctrl+Alt+G): valitse tiedostoja/kansioita, kuvaile pyynt'#246', tarkista v'
+        + 'astaus.'#13#10'    Mit'#228#228'n ei kirjoiteta ennen Hyv'#228'ksy-toimintoa; Hyv'#228'ksy / H'
+        + 'ylk'#228#228' / Hyv'#228'ksy kaikki aikarajan sis'#228'll'#228#13#10'    (oletus 20 s, Asetukset '
+        + '> Asetukset). Se laskee, etsii, lukee, muokkaa/lis'#228#228'/poistaa rivej'#228','#13#10
+        + '    anonymisoi ja suorittaa FastFile-toimintoja (korvaa kaikki, jaa, v'
+        + 'ie, suodata...).'#13#10'    SQL tai tavalliset sanat 14 kielell'#228': SELECT / G'
+        + 'ROUP BY / SUM CSV:lle; UPDATE / DELETE / INSERT'#13#10'    muuttuvat ehdotuk'
+        + 'siksi. "not partial" / "exact" = koko sana.'#13#10'    Jokaisella alueella o'
+        + 'n oma palkki (uusi, tyhjenn'#228', kopioi, kysy AI); painikkeet k'#228'yt'#246'ss'#228' va'
+        + 'in kun on sis'#228'lt'#246#228'.'#13#10'  Luodut tiedostot: ikkuna tiedoston avaamiseen, '
+        + 'kansion avaamiseen tai polun kopiointiin; "Viimeksi luotu tiedosto" av'
+        + 'aa sen uudelleen.'#13#10'  Anonymisoi (Ctrl+Alt+D tai koko tiedosto): saman '
+        + 'tyyppist'#228' ja pituista tekoaineistoa; esikatselu; kumoa.'#13#10'  Istuntohist'
+        + 'oria: kaksoisnapsauta tapahtumaa = t'#228'ydet rivit ennen/j'#228'lkeen, kent'#228't,'
+        + ' vie TXT/CSV/JSON.'#13#10'  Mukautettu PPI ty'#246'kalupalkissa: UI-skaala ajon a'
+        + 'ikana, synkronoitu tilapalkin zoomin kanssa.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock3',
+    'UUSIMMAT OMINAISUUDET (v3.0.5.233 '#8211' v3.0.5.239)'#13#10'---------------------'
+        + '------------------------------------------'#13#10'  Nopea rivimuokkaus (32 M'
+        + 'B:sta): lis'#228#228', korvaa ja poista rivihakemiston kautta'#13#10'    (paikallaan'
+        + ', siirto tai uudelleenkirjoitus). Palautusloki palauttaa tiedoston, jo'
+        + 's sovellus keskeytyy kesken muokkauksen.'#13#10'  Ennen valittujen rivien ta'
+        + 'llennusta ennen/j'#228'lkeen-lista n'#228'ytt'#228#228' vain muutokset.'#13#10'  Rivieditori '#8212
+        + ' Poimi: numerot, s'#228'hk'#246'postit, p'#228'iv'#228'm'#228#228'r'#228't, sarakkeet, CPF tai oma rege'
+        + 'x.'#13#10'  Python: lyhyt esikatselu (ok / skip / error) ennen t'#228'ytt'#228' ajoa.'#13
+        + #10'  Win64: rinnakkainen rivihakemisto 128 MB:sta, rajallisella muistill'
+        + 'a.'#13#10'  L'#228'hdetarkistus: JSON, HTML ja SQL FastFilen sis'#228'll'#228'; Java, Go ja'
+        + ' C# jo'#13#10'    t'#228'll'#228' PC:ll'#228' olevalla k'#228#228'nt'#228'j'#228'll'#228'. "L'#228'hdekoodi AI:lla" sel'
+        + 'itt'#228#228' luonnin, validoinnin ja korjauksen.'#13#10'  AI-agentti: profiloi joka'
+        + 'isen tiedoston, ymm'#228'rt'#228#228' nime'#228'm'#228'si tiedostot (14 kielt'#228')'#13#10'    ja voi a'
+        + 'jaa Python-makron jokaisella rivill'#228' (esikatselu; alkuper'#228'inen tiedost'
+        + 'o s'#228'ilyy).'#13#10'  Kansionvalitsin: useita kansioita eri paikoista.'#13#10'  "Mit'
+        + #228' voin tehd'#228'?" Avustajassa, AI-agentissa ja AI-diagnostiikassa (F1 my'#246
+        + 's siell'#228').'#13#10'  AI-diagnostiikka (Ctrl+Alt+U): vain-luku-erikoisasiantun'
+        + 'tijat '#8212' inventaario, rakenne, sis'#228'lt'#246','#13#10'    SQL, yksityisyys ja toimin'
+        + 'not. K'#228'yt'#228' AI-agenttia muokkausten soveltamiseen.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock4',
+    'UUSIMMAT OMINAISUUDET (v3.0.5.245 '#8211' v3.0.5.249)'#13#10'---------------------'
+        + '------------------------------------------'#13#10'  Etsi, Suodatin ja Kirjan'
+        + 'merkit aukeavat kompaktisti. Alareunan kahva muuttaa kokoa.'#13#10'    Sulje'
+        + ' on Tyhjenn'#228'-painikkeen vieress'#228'.'#13#10'  glob/grep s'#228'ilytt'#228#228' viimeisimm'#228't '
+        + 'komennot ja lis'#228#228' esimerkkej'#228'. Tyhj'#228' pyynt'#246' pysyy tyhj'#228'n'#228'.'#13#10'  Kysy AI '
+        + 'aukeaa k'#228'ytt'#228'm'#228'si sivun viereen.'#13#10'  Jaa rivien mukaan n'#228'ytt'#228#228' alueen e'
+        + 'sikatselun ja samat rivyty'#246'kalut kuin tiedostolista.'#13#10'    Tallennus sk'
+        + 'annaa tiedoston ja kirjoittaa uuden. Aluetta ei ladata listaksi.'#13#10'  As'
+        + 'etukset n'#228'ytt'#228#228' kunkin rivirajan ja sen oletuksen. Hiiren rulla vierit'
+        + 't'#228#228' sivua.'#13#10'    Anonymisoi rajaa valinnan tai alueen. Koko tiedostoa e'
+        + 'i rajata.'#13#10'  Kieliluettelo asettaa viimeisimm'#228't kielet ensin. Kirjoita'
+        + ' etsi'#228'ksesi.'#13#10'    Lista sulkeutuu uuden kielen latautuessa.'#13#10'  Suodati'
+        + 'n ja rivieditori n'#228'ytt'#228'v'#228't regex-esimerkkej'#228'.'#13#10'    Kysy AI ehdottaa ma'
+        + 'llia eik'#228' suorita sit'#228'.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock5',
+    'UUSIMMAT OMINAISUUDET (v3.0.5.250 '#8211' v3.0.5.254)'#13#10'---------------------'
+        + '------------------------------------------'#13#10'  Oikealta vasemmalle: ara'
+        + 'bia ja heprea peilaavat lomakkeet, dialogit ja ohjaimet'#13#10'    koodissa.'
+        + ' Tiedoston teksti pysyy vasemmalta oikealle.'#13#10'  K'#228'ytt'#246'liittym'#228'ss'#228' on 1'
+        + '6 kielt'#228'. Arabia ja heprea on k'#228#228'nnetty kokonaan.'#13#10'  Kieliluettelo n'#228'y'
+        + 'tt'#228#228' lipun kunkin nimen vieress'#228'.'#13#10'  Arabiassa ja hepreassa tiedostoli'
+        + 'stan sarakkeet luetaan oikealta.'#13#10'    Rivinumero on oikealla. Teksti k'
+        + 'ussakin solussa pysyy vasemmalta oikealle.'#13#10'  Kielivalikko levenee, jo'
+        + 'tta nimi ei katkea.'#13#10'  Yht'#228' suuret osat on ty'#246'kalupalkissa heti Yhdist'
+        + #228' tiedostot -toiminnon j'#228'lkeen (Ctrl+Shift+P).'#13#10'    Se avaa Jaa tiedos'
+        + 'to yht'#228' suuriin osiin.'#13#10);
+end;
+
+procedure AddFinnishPart15(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'FF_HELP.Win64IndexBlock',
+    'WIN64-IS'#196'NT'#196' JA NOPEA INDEKSOINTI (v3.0.3+)'#13#10'-------------------------'
+        + '--------------------------------------'#13#10'  FastFile rakentuu Win32:lle '
+        + '(Delphi 7) ja Win64:lle (Delphi 10.4.2+).'#13#10'  Tuloste: Build\Win32\ tai'
+        + ' Build\Win64\ projektin vieress'#228'; Skins-'#13#10'  kansio kopioidaan per alus'
+        + 'ta k'#228#228'nn'#246'ksess'#228'.'#13#10'  F5 / Lue: SWAR-rivinvaihtoskannaus (8 tavun lohkot'
+        + '; 32 tavun leve'#228' polku'#13#10'  kun AVX2 on k'#228'ytett'#228'viss'#228'). Tiedostot > 2 GB'
+        + ' k'#228'ytt'#228'v'#228't vain harvaa temp_ckpt.txt:'#228#228'.'#13#10'  Latauspeitteen edistyminen'
+        + ' p'#228'ivittyy tasaisesti (~22 Hz) nopeissa skannauksissa.'#13#10'  Oikean yl'#228'ku'
+        + 'lman toimintojen aikaloki listaa kunkin valmistuneen toiminnon (luku,'#13
+        + #10'  jako, yhdist'#228'minen jne.) kuluneella ajalla; Win64 k'#228'ytt'#228#228' tavallist'
+        + 'a ListBoxia.'#13#10'  Katso uLineIndexScan.pas ja CHANGELOG_IMPLEMENTACOES.m'
+        + 'd (3.0.3.x).');
+  Put(True,
+    'Failed to delete lines: %s',
+    'Rivien poisto ep'#228'onnistui: %s');
+  Put(True,
+    'Fast mode for large files (auto range above %d MB)',
+    'Nopea tila suurille tiedostoille (automaattinen alue yli %d MB)');
+  Put(True,
+    'FastFile - Help & Feature Reference',
+    'FastFile - Ohje ja ominaisuusviite');
+  Put(True,
+    'FastFile - Huge text file processor',
+    'FastFile - Suurten tekstitiedostojen k'#228'sittelij'#228);
+  Put(True,
+    'FastFile - Version History',
+    'FastFile - Versiohistoria');
+  Put(True,
+    'FastFile AI - Version ',
+    'FastFile AI - Versio ');
+  Put(True,
+    'FastFile AI connected',
+    'FastFile AI yhdistetty');
+  Put(True,
+    'FastFile AI engine not found.',
+    'AI Chat Python -lis'#228'osaa (ConsumerAI.exe) ei l'#246'ydy.');
+  Put(True,
+    'FastFile auto-generated regex examples (dynamic '#8212' from file content):',
+    'FastFilen automaattisesti luomat regex-esimerkit (dynaamiset '#8212' tiedost'
+        + 'on sis'#228'll'#246'st'#228'):');
+  Put(True,
+    'FastFile is a powerful tool designed specially to read and edit huge t'
+        + 'ext files from Windows O.S. It is suitable not only for very large fil'
+        + 'es, but can be files of any size.'#13#10#9#13#10'With this software you can perfo'
+        + 'rm CRUD (Create, read, update and delete) line operations for large fi'
+        + 'les.     '#13#10#13#10'Freeware. You can use it freely without restrictions.'#13#10'Th'
+        + 'is software is distributed under the Mozilla Public License 1.0 (MPL-1'
+        + '.0).',
+    'FastFile on tehokas ty'#246'kalu, joka on suunniteltu erityisesti suurten t'
+        + 'ekstitiedostojen lukemiseen ja muokkaamiseen Windows-k'#228'ytt'#246'j'#228'rjestelm'#228
+        + 'ss'#228'. Se sopii paitsi hyvin suurille tiedostoille my'#246's mink'#228' kokoisille'
+        + ' tahansa.'#13#10#9#13#10'T'#228'll'#228' ohjelmalla voit tehd'#228' CRUD-toimintoja (luonti, luk'
+        + 'u, p'#228'ivitys ja poisto) riveille suurissa tiedostoissa.     '#13#10#13#10'Ilmaiso'
+        + 'hjelma. Voit k'#228'ytt'#228#228' sit'#228' vapaasti ilman rajoituksia.'#13#10'T'#228'm'#228' ohjelmisto'
+        + ' jaetaan Mozilla Public License 1.0 (MPL-1.0) -lisenssill'#228'.');
+  Put(True,
+    'Fil&ter / Grep',
+    'Suoda&tin / Grep');
+  Put(True,
+    'File Info',
+    'Tiedoston tiedot');
+  Put(True,
+    'File Line Editor',
+    'Tiedoston rivieditori');
+  Put(True,
+    'File Name',
+    'Tiedostonimi');
+  Put(True,
+    'File Name (Separate multiple names with semicolon):',
+    'Tiedostonimi (erota useat nimet puolipisteell'#228'):');
+  Put(True,
+    'File changed on disk',
+    'Tiedosto muuttui levyll'#228);
+  Put(True,
+    'File changed on disk since load',
+    'Tiedostoa on muutettu levyll'#228' sen j'#228'lkeen, kun se ladattiin t'#228'h'#228'n.'#13#10#13#10
+        + 'Kyll'#228' = Lataa uudelleen levylt'#228' ja peruuta t'#228'm'#228' toiminto.'#13#10'Ei = Ohita '
+        + 'ja jatka (korvaa tiedosto levyll'#228').'#13#10'Peruuta = Keskeyt'#228'.');
+  Put(True,
+    'File created successfully: %s',
+    'Tiedosto luotu onnistuneesti: %s');
+  Put(True,
+    'File created:',
+    'Tiedosto luotu:');
+  Put(True,
+    'File details',
+    'Tiedoston tiedot');
+  Put(True,
+    'File mask',
+    'Tiedostomaski');
+  Put(True,
+    'File name:',
+    'Tiedostonimi:');
+  Put(True,
+    'File not found.',
+    'Tiedostoa ei l'#246'ydy.');
+  Put(True,
+    'File not found:',
+    'Tiedostoa ei l'#246'ydy:');
+  Put(True,
+    'File not loaded',
+    'Tiedostoa ei ole ladattu');
+  Put(True,
+    'File path:',
+    'Tiedostopolku:');
+  Put(True,
+    'File saved with success.',
+    'Tiedosto tallennettu onnistuneesti.');
+  Put(True,
+    'File size',
+    'Tiedoston koko');
+  Put(True,
+    'File toolbar',
+    'Tiedoston ty'#246'kalupalkki');
+  Put(True,
+    'File: ',
+    'Tiedosto: ');
+  Put(True,
+    'FileBar.ClearFileNameHint',
+    'Tyhjenn'#228' tiedostonimi ja sen lukuv'#228'limuisti (seuraava luku lataa alust'
+        + 'a)');
+  Put(True,
+    'FileBar.ClearUiHint',
+    'Tyhjenn'#228' k'#228'ytt'#246'liittym'#228' (ei poista tiedostoa levylt'#228')');
+  Put(True,
+    'FileBar.EmptyClickMRUHint',
+    'Napsauta valitaksesi viimeaikaisen tiedoston');
+  Put(True,
+    'FileBar.MRUHint',
+    'Viimeisimm'#228't tiedostot (MRU) (Ctrl+R)');
+  Put(True,
+    'FileBar.ReadFileF5Hint',
+    'Lue / Lataa (F5)');
+  Put(True,
+    'FileBar.RefreshViewHint',
+    'P'#228'ivit'#228' listan'#228'kym'#228' (s'#228'ilyt'#228' kumous)');
+  Put(True,
+    'FileBar.ReloadFromDiskHint',
+    'Lataa uudelleen levylt'#228' (tyhjenn'#228' v'#228'limuisti ja avaa uudelleen)');
+  Put(True,
+    'FileFormat.CS.Arabic',
+    'arabia');
+  Put(True,
+    'FileFormat.CS.Baltic',
+    'balttilainen');
+  Put(True,
+    'FileFormat.CS.CJK',
+    'kiina/japani/korea');
+  Put(True,
+    'FileFormat.CS.Central',
+    'keskieurooppalainen');
+  Put(True,
+    'FileFormat.CS.Cyrillic',
+    'kyrillinen');
+  Put(True,
+    'FileFormat.CS.Greek',
+    'kreikka');
+  Put(True,
+    'FileFormat.CS.Hebrew',
+    'heprea');
+  Put(True,
+    'FileFormat.CS.Thai',
+    'thai');
+  Put(True,
+    'FileFormat.CS.Turkish',
+    'turkki');
+  Put(True,
+    'FileFormat.CS.Vietnamese',
+    'vietnam');
+  Put(True,
+    'FileFormat.CS.Western',
+    'l'#228'nsieurooppalainen');
+  Put(True,
+    'FileFormat.Converting',
+    'Muunnetaan tiedostomuotoa...');
+  Put(True,
+    'FileFormat.DefaultEOL.Saved',
+    'Oletusrivinp'#228#228'te asetettu arvoon %s.');
+  Put(True,
+    'FileFormat.DefaultEnc.Saved',
+    'Uusien tiedostojen oletuskoodaus asetettu arvoon %s.');
+  Put(True,
+    'FileFormat.DiskSpaceOp',
+    'Tiedostomuodon muunnos');
+  Put(True,
+    'FileFormat.EOL.Confirm',
+    'Muunnetaanko koko tiedosto muotoon %s? T'#228'm'#228' kirjoittaa tiedoston uudel'
+        + 'leen levylle.');
+  Put(True,
+    'FileFormat.EOL.ConvertMac',
+    'Muunna Macintosh (CR) -muotoon');
+  Put(True,
+    'FileFormat.EOL.ConvertUnix',
+    'Muunna UNIX (LF) -muotoon');
+  Put(True,
+    'FileFormat.EOL.ConvertWindows',
+    'Muunna Windows (CR LF) -muotoon');
+  Put(True,
+    'FileFormat.EOL.Done',
+    'Rivinp'#228#228'tteet muunnettu muotoon %s.');
+  Put(True,
+    'FileFormat.EOL.Mac',
+    'Macintosh (CR)');
+  Put(True,
+    'FileFormat.EOL.Mixed',
+    'Sekalaiset rivinp'#228#228'tteet');
+  Put(True,
+    'FileFormat.EOL.Title',
+    'Rivinp'#228#228'tteet');
+  Put(True,
+    'FileFormat.EOL.Unix',
+    'UNIX (LF)');
+  Put(True,
+    'FileFormat.EOL.Unknown',
+    'Rivinp'#228#228'tteet');
+  Put(True,
+    'FileFormat.EOL.Windows',
+    'Windows (CR LF)');
+  Put(True,
+    'FileFormat.Enc.CharacterSets',
+    'Merkist'#246't');
+  Put(True,
+    'FileFormat.Enc.Confirm',
+    'Muunnetaanko koko tiedosto muotoon %s? T'#228'm'#228' kirjoittaa tiedoston uudel'
+        + 'leen levylle.');
+  Put(True,
+    'FileFormat.Enc.ConvertCharacterSets',
+    'Muunna merkist'#246#246'n');
+  Put(True,
+    'FileFormat.Enc.ConvertTo',
+    'Muunna muotoon');
+  Put(True,
+    'FileFormat.Enc.Done',
+    'Koodaus muunnettu muotoon %s.');
+  Put(True,
+    'FileFormat.Enc.EncodeIn',
+    'Koodaa muodossa');
+  Put(True,
+    'FileFormat.Enc.HintRightClick',
+    'Napsauta hiiren kakkospainikkeella: Koodaa muodossa / Muunna muotoon ('
+        + 'kuten Notepad++).');
+  Put(True,
+    'FileFormat.Enc.InAnsi',
+    'Koodaa ANSI-muodossa');
+  Put(True,
+    'FileFormat.Enc.InUtf16BE',
+    'Koodaa UTF-16 BE BOM -muodossa');
+  Put(True,
+    'FileFormat.Enc.InUtf16LE',
+    'Koodaa UTF-16 LE BOM -muodossa');
+  Put(True,
+    'FileFormat.Enc.InUtf32BE',
+    'Koodaa UTF-32 BE BOM -muodossa');
+  Put(True,
+    'FileFormat.Enc.InUtf32LE',
+    'Koodaa UTF-32 LE BOM -muodossa');
+  Put(True,
+    'FileFormat.Enc.InUtf8',
+    'Koodaa UTF-8-muodossa');
+  Put(True,
+    'FileFormat.Enc.InUtf8Bom',
+    'Koodaa UTF-8 BOM -muodossa');
+  Put(True,
+    'FileFormat.Enc.Title',
+    'Koodaus');
+  Put(True,
+    'FileFormat.Enc.ToAnsi',
+    'Muunna ANSI-muotoon');
+  Put(True,
+    'FileFormat.Enc.ToUtf16BE',
+    'Muunna UTF-16 BE BOM -muotoon');
+  Put(True,
+    'FileFormat.Enc.ToUtf16LE',
+    'Muunna UTF-16 LE BOM -muotoon');
+  Put(True,
+    'FileFormat.Enc.ToUtf32BE',
+    'Muunna UTF-32 BE BOM -muotoon');
+  Put(True,
+    'FileFormat.Enc.ToUtf32LE',
+    'Muunna UTF-32 LE BOM -muotoon');
+  Put(True,
+    'FileFormat.Enc.ToUtf8',
+    'Muunna UTF-8-muotoon');
+  Put(True,
+    'FileFormat.Enc.ToUtf8Bom',
+    'Muunna UTF-8 BOM -muotoon');
+  Put(True,
+    'FileFormat.Encoding.HintRightClick',
+    'Napsauta hiiren kakkospainikkeella: tiedostomuotovalikko (muunna kooda'
+        + 'us / rivinp'#228#228'tteet).');
+  Put(True,
+    'FileFormat.Error.Failed',
+    'Muunnos ep'#228'onnistui.');
+  Put(True,
+    'FileFormat.Error.NoFile',
+    'Tiedostoa ei ole t'#228'll'#228' hetkell'#228' ladattu.');
+  Put(True,
+    'FileFormat.Menu.DefaultEOL',
+    'Oletus&rivinp'#228#228'te uusille tiedostoille');
+  Put(True,
+    'FileFormat.Menu.DefaultNewEnc',
+    'Oletus&koodaus uusille tiedostoille');
+  Put(True,
+    'FileFormat.Menu.EOLConversion',
+    'EOL-&muunnos');
+  Put(True,
+    'FileFormat.Menu.Encoding',
+    '&Koodaus');
+  Put(True,
+    'FileFormat.Menu.NewFile',
+    '&Uusi tiedosto...');
+  Put(True,
+    'FileFormat.NewFile.Created',
+    'Luotu %s (%s, %s).');
+  Put(True,
+    'FileSearch.GalleryGroup',
+    'Etsi');
+  Put(True,
+    'FileSearch.HideBookmarks',
+    'Piilota kirjanmerkit');
+  Put(True,
+    'FileSearch.HideFilter',
+    'Piilota Suodatin / Grep');
+  Put(True,
+    'FileSearch.HideFind',
+    'Piilota Etsi (esiintym'#228't)');
+  Put(True,
+    'FileSearch.MoreTools',
+    'Haku-'#13#10'ty'#246'kalut');
+end;
+
+procedure AddFinnishPart16(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'FileSearch.MoreToolsHint',
+    'N'#228'yt'#228' tai piilota Etsi- ja Suodatin/Grep-paneelit');
+  Put(True,
+    'FileSearch.ShowBookmarks',
+    'N'#228'yt'#228' kirjanmerkit');
+  Put(True,
+    'FileSearch.ShowFilter',
+    'N'#228'yt'#228' Suodatin / Grep');
+  Put(True,
+    'FileSearch.ShowFind',
+    'N'#228'yt'#228' Etsi (esiintym'#228't)');
+  Put(True,
+    'FileSearch.ToggleBookmarks',
+    'Kirjanmerkit');
+  Put(True,
+    'FileSearch.ToggleFilter',
+    'Suodatin / Grep');
+  Put(True,
+    'FileSearch.ToggleFind',
+    'Etsi (esiintym'#228't)');
+  Put(True,
+    'Filename',
+    'Tiedostonimi');
+  Put(True,
+    'Files',
+    'Tiedostot');
+  Put(True,
+    'Files found',
+    'Tiedostoja l'#246'ytyi');
+  Put(True,
+    'Files ready: %d',
+    'Tiedostoja valmiina: %d');
+  Put(True,
+    'Files:',
+    'Tiedostot:');
+  Put(True,
+    'Filter / Grep',
+    'Suodatin / Grep');
+  Put(True,
+    'Filter / Grep active:',
+    'Suodatin / Grep aktiivinen:');
+  Put(True,
+    'Filter already complete (no more hits to load).',
+    'Suodatin on jo valmis (ei enemp'#228#228' osumia ladattavaksi).');
+  Put(True,
+    'Filter by specialty keywords in',
+    'Suodata erikoisalan avainsanoilla kohteessa');
+  Put(True,
+    'Filter cleared.',
+    'Suodatin tyhjennetty.');
+  Put(True,
+    'Filter has no results to export.',
+    'Suodattimella ei ole viet'#228'vi'#228' tuloksia.');
+  Put(True,
+    'Filter hit file missing; restart the filter.',
+    'Suodattimen osumatiedosto puuttuu; k'#228'ynnist'#228' suodatin uudelleen.');
+  Put(True,
+    'Filter hit limit reached. Narrow the pattern or index the file.',
+    'Suodattimen osumaraja saavutettu. Pienenn'#228' mallia tai indeksoi tiedost'
+        + 'o.');
+  Put(True,
+    'Filter is partial. Continue loading more hits?',
+    'Suodatin on osittainen. Jatketaanko lis'#228'osumien lataamista?');
+  Put(True,
+    'Filter is still running...',
+    'Suodatin on viel'#228' k'#228'ynniss'#228'...');
+  Put(True,
+    'Filter keeps matching lines only - tune digit counts for %s after prof'
+        + 'iling real values.',
+    'Suodatin s'#228'ilytt'#228#228' vain t'#228'sm'#228#228'v'#228't rivit - s'#228#228'd'#228' numerom'#228#228'ri'#228' kohteelle'
+        + ' %s todellisten arvojen profiloinnin j'#228'lkeen.');
+  Put(True,
+    'Filter keeps only lines where the regex matches - combine with positio'
+        + 'nal ^.{n} if you must anchor to a column.',
+    'Suodatin s'#228'ilytt'#228#228' vain rivit, joissa regex t'#228'sm'#228#228' - yhdist'#228' sijaintii'
+        + 'n ^.{n}, jos sinun on ankkuroitava sarakkeeseen.');
+  Put(True,
+    'Filter match mode: Yes = line starts with, No = contains, OK = regex ('
+        + 'VBScript). Cancel = abort.',
+    'Suodattimen t'#228'sm'#228'ystila: Kyll'#228' = rivi alkaa, Ei = sis'#228'lt'#228#228', OK = regex'
+        + ' (VBScript). Peruuta = keskeyt'#228'.');
+  Put(True,
+    'Filter '#8212' names with particle De/Da/Dos/Das (case-sensitive spacing). R'
+        + 'egex:',
+    'Suodatin '#8212' nimet partikkelilla De/Da/Dos/Das (kirjainkoon erottelu v'#228'l'
+        + 'eiss'#228'). Regex:');
+  Put(True,
+    'Filter '#8212' newest_review_date in October 2022. Regex:',
+    'Suodatin '#8212' newest_review_date lokakuussa 2022. Regex:');
+  Put(True,
+    'Filter '#8212' price is '#8220'Consultar valores'#8221'. Regex:',
+    'Suodatin '#8212' hinta on "Consultar valores". Regex:');
+  Put(True,
+    'Filter '#8212' reviews count has 3+ digits before review date (100+). Regex:',
+    'Suodatin '#8212' arvostelum'#228#228'r'#228'ss'#228' on v'#228'hint'#228#228'n 3 numeroa ennen arvostelup'#228'i'
+        + 'v'#228#228' (100+). Regex:');
+  Put(True,
+    'Filter '#8212' title field is Dr. or Dra. Regex:',
+    'Suodatin '#8212' tittelikentt'#228' on Dr. tai Dra. Regex:');
+  Put(True,
+    'Filter '#8212' title field is Prof. Regex:',
+    'Suodatin '#8212' tittelikentt'#228' on Prof. Regex:');
+  Put(True,
+    'Filter/extract URLs from',
+    'Suodata/poimi URL-osoitteet kohteesta');
+  Put(True,
+    'Filter: %d hits (partial) - Continue for more',
+    'Suodatin: %d osumaa (osittainen) - Jatka saadaksesi lis'#228#228);
+  Put(True,
+    'Filter: %d/%d',
+    'Suodatin: %d/%d');
+  Put(True,
+    'Filter: &Continue (more hits)',
+    'Suodatin: &Jatka (lis'#228#228' osumia)');
+  Put(True,
+    'Filter: &auto detect mode',
+    'Suodatin: &automaattinen tunnistustila');
+  Put(True,
+    'Filter: &automatic match case',
+    'Suodatin: &automaattinen kirjainkoon erottelu');
+  Put(True,
+    'Filter: auto detect mode',
+    'Suodatin: automaattinen tunnistustila');
+  Put(True,
+    'Filter: automatic match case',
+    'Suodatin: automaattinen kirjainkoon erottelu');
+  Put(True,
+    'Filter: i&gnore case',
+    'Suodatin: &ohita kirjainkoko');
+  Put(True,
+    'Filter: ignore case',
+    'Suodatin: ohita kirjainkoko');
+  Put(True,
+    'Filter: line &starts with',
+    'Suodatin: rivi &alkaa');
+  Put(True,
+    'Filter: line count too large for filter memory (32-bit limit).',
+    'Suodatin: rivim'#228#228'r'#228' liian suuri suodattimen muistille (32-bittinen raj'
+        + 'a).');
+  Put(True,
+    'Filter: line starts with',
+    'Suodatin: rivi alkaa');
+  Put(True,
+    'Filter: lines &contain text',
+    'Suodatin: rivit &sis'#228'lt'#228'v'#228't tekstin');
+  Put(True,
+    'Filter: lines contain text',
+    'Suodatin: rivit sis'#228'lt'#228'v'#228't tekstin');
+  Put(True,
+    'Filter: match c&ase',
+    'Suodatin: kirjainkoon e&rottelu');
+  Put(True,
+    'Filter: match case',
+    'Suodatin: kirjainkoon erottelu');
+  Put(True,
+    'Filter: regular e&xpression',
+    'Suodatin: s'#228#228'nn'#246'llinen la&useke');
+  Put(True,
+    'Filter: regular expression',
+    'Suodatin: s'#228#228'nn'#246'llinen lauseke');
+  Put(True,
+    'Filter: use line prefix match? (Yes = line starts with text, No = cont'
+        + 'ains anywhere)',
+    'Suodatin: k'#228'ytet'#228#228'nk'#246' rivin etuliitet'#228'sm'#228'yst'#228'? (Kyll'#228' = rivi alkaa tek'
+        + 'still'#228', Ei = sis'#228'lt'#228#228' miss'#228' tahansa)');
+  Put(True,
+    'FilterBar.Apply',
+    'K'#228'yt'#228);
+  Put(True,
+    'FilterBar.ApplyHint',
+    'K'#228'yt'#228' / tee suodatin uudelleen ruudun tekstill'#228' (Enter)');
+  Put(True,
+    'FilterBar.AskCheckedOrAll',
+    'Suodattimen osumissa on %d merkitty'#228' rivi'#228' (%d yhteens'#228').'#13#10'Kyll'#228' = vai'
+        + 'n merkityt'#13#10'Ei = kaikki suodatetut osumat'#13#10'Peruuta = keskeyt'#228);
+  Put(True,
+    'FilterBar.AskSelectedOrAll',
+    'Valittuja rivej'#228' on %d ja suodatettuja osumia %d.'#13#10'Kyll'#228' = vain valitu'
+        + 't'#13#10'Ei = kaikki suodatetut osumat'#13#10'Peruuta = keskeyt'#228);
+  Put(True,
+    'FilterBar.Case.Off',
+    'aa');
+  Put(True,
+    'FilterBar.Case.On',
+    'Aa');
+  Put(True,
+    'FilterBar.Clear',
+    'Tyhjenn'#228);
+  Put(True,
+    'FilterBar.ClearHint',
+    'Tyhjenn'#228' aktiivinen suodatin (s'#228'ilytt'#228#228' tekstin uudelleensovellusta va'
+        + 'rten)');
+  Put(True,
+    'FilterBar.CloseHint',
+    'Sulje suodatinpaneeli');
+  Put(True,
+    'FilterBar.ConfirmCopyAll',
+    'Kopioidaanko kaikki %d suodatettua rivi'#228' leikep'#246'yd'#228'lle?');
+  Put(True,
+    'FilterBar.ConfirmExportAll',
+    'Vied'#228#228'nk'#246' kaikki %d suodatettua rivi'#228' tiedostoon?');
+  Put(True,
+    'FilterBar.Continue',
+    'Jatka');
+  Put(True,
+    'FilterBar.ContinueHint',
+    'Lataa lis'#228#228' osumia (osittainen suoratoistosuodatin)');
+  Put(True,
+    'FilterBar.Copy',
+    'Kopioi');
+  Put(True,
+    'FilterBar.CopyHint',
+    'Kopioi suodatintulokset leikep'#246'yd'#228'lle (kaikki osumat tai vain ruudukon'
+        + ' valinta)');
+  Put(True,
+    'FilterBar.EmptyPattern',
+    'Anna suodatinmalli ennen k'#228'ytt'#246#228'.');
+  Put(True,
+    'FilterBar.Export',
+    'Vie');
+  Put(True,
+    'FilterBar.ExportHint',
+    'Vie suodatintulokset tiedostoon (kaikki osumat tai vain ruudukon valin'
+        + 'ta)');
+  Put(True,
+    'FilterBar.Hide',
+    'Piilota');
+  Put(True,
+    'FilterBar.HideHint',
+    'Piilota t'#228'm'#228' palkki (suodatin pysyy aktiivisena). Napsauta kaistaa tai'
+        + ' Ctrl+L n'#228'ytt'#228#228'ksesi uudelleen.');
+  Put(True,
+    'FilterBar.Mode.Contains',
+    'Sis'#228'lt'#228#228);
+  Put(True,
+    'FilterBar.Mode.Prefix',
+    'Etuliite');
+  Put(True,
+    'FilterBar.Mode.Regex',
+    'Regex');
+  Put(True,
+    'FilterBar.NoResults',
+    'Ei suodatintuloksia viet'#228'v'#228'ksi tai kopioitavaksi.');
+  Put(True,
+    'FilterBar.PatternHint',
+    'Kirjoita suodatinmalli (Enter = K'#228'yt'#228').');
+  Put(True,
+    'FilterBar.PeekHint',
+    'Suodatin aktiivinen '#8212' napsauta n'#228'ytt'#228#228'ksesi suodatinpalkin');
+  Put(True,
+    'FilterBar.Recent',
+    'Viimeisimm'#228't suodattimet');
+  Put(True,
+    'FilterBar.RecentEmpty',
+    '(ei viel'#228' viimeaikaisia suodattimia)');
+  Put(True,
+    'FilterBar.RecentHint',
+    'Avaa pudotusvalikko 20 viimeisimm'#228'lle suodattimelle.');
+  Put(True,
+    'FilterBar.RecentMore',
+    'N'#228'yt'#228' lis'#228#228);
+  Put(True,
+    'FilterBar.RecentMoreHint',
+    'N'#228'yt'#228' loput viimeisimm'#228't suodattimet');
+  Put(True,
+    'FilterBar.ResizeHint',
+    'Ved'#228' muuttaaksesi suodattimen kokoa. Kaksoisnapsautus vaihtaa oletusko'
+        + 'rkeuden ja puolen ikkunan v'#228'lill'#228'.');
+  Put(True,
+    'FilterBar.Status.Idle',
+    'Kirjoita malli ja paina K'#228'yt'#228' (Enter)');
+  Put(True,
+    'Filtering',
+    'Suodatetaan');
+  Put(True,
+    'Filtering (stream)...',
+    'Suodatetaan (suoratoisto)...');
+  Put(True,
+    'Filtering...',
+    'Suodatetaan...');
+  Put(True,
+    'Find',
+    'Etsi');
+  Put(True,
+    'Find &Next',
+    'Etsi &seuraava');
+  Put(True,
+    'Find Files',
+    'Etsi tiedostoja');
+  Put(True,
+    'Find Next',
+    'Etsi seuraava');
+  Put(True,
+    'Find and &Replace...',
+    'Etsi ja &korvaa...');
+  Put(True,
+    'Find and Replace',
+    'Etsi ja korvaa');
+  Put(True,
+    'Find in &Files...',
+    'Etsi &tiedostoista...');
+  Put(True,
+    'Find rows where the specialty ends with common suffix "ista":',
+    'Etsi rivit, joissa erikoisala p'#228#228'ttyy yleiseen p'#228#228'tteeseen "ista":');
+  Put(True,
+    'Find what:',
+    'Etsi mit'#228':');
+  Put(True,
+    'FindOcc.Assistant.Btn.Find',
+    'Etsi');
+  Put(True,
+    'FindOcc.Assistant.Btn.Replace',
+    'Korvaa');
+  Put(True,
+    'FindOcc.Assistant.FoundSummary',
+    'Etsi l'#246'ysi "%s" rivilt'#228' %d.');
+  Put(True,
+    'FindOcc.Assistant.HitsSummary',
+    'Ker'#228'tty %d t'#228'sm'#228#228'v'#228#228' rivi'#228' listaan.');
+end;
+
+procedure AddFinnishPart17(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'FindOcc.Assistant.NoHits',
+    'Yht'#228#228'n vastaavaa rivi'#228' ei ker'#228'tty.');
+  Put(True,
+    'FindOcc.Assistant.PartialSummary',
+    'Ker'#228'tty %d vastaavaa rivi'#228' toistaiseksi (osittainen '#8212' Lataa lis'#228#228').');
+  Put(True,
+    'FindOcc.Assistant.WhatNext',
+    'Mit'#228' haluat tehd'#228' seuraavaksi?');
+  Put(True,
+    'FindOcc.Clear',
+    'Tyhjenn'#228);
+  Put(True,
+    'FindOcc.ClearHint',
+    'Tyhjenn'#228' haun korostus ja esiintym'#228'luettelo');
+  Put(True,
+    'FindOcc.Cleared',
+    'Haun esiintym'#228't tyhjennetty');
+  Put(True,
+    'FindOcc.CloseHint',
+    'Sulje esiintym'#228'paneeli');
+  Put(True,
+    'FindOcc.Copy',
+    'Kopioi');
+  Put(True,
+    'FindOcc.CopyHint',
+    'Kopioi ker'#228'tyt esiintym'#228't leikep'#246'yd'#228'lle');
+  Put(True,
+    'FindOcc.Export',
+    'Vie');
+  Put(True,
+    'FindOcc.ExportHint',
+    'Vie ker'#228'tyt esiintym'#228't tiedostoon');
+  Put(True,
+    'FindOcc.Go',
+    'Etsi');
+  Put(True,
+    'FindOcc.GoHint',
+    'Etsi seuraava osuma (sama kuin Ctrl+F)');
+  Put(True,
+    'FindOcc.HideListHint',
+    'Piilota osumaluettelo (Etsi-paneeli j'#228#228' auki)');
+  Put(True,
+    'FindOcc.HitLimitReached',
+    'Esiintym'#228'raja saavutettu (5 000 000). Rajaa hakuteksti'#228' tai vie jo ker'
+        + #228'tyt.');
+  Put(True,
+    'FindOcc.HitLineFmt',
+    'Rivi %d: %s');
+  Put(True,
+    'FindOcc.ListPageNextHint',
+    'Esiintym'#228'luettelon seuraava sivu');
+  Put(True,
+    'FindOcc.ListPagePrevHint',
+    'Esiintym'#228'luettelon edellinen sivu');
+  Put(True,
+    'FindOcc.ListPageStatus',
+    'Sivu %d / %d '#183' %d osumaa');
+  Put(True,
+    'FindOcc.LoadMore',
+    'Lataa lis'#228#228);
+  Put(True,
+    'FindOcc.LoadMoreHint',
+    'Lataa seuraava er'#228' ker'#228'ttyj'#228' osumia levylt'#228' (ei F3)');
+  Put(True,
+    'FindOcc.Next',
+    'Seuraava (F3)');
+  Put(True,
+    'FindOcc.NextHint',
+    'Siirry seuraavaan yksitt'#228'iseen osumaan (sama kuin F3)');
+  Put(True,
+    'FindOcc.PeekHint',
+    'N'#228'yt'#228' esiintym'#228'palkki');
+  Put(True,
+    'FindOcc.Prev',
+    'Edellinen (Shift+F3)');
+  Put(True,
+    'FindOcc.PrevHint',
+    'Siirry edelliseen yksitt'#228'iseen osumaan (sama kuin Shift+F3)');
+  Put(True,
+    'FindOcc.ResizeHint',
+    'Ved'#228' muuttaaksesi esiintym'#228'luettelon kokoa. Kaksoisnapsautus vaihtaa o'
+        + 'letuskorkeuden ja puolen ikkunan v'#228'lill'#228'.');
+  Put(True,
+    'FindOcc.SearchHint',
+    'Kirjoita etsitt'#228'v'#228' teksti (sama kuin Ctrl+F) ja paina Enter');
+  Put(True,
+    'FindOcc.ShowListHint',
+    'N'#228'yt'#228' osumaluettelo');
+  Put(True,
+    'FindOcc.Status.Collecting',
+    'Ker'#228't'#228#228'n osumia haulle "%s"...');
+  Put(True,
+    'FindOcc.Status.CollectingShort',
+    'Ker'#228't'#228#228'n osumia...');
+  Put(True,
+    'FindOcc.Status.Idle',
+    'Kirjoita alle tai k'#228'yt'#228' Ctrl+F, sitten Edellinen / Seuraava tai N'#228'yt'#228' '
+        + 'kaikki luettelossa');
+  Put(True,
+    'FindOcc.Status.Offer',
+    'L'#246'ytyi rivilt'#228' %d '#183' "%s" '#8212' Edellinen / Seuraava tai N'#228'yt'#228' kaikki luett'
+        + 'elossa');
+  Put(True,
+    'FindOcc.Status.Partial',
+    '%d osumaa (osittainen) '#183' "%s" '#8212' Lataa lis'#228#228);
+  Put(True,
+    'FindOcc.Status.Ready',
+    '%d osumaa '#183' "%s" (luettelossa)');
+  Put(True,
+    'FindOcc.Status.ReadyToCollect',
+    'Valmis '#183' "%s" '#8212' Edellinen / Seuraava tai N'#228'yt'#228' kaikki luettelossa');
+  Put(True,
+    'FindOcc.Title',
+    'Esiintym'#228't');
+  Put(True,
+    'FindOcc.ViewAllInList',
+    'N'#228'yt'#228' kaikki luettelossa');
+  Put(True,
+    'FindOcc.ViewAllInListHint',
+    'Luo sivutettu osumaluettelo; napsauta rivi'#228' siirty'#228'ksesi tiedostoluett'
+        + 'elossa');
+  Put(True,
+    'Finds complete words ending with the suffix "ista" (e.g., alergista, d'
+        + 'ermatologista).',
+    'Etsii kokonaisia sanoja, jotka p'#228#228'ttyv'#228't p'#228#228'tteeseen "ista" (esim. ale'
+        + 'rgista, dermatologista).');
+  Put(True,
+    'First column / leading token:',
+    'Ensimm'#228'inen sarake / alkutoken:');
+  Put(True,
+    'First line',
+    'Ensimm'#228'inen rivi');
+  Put(True,
+    'First line must be >= 1.',
+    'Ensimm'#228'isen rivin on oltava >= 1.');
+  Put(True,
+    'First line number to export.',
+    'Ensimm'#228'inen viet'#228'v'#228' rivinumero.');
+  Put(True,
+    'First matching lines:',
+    'Ensimm'#228'iset vastaavat rivit:');
+  Put(True,
+    'Fixed layouts often encode record type in the first positions. First c'
+        + 'haracters of line 1 (sample): %s.',
+    'Kiinteiss'#228' asetteluissa tietuetyyppi on usein koodattu alkuasemiin. Ri'
+        + 'vin 1 ensimm'#228'iset merkit (n'#228'yte): %s.');
+  Put(True,
+    'Focus column "%s": keep rows where that field shows three or more digi'
+        + 't characters starting with 1-9 (example: counts 100+).',
+    'Kohdista sarake "%s": s'#228'ilyt'#228' rivit, joissa kyseinen kentt'#228' n'#228'ytt'#228#228' ko'
+        + 'lme tai useampia numeromerkkej'#228' alkaen 1'#8211'9 (esimerkki: m'#228#228'r'#228't 100+).');
+  Put(True,
+    'Folder',
+    'Kansio');
+  Put(True,
+    'Folder saved with success.',
+    'Kansio tallennettu onnistuneesti.');
+  Put(True,
+    'FolderPick.AddSel',
+    'Lis'#228#228' valitut');
+  Put(True,
+    'FolderPick.AddSelHint',
+    'Lis'#228#228' valitut kansiot oikean puolen luetteloon');
+  Put(True,
+    'FolderPick.AddThis',
+    'Lis'#228#228' t'#228'm'#228' kansio');
+  Put(True,
+    'FolderPick.AddThisHint',
+    'Lis'#228#228' avoin kansio oikean puolen luetteloon');
+  Put(True,
+    'FolderPick.AddedN',
+    '%d lis'#228'tty');
+  Put(True,
+    'FolderPick.Already',
+    'On jo luettelossa.');
+  Put(True,
+    'FolderPick.BackHint',
+    'Takaisin');
+  Put(True,
+    'FolderPick.Cancel',
+    'Peruuta');
+  Put(True,
+    'FolderPick.Clear',
+    'Tyhjenn'#228);
+  Put(True,
+    'FolderPick.ClearHint',
+    'Tyhjenn'#228' t'#228'm'#228' luettelo');
+  Put(True,
+    'FolderPick.CloseHint',
+    'Sulje');
+  Put(True,
+    'FolderPick.Confirm',
+    'Lis'#228#228' kansioita');
+  Put(True,
+    'FolderPick.Confirm1',
+    'Lis'#228#228' 1 kansio');
+  Put(True,
+    'FolderPick.ConfirmN',
+    'Lis'#228#228' %d kansiota');
+  Put(True,
+    'FolderPick.DriveCD',
+    'CD tai DVD (%s)');
+  Put(True,
+    'FolderPick.DriveFixed',
+    'Paikallinen levy (%s)');
+  Put(True,
+    'FolderPick.DriveRam',
+    'RAM-levy (%s)');
+  Put(True,
+    'FolderPick.DriveRemote',
+    'Verkko (%s)');
+  Put(True,
+    'FolderPick.DriveRemovable',
+    'Irrotettava (%s)');
+  Put(True,
+    'FolderPick.DriveUnknown',
+    'Asema (%s)');
+  Put(True,
+    'FolderPick.EmptyDir',
+    'Ei alikansioita t'#228#228'll'#228);
+  Put(True,
+    'FolderPick.EmptyHint',
+    'Lis'#228#228'm'#228'si kansiot n'#228'kyv'#228't t'#228#228'll'#228'.');
+  Put(True,
+    'FolderPick.EmptyTitle',
+    'Ei viel'#228' mit'#228#228'n t'#228#228'll'#228);
+  Put(True,
+    'FolderPick.Hidden',
+    'N'#228'yt'#228' piilotetut');
+  Put(True,
+    'FolderPick.HiddenHint',
+    'N'#228'yt'#228' piilotetut kansiot');
+  Put(True,
+    'FolderPick.HintOkSel',
+    'Lis'#228#228' valitut kansiot ja sulje. Ctrl+Enter tekee saman.');
+  Put(True,
+    'FolderPick.HintOkThis',
+    'Lis'#228#228' avoin kansio ja sulje. Ctrl+Enter tekee saman.');
+  Put(True,
+    'FolderPick.HintOkTray',
+    'Lis'#228#228' luettelon kansiot ja sulje. Ctrl+Enter tekee saman.');
+  Put(True,
+    'FolderPick.ListHint',
+    'Ctrl+napsautus valitsee useita. Kaksoisnapsautus avaa.');
+  Put(True,
+    'FolderPick.NeedOne',
+    'Valitse v'#228'hint'#228#228'n yksi kansio.');
+  Put(True,
+    'FolderPick.NoDrives',
+    'Asemia ei l'#246'ytynyt.');
+  Put(True,
+    'FolderPick.NotFound',
+    'Kansiota ei l'#246'ytynyt.');
+  Put(True,
+    'FolderPick.Open',
+    'Avaa');
+  Put(True,
+    'FolderPick.OpenFail',
+    'T'#228't'#228' kansiota ei voitu avata.');
+  Put(True,
+    'FolderPick.OpenHint',
+    'Avaa t'#228'h'#228'n kirjoitettu polku');
+  Put(True,
+    'FolderPick.PathHint',
+    'Kansion polku');
+  Put(True,
+    'FolderPick.Recent',
+    'Viimeisimm'#228't');
+  Put(True,
+    'FolderPick.RecentHint',
+    'Viimeisimm'#228't kansiot: napsauta avataksesi ja lis'#228't'#228'ksesi (Alt+Down). E'
+        + 'tsi, poista, ominaisuudet ja poista kaikki, kuten muissa viimeisimmiss'
+        + #228' luetteloissa.');
+  Put(True,
+    'FolderPick.RecentMissing',
+    'Ei l'#246'ytynyt (poistettu viimeisimmist'#228'):'#13#10'%s');
+  Put(True,
+    'FolderPick.RecentTitle',
+    'Viimeisimm'#228't kansiot');
+  Put(True,
+    'FolderPick.RefreshHint',
+    'P'#228'ivit'#228);
+  Put(True,
+    'FolderPick.Remove',
+    'Poista');
+  Put(True,
+    'FolderPick.RemoveHint',
+    'Poista valitut kansiot t'#228'st'#228' luettelosta');
+  Put(True,
+    'FolderPick.SelectedN',
+    '%d valittu');
+  Put(True,
+    'FolderPick.Sub',
+    'Kaksoisnapsautus avaa kansion. Lis'#228#228' se tai valitsemasi oikean puolen '
+        + 'luetteloon.');
+  Put(True,
+    'FolderPick.ThisPC',
+    'T'#228'm'#228' tietokone');
+  Put(True,
+    'FolderPick.Title.Agent',
+    'Lis'#228#228' kansioita');
+  Put(True,
+    'FolderPick.Title.Hub',
+    'Diagnosoitavat kansiot');
+  Put(True,
+    'FolderPick.ToAdd',
+    'Lis'#228'tt'#228'v'#228't');
+  Put(True,
+    'FolderPick.ToAddN',
+    'Lis'#228'tt'#228'v'#228't (%d)');
+  Put(True,
+    'FolderPick.UpHint',
+    'Yl'#228'kansio');
+end;
+
+procedure AddFinnishPart18(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Folders',
+    'Kansiot');
+  Put(True,
+    'Folders exclude',
+    'Kansioiden poissulku');
+  Put(True,
+    'Folders exclusion',
+    'Kansioiden poissulku');
+  Put(True,
+    'Footer (optional):',
+    'Alatunniste (valinnainen):');
+  Put(True,
+    'Footer Example (XML):',
+    'Alatunniste-esimerkki (XML):');
+  Put(True,
+    'Footer to inject in every split file (optional):',
+    'Jokaiseen jaettuun tiedostoon lis'#228'tt'#228'v'#228' alatunniste (valinnainen):');
+  Put(True,
+    'Footer to inject in every split file (optional, split mode only):',
+    'Jokaiseen jaettuun tiedostoon lis'#228'tt'#228'v'#228' alatunniste (valinnainen, vain'
+        + ' jakotilassa):');
+  Put(True,
+    'For different text mode, provide one line per new line to insert.',
+    'Eri tekstiss'#228' -tilassa anna yksi rivi kutakin lis'#228'tt'#228'v'#228#228' uutta rivi'#228' v'
+        + 'arten.');
+  Put(True,
+    'For your example ^<User\s+id=.*>, the input file must actually have li'
+        + 'nes starting with <User ...>.',
+    'Esimerkiss'#228'si ^<User\s+id=.*> l'#228'hdetiedostossa on oltava rivit, jotka '
+        + 'alkavat merkeill'#228' <User ...>.');
+  Put(True,
+    'Force Zero Scan Mode (Ultra Large Files)',
+    'Pakota nollaskannaustila (eritt'#228'in suuret tiedostot)');
+  Put(True,
+    'Force line-segmented mode (heavy ops)',
+    'Pakota rivisegmentoitu tila (raskaat toiminnot)');
+  Put(True,
+    'Found at byte %s (~line %d)',
+    'L'#246'ytyi tavusta %s (~rivi %d)');
+  Put(True,
+    'Found at line %d',
+    'L'#246'ytyi rivilt'#228' %d');
+  Put(True,
+    'French',
+    'ranska');
+  Put(True,
+    'From line must be >= 1.',
+    'Alkaen-rivin on oltava >= 1.');
+  Put(True,
+    'From line:',
+    'Alkaen rivist'#228':');
+  Put(True,
+    'From:',
+    'Alkaen:');
+  Put(True,
+    'Full Version - Registered'#13#10#13#10'Windows XP .. Windows 11'#13#10'Win32 and Win64',
+    'T'#228'ysi versio '#8211' rekister'#246'ity'#13#10#13#10'Windows XP .. Windows 11'#13#10'Win32 ja Win6'
+        + '4');
+  Put(True,
+    'Generate a file using the selected line range.',
+    'Luo tiedosto valitulla riviv'#228'lill'#228'.');
+  Put(True,
+    'Generating new file by source and target lines',
+    'Luodaan uutta tiedostoa l'#228'hde- ja kohderivien mukaan');
+  Put(True,
+    'Generating splitted files - max 100',
+    'Luodaan jaettuja tiedostoja '#8211' enint'#228#228'n 100');
+  Put(True,
+    'German',
+    'saksa');
+  Put(True,
+    'Go to bottom (Ctrl+End)',
+    'Siirry loppuun (Ctrl+End)');
+  Put(True,
+    'Go to byte offset',
+    'Siirry tavuosoitteeseen');
+  Put(True,
+    'Go to line %d',
+    'Siirry riville %d');
+  Put(True,
+    'Go to line %d (byte %s)',
+    'Siirry riville %d (tavu %s)');
+  Put(True,
+    'Go to top (Ctrl+Home)',
+    'Siirry alkuun (Ctrl+Home)');
+  Put(True,
+    'HTTP(S) URL field:',
+    'HTTP(S)-URL-kentt'#228':');
+  Put(True,
+    'Header (optional):',
+    'Otsikko (valinnainen):');
+  Put(True,
+    'Header Example (CSV):',
+    'Otsikkoesimerkki (CSV):');
+  Put(True,
+    'Header Example (XML):',
+    'Otsikkoesimerkki (XML):');
+  Put(True,
+    'Header to inject in every split file (optional):',
+    'Jokaiseen jaettuun tiedostoon lis'#228'tt'#228'v'#228' otsikko (valinnainen):');
+  Put(True,
+    'Header to inject in every split file (optional, split mode only):',
+    'Jokaiseen jaettuun tiedostoon lis'#228'tt'#228'v'#228' otsikko (valinnainen, vain jak'
+        + 'otilassa):');
+  Put(True,
+    'Help',
+    'Ohje');
+  Put(True,
+    'Help'#13#10'F1',
+    'Ohje'#13#10'F1');
+  Put(True,
+    'Help shortcut: AI Chat (SQL)',
+    'AI-keskustelu (SQL)');
+  Put(True,
+    'Help shortcut: Advanced AI Chat (file)',
+    'Laajennettu AI-keskustelu (tiedosto)');
+  Put(True,
+    'Here are practical Regex examples applied to the data in file %s:',
+    'T'#228'ss'#228' k'#228'yt'#228'nn'#246'n Regex-esimerkkej'#228' tiedoston %s dataan sovellettuna:');
+  Put(True,
+    'Hidden',
+    'Piilotettu');
+  Put(True,
+    'Hide',
+    'Piilota');
+  Put(True,
+    'Hide the watermark?',
+    'Piilotetaanko vesileima?');
+  Put(True,
+    'Hints showing',
+    'Vihjeet n'#228'kyviss'#228);
+  Put(True,
+    'Hist.AppendedAtEnd: +%d chars: "%s"',
+    'lis'#228'tty loppuun +%d merkki'#228': "%s"');
+  Put(True,
+    'Hist.AskAI.GoalLabel',
+    'Mit'#228' haluat tiet'#228#228' valitusta historiasta?');
+  Put(True,
+    'Hist.AskAI.GoalTitle',
+    'Kysy avustajalta');
+  Put(True,
+    'Hist.AskAI.More: %d',
+    '... ja %d muuta merkint'#228#228' ei sis'#228'llytetty.');
+  Put(True,
+    'Hist.AskAI.NeedGoal',
+    'Kirjoita, mit'#228' haluat kysy'#228'.');
+  Put(True,
+    'Hist.AskAI.NeedSel',
+    'Valitse v'#228'hint'#228#228'n yksi merkint'#228' tai merkitse yksi ennen kuin kysyt avu'
+        + 'stajalta.');
+  Put(True,
+    'Hist.AskAI.PipelineNote',
+    'Kysymys istuntohistoriasta:');
+  Put(True,
+    'Hist.AskAI.QuestionTemplate',
+    '%s'#13#10#13#10'Tiedosto: %s'#13#10#13#10'%s');
+  Put(True,
+    'Hist.ChangedAt: at %d: "%s" -> "%s"',
+    'kohdassa %d: "%s" -> "%s"');
+  Put(True,
+    'Hist.ChangedLineItem: %d',
+    'Rivi %d');
+  Put(True,
+    'Hist.ChangedLines: %d',
+    'Muutetut rivit (%d)');
+  Put(True,
+    'Hist.ChangedLinesFiltered: %s %s',
+    'Muutetut rivit (%s / %s)');
+  Put(True,
+    'Hist.ChangedLinesHint',
+    'Rivit, joissa on muokkauksia, lis'#228'yksi'#228', poistoja tai kumoa/tee uudell'
+        + 'een t'#228'ss'#228' istunnossa. Napsauta siirty'#228'ksesi riville ja n'#228'hd'#228'ksesi tapa'
+        + 'htumat. Rivinumerot ovat muokkaushetken mukaisia.');
+  Put(True,
+    'Hist.ChangedLinesIndexing: %d',
+    'Muutetut rivit: indeksoidaan... %d%%');
+  Put(True,
+    'Hist.ChangedRangeItem: %d %d',
+    'Rivit %d'#8211'%d');
+  Put(True,
+    'Hist.ChangedWhenHint',
+    'Oikealla oleva aika on rivin viimeisin tapahtuma (muokkaus, lis'#228'ys, po'
+        + 'isto tai yhdist'#228'minen).');
+  Put(True,
+    'Hist.CheckHint',
+    'Valitse ruutu sis'#228'llytt'#228#228'ksesi merkinn'#228'n. Voit valita useita ja poista'
+        + 'a, vied'#228' tai kysy'#228' AI:lta niist'#228'.');
+  Put(True,
+    'Hist.ChgFirstPage',
+    'Ensimm'#228'inen sivu');
+  Put(True,
+    'Hist.ChgGotoButton',
+    'Siirry');
+  Put(True,
+    'Hist.ChgGotoCue',
+    'Siirry riville...');
+  Put(True,
+    'Hist.ChgGotoHint',
+    'Kirjoita rivinumero ja paina Enter tai Siirry hyp'#228't'#228'ksesi siihen. Tapa'
+        + 'htumat n'#228'ytet'#228#228'n, kun niit'#228' on.');
+  Put(True,
+    'Hist.ChgLastPage',
+    'Viimeinen sivu');
+  Put(True,
+    'Hist.ChgNextPage',
+    'Seuraava sivu');
+  Put(True,
+    'Hist.ChgPageHint',
+    'Nykyinen sivu / sivuja yhteens'#228' (1 000 rivi'#228' sivulla)');
+  Put(True,
+    'Hist.ChgPrevPage',
+    'Edellinen sivu');
+  Put(True,
+    'Hist.ClearChangedHint',
+    'Tyhjenn'#228' t'#228'm'#228'n tiedoston muutoshistoria (muokkaukset, lis'#228'ykset, poist'
+        + 'ot, yhdist'#228'miset)');
+  Put(True,
+    'Hist.ClearConfirm: %s',
+    'Tyhjennet'#228#228'nk'#246' koko muutoshistoria tiedostolle "%s"?'#13#10#13#10'Muutettujen ri'
+        + 'vien luettelo ja kaikki sen tapahtumat poistetaan. Itse tiedostoa ei m'
+        + 'uuteta. T'#228't'#228' ei voi kumota.');
+  Put(True,
+    'Hist.ClearFailed: %s',
+    'Muutoshistoriaa ei voitu tyhjent'#228#228': %s');
+  Put(True,
+    'Hist.ClearNothing',
+    'T'#228'll'#228' tiedostolla ei ole tyhjennett'#228'v'#228#228' muutoshistoriaa.');
+  Put(True,
+    'Hist.ClearTitle',
+    'Tyhjenn'#228' muutoshistoria');
+  Put(True,
+    'Hist.Ctx.AskAI',
+    'Kysy AI:lta...');
+  Put(True,
+    'Hist.Ctx.CheckAll',
+    'Valitse kaikki');
+  Put(True,
+    'Hist.Ctx.ClearDateFilter',
+    'Tyhjenn'#228' p'#228'iv'#228'm'#228#228'r'#228'suodatin');
+  Put(True,
+    'Hist.Ctx.CopyAll',
+    'Kopioi kaikki (n'#228'kyv'#228't)');
+  Put(True,
+    'Hist.Ctx.CopyChecked',
+    'Kopioi valitut kohteet');
+  Put(True,
+    'Hist.Ctx.CopyEvent',
+    'Kopioi tapahtuma');
+  Put(True,
+    'Hist.Ctx.CopyItem',
+    'Kopioi kohde');
+  Put(True,
+    'Hist.Ctx.CopyLineNo',
+    'Kopioi rivinumero');
+  Put(True,
+    'Hist.Ctx.CopyRow',
+    'Kopioi rivin teksti');
+  Put(True,
+    'Hist.Ctx.DeleteChecked',
+    'Poista valitut...');
+  Put(True,
+    'Hist.Ctx.Export',
+    'Vie (TXT / CSV)...');
+  Put(True,
+    'Hist.Ctx.GotoLine',
+    'Siirry riville...');
+  Put(True,
+    'Hist.Ctx.ShowAll',
+    'N'#228'yt'#228' koko historia');
+  Put(True,
+    'Hist.Ctx.ShowDetail',
+    'N'#228'yt'#228' kokonaiset rivit (ennen / j'#228'lkeen)...');
+  Put(True,
+    'Hist.Ctx.ShowInHistory',
+    'N'#228'yt'#228' historiassa');
+  Put(True,
+    'Hist.Ctx.Sort',
+    'Lajittele');
+  Put(True,
+    'Hist.Ctx.ToggleCheck',
+    'Valitse / poista valinta');
+  Put(True,
+    'Hist.Ctx.UncheckAll',
+    'Poista kaikkien valinta');
+  Put(True,
+    'Hist.DateFilter.ChgHint',
+    'N'#228'ytt'#228#228' vain rivit, joiden ensimm'#228'inen tai viimeinen muutos osuu ajanj'
+        + 'aksolle. Esc tyhjent'#228#228' kent'#228'n.');
+  Put(True,
+    'Hist.DateFilter.ClearHint',
+    'Tyhjenn'#228' p'#228'iv'#228'm'#228#228'r'#228'suodatin');
+  Put(True,
+    'Hist.DateFilter.From',
+    'Alkaen');
+  Put(True,
+    'Hist.DateFilter.FromHint',
+    'Alkup'#228'iv'#228' (sis'#228'ltyy). Napsauta painiketta avataksesi kalenterin.');
+  Put(True,
+    'Hist.DateFilter.Invalid',
+    'Virheellinen p'#228'iv'#228'm'#228#228'r'#228'. Esimerkkej'#228': 25/09/2026, 2026-09-25, 21:30.');
+  Put(True,
+    'Hist.DateFilter.JrnHint',
+    'N'#228'ytt'#228#228' vain ajanjakson tapahtumat. Esc tyhjent'#228#228' kent'#228'n.');
+  Put(True,
+    'Hist.DateFilter.NoMatch',
+    'Ei tapahtumia kyseisell'#228' p'#228'iv'#228'll'#228'/ajalla.');
+  Put(True,
+    'Hist.DateFilter.Shown: %d %d',
+    #8212' p'#228'iv'#228'm'#228#228'r'#228'suodatin: %d / %d');
+  Put(True,
+    'Hist.DateFilter.To',
+    'Asti');
+  Put(True,
+    'Hist.DateFilter.ToHint',
+    'Loppup'#228'iv'#228' (sis'#228'ltyy). Jos valitset vain "Alkaen", t'#228'm'#228' t'#228'ytet'#228#228'n sama'
+        + 'lla p'#228'iv'#228'll'#228'.');
+end;
+
+procedure AddFinnishPart19(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Hist.DblClickToggleList',
+    'Kaksoisnapsauta otsikkoa piilottaaksesi/n'#228'ytt'#228#228'ksesi muutettujen rivie'
+        + 'n luettelon.');
+  Put(True,
+    'Hist.DeleteEventsConfirm: %d',
+    'Poistetaanko %d tapahtuma(a) istuntolokista? Tiedosto s'#228'ilyy ennallaan'
+        + '; vain n'#228'm'#228' lokimerkinn'#228't poistetaan.');
+  Put(True,
+    'Hist.DeleteFailed: %s',
+    'Istuntolokia ei voitu p'#228'ivitt'#228#228': %s');
+  Put(True,
+    'Hist.DeleteNone',
+    'Mit'#228#228'n ei ole valittu.');
+  Put(True,
+    'Hist.DeleteSelConfirm: %d',
+    'Poistetaanko istuntolokin merkinn'#228't %d muutetulle riville? Tiedosto s'#228
+        + 'ilyy ennallaan; vain istuntoloki poistetaan.');
+  Put(True,
+    'Hist.DeletedText: %s',
+    'poistettu: %s');
+  Put(True,
+    'Hist.Detail.After: %s',
+    'j'#228'lkeen: %s');
+  Put(True,
+    'Hist.Detail.Appended: %s',
+    'lis'#228'tty: %s');
+  Put(True,
+    'Hist.Detail.AtPos: %d',
+    'sijainti: %d');
+  Put(True,
+    'Hist.Detail.Before: %s',
+    'ennen: %s');
+  Put(True,
+    'Hist.Detail.Deleted: %s',
+    'poistettu: %s');
+  Put(True,
+    'Hist.Detail.ExcerptLimit: %d',
+    '(historia s'#228'ilytt'#228#228' kustakin rivist'#228' vain ensimm'#228'iset %d merkki'#228')');
+  Put(True,
+    'Hist.Detail.FullAfter: %s',
+    'rivi j'#228'lkeen: %s');
+  Put(True,
+    'Hist.Detail.FullBefore: %s',
+    'rivi ennen: %s');
+  Put(True,
+    'Hist.Detail.FullLine: %s',
+    'koko rivi: %s');
+  Put(True,
+    'Hist.Detail.Inserted: %s',
+    'lis'#228'tty: %s');
+  Put(True,
+    'Hist.Detail.Removed: %s',
+    'poistettu: %s');
+  Put(True,
+    'Hist.DockEvents',
+    'Telakoi tapahtumat');
+  Put(True,
+    'Hist.DockEventsHint',
+    'Siirr'#228' istuntotapahtumat erilliseen ikkunaan tai takaisin t'#228'h'#228'n v'#228'lile'
+        + 'hteen (ikkunan sulkeminen telakoi my'#246's).');
+  Put(True,
+    'Hist.DockEventsTitle',
+    'Istuntotapahtumat');
+  Put(True,
+    'Hist.DockPreview',
+    'Telakoi esikatselu');
+  Put(True,
+    'Hist.DockPreviewHint',
+    'Siirr'#228' tiedoston esikatselu (vientipalkkeineen) erilliseen ikkunaan ta'
+        + 'i takaisin t'#228'h'#228'n v'#228'lilehteen (ikkunan sulkeminen telakoi my'#246's).');
+  Put(True,
+    'Hist.EventCoversLine: %d %d %d',
+    '[rivit %d'#8211'%d, sis'#228'lt'#228#228' rivin %d]');
+  Put(True,
+    'Hist.EventHead: %s  [%s]  line %d',
+    '%s  [%s]  rivi %d');
+  Put(True,
+    'Hist.ExportCsvHeader',
+    'Rivi alkaen;Rivi asti;Viimeisin tapahtuma;Muokattu;Lis'#228'tty;Poistettu;K'
+        + 'orvaa kaikki;Kumoa');
+  Put(True,
+    'Hist.ExportDone: %s',
+    'Viety kohteeseen %s');
+  Put(True,
+    'Hist.ExportEmpty',
+    'Ei mit'#228#228'n viet'#228'v'#228#228'.');
+  Put(True,
+    'Hist.ExportFilter',
+    'Tekstitiedosto (*.txt)|*.txt|CSV (*.csv)|*.csv');
+  Put(True,
+    'Hist.HideChangedLines',
+    'Piilota muutettujen rivien luettelo');
+  Put(True,
+    'Hist.InsertedText: %s',
+    'lis'#228'tty: %s');
+  Put(True,
+    'Hist.JournalHeaderAll: %d',
+    'Kaikki istuntotapahtumat (%d)');
+  Put(True,
+    'Hist.JournalHeaderLine: %d %d',
+    'Rivin %d tapahtumat (%d)');
+  Put(True,
+    'Hist.JournalHintFiltered: %d',
+    'Istuntoloki: valitse esikatselurivi n'#228'hd'#228'ksesi sen tapahtumat (tai ota'
+        + ' k'#228'ytt'#246#246'n N'#228'yt'#228' kaikki). Enint'#228#228'n %d viimeisint'#228' merkint'#228#228'. #-alkuiset'
+        + ' rivit piilotetaan.');
+  Put(True,
+    'Hist.LenDeltaMinus: size %d -> %d (%d)',
+    'koko %d -> %d (%d)');
+  Put(True,
+    'Hist.LenDeltaPlus: size %d -> %d (+%d)',
+    'koko %d -> %d (+%d)');
+  Put(True,
+    'Hist.LenSame: size %d',
+    'koko %d');
+  Put(True,
+    'Hist.LineEnds: end "%s" -> "%s"',
+    'loppu "%s" -> "%s"');
+  Put(True,
+    'Hist.LineEventsCapped: %d',
+    'N'#228'ytet'#228#228'n vain t'#228'm'#228'n rivin viimeiset %d tapahtumaa.');
+  Put(True,
+    'Hist.LoadingLineEvents: %d',
+    'Ladataan kaikki %d tapahtumaa t'#228'lle riville istuntolokista...');
+  Put(True,
+    'Hist.NoEventsForLine: %d',
+    'Ei istuntolokitapahtumia riville %d.');
+  Put(True,
+    'Hist.RemovedFromEnd: -%d chars: "%s"',
+    'poistettu lopusta -%d merkki'#228': "%s"');
+  Put(True,
+    'Hist.SelectLineHint',
+    'Valitse rivi alla olevasta esikatselusta n'#228'hd'#228'ksesi istuntolokin tiedo'
+        + 't.');
+  Put(True,
+    'Hist.ShowAllJournal',
+    'N'#228'yt'#228' kaikki istuntolokin merkinn'#228't');
+  Put(True,
+    'Hist.ShowAllJournalHint',
+    'Kun valittu, n'#228'yt'#228' kaikki istuntolokin merkinn'#228't kerralla (aiempi toim'
+        + 'inta). Kun ei valittu, n'#228'yt'#228' vain esikatselussa valitun rivin merkinn'#228
+        + 't.');
+  Put(True,
+    'Hist.ShowChangedLines',
+    'Muutettujen rivien luettelo');
+  Put(True,
+    'Hist.ShowChangedLinesBtn',
+    'N'#228'yt'#228' muutettujen rivien luettelo uudelleen');
+  Put(True,
+    'Hist.ShowChangedLinesHint',
+    'N'#228'yt'#228' tai piilota muutettujen rivien luettelo istuntotapahtumien vasem'
+        + 'malla puolella.');
+  Put(True,
+    'Hist.SortMenu.DateAsc',
+    'Muutoksen p'#228'iv'#228'm'#228#228'r'#228' '#8212' vanhin ensin (nouseva)');
+  Put(True,
+    'Hist.SortMenu.DateDesc',
+    'Muutoksen p'#228'iv'#228'm'#228#228'r'#228' '#8212' uusin ensin (laskeva)');
+  Put(True,
+    'Hist.SortMenu.LineAsc',
+    'Rivinnumero (nouseva)');
+  Put(True,
+    'Hist.SortMenu.LineDesc',
+    'Rivinnumero (laskeva)');
+  Put(True,
+    'Hist.SortMenu.LogOrder',
+    'Alkuper'#228'inen j'#228'rjestys (kuten tallennettu)');
+  Put(True,
+    'Hist.SourceMruCue',
+    'Valitse tiedosto, jolla on istuntohistoria (F4)');
+  Put(True,
+    'Hist.SourceMruEmpty',
+    'Tiedostoa, jolla on vertailu-/yhdist'#228'mishistoriaa, ei l'#246'ytynyt.');
+  Put(True,
+    'Hist.SourceMruHint',
+    'Tiedosto, jonka historia n'#228'ytet'#228#228'n. Napsauta nuolta (tai paina F4) val'
+        + 'itaksesi toisen tiedoston, jolla on vertailu-/yhdist'#228'mishistoriaa.');
+  Put(True,
+    'Hist.SourceMruMoreHint',
+    'N'#228'yt'#228' loput tiedostot, joilla on historiaa');
+  Put(True,
+    'Hist.SourceMruTitle',
+    'Tiedostot, joilla on vertailu-/yhdist'#228'mishistoriaa');
+  Put(True,
+    'Hist.Tool.AI',
+    'AI');
+  Put(True,
+    'Hist.Tool.AIHint',
+    'L'#228'het'#228' valitut merkinn'#228't avustajalle, jotta voit kysy'#228' niist'#228'.');
+  Put(True,
+    'Hist.Tool.All',
+    'Kaikki');
+  Put(True,
+    'Hist.Tool.AllHint',
+    'Valitse kaikki merkinn'#228't, tai tyhjenn'#228' valinta jos kaikki on jo valitt'
+        + 'u.');
+  Put(True,
+    'Hist.Tool.Delete',
+    'Poista');
+  Put(True,
+    'Hist.Tool.DeleteHint',
+    'Poista valitut merkinn'#228't istuntolokista. Itse tiedostoa ei muuteta.');
+  Put(True,
+    'Hist.Tool.Export',
+    'Vie');
+  Put(True,
+    'Hist.Tool.ExportHint',
+    'Vie valitut merkinn'#228't (tai nykyinen, tai kaikki jos mit'#228#228'n ei ole vali'
+        + 'ttu) teksti- tai CSV-tiedostoon.');
+  Put(True,
+    'Hist.Tool.None',
+    'Ei mit'#228#228'n');
+  Put(True,
+    'Hist.Tool.SortHint',
+    'Valitse j'#228'rjestys: muutoksen p'#228'iv'#228'm'#228#228'r'#228' (uusin tai vanhin ensin) tai r'
+        + 'ivinumero (nouseva tai laskeva).');
+  Put(True,
+    'Hist.Tool.SortLine',
+    'Rivi '#8593);
+  Put(True,
+    'Hist.Tool.SortLineDesc',
+    'Rivi '#8595);
+  Put(True,
+    'Hist.Tool.SortLog',
+    'Alkuper'#228'inen j'#228'rjestys');
+  Put(True,
+    'Hist.Tool.SortNew',
+    'P'#228'iv'#228'm'#228#228'r'#228' '#8595);
+  Put(True,
+    'Hist.Tool.SortOld',
+    'P'#228'iv'#228'm'#228#228'r'#228' '#8593);
+  Put(True,
+    'Hist.UndockEvents',
+    'Irrota tapahtumat');
+  Put(True,
+    'Hist.UndockPreview',
+    'Irrota esikatselu');
+  Put(True,
+    'HistDetail.ChangePos',
+    'Muutos %d / %d');
+  Put(True,
+    'HistDetail.ChangesCount',
+    '%d muutos(ta)');
+  Put(True,
+    'HistDetail.Col.After',
+    'J'#228'lkeen');
+  Put(True,
+    'HistDetail.Col.Before',
+    'Ennen');
+  Put(True,
+    'HistDetail.Col.Field',
+    'Kentt'#228);
+  Put(True,
+    'HistDetail.Copy',
+    'Kopioi');
+  Put(True,
+    'HistDetail.CopyAfter',
+    'Kopioi rivi j'#228'lkeen');
+  Put(True,
+    'HistDetail.CopyAll',
+    'Kopioi kaikki luettelon tapahtumat (%d)');
+  Put(True,
+    'HistDetail.CopyBefore',
+    'Kopioi rivi ennen');
+  Put(True,
+    'HistDetail.CopyEvent',
+    'Kopioi t'#228'm'#228' tapahtuma (ennen ja j'#228'lkeen)');
+  Put(True,
+    'HistDetail.CopySelected',
+    'Kopioi valitut tapahtumat (%d)');
+  Put(True,
+    'HistDetail.CsvHeader',
+    'P'#228'iv'#228'm'#228#228'r'#228'/aika;Toiminto;Rivi;Rivi ennen;Rivi j'#228'lkeen;Merkit ennen;Mer'
+        + 'kit j'#228'lkeen;Yhteenveto');
+  Put(True,
+    'HistDetail.Delim.Auto',
+    'Automaattinen');
+  Put(True,
+    'HistDetail.Delim.Comma',
+    'Pilkku (,)');
+  Put(True,
+    'HistDetail.Delim.None',
+    'Ei mit'#228#228'n (koko rivi)');
+  Put(True,
+    'HistDetail.Delim.Semicolon',
+    'Puolipiste (;)');
+  Put(True,
+    'HistDetail.Delim.Space',
+    'V'#228'lily'#246'nti');
+  Put(True,
+    'HistDetail.Delim.Tab',
+    'Sarkain');
+  Put(True,
+    'HistDetail.Delimiter',
+    'Erotin:');
+  Put(True,
+    'HistDetail.EventHead',
+    '%s  [%s]  rivi %d');
+  Put(True,
+    'HistDetail.EventHeadNoLine',
+    '%s  [%s]');
+  Put(True,
+    'HistDetail.EventsHint',
+    'Napsauta n'#228'hd'#228'ksesi tapahtuman. Ctrl+napsautus tai Shift+napsautus val'
+        + 'itsee useita tapahtumia kopioitavaksi tai viet'#228'v'#228'ksi yhdess'#228'. Napsauta'
+        + ' hiiren kakkospainikkeella saadaksesi lis'#228#228'.');
+  Put(True,
+    'HistDetail.EventsLabel',
+    'Tapahtumia luettelossa: %d '#8212' valittu kopiointiin / vientiin: %d (Ctrl+'
+        + 'napsautus tai Shift+napsautus valitsee useita)');
+  Put(True,
+    'HistDetail.Export',
+    'Vie');
+  Put(True,
+    'HistDetail.ExportAll',
+    'Vie kaikki luettelon tapahtumat (%d)...');
+  Put(True,
+    'HistDetail.ExportCurrent',
+    'Vie t'#228'm'#228' tapahtuma (TXT / CSV / JSON)...');
+end;
+
+procedure AddFinnishPart20(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'HistDetail.ExportDoneN',
+    '%d tapahtuma(a) viety kohteeseen %s');
+  Put(True,
+    'HistDetail.ExportFailed',
+    'Vienti ep'#228'onnistui: %s');
+  Put(True,
+    'HistDetail.ExportFilter',
+    'Tekstitiedosto (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json');
+  Put(True,
+    'HistDetail.ExportSelected',
+    'Vie valitut tapahtumat (%d)...');
+  Put(True,
+    'HistDetail.Exported',
+    'Viety: %s '#183' Tapahtumat: %d');
+  Put(True,
+    'HistDetail.Fields.CopyAfter',
+    'Kopioi arvo j'#228'lkeen');
+  Put(True,
+    'HistDetail.Fields.CopyBefore',
+    'Kopioi arvo ennen');
+  Put(True,
+    'HistDetail.Fields.CopyRows',
+    'Kopioi valitut rivit');
+  Put(True,
+    'HistDetail.FieldsInfo',
+    '%d kentt'#228'('#228') '#183' %d muutettu');
+  Put(True,
+    'HistDetail.File',
+    'Tiedosto: %s');
+  Put(True,
+    'HistDetail.GridHint',
+    'Kaksoisnapsauta tapahtumaa (tai paina Enter) n'#228'hd'#228'ksesi kokonaiset riv'
+        + 'it ennen / j'#228'lkeen ja vientiasetukset.');
+  Put(True,
+    'HistDetail.LineAfter',
+    'Rivi j'#228'lkeen (%d merkki'#228'):');
+  Put(True,
+    'HistDetail.LineBefore',
+    'Rivi ennen (%d merkki'#228'):');
+  Put(True,
+    'HistDetail.NextChange',
+    'Seuraava muutos '#9654);
+  Put(True,
+    'HistDetail.NextChangeHint',
+    'Korosta seuraava muuttunut fragmentti molemmilla riveill'#228' (F3)');
+  Put(True,
+    'HistDetail.NoLines',
+    'T'#228'm'#228' tapahtuma ei tallenna rivisis'#228'lt'#246#228'. Katso v'#228'lilehti "Tapahtuman y'
+        + 'hteenveto".');
+  Put(True,
+    'HistDetail.OnlyChanged',
+    'Vain muuttuneet kent'#228't');
+  Put(True,
+    'HistDetail.PrevChange',
+    #9664' Edellinen muutos');
+  Put(True,
+    'HistDetail.PrevChangeHint',
+    'Korosta edellinen muuttunut fragmentti molemmilla riveill'#228' (Shift+F3)');
+  Put(True,
+    'HistDetail.SelectAll',
+    'Valitse kaikki tapahtumat');
+  Put(True,
+    'HistDetail.SelectNone',
+    'Tyhjenn'#228' valinta');
+  Put(True,
+    'HistDetail.Stats',
+    'Ennen: %d merkki'#228' '#183' J'#228'lkeen: %d merkki'#228' (ero: %s) '#183' Muuttuneet fragmen'
+        + 'tit: %d');
+  Put(True,
+    'HistDetail.Tab.Fields',
+    'Kent'#228't (sarakkeet)');
+  Put(True,
+    'HistDetail.Tab.Lines',
+    'Kokonaiset rivit');
+  Put(True,
+    'HistDetail.Tab.Summary',
+    'Tapahtuman yhteenveto');
+  Put(True,
+    'HistDetail.Title',
+    'Istuntohistoria '#8212' kokonaiset rivit');
+  Put(True,
+    'HistDetail.TitleN',
+    'Istuntohistoria '#8212' kokonaiset rivit (%d / %d)');
+  Put(True,
+    'HistDetail.Truncated',
+    'Varoitus: sis'#228'lt'#246' tallennettiin katkaistuna %d merkkiin (raja asetettu'
+        + ' Asetuksissa).');
+  Put(True,
+    'HistDetail.WordWrap',
+    'Rivit'#228' teksti');
+  Put(True,
+    'HistExport.ButtonHint',
+    'Vie koko tiedoston rivit valituilla legenda-v'#228'reill'#228' yhteen tiedostoon'
+        + ' (sivutettu, v'#228'h'#228'n muistia).');
+  Put(True,
+    'HistExport.Cancelled',
+    'Vienti peruutettu.');
+  Put(True,
+    'HistExport.Done',
+    'Vienti valmis: %s rivi'#228' kirjoitettu tiedostoon %s');
+  Put(True,
+    'HistExport.Failed',
+    'Vienti ep'#228'onnistui: %s');
+  Put(True,
+    'HistExport.FilterAll',
+    'Kaikki tiedostot');
+  Put(True,
+    'HistExport.FilterText',
+    'Tekstitiedostot');
+  Put(True,
+    'HistExport.KindHint',
+    'Napsauta sis'#228'llytt'#228#228'ksesi tai j'#228'tt'#228#228'ksesi pois t'#228'm'#228'n legendav'#228'rin rivi'
+        + 't viennist'#228'.');
+  Put(True,
+    'HistExport.Label',
+    'Vie:');
+  Put(True,
+    'HistExport.NoFile',
+    'Historiakesikatseluun ei ole ladattu tiedostoa.');
+  Put(True,
+    'HistExport.NoLines',
+    'Yht'#228#228'n rivi'#228' ei vastaa valittuja legendav'#228'rej'#228'.');
+  Put(True,
+    'HistExport.NoneSelected',
+    'Valitse v'#228'hint'#228#228'n yksi legendav'#228'ri vienti'#228' varten.');
+  Put(True,
+    'HistExport.Progress',
+    'Vied'#228#228'n: %d%% (%s rivi'#228' kirjoitettu)... napsauta Peruuta lopettaaksesi'
+        + '.');
+  Put(True,
+    'HistExport.SameFile',
+    'Vientitiedosto ei voi olla sama kuin esikatselussa n'#228'ytetty tiedosto.');
+  Put(True,
+    'HistExport.SaveTitle',
+    'Vie rivit legendav'#228'rin mukaan');
+  Put(True,
+    'HistExport.WaitIndex',
+    'Odota, ett'#228' tiedoston indeksointi valmistuu (katso esikatselun otsikko'
+        + '), ja yrit'#228' uudelleen.');
+  Put(True,
+    'HistExport.WithLineNo',
+    'Rivi # + tyyppi');
+  Put(True,
+    'HistExport.WithLineNoHint',
+    'Kun painettu, kukin viety rivi alkaa rivinumerolla ja tyypill'#228' (esim. '
+        + '123<TAB>[EDT]<TAB>teksti).');
+  Put(True,
+    'HistLegend.Deleted',
+    'Poistettu');
+  Put(True,
+    'HistLegend.Edited',
+    'Muokattu');
+  Put(True,
+    'HistLegend.Equal',
+    'Sama');
+  Put(True,
+    'HistLegend.Inserted',
+    'Lis'#228'tty');
+  Put(True,
+    'HistLegend.UndoRedo',
+    'Kumoa/Tee uudelleen');
+  Put(True,
+    'History file preview (colors from journal; line numbers are as at edit'
+        + ' time).',
+    'Historiatiedoston esikatselu (v'#228'rit istuntolokista; rivinumerot ovat m'
+        + 'uokkaushetken mukaisia).');
+  Put(True,
+    'History log path:',
+    'Historialokin polku:');
+  Put(True,
+    'Home page: ',
+    'Kotisivu: ');
+  Put(True,
+    'How to interpret file bytes in the list (like Notepad++). Does not re-'
+        + 'read the file.'#13#10'DEFAULT = use detected encoding (BOM / heuristics).'#13#10'E'
+        + 'nabled after Read. Pick another option to see a change; same encoding '
+        + 'may look identical.',
+    'Miten tiedoston tavuja tulkitaan luettelossa (kuten Notepad++). Ei lue'
+        + ' tiedostoa uudelleen.'#13#10'DEFAULT = k'#228'yt'#228' tunnistettua koodausta (BOM / h'
+        + 'euristiikka).'#13#10'K'#228'ytett'#228'viss'#228' Lue-toiminnon j'#228'lkeen. Valitse toinen vai'
+        + 'htoehto n'#228'hd'#228'ksesi muutoksen; sama koodaus voi n'#228'ytt'#228#228' identtiselt'#228'.');
+  Put(True,
+    'How to use: set X in "Equal parts count" and run.',
+    'K'#228'ytt'#246': aseta X kohtaan "Yht'#228' suurten osien m'#228#228'r'#228'" ja suorita.');
+  Put(True,
+    'Hub.AddFiles',
+    'Lis'#228#228' tiedostoja...');
+  Put(True,
+    'Hub.AddFolder',
+    'Lis'#228#228' kansio...');
+  Put(True,
+    'Hub.Agents',
+    'Erikoisasiantuntijat');
+  Put(True,
+    'Hub.Analyze',
+    'L'#228'het'#228);
+  Put(True,
+    'Hub.Clear',
+    'Tyhjenn'#228);
+  Put(True,
+    'Hub.Depth',
+    'Syvyys');
+  Put(True,
+    'Hub.EditsEmpty',
+    'T'#228'ss'#228' diagnoosissa ei ole ehdotettuja muokkauksia (vain luku). K'#228'yt'#228' A'
+        + 'I-agenttia muutosten soveltamiseen.');
+  Put(True,
+    'Hub.ExportAnswerHint',
+    'Tallenna diagnoosivastaus UTF-8-tekstitiedostona (.txt) tai Markdown-t'
+        + 'iedostona (.md).');
+  Put(True,
+    'Hub.Guide',
+    '1) Valitse tiedostoja tai kansioita  '#8594'  2) Kuvaile diagnosoitava asia '
+        + 'ja napsauta L'#228'het'#228'  '#8594'  3) Tarkista vastaus. Vain luku; k'#228'yt'#228' AI-agentt'
+        + 'ia muokkausten soveltamiseen.');
+  Put(True,
+    'Hub.IncludeSubdirs',
+    'Sis'#228'llyt'#228' alikansiot');
+  Put(True,
+    'Hub.Mask',
+    'Maski');
+  Put(True,
+    'Hub.MaxFiles',
+    'Enimm'#228'istiedostot');
+  Put(True,
+    'Hub.Menu',
+    'AI &diagnoosi');
+  Put(True,
+    'Hub.NeedPrompt',
+    'Kuvaile, mit'#228' haluat diagnosoida.');
+  Put(True,
+    'Hub.NeedSources',
+    'Lis'#228#228' v'#228'hint'#228#228'n yksi tiedosto tai kansio.');
+  Put(True,
+    'Hub.OpenFile',
+    'Avaa tiedosto');
+  Put(True,
+    'Hub.Options',
+    'Asetukset');
+  Put(True,
+    'Hub.Phase.aggregate',
+    'Aggregoidaan');
+  Put(True,
+    'Hub.Phase.cancelled',
+    'Peruutettu');
+  Put(True,
+    'Hub.Phase.delegate',
+    'Delegoidaan');
+  Put(True,
+    'Hub.Phase.discovery',
+    'L'#246'yt'#228'minen');
+  Put(True,
+    'Hub.Phase.done',
+    'Valmis');
+  Put(True,
+    'Hub.Phase.evaluate',
+    'Arvioidaan');
+  Put(True,
+    'Hub.Phase.failed',
+    'Ep'#228'onnistui');
+  Put(True,
+    'Hub.Phase.idle',
+    'Jouten');
+  Put(True,
+    'Hub.Phase.plan',
+    'Suunnittelu');
+  Put(True,
+    'Hub.Phase.synthesize',
+    'Syntetisoidaan');
+  Put(True,
+    'Hub.PickFolder',
+    'Valitse diagnosoitava kansio');
+  Put(True,
+    'Hub.Prompt',
+    'Mit'#228' pit'#228'isi diagnosoida?');
+  Put(True,
+    'Hub.Remove',
+    'Poista valitut');
+  Put(True,
+    'Hub.RemoveAll',
+    'Poista kaikki');
+  Put(True,
+    'Hub.Role.actions',
+    'Ehdotetut toiminnot');
+  Put(True,
+    'Hub.Role.content',
+    'Sis'#228'lt'#246);
+  Put(True,
+    'Hub.Role.inventory',
+    'Inventaario');
+  Put(True,
+    'Hub.Role.privacy',
+    'Tietosuoja / PII');
+  Put(True,
+    'Hub.Role.sql',
+    'SQL / taulukkomuoto');
+  Put(True,
+    'Hub.Role.structure',
+    'Rakenne');
+  Put(True,
+    'Hub.SelectAll',
+    'Valitse kaikki');
+  Put(True,
+    'Hub.SendHint',
+    'Ctrl+Enter aloittaa my'#246's analyysin.');
+  Put(True,
+    'Hub.Sources',
+    '1. Valitse tiedostoja tai kansioita');
+  Put(True,
+    'Hub.Status.Cancelled',
+    'Peruutettu.');
+  Put(True,
+    'Hub.Status.Done',
+    'Valmis '#8212' %d l'#246'yd'#246's(t'#228').');
+  Put(True,
+    'Hub.Status.Failed',
+    'Diagnoosi ep'#228'onnistui.');
+  Put(True,
+    'Hub.Status.Ready',
+    'Valmis.');
+end;
+
+procedure AddFinnishPart21(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Hub.Status.Running',
+    'Suoritetaan...');
+  Put(True,
+    'Hub.Status.Starting',
+    'K'#228'ynnistet'#228#228'n diagnoosi...');
+  Put(True,
+    'Hub.Status.Stopping',
+    'Pys'#228'ytet'#228#228'n...');
+  Put(True,
+    'Hub.Step2',
+    '2. Kuvaile, mit'#228' haluat');
+  Put(True,
+    'Hub.Step3',
+    '3. Tarkista tulos');
+  Put(True,
+    'Hub.Stop',
+    'Pys'#228'yt'#228);
+  Put(True,
+    'Hub.TabCaption',
+    'AI-diagnoosi');
+  Put(True,
+    'Hub.Toolbar',
+    'AI-diagnoosi');
+  Put(True,
+    'I don''t know',
+    'En tied'#228);
+  Put(True,
+    'ID',
+    'ID');
+  Put(True,
+    'IDs',
+    'ID:t');
+  Put(True,
+    'ISO timestamp check',
+    'ISO-aikaleiman tarkistus');
+  Put(True,
+    'If you want to split the CSV file every time you find a new region val'
+        + 'ue (assuming the file is sorted), or start a new file for each state.',
+    'Jos haluat jakaa CSV-tiedoston aina kun l'#246'ytyy uusi aluearvo (olettaen'
+        + ', ett'#228' tiedosto on lajiteltu), tai aloittaa uuden tiedoston jokaiselle'
+        + ' osavaltiolle.');
+  Put(True,
+    'If you want to split the CSV file every time you find a new value like'
+        + ' %s (assuming the file is sorted), or start a new file for each catego'
+        + 'ry.',
+    'Jos haluat jakaa CSV-tiedoston aina kun l'#246'ytyy uusi arvo kuten %s (ole'
+        + 'ttaen, ett'#228' tiedosto on lajiteltu), tai aloittaa uuden tiedoston jokai'
+        + 'selle kategorialle.');
+  Put(True,
+    'If your goal is just N output files (ex: 10), use "By equal parts" mod'
+        + 'e.',
+    'Jos tavoitteesi on vain N tulostiedostoa (esim. 10), k'#228'yt'#228' tilaa "Yht'#228
+        + ' suuret osat".');
+  Put(True,
+    'Imagine you want to anonymize %s for a test, replacing it with "USER_R'
+        + 'EDACTED".',
+    'Kuvittele, ett'#228' haluat anonymisoida %s testi'#228' varten ja korvata sen me'
+        + 'rkkijonolla "USER_REDACTED".');
+  Put(True,
+    'Import',
+    'Tuo');
+  Put(True,
+    'Import file extensions',
+    'Tuotavat tiedostop'#228#228'tteet');
+  Put(True,
+    'Importing file extensions to exclude from search',
+    'Tuodaan hausta pois j'#228'tett'#228'vi'#228' tiedostop'#228#228'tteit'#228);
+  Put(True,
+    'In Split mode, each matching line starts a new output file (that line '
+        + 'is the first line of the new part). Pick a pattern that matches only b'
+        + 'oundaries you want.',
+    'Jaa-tilassa jokainen t'#228'sm'#228#228'v'#228' rivi aloittaa uuden tulostiedoston (tuo '
+        + 'rivi on uuden osan ensimm'#228'inen rivi). Valitse malli, joka t'#228'sm'#228#228' vain '
+        + 'haluamiisi rajoihin.');
+  Put(True,
+    'In this mode, define N in "Equal parts count" and the app keeps full l'
+        + 'ines.',
+    'T'#228'ss'#228' tilassa m'#228#228'rit'#228' N kohdassa "Yht'#228' suurten osien m'#228#228'r'#228'", ja sovell'
+        + 'us s'#228'ilytt'#228#228' kokonaiset rivit.');
+  Put(True,
+    'Include macro results in tail export (Ctrl+Shift+L)',
+    'Sis'#228'llyt'#228' makron tulokset h'#228'nn'#228'n vientiin (Ctrl+Shift+L)');
+  Put(True,
+    'Include subfolders',
+    'Sis'#228'llyt'#228' alikansiot');
+  Put(True,
+    'Include subfolders in file search.',
+    'Sis'#228'llyt'#228' alikansiot tiedostohakuun.');
+  Put(True,
+    'Included',
+    'Sis'#228'llytetty');
+  Put(True,
+    'Indexing file for paged preview: %d%% (%s lines so far)...',
+    'Indeksoidaan tiedostoa sivutettua esikatselua varten: %d%% (%s rivi'#228' t'
+        + #228'h'#228'n menness'#228')...');
+  Put(True,
+    'Information',
+    'Tiedot');
+  Put(True,
+    'Information label.',
+    'Tietojen selite.');
+  Put(True,
+    'Information panel.',
+    'Tietopaneeli.');
+  Put(True,
+    'Initializing FastFile AI...',
+    'Alustetaan FastFile AI...');
+  Put(True,
+    'Insert %d blank line(s) starting at line %d?',
+    'Lis'#228't'#228#228'nk'#246' %d tyhj'#228#228' rivi('#228') alkaen rivist'#228' %d?');
+  Put(True,
+    'Insert %d line(s) before line %d',
+    'Lis'#228#228' %d rivi('#228') ennen rivi'#228' %d');
+  Put(True,
+    'Insert %d line(s) from the clipboard starting at line %d?',
+    'Lis'#228't'#228#228'nk'#246' %d rivi('#228') leikep'#246'yd'#228'lt'#228' alkaen rivist'#228' %d?');
+  Put(True,
+    'Insert &multiple lines...',
+    'Lis'#228#228' &useita rivej'#228'...');
+  Put(True,
+    'Insert Line',
+    'Lis'#228#228' rivi');
+  Put(True,
+    'Insert from prompt',
+    'Lis'#228#228' kehotteesta');
+  Put(True,
+    'Insert line &after',
+    'Lis'#228#228' rivi &j'#228'lkeen');
+  Put(True,
+    'Insert line after',
+    'Lis'#228#228' rivi j'#228'lkeen');
+  Put(True,
+    'Insert line before',
+    'Lis'#228#228' rivi ennen');
+  Put(True,
+    'Insert multiple lines',
+    'Lis'#228#228' useita rivej'#228);
+  Put(True,
+    'Insert source after destination line.',
+    'Lis'#228#228' l'#228'hde kohderivin j'#228'lkeen.');
+  Put(True,
+    'Insert source after destination line:',
+    'Lis'#228#228' l'#228'hde kohderivin j'#228'lkeen.');
+  Put(True,
+    'Insert source at beginning (first line).',
+    'Lis'#228#228' l'#228'hde alkuun (ensimm'#228'inen rivi).');
+  Put(True,
+    'Insert source at end of destination file.',
+    'Lis'#228#228' l'#228'hde kohdetiedoston loppuun.');
+  Put(True,
+    'Insert.CountWithMax',
+    'Uusien rivien m'#228#228'r'#228' (enint'#228#228'n %d):');
+  Put(True,
+    'Instant Open (Zero Scan)',
+    'V'#228'lit'#246'n avaus (ei skannausta)');
+  Put(True,
+    'Instant open: edits need a line map for correct file positions.',
+    'V'#228'lit'#246'n avaus: muokkaukset tarvitsevat rivikartan oikeisiin tiedostosi'
+        + 'jainteihin.');
+  Put(True,
+    'Instant open: no line index yet.',
+    'V'#228'lit'#246'n avaus: rivihakemistoa ei viel'#228' ole.');
+  Put(True,
+    'Invalid Regex:',
+    'Virheellinen Regex:');
+  Put(True,
+    'Invalid byte position.',
+    'Virheellinen tavuosoite.');
+  Put(True,
+    'Invalid filename!',
+    'Virheellinen tiedostonimi!');
+  Put(True,
+    'Invalid line range for export.',
+    'Virheellinen riviv'#228'li vienti'#228' varten.');
+  Put(True,
+    'Invalid line. Use a value from %d to %d.',
+    'Virheellinen rivi. K'#228'yt'#228' arvoa v'#228'lilt'#228' %d'#8211'%d.');
+  Put(True,
+    'Ir para linha',
+    'Siirry riville');
+  Put(True,
+    'Is Regex',
+    'On Regex');
+  Put(True,
+    'It is under development.',
+    'Se on kehityksess'#228'.');
+  Put(True,
+    'It will be removed from the list. Confirm ?',
+    'Se poistetaan luettelosta. Vahvistatko?');
+  Put(True,
+    'Italian',
+    'italia');
+  Put(True,
+    'Journal colors:',
+    'Istuntolokin v'#228'rit:');
+  Put(True,
+    'Journal entries: click to jump to the line in the preview below. Lines'
+        + ' starting with # are hidden. Up to %d recent log lines are loaded.',
+    'Istuntolokin merkinn'#228't: napsauta hyp'#228't'#228'ksesi alla olevan esikatselun r'
+        + 'iville. #-alkuiset rivit piilotetaan. Enint'#228#228'n %d viimeisint'#228' lokirivi'
+        + #228' ladataan.');
+  Put(True,
+    'Journal too large; line colors omitted on preview.',
+    'Istuntoloki on liian suuri; riviv'#228'rej'#228' ei n'#228'ytet'#228' esikatselussa.');
+  Put(True,
+    'Jump to a specific line number.',
+    'Siirry tiettyyn rivinumeroon.');
+  Put(True,
+    'Keeps lines where eight consecutive digits appear just before the end.',
+    'S'#228'ilytt'#228#228' rivit, joissa kahdeksan per'#228'kk'#228'ist'#228' numeroa esiintyy juuri e'
+        + 'nnen loppua.');
+  Put(True,
+    'Language.Loading.Assistant',
+    'P'#228'ivitet'#228#228'n AI-avustajaa...');
+  Put(True,
+    'Language.Loading.Finish',
+    'Viimeistell'#228#228'n k'#228'ytt'#246'liittym'#228#228'...');
+  Put(True,
+    'Language.Loading.Menus',
+    'P'#228'ivitet'#228#228'n valikoita ja ty'#246'kalurivej'#228'...');
+  Put(True,
+    'Language.Loading.Preparing',
+    'Vaihdetaan k'#228'ytt'#246'liittym'#228'n kielt'#228);
+  Put(True,
+    'Language.Loading.Recent',
+    'P'#228'ivitet'#228#228'n viimeisimpi'#228' tiedostoja...');
+  Put(True,
+    'Language.Loading.Reverting',
+    'Peruttu '#8211' palautetaan edellinen kieli...');
+  Put(True,
+    'Language.Loading.Title',
+    'Ladataan %s...');
+  Put(True,
+    'Language.Mru.Hint',
+    'Sovelluksen kieli. Viimeisimm'#228't kielet ensin. Kirjoita etsi'#228'ksesi.');
+  Put(True,
+    'Language.Mru.MoreHint',
+    'N'#228'yt'#228' muut kielet');
+  Put(True,
+    'Language.Mru.Title',
+    'Viimeisimm'#228't kielet');
+  Put(True,
+    'Large file mode enabled. Output will be saved directly to: %s',
+    'Suuren tiedoston tila k'#228'yt'#246'ss'#228'. Tulos tallennetaan suoraan kohteeseen:'
+        + ' %s');
+  Put(True,
+    'Large file: history preview limited to first %d lines (%d MB read wind'
+        + 'ow).',
+    'Suuri tiedosto: historian esikatselu rajoitettu ensimm'#228'isiin %d riviin'
+        + ' (%d MB:n lukuikkuna).');
+  Put(True,
+    'Last accessed:',
+    'Viimeksi k'#228'ytetty:');
+  Put(True,
+    'Last line',
+    'Viimeinen rivi');
+  Put(True,
+    'Last line must be >= first line.',
+    'Viimeisen rivin on oltava >= ensimm'#228'inen rivi.');
+  Put(True,
+    'Last line number to export.',
+    'Viimeinen viet'#228'v'#228' rivinumero.');
+  Put(True,
+    'Last loaded',
+    'Viimeksi ladattu');
+  Put(True,
+    'Launch error',
+    'K'#228'ynnistysvirhe');
+  Put(True,
+    'Left file',
+    'Vasen tiedosto');
+  Put(True,
+    'Legend:',
+    'Selite:');
+  Put(True,
+    'License',
+    'Lisenssi');
+  Put(True,
+    'Limit.ActionLines',
+    'Enint'#228#228'n %d rivi'#228);
+  Put(True,
+    'Limit.ActionLinesHint',
+    'Kopioi, tyhjenn'#228', vie, muokkaa ja Kysy AI:lta jakavat t'#228'm'#228'n rajan. Ano'
+        + 'nymisoinnilla, yhdist'#228'misell'#228' ja k'#228#228'nn'#246'ksell'#228' on omat rajansa Asetuksi'
+        + 'ssa.');
+  Put(True,
+    'Limit.DefaultPair',
+    'Oletus: %s (tiedosto) / %s (leikep'#246'yt'#228').');
+  Put(True,
+    'Limit.DefaultValue',
+    'oletus %d');
+  Put(True,
+    'Line',
+    'Rivi');
+  Put(True,
+    'Line ',
+    'Rivi ');
+  Put(True,
+    'Line #',
+    'Rivi #');
+  Put(True,
+    'Line %d does not exist in the file. Valid range: 1..%d.',
+    'Rivi'#228' %d ei ole tiedostossa. Kelvollinen v'#228'li: 1..%d.');
+  Put(True,
+    'Line %s  |  %s / %s B',
+    'Rivi %s  |  %s / %s B');
+  Put(True,
+    'Line %s  |  Part %d  |  %s / %s B',
+    'Rivi %s  |  Osa %d  |  %s / %s B');
+  Put(True,
+    'Line Hints (ON)',
+    'Rivivihjeet (P'#196#196'LL'#196')');
+  Put(True,
+    'Line Number',
+    'Rivinumero');
+  Put(True,
+    'Line Number is required.',
+    'Rivinumero on pakollinen.');
+  Put(True,
+    'Line Number:',
+    'Rivinumero:');
+  Put(True,
+    'Line autofill: %d blank line(s) at line %d',
+    'Rivit'#228'ytt'#246': %d tyhj'#228#228' rivi('#228') rivill'#228' %d');
+  Put(True,
+    'Line must be a valid integer.',
+    'Rivin on oltava kelvollinen kokonaisluku.');
+end;
+
+procedure AddFinnishPart22(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Line number (valid range: 1..totalLines-1):',
+    'Rivinumero (kelvollinen v'#228'li: 1 '#8211' rivien kokonaism'#228#228'r'#228' '#8722' 1):');
+  Put(True,
+    'Line number must be greater than 0.',
+    'Rivinumeron on oltava suurempi kuin 0.');
+  Put(True,
+    'Line parameters are required.',
+    'Riviparametrit ovat pakollisia.');
+  Put(True,
+    'Line range (from line ... to line ...)',
+    'Riviv'#228'li (rivilt'#228' ... riville ...)');
+  Put(True,
+    'Line range must be between %d and %d.',
+    'Riviv'#228'lin on oltava v'#228'lill'#228' %d'#8211'%d.');
+  Put(True,
+    'Line-segmented &mode (heavy ops)',
+    'Rivi&segmentoitu tila (raskaat toiminnot)');
+  Put(True,
+    'Line-segmented force:',
+    'Rivisegmentoitu pakotus:');
+  Put(True,
+    'Line-segmented mode is ON: Replace All runs on line-aligned parts; mat'
+        + 'ches that span a part boundary may be missed.',
+    'Rivisegmentoitu tila on P'#196#196'LL'#196': Korvaa kaikki suoritetaan rivitasattui'
+        + 'hin osiin; osien rajojen yli ulottuvat osumat voivat j'#228#228'd'#228' huomaamatta'
+        + '.');
+  Put(True,
+    'Line-segmented mode:',
+    'Rivisegmentoitu tila:');
+  Put(True,
+    'Line-segmented policy:',
+    'Rivisegmentoitu k'#228'yt'#228'nt'#246':');
+  Put(True,
+    'Line-segmented processing for heavy operations (off by default)',
+    'Rivisegmentoitu k'#228'sittely raskaille toiminnoille (oletuksena pois)');
+  Put(True,
+    'Line:',
+    'Rivi:');
+  Put(True,
+    'Line: ',
+    'Rivi: ');
+  Put(True,
+    'Line: %d  Col: %d',
+    'Rivi: %d  Sar: %d');
+  Put(True,
+    'Line: 0  Col: 0',
+    'Rivi: 0  Sar: 0');
+  Put(True,
+    'LineEditor.AdjLineUnavailable',
+    'Vastaavaa rivi'#228' ei ole tai se on tyhj'#228'.');
+  Put(True,
+    'LineEditor.Anon',
+    'Anonymisoi');
+  Put(True,
+    'LineEditor.AnonHint',
+    'Anonymisoi valittu teksti (tai koko sis'#228'lt'#246') viimeisimm'#228'n anonymisoinn'
+        + 'in asetuksilla ja avaimella.');
+  Put(True,
+    'LineEditor.AnonNoChange',
+    'Ei mit'#228#228'n anonymisoitavaa nykyisill'#228' asetuksilla.');
+  Put(True,
+    'LineEditor.AskAI.EmptyResponse',
+    'AI palautti tyhj'#228'n tuloksen.');
+  Put(True,
+    'LineEditor.AskAI.MergePrompt',
+    'Mit'#228' AI:n pit'#228'isi tehd'#228' yhdist'#228'miseen valituille riveille?');
+  Put(True,
+    'LineEditor.AskAI.PipelineNote',
+    'Kysy AI:lta tiedoston rivieditorista.');
+  Put(True,
+    'LineEditor.AskAI.PromptLabel: %s',
+    'Mit'#228' AI:n pit'#228'isi tehd'#228' riville %s?');
+  Put(True,
+    'LineEditor.AskAI.QuestionTemplate',
+    'Riveill'#228' %1:s: %0:s');
+  Put(True,
+    'LineEditor.AskAI.RequestFailed: %s',
+    'AI-pyynt'#246' ep'#228'onnistui: %s');
+  Put(True,
+    'LineEditor.AskAIHint',
+    'Kysy AI:lta t'#228'st'#228' rivist'#228' tai yhdist'#228'misen valinnasta.');
+  Put(True,
+    'LineEditor.Clear',
+    'Tyhjenn'#228);
+  Put(True,
+    'LineEditor.ClearHint',
+    'Tyhjenn'#228' koko sis'#228'lt'#246);
+  Put(True,
+    'LineEditor.CopyLineHint: %d',
+    'T'#228'yt'#228' sis'#228'lt'#246' rivill'#228' %d');
+  Put(True,
+    'LineEditor.CopyNextLine',
+    'Tuo seuraava rivi');
+  Put(True,
+    'LineEditor.CopyPrevLine',
+    'Tuo edellinen rivi');
+  Put(True,
+    'LineEditor.Find',
+    'Etsi:');
+  Put(True,
+    'LineEditor.FindAccents',
+    'Ohita aksentit');
+  Put(True,
+    'LineEditor.FindBadRegex',
+    'Virheellinen lauseke');
+  Put(True,
+    'LineEditor.FindBadRegexMsg: %s',
+    'S'#228#228'nn'#246'llinen lauseke "%s" on virheellinen.'#13#10#13#10'Tarkista malli ja yrit'#228' '
+        + 'uudelleen.');
+  Put(True,
+    'LineEditor.FindCase',
+    'Kirjainkoon erottelu');
+  Put(True,
+    'LineEditor.FindCount: %d %d',
+    '%d / %d');
+  Put(True,
+    'LineEditor.FindCue',
+    'Etsitt'#228'v'#228' teksti (Ctrl+F) '#8211' my'#246's osittaiset osumat');
+  Put(True,
+    'LineEditor.FindEmpty',
+    'Anna etsitt'#228'v'#228' teksti.');
+  Put(True,
+    'LineEditor.FindHint',
+    'Etsii jokaisen esiintym'#228'n sis'#228'll'#246'st'#228' (my'#246's osamerkkijonot) ja korostaa'
+        + ' ne. Enter / F3 = seuraava, Shift+Enter / Shift+F3 = edellinen, Esc = '
+        + 'tyhjenn'#228'.');
+  Put(True,
+    'LineEditor.FindNextHint',
+    'Seuraava esiintym'#228' (F3 / Enter)');
+  Put(True,
+    'LineEditor.FindNone',
+    'Ei l'#246'ytynyt');
+  Put(True,
+    'LineEditor.FindNoneMsg: %s',
+    'Teksti'#228' "%s" ei l'#246'ytynyt.');
+  Put(True,
+    'LineEditor.FindPrevHint',
+    'Edellinen esiintym'#228' (Shift+F3 / Shift+Enter)');
+  Put(True,
+    'LineEditor.FindRegex',
+    'S'#228#228'nn'#246'llinen lauseke');
+  Put(True,
+    'LineEditor.FindRegexHint',
+    'Tulkitse teksti s'#228#228'nn'#246'llisen'#228' lausekkeena (esim. 12\d{3} tai ^ABC|XYZ$'
+        + ').');
+  Put(True,
+    'LineEditor.FindWord',
+    'Koko sana');
+  Put(True,
+    'LineEditor.KeyAlt',
+    'Alt');
+  Put(True,
+    'LineEditor.KeyCtrl',
+    'Ctrl');
+  Put(True,
+    'LineEditor.KeyDel',
+    'Del');
+  Put(True,
+    'LineEditor.KeyEnter',
+    'Enter');
+  Put(True,
+    'LineEditor.KeyEsc',
+    'Esc');
+  Put(True,
+    'LineEditor.KeyShift',
+    'Shift');
+  Put(True,
+    'LineEditor.MergeConfirm',
+    'Yhdistet'#228#228'nk'#246' valitut rivit yhdeksi?');
+  Put(True,
+    'LineEditor.MergeConfirmDetail: %d %d',
+    'Kohderivi: %0:d. Yhteens'#228' rivej'#228' yhdist'#228'misess'#228': %1:d.');
+  Put(True,
+    'LineEditor.MergeLines',
+    'Yhdist'#228' rivit');
+  Put(True,
+    'LineEditor.MergeLinesHint',
+    'Valitse l'#228'heisi'#228' rivej'#228' yhdistett'#228'v'#228'ksi yhdeksi ja vahvista sitten.');
+  Put(True,
+    'LineEditor.MergeListHint',
+    'Valitse rivit yhdistett'#228'v'#228'ksi yhdeksi (alin rivi s'#228'ilyy kohteena).');
+  Put(True,
+    'LineEditor.MergeNeedTwo',
+    'Valitse v'#228'hint'#228#228'n kaksi rivi'#228' yhdistett'#228'v'#228'ksi.');
+  Put(True,
+    'LineEditor.MergeUnavailable',
+    'Yhdist'#228' rivit ei ole k'#228'ytett'#228'viss'#228' t'#228'ss'#228' kontekstissa.');
+  Put(True,
+    'LineEditor.MultiCaption',
+    'Muokkaa valittuja rivej'#228' (%d)');
+  Put(True,
+    'LineEditor.MultiContent',
+    'Sis'#228'lt'#246' (jokainen rivi on yksi tiedoston rivi '#8211' '#228'l'#228' yhdist'#228' tai jaa ri'
+        + 'vej'#228'):');
+  Put(True,
+    'LineEditor.MultiCountMismatch',
+    'Sis'#228'll'#246'ss'#228' on oltava tasan %d rivi'#228' (yksi kutakin valittua rivi'#228' varte'
+        + 'n), mutta siin'#228' on %d. '#196'l'#228' yhdist'#228' tai jaa rivej'#228'.');
+  Put(True,
+    'LineEditor.MultiLinesLabel',
+    'Rivit:');
+  Put(True,
+    'LineEditor.MultiNoChange',
+    'Yht'#228#228'n rivi'#228' ei muutettu.');
+  Put(True,
+    'LineEditor.MultiOp',
+    'Muokkaa valittuja rivej'#228);
+  Put(True,
+    'LineEditor.PreviewConfirm',
+    'Esikatsele ja tallenna');
+  Put(True,
+    'LineEditor.Redo',
+    'Tee uudelleen');
+  Put(True,
+    'LineEditor.RedoHint',
+    'Tee uudelleen kumottu muutos.');
+  Put(True,
+    'LineEditor.Replace',
+    'Korvaa:');
+  Put(True,
+    'LineEditor.ReplaceAll',
+    'Korvaa kaikki');
+  Put(True,
+    'LineEditor.ReplaceCue',
+    'Korvaava teksti (Ctrl+H)');
+  Put(True,
+    'LineEditor.ReplaceEmptyConfirm: %d %s',
+    'Korvaava teksti on tyhj'#228': %d esiintym'#228'('#228') merkkijonosta "%s" poistetaa'
+        + 'n.'#13#10#13#10'Haluatko varmasti jatkaa?');
+  Put(True,
+    'LineEditor.ReplaceHint',
+    'Enter / F4: korvaa nykyinen esiintym'#228'. Shift+Enter / Shift+F4: korvaa '
+        + 'kaikki. S'#228#228'nn'#246'llisell'#228' lausekkeella: $1..$9 lis'#228#228' ryhm'#228't, \n rivinvaih'
+        + 'to, \t sarkain.');
+  Put(True,
+    'LineEditor.ReplaceOne',
+    'Korvaa');
+  Put(True,
+    'LineEditor.ReplacedCount: %d',
+    '%d korvattu');
+  Put(True,
+    'LineEditor.ReplacedMsg: %d',
+    '%d esiintym'#228'('#228') korvattu.');
+  Put(True,
+    'LineEditor.Undo',
+    'Kumoa');
+  Put(True,
+    'LineEditor.UndoHint',
+    'Kumoa viimeisin sis'#228'll'#246'n muutos (kirjoitus, liitt'#228'minen, tyhjennys, ko'
+        + 'rvaus, rivin tuonti).');
+  Put(True,
+    'Lines/Time:',
+    'Rivit/aika:');
+  Put(True,
+    'Lines: %d',
+    'Rivit: %d');
+  Put(True,
+    'LinesPreview.Back',
+    'Takaisin');
+  Put(True,
+    'LinesPreview.Caption',
+    'Esikatsele muutokset ennen tallennusta');
+  Put(True,
+    'LinesPreview.ColAfter',
+    'J'#228'lkeen');
+  Put(True,
+    'LinesPreview.ColBefore',
+    'Ennen');
+  Put(True,
+    'LinesPreview.ColLine',
+    'Rivi');
+  Put(True,
+    'LinesPreview.Save',
+    'Tallenna tiedostoon');
+  Put(True,
+    'LinesPreview.Summary',
+    '%d / %d valitusta rivist'#228' muutetaan ja tallennetaan levyn tiedostoon. '
+        + 'Tarkista ne ennen vahvistusta.');
+  Put(True,
+    'LinesPreview.UndoNote',
+    'Vain muuttuneet rivit n'#228'ytet'#228#228'n. Tallennuksen j'#228'lkeen voit kumota Ctrl'
+        + '+Z:lla.');
+  Put(True,
+    'Links',
+    'Linkit');
+  Put(True,
+    'List capped at the max file count.',
+    'Luettelo rajoitettu tiedostojen enimm'#228'ism'#228#228'r'#228#228'n.');
+  Put(True,
+    'List mode: checkbox list',
+    'Luettelotila: valintaruudullinen lista');
+  Put(True,
+    'List mode: list view',
+    'Luettelotila: tavallinen listan'#228'kym'#228);
+  Put(True,
+    'List of files found by the current search.',
+    'Nykyisen haun l'#246'yt'#228'm'#228't tiedostot.');
+  Put(True,
+    'List of generated files and ranges.',
+    'Luotujen tiedostojen ja v'#228'lien luettelo.');
+  Put(True,
+    'List of items.',
+    'Kohteiden luettelo.');
+  Put(True,
+    'List of lines and results.',
+    'Rivien ja tulosten luettelo.');
+  Put(True,
+    'List view uses: ',
+    'Listan'#228'kym'#228' k'#228'ytt'#228#228': ');
+  Put(True,
+    'ListView zoom (Ctrl + mouse wheel)',
+    'ListView-zoomaus (Ctrl + hiiren rulla)');
+  Put(True,
+    'ListView.AnonymizeHint',
+    'Anonymisoi valitut rivit (1'#8211'%d): valitse asetukset, tarkista esikatsel'
+        + 'u ja vahvista; vasta sitten rivit muutetaan ja tallennetaan levyn tied'
+        + 'ostoon.');
+end;
+
+procedure AddFinnishPart23(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'ListView.AskAI',
+    'Kysy AI:lta');
+  Put(True,
+    'ListView.AskAI.NeedGoal',
+    'Kuvaile, mit'#228' haluat AI:n tekev'#228'n.');
+  Put(True,
+    'ListView.AskAI.OfferSummary: %d',
+    'Kysyit AI:lta %d valitusta rivist'#228'.');
+  Put(True,
+    'ListView.AskAI.PipelineNote: %d',
+    'Kysy AI:lta %d valitusta rivist'#228'.');
+  Put(True,
+    'ListView.AskAI.PromptLabel: %d',
+    'Mit'#228' AI:n pit'#228'isi tehd'#228' %d valitulle riville?');
+  Put(True,
+    'ListView.AskAI.QuestionTemplate',
+    'Valituilla riveill'#228' %1:s (%2:s rivi'#228'): %0:s');
+  Put(True,
+    'ListView.AskAIHint',
+    'Kysy AI:lta, mit'#228' tehd'#228' valituille tai merkittyille riveille.');
+  Put(True,
+    'ListView.ClearLinesConfirm',
+    'Tyhjennet'#228#228'nk'#246' %d valitun rivin teksti?');
+  Put(True,
+    'ListView.ClearLinesHint',
+    'Tyhjenn'#228' valittujen rivien teksti');
+  Put(True,
+    'ListView.CopiedLines',
+    '%d valittua rivi('#228') kopioitu leikep'#246'yd'#228'lle.');
+  Put(True,
+    'ListView.CopyLinesHint',
+    'Kopioi valitut rivit leikep'#246'yd'#228'lle');
+  Put(True,
+    'ListView.EditLines',
+    'Muokkaa rivej'#228);
+  Put(True,
+    'ListView.EditLinesHint',
+    'Muokkaa valittuja rivej'#228' (1'#8211'%d) rivieditorissa (Ctrl+Shift+E): etsi/ko'
+        + 'rvaa, AI, anonymisoi, poimi. Esikatselu n'#228'ytet'#228#228'n ennen tallennusta ti'
+        + 'edostoon.');
+  Put(True,
+    'ListView.ExportLinesHint',
+    'Vie valitut rivit tiedostoon (vain valinta)');
+  Put(True,
+    'ListView.ExportedLines',
+    '%d valittua rivi('#228') viety tiedostoon.');
+  Put(True,
+    'ListView.LinesSaving',
+    'Tallennetaan %d muutettua rivi('#228') tiedostoon...');
+  Put(True,
+    'ListView.MergeLines',
+    'Yhdist'#228' rivit');
+  Put(True,
+    'ListView.MergeLines.PrefillStatus: %d',
+    'Yhdist'#228' rivit: %d valittua rivi('#228') ladattu editoriin.');
+  Put(True,
+    'ListView.MergeLinesHint',
+    'Avaa Yhdist'#228' rivit valituilla riveill'#228' t'#228'ytettyn'#228' (enint'#228#228'n %d).');
+  Put(True,
+    'ListView.NeedSelection',
+    'Valitse ensin yksi tai useampi rivi.');
+  Put(True,
+    'ListView.SelLimitExceeded',
+    '%d rivi'#228' on valittu, mutta toiminnon raja on %d rivi'#228'. Valitse v'#228'hemm'#228
+        + 'n rivej'#228' tai muuta rajaa Asetuksissa.');
+  Put(True,
+    'ListView.TooManyLines',
+    'Valitse enint'#228#228'n %d rivi'#228' t'#228't'#228' toimintoa varten.');
+  Put(True,
+    'ListView.TranslateHint',
+    'K'#228#228'nn'#228' valitut rivit (enint'#228#228'n %d). Napsauta valitaksesi kielen.');
+  Put(True,
+    'Loading cancelled',
+    'Lataus peruttu');
+  Put(True,
+    'Location',
+    'Sijainti');
+  Put(True,
+    'Location (Separate multiple directories with semicolon):',
+    'Sijainti (erota useat kansiot puolipisteell'#228'):');
+  Put(True,
+    'Logged: INS/EDT/DEL, BINS/BAUT/BDEL (batch insert/autofill/delete), UN'
+        + 'DO/REDO. Read panel: Ctrl+V / Shift+Insert paste X lines; drag Line # '
+        + 'column to autofill blank rows; Ctrl+Shift+N insert multiple; Ctrl+Z / '
+        + 'Ctrl+Y undo/redo the whole block.',
+    'Kirjattu: INS/EDT/DEL, BINS/BAUT/BDEL (er'#228'lis'#228'ys/t'#228'ytt'#246'/poisto), UNDO/'
+        + 'REDO. Lue-paneeli: Ctrl+V / Shift+Insert liitt'#228#228' X rivi'#228'; ved'#228' Rivi #-'
+        + 'saraketta t'#228'ytt'#228#228'ksesi tyhji'#228' rivej'#228'; Ctrl+Shift+N lis'#228#228' useita; Ctrl+'
+        + 'Z / Ctrl+Y kumoaa/tekee uudelleen koko lohkon.');
+  Put(True,
+    'Logic:',
+    'Logiikka:');
+  Put(True,
+    'Logic: Every match is replaced, preserving the rest of the line unchan'
+        + 'ged.',
+    'Logiikka: Jokainen osuma korvataan, rivin muu osa s'#228'ilyy muuttumattoma'
+        + 'na.');
+  Put(True,
+    'Logic: Every time the line contains the exact region value (for exampl'
+        + 'e, Sao Paulo), the system starts a new file.',
+    'Logiikka: Aina kun rivi sis'#228'lt'#228#228' tarkan aluearvon (esimerkiksi Sao Pau'
+        + 'lo), j'#228'rjestelm'#228' aloittaa uuden tiedoston.');
+  Put(True,
+    'Logic: Every time the line contains the exact value of %s, the system '
+        + 'would start a new file.',
+    'Logiikka: Aina kun rivi sis'#228'lt'#228#228' tarkan arvon %s, j'#228'rjestelm'#228' aloittai'
+        + 'si uuden tiedoston.');
+  Put(True,
+    'Logic: Extracts the %s (start of line) and the %s (numbers that appear'
+        + ' just before another pattern).',
+    'Logiikka: Poimii %s (rivin alku) ja %s (numerot juuri ennen toista mal'
+        + 'lia).');
+  Put(True,
+    'Logic: Filters lines where the field %s has 3 or more digits (i.e., 10'
+        + '0 to 999, 1000, etc.).',
+    'Logiikka: Suodattaa rivit, joissa kent'#228'll'#228' %s on 3 tai enemm'#228'n numeroa'
+        + ' (eli 100'#8211'999, 1000 jne.).');
+  Put(True,
+    'Logic: If the line matches, output is true; otherwise false.',
+    'Logiikka: Jos rivi t'#228'sm'#228#228', tulos on true; muuten false.');
+  Put(True,
+    'Logic: It searches for what comes after %s until the next comma and re'
+        + 'places the real value.',
+    'Logiikka: Etsii sen, mik'#228' tulee %s:n j'#228'lkeen seuraavaan pilkkuun asti,'
+        + ' ja korvaa todellisen arvon.');
+  Put(True,
+    'Logic: Only lines that match are kept in the output.',
+    'Logiikka: Vain t'#228'sm'#228#228'v'#228't rivit s'#228'ilytet'#228#228'n tulosteessa.');
+  Put(True,
+    'Logic: Returns every occurrence that matches the regex in each line.',
+    'Logiikka: Palauttaa jokaisen regex-osuman kullakin rivill'#228'.');
+  Put(True,
+    'Logic: broad pattern - narrow it to a specific column if needed.',
+    'Logiikka: laaja malli '#8211' rajaa tarvittaessa tiettyyn sarakkeeseen.');
+  Put(True,
+    'Logic: captures Dr./Dra. and replaces the following name field.',
+    'Logiikka: kaappaa Dr./Dra. ja korvaa seuraavan nimikent'#228'n.');
+  Put(True,
+    'Logic: combine or edit patterns as needed for your columns.',
+    'Logiikka: yhdist'#228' tai muokkaa malleja sarakkeidesi mukaan.');
+  Put(True,
+    'Logic: each line containing that token "%s" starts or continues a part'
+        + '.',
+    'Logiikka: jokainen rivi, joka sis'#228'lt'#228#228' merkkijonon "%s", aloittaa tai '
+        + 'jatkaa osaa.');
+  Put(True,
+    'Logic: keeps rows where the %s field meets the numeric rule.',
+    'Logiikka: s'#228'ilytt'#228#228' rivit, joissa kentt'#228' %s t'#228'ytt'#228#228' numeerisen s'#228#228'nn'#246'n'
+        + '.');
+  Put(True,
+    'Logic: patterns built from column typing - edit for %s or other fields'
+        + '.',
+    'Logiikka: mallit rakennettu saraketyypeist'#228' '#8211' muokkaa %s:lle tai muill'
+        + 'e kentille.');
+  Put(True,
+    'MRU.ClearAll',
+    'Poista kaikki merkinn'#228't');
+  Put(True,
+    'MRU.ClearAllConfirm',
+    'Poistetaanko kaikki merkinn'#228't t'#228'st'#228' luettelosta?');
+  Put(True,
+    'MRU.ClearAllHint',
+    'Poista jokainen merkint'#228' t'#228'st'#228' viimeisimm'#228't-luettelosta');
+  Put(True,
+    'MRU.ClearFind',
+    'Tyhjenn'#228' haku');
+  Put(True,
+    'MRU.FileProperties',
+    'Ominaisuudet');
+  Put(True,
+    'MRU.FilePropertiesHint',
+    'T'#228'm'#228'n tiedoston Windows-ominaisuudet (koko, p'#228'iv'#228'm'#228#228'r'#228't, attribuutit)');
+  Put(True,
+    'MRU.Find',
+    'Etsi...');
+  Put(True,
+    'MRU.FindHint',
+    'Osittainen haku t'#228'ss'#228' viimeisimm'#228't-luettelossa');
+  Put(True,
+    'MRU.FindNoMatch',
+    '(ei osumia)');
+  Put(True,
+    'MRU.RemoveFromList',
+    'Poista luettelosta');
+  Put(True,
+    'MRU.RemoveFromListHint',
+    'Poista t'#228'm'#228' kohde viimeisimmist'#228' tiedostoista (ei poista tiedostoa)');
+  Put(True,
+    'MRU.RemoveItemHint',
+    'Poista t'#228'm'#228' kohde luettelosta');
+  Put(True,
+    'MRU.RemovedBecauseMissing',
+    'Poistettu viimeisimmist'#228' tiedostoista, koska sit'#228' ei en'#228#228' ole levyll'#228'.');
+  Put(True,
+    'MRU.ShowFirst',
+    'N'#228'yt'#228' 10 ensimm'#228'ist'#228);
+  Put(True,
+    'MRU.ShowFirstHint',
+    'Takaisin 10 ensimm'#228'iseen kohteeseen');
+  Put(True,
+    'MRU.ShowMore',
+    'N'#228'yt'#228' lis'#228#228);
+  Put(True,
+    'MRU.ShowMoreHint',
+    'N'#228'yt'#228' t'#228'm'#228'n viimeisimm'#228't-luettelon loput');
+  Put(True,
+    'Macro results',
+    'Makron tulokset');
+  Put(True,
+    'Magnifier',
+    'Suurennuslasi');
+  Put(True,
+    'Managing',
+    'Hallitaan');
+  Put(True,
+    'Mark legend: CR',
+    'CR (rivinvaihtomerkki)');
+  Put(True,
+    'Mark legend: CR/LF at line end note',
+    'CR/LF-merkit n'#228'ytet'#228#228'n kunkin rivin lopussa (tiedoston rivinloput).');
+  Put(True,
+    'Mark legend: LF',
+    'LF (rivinsiirto)');
+  Put(True,
+    'Mark legend: NUL',
+    'NUL (tavu 0)');
+  Put(True,
+    'Mark legend: Other controls',
+    'Muut ohjausmerkit (ASCII 1'#8211'31, n'#228'ytet'#228#228'n ^kirjain)');
+  Put(True,
+    'Mark legend: Space',
+    'V'#228'lily'#246'nti');
+  Put(True,
+    'Mark legend: Tab',
+    'Sarkain');
+  Put(True,
+    'Mask names',
+    'Maskin nimet');
+  Put(True,
+    'Match mode emits captured text per occurrence; parentheses define what'
+        + ' is extracted.',
+    'T'#228'sm'#228'ystila tuottaa kaapatun tekstin per esiintym'#228'; sulkeet m'#228#228'ritt'#228'v'#228
+        + 't, mit'#228' poimitaan.');
+  Put(True,
+    'Match only whole words.',
+    'T'#228'sm'#228#228' vain kokonaisia sanoja.');
+  Put(True,
+    'Match pulls captures per line - extend pattern for %s or other columns'
+        + ' as needed.',
+    'T'#228'sm'#228'ys poimii kaappaukset per rivi '#8211' laajenna mallia %s:lle tai muill'
+        + 'e sarakkeille tarvittaessa.');
+  Put(True,
+    'Match uppercase and lowercase exactly.',
+    'T'#228'sm'#228#228' isot ja pienet kirjaimet tarkasti.');
+  Put(True,
+    'Match '#8212' numeric doctor_id at line start. Regex:',
+    'T'#228'sm'#228'ys '#8212' numeerinen doctor_id rivin alussa. Regex:');
+  Put(True,
+    'Match '#8212' profile slug from URL (capture group 1). Regex:',
+    'T'#228'sm'#228'ys '#8212' profiilin slug URL-osoitteesta (kaappausryhm'#228' 1). Regex:');
+  Put(True,
+    'Matches lines whose first two characters are digits (example: record t'
+        + 'ype). Widen to ^(\d{3}) if your layout uses three type digits.',
+    'T'#228'sm'#228#228' rivit, joiden kaksi ensimm'#228'ist'#228' merkki'#228' ovat numeroita (esimerk'
+        + 'ki: tietuetyyppi). Laajenna muotoon ^(\d{3}), jos asettelussasi on kol'
+        + 'me tyyppinumeroa.');
+  Put(True,
+    'Matches the title at line start, followed by capitalized name words (a'
+        + 'ccents included).',
+    'T'#228'sm'#228#228' otsikon rivin alussa, jota seuraavat isolla alkavat nimen sanat'
+        + ' (aksentit mukaan lukien).');
+  Put(True,
+    'Max files',
+    'Tiedostojen enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Max folder depth',
+    'Kansion enimm'#228'issyvyys');
+  Put(True,
+    'Max indexed offset:',
+    'Indeksoitu enimm'#228'isoffset (tavua):');
+  Put(True,
+    'Maximum: %s lines (file) / %s lines (clipboard).',
+    'Enint'#228#228'n: %s rivi'#228' (tiedosto) / %s rivi'#228' (leikep'#246'yt'#228').');
+  Put(True,
+    'Maximum: 100,000 lines (file) / 500 lines (clipboard).',
+    'Enint'#228#228'n: 100 000 rivi'#228' (tiedosto) / 500 rivi'#228' (leikep'#246'yt'#228').');
+  Put(True,
+    'Memory Airbag activated! The file has more than 2 billion lines, excee'
+        + 'ding the 32-bit Windows safe limit. Reading was automatically aborted '
+        + 'to protect the system from crashing.',
+    'Muistin turvatyyny aktivoitu! Tiedostossa on yli 2 miljardia rivi'#228', mi'
+        + 'k'#228' ylitt'#228#228' 32-bittisen Windowsin turvallisen rajan. Lukeminen keskeyte'
+        + 'ttiin automaattisesti j'#228'rjestelm'#228'n kaatumisen est'#228'miseksi.');
+  Put(True,
+    'Menu bar: Underlined letter = Alt+letter (example: Alt+F, E, V, T, S, '
+        + 'O for File, Edit, View, Tools, Session, Options).',
+    'Valikkorivi: Alleviivattu kirjain = Alt+kirjain (esimerkki: Alt+F, E, '
+        + 'V, T, S, O kohteille Tiedosto, Muokkaa, N'#228'yt'#228', Ty'#246'kalut, Istunto, Aset'
+        + 'ukset).');
+  Put(True,
+    'Menu.Options.Performance',
+    '&Suorituskyky (raskaat toiminnot)');
+  Put(True,
+    'Menu.Session',
+    '&Istunto');
+  Put(True,
+    'Menu.Tools',
+    '&Ty'#246'kalut');
+  Put(True,
+    'Menu.Tools.Automation',
+    '&Automaatio');
+  Put(True,
+    'Menu.Tools.ExportClear',
+    'V&ie ja tyhjenn'#228);
+  Put(True,
+    'Menu.Tools.FilterAnalysis',
+    '&Suodatus ja analyysi');
+  Put(True,
+    'Menu.Tools.Lines',
+    '&Rivitoiminnot');
+  Put(True,
+    'Menu.Tools.SplitMerge',
+    'J&aa ja yhdist'#228' tiedostoja');
+  Put(True,
+    'Menu.Tools.Tail',
+    '&Tail / seuraa');
+  Put(True,
+    'Merge',
+    'Yhdist'#228);
+  Put(True,
+    'Merge &files...',
+    'Yhdist'#228' &tiedostot...');
+  Put(True,
+    'Merge Delta Error: ',
+    'Yhdist'#228'misen delta-virhe: ');
+  Put(True,
+    'Merge Error: ',
+    'Yhdist'#228'misvirhe: ');
+  Put(True,
+    'Merge Files',
+    'Yhdist'#228' tiedostot');
+end;
+
+procedure AddFinnishPart24(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Merge Lines',
+    'Yhdist'#228' rivit');
+  Put(True,
+    'Merge apply finished OK.',
+    'Yhdist'#228'misen sovellus valmis OK.');
+  Put(True,
+    'Merge completed in: %s millisecs.',
+    'Yhdist'#228'minen valmis: %s ms.');
+  Put(True,
+    'Merge files',
+    'Yhdist'#228' tiedostot');
+  Put(True,
+    'Merge files'#13#10'Ctrl+Shift+J',
+    'Yhdist'#228' tiedostot'#13#10'Ctrl+Shift+J');
+  Put(True,
+    'Merge files completed in: %s millisecs.',
+    'Tiedostojen yhdist'#228'minen valmis: %s.');
+  Put(True,
+    'Merge files error: ',
+    'Tiedostojen yhdist'#228'misvirhe: ');
+  Put(True,
+    'Merge files: %s '#8212' %s',
+    'Yhdist'#228' tiedostot: %s '#8212' %s');
+  Put(True,
+    'Merge finished with %d error(s).',
+    'Yhdist'#228'minen p'#228#228'ttyi %d virheeseen.');
+  Put(True,
+    'Merge lines',
+    'Yhdist'#228' rivit');
+  Put(True,
+    'Merge lines'#13#10'Ctrl+Shift+M',
+    'Yhdist'#228' rivit'#13#10'Ctrl+Shift+M');
+  Put(True,
+    'Merge lines (delta)',
+    'Yhdist'#228' rivit (delta)');
+  Put(True,
+    'Merge lines (delta): %d line(s) from line %d',
+    'Yhdist'#228' rivit (delta): %d rivi('#228') alkaen rivist'#228' %d');
+  Put(True,
+    'Merge mode',
+    'Yhdist'#228'mistila');
+  Put(True,
+    'Merge multiple edited lines into the source file.',
+    'Yhdist'#228' useita muokattuja rivej'#228' l'#228'hdetiedostoon.');
+  Put(True,
+    'Merge the file into itself',
+    'Yhdist'#228' tiedosto itseens'#228);
+  Put(True,
+    'Merge.Cancelled',
+    'Yhdist'#228'minen peruttu. Tiedostoa ei muutettu.');
+  Put(True,
+    'Merge.FileChanged',
+    'Toinen ohjelma muutti tiedostoa yhdist'#228'misen aikana. Mit'#228#228'n ei kirjoit'
+        + 'ettu; suorita diff uudelleen.');
+  Put(True,
+    'Merge.LinesMissing: %d',
+    '%d muutos(ta) viittaa riveihin, joita ei en'#228#228' ole kohdetiedostossa (se'
+        + ' muuttui diffin j'#228'lkeen). Suorita diff uudelleen.');
+  Put(True,
+    'Merge.NoDiskSpace: %s %s',
+    'Tiedoston kansiossa ei ole tarpeeksi vapaata levytilaa tuloksen tallen'
+        + 'tamiseen. Tarvitaan: %s; vapaana: %s.');
+  Put(True,
+    'Merge.WriteFailed: %s',
+    'Tiedostoa ei voitu kirjoittaa: %s');
+  Put(True,
+    'MergeFiles.Hint.JoinParts',
+    'Yht'#228'suuriin osiin jaettujen tiedostojen yhdist'#228'miseksi valitse mik'#228' ta'
+        + 'hansa .part001 / .part002 -tiedosto l'#228'hteeksi ja aseta kohde. Vahvistu'
+        + 's yhdist'#228#228' kaikki numeroidut osat j'#228'rjestyksess'#228'.');
+  Put(True,
+    'MergeFiles.Join.Cancelled',
+    'Osatiedostojen yhdist'#228'minen peruttu.');
+  Put(True,
+    'MergeFiles.Join.Confirm',
+    'Yhdistet'#228#228'nk'#246' %d osatiedosto(a) kohteeseen:'#13#10'%s'#13#10#13#10'Jatketaanko?');
+  Put(True,
+    'MergeFiles.Join.NoPartsFound',
+    'T'#228'lle nimelle ei l'#246'ytynyt .partNNN-tiedostoja.');
+  Put(True,
+    'MergeFiles.Join.OnlyOnePart',
+    'Vain yksi osatiedosto l'#246'ytyi (%s). Tarvitaan v'#228'hint'#228#228'n kaksi osaa yhdi'
+        + 'st'#228'miseen.');
+  Put(True,
+    'MergeFiles.Join.OverwriteConfirm',
+    'Kohde on jo olemassa:'#13#10'%s'#13#10#13#10'Korvataanko?');
+  Put(True,
+    'MergeFiles.Join.Progress',
+    'Yhdistet'#228#228'n osatiedostoja...');
+  Put(True,
+    'MergeFiles.Join.ProgressDetail',
+    'Osa %d / %d');
+  Put(True,
+    'MergeFiles.Join.Success',
+    'Yhdistettiin %d osatiedosto(a) kohteeseen:'#13#10'%s');
+  Put(True,
+    'MergeFiles.Progress.Appending',
+    'Liitet'#228#228'n l'#228'hde kohteen loppuun...');
+  Put(True,
+    'MergeFiles.Progress.Backup',
+    'Luodaan varmuuskopiota...');
+  Put(True,
+    'MergeFiles.Progress.Finalizing',
+    'Viimeistell'#228#228'n...');
+  Put(True,
+    'MergeFiles.Progress.Merging',
+    'Yhdistet'#228#228'n tiedoston dataa...');
+  Put(True,
+    'MergeFiles.Progress.ScanningLines',
+    'Etsit'#228#228'n rivirajoja l'#228'hdetiedostosta...');
+  Put(True,
+    'Merging ...',
+    'Yhdistet'#228#228'n ...');
+  Put(True,
+    'Merging files...',
+    'Yhdistet'#228#228'n tiedostoja...');
+  Put(True,
+    'Missing closing "/" delimiter.',
+    'Puuttuva sulkeva "/"-erotin.');
+  Put(True,
+    'Mode',
+    'Tila');
+  Put(True,
+    'Mode-specific examples (auto-detected from file):',
+    'Tilakohtaiset esimerkit (havaittu automaattisesti tiedostosta):');
+  Put(True,
+    'Mode:%s  Wrap:%s  Tail:%s  Filter:%s  Marks:%s  Reading:%s',
+    'Tila:%s  Rivinvaihto:%s  Tail:%s  Suodatin:%s  Merkit:%s  Lukeminen:%s');
+  Put(True,
+    'Modified',
+    'Muokattu');
+  Put(True,
+    'Modified:',
+    'Muokattu:');
+  Put(True,
+    'More',
+    'Lis'#228#228);
+  Put(True,
+    'More tools',
+    'Lis'#228#228' ty'#246'kaluja');
+  Put(True,
+    'MsgDlg.Abort',
+    'Keskeyt'#228);
+  Put(True,
+    'MsgDlg.All',
+    'Kaikki');
+  Put(True,
+    'MsgDlg.Ignore',
+    'Ohita');
+  Put(True,
+    'MsgDlg.NoToAll',
+    'Ei kaikkiin');
+  Put(True,
+    'MsgDlg.Retry',
+    'Yrit'#228' uudelleen');
+  Put(True,
+    'MsgDlg.YesToAll',
+    'Kyll'#228' kaikkiin');
+  Put(True,
+    'NO = edit using physical line count from file start (slow on huge file'
+        + 's).',
+    'EI = muokkaa k'#228'ytt'#228'm'#228'll'#228' fyysist'#228' rivim'#228#228'r'#228#228' tiedoston alusta (hidas v'
+        + 'altavissa tiedostoissa).');
+  Put(True,
+    'NO = search by bytes now (estimated line in status bar).',
+    'EI = etsi tavuina nyt (arvioitu rivi tilarivill'#228').');
+  Put(True,
+    'Name',
+    'Nimi');
+  Put(True,
+    'Name && Location',
+    'Nimi && sijainti');
+  Put(True,
+    'Narrow the surrounding context once you identify which column must exc'
+        + 'eed a threshold.',
+    'Rajaa ymp'#228'r'#246'iv'#228#228' kontekstia, kun tunnistat, mink'#228' sarakkeen on ylitett'
+        + #228'v'#228' kynnys.');
+  Put(True,
+    'Navigate quickly through loaded lines.',
+    'Siirry nopeasti ladatuilla riveill'#228'.');
+  Put(True,
+    'No',
+    'Ei');
+  Put(True,
+    'No active filter. Press Ctrl+L first.',
+    'Ei aktiivista suodatinta. Paina ensin Ctrl+L.');
+  Put(True,
+    'No bookmarks found in current filter results.',
+    'Nykyisist'#228' suodatintuloksista ei l'#246'ytynyt kirjanmerkkej'#228'.');
+  Put(True,
+    'No bookmarks set.',
+    'Ei kirjanmerkkej'#228' asetettu.');
+  Put(True,
+    'No data could be read from the first lines of this file for the AI req'
+        + 'uest.',
+    'Ensimm'#228'isilt'#228' riveilt'#228' ei voitu lukea dataa AI-pyynt'#246#228' varten.');
+  Put(True,
+    'No dynamic category examples detected in sampled lines.',
+    'Otoksen riveist'#228' ei havaittu dynaamisia kategoriaesimerkkej'#228'.');
+  Put(True,
+    'No dynamic examples detected for this mode in sampled lines.',
+    'T'#228'lle tilalle ei havaittu dynaamisia esimerkkej'#228' otoksen riveist'#228'.');
+  Put(True,
+    'No file selected.',
+    'Tiedostoa ei ole valittu.');
+  Put(True,
+    'No files in the selection.',
+    'Valinnassa ei ole tiedostoja.');
+  Put(True,
+    'No line index is available for search (dense index and checkpoint file'
+        + ' are missing). Please read the file again.',
+    'Haulle ei ole rivihakemistoa (tihe'#228' indeksi ja tarkistuspiste puuttuva'
+        + 't). Lue tiedosto uudelleen.');
+  Put(True,
+    'No lines entered. Operation cancelled.',
+    'Rivej'#228' ei annettu. Toiminto peruttu.');
+  Put(True,
+    'No lines matched this pattern/regex in the selected file, so only 1 ou'
+        + 'tput file would be generated.',
+    'Yksik'#228#228'n rivi ei t'#228'sm'#228'nnyt t'#228'h'#228'n malliin/regexiin valitussa tiedostoss'
+        + 'a, joten vain 1 tulostiedosto syntyisi.');
+  Put(True,
+    'No match found among the current filter lines.',
+    'Osumaa ei l'#246'ytynyt nykyisist'#228' suodatinriveist'#228'.');
+  Put(True,
+    'No match on current line.',
+    'Ei osumaa nykyisell'#228' rivill'#228'.');
+  Put(True,
+    'No match selected. Use Find Next first.',
+    'Osumaa ei ole valittu. K'#228'yt'#228' ensin Etsi seuraava.');
+  Put(True,
+    'No matching line found in preview.',
+    'T'#228'sm'#228#228'v'#228#228' rivi'#228' ei l'#246'ytynyt esikatselusta.');
+  Put(True,
+    'No mergeable diff rows selected.',
+    'Yht'#228#228'n yhdistett'#228'v'#228#228' diff-rivi'#228' ei ole valittu.');
+  Put(True,
+    'No new lines in this Tail session yet. Enable Tail (Ctrl+T) and append'
+        + ' lines to the file.',
+    'T'#228'ss'#228' Tail-istunnossa ei ole viel'#228' uusia rivej'#228'. Ota Tail k'#228'ytt'#246#246'n (Ct'
+        + 'rl+T) ja lis'#228#228' rivej'#228' tiedostoon.');
+  Put(True,
+    'No recent files.',
+    'Ei viimeisimpi'#228' tiedostoja.');
+  Put(True,
+    'No recent tabs',
+    'Ei viimeisimpi'#228' v'#228'lilehti'#228);
+  Put(True,
+    'No regex examples for equal-parts mode.',
+    'Ei regex-esimerkkej'#228' yht'#228' suurten osien tilalle.');
+  Put(True,
+    'No selected line detected. Please enter the start line.',
+    'Valittua rivi'#228' ei havaittu. Anna aloitusrivi.');
+  Put(True,
+    'No session history file yet. Edits will append here.',
+    'Istuntohistorian tiedostoa ei viel'#228' ole. Muokkaukset liitet'#228#228'n t'#228'h'#228'n.');
+  Put(True,
+    'No stable 8-digit trailer was inferred - generic pattern.',
+    'Vakaata 8-numeroista j'#228'lkip'#228#228'tett'#228' ei p'#228#228'telty '#8211' yleinen malli.');
+  Put(True,
+    'No tail lines to export in this session.',
+    'Ei viet'#228'vi'#228' h'#228'nn'#228'n rivej'#228' t'#228'ss'#228' istunnossa.');
+  Put(True,
+    'No valid source file',
+    'Ei kelvollista l'#228'hdetiedostoa');
+  Put(True,
+    'Normal',
+    'Normaali');
+  Put(True,
+    'Not Content Indexed',
+    'Sis'#228'lt'#246#228' ei indeksoitu');
+  Put(True,
+    'Not connected',
+    'Ei yhteydess'#228);
+  Put(True,
+    'Not enough disk space: need %s, free %s.',
+    'Ei tarpeeksi levytilaa: tarvitaan %s, vapaana %s.');
+  Put(True,
+    'Not enough free disk space to complete this operation safely.',
+    'Ei tarpeeksi vapaata levytilaa t'#228'm'#228'n toiminnon turvalliseen suorittami'
+        + 'seen.');
+  Put(True,
+    'Not enough lines in the file for this many parts (lines: %d, parts: %d'
+        + ').',
+    'Tiedostossa ei ole tarpeeksi rivej'#228' n'#228'in monelle osalle (rivit: %d, os'
+        + 'at: %d).');
+  Put(True,
+    'Not enough stable variation was detected between lines - try counting '
+        + 'fixed positions manually, then refine this pattern.',
+    'Rivien v'#228'lill'#228' ei havaittu tarpeeksi vakaata vaihtelua '#8211' yrit'#228' laskea '
+        + 'kiinte'#228't sijainnit manuaalisesti ja tarkenna sitten t'#228't'#228' mallia.');
+  Put(True,
+    'Not found',
+    'Ei l'#246'ytynyt');
+  Put(True,
+    'Not found in filter',
+    'Ei l'#246'ytynyt suodattimesta');
+  Put(True,
+    'Note about the disclaimer: I do not accept any responsibility about th'
+        + 'e usability or in case of any damage caused by the use of my programs '
+        + 'or files. Use them at your own risk. If they don'#8217't work properly, you '
+        + 'have the sources.',
+    'Huomautus vastuuvapauslausekkeesta: en ota mit'#228#228'n vastuuta k'#228'ytett'#228'vyy'
+        + 'dest'#228' tai vahingoista, jotka aiheutuvat ohjelmieni tai tiedostojeni k'#228
+        + 'yt'#246'st'#228'. K'#228'yt'#228' niit'#228' omalla vastuullasi. Jos ne eiv'#228't toimi kunnolla, s'
+        + 'inulla on l'#228'hdekoodit.');
+  Put(True,
+    'Note: file is very large, preview was truncated for responsiveness.',
+    'Huom: tiedosto on hyvin suuri, esikatselu katkaistiin vasteen vuoksi.');
+  Put(True,
+    'Note: the last 8 digits of the trailing numeric island (%s) are the sa'
+        + 'me on every scanned line - do not rely on ''split when the trailer chan'
+        + 'ges'' until trailers differ; prefer this varying-column pattern.',
+    'Huom: j'#228'ljess'#228' olevan numeerisen saarekkeen (%s) viimeiset 8 numeroa o'
+        + 'vat samat jokaisella skannatulla rivill'#228' '#8211' '#228'l'#228' luota ''jaa kun j'#228'lkip'#228#228
+        + 'te muuttuu'' ennen kuin j'#228'lkip'#228#228'tteet eroavat; suosi t'#228't'#228' vaihtuvan sar'
+        + 'akkeen mallia.');
+  Put(True,
+    'Nothing selected.',
+    'Mit'#228#228'n ei ole valittu.');
+  Put(True,
+    'Nothing to export',
+    'Ei viet'#228'v'#228#228);
+  Put(True,
+    'Nothing to redo',
+    'Ei uudelleen teht'#228'v'#228#228);
+  Put(True,
+    'Nothing to undo',
+    'Ei kumottavaa');
+  Put(True,
+    'Nothing was changed or proposed: the model did not send a valid comman'
+        + 'd. Rephrase the request and try again.',
+    'Mit'#228#228'n ei muutettu tai ehdotettu: malli ei l'#228'hett'#228'nyt kelvollista kome'
+        + 'ntoa. Muotoile pyynt'#246' uudelleen ja yrit'#228' uudelleen.');
+end;
+
+procedure AddFinnishPart25(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Notice.ClosesIn',
+    'Sulkeutuu %d s kuluttua');
+  Put(True,
+    'Number of lines must be a valid integer.',
+    'Rivim'#228#228'r'#228'n on oltava kelvollinen kokonaisluku.');
+  Put(True,
+    'Number of lines must be between %d and %d.',
+    'Rivim'#228#228'r'#228'n on oltava v'#228'lill'#228' %d'#8211'%d.');
+  Put(True,
+    'Number of new lines:',
+    'Uusien rivien m'#228#228'r'#228':');
+  Put(True,
+    'Number of parts (2..1000):',
+    'Osien m'#228#228'r'#228' (2..1000):');
+  Put(True,
+    'Number of parts must be between %d and %d.',
+    'Osien m'#228#228'r'#228'n on oltava v'#228'lill'#228' %d'#8211'%d.');
+  Put(True,
+    'Number of parts must be between 2 and 1000.',
+    'Osien m'#228#228'r'#228'n on oltava v'#228'lill'#228' 2'#8211'1000.');
+  Put(True,
+    'Number of parts:',
+    'Osien m'#228#228'r'#228':');
+  Put(True,
+    'Numero da linha (1..',
+    'Rivinumero (v'#228'lilt'#228' 1'#8211' ');
+  Put(True,
+    'N'#250'mero da linha (1..',
+    'Rivinumero (1..');
+  Put(True,
+    'OFF',
+    'POIS');
+  Put(True,
+    'OK',
+    'OK');
+  Put(True,
+    'ON',
+    'P'#196#196'LL'#196);
+  Put(True,
+    'Offline',
+    'Offline');
+  Put(True,
+    'Ok',
+    'OK');
+  Put(True,
+    'Ok, I will not show it again.',
+    'OK, en n'#228'yt'#228' sit'#228' uudelleen.');
+  Put(True,
+    'Only the first %s lines can be shown in the grid.',
+    'Ruudukossa voidaan n'#228'ytt'#228#228' vain ensimm'#228'iset %s rivi'#228'.');
+  Put(True,
+    'Open',
+    'Avaa');
+  Put(True,
+    'Open File Location',
+    'Avaa tiedostosijainti');
+  Put(True,
+    'Open File...',
+    'Avaa tiedosto...');
+  Put(True,
+    'Open Selected',
+    'Avaa valittu');
+  Put(True,
+    'Open and edit multi-gigabyte text files instantly - where other editor'
+        + 's can''t keep up. Exclusive features like Python macros, AI to extract/'
+        + 'analyze files, and much more.',
+    'Avaa ja muokkaa monen gigatavun tekstitiedostoja heti '#8211' siell'#228', miss'#228' '
+        + 'muut editorit eiv'#228't pysy per'#228'ss'#228'. Ainutlaatuisia ominaisuuksia, kuten '
+        + 'Python-makroja, AI tiedostojen poimintaan/analyysiin ja paljon muuta.');
+  Put(True,
+    'Open file',
+    'Avaa tiedosto');
+  Put(True,
+    'Open file from parts ?',
+    'Avaa tiedosto osista?');
+  Put(True,
+    'Open split file tools.',
+    'Avaa tiedoston jakoty'#246'kalut.');
+  Put(True,
+    'Open the Find Files tab.',
+    'Avaa Etsi tiedostoja -v'#228'lilehti.');
+  Put(True,
+    'Open the Read File tab.',
+    'Avaa Lue tiedosto -v'#228'lilehti.');
+  Put(True,
+    'Open this file?',
+    'Avataanko t'#228'm'#228' tiedosto?');
+  Put(True,
+    'Open.AskReadAfterBrowse',
+    'Tiedosto valittu: %s'#13#10#13#10'Haluatko lukea sen nyt?');
+  Put(True,
+    'Open.ForceIndexThisFile.NoFile',
+    'Avaa ensin tiedosto.');
+  Put(True,
+    'Open.IndexFailed.Body',
+    'Tiedostoa "%s" luettaessa tapahtui ongelma:'#13#10'%s');
+  Put(True,
+    'Open.IndexFailed.Cancelled',
+    'Avaus peruutettu.');
+  Put(True,
+    'Open.IndexFailed.RetryHint',
+    'Voit avata tiedoston nopeammassa katselutilassa (ilman t'#228'ytt'#228' rivihake'
+        + 'mistoa). Jatketaanko?');
+  Put(True,
+    'Open.IndexFailed.Title',
+    'Tiedostoa ei voitu valmistella');
+  Put(True,
+    'Open.IndexFailed.TooManyLines',
+    'Tiedostossa on yli 2 miljardia rivi'#228' (j'#228'rjestelm'#228'n raja).');
+  Put(True,
+    'Open.InstantRetry.Status',
+    'Nopea avaus (likim'#228#228'r'#228'inen rivikartta)');
+  Put(True,
+    'Open.MaxGbLimit.Confirm',
+    'Tallennetaanko raja %d GB tulevia avauksia varten?');
+  Put(True,
+    'Open.MaxGbLimit.Empty',
+    'Anna luku (GB).');
+  Put(True,
+    'Open.MaxGbLimit.Prompt',
+    'T'#228'h'#228'n kokoon (GB) asti tiedostot avataan t'#228'ydell'#228' rivihakemistolla. Su'
+        + 'uremmat k'#228'ytt'#228'v'#228't nopeaa avausta.');
+  Put(True,
+    'Open.MaxGbLimit.RangeHint',
+    'Kelvollinen v'#228'li: %d'#8211'%d GB. Oletus, jos virheellinen: %d GB.');
+  Put(True,
+    'Open.MaxGbLimit.Saved',
+    'Raja tallennettu: %d GB.');
+  Put(True,
+    'Open.MaxGbLimit.Title',
+    'Indeksoidun tiedoston kokoraja');
+  Put(True,
+    'Open.MaxGbLimit.TooLarge',
+    'Arvo on liian suuri.');
+  Put(True,
+    'Open.MaxGbLimit.TooSmall',
+    'Arvo on liian pieni.');
+  Put(True,
+    'Open: always build line index',
+    'Avaa: rakenna aina rivihakemisto');
+  Put(True,
+    'Open: always instant (Zero Scan)',
+    'Avaa: aina heti (Zero Scan)');
+  Put(True,
+    'Open: automatic (recommended)',
+    'Avaa: automaattinen (suositus)');
+  Put(True,
+    'Open: build line index for this file',
+    'Avaa: rakenna rivihakemisto t'#228'lle tiedostolle');
+  Put(True,
+    'Open: indexed file size limit (GB)...',
+    'Avaa: indeksoidun tiedoston kokoraja (GB)...');
+  Put(True,
+    'Operation',
+    'Toiminto');
+  Put(True,
+    'Operation cancelled.',
+    'Toiminto peruutettu.');
+  Put(True,
+    'Operation failed or cancelled.',
+    'Toiminto ep'#228'onnistui tai peruutettiin.');
+  Put(True,
+    'Operation:',
+    'Toiminto:');
+  Put(True,
+    'Options',
+    'Asetukset');
+  Put(True,
+    'Options: %s',
+    'Asetukset: %s');
+  Put(True,
+    'Output',
+    'Tuloste');
+  Put(True,
+    'Output FileName:',
+    'Tulostiedoston nimi:');
+  Put(True,
+    'Output file: %s',
+    'Tulostiedosto: %s');
+  Put(True,
+    'Output:',
+    'Tuloste:');
+  Put(True,
+    'Output: %s',
+    'Tuloste: %s');
+  Put(True,
+    'Outputs true/false per line - ideal after CSV imports or conversions.',
+    'Kirjoittaa true/false jokaiselle riville '#8211' ihanteellinen CSV-tuonnin t'
+        + 'ai muunnosten j'#228'lkeen.');
+  Put(True,
+    'PAUSED',
+    'KESKEYTETTY');
+  Put(True,
+    'PY_MACRO_EX_01',
+    '# 1 - Muunna isoiksi kirjaimiksi');
+  Put(True,
+    'PY_MACRO_EX_02',
+    '# 2 - Lis'#228#228' rivinumeron etuliite');
+  Put(True,
+    'PY_MACRO_EX_03',
+    '# 3 - Ohita tyhj'#228't rivit');
+  Put(True,
+    'PY_MACRO_EX_04',
+    '# 4 - Suodata: s'#228'ilyt'#228' vain avainsanan sis'#228'lt'#228'v'#228't rivit');
+  Put(True,
+    'PY_MACRO_EX_05',
+    '# 5 - Poista ylim'#228#228'r'#228'iset v'#228'lily'#246'nnit (normalisoi whitespace)');
+  Put(True,
+    'PY_MACRO_EX_06',
+    '# 6 - Muotoile CSV-kent'#228't uudelleen (erotin = puolipiste)');
+  Put(True,
+    'PY_MACRO_EX_07',
+    '# 7 - Laske sanat rivilt'#228);
+  Put(True,
+    'PY_MACRO_EX_08',
+    '# 8 - Useiden sanojen korvaus sanakirjalla');
+  Put(True,
+    'PY_MACRO_EX_09',
+    '# 9 - Pysyv'#228' laskuri ctx:ll'#228);
+  Put(True,
+    'PY_MACRO_EX_10_SCRIPT',
+    '# 10 - Nosta tahallinen virhe (testaa LINE_ERROR-laskuria)');
+  Put(True,
+    'PY_MACRO_EX_10_TAIL',
+    '# 10 - Kirjaa vain ERROR-rivit (tyypillinen tail / lokiseuranta)');
+  Put(True,
+    'Panel.Dock',
+    'Telakoi');
+  Put(True,
+    'Panel.DockHint',
+    'Telakoi t'#228'm'#228' paneeli takaisin p'#228#228'ikkunaan');
+  Put(True,
+    'Panel.DragDockHint',
+    'Pudota alkuper'#228'iselle reunalle tai kaksoisnapsauta otsikkoa telakoidak'
+        + 'sesi');
+  Put(True,
+    'Panel.DragUndockHint',
+    'Ved'#228' t'#228't'#228' otsikkoa irrottaaksesi paneelin');
+  Put(True,
+    'Panel.RestoreFloat',
+    'Palauta alkuper'#228'inen n'#228'kym'#228);
+  Put(True,
+    'Panel.RestoreFloatHint',
+    'Palauta t'#228'm'#228' paneeli alkuper'#228'iseen kelluvaan n'#228'kym'#228#228'n viimeiseen sijai'
+        + 'ntiin');
+  Put(True,
+    'Panel.Undock',
+    'Irrota');
+  Put(True,
+    'Panel.UndockHint',
+    'Irrota t'#228'm'#228' paneeli kelluvaksi ikkunaksi');
+  Put(True,
+    'Parts are sized evenly by bytes; each part ends only after a complete '
+        + 'line (LF). Part sizes may differ slightly.',
+    'Osat mitoitetaan tasaisesti tavuina; jokainen osa p'#228#228'ttyy vasta t'#228'yden'
+        + ' rivin (LF) j'#228'lkeen. Osien koot voivat hieman erota.');
+  Put(True,
+    'Paste',
+    'Liit'#228);
+  Put(True,
+    'Paste clipboard lines into file at selected line',
+    'Liit'#228' leikep'#246'yd'#228'n rivit tiedostoon valitulle riville');
+  Put(True,
+    'Pattern',
+    'Malli');
+  Put(True,
+    'Pattern cannot be empty.',
+    'Malli ei voi olla tyhj'#228'.');
+  Put(True,
+    'Pattern mode: a new part starts when a line matches. Equal-parts mode:'
+        + ' file is split by size, but every part ends only after a complete line'
+        + '.',
+    'Mallitila: uusi osa alkaa, kun rivi t'#228'sm'#228#228'. Yht'#228' suurten osien tila: t'
+        + 'iedosto jaetaan koon mukaan, mutta jokainen osa p'#228#228'ttyy vasta t'#228'yden r'
+        + 'ivin j'#228'lkeen.');
+  Put(True,
+    'Pattern to trigger split (new file created when match found):',
+    'Malli, joka k'#228'ynnist'#228#228' jaon (uusi tiedosto luodaan osuman l'#246'ytyess'#228'):');
+  Put(True,
+    'Pattern/Regex',
+    'Malli/Regex');
+  Put(True,
+    'Pattern/Regex'#13#10'Ctrl+Alt+P',
+    'Malli/Regex'#13#10'Ctrl+Alt+P');
+  Put(True,
+    'Pattern/Regex Examples:',
+    'Malli/Regex-esimerkit:');
+  Put(True,
+    'Pattern/Regex is evaluated line-by-line. If a line matches, a new part'
+        + ' starts from that line. If no line matches, only 1 file is generated.',
+    'Malli/Regex arvioidaan rivi kerrallaan. Jos rivi t'#228'sm'#228#228', uusi osa alka'
+        + 'a kyseiselt'#228' rivilt'#228'. Jos mik'#228#228'n rivi ei t'#228'sm'#228#228', generoidaan vain 1 ti'
+        + 'edosto.');
+  Put(True,
+    'Pattern/Regex is evaluated line-by-line. If a line matches, a new part'
+        + ' starts from that line. If no line matches, only 1 file is generated. '
+        + 'Equal-parts count is ignored in pattern/regex mode.',
+    'Malli/Regex arvioidaan rivi kerrallaan. Jos rivi t'#228'sm'#228#228', uusi osa alka'
+        + 'a kyseiselt'#228' rivilt'#228'. Jos mik'#228#228'n rivi ei t'#228'sm'#228#228', generoidaan vain 1 ti'
+        + 'edosto. Yht'#228' suurten osien m'#228#228'r'#228#228' ei huomioida malli/regex-tilassa.');
+  Put(True,
+    'Pattern/Regex is evaluated line-by-line. In Split mode: a new part sta'
+        + 'rts when a line matches. In Regex modes: a single output file is produ'
+        + 'ced. JS-style /pattern/gi syntax is accepted.',
+    'Malli/Regex arvioidaan rivi kerrallaan. Jakotilassa: uusi osa alkaa, k'
+        + 'un rivi t'#228'sm'#228#228'. Regex-tiloissa: tuotetaan yksi tulostiedosto. JS-tyyli'
+        + 'nen /pattern/gi-syntaksi hyv'#228'ksyt'#228#228'n.');
+  Put(True,
+    'Pattern/Regex to start a NEW file from the matched line:',
+    'Malli/Regex uuden tiedoston aloittamiseen osumarivilt'#228':');
+  Put(True,
+    'Pattern/Regex, Equal parts, Extract parts, Find Files, Select skin',
+    'Malli/Regex, yht'#228' suuret osat, poimi osat, Etsi tiedostoja, Valitse te'
+        + 'ema');
+  Put(True,
+    'Pattern/Regex:',
+    'Malli/Regex:');
+  Put(True,
+    'Pipe error',
+    'Putkivirhe');
+  Put(True,
+    'Please check one or more lines first.',
+    'Valitse ensin yksi tai useampi rivi.');
+  Put(True,
+    'Please choose an existing left file.',
+    'Valitse olemassa oleva vasen tiedosto.');
+end;
+
+procedure AddFinnishPart26(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Please choose an existing right file.',
+    'Valitse olemassa oleva oikea tiedosto.');
+  Put(True,
+    'Please enter a Python script in the editor.',
+    'Kirjoita Python-skripti editoriin.');
+  Put(True,
+    'Please enter a search word.',
+    'Anna hakusana.');
+  Put(True,
+    'Please enter a valid file list, one per line, example',
+    'Anna kelvollinen tiedostoluettelo, yksi per rivi, esimerkki');
+  Put(True,
+    'Please enter a valid line number.',
+    'Anna kelvollinen rivinumero.');
+  Put(True,
+    'Please enter with file extension to exclude in the files search',
+    'Anna tiedostohakuun poissuljettava tiedostop'#228#228'te');
+  Put(True,
+    'Please enter with folder extension to exclude in the files search',
+    'Anna tiedostohakuun poissuljettava kansiop'#228#228'te');
+  Put(True,
+    'Please read a file first.',
+    'Lue ensin tiedosto.');
+  Put(True,
+    'Please read the file first.',
+    'Lue tiedosto ensin.');
+  Put(True,
+    'Please select a file first.',
+    'Valitse ensin tiedosto.');
+  Put(True,
+    'Please select a file.',
+    'Valitse tiedosto.');
+  Put(True,
+    'Please select a line first.',
+    'Valitse ensin rivi.');
+  Put(True,
+    'Please select both Left and Right files.',
+    'Valitse sek'#228' vasen ett'#228' oikea tiedosto.');
+  Put(True,
+    'Please select one or more lines in the list first.',
+    'Valitse ensin yksi tai useampi rivi luettelosta.');
+  Put(True,
+    'Please select or check one or more lines first.',
+    'Valitse tai merkitse ensin yksi tai useampi rivi.');
+  Put(True,
+    'Please select/read the destination file first.',
+    'Valitse/lue ensin kohdetiedosto.');
+  Put(True,
+    'Please specify an output filename.',
+    'Anna tulostiedoston nimi.');
+  Put(True,
+    'Please wait...',
+    'Odota...');
+  Put(True,
+    'Portuguese (Brazil)',
+    'portugali (Brasilia)');
+  Put(True,
+    'Pr&evious bookmark',
+    '&Edellinen kirjanmerkki');
+  Put(True,
+    'Prefs.AgentDecisionSeconds',
+    'Aika hyv'#228'ksy'#228'/hyl'#228't'#228' ehdotetut muokkaukset (sekuntia)');
+  Put(True,
+    'Prefs.AgentSampleLines',
+    'Tiedoston kuvaamiseen analysoitavat rivit');
+  Put(True,
+    'Prefs.AnonymizeMaxLines',
+    'Anonymisoitavien rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.AssistantRecentMax',
+    'Avustajan viimeisimpien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.Caption',
+    'Asetukset');
+  Put(True,
+    'Prefs.DefaultRestored',
+    'Oletusarvo (%d) palautettiin. Napsauta OK uudelleen tallentaaksesi sen'
+        + ' tai kirjoita toinen arvo.');
+  Put(True,
+    'Prefs.DefaultUIScalePPI',
+    'K'#228'ytt'#246'liittym'#228'n oletusskaala (PPI)');
+  Put(True,
+    'Prefs.DefaultUIScalePPIHint',
+    '0 = Windows DPI; v'#228'li %d'#8211'%d (oletus 0)');
+  Put(True,
+    'Prefs.EmptyValue',
+    'Anna arvo kohteelle "%s".');
+  Put(True,
+    'Prefs.ExportClipboardMaxLines',
+    'Leikep'#246'yd'#228'lle kopioitavien rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.ExportFileMaxLines',
+    'Tiedostoon viet'#228'vien rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.FilterRecentMax',
+    'Suodattimen viimeisimpien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.HistoryLineExcerptMax',
+    'Tallennettavat merkit per rivi (ennen/j'#228'lkeen)');
+  Put(True,
+    'Prefs.InsertMaxLines',
+    'Kerralla lis'#228'tt'#228'vien rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.Intro',
+    'Tyhj'#228't tai virheelliset arvot palaavat alla n'#228'kyviin oletuksiin.');
+  Put(True,
+    'Prefs.InvalidNumber',
+    'Virheellinen numero kohteelle "%s".');
+  Put(True,
+    'Prefs.LineHintMaxChars',
+    'Rivivihjeen merkkien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.LineHintMaxLines',
+    'Rivivihjeen rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.LineHintShowDelayMs',
+    'Rivivihjeen viive (ms)');
+  Put(True,
+    'Prefs.MenuItem',
+    '&Asetukset...');
+  Put(True,
+    'Prefs.MergeMaxLines',
+    'Yhdistett'#228'vien rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.OpenTabsMruMax',
+    'Avoimien v'#228'lilehtien MRU-enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.OutOfRange',
+    '"%s" on oltava v'#228'lill'#228' %d'#8211'%d.');
+  Put(True,
+    'Prefs.PythonMacroSampleLines',
+    'Python-makron esimerkkirivit');
+  Put(True,
+    'Prefs.PythonMacroSampleLinesHint',
+    'Esimerkit jaetaan valituille riveille tai koko tiedostolle, jos mit'#228#228'n'
+        + ' ei ole valittu.');
+  Put(True,
+    'Prefs.RangeDefault',
+    'V'#228'li %d'#8211'%d (oletus %d)');
+  Put(True,
+    'Prefs.ResetDefaults',
+    'Palauta oletukset');
+  Put(True,
+    'Prefs.Section.Agent',
+    'AI-agentti');
+  Put(True,
+    'Prefs.Section.Display',
+    'N'#228'ytt'#246);
+  Put(True,
+    'Prefs.Section.Hints',
+    'Rivivihjeet');
+  Put(True,
+    'Prefs.Section.History',
+    'Istuntohistoria');
+  Put(True,
+    'Prefs.Section.MRU',
+    'Viimeisimm'#228't luettelot (MRU)');
+  Put(True,
+    'Prefs.Section.MoreLimits',
+    'Muut rajat');
+  Put(True,
+    'Prefs.Section.SelLines',
+    'Rivien rajat');
+  Put(True,
+    'Prefs.SelectedLinesActionMax',
+    'Kopioitavien, viet'#228'vien, muokattavien tai AI:lle l'#228'hetett'#228'vien rivien '
+        + 'enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.SplitFilesMax',
+    'Jakaminen tiedostoittain -liukus'#228#228'timen tiedostojen enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Prefs.SplitPartsMax',
+    'Osien enimm'#228'ism'#228#228'r'#228' jaettaessa tasan tai murto-osalla');
+  Put(True,
+    'Prefs.TranslateMaxLines',
+    'K'#228#228'nnett'#228'vien rivien enimm'#228'ism'#228#228'r'#228);
+  Put(True,
+    'Preparing editing',
+    'Valmistellaan muokkausta');
+  Put(True,
+    'Preview',
+    'Esikatselu');
+  Put(True,
+    'Preview skipped. New text:',
+    'Esikatselu ohitettu. Uusi teksti:');
+  Put(True,
+    'Preview summary (sampled): %d matching lines in first %d lines scanned'
+        + '.',
+    'Esikatseluyhteenveto (otos): %d t'#228'sm'#228#228'v'#228#228' rivi'#228' ensimm'#228'isist'#228' %d skann'
+        + 'atusta rivist'#228'.');
+  Put(True,
+    'Preview summary: %d matching lines in %d total lines.',
+    'Esikatseluyhteenveto: %d t'#228'sm'#228#228'v'#228#228' rivi'#228' %d rivist'#228' yhteens'#228'.');
+  Put(True,
+    'Preview summary: file is too large to auto-validate. Click Preview to '
+        + 'sample matches (fast), or Confirm to run full processing.',
+    'Esikatseluyhteenveto: tiedosto on liian suuri automaattiseen tarkistuk'
+        + 'seen. Napsauta Esikatselu otosta varten (nopea) tai Vahvista t'#228'ytt'#228' k'#228
+        + 'sittely'#228' varten.');
+  Put(True,
+    'Preview: %d matching lines found in %d lines. Expected output files (a'
+        + 'pprox.): %d. Continue?',
+    'Esikatselu: %d t'#228'sm'#228#228'v'#228#228' rivi'#228' l'#246'ytyi %d rivist'#228'. Odotetut tulostiedos'
+        + 'tot (n.): %d. Jatketaanko?');
+  Put(True,
+    'Prices: ',
+    'Hinnat: ');
+  Put(True,
+    'Process finished successfully!',
+    'K'#228'sittely valmis onnistuneesti!');
+  Put(True,
+    'Processing %d selected line(s) only...',
+    'K'#228'sitell'#228#228'n vain %d valittua rivi('#228')...');
+  Put(True,
+    'Processing ...',
+    'K'#228'sitell'#228#228'n ...');
+  Put(True,
+    'Processing diff...',
+    'K'#228'sitell'#228#228'n diffi'#228'...');
+  Put(True,
+    'Processing...',
+    'K'#228'sitell'#228#228'n...');
+  Put(True,
+    'Procurar',
+    'Etsi');
+  Put(True,
+    'Prompt',
+    'Kehote');
+  Put(True,
+    'Proposals on %s overlap. Accept them one at a time.',
+    'Ehdotukset kohteessa %s menev'#228't p'#228#228'llekk'#228'in. Hyv'#228'ksy ne yksi kerrallaa'
+        + 'n.');
+  Put(True,
+    'Proposed edits',
+    'Ehdotetut muokkaukset');
+  Put(True,
+    'Protection Activated (FastFile)',
+    'Suojaus aktivoitu (FastFile)');
+  Put(True,
+    'Python Macro Integration',
+    'Python-makrointegraatio');
+  Put(True,
+    'Python plugin ScriptEngine.exe not found.',
+    'Python-lis'#228'osaa ScriptEngine.exe ei l'#246'ytynyt.');
+  Put(True,
+    'Python plugin download incomplete: received %d of %d bytes.',
+    'Python-lis'#228'osan lataus kesken: vastaanotettu %d / %d tavua.');
+  Put(True,
+    'Quick-Start Guide',
+    'Pikaopas');
+  Put(True,
+    'Quit',
+    'Lopeta');
+  Put(True,
+    'Random Skin',
+    'Satunnainen teema');
+  Put(True,
+    'Read',
+    'Lue');
+  Put(True,
+    'Read'#13#10'Ctrl+1',
+    'Lue'#13#10'Ctrl+1');
+  Put(True,
+    'Read'#13#10'F5',
+    'Lue'#13#10'F5');
+  Put(True,
+    'Read &tab',
+    'Lue-&v'#228'lilehti');
+  Put(True,
+    'Read / &Load',
+    'Lue / &Lataa');
+  Put(True,
+    'Read / Load (F5)',
+    'Lue / Lataa (F5)');
+  Put(True,
+    'Read File',
+    'Lue tiedosto');
+  Put(True,
+    'Read summary (status):',
+    'Lue yhteenveto (tilapalkki):');
+  Put(True,
+    'Read the selected file and load its lines.',
+    'Lue valittu tiedosto ja lataa sen rivit.');
+  Put(True,
+    'Read view',
+    'Tiedostoluettelo');
+  Put(True,
+    'Read-only',
+    'Vain luku');
+  Put(True,
+    'Read-only &session',
+    'Vain luku -&istunto');
+  Put(True,
+    'Read-only session',
+    'Vain luku -istunto');
+  Put(True,
+    'Read-only session is enabled. Turn it off in Options to edit or save t'
+        + 'he file.',
+    'Vain luku -istunto on k'#228'yt'#246'ss'#228'. Poista se k'#228'yt'#246'st'#228' Asetuksissa muokata'
+        + 'ksesi tai tallentaaksesi tiedoston.');
+  Put(True,
+    'Read-only session is enabled. Turn it off to modify the file.',
+    'Vain luku -istunto on k'#228'yt'#246'ss'#228'. Poista se k'#228'yt'#246'st'#228' muokataksesi tiedos'
+        + 'toa.');
+  Put(True,
+    'Read-only session:',
+    'Vain luku -istunto:');
+  Put(True,
+    'Reading file...',
+    'Luetaan tiedostoa...');
+  Put(True,
+    'Reading lines...',
+    'Luetaan rivej'#228'...');
+end;
+
+procedure AddFinnishPart27(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Readonly',
+    'Vain luku');
+  Put(True,
+    'Ready',
+    'Valmis');
+  Put(True,
+    'Ready.',
+    'Valmis.');
+  Put(True,
+    'Recent',
+    'Viimeisimm'#228't');
+  Put(True,
+    'Recent &tabs',
+    'Viimeisimm'#228't &v'#228'lilehdet');
+  Put(True,
+    'Recent Files',
+    'Viimeisimm'#228't tiedostot');
+  Put(True,
+    'Recent Files & Folders',
+    'Viimeisimm'#228't tiedostot ja kansiot');
+  Put(True,
+    'Recent Folders',
+    'Viimeisimm'#228't kansiot');
+  Put(True,
+    'Recent files (MRU) (Ctrl+R)',
+    'Viimeisimm'#228't tiedostot (MRU) (Ctrl+R)');
+  Put(True,
+    'Recent files startup screen',
+    'Viimeisimpien tiedostojen k'#228'ynnistysruutu');
+  Put(True,
+    'Recent tabs.Hint',
+    'Avaa '#228'skett'#228'in k'#228'ytetty v'#228'lilehti uudelleen tai palauta viimeisin istu'
+        + 'nto');
+  Put(True,
+    'RecentFiles.More',
+    'N'#228'yt'#228' lis'#228#228);
+  Put(True,
+    'RecentFiles.MoreHint',
+    'N'#228'yt'#228' loput viimeisimm'#228't tiedostot');
+  Put(True,
+    'Redo',
+    'Tee uudelleen');
+  Put(True,
+    'Redo delete on line %d? The line will be deleted again.',
+    'Tehd'#228#228'nk'#246' uudelleen poisto rivill'#228' %d? Rivi poistetaan uudelleen.');
+  Put(True,
+    'Redo edit on line %d? Apply: "%s"',
+    'Tehd'#228#228'nk'#246' uudelleen muokkaus rivill'#228' %d? K'#228'yt'#228': "%s"');
+  Put(True,
+    'Redo edit on line %d? The edited content will be applied again.',
+    'Tehd'#228#228'nk'#246' uudelleen muokkaus rivill'#228' %d? Muokattu sis'#228'lt'#246' otetaan uude'
+        + 'lleen k'#228'ytt'#246#246'n.');
+  Put(True,
+    'Redo failed.',
+    'Uudelleenteko ep'#228'onnistui.');
+  Put(True,
+    'Redo insert at line %d? Insert: "%s"',
+    'Tehd'#228#228'nk'#246' uudelleen lis'#228'ys riville %d? Lis'#228#228': "%s"');
+  Put(True,
+    'Redo insert at line %d? The line will be inserted again.',
+    'Tehd'#228#228'nk'#246' uudelleen lis'#228'ys riville %d? Rivi lis'#228't'#228#228'n uudelleen.');
+  Put(True,
+    'Redo is not available for merge files yet.',
+    'Uudelleenteko ei ole viel'#228' k'#228'ytett'#228'viss'#228' tiedostojen yhdist'#228'misess'#228'.');
+  Put(True,
+    'Redo line autofill (%d line(s) at line %d)',
+    'Tee uudelleen rivit'#228'ytt'#246' (%d rivi('#228') rivill'#228' %d)');
+  Put(True,
+    'Redo line autofill of %d blank line(s) at line %d?',
+    'Tehd'#228#228'nk'#246' uudelleen %d tyhj'#228'n rivin rivit'#228'ytt'#246' rivill'#228' %d?');
+  Put(True,
+    'Redo paste of %d line(s) starting at line %d?',
+    'Tehd'#228#228'nk'#246' uudelleen %d rivin liitt'#228'minen alkaen rivist'#228' %d?');
+  Put(True,
+    'Redo the last undone change on line %d?',
+    'Tehd'#228#228'nk'#246' uudelleen viimeisin kumottu muutos rivill'#228' %d?');
+  Put(True,
+    'Redo: delete line ',
+    'Tee uudelleen: poista rivi ');
+  Put(True,
+    'Redo: edit line ',
+    'Tee uudelleen: muokkaa rivi'#228' ');
+  Put(True,
+    'Redo: insert line ',
+    'Tee uudelleen: lis'#228#228' rivi ');
+  Put(True,
+    'Redo: line autofill %d blank line(s) at line %d',
+    'Tee uudelleen: rivit'#228'ytt'#246' %d tyhj'#228#228' rivi('#228') rivill'#228' %d');
+  Put(True,
+    'Redo: paste %d line(s) at line %d',
+    'Tee uudelleen: liit'#228' %d rivi('#228') riville %d');
+  Put(True,
+    'Refresh list view',
+    'P'#228'ivit'#228' listan'#228'kym'#228);
+  Put(True,
+    'Refresh list view (keep undo)',
+    'P'#228'ivit'#228' listan'#228'kym'#228' (s'#228'ilyt'#228' kumoa)');
+  Put(True,
+    'Regex %s completed. %d line(s) processed in %s.'#13#10'Output: %s',
+    'Regex %s valmis. %d rivi('#228') k'#228'sitelty ajassa %s.'#13#10'Tuloste: %s');
+  Put(True,
+    'Regex %s completed. %d line(s) processed in %s. Output: %s',
+    'Regex %s valmis. %d rivi('#228') k'#228'sitelty ajassa %s. Tuloste: %s');
+  Put(True,
+    'Regex Filter - eight digits before end of line',
+    'Regex-suodatin - kahdeksan numeroa ennen rivin loppua');
+  Put(True,
+    'Regex Filter - large integers embedded in the row',
+    'Regex-suodatin - riviss'#228' olevat suuret kokonaisluvut');
+  Put(True,
+    'Regex Filter - lines whose numeric trailer ends with eight digits',
+    'Regex-suodatin - rivit, joiden numeerinen loppu p'#228#228'ttyy kahdeksaan num'
+        + 'eroon');
+  Put(True,
+    'Regex Filter - numeric threshold inside a column',
+    'Regex-suodatin - numeerinen kynnys sarakkeessa');
+  Put(True,
+    'Regex Filter: Keep only lines where regex matches',
+    'Regex-suodatin: s'#228'ilyt'#228' vain rivit, joihin regex t'#228'sm'#228#228);
+  Put(True,
+    'Regex Match - HTTP(S) URLs embedded in fields',
+    'Regex-t'#228'sm'#228'ys - kenttiin upotetut HTTP(S)-URL-osoitteet');
+  Put(True,
+    'Regex Match - capture leading structured numbers',
+    'Regex-t'#228'sm'#228'ys - kaappaa johtavat j'#228'sennellyt numerot');
+  Put(True,
+    'Regex Match - first column / leading token',
+    'Regex-t'#228'sm'#228'ys - ensimm'#228'inen sarake / johtava token');
+  Put(True,
+    'Regex Match - meaningful digit runs (skip zero padding)',
+    'Regex-t'#228'sm'#228'ys - merkitykselliset numerosarjat (ohita nollapehmuste)');
+  Put(True,
+    'Regex Match: Extract all occurrences',
+    'Regex-t'#228'sm'#228'ys: poimi kaikki esiintym'#228't');
+  Put(True,
+    'Regex Replace - anonymize professional prefix + name',
+    'Regex-korvaus - anonymisoi ammatillinen etuliite + nimi');
+  Put(True,
+    'Regex Replace - trim duplicate profile suffix from URL',
+    'Regex-korvaus - trimmaa URL:n kaksoisprofiilip'#228#228'te');
+  Put(True,
+    'Regex Replace - turn fixed columns into separated fields',
+    'Regex-korvaus - muuta kiinte'#228't sarakkeet erotetuiksi kentiksi');
+  Put(True,
+    'Regex Replace: Replace matches',
+    'Regex-korvaus: korvaa osumat');
+  Put(True,
+    'Regex Test - delimiter / field-count sanity check',
+    'Regex-testi - erottimen / kentt'#228'm'#228#228'r'#228'n j'#228'rkevyystarkistus');
+  Put(True,
+    'Regex Test - line begins with expected prefix',
+    'Regex-testi - rivi alkaa odotetulla etuliitteell'#228);
+  Put(True,
+    'Regex Test - numeric flag between delimiters',
+    'Regex-testi - numeerinen lippu erottimien v'#228'liss'#228);
+  Put(True,
+    'Regex Test - optional flag column',
+    'Regex-testi - valinnainen lippusarake');
+  Put(True,
+    'Regex Test: Write "true"/"false"',
+    'Regex-testi: kirjoita "true"/"false"');
+  Put(True,
+    'Regex categories',
+    'Regex-kategoriat');
+  Put(True,
+    'Regex examples (first 1000 lines - copy/paste into Pattern):',
+    'Regex-esimerkit (ensimm'#228'iset 1000 rivi'#228' - kopioi/liit'#228' Malliin):');
+  Put(True,
+    'Regex filter - keep only lines where regex matches         (like JS fi'
+        + 'lter)',
+    'Regex-suodatin - s'#228'ilyt'#228' vain rivit, joihin regex t'#228'sm'#228#228'         (kute'
+        + 'n JS filter)');
+  Put(True,
+    'Regex filter requires a line index. Choose YES to index first, or use '
+        + 'plain text.',
+    'Regex-suodatin edellytt'#228#228' rivihakemistoa. Valitse KYLL'#196' indeksoidakses'
+        + 'i ensin tai k'#228'yt'#228' pelkk'#228#228' teksti'#228'.');
+  Put(True,
+    'Regex match - extract all occurrences from each line  (like JS match)',
+    'Regex-t'#228'sm'#228'ys - poimi kaikki esiintym'#228't jokaiselta rivilt'#228'  (kuten JS '
+        + 'match)');
+  Put(True,
+    'Regex quick examples (dynamic by file):',
+    'Regex-pikaesimerkit (dynaamiset tiedoston mukaan):');
+  Put(True,
+    'Regex replace - replace matches in every line              (like JS re'
+        + 'place)',
+    'Regex-korvaus - korvaa osumat jokaisella rivill'#228'              (kuten J'
+        + 'S replace)');
+  Put(True,
+    'Regex test - write "true"/"false" for every line        (like JS test)',
+    'Regex-testi - kirjoita "true"/"false" jokaiselle riville        (kuten'
+        + ' JS test)');
+  Put(True,
+    'Regex.Examples',
+    'Esimerkkej'#228': error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}');
+  Put(True,
+    'Regex.ExamplesHint',
+    'error|failure l'#246'yt'#228#228' jommankumman sanan. ^[0-9] on rivi, joka alkaa nu'
+        + 'merolla. [0-9]{4}-[0-9]{2}-[0-9]{2} on p'#228'iv'#228'm'#228#228'r'#228', kuten 2026-10-28.');
+  Put(True,
+    'Region-like field sample value "%s" (sort by region first for meaningf'
+        + 'ul splits).',
+    'Alueen kaltainen kentt'#228'esimerkki "%s" (lajittele alueen mukaan ensin j'
+        + #228'rkevi'#228' jakoja varten).');
+  Put(True,
+    'Regular expression: match case? (Yes = case sensitive, No = ignore cas'
+        + 'e)',
+    'S'#228#228'nn'#246'llinen lauseke: kirjainkoon erottelu? (Kyll'#228' = erottele, Ei = oh'
+        + 'ita kirjainkoko)');
+  Put(True,
+    'Reject',
+    'Hylk'#228#228);
+  Put(True,
+    'Reload',
+    'Lataa uudelleen');
+  Put(True,
+    'Reload from disk (clear cache and reopen)',
+    'Lataa uudelleen levylt'#228' (tyhjenn'#228' v'#228'limuisti ja avaa uudelleen)');
+  Put(True,
+    'Reloading session history...',
+    'Ladataan istuntohistoriaa uudelleen...');
+  Put(True,
+    'Remove',
+    'Poista');
+  Put(True,
+    'Remove URL numeric suffix',
+    'Poista URL:n numeerinen p'#228#228'te');
+  Put(True,
+    'Remove from recent list',
+    'Poista viimeisimmist'#228);
+  Put(True,
+    'Remove selected file from recent list?',
+    'Poistetaanko valittu tiedosto viimeisimmist'#228'?');
+  Put(True,
+    'Removes trailing -2 / -3 style duplicates while keeping the canonical '
+        + 'slug.',
+    'Poistaa per'#228'ss'#228' olevat -2 / -3 -tyyliset kaksoiskappaleet s'#228'ilytt'#228'en k'
+        + 'anonisen slug-tunnuksen.');
+  Put(True,
+    'Rename reported success but target file is missing.',
+    'Nime'#228'minen ilmoitti onnistuneen, mutta kohdetiedosto puuttuu.');
+  Put(True,
+    'Reparse Point',
+    'Uudelleenj'#228'sennyksen piste');
+  Put(True,
+    'Repeat one text in all new lines',
+    'Toista yksi teksti kaikilla uusilla riveill'#228);
+  Put(True,
+    'Replace',
+    'Korvaa');
+  Put(True,
+    'Replace A&ll',
+    'Korvaa ka&ikki');
+  Put(True,
+    'Replace All',
+    'Korvaa kaikki');
+  Put(True,
+    'Replace All completed. %d replacement(s). Time: %s ms.',
+    'Korvaa kaikki valmis. %d korvausta. Aika: %s ms.');
+  Put(True,
+    'Replace all occurrences of "',
+    'Korvaa kaikki esiintym'#228't tekstist'#228' "');
+  Put(True,
+    'Replace failed.',
+    'Korvaus ep'#228'onnistui.');
+  Put(True,
+    'Replace lines %d-%d with %d line(s)',
+    'Korvaa rivit %d'#8211'%d %d rivill'#228);
+  Put(True,
+    'Replace runs on each line; $1..$4 refer to the captured groups from le'
+        + 'ft to right.',
+    'Korvaus toimii jokaisella rivill'#228'; $1..$4 viittaavat kaapattuihin ryhm'
+        + 'iin vasemmalta oikealle.');
+  Put(True,
+    'Replace substitutes only capture group 2 while keeping the honorific i'
+        + 'n group 1.',
+    'Korvaus vaihtaa vain kaappausryhm'#228'n 2 s'#228'ilytt'#228'en arvonimen ryhm'#228'ss'#228' 1.');
+  Put(True,
+    'Replace with:',
+    'Korvaa t'#228'll'#228':');
+  Put(True,
+    'Replace '#8212' trim duplicate profile suffix (-2, -3) from Doctoralia URL p'
+        + 'ath. Replace with:',
+    'Korvaa '#8212' trimmaa Doctoralia-URL-polun kaksoisprofiilip'#228#228'te (-2, -3). K'
+        + 'orvaa t'#228'll'#228':');
+  Put(True,
+    'Replace-all stopped at the safety limit of %d matches. The file was no'
+        + 't modified.',
+    'Korvaa kaikki pys'#228'htyi turvallisuusrajaan %d osumaa. Tiedostoa ei muut'
+        + 'ettu.');
+  Put(True,
+    'Replaced on line',
+    'Korvattu rivill'#228);
+  Put(True,
+    'Replaced on line ',
+    'Korvattu rivill'#228' ');
+  Put(True,
+    'Replacement text (used by "Regex replace" mode only):',
+    'Korvausteksti (vain "Regex-korvaus" -tila):');
+  Put(True,
+    'Replacement:',
+    'Korvaus:');
+  Put(True,
+    'Replacing (streaming to temp file)...',
+    'Korvataan (suoratoisto tilap'#228'istiedostoon)...');
+  Put(True,
+    'Replacing... (part %d of %d) - %d replacements',
+    'Korvataan... (osa %d / %d) - %d korvausta');
+  Put(True,
+    'Reprocess macro on new lines from this Tail session (Ctrl+Shift+R)',
+    'K'#228'yt'#228' makroa uudelleen t'#228'm'#228'n Tail-istunnon uusille riveille (Ctrl+Shif'
+        + 't+R)');
+  Put(True,
+    'Reprocess new tail lines',
+    'K'#228'sittele uudet h'#228'nn'#228'n rivit uudelleen');
+  Put(True,
+    'Reprocess new tail lines (%d)',
+    'K'#228'sittele uudet h'#228'nn'#228'n rivit uudelleen (%d)');
+  Put(True,
+    'Request stopped.',
+    'Pyynt'#246' pys'#228'ytetty.');
+  Put(True,
+    'Restart session',
+    'K'#228'ynnist'#228' istunto uudelleen');
+end;
+
+procedure AddFinnishPart28(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Restore last session tabs',
+    'Palauta viimeisimm'#228'n istunnon v'#228'lilehdet');
+  Put(True,
+    'Result: If the line matches this pattern, the test would return true.',
+    'Tulos: Jos rivi t'#228'sm'#228#228' t'#228'h'#228'n malliin, testi palauttaisi true.');
+  Put(True,
+    'Return',
+    'Palaa');
+  Put(True,
+    'Reviews / count field "%s" is 100+ (3+ digits in that column):',
+    'Arvostelut / m'#228#228'r'#228'kentt'#228' "%s" on 100+ (v'#228'hint'#228#228'n 3 numeroa kyseisess'#228' '
+        + 'sarakkeessa):');
+  Put(True,
+    'Revised prompt',
+    'Tarkistettu kehote');
+  Put(True,
+    'Right file',
+    'Oikea tiedosto');
+  Put(True,
+    'Run',
+    'Suorita');
+  Put(True,
+    'Run error',
+    'Suoritusvirhe');
+  Put(True,
+    'Run script',
+    'Suorita skripti');
+  Put(True,
+    'Run search in background threads.',
+    'Suorita haku taustas'#228'ikeiss'#228'.');
+  Put(True,
+    'Running script over file lines...',
+    'Suoritetaan skripti'#228' tiedoston riveille...');
+  Put(True,
+    'S&elect (checkbox list)',
+    '&Valitse (valintaruutuluettelo)');
+  Put(True,
+    'SCRIPT_ENGINE_CKPT_NOT_FOUND',
+    'Skriptimoottori: temp_ckpt.txt puuttuu '#8212' lue tiedosto (F5) ensin.');
+  Put(True,
+    'SCRIPT_ENGINE_COMPILE_TIMEOUT',
+    'Skriptimoottori ei vahvistanut k'#228#228'nn'#246'st'#228' ajoissa.');
+  Put(True,
+    'SCRIPT_ENGINE_CONFIRM_ALL',
+    'Haluatko todella suorittaa skriptin kaikilla tiedoston %d rivill'#228'?');
+  Put(True,
+    'SCRIPT_ENGINE_CONFIRM_SEL',
+    'Haluatko todella suorittaa skriptin %d valitulla rivill'#228'?');
+  Put(True,
+    'SCRIPT_ENGINE_EXAMPLES_DOC',
+    'M'#228#228'rit'#228':  def transform(line, ctx) -> str | None'#13#10'  line          : ny'
+        + 'kyisen rivin teksti'#13#10'  ctx           : dict, jossa pysyv'#228' tila rivien '
+        + 'v'#228'lill'#228#13#10'  ctx[''line_number''] : 1-pohjainen rivinumero l'#228'hdetiedostoss'
+        + 'a'#13#10'  Return str    : sis'#228'llyt'#228' muunnettu rivi tulosteeseen'#13#10'  Return N'
+        + 'one   : ohita (SKIP-laskuri kasvaa)'#13#10'  Raise except  : virhe (LINE_ERR'
+        + 'OR-laskuri kasvaa)');
+  Put(True,
+    'SCRIPT_ENGINE_EXAMPLES_HEADER',
+    '=== Skriptimoottori - Python-esimerkit ===');
+  Put(True,
+    'SCRIPT_ENGINE_FORCE_RUNFILE',
+    'Liian monta valittua rivi'#228': vaihdetaan nopeaan koko tiedoston tilaan ('
+        + 'RUNFILE) rivikohtaisen l'#228'hetyksen sijaan.');
+  Put(True,
+    'SCRIPT_ENGINE_LARGE_OUTPUT_SEE_BANNER',
+    'Suuren tiedoston tila: tulostepolku n'#228'kyy yll'#228' olevassa ilmoituksessa.');
+  Put(True,
+    'SCRIPT_ENGINE_LARGE_RUN_HINT',
+    'Suuri tiedosto: pid'#228' importit skriptin alussa (ei transformin sis'#228'll'#228')'
+        + '. Edistyminen p'#228'ivittyy tavuina/rivein'#228'; tuloste kirjoitetaan levylle.');
+  Put(True,
+    'SCRIPT_ENGINE_OVERLAY_START',
+    'K'#228'ynnistet'#228#228'n skriptimoottori (k'#228#228'nn'#246's / RUNFILE)...');
+  Put(True,
+    'SCRIPT_ENGINE_REBUILD_HINT',
+    'Rakenna Python-lis'#228'osa ScriptEngine.exe uudelleen (suorita data-lake-d'
+        + 'uckdb-main\\build_exe_scriptengine.bat) ja kopioi se FastFile.exe:n vi'
+        + 'ereen.');
+  Put(True,
+    'SCRIPT_ENGINE_RUNFILE_MODE',
+    'FastFile k'#228'sittelee tiedostoa natiivissa RUNFILE-tilassa (ScriptEngine'
+        + ' lukee l'#228'hteen suoraan).');
+  Put(True,
+    'SCRIPT_ENGINE_SCOPE_PROMPT',
+    'Valittuja rivej'#228' on %d.'#13#10#13#10'Suoritetaanko skripti KAIKILLA tiedoston ri'
+        + 'veill'#228' vai vain valituilla?'#13#10#13#10'Kyll'#228' = kaikki rivit'#13#10'Ei = vain valitut'
+        + ' rivit'#13#10'Peruuta = keskeyt'#228);
+  Put(True,
+    'SCRIPT_ENGINE_UPDATE_FOR_OUTFILE',
+    'P'#228'ivit'#228' ScriptEngine.exe (ENGINE_VERSION 5+) nopeinta suuren tiedoston'
+        + ' tulostetta varten; t'#228'm'#228' ajo kirjoittaa Delphin kautta samaan tiedosto'
+        + 'on.');
+  Put(True,
+    'SCRIPT_EXPORT_BALLOON_BODY',
+    '%s tallennettu kohteeseen %s');
+  Put(True,
+    'SCRIPT_EXPORT_COPY_PATH',
+    'Kopioi polku');
+  Put(True,
+    'SCRIPT_EXPORT_DONE_STATUS',
+    'Valmis: %d ok, %d ohitettu, %d virhett'#228'. Tuloste: %s');
+  Put(True,
+    'SCRIPT_EXPORT_FILE_LINE',
+    'Tiedosto: %s');
+  Put(True,
+    'SCRIPT_EXPORT_FOLDER_LINE',
+    'Kansio: %s');
+  Put(True,
+    'SCRIPT_EXPORT_LINK_HINT',
+    'Napsauta tiedostonime'#228' avataksesi sen tai kansiota n'#228'ytt'#228#228'ksesi sen Ex'
+        + 'plorerissa.');
+  Put(True,
+    'SCRIPT_EXPORT_OPEN_FOLDER',
+    'Avaa kansio');
+  Put(True,
+    'SCRIPT_EXPORT_SAVED_TITLE',
+    'Tiedosto tallennettu');
+  Put(True,
+    'SCRIPT_EXPORT_STATUS_SHORT',
+    'Tuloste: %s');
+  Put(True,
+    'SCRIPT_EXPORT_WRITING_TITLE',
+    'Kirjoitetaan tulostetta levylle...');
+  Put(True,
+    'SPLIT_PATTERN_AI_BANNER_DISMISS',
+    '&Selv'#228);
+  Put(True,
+    'SPLIT_PATTERN_AI_BANNER_TEXT',
+    'Uusia AI-regex-ehdotuksia lis'#228'ttiin alla olevaan esimerkkimuistioon. V'
+        + 'ierit'#228' kohtaan "--- AI suggestions ---".');
+  Put(True,
+    'SPLIT_PATTERN_AI_PROMPT_BODY',
+    'Ehdota k'#228'yt'#228'nn'#246'llisi'#228' VBScript-yhteensopivia s'#228#228'nn'#246'llisi'#228' lausekkeita '
+        + 'FastFilelle VAIN alla olevien rivien perusteella (tiedostoni ensimm'#228'is'
+        + 'et rivit). J'#228'sentele jokainen ehdotus lyhyell'#228' otsikolla, rivill'#228' joka'
+        + ' alkaa Regex: ja rivill'#228' joka alkaa Logic:. Tarvittaessa sis'#228'llyt'#228' Spl'
+        + 'it (uusi tiedosto kun rivi t'#228'sm'#228#228'), Match, Test, Replace (lis'#228#228' Replac'
+        + 'e with: tarvittaessa) ja Filter. Moottori: VBScript.RegExp - lookbehin'
+        + 'd (?<=) EI ole tuettu; lookahead (?=) on tuettu. K'#228'yt'#228' pelkk'#228#228' j'#228'senne'
+        + 'lty'#228' teksti'#228'.');
+  Put(True,
+    'Same 8-digit trailer on all scanned lines - this pattern matches every'
+        + ' line or none; narrow using column-specific substring tests if needed.',
+    'Sama 8-numeroinen loppu kaikilla skannatuilla riveill'#228' - t'#228'm'#228' malli t'#228
+        + 'sm'#228#228' jokaiseen riviin tai ei mihink'#228#228'n; rajaa tarvittaessa sarakkeitta'
+        + 'in osamerkkijonotesteill'#228'.');
+  Put(True,
+    'Sample lines (raw, from current file):',
+    'Esimerkkirivit (raaka, nykyisest'#228' tiedostosta):');
+  Put(True,
+    'Sample lines from file (dynamic '#8212' changes when you pick another file):',
+    'Esimerkkirivit tiedostosta (dynaamiset '#8212' vaihtuvat kun valitset toisen'
+        + ' tiedoston):');
+  Put(True,
+    'Sample lines from file:',
+    'Esimerkkirivit tiedostosta:');
+  Put(True,
+    'Sample tokens inferred from your columns - primary (region-like): "%s"'
+        + '. Alternate token useful when categories drive file boundaries: "%s". '
+        + 'Sort by the active key before splitting so each part stays coherent.',
+    'Sarakkeistasi p'#228#228'tellyt esimerkkimerkit - ensisijainen (alueen kaltain'
+        + 'en): "%s". Vaihtoehtoinen merkki, kun kategoriat m'#228#228'r'#228#228'v'#228't tiedostoraj'
+        + 'at: "%s". Lajittele aktiivisen avaimen mukaan ennen jakoa, jotta jokai'
+        + 'nen osa pysyy johdonmukaisena.');
+  Put(True,
+    'Save file',
+    'Tallenna tiedosto');
+  Put(True,
+    'Save output...',
+    'Tallenna tuloste...');
+  Put(True,
+    'Save to file:',
+    'Tallenna tiedostoon:');
+  Put(True,
+    'Save to text file instead of clipboard',
+    'Tallenna tekstitiedostoon leikep'#246'yd'#228'n sijaan');
+  Put(True,
+    'Saving file...',
+    'Tallennetaan tiedostoa...');
+  Put(True,
+    'Scale.RestoreDefault',
+    'Palauta oletusskaala');
+  Put(True,
+    'Scale.WindowsDPI',
+    'Windows DPI');
+  Put(True,
+    'Scanning sources... %d',
+    'Skannataan l'#228'hteit'#228'... %d');
+  Put(True,
+    'Script (define transform(line, ctx) -> str | None):',
+    'Skripti (m'#228#228'rit'#228' transform(line, ctx) -> str | None):');
+  Put(True,
+    'Script Engine is busy with a manual run. Wait for it to finish, then r'
+        + 'eprocess.',
+    'Skriptimoottori on varattu manuaalisella ajolla. Odota sen valmistumis'
+        + 'ta ja k'#228'sittele sitten uudelleen.');
+  Put(True,
+    'Script Examples',
+    'Skriptiesimerkit');
+  Put(True,
+    'Script cancelled by user.',
+    'Skripti peruutettu k'#228'ytt'#228'j'#228'n toimesta.');
+  Put(True,
+    'Script completed: %d lines processed successfully, %d skipped, %d erro'
+        + 'rs.',
+    'Skripti valmis: %d rivi'#228' k'#228'sitelty onnistuneesti, %d ohitettu, %d virh'
+        + 'ett'#228'.');
+  Put(True,
+    'Script engine is not running.',
+    'Skriptimoottori ei ole k'#228'ynniss'#228'.');
+  Put(True,
+    'Script engine: using sparse line index for this large file (temp_ckpt.'
+        + 'txt).',
+    'Skriptimoottori: k'#228'ytet'#228#228'n harvaa rivihakemistoa t'#228'lle suurelle tiedos'
+        + 'tolle (temp_ckpt.txt).');
+  Put(True,
+    'Script not found',
+    'Skripti'#228' ei l'#246'ytynyt');
+  Put(True,
+    'ScriptOut.AtScriptLine',
+    ' (skriptirivi %s)');
+  Put(True,
+    'ScriptOut.Counts',
+    'Luodut rivit: %s   |   Ohitetut: %s   |   Virheet: %s');
+  Put(True,
+    'ScriptOut.DoneDetail',
+    '%s ohitettu, %s virhett'#228);
+  Put(True,
+    'ScriptOut.EmptyFileRemoved',
+    'Tulostiedosto oli tyhj'#228' ja se on poistettu.');
+  Put(True,
+    'ScriptOut.ErrorLine',
+    '[ERROR rivi %s] %s');
+  Put(True,
+    'ScriptOut.MoreErrors',
+    '... ja %s muuta virhett'#228' (ei listattu).');
+  Put(True,
+    'ScriptOut.NoOutputHint',
+    'Yht'#228#228'n rivi'#228' ei luotu. Tarkista yll'#228' oleva virhe, korjaa skripti (tai '
+        + 'pyyd'#228' AI:lta uudelleen) ja suorita se uudelleen.');
+  Put(True,
+    'ScriptOut.ResultTitle',
+    'Skriptin tulos');
+  Put(True,
+    'ScriptOut.TopError',
+    'Yleisin virhe (%s rivi'#228'): %s');
+  Put(True,
+    'ScriptPreview.AllErrors',
+    'Jokainen otosrivi ep'#228'onnistui. Korjaa skripti ennen tulosteen luontia.');
+  Put(True,
+    'ScriptPreview.AllSkipped',
+    'Yksik'#228#228'n otosrivi ei tuottanut tulostetta (transform palautti None kai'
+        + 'kille).');
+  Put(True,
+    'ScriptPreview.Back',
+    'Takaisin');
+  Put(True,
+    'ScriptPreview.Cancelled',
+    'Tulosteen luonti peruutettiin esikatselun j'#228'lkeen.');
+  Put(True,
+    'ScriptPreview.ColLine',
+    'Rivi');
+  Put(True,
+    'ScriptPreview.ColOriginal',
+    'Alkuper'#228'inen');
+  Put(True,
+    'ScriptPreview.ColResult',
+    'Tulos');
+  Put(True,
+    'ScriptPreview.ColStatus',
+    'Tila');
+  Put(True,
+    'ScriptPreview.Generate',
+    'Luo tuloste');
+  Put(True,
+    'ScriptPreview.NoteFile',
+    'Koko tulos kirjoitetaan uuteen tiedostoon l'#228'hdetiedoston viereen.');
+  Put(True,
+    'ScriptPreview.NoteMemo',
+    'Koko tulos n'#228'ytet'#228#228'n skriptin tulostepaneelissa.');
+  Put(True,
+    'ScriptPreview.Running',
+    'Suoritetaan skripti'#228' %d rivin otoksella esikatselua varten...');
+  Put(True,
+    'ScriptPreview.SampleDone',
+    'Esikatseluotos: %d rivi'#228' - %d OK, %d ohitettu, %d virhett'#228'.');
+  Put(True,
+    'ScriptPreview.SkipDetail',
+    '(transform palautti None: t'#228'm'#228' rivi ei n'#228'y tulosteessa)');
+  Put(True,
+    'ScriptPreview.StErr',
+    'Virhe');
+  Put(True,
+    'ScriptPreview.StOk',
+    'Tuloste');
+  Put(True,
+    'ScriptPreview.StSkip',
+    'Ohitettu');
+  Put(True,
+    'ScriptPreview.Summary',
+    'Otos %d rivist'#228' (k'#228'sitelt'#228'v'#228'st'#228' %s): %d OK, %d ohitettu, %d virhett'#228);
+  Put(True,
+    'ScriptPreview.Title',
+    'Skriptituloksen esikatselu');
+  Put(True,
+    'ScriptRun.PreviewTitle',
+    'Luodaan skriptin esikatselua (%d rivin otos)...');
+  Put(True,
+    'ScriptRun.ProcessedOf',
+    'K'#228'sitelty %s / %s rivi'#228' (%s virhett'#228')');
+  Put(True,
+    'ScriptRun.SendingLines',
+    'L'#228'hetet'#228#228'n rivej'#228' skriptimoottorille: %s / %s');
+  Put(True,
+    'Search',
+    'Etsi');
+  Put(True,
+    'Search (Enter in search box)',
+    'Etsi (Enter hakuruudussa)');
+  Put(True,
+    'Search / index',
+    'Haku / indeksi');
+  Put(True,
+    'Search cancelled.',
+    'Haku peruutettu.');
+  Put(True,
+    'Search error',
+    'Hakuvirhe');
+  Put(True,
+    'Search error: ',
+    'Hakuvirhe: ');
+  Put(True,
+    'Search for the typed text in the loaded lines.',
+    'Etsi kirjoitettu teksti ladatuista riveist'#228'.');
+  Put(True,
+    'Search: &automatic match case',
+    'Haku: &automaattinen kirjainkoon erottelu');
+  Put(True,
+    'Search: &ignore case',
+    'Haku: &ohita kirjainkoko');
+end;
+
+procedure AddFinnishPart29(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Search: automatic match case',
+    'Haku: automaattinen kirjainkoon erottelu');
+  Put(True,
+    'Search: ignore case',
+    'Haku: ohita kirjainkoko');
+  Put(True,
+    'Search: match &case',
+    'Haku: erota &kirjainkoko');
+  Put(True,
+    'Search: match case',
+    'Haku: erota kirjainkoko');
+  Put(True,
+    'SearchCmd.AIGenerate',
+    'Luo AI:lla');
+  Put(True,
+    'SearchCmd.AIInvalid',
+    'Virheellinen AI-vastaus. Komentoa ei suoritettu. Kysy uudelleen tai an'
+        + 'na kelvollinen glob-/grep-komento.');
+  Put(True,
+    'SearchCmd.AIPrivacy',
+    'AI vastaanottaa vain pyynt'#246'si ja t'#228'm'#228'n komennon, ei tiedoston sis'#228'lt'#246#228
+        + ' eik'#228' valittua l'#228'hdeluetteloa.');
+  Put(True,
+    'SearchCmd.AIRequest',
+    'Kuvaile, mit'#228' haluat etsi'#228', tai pyyd'#228' komentoehdotuksia:');
+  Put(True,
+    'SearchCmd.AIRequestCue',
+    'esimerkiksi: lokirivit, joissa on maksuvirheit'#228);
+  Put(True,
+    'SearchCmd.AIReview',
+    'Tarkista tai muokkaa komentoa ja napsauta sitten Suorita komento. AI-e'
+        + 'hdotuksia ei koskaan suoriteta automaattisesti.');
+  Put(True,
+    'SearchCmd.AIStopping',
+    'Suljetaan, kun nykyinen AI-pyynt'#246' valmistuu tai aikakatkaistaan; sen v'
+        + 'astaus hyl'#228't'#228#228'n.');
+  Put(True,
+    'SearchCmd.AISuggestions',
+    'Komentoehdotukset');
+  Put(True,
+    'SearchCmd.AIWaiting',
+    'Luodaan komentoa AI:lla. Mit'#228#228'n ei suoriteta.');
+  Put(True,
+    'SearchCmd.Arguments',
+    'Virheelliset argumentit. Laita yksi malli lainausmerkkeihin; katso gre'
+        + 'p --help.');
+  Put(True,
+    'SearchCmd.AskAI',
+    'Kysy AI:lta');
+  Put(True,
+    'SearchCmd.BookmarkUnavailable',
+    'Kirjanmerkkitoiminnot eiv'#228't ole k'#228'ytett'#228'viss'#228' t'#228'ss'#228'. K'#228'yt'#228' indeksoitua'
+        + ' avointa tiedostoa p'#228#228'ikkunassa.');
+  Put(True,
+    'SearchCmd.Ex.GlobCsv',
+    'CSV-tiedostot valitussa kansiossa. * ei sis'#228'll'#228' alikansioita.');
+  Put(True,
+    'SearchCmd.Ex.GlobLimit',
+    'Sama lokihaku, enint'#228#228'n 500 polkua.');
+  Put(True,
+    'SearchCmd.Ex.GlobLog',
+    'Lokitiedostot valitussa kansiossa ja kaikissa alikansioissa.');
+  Put(True,
+    'SearchCmd.Ex.GlobReport',
+    'Nimet kuten report_2024.txt: ? vastaa tarkalleen yht'#228' merkki'#228'.');
+  Put(True,
+    'SearchCmd.Ex.GrepBookmarks',
+    'Etsii vain avoimen tiedoston kirjanmerkityilt'#228' riveilt'#228' pending-teksti'
+        + #228' kirjainkokoa huomioimatta.');
+  Put(True,
+    'SearchCmd.Ex.GrepGroups',
+    'Lukee IPv4-osoitteen ja 3-numeroisen tilakoodin erillisiin tulosarakke'
+        + 'isiin.');
+  Put(True,
+    'SearchCmd.Ex.GrepInvert',
+    'Rivit, jotka eiv'#228't sis'#228'll'#228' kirjaimellista teksti'#228' DEBUG.');
+  Put(True,
+    'SearchCmd.Ex.GrepLog',
+    'Kirjaimellinen teksti error, mill'#228' tahansa kirjainkoolla, vain .log-ti'
+        + 'edostoissa.');
+  Put(True,
+    'SearchCmd.Ex.GrepMark',
+    'Lis'#228#228' kirjanmerkin jokaiseen t'#228'sm'#228#228'v'#228#228'n riviin avoimessa tiedostossa. '
+        + 'Muut tiedostot ohitetaan.');
+  Put(True,
+    'SearchCmd.Ex.GrepOr',
+    'Rivit, jotka sis'#228'lt'#228'v'#228't error tai failure. T'#228'm'#228' malli on s'#228#228'nn'#246'llinen '
+        + 'lauseke.');
+  Put(True,
+    'SearchCmd.Ex.GrepWord',
+    'Koko sana id, kirjainkokoa huomioimatta, ei kirjaimia pidemm'#228'n sanan s'
+        + 'is'#228'll'#228'.');
+  Put(True,
+    'SearchCmd.Failed',
+    'Haku ep'#228'onnistui; mit'#228#228'n toimintoa ei sovellettu.');
+  Put(True,
+    'SearchCmd.File',
+    'Tiedosto');
+  Put(True,
+    'SearchCmd.FileHelp',
+    'Tiedosto on valinnainen: grep "house" tai glob "*.txt" k'#228'ytt'#228#228' p'#228#228'ikku'
+        + 'nan tiedostonimikentt'#228#228' ennen valittuja l'#228'hteit'#228'. Lis'#228#228' yksi lainattu '
+        + 'tiedosto avataksesi sen ensin. AI-ty'#246'kalut eiv'#228't voi poistua valtuutet'
+        + 'uista l'#228'hteist'#228'.');
+  Put(True,
+    'SearchCmd.GroupColumns',
+    'Nimetyt ryhm'#228't: %s');
+  Put(True,
+    'SearchCmd.Help',
+    'Sis'#228'iset komennot, ei komentotulkin komentoja. Valituille kansioille a'
+        + 'gentin peite, alikansio, syvyys ja tiedostom'#228#228'r'#228'asetukset p'#228'tev'#228't. glo'
+        + 'b etsii polkuja (* komponentin sis'#228'll'#228', ? yksi merkki, ** kansioiden y'
+        + 'li). grep etsii sis'#228'lt'#246#228': -F kirjaimellinen (oletus), -E PCRE-regex, -'
+        + 'i ohita kirjainkoko, -s erota kirjainkoko, -v k'#228#228'nteinen, -w kokonaise'
+        + 't sanat; -n hyv'#228'ksyt'#228#228'n ja rivinumerot n'#228'ytet'#228#228'n aina. --glob suodatta'
+        + 'a polkuja. --limit 1..10000 rajoittaa kaikkia tuloksia (oletus 200). -'
+        + '-bookmarks etsii vain avoimen tiedoston kirjanmerkityilt'#228' riveilt'#228'. --'
+        + 'mark lis'#228#228' kirjanmerkkej'#228' t'#228'sm'#228#228'ville riveille; muiden tiedostojen osu'
+        + 'mat ohitetaan. Kirjanmerkkikomennot edellytt'#228'v'#228't indeksoitua lukua. La'
+        + 'inausmerkit s'#228'ilytt'#228'v'#228't v'#228'lily'#246'nnit ja kenoviivat; -- p'#228#228'tt'#228#228' valinnat'
+        + '. Pelkk'#228' teksti s'#228'ilytt'#228#228' nykyisen haun. Tulokset sivutetaan; Avaa sii'
+        + 'rtyy, Kopioi kopioi s'#228'ilytetyt tulokset. Osittaiset/peruutetut tulokse'
+        + 't eiv'#228't ole kokonaism'#228#228'ri'#228'. Alla olevat esimerkit k'#228'ytt'#228'v'#228't englannink'
+        + 'ielist'#228' esimerkisis'#228'lt'#246#228'; korvaa lainattu hakuteksti tarvittaessa.');
+  Put(True,
+    'SearchCmd.Hint',
+    'Teksti, glob "*.log", grep -i "error" tai grep --help');
+  Put(True,
+    'SearchCmd.Index',
+    'Lue/indeksoi avoin tiedosto ennen kirjanmerkkikomentojen k'#228'ytt'#246#228'.');
+  Put(True,
+    'SearchCmd.LargeHelp',
+    'GB-tiedostot suoratoistetaan lohkoina; ei koko tiedoston puskuria. Riv'
+        + 'ien raja on 16 777 216 dekoodattua merkki'#228', ja ylityksest'#228' tulee ekspl'
+        + 'isiittinen virhe. Osumarajan tullessa skannaus pys'#228'htyy ja tulokset ov'
+        + 'at osittaisia, eiv'#228't tarkkoja kokonaism'#228#228'ri'#228'.');
+  Put(True,
+    'SearchCmd.LaunchHint',
+    'Avaa %s AI-avulla, esimerkeill'#228' ja komentoehdotuksilla');
+  Put(True,
+    'SearchCmd.LaunchQueued',
+    'Avataan %s-ohje p'#228#228'ikkunassa; hakua ei ole suoritettu.');
+  Put(True,
+    'SearchCmd.Limit',
+    '--limit on oltava v'#228'lill'#228' 1 ja 10000.');
+  Put(True,
+    'SearchCmd.LongLine',
+    'Haku pys'#228'ytetty: %s, rivi %d ylitt'#228#228' %d dekoodattua merkki'#228'. Tarkkaa t'
+        + 'ulosta ei ole saatavilla.');
+  Put(True,
+    'SearchCmd.Mark',
+    'Kirjanmerkkiosumia avoimessa tiedostossa');
+  Put(True,
+    'SearchCmd.Marked',
+    '%d kirjanmerkki'#228' lis'#228'tty; %d osumaa ohitettu (muut tiedostot tai kirja'
+        + 'nmerkkiraja).');
+  Put(True,
+    'SearchCmd.NoSources',
+    'Valitse l'#228'hteet AI-agentissa tai avaa tiedosto ensin.');
+  Put(True,
+    'SearchCmd.Option',
+    'Virheellinen tai puuttellinen valinta: %s');
+  Put(True,
+    'SearchCmd.OutsideSources',
+    'Tiedosto valtuutettujen hakul'#228'hteiden ulkopuolella: %s');
+  Put(True,
+    'SearchCmd.Partial',
+    'Osittaiset tulokset: osuma- tai l'#228'hderaja saavutettu.');
+  Put(True,
+    'SearchCmd.Pattern',
+    'Anna glob- tai grep-komento, jossa on ei-tyhj'#228' malli.');
+  Put(True,
+    'SearchCmd.ProgressElapsed',
+    'Kulunut: %s');
+  Put(True,
+    'SearchCmd.ProgressEta',
+    'J'#228'ljell'#228': ~%s');
+  Put(True,
+    'SearchCmd.ProgressFiles',
+    'Tiedostot: %d / %d');
+  Put(True,
+    'SearchCmd.ProgressHits',
+    'Osumat: %d');
+  Put(True,
+    'SearchCmd.ProgressListed',
+    '%d tiedosto(a) l'#246'ytyi');
+  Put(True,
+    'SearchCmd.ProgressListing',
+    'Luetteloidaan tiedostoja valituissa l'#228'hteiss'#228'...');
+  Put(True,
+    'SearchCmd.ProgressScanning',
+    'Etsit'#228#228'n tiedostoja (glob / grep)...');
+  Put(True,
+    'SearchCmd.Queued',
+    'Haku ajoitettu p'#228#228'ikkunassa; kirjanmerkkej'#228' ei ole viel'#228' muutettu.');
+  Put(True,
+    'SearchCmd.Quotes',
+    'Sulkematon lainausmerkki hakukomennossa.');
+  Put(True,
+    'SearchCmd.Read',
+    'Ei voitu lukea: %s');
+  Put(True,
+    'SearchCmd.RecentEmpty',
+    '(ei viel'#228' viimeisimpi'#228' komentoja)');
+  Put(True,
+    'SearchCmd.RecentHint',
+    'Viimeisimm'#228't glob- ja grep-komennot');
+  Put(True,
+    'SearchCmd.RecentMore',
+    'N'#228'yt'#228' lis'#228#228);
+  Put(True,
+    'SearchCmd.RecentMoreHint',
+    'N'#228'yt'#228' loput viimeisimm'#228't komennot');
+  Put(True,
+    'SearchCmd.Regex',
+    'Virheellinen s'#228#228'nn'#246'llinen lauseke: %s');
+  Put(True,
+    'SearchCmd.Results',
+    '%d tulosta n'#228'ytetty; %d tiedostoa skannattu.');
+  Put(True,
+    'SearchCmd.Run',
+    'Suorita komento');
+  Put(True,
+    'SearchCmd.Scanning',
+    'Etsit'#228#228'n valituista l'#228'hteist'#228'... Pys'#228'yt'#228' peruuttaa skannauksen.');
+  Put(True,
+    'SearchCmd.Stopped',
+    'Peruutettu; tulokset voivat olla ep'#228't'#228'ydellisi'#228'.');
+  Put(True,
+    'SearchCmd.WorkflowHelp',
+    'Kirjoita vain grep/glob tai k'#228'yt'#228' niiden painikkeita Etsi-, Suodata- j'
+        + 'a Kirjanmerkit-kohdissa avataksesi esimerkit ilman skannausta. Modaali'
+        + 'ssa kuvaile pyynt'#246'si, Luo AI:lla, tarkista selitys/muokattava komento '
+        + 'ja enint'#228#228'n 3 ehdotusta, sitten Suorita komento. Manuaaliset komennot '
+        + 'toimivat offline; luonti ei koskaan suorita hakua. Avustaja/agentti k'#228
+        + 'ytt'#228'v'#228't p'#228#228'tiedostoa; diagnoosi pit'#228#228' omat l'#228'hteens'#228' ja on vain luku. '
+        + 'Valtaville tiedostoille Instant Open v'#228'ltt'#228#228' alkuper'#228'isen indeksoinnin'
+        + '; nykyinen avausk'#228'yt'#228'nt'#246' s'#228'ilytet'#228#228'n.');
+  Put(True,
+    'Searching',
+    'Etsit'#228#228'n');
+  Put(True,
+    'Searching...',
+    'Etsit'#228#228'n...');
+  Put(True,
+    'Secondary pattern (same mode): Regex: ^.*,%s,.*$',
+    'Toissijainen malli (sama tila): Regex: ^.*,%s,.*$');
+  Put(True,
+    'Segment',
+    'Segmentti');
+  Put(True,
+    'Segmented ops: &automatic (recommended)',
+    'Segmentoidut toiminnot: &automaattinen (suositus)');
+  Put(True,
+    'Segmented ops: always use',
+    'Segmentoidut toiminnot: k'#228'yt'#228' aina');
+  Put(True,
+    'Segmented ops: automatic (recommended)',
+    'Segmentoidut toiminnot: automaattinen (suositus)');
+  Put(True,
+    'Segmented ops: never use',
+    'Segmentoidut toiminnot: '#228'l'#228' k'#228'yt'#228' koskaan');
+  Put(True,
+    'Segmented replace: invalid line index in temp.txt.',
+    'Segmentoitu korvaus: virheellinen rivihakemisto temp.txt-tiedostossa.');
+  Put(True,
+    'Select',
+    'Valitse');
+  Put(True,
+    'Select'#13#10'Ctrl+Shift+S',
+    'Valitse'#13#10'Ctrl+Shift+S');
+  Put(True,
+    'Select'#13#10'skin',
+    'Valitse'#13#10'teema');
+  Put(True,
+    'Select a file ...',
+    'Valitse tiedosto ...');
+  Put(True,
+    'Select a file or folder first.',
+    'Valitse ensin tiedosto tai kansio.');
+  Put(True,
+    'Select a valid input file before starting AI Chat (SQL).',
+    'Valitse kelvollinen sy'#246'tetiedosto ennen AI-chatin (SQL) aloittamista.');
+  Put(True,
+    'Select a valid input file before starting AI Chat.',
+    'Valitse kelvollinen sy'#246'tetiedosto ennen AI-chatin aloittamista.');
+  Put(True,
+    'Select a valid input file before starting Advanced AI Chat (file).',
+    'Valitse kelvollinen sy'#246'tetiedosto ennen edistynytt'#228' AI-chatia (tiedost'
+        + 'o).');
+  Put(True,
+    'Select all',
+    'Valitse kaikki');
+  Put(True,
+    'Select lines to merge into one (current line stays as target).',
+    'Valitse rivit yhdistett'#228'v'#228'ksi yhdeksi (nykyinen rivi pysyy kohteena).');
+  Put(True,
+    'Select one of: Regex match, Regex test, Regex replace, Regex filter.',
+    'Valitse yksi: Regex-t'#228'sm'#228'ys, Regex-testi, Regex-korvaus, Regex-suodatu'
+        + 's.');
+  Put(True,
+    'Select skin',
+    'Valitse teema');
+  Put(True,
+    'Select the source file to read.',
+    'Valitse luettava l'#228'hdetiedosto.');
+  Put(True,
+    'SelectRange.Added',
+    'Lis'#228'ttiin %d rivi'#228' valintaan; yhteens'#228' %d valittuna.');
+  Put(True,
+    'SelectRange.Invalid',
+    'Virheellinen v'#228'li. Anna yksi tai useampi v'#228'li v'#228'lill'#228' 1'#8211'%d, esimerkiks'
+        + 'i 5-20; 200-400.');
+  Put(True,
+    'SelectRange.ListOmitted',
+    'Rivinumerot j'#228'tet'#228#228'n pois, koska valinta ylitt'#228#228' %d rivi'#228'.');
+  Put(True,
+    'SelectRange.Menu',
+    'Valitse rivit v'#228'lin mukaan...');
+  Put(True,
+    'SelectRange.Prompt',
+    'Anna yksi tai useampi 1-pohjainen riviv'#228'li v'#228'lilt'#228' 1'#8211'%d (esimerkiksi 5'
+        + '-20; 200-400). Erota v'#228'lit merkeill'#228' ; tai ,. Nykyiset valinnat s'#228'ilyt'
+        + 'et'#228#228'n.');
+  Put(True,
+    'SelectRange.Title',
+    'Valitse rivit v'#228'lin mukaan');
+  Put(True,
+    'SelectSkin dialog',
+    'SelectSkin-valintaikkuna');
+  Put(True,
+    'Selected / checked lines only',
+    'Vain valitut / merkityt rivit');
+  Put(True,
+    'Send',
+    'L'#228'het'#228);
+  Put(True,
+    'Sending lines...',
+    'L'#228'hetet'#228#228'n rivej'#228'...');
+  Put(True,
+    'Server returned HTTP status %d.',
+    'Palvelin palautti HTTP-tilan %d.');
+  Put(True,
+    'Session',
+    'Istunto');
+end;
+
+procedure AddFinnishPart30(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Session history',
+    'Istuntohistoria');
+  Put(True,
+    'Session loaded.',
+    'Istunto ladattu.');
+  Put(True,
+    'Session saved.',
+    'Istunto tallennettu.');
+  Put(True,
+    'Session.AskAI',
+    'Kysy AI:lta t'#228'st'#228' istunnosta');
+  Put(True,
+    'Set how many files should be generated.',
+    'Aseta, kuinka monta tiedostoa luodaan.');
+  Put(True,
+    'Short Overview',
+    'Lyhyt yleiskatsaus');
+  Put(True,
+    'Shortcut:',
+    'Pikan'#228'pp'#228'in:');
+  Put(True,
+    'Shortcut: ',
+    'Pikan'#228'pp'#228'in: ');
+  Put(True,
+    'Show &marks (tab/space/CR/LF, etc.)',
+    'N'#228'yt'#228' &merkit (tab/space/CR/LF jne.)');
+  Put(True,
+    'Show CheckBoxes',
+    'N'#228'yt'#228' valintaruudut');
+  Put(True,
+    'Show Hints',
+    'N'#228'yt'#228' vihjeet');
+  Put(True,
+    'Show help and shortcuts.',
+    'N'#228'yt'#228' ohje ja pikan'#228'pp'#228'imet.');
+  Put(True,
+    'Show hover hints on lines and on all controls',
+    'N'#228'yt'#228' leijuvat vihjeet riveill'#228' ja kaikissa ohjaimissa');
+  Put(True,
+    'Show macro results in panel (limited lines)',
+    'N'#228'yt'#228' makron tulokset paneelissa (rajoitetut rivit)');
+  Put(True,
+    'Show only lines containing:',
+    'N'#228'yt'#228' vain rivit, jotka sis'#228'lt'#228'v'#228't:');
+  Put(True,
+    'Show only lines matching (text or regex pattern):',
+    'N'#228'yt'#228' vain rivit, jotka t'#228'sm'#228#228'v'#228't (teksti tai regex-malli):');
+  Put(True,
+    'Show/hide app icon',
+    'N'#228'yt'#228'/piilota sovelluksen kuvake');
+  Put(True,
+    'Size',
+    'Koko');
+  Put(True,
+    'Size && Attributes',
+    'Koko && attribuutit');
+  Put(True,
+    'Size on disk:',
+    'Koko levyll'#228':');
+  Put(True,
+    'Skin name:',
+    'Teeman nimi:');
+  Put(True,
+    'Skinned',
+    'Teemallinen');
+  Put(True,
+    'Source and destination files must be different.',
+    'L'#228'hde- ja kohdetiedostojen on oltava eri tiedostoja.');
+  Put(True,
+    'Source file (type path or use picker):',
+    'L'#228'hdetiedosto (kirjoita polku tai k'#228'yt'#228' valitsinta):');
+  Put(True,
+    'Source file is empty.',
+    'L'#228'hdetiedosto on tyhj'#228'.');
+  Put(True,
+    'Source file is required.',
+    'L'#228'hdetiedosto on pakollinen.');
+  Put(True,
+    'Source file not found.',
+    'L'#228'hdetiedostoa ei l'#246'ytynyt.');
+  Put(True,
+    'Source file to split (path or picker):',
+    'Jaettava l'#228'hdetiedosto (polku tai valitsin):');
+  Put(True,
+    'Source file to split:',
+    'Jaettava l'#228'hdetiedosto:');
+  Put(True,
+    'Source file:',
+    'L'#228'hdetiedosto:');
+  Put(True,
+    'Source line',
+    'L'#228'hderivi');
+  Put(True,
+    'Sources',
+    'L'#228'hteet');
+  Put(True,
+    'Spanish',
+    'espanja');
+  Put(True,
+    'Sparse File',
+    'Harva tiedosto');
+  Put(True,
+    'Specialty token',
+    'Erikoistunnus');
+  Put(True,
+    'Specifications',
+    'M'#228#228'ritykset');
+  Put(True,
+    'Spl&it Files',
+    'J&aa tiedostot');
+  Put(True,
+    'Split',
+    'Jaa');
+  Put(True,
+    'Split - record-type prefix (fallback)',
+    'Jaa - tietuetyypin etuliite (varasuunnitelma)');
+  Put(True,
+    'Split - start a new file when a delimiter-separated token appears',
+    'Jaa - aloita uusi tiedosto, kun erottimella erotettu tunnus esiintyy');
+  Put(True,
+    'Split - start a new output file when a line matches',
+    'Jaa - aloita uusi tulostetiedosto, kun rivi t'#228'sm'#228#228);
+  Put(True,
+    'Split / process mode:',
+    'Jaa / k'#228'sittelytila:');
+  Put(True,
+    'Split By Files',
+    'Jaa tiedostojen mukaan');
+  Put(True,
+    'Split By Lines',
+    'Jaa rivien mukaan');
+  Put(True,
+    'Split Error: ',
+    'Jakovirhe: ');
+  Put(True,
+    'Split File',
+    'Jaa tiedosto');
+  Put(True,
+    'Split Files',
+    'Jaa tiedostot');
+  Put(True,
+    'Split Files'#13#10'Ctrl+Shift+K',
+    'Jaa tiedostot'#13#10'Ctrl+Shift+K');
+  Put(True,
+    'Split by Pattern/Regex',
+    'Jaa mallilla/Regexill'#228);
+  Put(True,
+    'Split by pattern cancelled.',
+    'Jako mallilla peruutettu.');
+  Put(True,
+    'Split by pattern completed. %d file(s) created in %s.',
+    'Jako mallilla valmis. %d tiedosto(a) luotu kohteeseen %s.');
+  Put(True,
+    'Split by pattern failed: %s',
+    'Jako mallilla ep'#228'onnistui: %s');
+  Put(True,
+    'Split completed. %d file(s) created in %s.',
+    'Jako valmis. %d tiedosto(a) luotu kohteeseen %s.');
+  Put(True,
+    'Split equal parts error: ',
+    'Yht'#228' suurten osien jakovirhe: ');
+  Put(True,
+    'Split file by &Pattern/Regex...',
+    'Jaa tiedosto &mallilla/Regexill'#228'...');
+  Put(True,
+    'Split file by Pattern/Regex',
+    'Jaa tiedosto mallilla/Regexill'#228);
+  Put(True,
+    'Split file into e&qual parts...',
+    'Jaa tiedosto &yht'#228' suuriin osiin...');
+  Put(True,
+    'Split file into equal parts',
+    'Jaa tiedosto yht'#228' suuriin osiin');
+  Put(True,
+    'Split into Equal Parts',
+    'Jaa yht'#228' suuriin osiin');
+  Put(True,
+    'Split into equal parts completed in: %s (%d file(s) created).',
+    'Jako yht'#228' suuriin osiin valmis: %s (%d tiedosto(a) luotu).');
+  Put(True,
+    'Split mode opens a new output file at every line where Test(regex) is '
+        + 'true - tighten the wildcards so only real boundaries match.',
+    'Jakotila avaa uuden tulostetiedoston jokaisella rivill'#228', jossa Test(re'
+        + 'gex) on tosi - tiukenna jokerimerkkej'#228' niin, ett'#228' vain todelliset raja'
+        + 't t'#228'sm'#228#228'v'#228't.');
+  Put(True,
+    'Split mode:',
+    'Jakotila:');
+  Put(True,
+    'Split source file into multiple files.',
+    'Jaa l'#228'hdetiedosto useiksi tiedostoiksi.');
+  Put(True,
+    'Split '#8212' or when specialty equals a value (sort by specialization first'
+        + '). Sample regex:',
+    'Jaa '#8212' tai kun specialty vastaa arvoa (lajittele ensin specializationin'
+        + ' mukaan). Esimerkkiregex:');
+  Put(True,
+    'Split '#8212' start a new part when the region slug appears (sort by region '
+        + 'first). Sample regex:',
+    'Jaa '#8212' aloita uusi osa, kun alueen slug esiintyy (lajittele ensin aluee'
+        + 'n mukaan). Esimerkkiregex:');
+  Put(True,
+    'Split.EqualPartsCount',
+    'Yht'#228' suurten osien m'#228#228'r'#228' (%d..%d, vain yht'#228' suurten osien tilassa):');
+  Put(True,
+    'Split.FractionTotalRange',
+    'Yht'#228' suuria osia yhteens'#228' (nimitt'#228'j'#228', %d..%d):');
+  Put(True,
+    'Split.PartsBetween',
+    'Osien m'#228#228'r'#228'n on oltava v'#228'lill'#228' %d ja %d.');
+  Put(True,
+    'Split.PartsRange',
+    'Osien m'#228#228'r'#228' (%d..%d):');
+  Put(True,
+    'Split: Start a new file when a line matches',
+    'Jaa: aloita uusi tiedosto, kun rivi t'#228'sm'#228#228);
+  Put(True,
+    'Split: equal parts (N parts, preserving complete lines)',
+    'Jaa: yht'#228' suuret osat (N osaa, s'#228'ilytt'#228'en kokonaiset rivit)');
+  Put(True,
+    'Split: start a new file when a line matches (pattern/regex)',
+    'Jaa: aloita uusi tiedosto, kun rivi t'#228'sm'#228#228' (malli/regex)');
+  Put(True,
+    'SplitByFiles.DoneFormat',
+    'Jako valmis. %d tiedosto(a) luotu.'#13#10'Kulunut: %s');
+  Put(True,
+    'SplitByFiles.MaxCaption',
+    'Luodaan jaettuja tiedostoja - enint'#228#228'n %d');
+  Put(True,
+    'SplitByLines.DoneFormat',
+    'Tallennettiin rivit %d-%d kohteeseen:'#13#10'%s'#13#10#13#10'Kulunut: %s');
+  Put(True,
+    'SplitByLines.Empty.NoFileTitle',
+    'Ei viel'#228' mit'#228#228'n poimittavaa');
+  Put(True,
+    'SplitByLines.Empty.NotReadHint',
+    'K'#228'yt'#228' Lue (Ctrl+1) ladataksesi sen; esikatselu ja poiminta k'#228'ytt'#228'v'#228't m'
+        + 'uistissa olevia rivej'#228'.');
+  Put(True,
+    'SplitByLines.Empty.NotReadTitle',
+    'Tiedostoa ei ole viel'#228' luettu');
+  Put(True,
+    'SplitByLines.Error.SameOutput',
+    'Tulostetiedoston on oltava eri kuin l'#228'hdetiedosto.');
+  Put(True,
+    'SplitByLines.Error.ToBeyondTotal',
+    'Loppurivin on oltava <= %d.');
+  Put(True,
+    'SplitByLines.FooterHint',
+    'L'#228'hdetiedosto pysyy muuttumattomana.');
+  Put(True,
+    'SplitByLines.Info.NoFile',
+    'Ei avointa tiedostoa');
+  Put(True,
+    'SplitByLines.OfTotal',
+    '/ %s rivi'#228);
+  Put(True,
+    'SplitByLines.Preview.BadRange',
+    'Loppurivi on ennen aloitusrivi'#228'.');
+  Put(True,
+    'SplitByLines.Preview.Beyond',
+    'Loppurivi on tiedoston lopun j'#228'lkeen (%s rivi'#228').');
+  Put(True,
+    'SplitByLines.Preview.NoFile',
+    'Avaa tiedosto n'#228'hd'#228'ksesi, mitk'#228' rivit t'#228'm'#228' poiminta kopioi.');
+  Put(True,
+    'SplitByLines.Preview.SampleAll',
+    'Rivit t'#228'ss'#228' poiminnassa');
+  Put(True,
+    'SplitByLines.Preview.SampleSome',
+    'Ensimm'#228'iset %d / %s rivi'#228);
+  Put(True,
+    'SplitByLines.Preview.Summary',
+    'Rivit %s'#8211'%s (%s rivi'#228', %d%% tiedostosta) tallennetaan nimell'#228' %s');
+  Put(True,
+    'SplitByLines.Preview.Title',
+    'Poiminnan esikatselu');
+  Put(True,
+    'SplitByLines.RangeTitle',
+    'Poimi riviv'#228'li');
+  Put(True,
+    'SplitEqualParts.CancelledOrIncomplete',
+    'Jakotoiminto ei valmistunut. Onnistumisvahvistusta ei ole saatavilla ('
+        + 'esimerkiksi teht'#228'v'#228' keskeytettiin tai pys'#228'ytettiin aikaisin).');
+  Put(True,
+    'SplitEqualParts.CountingLines',
+    'Lasketaan rivej'#228' (odota)...');
+  Put(True,
+    'SplitEqualParts.FailureFormat',
+    'Jakotoimintoa ei voitu suorittaa loppuun.'#13#10#13#10'Tiedot:'#13#10'%s');
+  Put(True,
+    'SplitEqualParts.LogSummary',
+    'Jaa yht'#228' suuriin osiin: %d tiedosto(a) -> %s');
+  Put(True,
+    'SplitEqualParts.SuccessFormat',
+    'Jakotoiminto valmistui onnistuneesti.'#13#10#13#10'Kirjoitetut osat: %d'#13#10#13#10'Tulos'
+        + 'tekansio:'#13#10'%s'#13#10#13#10'Ensimm'#228'inen tulostetiedosto:'#13#10'%s'#13#10#13#10'Viimeinen tuloste'
+        + 'tiedosto:'#13#10'%s'#13#10#13#10'Kulunut aika: %s');
+  Put(True,
+    'SplitFileFraction.CancelledOrIncomplete',
+    'Osien vienti ei valmistunut. Onnistumisvahvistusta ei ole saatavilla ('
+        + 'esimerkiksi teht'#228'v'#228' keskeytettiin).');
+  Put(True,
+    'SplitFileFraction.Extracting',
+    'Poimitaan tiedoston osa(a)...');
+  Put(True,
+    'SplitFileFraction.FailureFormat',
+    'Osien vienti'#228' ei voitu suorittaa loppuun.'#13#10#13#10'Tiedot:'#13#10'%s');
+  Put(True,
+    'SplitFileFraction.FromPartLabel',
+    'Ensimm'#228'inen viet'#228'v'#228' osa (1 = ensimm'#228'inen osa):');
+end;
+
+procedure AddFinnishPart31(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'SplitFileFraction.Hint',
+    'K'#228'ytt'#228#228' samoja LF-turvallisia rajoja kuin "yht'#228' suuret osat": rivej'#228' e'
+        + 'i koskaan katkaista keskelt'#228'. Tulostetiedostot: basename.osa_1_/_8.ext'
+        + ' (avainsanat k'#228#228'nnetty tiedostonimess'#228').');
+  Put(True,
+    'SplitFileFraction.InvalidRange',
+    'Virheellinen osav'#228'li: osia yhteens'#228' on oltava v'#228'hint'#228#228'n 2 ja osav'#228'lin '
+        + 'on oltava kelvollinen.');
+  Put(True,
+    'SplitFileFraction.LogSummary',
+    'Poimi tiedoston osat: %d tiedosto(a) -> %s');
+  Put(True,
+    'SplitFileFraction.NoPartsExported',
+    'Yht'#228#228'n osatiedostoa ei kirjoitettu (tarkista osav'#228'li ja yrit'#228' uudellee'
+        + 'n).');
+  Put(True,
+    'SplitFileFraction.PartsRangeError',
+    'Osav'#228'lin on oltava v'#228'lill'#228' 1'#8211'%d, ja ensimm'#228'isen osan on oltava pienemp'
+        + 'i tai yht'#228' suuri kuin viimeinen.');
+  Put(True,
+    'SplitFileFraction.PreviewInvalid',
+    'Virheellinen v'#228'li: ensimm'#228'isen osan on oltava pienempi tai yht'#228' suuri '
+        + 'kuin viimeinen osa.');
+  Put(True,
+    'SplitFileFraction.PreviewRange',
+    'Vied'#228#228'n osat %d'#8211'%d / %d (esim. %d/%d'#8211'%d/%d).');
+  Put(True,
+    'SplitFileFraction.PreviewSingle',
+    'Vied'#228#228'n vain osa %d / %d (%d/%d).');
+  Put(True,
+    'SplitFileFraction.ResultTitle',
+    'FastFile - Vienti valmis');
+  Put(True,
+    'SplitFileFraction.SuccessFormat',
+    'Vienti valmistui onnistuneesti.'#13#10'Kirjoitetut tiedostot: %d (osat %d'#8211'%d'
+        + ' / %d)'#13#10'Tulostekansio: %s'#13#10'Ensimm'#228'inen tiedosto: %s'#13#10'Viimeinen tiedost'
+        + 'o: %s'#13#10'Kulunut aika: %s');
+  Put(True,
+    'SplitFileFraction.ToPartLabel',
+    'Viimeinen viet'#228'v'#228' osa (sama kuin ensimm'#228'inen yhdelle osalle):');
+  Put(True,
+    'SplitFileFraction.TotalPartsLabel',
+    'Yht'#228' suuria osia yhteens'#228' (nimitt'#228'j'#228', 2..1000):');
+  Put(True,
+    'SplitFilePart.FilenameOf',
+    '/');
+  Put(True,
+    'SplitFilePart.FilenamePart',
+    'osa');
+  Put(True,
+    'Splitting file by pattern...',
+    'Jaetaan tiedostoa mallilla...');
+  Put(True,
+    'Splitting file into equal parts...',
+    'Jaetaan tiedostoa yht'#228' suuriin osiin...');
+  Put(True,
+    'Splitting file...',
+    'Jaetaan tiedostoa...');
+  Put(True,
+    'SrcHelp.Button',
+    '</> Koodi: lue lis'#228#228);
+  Put(True,
+    'SrcHelp.ButtonHint',
+    'Mit'#228' AI voi luoda, mitk'#228' kielet validoidaan, miten virheet korjataan A'
+        + 'I:lla ja miss'#228' kukin ominaisuus on.');
+  Put(True,
+    'SrcHelp.CapsButton',
+    'L'#228'hdekoodi...');
+  Put(True,
+    'SrcHelp.CopyHint',
+    'Kopioi koko t'#228'm'#228' ohje tekstin'#228'.');
+  Put(True,
+    'SrcHelp.Fix.Auto',
+    'Automaattinen korjaus ep'#228'onnistuneen validoinnin j'#228'lkeen|Napsauta "Kor'
+        + 'jaa AI:lla": AI vastaanottaa tiedoston ja virheet, korjattu tiedosto t'
+        + 'allennetaan sen p'#228#228'lle (FastFile kysyy ensin, jos se on fastfile_assis'
+        + 'tant-kansion ulkopuolella) ja se validoidaan uudelleen.|');
+  Put(True,
+    'SrcHelp.Fix.Manual',
+    'Muuta viimeksi luotua tiedostoa|Pyyd'#228' muutoksia kysymysruudussa; AI ki'
+        + 'rjoittaa viimeksi luodun tiedoston uudelleen.|Korjaa luotu tiedosto: l'
+        + 'is'#228#228' virheenk'#228'sittely');
+  Put(True,
+    'SrcHelp.Gen.Cs',
+    'C# (.cs)|Luokat, tietueet, rajapinnat ja palvelut.|luo C#-luokka BankA'
+        + 'ccount metodeilla Deposit ja Withdraw');
+  Put(True,
+    'SrcHelp.Gen.Data',
+    'SQL, JSON, HTML, Markdown, TXT|Skriptit, asetustiedostot, sivut ja tek'
+        + 'stit. Kirjoita laajennus (.sql, .json, .html, .md, .txt) pyynt'#246#246'n.|luo'
+        + ' .sql-skripti, joka luo customers-taulun kentill'#228' id, name ja e-mail');
+  Put(True,
+    'SrcHelp.Gen.Docs',
+    'Asiakirjat: PDF, DOCX, ODT, RTF (Word)|Yhteenvedot ja raportit, my'#246's a'
+        + 'voimesta tiedostosta.|tiivist'#228' avoin tiedosto PDF:ksi');
+  Put(True,
+    'SrcHelp.Gen.Go',
+    'Go (.go)|Paketit, structit ja funktiot.|kirjoita Go-ohjelma (.go), jok'
+        + 'a laskee tekstitiedoston rivit');
+  Put(True,
+    'SrcHelp.Gen.Java',
+    'Java (.java)|Luokat, rajapinnat ja enumit. Yksi julkinen luokka tiedos'
+        + 'toa kohden, samalla nimell'#228' kuin tiedosto.|luo Java-luokka Product ken'
+        + 'till'#228' name ja price sek'#228' getterit ja setterit');
+  Put(True,
+    'SrcHelp.Gen.Js',
+    'JavaScript (.js)|Luokat, funktiot ja Node.js-skriptit. Sano "JavaScrip'
+        + 't" tai ".js".|luo JavaScript-funktio, joka validoi s'#228'hk'#246'postiosoitteen');
+  Put(True,
+    'SrcHelp.Gen.Other',
+    'C / C++, Rust, PHP, Ruby, Kotlin, Swift|Luodaan samalla tavalla (.cpp,'
+        + ' .c, .rs, .php, .rb, .kt, .swift), mutta ei viel'#228' validoida.|kirjoita '
+        + 'C++-funktio, joka k'#228#228'nt'#228#228' merkkijonon');
+  Put(True,
+    'SrcHelp.Gen.Pas',
+    'Delphi / Pascal (.pas, .dpr, .inc)|Unitit, luokat, proseduurit ja funk'
+        + 'tiot.|luo Delphi-unit funktiolla, joka muotoilee puhelinnumeron');
+  Put(True,
+    'SrcHelp.Gen.Py',
+    'Python (.py)|Skriptit, luokat ja funktiot. Avoimen tiedoston rivien mu'
+        + 'untamiseen k'#228'yt'#228' sen sijaan Python-makroa (Ctrl+Alt+E).|luo Python-skr'
+        + 'ipti, joka lukee CSV-tiedoston ja summaa value-sarakkeen');
+  Put(True,
+    'SrcHelp.Gen.React',
+    'React (.tsx) ja JSX (.jsx)|Komponentit ja hookit. "React" tuottaa .tsx'
+        + '; pyyd'#228' ".jsx" pelk'#228'lle JavaScriptille.|luo React-komponentti teht'#228'v'#228'l'
+        + 'istalle TSX:ll'#228);
+  Put(True,
+    'SrcHelp.Gen.Ts',
+    'TypeScript / Angular (.ts)|Rajapinnat, tyypit, luokat ja palvelut. San'
+        + 'o "TypeScript", "Angular" tai ".ts".|luo TypeScript-rajapinta Customer'
+        + ' ja luokka CustomerService metodeilla add ja find');
+  Put(True,
+    'SrcHelp.Intro',
+    'AI-avustaja (Ctrl+Alt+A) kirjoittaa t'#228'ydellisen l'#228'hdetiedoston pyynn'#246's'
+        + 't'#228'si ja tallentaa sen fastfile_assistant-kansioon. Sitten se voi tarki'
+        + 'staa syntaksin ja, jos virheit'#228' on, korjata tiedoston AI:lla. Kaksoisn'
+        + 'apsauta esimerkki'#228' laittaaksesi sen kysymysruutuun.');
+  Put(True,
+    'SrcHelp.Lim.NoRun',
+    'Suoritus ja k'#228#228'nn'#246's|Koodia ei koskaan ajeta eik'#228' FastFile k'#228#228'nn'#228' proje'
+        + 'kteja (ei package.json, tsconfig, Maven, npm install, testej'#228' tai muot'
+        + 'oilua). Se luo yhden tiedoston pyynt'#246#228' kohden.|');
+  Put(True,
+    'SrcHelp.Lim.NotValidated',
+    'Kielet ilman validointia|C / C++, Rust, PHP, Ruby, Kotlin, Swift ja De'
+        + 'lphi / Pascal luodaan, mutta niit'#228' ei viel'#228' validoida.|');
+  Put(True,
+    'SrcHelp.Lim.SingleFile',
+    'Yksi tiedosto kerrallaan|Java ja C# tarkistetaan yksin'#228#228'n, joten viitt'
+        + 'aukset projektin muihin luokkiin voivat n'#228'ky'#228' virhein'#228'. JSON- / HTML- '
+        + '/ SQL-tarkistukset ovat vain rakenteellisia.|');
+  Put(True,
+    'SrcHelp.Sec.Fix',
+    'Korjaa AI:lla');
+  Put(True,
+    'SrcHelp.Sec.Generate',
+    'Luo l'#228'hdekoodia (AI)');
+  Put(True,
+    'SrcHelp.Sec.Limits',
+    'Ei viel'#228' tuettu');
+  Put(True,
+    'SrcHelp.Sec.Status',
+    'T'#228'll'#228' tietokoneella (ulkoiset ty'#246'kalut)');
+  Put(True,
+    'SrcHelp.Sec.Validate',
+    'Validoi (vain syntaksi; koodia ei koskaan ajeta)');
+  Put(True,
+    'SrcHelp.Sec.Where',
+    'Miss'#228' sit'#228' k'#228'ytet'#228#228'n');
+  Put(True,
+    'SrcHelp.Status.Companions',
+    'Python / JavaScript / TypeScript|ScriptEngine.exe ja CodeCheck.exe lad'
+        + 'ataan automaattisesti ensimm'#228'isell'#228' k'#228'yt'#246'll'#228' (internet tarvitaan kerra'
+        + 'n). Ilman niit'#228' FastFile ilmoittaa siit'#228' eik'#228' validoi.|');
+  Put(True,
+    'SrcHelp.Status.Found',
+    'Asennettu: %s');
+  Put(True,
+    'SrcHelp.Status.Native',
+    'JSON / HTML / SQL|Sis'#228#228'nrakennettu FastFileen: aina saatavilla, ei ulk'
+        + 'oista ohjelmaa.|');
+  Put(True,
+    'SrcHelp.Title',
+    'L'#228'hdekoodi AI:lla: luo, validoi ja korjaa');
+  Put(True,
+    'SrcHelp.UseExampleHint',
+    'Laita valittu esimerkki kysymysruutuun (napsauta sitten L'#228'het'#228').');
+  Put(True,
+    'SrcHelp.Val.Cs',
+    'C# (.cs)|K'#228'ytt'#228#228' csc.exe:t'#228' Visual Studiosta / Build Toolsista (nykyai'
+        + 'kainen C#) tai sen puuttuessa Windows .NET Frameworkista (vain C# 5). '
+        + 'Ilman csc.exe:t'#228' FastFile ilmoittaa siit'#228' eik'#228' validoi.|');
+  Put(True,
+    'SrcHelp.Val.Go',
+    'Go (.go)|K'#228'ytt'#228#228' gofmtia Go-asennuksesta (PATH, GOROOT tai C:\Program '
+        + 'Files\Go). Vain syntaksi. Ilman Go:ta FastFile ilmoittaa siit'#228' eik'#228' va'
+        + 'lidoi.|');
+  Put(True,
+    'SrcHelp.Val.How',
+    'Miten validoidaan|K'#228'yt'#228' validoi-painiketta luodun tiedoston kortilla t'
+        + 'ai kysy kysymysruudussa t'#228'ydell'#228' polulla. Ilman polkua avautuu ikkuna '
+        + 'tiedoston valintaan.|validoi C:\temp\script.py -tiedoston syntaksi');
+  Put(True,
+    'SrcHelp.Val.Java',
+    'Java (.java)|K'#228'ytt'#228#228' javacia t'#228'lle PC:lle asennetusta JDK:sta (PATH, J'
+        + 'AVA_HOME tai tavalliset kansiot). Se k'#228#228'nt'#228#228' v'#228'liaikaiseen kansioon, j'
+        + 'oten my'#246's tyyppivirheet raportoidaan. Ilman JDK:ta FastFile ilmoittaa '
+        + 'siit'#228' eik'#228' validoi.|');
+  Put(True,
+    'SrcHelp.Val.Js',
+    'JavaScript, JSX, TypeScript, TSX / React|Tiedostot .js, .mjs, .cjs, .j'
+        + 'sx, .ts ja .tsx, CodeCheck.exe:n tarkistamina (ladataan automaattisest'
+        + 'i ensimm'#228'isell'#228' k'#228'yt'#246'll'#228').|validoi C:\projects\app\src\api.ts -tiedost'
+        + 'on syntaksi');
+  Put(True,
+    'SrcHelp.Val.Native',
+    'JSON, HTML, SQL (.json, .html, .htm, .sql)|FastFile itse tarkistaa, ei'
+        + ' erillist'#228' ohjelmaa: t'#228'ysi JSON-syntaksi; HTML-tunnisteet avattu ja su'
+        + 'ljettu; SQL-lainausmerkit, kommentit, sulkeet ja BEGIN/CASE...END-lohk'
+        + 'ot.|validoi C:\data\config.json -tiedoston syntaksi');
+  Put(True,
+    'SrcHelp.Val.Py',
+    'Python (.py)|ScriptEngine.exe tarkistaa, ladataan automaattisesti ensi'
+        + 'mm'#228'isell'#228' k'#228'yt'#246'll'#228'.|');
+  Put(True,
+    'SrcHelp.Where.Agent',
+    'AI-agentti|Kysy agentilta tavalliseen tapaan: se siirt'#228#228' l'#228'hdetiedosto'
+        + 'jen luonnin, validoinnin ja korjauksen avustajalle, ja tulos n'#228'kyy age'
+        + 'ntin vastauksen alla (mit'#228#228'n ei tarvitse hyv'#228'ksy'#228').|validoi C:\project'
+        + 's\app\src\App.tsx -tiedoston syntaksi');
+  Put(True,
+    'SrcHelp.Where.Assistant',
+    'AI-avustaja (Ctrl+Alt+A)|Kirjoita pyynt'#246' kysymysruutuun ja napsauta L'#228
+        + 'het'#228'. Tiedosto tallennetaan fastfile_assistant-kansioon (tai antamaasi'
+        + ' polkuun) ja vihre'#228' kortti tarjoaa avauksen, kansion n'#228'ytt'#228'misen ja va'
+        + 'lidoinnin.|luo JavaScript-luokka Person kentill'#228' name, age ja toString'
+        + '-metodilla');
+  Put(True,
+    'SrcHelp.Where.Card',
+    'Painikkeet ja linkit|</>-painike (avustajan ?-merkin vieress'#228') ja "L'#228'h'
+        + 'dekoodi..." kohdassa "Mit'#228' voin tehd'#228'?" avaavat t'#228'm'#228'n ohjeen. Ep'#228'onnis'
+        + 'tuneen validoinnin j'#228'lkeen paneeli tarjoaa "Korjaa AI:lla" ja "</> Koo'
+        + 'di: lue lis'#228#228'".|');
+  Put(True,
+    'SrcVal.Cs.Scope',
+    'csc k'#228#228'nt'#228#228' tiedoston yksin'#228#228'n v'#228'liaikaiseen kansioon; viittaukset pro'
+        + 'jektin muihin tiedostoihin n'#228'kyv'#228't virhein'#228'.');
+  Put(True,
+    'SrcVal.Empty',
+    'Tiedosto on tyhj'#228'.');
+  Put(True,
+    'SrcVal.Go.Scope',
+    'gofmt tarkistaa vain syntaksin (tyyppej'#228' ja importeja ei tarkisteta).');
+  Put(True,
+    'SrcVal.Html.Comment',
+    'kommenttia "<!--" ei koskaan suljeta merkill'#228' "-->"');
+  Put(True,
+    'SrcVal.Html.Mismatch',
+    '</%s> l'#246'ytyi, mutta <%s> avattu rivill'#228' %d on edelleen auki');
+  Put(True,
+    'SrcVal.Html.Scope',
+    'Tarkistettu: tunnisteet avattu ja suljettu, kommentit ja lainausmerkit'
+        + '. Attribuutteja ja CSS-/JavaScript-sis'#228'lt'#246#228' ei tarkisteta.');
+  Put(True,
+    'SrcVal.Html.Stray',
+    '</%s>:ll'#228' ei ole vastaavaa avaustunnistetta');
+  Put(True,
+    'SrcVal.Html.Unclosed',
+    '<%s> ei koskaan suljeta');
+  Put(True,
+    'SrcVal.Html.Unterminated',
+    'tunnistetta <%s ei ole suljettu merkill'#228' ">"');
+  Put(True,
+    'SrcVal.Java.Scope',
+    'javac k'#228#228'nt'#228#228' tiedoston v'#228'liaikaiseen kansioon (mit'#228#228'n ei kirjoiteta s'
+        + 'en viereen); my'#246's tyyppivirheet raportoidaan.');
+  Put(True,
+    'SrcVal.Json.BadEscape',
+    'virheellinen escape-sekvenssi merkkijonossa');
+  Put(True,
+    'SrcVal.Json.BadNumber',
+    'virheellinen numero');
+  Put(True,
+    'SrcVal.Json.CtrlInString',
+    'rivinvaihto tai ohjausmerkki merkkijonon sis'#228'll'#228' (k'#228'yt'#228' \n)');
+  Put(True,
+    'SrcVal.Json.Expected',
+    'odotettiin %s, l'#246'ytyi "%s"');
+  Put(True,
+    'SrcVal.Json.TooDeep',
+    'liian monta sis'#228'kk'#228'ist'#228' tasoa');
+  Put(True,
+    'SrcVal.Json.Trailing',
+    'ylim'#228#228'r'#228'ist'#228' sis'#228'lt'#246#228' JSON:n lopun j'#228'lkeen');
+  Put(True,
+    'SrcVal.Json.TrailingComma',
+    'pilkku ennen sulkevaa hakasuljetta (ei sallittu JSON:ssa)');
+  Put(True,
+    'SrcVal.Json.UnclosedString',
+    't'#228'ss'#228' avattua merkkijonoa ei ole suljettu (puuttuu ")');
+  Put(True,
+    'SrcVal.Json.Unexpected',
+    'odottamaton merkki "%s"');
+  Put(True,
+    'SrcVal.Json.UnexpectedEnd',
+    'odottamaton tiedoston loppu');
+  Put(True,
+    'SrcVal.LineCol',
+    'Rivi %d, sarake %d: %s');
+  Put(True,
+    'SrcVal.Native',
+    'FastFile itse tarkistaa (ei ulkoista ohjelmaa).');
+  Put(True,
+    'SrcVal.Sql.BlockOpen',
+    '%s ei koskaan suljeta END:ll'#228);
+  Put(True,
+    'SrcVal.Sql.CloseParen',
+    '")" ilman vastaavaa "("');
+  Put(True,
+    'SrcVal.Sql.Comment',
+    'kommenttia "/*" ei koskaan suljeta merkill'#228' "*/"');
+  Put(True,
+    'SrcVal.Sql.EndWithoutBegin',
+    'END ilman vastaavaa BEGIN- tai CASE-lohkoa');
+  Put(True,
+    'SrcVal.Sql.OpenParen',
+    '"(" ei koskaan suljeta');
+  Put(True,
+    'SrcVal.Sql.Quote',
+    '%s:ll'#228' avattua teksti'#228' tai nime'#228' ei koskaan suljeta');
+  Put(True,
+    'SrcVal.Sql.Scope',
+    'Tarkistettu: lainausmerkit, kommentit, sulkeet ja BEGIN/CASE...END-loh'
+        + 'kot. Taulu- ja sarakkeiden nimi'#228' sek'#228' murtekohtaisia syntakseja ei tar'
+        + 'kisteta.');
+  Put(True,
+    'SrcVal.Tool.ExitCode',
+    '%s p'#228#228'ttyi koodilla %d ilman viesti'#228'.');
+  Put(True,
+    'SrcVal.Tool.InstallCs',
+    'K'#228'ytt'#246#246'notto: asenna Visual Studio Build Tools (nykyaikainen C#) tai .'
+        + 'NET Framework 4.x (csc.exe, vain C# 5).');
+  Put(True,
+    'SrcVal.Tool.InstallGo',
+    'K'#228'ytt'#246#246'notto: asenna Go osoitteesta go.dev (gofmt tulee sen mukana).');
+  Put(True,
+    'SrcVal.Tool.InstallJava',
+    'K'#228'ytt'#246#246'notto: asenna JDK (esimerkiksi Eclipse Temurin) ja lis'#228#228' sen bi'
+        + 'n-kansio PATH-muuttujaan tai aseta JAVA_HOME.');
+  Put(True,
+    'SrcVal.Tool.LaunchFailed',
+    'Ei voida validoida: %s ei voitu k'#228'ynnist'#228#228'.');
+  Put(True,
+    'SrcVal.Tool.LegacyCsc',
+    'Huom: t'#228'm'#228' on vanha .NET Framework -k'#228#228'nt'#228'j'#228' (C# 5). Uudempi syntaksi '
+        + '($"..."-merkkijonot, =>-j'#228'senet, records...) raportoidaan virheen'#228'. As'
+        + 'enna Visual Studio Build Tools nykyaikaista C#:'#228#228' varten.');
+  Put(True,
+    'SrcVal.Tool.MissingCs',
+    'T'#228't'#228' C#-tiedostoa ei voida validoida: C#-k'#228#228'nt'#228'j'#228#228' csc.exe (Visual Stu'
+        + 'dio Build Tools tai .NET Framework) ei l'#246'ytynyt t'#228'lt'#228' tietokoneelta.');
+  Put(True,
+    'SrcVal.Tool.MissingGo',
+    'T'#228't'#228' Go-tiedostoa ei voida validoida: Go-validoijaa gofmt (Go-asennus)'
+        + ' ei l'#246'ytynyt t'#228'lt'#228' tietokoneelta.');
+  Put(True,
+    'SrcVal.Tool.MissingJava',
+    'T'#228't'#228' Java-tiedostoa ei voida validoida: Java-k'#228#228'nt'#228'j'#228#228' javac (JDK) ei '
+        + 'l'#246'ytynyt t'#228'lt'#228' tietokoneelta.');
+  Put(True,
+    'SrcVal.Tool.StillWorks',
+    'Tiedostoa ei muutettu, ja FastFile jatkaa normaalia toimintaa.');
+  Put(True,
+    'SrcVal.Tool.Using',
+    'Tarkistettu: %s');
+  Put(True,
+    'SrcVal.Unexpected',
+    'Validointia ei voitu suorittaa loppuun: %s');
+end;
+
+procedure AddFinnishPart32(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Stable Version:'#13#10#13#10'Compatible Windows versions:'#13#10'Supported platforms:',
+    'Vakaa versio:'#13#10#13#10'Yhteensopivat Windows-versiot:'#13#10'Tuetut alustat:');
+  Put(True,
+    'Standard',
+    'Vakio');
+  Put(True,
+    'Start at line (1-based):',
+    'Aloita rivilt'#228' (1-pohjainen):');
+  Put(True,
+    'Start line is required.',
+    'Aloitusrivi on pakollinen.');
+  Put(True,
+    'Start searching files with current filters.',
+    'Aloita tiedostojen etsint'#228' nykyisill'#228' suodattimilla.');
+  Put(True,
+    'Starting Advanced AI Chat (file) session...',
+    'Aloitetaan edistynyt AI-chat (tiedosto)...');
+  Put(True,
+    'Starting Python Consumer AI inter-application session...',
+    'Aloitetaan Python Consumer AI -sovellusten v'#228'linen istunto...');
+  Put(True,
+    'Starting...',
+    'Aloitetaan...');
+  Put(True,
+    'StatusBar.ModeCompact',
+    'Tila:%s  Rivivaihto:%s  Tail:%s  Suod:%s  Mk:%s  %s');
+  Put(True,
+    'Stop',
+    'Pys'#228'yt'#228);
+  Put(True,
+    'Stop'#13#10'animation',
+    'Pys'#228'yt'#228#13#10'animaatio');
+  Put(True,
+    'Stop the current file search.',
+    'Pys'#228'yt'#228' nykyinen tiedostohaku.');
+  Put(True,
+    'Streaming replace writes a temp file, then swaps it over the original '
+        + 'when possible. Free disk space is checked first. A safety limit on mat'
+        + 'ch count applies. This cannot be undone.',
+    'Suoratoistokorvaus kirjoittaa v'#228'liaikaistiedoston ja vaihtaa sen alkup'
+        + 'er'#228'isen p'#228#228'lle kun mahdollista. Vapaa levytila tarkistetaan ensin. Osu'
+        + 'mam'#228#228'r'#228'n turvaraja on voimassa. T'#228't'#228' ei voi kumota.');
+  Put(True,
+    'Structure validation',
+    'Rakenteen validointi');
+  Put(True,
+    'Suggest examples with AI',
+    'Ehdota esimerkkej'#228' AI:lla');
+  Put(True,
+    'Suggestions (auto-detected from file):',
+    'Ehdotukset (tunnistettu automaattisesti tiedostosta):');
+  Put(True,
+    'Switch to checkbox selection mode.',
+    'Vaihda valintaruutuvalintaan.');
+  Put(True,
+    'Sync scroll',
+    'Synkronoi vieritys');
+  Put(True,
+    'System',
+    'J'#228'rjestelm'#228);
+  Put(True,
+    'System Ready',
+    'J'#228'rjestelm'#228' valmis');
+  Put(True,
+    'TAB',
+    'TAB');
+  Put(True,
+    'Tab content.',
+    'V'#228'lilehden sis'#228'lt'#246'.');
+  Put(True,
+    'TabCtx.Close',
+    'Sulje v'#228'lilehti');
+  Put(True,
+    'TabCtx.CloseAll',
+    'Sulje kaikki v'#228'lilehdet');
+  Put(True,
+    'TabCtx.CloseLeft',
+    'Sulje v'#228'lilehdet vasemmalle');
+  Put(True,
+    'TabCtx.CloseOthers',
+    'Sulje kaikki paitsi t'#228'm'#228' v'#228'lilehti');
+  Put(True,
+    'TabCtx.CloseOthersActive',
+    'Sulje kaikki paitsi aktiivinen v'#228'lilehti');
+  Put(True,
+    'TabCtx.CloseRight',
+    'Sulje v'#228'lilehdet oikealle');
+  Put(True,
+    'TabCtx.ClosedList',
+    #196'skett'#228'in suljetut v'#228'lilehdet');
+  Put(True,
+    'TabCtx.MenuButtonHint',
+    'V'#228'lilehtivaihtoehdot: auki olevat v'#228'lilehdet, avaa suljettu uudelleen,'
+        + ' tallenna / palauta v'#228'lilehdet, sulje v'#228'lilehti'#228' (my'#246's napsauttamalla '
+        + 'v'#228'lilehte'#228' hiiren kakkospainikkeella)');
+  Put(True,
+    'TabCtx.NoClosed',
+    'Ei suljettuja v'#228'lilehti'#228' t'#228'ss'#228' istunnossa');
+  Put(True,
+    'TabCtx.OpenTabs',
+    'Avoimet v'#228'lilehdet');
+  Put(True,
+    'TabCtx.Reopen',
+    'Avaa suljettu v'#228'lilehti uudelleen');
+  Put(True,
+    'TabCtx.ReopenNamed',
+    'Avaa suljettu v'#228'lilehti uudelleen: %s');
+  Put(True,
+    'TabCtx.SaveOpen',
+    'Tallenna avoimet v'#228'lilehdet');
+  Put(True,
+    'TabCtx.SavedOpen',
+    'Avoimet v'#228'lilehdet tallennettu');
+  Put(True,
+    'TabCtx.SavedOpenDetail',
+    '%d v'#228'lilehti('#228'). K'#228'yt'#228' "Palauta viimeisen istunnon v'#228'lilehdet" avataks'
+        + 'esi ne uudelleen.');
+  Put(True,
+    'Table with results.',
+    'Taulukko tuloksilla.');
+  Put(True,
+    'Tail / &Follow mode',
+    'Tail / &Follow -tila');
+  Put(True,
+    'Tail / Follow mode',
+    'Tail / Follow -tila');
+  Put(True,
+    'Tail / Follow '#8212' Python macro (optional)',
+    'Tail / Follow '#8212' Python-makro (valinnainen)');
+  Put(True,
+    'Tail / follow mode:',
+    'Tail / follow -tila:');
+  Put(True,
+    'Tail OFF',
+    'Tail POIS');
+  Put(True,
+    'Tail ON',
+    'Tail P'#196#196'LL'#196);
+  Put(True,
+    'Tail PAUSED',
+    'Tail TAUOLLA');
+  Put(True,
+    'Tail PAUSED +%d new lines',
+    'Tail TAUOLLA +%d uutta rivi'#228);
+  Put(True,
+    'Tail captured %d line(s), from line %d to %d.',
+    'Tail kaappasi %d rivi('#228'), rivilt'#228' %d riville %d.');
+  Put(True,
+    'Tail captured 0 line(s).',
+    'Tail kaappasi 0 rivi('#228').');
+  Put(True,
+    'Tail export cancelled.',
+    'Tail-vienti peruutettu.');
+  Put(True,
+    'Tail export failed.',
+    'Tail-vienti ep'#228'onnistui.');
+  Put(True,
+    'Tail export file',
+    'Tail-vientitiedosto');
+  Put(True,
+    'Tail is OFF - press Ctrl+T to follow the file again.',
+    'Tail on POIS - paina Ctrl+T seurataksesi tiedostoa uudelleen.');
+  Put(True,
+    'Tail is OFF '#8212' press Ctrl+T to follow the file again.',
+    'Tail on POIS '#8212' paina Ctrl+T seurataksesi tiedostoa uudelleen.');
+  Put(True,
+    'Tail is ON - new lines at end of file are followed.',
+    'Tail on P'#196#196'LL'#196' - tiedoston loppuun tulevia uusia rivej'#228' seurataan.');
+  Put(True,
+    'Tail is ON '#8212' new lines at end of file are followed.',
+    'Tail on P'#196#196'LL'#196' '#8212' tiedoston loppuun tulevia uusia rivej'#228' seurataan.');
+  Put(True,
+    'Tail is active but no new lines have been appended yet.',
+    'Tail on aktiivinen, mutta uusia rivej'#228' ei ole viel'#228' lis'#228'tty.');
+  Put(True,
+    'Tail macro (&Python)...',
+    'Tail-makro (&Python)...');
+  Put(True,
+    'Tail macro - &reprocess new lines',
+    'Tail-makro - &k'#228'sittele uudet rivit uudelleen');
+  Put(True,
+    'Tail macro - reprocess new lines',
+    'Tail-makro - k'#228'sittele uudet rivit uudelleen');
+  Put(True,
+    'Tail macro cancelled.',
+    'Tail-makro peruutettu.');
+  Put(True,
+    'Tail macro done: %d OK, %d skipped, %d errors.',
+    'Tail-makro valmis: %d OK, %d ohitettu, %d virhett'#228'.');
+  Put(True,
+    'Tail macro examples',
+    'Tail-makron esimerkit');
+  Put(True,
+    'Tail macro examples doc',
+    'M'#228#228'ritelm'#228':  def transform(line, ctx) -> str | None'#13#10'  line          :'
+        + ' kunkin UUDEN rivin teksti, joka lis'#228't'#228#228'n Tailin ollessa P'#196#196'LL'#196#13#10'  ctx'
+        + '           : dict, jossa on pysyv'#228' tila Tail-rivien v'#228'lill'#228#13#10'  ctx[''li'
+        + 'ne_number''] : 1-pohjainen rivinumero l'#228'hdetiedostossa'#13#10'  Palauta str  '
+        + ' : sis'#228'llyt'#228' muunnettu rivi tulosteeseen'#13#10'  Palauta None  : ohita (SKI'
+        + 'P-laskuri kasvaa)'#13#10'  Raise except  : virhe (LINE_ERROR-laskuri kasvaa)');
+  Put(True,
+    'Tail macro examples intro',
+    '=== Tail-makron esimerkit (ajetaan jokaisella uudella rivill'#228' Tailin o'
+        + 'llessa P'#196#196'LL'#196') ===');
+  Put(True,
+    'Tail macro idle',
+    'Tail-makro jouten');
+  Put(True,
+    'Tail macro is already running. Wait for it to finish or close Script E'
+        + 'ngine runs.',
+    'Tail-makro on jo k'#228'ynniss'#228'. Odota, ett'#228' se valmistuu, tai sulje Script'
+        + ' Engine -ajot.');
+  Put(True,
+    'Tail macro output:',
+    'Tail-makron tuloste:');
+  Put(True,
+    'Tail macro results file',
+    'Tail-makron tulostiedosto');
+  Put(True,
+    'Tail macro script (transform(line, ctx)):',
+    'Tail-makron skripti (transform(line, ctx)):');
+  Put(True,
+    'Tail macro '#8212' reprocess new lines',
+    'Tail-makro '#8212' k'#228'sittele uudet rivit uudelleen');
+  Put(True,
+    'Tail macro: %d lines queued...',
+    'Tail-makro: %d rivi'#228' jonossa...');
+  Put(True,
+    'Tail macro: %d new line(s) detected...',
+    'Tail-makro: %d uutta rivi('#228') havaittu...');
+  Put(True,
+    'Tail macro: Python plugin ScriptEngine.exe not found or failed to star'
+        + 't.',
+    'Tail-makro: Python-lis'#228'osaa ScriptEngine.exe ei l'#246'ytynyt tai k'#228'ynnisty'
+        + 's ep'#228'onnistui.');
+  Put(True,
+    'Tail macro: chunk done, %d OK - next chunk...',
+    'Tail-makro: lohko valmis, %d OK - seuraava lohko...');
+  Put(True,
+    'Tail macro: chunk done, %d OK '#8212' next chunk...',
+    'Tail-makro: lohko valmis, %d OK '#8212' seuraava lohko...');
+  Put(True,
+    'Tail macro: compile error',
+    'Tail-makro: k'#228#228'nn'#246'svirhe');
+  Put(True,
+    'Tail macro: compiled OK',
+    'Tail-makro: k'#228#228'nnetty OK');
+  Put(True,
+    'Tail macro: index file temp.txt not found - read the file (F5) first.',
+    'Tail-makro: indeksitiedostoa temp.txt ei l'#246'ytynyt - lue tiedosto (F5) '
+        + 'ensin.');
+  Put(True,
+    'Tail macro: index file temp.txt not found '#8212' read the file (F5) first.',
+    'Tail-makro: indeksitiedostoa temp.txt ei l'#246'ytynyt '#8212' lue tiedosto (F5) '
+        + 'ensin.');
+  Put(True,
+    'Tail macro: line %d of %d...',
+    'Tail-makro: rivi %d / %d...');
+  Put(True,
+    'Tail macro: line index not found - read the file (F5) first.',
+    'Tail-makro: rivihakemistoa ei l'#246'ytynyt - lue tiedosto (F5) ensin.');
+  Put(True,
+    'Tail macro: processing %d of %d lines (chunked)...',
+    'Tail-makro: k'#228'sitell'#228#228'n %d / %d rivi'#228' (lohkoittain)...');
+  Put(True,
+    'Tail macro: processing %d pending line(s)...',
+    'Tail-makro: k'#228'sitell'#228#228'n %d odottavaa rivi('#228')...');
+  Put(True,
+    'Tail macro: processing last %d of %d new lines (limit).',
+    'Tail-makro: k'#228'sitell'#228#228'n viimeiset %d / %d uutta rivi'#228' (raja).');
+  Put(True,
+    'Tail macro: processing new lines...',
+    'Tail-makro: k'#228'sitell'#228#228'n uusia rivej'#228'...');
+  Put(True,
+    'Tail macro: reprocessing %d line(s) from this Tail session...',
+    'Tail-makro: k'#228'sitell'#228#228'n uudelleen %d rivi('#228') t'#228'st'#228' Tail-istunnosta...');
+  Put(True,
+    'Tail macro: run failed (see output).',
+    'Tail-makro: ajo ep'#228'onnistui (katso tuloste).');
+  Put(True,
+    'Tail macro: running on lines %d-%d...',
+    'Tail-makro: ajetaan riveill'#228' %d-%d...');
+  Put(True,
+    'Tail macro: timeout waiting for ScriptEngine.',
+    'Tail-makro: aikakatkaisu odottaessa ScriptEngine'#228'.');
+  Put(True,
+    'Tail macro: timeout waiting for script compile.',
+    'Tail-makro: aikakatkaisu odottaessa skriptin k'#228#228'nn'#246'st'#228'.');
+  Put(True,
+    'Target line',
+    'Kohderivi');
+  Put(True,
+    'Targets Dr./Dra. patterns together with the following name field (%s).'
+        + ' VBScript-safe (no lookbehind).',
+    'Kohdistaa Dr./Dra.-mallit yhdess'#228' seuraavan nimikent'#228'n kanssa (%s). VB'
+        + 'Script-turvallinen (ei lookbehindia).');
+  Put(True,
+    'Technical Note: To divide into equal parts preserving complete lines, '
+        + 'you generally do not use Regex, but rather the file size or line count'
+        + ' (e.g., split every 10,000 lines). In Delphi or Python, you would coun'
+        + 't \n or \r\n characters to ensure the cut doesn''t break a word in half'
+        + '.',
+    'Tekninen huomautus: Yht'#228' suuriin osiin jakamiseen kokonaiset rivit s'#228'i'
+        + 'lytt'#228'en et yleens'#228' k'#228'yt'#228' Regexi'#228', vaan tiedoston kokoa tai rivim'#228#228'r'#228#228' '
+        + '(esim. jaa joka 10 000. rivill'#228'). Delphiss'#228' tai Pythonissa laskisit \n'
+        + '- tai \r\n-merkit varmistaaksesi, ettei leikkaus katkaise sanaa keskel'
+        + 't'#228'.');
+  Put(True,
+    'Telemedicine-style flag (column "%s" = 1 after ISO datetime):',
+    'Telel'#228#228'ketieteellinen lippu (sarake "%s" = 1 ISO-aikaleiman j'#228'lkeen):');
+  Put(True,
+    'Temporary',
+    'V'#228'liaikainen');
+  Put(True,
+    'Temporary RAG index cleared',
+    'V'#228'liaikainen RAG-indeksi tyhjennetty');
+  Put(True,
+    'Temporary output file was not created.',
+    'V'#228'liaikaista tulostetiedostoa ei luotu.');
+  Put(True,
+    'Test writes true or false per input line - ideal for quickly validatin'
+        + 'g row types.',
+    'Test kirjoittaa true tai false jokaiselle sy'#246'teriville - ihanteellinen'
+        + ' rivien tyyppien nopeaan validointiin.');
+  Put(True,
+    'Test '#8212' line has all CSV fields (same delimiter count as header). Regex'
+        + ':',
+    'Test '#8212' rivill'#228' on kaikki CSV-kent'#228't (sama erotinm'#228#228'r'#228' kuin otsikolla).'
+        + ' Regex:');
+  Put(True,
+    'Test '#8212' telemedicine column is 1 (after ISO datetime). Regex:',
+    'Test '#8212' telel'#228#228'ketieteen sarake on 1 (ISO-aikaleiman j'#228'lkeen). Regex:');
+end;
+
+procedure AddFinnishPart33(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Text',
+    'Teksti');
+  Put(True,
+    'Text cannot be empty in repeat mode.',
+    'Teksti ei voi olla tyhj'#228' toistotilassa.');
+  Put(True,
+    'Text content:',
+    'Tekstisis'#228'lt'#246':');
+  Put(True,
+    'Text copied to clipboard!',
+    'Teksti kopioitu leikep'#246'yd'#228'lle!');
+  Put(True,
+    'Text files (*.txt)',
+    'Tekstitiedostot (*.txt)');
+  Put(True,
+    'Text files (*.txt)|*.txt|All files (*.*)|*.*',
+    'Tekstitiedostot (*.txt)|*.txt|Kaikki tiedostot (*.*)|*.*');
+  Put(True,
+    'Text not found.',
+    'Teksti'#228' ei l'#246'ytynyt.');
+  Put(True,
+    'Texto n'#227'o encontrado.',
+    'Teksti'#228' ei l'#246'ytynyt.');
+  Put(True,
+    'The AI returned an empty response. Try again or shorten the sample.',
+    'AI palautti tyhj'#228'n vastauksen. Yrit'#228' uudelleen tai lyhenn'#228' n'#228'ytett'#228'.');
+  Put(True,
+    'The Python plugin %s was downloaded but was not found in the applicati'
+        + 'on folder.',
+    'Python-lis'#228'osa %s ladattiin, mutta sit'#228' ei l'#246'ytynyt sovelluskansiosta.');
+  Put(True,
+    'The file changed on disk. Ask the agent again.',
+    'Tiedosto muuttui levyll'#228'. Pyyd'#228' agenttia uudelleen.');
+  Put(True,
+    'The last eight digits of the final digit island on the first line look'
+        + ' like %s (often a DDMMYYYY-style date).',
+    'Ensimm'#228'isen rivin viimeisen numerosarjan kahdeksan viimeist'#228' numeroa n'
+        + #228'ytt'#228'v'#228't olevan %s (usein DDMMYYYY-muotoinen p'#228'iv'#228'm'#228#228'r'#228').');
+  Put(True,
+    'The model stopped after the turn limit.',
+    'Malli pys'#228'htyi vuororajan j'#228'lkeen.');
+  Put(True,
+    'There is no difference between the files.',
+    'Tiedostojen v'#228'lill'#228' ei ole eroa.');
+  Put(True,
+    'This file is very large. The app will skip the full pre-scan (counting'
+        + ' matches) to keep the UI responsive.',
+    'T'#228'm'#228' tiedosto on hyvin suuri. Sovellus ohittaa t'#228'yden esiskannauksen ('
+        + 'osumien laskennan), jotta k'#228'ytt'#246'liittym'#228' pysyy responsiivisena.');
+  Put(True,
+    'This line is not in the current filter results.',
+    'T'#228'm'#228' rivi ei ole nykyisiss'#228' suodatustuloksissa.');
+  Put(True,
+    'This mode does not use Regex. The file will be split into X equal part'
+        + 's, preserving complete lines (no cuts in the middle of a line).',
+    'T'#228'm'#228' tila ei k'#228'yt'#228' Regexi'#228'. Tiedosto jaetaan X yht'#228' suureen osaan s'#228'il'
+        + 'ytt'#228'en kokonaiset rivit (ei katkaisuja rivin keskelt'#228').');
+  Put(True,
+    'This operation cannot be undone.',
+    'T'#228't'#228' toimintoa ei voi kumota.');
+  Put(True,
+    'This text will be automatically inserted at the very beginning of EVER'
+        + 'Y generated sub-file.',
+    'T'#228'm'#228' teksti lis'#228't'#228#228'n automaattisesti JOKAISEN luodun osatiedoston aiva'
+        + 'n alkuun.');
+  Put(True,
+    'This text will be automatically inserted at the very end of EVERY gene'
+        + 'rated sub-file.',
+    'T'#228'm'#228' teksti lis'#228't'#228#228'n automaattisesti JOKAISEN luodun osatiedoston aiva'
+        + 'n loppuun.');
+  Put(True,
+    'Threaded Search',
+    'S'#228'ikeistetty haku');
+  Put(True,
+    'Time to delete lines: %s millisecs.',
+    'Rivien poiston kesto: %s.');
+  Put(True,
+    'Time to execute that operation: %s millisecs.',
+    'Toiminnon suorituksen kesto: %s.');
+  Put(True,
+    'Time to read: %s millisecs.',
+    'Lukuun kului: %s ms.');
+  Put(True,
+    'Time to read: %s millisecs. Total lines: %d.',
+    'Lukuun kului: %s ms. Rivej'#228' yhteens'#228': %d.');
+  Put(True,
+    'Time to read: %s millisecs. Total lines: %d. Read threads: %d.',
+    'Lukuun kului: %s ms. Rivej'#228' yhteens'#228': %d. Lukus'#228'ikeit'#228': %d.');
+  Put(True,
+    'TimerLog.ClearHint',
+    'Tyhjenn'#228' toiminnon ajastimen loki');
+  Put(True,
+    'TimerLog.CopyConfirm',
+    'Kopioidaanko t'#228'm'#228' teksti leikep'#246'yd'#228'lle?');
+  Put(True,
+    'TimerLog.CopyHint',
+    'Napsauta hiiren kakkospainikkeella kopioidaksesi t'#228'm'#228'n tekstin leikep'#246
+        + 'yd'#228'lle');
+  Put(True,
+    'Tip',
+    'Vihje');
+  Put(True,
+    'Tip: press ESC to cancel.',
+    'Vihje: peruuta painamalla ESC.');
+  Put(True,
+    'Tips: regex is applied line-by-line; ^ means start of each line.',
+    'Vihjeit'#228': regexi'#228' sovelletaan rivi kerrallaan; ^ tarkoittaa kunkin riv'
+        + 'in alkua.');
+  Put(True,
+    'Title prefix check',
+    'Otsikkoetuliitteen tarkistus');
+  Put(True,
+    'TitleBar.ShowHideIcon',
+    'N'#228'yt'#228'/piilota sovelluskuvake');
+  Put(True,
+    'To keep in your file only lines where %s has a high numeric value (e.g'
+        + '., more than 100 reviews).',
+    'S'#228'ilytt'#228#228'ksesi tiedostossa vain rivit, joissa %s:ll'#228' on korkea numeeri'
+        + 'nen arvo (esim. yli 100 arvostelua).');
+  Put(True,
+    'To line must be >= From line.',
+    'Loppurivin on oltava >= aloitusrivi.');
+  Put(True,
+    'To line:',
+    'Loppurivi:');
+  Put(True,
+    'To quickly identify which lines have a specific %s (like a column with'
+        + ' value 1).',
+    'Tunnistaaksesi nopeasti, mill'#228' riveill'#228' on tietty %s (kuten sarake arv'
+        + 'olla 1).');
+  Put(True,
+    'To split into N equal parts by line count or size, use FastFile''s equa'
+        + 'l-parts workflow instead of Regex - Regex cannot count lines across th'
+        + 'e whole file in one Test call.',
+    'Jakamiseen N yht'#228' suureen osaan rivim'#228#228'r'#228'n tai koon mukaan k'#228'yt'#228' FastF'
+        + 'ilen yht'#228' suurten osien ty'#246'nkulkua Regexin sijaan - Regex ei voi laske'
+        + 'a rivej'#228' koko tiedostosta yhdess'#228' Test-kutsussa.');
+  Put(True,
+    'To:',
+    'Asti:');
+  Put(True,
+    'Toggle Word Wrap (Ctrl+W)',
+    'Vaihda rivinvaihto (Ctrl+W)');
+  Put(True,
+    'Too many lines to export to a file (%d; max %d). Reduce the range.',
+    'Liian monta rivi'#228' viet'#228'v'#228'ksi tiedostoon (%d; enint'#228#228'n %d). Pienenn'#228' al'
+        + 'uetta.');
+  Put(True,
+    'Too many lines to export to the clipboard (%d; max %d). Reduce the ran'
+        + 'ge or save to a text file.',
+    'Liian monta rivi'#228' viet'#228'v'#228'ksi leikep'#246'yd'#228'lle (%d; enint'#228#228'n %d). Pienenn'#228
+        + ' aluetta tai tallenna tekstitiedostoon.');
+  Put(True,
+    'Toolbar hint: Compare / merge (Ctrl+Shift+H)',
+    'Vertaa / yhdist'#228' + historia (Ctrl+Shift+H)');
+  Put(True,
+    'Toolbar hint: Filter / Grep (Ctrl+L)',
+    'Suodatin / Grep (Ctrl+L)');
+  Put(True,
+    'Toolbar hint: Find (Ctrl+F)',
+    'Etsi teksti'#228' (Ctrl+F)');
+  Put(True,
+    'Toolbar hint: Find and replace (Ctrl+H)',
+    'Etsi ja korvaa (Ctrl+H)');
+  Put(True,
+    'Toolbar hint: Line hover hints (ListView and Select mode)',
+    'N'#228'yt'#228' leijuvat vihjeet riveill'#228' ja kaikissa s'#228#228'timiss'#228' (avustaja, suod'
+        + 'atin, ty'#246'kalurivi)');
+  Put(True,
+    'Toolbar hint: Show marks (Ctrl+Alt+M)',
+    'N'#228'yt'#228' tab/v'#228'lily'#246'nti/CR/LF-merkit (Ctrl+Alt+M)');
+  Put(True,
+    'Toolbar hint: Word wrap (Ctrl+W)',
+    'Rivinvaihto (Ctrl+W)');
+  Put(True,
+    'Toolbar hint: Zoom in (Ctrl+Plus)',
+    'Suurenna listan fonttia (Ctrl+Plus)');
+  Put(True,
+    'Toolbar hint: Zoom out (Ctrl+Minus)',
+    'Pienenn'#228' listan fonttia (Ctrl+Minus)');
+  Put(True,
+    'Toolbar.PythonMacro',
+    'Python-makro');
+  Put(True,
+    'Toolbar.PythonMacroHint',
+    'Avaa Python-makropaneeli muuntaaksesi tiedoston rivit skriptill'#228' (Ctrl'
+        + '+Alt+E)');
+  Put(True,
+    'Tools',
+    'Ty'#246'kalut');
+  Put(True,
+    'ToolsGallery.ClearSearch',
+    'Tyhjenn'#228' haku');
+  Put(True,
+    'ToolsGallery.GroupAppearance',
+    'Ulkoasu');
+  Put(True,
+    'ToolsGallery.GroupFind',
+    'Haku');
+  Put(True,
+    'ToolsGallery.GroupSplit',
+    'Jaa ja pura');
+  Put(True,
+    'ToolsGallery.SearchCue',
+    'Hakuty'#246'kalut...');
+  Put(True,
+    'ToolsGallery.Shortcut.FindFiles',
+    'Ctrl+Shift+F');
+  Put(True,
+    'ToolsGallery.Shortcut.SelectSkin',
+    'Ctrl+Alt+K');
+  Put(True,
+    'ToolsGallery.Subtitle',
+    'Valitse ty'#246'kalu');
+  Put(True,
+    'Top toolbar',
+    'Yl'#228'ty'#246'kalurivi');
+  Put(True,
+    'TopBar.MoreOptions',
+    'Tiedostovaihtoehdot (vie, valitse, suodata, tyhjenn'#228'...)');
+  Put(True,
+    'Total characters:',
+    'Merkkej'#228' yhteens'#228':');
+  Put(True,
+    'Total lines:',
+    'Rivej'#228' yhteens'#228':');
+  Put(True,
+    'Transcript cleared',
+    'Litteraatti tyhjennetty');
+  Put(True,
+    'Transcript exported to: ',
+    'Litteraatti viety kohteeseen: ');
+  Put(True,
+    'Try another source file or pattern mode.',
+    'Kokeile toista l'#228'hdetiedostoa tai mallitilaa.');
+  Put(True,
+    'Tutorials: ',
+    'Oppaat: ');
+  Put(True,
+    'Two-file diff',
+    'Kahden tiedoston diff');
+  Put(True,
+    'Type a value here.',
+    'Kirjoita arvo t'#228'h'#228'n.');
+  Put(True,
+    'Type file name patterns to search.',
+    'Kirjoita etsitt'#228'v'#228't tiedostonimikuviot.');
+  Put(True,
+    'Type folders where files should be searched.',
+    'Kirjoita kansiot, joista tiedostoja etsit'#228#228'n.');
+  Put(True,
+    'Type or choose the file path.',
+    'Kirjoita tai valitse tiedostopolku.');
+  Put(True,
+    'Type text content to find inside files.',
+    'Kirjoita tiedostoista etsitt'#228'v'#228' tekstisis'#228'lt'#246'.');
+  Put(True,
+    'Type text to search within loaded lines.',
+    'Kirjoita ladatuilta riveilt'#228' etsitt'#228'v'#228' teksti.');
+  Put(True,
+    'Type the text to search:',
+    'Kirjoita etsitt'#228'v'#228' teksti:');
+  Put(True,
+    'Typed text:',
+    'Kirjoitettu teksti:');
+  Put(True,
+    'URLs',
+    'URL-osoitteet');
+  Put(True,
+    'Undo',
+    'Kumoa');
+  Put(True,
+    'Undo delete on line %d? The deleted line will be restored.',
+    'Kumotaanko poisto rivill'#228' %d? Poistettu rivi palautetaan.');
+  Put(True,
+    'Undo delete on line %d? The line will be restored: "%s"',
+    'Kumotaanko poisto rivill'#228' %d? Rivi palautetaan: "%s"');
+  Put(True,
+    'Undo edit on line %d? The line will be restored to its previous conten'
+        + 't.',
+    'Kumotaanko muokkaus rivill'#228' %d? Rivi palautetaan aiempaan sis'#228'lt'#246#246'ns'#228'.');
+  Put(True,
+    'Undo edit on line %d? The line will be restored to: "%s"',
+    'Kumotaanko muokkaus rivill'#228' %d? Rivi palautetaan muotoon: "%s"');
+  Put(True,
+    'Undo failed.',
+    'Kumoaminen ep'#228'onnistui.');
+  Put(True,
+    'Undo insert at line %d? The inserted line will be removed.',
+    'Kumotaanko lis'#228'ys rivill'#228' %d? Lis'#228'tty rivi poistetaan.');
+  Put(True,
+    'Undo line autofill (%d line(s) at line %d)',
+    'Kumoa rivit'#228'ytt'#246' (%d rivi('#228') rivill'#228' %d)');
+  Put(True,
+    'Undo line autofill of %d blank line(s) at line %d? The added lines wil'
+        + 'l be removed.',
+    'Kumotaanko %d tyhj'#228'n rivin rivit'#228'ytt'#246' rivill'#228' %d? Lis'#228'tyt rivit poiste'
+        + 'taan.');
+  Put(True,
+    'Undo paste of %d line(s) starting at line %d? The pasted lines will be'
+        + ' removed.',
+    'Kumotaanko %d rivin liitt'#228'minen alkaen rivist'#228' %d? Liitetyt rivit pois'
+        + 'tetaan.');
+  Put(True,
+    'Undo the last change on line %d?',
+    'Kumotaanko viimeinen muutos rivill'#228' %d?');
+  Put(True,
+    'Undo: delete line ',
+    'Kumoa: poista rivi ');
+  Put(True,
+    'Undo: insert line ',
+    'Kumoa: lis'#228#228' rivi ');
+  Put(True,
+    'Undo: remove %d autofill line(s) from line %d',
+    'Kumoa: poista %d rivit'#228'ytt'#246'rivi('#228') rivilt'#228' %d');
+  Put(True,
+    'Undo: remove %d pasted line(s) from line %d',
+    'Kumoa: poista %d liitetty'#228' rivi('#228') rivilt'#228' %d');
+  Put(True,
+    'Undo: restore line ',
+    'Kumoa: palauta rivi ');
+  Put(True,
+    'Unknown error.',
+    'Tuntematon virhe.');
+  Put(True,
+    'Unsupported Python plugin for automatic download.',
+    'Python-lis'#228'osaa ei tueta automaattiseen lataukseen.');
+  Put(True,
+    'Unsupported regex flag: %s',
+    'Regex-lippua ei tueta: %s');
+end;
+
+procedure AddFinnishPart34(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Updating line index...',
+    'P'#228'ivitet'#228#228'n rivi-indeksi'#228'...');
+  Put(True,
+    'Use Apply buttons to save merged lines to disk (batched). Green (equal'
+        + ') rows are ignored.',
+    'Paina K'#228'yt'#228'-painikkeita tallentaaksesi yhdistetyt rivit levylle (eriss'
+        + #228'). Vihre'#228't (samat) rivit ohitetaan.');
+  Put(True,
+    'Use Ctrl+F first to define the search text.',
+    'Kirjoita ensin hakuteksti Osumat-paneeliin (tai k'#228'yt'#228' Ctrl+F).');
+  Put(True,
+    'Use Preview before running on the full file.',
+    'K'#228'yt'#228' Esikatselua ennen koko tiedoston k'#228'sittely'#228'.');
+  Put(True,
+    'Use Python macros on new lines',
+    'K'#228'yt'#228' Python-makroja uusilla riveill'#228);
+  Put(True,
+    'Use different text for each new line',
+    'K'#228'yt'#228' eri teksti'#228' jokaiselle uudelle riville');
+  Put(True,
+    'Use in editor',
+    'K'#228'yt'#228' editorissa');
+  Put(True,
+    'Useful for extracting only the %s and the %s from each line.',
+    'Hy'#246'dyllinen vain %s:n ja %s:n poimimiseen kustakin rivist'#228'.');
+  Put(True,
+    'Useful links:',
+    'Hy'#246'dyllisi'#228' linkkej'#228':');
+  Put(True,
+    'Useful to anonymize or normalize content in all lines (for example, re'
+        + 'moving numeric URL suffixes).',
+    'Hy'#246'dyllinen anonymisoimaan tai normalisoimaan sis'#228'lt'#246#228' kaikilla riveil'
+        + 'l'#228' (esimerkiksi poistamaan numeerisia URL-p'#228#228'tteit'#228').');
+  Put(True,
+    'Useful to keep only rows that match a rule (for example, lines from on'
+        + 'e region).',
+    'Hy'#246'dyllinen s'#228'ilytt'#228'm'#228#228'n vain s'#228#228'nn'#246'n t'#228'ytt'#228'v'#228't rivit (esimerkiksi yhd'
+        + 'en alueen rivit).');
+  Put(True,
+    'Useful to sample IDs and amounts embedded between runs of zeros.',
+    'Hy'#246'dyllinen nollajaksojen v'#228'liin upotettujen tunnusten ja summien otan'
+        + 'taan.');
+  Put(True,
+    'Useful to validate each line quickly (for example, if a line keeps the'
+        + ' expected CSV structure).',
+    'Hy'#246'dyllinen kunkin rivin nopeaan validointiin (esimerkiksi jos rivi s'#228
+        + 'ilytt'#228#228' odotetun CSV-rakenteen).');
+  Put(True,
+    'Useful when a column stores URLs; anchors may need quotes or extra del'
+        + 'imiters for your file.',
+    'Hy'#246'dyllinen, kun sarake sis'#228'lt'#228#228' URL-osoitteita; ankkurit voivat tarvi'
+        + 'ta lainausmerkkej'#228' tai lis'#228'erottimia tiedostollesi.');
+  Put(True,
+    'Useful when you want to extract specific tokens from each line (for ex'
+        + 'ample, IDs and URLs).',
+    'Hy'#246'dyllinen, kun haluat poimia tiettyj'#228' tokeneita kustakin rivist'#228' (es'
+        + 'imerkiksi tunnuksia ja URL-osoitteita).');
+  Put(True,
+    'Uses a lookbehind to skip the domain and capture only the URL path.',
+    'K'#228'ytt'#228#228' lookbehindia ohittaakseen verkkotunnuksen ja kaapatakseen vain'
+        + ' URL-polun.');
+  Put(True,
+    'VBScript.RegExp is not available (invalid pattern or missing component'
+        + ').',
+    'VBScript.RegExp ei ole k'#228'ytett'#228'viss'#228' (virheellinen malli tai puuttuva '
+        + 'komponentti).');
+  Put(True,
+    'Validate dates in',
+    'Validoi p'#228'iv'#228'm'#228#228'r'#228't kohteessa');
+  Put(True,
+    'Version History',
+    'Versiohistoria');
+  Put(True,
+    'View encoding (list):',
+    'N'#228'ytt'#246'koodaus (lista):');
+  Put(True,
+    'View encoding: default (list follows detected BOM/heuristics).',
+    'N'#228'ytt'#246'koodaus: oletus (lista seuraa tunnistettua BOM/heuristiikkaa).');
+  Put(True,
+    'View encoding: forced (list decode only; file on disk unchanged).',
+    'N'#228'ytt'#246'koodaus: pakotettu (vain listan dekoodaus; tiedosto levyll'#228' enna'
+        + 'llaan).');
+  Put(True,
+    'View: ANSI (raw / system)',
+    'N'#228'yt'#228': ANSI (raaka / j'#228'rjestelm'#228')');
+  Put(True,
+    'View: DEFAULT (detected)',
+    'N'#228'yt'#228': OLETUS (tunnistettu)');
+  Put(True,
+    'View: UTF-16 BE',
+    'N'#228'yt'#228': UTF-16 BE');
+  Put(True,
+    'View: UTF-16 LE',
+    'N'#228'yt'#228': UTF-16 LE');
+  Put(True,
+    'View: UTF-32 BE',
+    'N'#228'yt'#228': UTF-32 BE');
+  Put(True,
+    'View: UTF-32 LE',
+    'N'#228'yt'#228': UTF-32 LE');
+  Put(True,
+    'View: UTF-8',
+    'N'#228'yt'#228': UTF-8');
+  Put(True,
+    'Virtual',
+    'Virtuaalinen');
+  Put(True,
+    'Visible marks legend:',
+    'N'#228'kyvien merkkien selite:');
+  Put(True,
+    'Waiting engine output...',
+    'Odotetaan moottorin tulostetta...');
+  Put(True,
+    'Waiting for Python...',
+    'Odotetaan Pythonia...');
+  Put(True,
+    'Warning',
+    'Varoitus');
+  Put(True,
+    'Watchdog.Hang.Message',
+    'FastFile: k'#228'ytt'#246'liittym'#228' ei ole vastannut ~%u s.');
+  Put(True,
+    'Watchdog.Hang.Operation',
+    'Toiminto: %s');
+  Put(True,
+    'Watchdog.Hang.Question',
+    'Yritet'#228#228'nk'#246' peruuttaa taustaty'#246' (Etsi/Suodatin/indeksointi)?');
+  Put(True,
+    'Watchdog.Hang.Title',
+    'FastFile - mahdollinen jumiutuminen');
+  Put(True,
+    'Watchdog.Memory.Critical',
+    'FastFile: kriittinen muistink'#228'ytt'#246' (~%.0f MB). Peruutetaanko raskas ty'
+        + #246' ja vapautetaanko v'#228'limuisti?');
+  Put(True,
+    'Watchdog.Memory.Title',
+    'FastFile - muisti');
+  Put(True,
+    'What it does:',
+    'Mit'#228' se tekee:');
+  Put(True,
+    'What to export',
+    'Mit'#228' vied'#228#228'n');
+  Put(True,
+    'When enabled, Replace All and batch delete of checked lines may proces'
+        + 's the file in line-aligned segments (temporary parts), then merge. Can'
+        + ' reduce peak memory on very large files. Replace All: search text that'
+        + ' spans a segment boundary may not match.',
+    'Kun k'#228'yt'#246'ss'#228', Korvaa kaikki ja valittujen rivien er'#228'poisto voivat k'#228'si'
+        + 'tell'#228' tiedoston rivialineisiin segmentteihin (v'#228'liaikaiset osat) ja yh'
+        + 'dist'#228#228' sitten. Voi v'#228'hent'#228#228' muistihuippua hyvin suurilla tiedostoilla.'
+        + ' Korvaa kaikki: segmenttirajan ylitt'#228'v'#228' hakuteksti ei v'#228'ltt'#228'm'#228'tt'#228' t'#228'sm'
+        + #228#228'.');
+  Put(True,
+    'When this pattern is found on a line, the current file is saved and a '
+        + 'new split file is started.',
+    'Kun t'#228'm'#228' malli l'#246'ytyy rivilt'#228', nykyinen tiedosto tallennetaan ja uusi '
+        + 'jaettu tiedosto aloitetaan.');
+  Put(True,
+    'Whole Word',
+    'Koko sana');
+  Put(True,
+    'Whole file available: %s lines (paged reading, low memory).',
+    'Koko tiedosto k'#228'ytett'#228'viss'#228': %s rivi'#228' (sivutettu luku, v'#228'h'#228'n muistia).');
+  Put(True,
+    'Whole word',
+    'Koko sana');
+  Put(True,
+    'Word Wrap (ON)',
+    'Rivinvaihto (P'#196#196'LL'#196')');
+  Put(True,
+    'Word wrap (visual):',
+    'Rivinvaihto (visuaalinen):');
+  Put(True,
+    'Working...',
+    'K'#228'sitell'#228#228'n...');
+  Put(True,
+    'Write',
+    'Kirjoita');
+  Put(True,
+    'Write a prompt first.',
+    'Kirjoita ensin kehote.');
+  Put(True,
+    'Writing',
+    'Kirjoitus');
+  Put(True,
+    'XML-like lines detected; using first tag <%s ...>.',
+    'XML-tyyppisi'#228' rivej'#228' havaittu; k'#228'ytet'#228#228'n ensimm'#228'ist'#228' tunnistetta <%s .'
+        + '..>.');
+  Put(True,
+    'YES = build line index now (full disk pass, exact line numbers).',
+    'KYLL'#196' = rakenna rivi-indeksi nyt (t'#228'ysi levyajo, tarkat rivinumerot).');
+  Put(True,
+    'YES = build line index now (recommended).',
+    'KYLL'#196' = rakenna rivi-indeksi nyt (suositus).');
+  Put(True,
+    'Yes',
+    'Kyll'#228);
+  Put(True,
+    'You can drag and drop the source file into this window.',
+    'Voit vet'#228#228' ja pudottaa l'#228'hdetiedoston t'#228'h'#228'n ikkunaan.');
+  Put(True,
+    'You can use the Preview button in the dialog to sample matches quickly'
+        + '.',
+    'Voit k'#228'ytt'#228#228' valintaikkunan Esikatselu-painiketta ottaaksesi osumia no'
+        + 'peasti.');
+  Put(True,
+    'Your first line begins with sixteen consecutive digits. They are group'
+        + 'ed here as two blocks of eight (common for dates or IDs). Adjust group'
+        + 'ing if your specification names different field widths.',
+    'Ensimm'#228'inen rivisi alkaa kuudellatoista per'#228'kk'#228'isell'#228' numerolla. Ne on'
+        + ' ryhmitelty t'#228'h'#228'n kahdeksi kahdeksan numeron lohkoksi (yleist'#228' p'#228'iv'#228'm'#228
+        + #228'rille tai tunnuksille). S'#228#228'd'#228' ryhmittely'#228', jos m'#228#228'rityksesi nime'#228#228' er'
+        + 'i kentt'#228'leveyksi'#228'.');
+  Put(True,
+    'ZeroScan.DiscoveringLastLine',
+    'Etsit'#228#228'n viimeist'#228' rivi'#228' (lasketaan tiedoston rivinvaihtoja, odota)...');
+  Put(True,
+    'ZeroScan.LastLineApprox',
+    'Tiedoston loppu (~rivi %d, tavu %s); suhteellinen arvio)');
+  Put(True,
+    'ZeroScan.LastLineCached',
+    'Tiedoston loppu (rivi ~%d, tavu %s); v'#228'limuistissa)');
+  Put(True,
+    'Zoom &in (list)',
+    'Su&urenna (lista)');
+  Put(True,
+    'Zoom o&ut (list)',
+    'Pie&nenn'#228' (lista)');
+  Put(True,
+    '[Line preview limited to %s bytes for performance; file line total %s '
+        + 'bytes.]',
+    '[Riviesikatselu rajoitettu %s tavuun suorituskyvyn vuoksi; tiedoston r'
+        + 'ivi yhteens'#228' %s tavua.]');
+  Put(True,
+    '[Line truncated for display: %s bytes total.]',
+    '[Rivi katkaistu n'#228'ytt'#246#228' varten: yhteens'#228' %s tavua.]');
+  Put(True,
+    '[ReplaceAll] ',
+    '[ReplaceAll] ');
+  Put(True,
+    '[ReplaceAll] Error: ',
+    '[ReplaceAll] Virhe: ');
+  Put(True,
+    '[ReplaceAll] Segmented output missing.',
+    '[ReplaceAll] Segmentoitu tuloste puuttuu.');
+  Put(True,
+    '[ReplaceAll] Segmented part failed.',
+    '[ReplaceAll] Segmentoitu osa ep'#228'onnistui.');
+  Put(True,
+    '[Save note] DEFAULT follows detection; a forced view only changes list'
+        + ' decoding until an operation rewrites the file on disk.',
+    '[Tallennushuomautus] OLETUS seuraa tunnistusta; pakotettu n'#228'kym'#228' muutt'
+        + 'aa vain listan dekoodausta, kunnes toiminto kirjoittaa tiedoston uudel'
+        + 'leen levylle.');
+  Put(True,
+    '[Scan] %d non-empty lines (max %d), delimiter [%s], fields: %d.',
+    '[Skannaus] %d ei-tyhj'#228#228' rivi'#228' (enint'#228#228'n %d), erotin [%s], kentti'#228': %d.');
+  Put(True,
+    '[Scan] Based on the first %d non-empty lines (maximum %d). Detected de'
+        + 'limiter [%s], fields: %d.',
+    '[Skannaus] Perustuu ensimm'#228'isiin %d ei-tyhj'#228#228'n riviin (enint'#228#228'n %d). T'
+        + 'unnistettu erotin [%s], kentti'#228': %d.');
+  Put(True,
+    '[Scan] Based on the first %d non-empty lines read from this file (maxi'
+        + 'mum %d). Layout: fixed-width / positional (few delimiter characters on'
+        + ' line 1).',
+    '[Skannaus] Perustuu t'#228'm'#228'n tiedoston ensimm'#228'isiin %d luettuun ei-tyhj'#228#228
+        + 'n riviin (enint'#228#228'n %d). Asettelu: kiinte'#228'levyinen / sijaintipohjainen '
+        + '(v'#228'h'#228'n erotinmerkkej'#228' rivill'#228' 1).');
+  Put(True,
+    '[file] %s',
+    '[tiedosto] %s');
+  Put(True,
+    '[folder] %s',
+    '[kansio] %s');
+  Put(True,
+    'animation',
+    'animaatio');
+  Put(True,
+    'blue: changed',
+    'sininen = muutettu');
+  Put(True,
+    'bytes',
+    'tavua');
+  Put(True,
+    'change',
+    'muuta');
+  Put(True,
+    'delete',
+    'Poista');
+  Put(True,
+    'equal',
+    'sama');
+  Put(True,
+    'files generated successfully.',
+    'tiedostoa luotu onnistuneesti.');
+  Put(True,
+    'filter',
+    'suodata');
+  Put(True,
+    'green: equal',
+    'vihre'#228' = sama');
+  Put(True,
+    'insert',
+    'lis'#228#228);
+  Put(True,
+    'lines',
+    'rivit');
+  Put(True,
+    'loading IA support ...',
+    'ladataan AI-tukea ...');
+  Put(True,
+    'match',
+    'osuma');
+  Put(True,
+    'more technical info ...',
+    'lis'#228#228' teknisi'#228' tietoja ...');
+  Put(True,
+    'mostly true; false lines indicate other titles',
+    'enimm'#228'kseen tosi; ep'#228'todet rivit osoittavat muita otsikoita');
+  Put(True,
+    'red: removed (left)',
+    'punainen = poistettu (vasen)');
+  Put(True,
+    'regex',
+    'regex');
+  Put(True,
+    'replace',
+    'Korvaa');
+  Put(True,
+    'replacements',
+    'korvaukset');
+  Put(True,
+    'resp: ',
+    'vast: ');
+  Put(True,
+    'saved',
+    'tallennettu');
+  Put(True,
+    'true lines contain sampled region/city text from file',
+    'todet rivit sis'#228'lt'#228'v'#228't tiedostosta otettua alue-/kaupunkiteksti'#228);
+  Put(True,
+    'true lines contain sampled specialty text from file',
+    'todet rivit sis'#228'lt'#228'v'#228't tiedostosta otettua erikoisalateksti'#228);
+end;
+
+procedure AddFinnishPart35(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'yellow: added (right)',
+    'keltainen = lis'#228'tty (oikea)');
+  Put(False,
+    'language.option.hindi',
+    'hindi');
+  Put(False,
+    'language.option.russian',
+    'ven'#228'j'#228);
+  Put(False,
+    'language.option.korean',
+    'korea');
+  Put(False,
+    'language.option.dutch',
+    'hollanti');
+  Put(False,
+    'language.option.turkish',
+    'turkki');
+  Put(False,
+    'language.option.ukrainian',
+    'ukraina');
+  Put(True,
+    'WorkflowWizard.AI',
+    'Kysy AI:lta');
+  Put(True,
+    'WorkflowWizard.Compare',
+    'Vertaa / yhdist'#228);
+  Put(True,
+    'WorkflowWizard.Description',
+    'Tiedostosi on valmis. Valitse, mit'#228' haluaisit tehd'#228' seuraavaksi.');
+  Put(True,
+    'WorkflowWizard.Dismiss',
+    'Sulje');
+  Put(True,
+    'WorkflowWizard.DontShowAgain',
+    #196'l'#228' n'#228'yt'#228' t'#228't'#228' opasta uudelleen');
+  Put(True,
+    'WorkflowWizard.Edit',
+    'Muokkaa rivej'#228);
+  Put(True,
+    'WorkflowWizard.Merge',
+    'Yhdist'#228' tiedostot');
+  Put(True,
+    'WorkflowWizard.Pref.Show',
+    'N'#228'yt'#228' seuraavan vaiheen opas tiedoston lukemisen j'#228'lkeen');
+  Put(True,
+    'WorkflowWizard.Title',
+    'Valmis seuraavaan vaiheeseen?');
+  Put(True,
+    'WorkflowWizard.ShowNow',
+    'N'#228'yt'#228' opas nyt');
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock6',
+    'VIIMEISIMM'#196'T P'#196'IVITYKSET (v3.0.5.255 '#8211' v3.0.5.261)'#13#10'------------------'
+        + '---------------------------------------------'#13#10'  K'#228'ytt'#246'liittym'#228'ss'#228' on '
+        + 'nyt 22 kielt'#228', mukaan lukien hindi, ven'#228'j'#228', korea,'#13#10'    hollanti, turk'
+        + 'ki ja ukraina. Hindi k'#228'ytt'#228#228' vasemmalta oikealle etenev'#228#228' asettelua.'#13#10
+        + '  Yht'#228' suurten osien k'#228'sittely lukee muistiin kartoitettuja lohkoja la'
+        + 'taamatta'#13#10'    koko tiedostoa; jakov'#228'lilehti pysyy auki, kun ty'#246' valmis'
+        + 'tuu.'#13#10'  Tiedoston lukemisen j'#228'lkeen seuraavan vaiheen opas ehdottaa hy'
+        + #246'dyllisi'#228' toimintoja.'#13#10'    Avaa se uudelleen Asetuksissa tai poista se'
+        + ' k'#228'yt'#246'st'#228' sielt'#228'.'#13#10'  Muokkausvalikon ja istuntohistorian sanamuodot lo'
+        + 'kalisoitiin.'#13#10'  Opas ja Asetukset uudistettiin; opas alustuu'#13#10'    ilma'
+        + 'n v'#228'lkkymist'#228' tai tiedoston lukemisen keskeytt'#228'mist'#228'.'#13#10);
+  Put(False,
+    'language.option.thai',
+    'thai');
+  Put(False,
+    'language.option.greek',
+    'kreikka');
+  Put(False,
+    'language.option.norwegian',
+    'norja');
+  Put(False,
+    'language.option.swedish',
+    'ruotsi');
+  Put(False,
+    'language.option.danish',
+    'tanska');
+  Put(False,
+    'language.option.icelandic',
+    'islanti');
+  Put(True,
+    'WorkflowWizard.OpenBtn',
+    'Seuraava vaihe');
+  Put(True,
+    'WorkflowWizard.OpenHint',
+    'N'#228'yt'#228' seuraavan vaiheen opas.');
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock7',
+    'VIIMEISIMM'#196'T P'#196'IVITYKSET (v3.0.5.262 '#8211' v3.0.5.265)'#13#10'------------------'
+        + '---------------------------------------------'#13#10'  Thai, kreikka, norja,'
+        + ' ruotsi, tanska ja islanti tuovat'#13#10'    k'#228'ytt'#246'liittym'#228'n 28 kieleen. Kai'
+        + 'kki kuusi luetaan vasemmalta oikealle.'#13#10'  Seuraavat vaiheet seuraavat '
+        + 'nykyist'#228' toimintaa, kuten etsi, suodata,'#13#10'    jaa, yhdist'#228' tai lue, ei'
+        + 'k'#228' yht'#228' kiinte'#228#228' listaa.'#13#10'  Jokainen toiminto tarjoaa enemm'#228'n jatkotoi'
+        + 'mia.'#13#10'  Kopioi-painikkeen vasemmalla oleva painike avaa seuraavan vaih'
+        + 'een oppaan uudelleen.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock8',
+    'VIIMEISIMM'#196'T P'#196'IVITYKSET (v3.0.5.266 '#8211' v3.0.5.268)'#13#10'------------------'
+        + '---------------------------------------------'#13#10'  Seuraavan vaiheen opa'
+        + 's on lyhyempi, joten tiedostolista pysyy n'#228'kyviss'#228'.'#13#10'  Lue-kuvake on t'
+        + 'iedostopolun kent'#228'ss'#228', tyhjennys-X:n vasemmalla.'#13#10'  Se k'#228'ytt'#228#228' samaa m'
+        + 'erkki'#228' kuin ty'#246'kalurivin Lue ja lataa kyseisen polun.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'suomi');
+  Put(False,
+    'language.option.vietnamese',
+    'vietnam');
+end;
+
+procedure AddVietnamesePart01(const Put: TExtraPutProc);
+begin
+  Put(False,
+    'consumer_ai.connected',
+    'FastFile AI '#273#227' k'#7871't n'#7889'i');
+  Put(False,
+    'consumer_ai.initializing',
+    #272'ang kh'#7903'i t'#7841'o FastFile AI...');
+  Put(False,
+    'consumer_ai.program_version_prefix',
+    'FastFile AI - Phi'#234'n b'#7843'n ');
+  Put(False,
+    'consumer_ai.starting_session',
+    #273'ang t'#7843'i h'#7895' tr'#7907' AI ...');
+  Put(False,
+    'language.combo.hint',
+    'Ng'#244'n ng'#7919' '#7913'ng d'#7909'ng');
+  Put(False,
+    'language.option.arabic',
+    'Ti'#7871'ng '#7842' R'#7853'p');
+  Put(False,
+    'language.option.chinese_simplified',
+    'Ti'#7871'ng Trung (Gi'#7843'n th'#7875')');
+  Put(False,
+    'language.option.chinese_traditional',
+    'Ti'#7871'ng Trung (Ph'#7891'n th'#7875')');
+  Put(False,
+    'language.option.czech',
+    'Ti'#7871'ng S'#233'c');
+  Put(False,
+    'language.option.english',
+    'Ti'#7871'ng Anh');
+  Put(False,
+    'language.option.french',
+    'Ti'#7871'ng Ph'#225'p');
+  Put(False,
+    'language.option.german',
+    'Ti'#7871'ng '#272#7913'c');
+  Put(False,
+    'language.option.hebrew',
+    'Ti'#7871'ng Do Th'#225'i');
+  Put(False,
+    'language.option.hungarian',
+    'Ti'#7871'ng Hungary');
+  Put(False,
+    'language.option.italian',
+    'Ti'#7871'ng '#221);
+  Put(False,
+    'language.option.japanese',
+    'Ti'#7871'ng Nh'#7853't');
+  Put(False,
+    'language.option.polish',
+    'Ti'#7871'ng Ba Lan');
+  Put(False,
+    'language.option.portuguese_brazil',
+    'Ti'#7871'ng B'#7891' '#272#224'o Nha (Brazil)');
+  Put(False,
+    'language.option.portuguese_portugal',
+    'Ti'#7871'ng B'#7891' '#272#224'o Nha (B'#7891' '#272#224'o Nha)');
+  Put(False,
+    'language.option.romanian',
+    'Ti'#7871'ng Romania');
+  Put(False,
+    'language.option.spanish',
+    'Ti'#7871'ng T'#226'y Ban Nha');
+  Put(False,
+    'popup.calculator',
+    'M'#225'y t'#237'nh');
+  Put(False,
+    'popup.change_bidimode',
+    #272#7893'i BidiMode');
+  Put(False,
+    'popup.listview.clear',
+    'X'#243'a s'#7841'ch');
+  Put(False,
+    'popup.listview.delete_lines',
+    'X'#243'a d'#242'ng');
+  Put(False,
+    'popup.listview.export_clipboard',
+    'Xu'#7845't ra Clipboard');
+  Put(False,
+    'popup.listview.export_file',
+    'Xu'#7845't ra t'#7879'p');
+  Put(False,
+    'popup.listview.read',
+    #272#7885'c');
+  Put(False,
+    'popup.listview.separator',
+    '-');
+  Put(False,
+    'popup.listview.show_checkboxes',
+    'Hi'#7879'n h'#7897'p ch'#7885'n');
+  Put(False,
+    'popup.listview.split_files',
+    'T'#225'ch t'#7879'p');
+  Put(False,
+    'popup.listview.write',
+    'Ghi');
+  Put(False,
+    'popup.magnifier',
+    'K'#237'nh l'#250'p');
+  Put(False,
+    'popup.random_skin',
+    'Giao di'#7879'n ng'#7851'u nhi'#234'n');
+  Put(False,
+    'popup.select_skin',
+    'Ch'#7885'n giao di'#7879'n');
+  Put(False,
+    'popup.selectskin_dialog',
+    'H'#7897'p tho'#7841'i SelectSkin');
+  Put(False,
+    'popup.show_hints',
+    'Hi'#7879'n g'#7907'i '#253);
+  Put(False,
+    'status.cancelled_prefix',
+    #272#227' h'#7911'y:');
+  Put(False,
+    'status.failed_prefix',
+    'Th'#7845't b'#7841'i:');
+  Put(False,
+    'status.file_read_cancelled',
+    #272#227' h'#7911'y '#273#7885'c t'#7879'p');
+  Put(False,
+    'status.file_read_failed',
+    #272#7885'c t'#7879'p th'#7845't b'#7841'i');
+  Put(False,
+    'status.file_reading',
+    #272'ang '#273#7885'c t'#7879'p...');
+  Put(False,
+    'status.loading_prefix',
+    #272'ang t'#7843'i:');
+  Put(False,
+    'status.operation',
+    'thao t'#225'c');
+  Put(False,
+    'status.pending_prefix',
+    #272'ang ch'#7901':');
+  Put(False,
+    'status.system_ready',
+    'H'#7879' th'#7889'ng s'#7861'n s'#224'ng');
+  Put(False,
+    'titlebar.about',
+    'Gi'#7899'i thi'#7879'u');
+  Put(False,
+    'titlebar.tools',
+    'C'#244'ng c'#7909);
+  Put(False,
+    'toolbar.about_fastfile',
+    'Gi'#7899'i thi'#7879'u FastFile');
+  Put(False,
+    'toolbar.change_bidimode',
+    #272#7893'i'#13#10'BidiMode');
+  Put(False,
+    'toolbar.close',
+    #272#243'ng');
+  Put(False,
+    'toolbar.find_files',
+    'T'#236'm t'#7879'p');
+  Put(False,
+    'toolbar.line_hints_on',
+    'G'#7907'i '#253' d'#242'ng (B'#7852'T)');
+  Put(False,
+    'toolbar.select_skin',
+    'Ch'#7885'n'#13#10'giao di'#7879'n');
+  Put(False,
+    'toolbar.top_toolbar_tab',
+    'Thanh c'#244'ng c'#7909' tr'#234'n');
+  Put(False,
+    'toolbar.word_wrap_on',
+    'Xu'#7889'ng d'#242'ng (B'#7852'T)');
+  Put(True,
+    '  Ctrl+Alt+R ........ Toggle read-only session (blocks disk writes fro'
+        + 'm the Read tab)',
+    '  Ctrl+Alt+R ........ B'#7853't/t'#7855't phi'#234'n ch'#7881' '#273#7885'c (ch'#7863'n ghi '#273#297'a t'#7915' tab '#272#7885'c)');
+  Put(True,
+    '  Ctrl+Num+ .......... Zoom in list font (View menu)',
+    '  Ctrl+Num+ .......... Ph'#243'ng to ph'#244'ng ch'#7919' danh s'#225'ch (menu Xem)');
+  Put(True,
+    '  Ctrl+Num- .......... Zoom out list font (View menu)',
+    '  Ctrl+Num- .......... Thu nh'#7887' ph'#244'ng ch'#7919' danh s'#225'ch (menu Xem)');
+  Put(True,
+    '  Ctrl+Shift+G .... Go to byte offset (1-based file position; $ = hex)',
+    '  Ctrl+Shift+G .... '#272'i t'#7899'i offset byte (v'#7883' tr'#237' t'#7879'p b'#7855't '#273#7847'u t'#7915' 1); $ = '
+        + 'hex)');
+  Put(True,
+    '  Ctrl+Shift+H ....... Compare / merge + session history (two-file dif'
+        + 'f, journal)',
+    '  Ctrl+Shift+H ....... So s'#225'nh / g'#7897'p + l'#7883'ch s'#7917' phi'#234'n (diff hai t'#7879'p, nh'
+        + #7853't k'#253' phi'#234'n)');
+  Put(True,
+    '  Filter (Ctrl+L) .... View over index; Yes=prefix / No=contains / OK='
+        + 'VBScript regex',
+    '  L'#7885'c (Ctrl+L) .... FilterBar g'#7855'n c'#7841'nh: nh'#7853'p/ch'#7885'n m'#7851'u (MRU 20), '#193'p d'#7909'n'
+        + 'g/Ti'#7871'p t'#7909'c/X'#243'a s'#7841'ch/'#7848'n; kh'#7899'p qua T'#249'y ch'#7885'n (ti'#7873'n t'#7889'/ch'#7913'a/regex)');
+  Put(True,
+    '  Filter is view-only (no disk rewrite). Regex uses Windows VBScript.R'
+        + 'egExp on each line preview.',
+    '  B'#7897' l'#7885'c ch'#7881' xem (kh'#244'ng ghi l'#7841'i '#273#297'a). FilterBar g'#7855'n c'#7841'nh (Ctrl+L); ch'#7871
+        + ' '#273#7897' kh'#7899'p trong T'#249'y ch'#7885'n; regex = VBScript.RegExp theo t'#7915'ng d'#242'ng.');
+  Put(True,
+    '  Line-prefix step: Yes = line starts with text; No = contains anywher'
+        + 'e (view only, no file rewrite).',
+    '  B'#432#7899'c ti'#7873'n t'#7889' d'#242'ng: C'#243' = d'#242'ng b'#7855't '#273#7847'u b'#7857'ng v'#259'n b'#7843'n; Kh'#244'ng = ch'#7913'a '#7903' b'#7845
+        + 't k'#7923' '#273#226'u (ch'#7881' xem, kh'#244'ng ghi l'#7841'i t'#7879'p).');
+  Put(True,
+    '  Session history Reload: a worker thread reads the journal tail, filt'
+        + 'ers lines, loads the preview file and optional color scan; the progres'
+        + 's bar covers that work first, then filling the memo and list on the UI'
+        + ' thread.',
+    '  T'#7843'i l'#7841'i l'#7883'ch s'#7917' phi'#234'n: m'#7897't lu'#7891'ng worker '#273#7885'c '#273'u'#244'i nh'#7853't k'#253' phi'#234'n, l'#7885'c '
+        + 'd'#242'ng, t'#7843'i t'#7879'p xem tr'#432#7899'c v'#224' qu'#233't m'#224'u t'#249'y ch'#7885'n; thanh ti'#7871'n tr'#236'nh tr'#432#7899'c h'
+        + #7871't cho c'#244'ng vi'#7879'c '#273#243', r'#7891'i '#273#7893' memo v'#224' danh s'#225'ch tr'#234'n lu'#7891'ng UI.');
+  Put(True,
+    '  The loading overlay is not stay-on-top, and the UI yields often (inc'
+        + 'luding a short wait for queued input) so you can use Alt+Tab and other'
+        + ' applications during a long reload.',
+    '  L'#7899'p ph'#7911' t'#7843'i kh'#244'ng lu'#244'n '#7903' tr'#234'n c'#249'ng, v'#224' UI nh'#432#7901'ng CPU th'#432#7901'ng xuy'#234'n (k'
+        + #7875' c'#7843' ch'#7901' ng'#7855'n cho '#273#7847'u v'#224'o x'#7871'p h'#224'ng) '#273#7875' b'#7841'n d'#249'ng Alt+Tab v'#224' '#7913'ng d'#7909'ng kh'
+        + #225'c trong l'#250'c t'#7843'i l'#7841'i l'#226'u.');
+  Put(True,
+    ' (DEFAULT view)',
+    ' (ch'#7871' '#273#7897' xem M'#7862'C '#272#7882'NH)');
+  Put(True,
+    ' Attributes ',
+    ' Thu'#7897'c t'#237'nh ');
+  Put(True,
+    ' Size ',
+    ' K'#237'ch th'#432#7899'c ');
+  Put(True,
+    ' line(s) copied to clipboard.',
+    ' d'#242'ng '#273#227' sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    ' updated successfully.',
+    ' c'#7853'p nh'#7853't th'#224'nh c'#244'ng.');
+  Put(True,
+    '%d blank line(s) added by line autofill at line %d.',
+    '%d d'#242'ng tr'#7889'ng '#273#227' th'#234'm b'#7857'ng t'#7921' '#273'i'#7873'n d'#242'ng t'#7841'i d'#242'ng %d.');
+  Put(True,
+    '%d change(s) proposed. Review them in Proposed edits.',
+    '%d thay '#273#7893'i '#273#432#7907'c '#273#7873' xu'#7845't. Xem l'#7841'i trong Ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't.');
+  Put(True,
+    '%d filtered line(s) copied to the clipboard.',
+    '%d d'#242'ng '#273#227' l'#7885'c '#273#432#7907'c sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    '%d filtered line(s) exported to file.',
+    '%d d'#242'ng '#273#227' l'#7885'c '#273#432#7907'c xu'#7845't ra t'#7879'p.');
+  Put(True,
+    '%d line(s) inserted starting at line %d.',
+    '%d d'#242'ng '#273#227' ch'#232'n b'#7855't '#273#7847'u t'#7915' d'#242'ng %d.');
+  Put(True,
+    '%d line(s) pasted starting at line %d.',
+    '%d d'#242'ng '#273#227' d'#225'n b'#7855't '#273#7847'u t'#7915' d'#242'ng %d.');
+  Put(True,
+    '%d line(s) were past the end of the file and were skipped.',
+    '%d d'#242'ng n'#7857'm sau cu'#7889'i t'#7879'p v'#224' '#273#227' b'#7883' b'#7887' qua.');
+  Put(True,
+    '%d marked lines were copied to the clipboard.',
+    '%d d'#242'ng '#273#225'nh d'#7845'u '#273#227' '#273#432#7907'c sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    '%d proposal(s) overlapped the applied change and were removed.',
+    '%d '#273#7873' xu'#7845't ch'#7891'ng l'#234'n thay '#273#7893'i '#273#227' '#225'p d'#7909'ng v'#224' '#273#227' b'#7883' g'#7905'.');
+  Put(True,
+    '%d tail line(s) exported to file.',
+    '%d d'#242'ng '#273'u'#244'i '#273#227' xu'#7845't ra t'#7879'p.');
+  Put(True,
+    '&AI (Consumer)',
+    '&AI (Consumer)');
+  Put(True,
+    '&About FastFile',
+    '&Gi'#7899'i thi'#7879'u FastFile');
+  Put(True,
+    '&Clear',
+    '&X'#243'a s'#7841'ch');
+  Put(True,
+    '&Close',
+    '&'#272#243'ng');
+  Put(True,
+    '&Copy',
+    '&Sao ch'#233'p');
+  Put(True,
+    '&Delete line',
+    '&X'#243'a d'#242'ng');
+  Put(True,
+    '&Edit',
+    '&S'#7917'a');
+  Put(True,
+    '&Edit line',
+    '&S'#7917'a d'#242'ng');
+  Put(True,
+    '&Export...',
+    '&Xu'#7845't...');
+  Put(True,
+    '&File',
+    '&T'#7879'p');
+  Put(True,
+    '&Find...',
+    '&T'#236'm...');
+  Put(True,
+    '&Full screen view',
+    '&Xem to'#224'n m'#224'n h'#236'nh');
+  Put(True,
+    '&Go to byte offset...',
+    '&'#272'i t'#7899'i offset byte...');
+  Put(True,
+    '&Go to line...',
+    '&'#272'i t'#7899'i d'#242'ng...');
+  Put(True,
+    '&Help',
+    '&Tr'#7907' gi'#250'p');
+  Put(True,
+    '&Help / Shortcuts',
+    '&Tr'#7907' gi'#250'p / Ph'#237'm t'#7855't');
+  Put(True,
+    '&Insert line',
+    '&Ch'#232'n d'#242'ng');
+  Put(True,
+    '&Insert line before',
+    '&Ch'#232'n d'#242'ng tr'#432#7899'c');
+  Put(True,
+    '&Load session now',
+    '&T'#7843'i phi'#234'n ngay');
+end;
+
+procedure AddVietnamesePart02(const Put: TExtraPutProc);
+begin
+  Put(True,
+    '&Macros with Python',
+    '&Macro v'#7899'i Python');
+  Put(True,
+    '&Merge lines',
+    '&G'#7897'p d'#242'ng');
+  Put(True,
+    '&More info / Splash...',
+    '&Th'#234'm th'#244'ng tin / Splash...');
+  Put(True,
+    '&Next bookmark',
+    '&D'#7845'u trang ti'#7871'p');
+  Put(True,
+    '&Open file...',
+    '&M'#7903' t'#7879'p...');
+  Put(True,
+    '&Options',
+    '&T'#249'y ch'#7885'n');
+  Put(True,
+    '&Pause / Resume follow',
+    '&T'#7841'm d'#7915'ng / Ti'#7871'p t'#7909'c theo d'#245'i');
+  Put(True,
+    '&Recent files',
+    '&T'#7879'p g'#7847'n '#273#226'y');
+  Put(True,
+    '&Replace',
+    '&Thay th'#7871);
+  Put(True,
+    '&Save session now',
+    '&L'#432'u phi'#234'n ngay');
+  Put(True,
+    '&Talk with AI',
+    '&Tr'#242' chuy'#7879'n v'#7899'i AI');
+  Put(True,
+    '&Toggle bookmark',
+    '&B'#7853't/t'#7855't d'#7845'u trang');
+  Put(True,
+    '&Version History',
+    '&L'#7883'ch s'#7917' phi'#234'n b'#7843'n');
+  Put(True,
+    '&View',
+    '&Xem');
+  Put(True,
+    '&Word wrap',
+    '&Xu'#7889'ng d'#242'ng');
+  Put(True,
+    '(Check "Is Regex")',
+    '('#272#225'nh d'#7845'u "L'#224' Regex")');
+  Put(True,
+    '(No auto-detected patterns for this file format.)',
+    '(Kh'#244'ng c'#243' m'#7851'u t'#7921' ph'#225't hi'#7879'n cho '#273#7883'nh d'#7841'ng t'#7879'p n'#224'y.)');
+  Put(True,
+    '(Processed %d of %d selected/visible lines.)',
+    '('#272#227' x'#7917' l'#253' %d trong %d d'#242'ng '#273#227' ch'#7885'n/'#273'ang hi'#7879'n.)');
+  Put(True,
+    '(Uncheck "Is Regex")',
+    '(B'#7887' '#273#225'nh d'#7845'u "L'#224' Regex")');
+  Put(True,
+    '(Use this only if your lines really start with <User ...>)',
+    '(Ch'#7881' d'#249'ng n'#7871'u d'#242'ng c'#7911'a b'#7841'n th'#7921'c s'#7921' b'#7855't '#273#7847'u b'#7857'ng <User ...>)');
+  Put(True,
+    '(Yes = Case Sensitive / No = Ignorar)',
+    '(C'#243' = Ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng / Kh'#244'ng = Kh'#244'ng ph'#226'n bi'#7879't)');
+  Put(True,
+    '(Yes = Case Sensitive / No = Ignore case)',
+    '(C'#243' = Ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng / Kh'#244'ng = Kh'#244'ng ph'#226'n bi'#7879't)');
+  Put(True,
+    '(empty)',
+    '(tr'#7889'ng)');
+  Put(True,
+    '(text unavailable)',
+    '(v'#259'n b'#7843'n kh'#244'ng kh'#7843' d'#7909'ng)');
+  Put(True,
+    '--- File lines (for AI) ---',
+    '--- D'#242'ng t'#7879'p (cho AI) ---');
+  Put(True,
+    '1 marked line was copied to the clipboard.',
+    '1 d'#242'ng '#273#225'nh d'#7845'u '#273#227' '#273#432#7907'c sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    '1. Split on specific string:',
+    '1. T'#225'ch theo chu'#7895'i c'#7909' th'#7875':');
+  Put(True,
+    '1. Split: Start a new file when a line matches',
+    '1. T'#225'ch: B'#7855't '#273#7847'u t'#7879'p m'#7899'i khi m'#7897't d'#242'ng kh'#7899'p');
+  Put(True,
+    '10. Find/remove numbers (replace with space):',
+    '10. T'#236'm/x'#243'a s'#7889' (thay b'#7857'ng kho'#7843'ng tr'#7855'ng):');
+  Put(True,
+    '11. Letters including accents:',
+    '11. Ch'#7919' c'#225'i k'#7875' c'#7843' d'#7845'u:');
+  Put(True,
+    '12. Email validation:',
+    '12. Ki'#7875'm tra email:');
+  Put(True,
+    '13. CPF validation:',
+    '13. Ki'#7875'm tra CPF:');
+  Put(True,
+    '14. Date validation (dd/mm/yyyy):',
+    '14. Ki'#7875'm tra ng'#224'y (dd/mm/yyyy):');
+  Put(True,
+    '15. Phone validation with area code:',
+    '15. Ki'#7875'm tra '#273'i'#7879'n tho'#7841'i c'#243' m'#227' v'#249'ng:');
+  Put(True,
+    '1b. Split when specialty/category changes (sorted file):',
+    '1b. T'#225'ch khi chuy'#234'n khoa/danh m'#7909'c '#273#7893'i (t'#7879'p '#273#227' s'#7855'p x'#7871'p):');
+  Put(True,
+    '2. Split on Regex:',
+    '2. T'#225'ch theo Regex:');
+  Put(True,
+    '2. Split: Equal parts (N parts)',
+    '2. T'#225'ch: C'#225'c ph'#7847'n b'#7857'ng nhau (N ph'#7847'n)');
+  Put(True,
+    '3. CSV example (new file when line starts with ID + ";"):',
+    '3. V'#237' d'#7909' CSV (t'#7879'p m'#7899'i khi d'#242'ng b'#7855't '#273#7847'u b'#7857'ng ID + ";"):');
+  Put(True,
+    '3. Regex Match: Extract all occurrences',
+    '3. Kh'#7899'p Regex: Tr'#237'ch m'#7885'i l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    '3. Split into N equal parts:',
+    '3. T'#225'ch th'#224'nh N ph'#7847'n b'#7857'ng nhau:');
+  Put(True,
+    '4. Regex Test: Write "true"/"false"',
+    '4. Ki'#7875'm tra Regex: Ghi "true"/"false"');
+  Put(True,
+    '4. XML tag with optional leading spaces:',
+    '4. Th'#7867' XML v'#7899'i kho'#7843'ng tr'#7855'ng '#273#7847'u d'#242'ng t'#249'y ch'#7885'n:');
+  Put(True,
+    '5. Regex Replace: Replace matches',
+    '5. Thay th'#7871' Regex: Thay c'#225'c kh'#7899'p');
+  Put(True,
+    '5. Timestamped log lines:',
+    '5. D'#242'ng nh'#7853't k'#253' c'#243' d'#7845'u th'#7901'i gian:');
+  Put(True,
+    '6. Regex Filter: Keep only lines where regex matches',
+    '6. L'#7885'c Regex: Ch'#7881' gi'#7919' d'#242'ng kh'#7899'p regex');
+  Put(True,
+    '6. Section markers (BEGIN or START):',
+    '6. D'#7845'u ph'#7847'n (BEGIN ho'#7863'c START):');
+  Put(True,
+    '7. GUID/UUID at line start:',
+    '7. GUID/UUID '#7903' '#273#7847'u d'#242'ng:');
+  Put(True,
+    '8. NDJSON object line (starts with {):',
+    '8. D'#242'ng '#273#7889'i t'#432#7907'ng NDJSON (b'#7855't '#273#7847'u b'#7857'ng {):');
+  Put(True,
+    '9. Remove everything that is NOT a letter (replace with space):',
+    '9. X'#243'a m'#7885'i th'#7913' KH'#212'NG ph'#7843'i ch'#7919' c'#225'i (thay b'#7857'ng kho'#7843'ng tr'#7855'ng):');
+  Put(True,
+    'AI',
+    'AI');
+  Put(True,
+    'AI &agent on files',
+    'T'#225'c nh'#226'n &AI tr'#234'n c'#225'c t'#7879'p');
+  Put(True,
+    'AI (RAG) workspace panel.',
+    'B'#7843'ng kh'#244'ng gian l'#224'm vi'#7879'c AI (RAG).');
+  Put(True,
+    'AI Chat (SQL)',
+    'Tr'#242' chuy'#7879'n AI (SQL)');
+  Put(True,
+    'AI Chat (SQL) (Ctrl+Shift+A)',
+    'Tr'#242' chuy'#7879'n AI (SQL) (Ctrl+Shift+A)');
+  Put(True,
+    'AI Chat Python plugin (ConsumerAI.exe) failed to start (corrupt PyInst'
+        + 'aller build). Delete ConsumerAI.exe beside FastFile, rebuild with data'
+        + '-lake-duckdb-main\build_exe_lancedb.bat, upload to FTP, or place a val'
+        + 'id dist\ConsumerAI.exe in Build.',
+    'Plugin Python Tr'#242' chuy'#7879'n AI (ConsumerAI.exe) kh'#244'ng kh'#7903'i '#273#7897'ng '#273#432#7907'c (b'#7843'n'
+        + ' d'#7921'ng PyInstaller h'#7887'ng). X'#243'a ConsumerAI.exe c'#7841'nh FastFile, d'#7921'ng l'#7841'i b'#7857
+        + 'ng data-lake-duckdb-main\build_exe_lancedb.bat, t'#7843'i l'#234'n FTP, ho'#7863'c '#273#7863't '
+        + 'dist\ConsumerAI.exe h'#7907'p l'#7879' v'#224'o Build.');
+  Put(True,
+    'AI Panel',
+    'B'#7843'ng AI');
+  Put(True,
+    'AI agent',
+    'T'#225'c nh'#226'n AI');
+  Put(True,
+    'AI help - Regex split',
+    'Tr'#7907' gi'#250'p AI - T'#225'ch Regex');
+  Put(True,
+    'AI suggestions could not be retrieved:',
+    'Kh'#244'ng l'#7845'y '#273#432#7907'c g'#7907'i '#253' AI:');
+  Put(True,
+    'AI workspace panel.',
+    'B'#7843'ng kh'#244'ng gian l'#224'm vi'#7879'c AI.');
+  Put(True,
+    'AI-generated suggestions',
+    'G'#7907'i '#253' AI');
+  Put(True,
+    'AI.Context.AfterDestinationLine',
+    'sau d'#242'ng '#273#237'ch %d');
+  Put(True,
+    'AI.Context.AllSourceLines',
+    't'#7845't c'#7843' d'#242'ng ngu'#7891'n');
+  Put(True,
+    'AI.Context.BeginningOfDestination',
+    #7903' '#273#7847'u '#273#237'ch');
+  Put(True,
+    'AI.Context.CsvColumns',
+    'Ch'#7871' '#273#7897' xem ph'#226'n c'#225'ch. C'#225'c d'#242'ng ti'#7871'p theo l'#224' t'#7879'p, d'#7845'u ph'#226'n c'#225'ch, c'#225'c c'#7897
+        + 't v'#224' s'#7855'p x'#7871'p hi'#7879'n t'#7841'i. G'#7907'i '#253' s'#7855'p x'#7871'p c'#7897't, b'#7897' l'#7885'c ho'#7863'c grep v'#7899'i nh'#243'm c'#243
+        + ' t'#234'n.');
+  Put(True,
+    'AI.Context.EndOfDestination',
+    #7903' cu'#7889'i '#273#237'ch');
+  Put(True,
+    'AI.Context.FilterRegex',
+    'B'#7897' l'#7885'c d'#249'ng bi'#7875'u th'#7913'c ch'#237'nh quy VBScript v'#224' kh'#244'ng c'#243' lookbehind. D'#242'ng '
+        + 'ti'#7871'p theo l'#224' m'#7851'u hi'#7879'n t'#7841'i. '#272#7873' xu'#7845't m'#7897't m'#7851'u v'#224' gi'#7843'i th'#237'ch.');
+  Put(True,
+    'AI.Context.LineEditorRegex',
+    #212' t'#236'm d'#249'ng bi'#7875'u th'#7913'c ch'#237'nh quy Delphi. Tr'#7843' l'#7901'i ch'#7881' m'#7851'u '#7903' d'#242'ng '#273#7847'u, r'#7891'i'
+        + ' m'#7897't c'#226'u ng'#7855'n. D'#242'ng ti'#7871'p theo l'#224' m'#7851'u hi'#7879'n t'#7841'i.');
+  Put(True,
+    'AI.Context.MergeFiles',
+    'Xem l'#7841'i thi'#7871't l'#7853'p g'#7897'p FastFile n'#224'y. Kh'#244'ng th'#7921'c thi. Gi'#7843'i th'#237'ch hi'#7879'u '#7913'n'
+        + 'g v'#224' c'#226'n nh'#7855'c an to'#224'n li'#234'n quan. Tr'#7843' l'#7901'i b'#7857'ng ng'#244'n ng'#7919' c'#7911'a y'#234'u c'#7847'u n'#224'y'
+        + '.'#13#10#272#237'ch: %s'#13#10'Ngu'#7891'n: %s'#13#10'D'#242'ng ngu'#7891'n: %s'#13#10'V'#7883' tr'#237' ch'#232'n: %s');
+  Put(True,
+    'AI.Context.SearchGroups',
+    'k'#7871't qu'#7843' grep. C'#225'c d'#242'ng ti'#7871'p theo l'#224' l'#7879'nh v'#224' c'#225'c h'#224'ng. N'#243'i '#273'i'#7873'u n'#7893'i b'#7853't'
+        + ' v'#224' b'#7897' l'#7885'c, xu'#7845't ho'#7863'c s'#7855'p x'#7871'p c'#7897't n'#224'o n'#234'n theo sau.');
+  Put(True,
+    'AI.Context.Session',
+    'Phi'#234'n c'#7911'a t'#7879'p '#273'ang m'#7903'. C'#225'c d'#242'ng ti'#7871'p theo l'#224' t'#7879'p, b'#7897' l'#7885'c, b'#7843'ng m'#227' v'#224' s'
+        + #7889' d'#7845'u trang.');
+  Put(True,
+    'AI.Context.SplitByFiles',
+    'Xem l'#7841'i thi'#7871't l'#7853'p t'#225'ch-theo-t'#7879'p FastFile n'#224'y. Kh'#244'ng th'#7921'c thi. Gi'#7843'i th'#237
+        + 'ch c'#225'c ph'#7847'n '#273#227' c'#7845'u h'#236'nh v'#224' c'#226'n nh'#7855'c an to'#224'n li'#234'n quan. Tr'#7843' l'#7901'i b'#7857'ng ng'
+        + #244'n ng'#7919' c'#7911'a y'#234'u c'#7847'u n'#224'y.'#13#10'T'#7879'p ngu'#7891'n: %s'#13#10'D'#242'ng ngu'#7891'n: %s'#13#10'Ph'#7847'n y'#234'u c'#7847'u: '
+        + '%s'#13#10'H'#224'ng '#273#227' c'#7845'u h'#236'nh: %s'#13#10'H'#224'ng: %s');
+  Put(True,
+    'AI.Context.SplitByLines',
+    'Xem l'#7841'i thi'#7871't l'#7853'p tr'#237'ch d'#242'ng FastFile n'#224'y. Kh'#244'ng th'#7921'c thi. Gi'#7843'i th'#237'ch '
+        + 'kho'#7843'ng '#273#227' ch'#7885'n v'#224' c'#226'n nh'#7855'c an to'#224'n li'#234'n quan. Tr'#7843' l'#7901'i b'#7857'ng ng'#244'n ng'#7919' c'#7911
+        + 'a y'#234'u c'#7847'u n'#224'y.'#13#10'T'#7879'p ngu'#7891'n: %s'#13#10'T'#7893'ng d'#242'ng: %s'#13#10'Kho'#7843'ng bao g'#7891'm: %s..%s'#13#10
+        + 'T'#7879'p '#273#7847'u ra: %s');
+  Put(True,
+    'AICaps.AskDone',
+    'C'#226'u tr'#7843' l'#7901'i v'#7873' danh s'#225'ch "T'#244'i c'#243' th'#7875' l'#224'm g'#236'?" '#273#227' s'#7861'n s'#224'ng.');
+  Put(True,
+    'AICaps.AskHint',
+    'H'#7887'i AI v'#7873' m'#7909'c '#273#227' ch'#7885'n (ho'#7863'c c'#7843' danh s'#225'ch, khi kh'#244'ng ch'#7885'n m'#7909'c). C'#226'u tr'#7843
+        + ' l'#7901'i hi'#7879'n '#7903' v'#249'ng tr'#7843' l'#7901'i.');
+  Put(True,
+    'AICaps.AskPrompt',
+    'C'#226'u h'#7887'i c'#7911'a b'#7841'n v'#7873' m'#7909'c '#273#227' ch'#7885'n (ho'#7863'c v'#7873' c'#7843' danh s'#225'ch):');
+  Put(True,
+    'AICaps.Busy',
+    'AI '#273'ang b'#7853'n v'#7899'i y'#234'u c'#7847'u kh'#225'c. Th'#7917' l'#7841'i khi xong.');
+  Put(True,
+    'AICaps.Button',
+    'T'#244'i c'#243' th'#7875' l'#224'm g'#236'?');
+  Put(True,
+    'AICaps.ButtonHint.Agent',
+    'M'#7885'i vi'#7879'c t'#225'c nh'#226'n AI c'#243' th'#7875' l'#224'm, k'#232'm v'#237' d'#7909'. F1 tr'#234'n tab n'#224'y c'#361'ng m'#7903'.');
+  Put(True,
+    'AICaps.ButtonHint.Assistant',
+    'M'#7885'i vi'#7879'c Tr'#7907' l'#253' AI c'#243' th'#7875' l'#224'm, k'#232'm v'#237' d'#7909'. F1 trong b'#7843'ng n'#224'y c'#361'ng m'#7903'.');
+  Put(True,
+    'AICaps.ButtonHint.Hub',
+    'M'#7885'i vi'#7879'c ch'#7849'n '#273'o'#225'n AI c'#243' th'#7875' l'#224'm, k'#232'm v'#237' d'#7909'. F1 tr'#234'n tab n'#224'y c'#361'ng m'#7903'.');
+  Put(True,
+    'AICaps.Copied',
+    #272#227' sao ch'#233'p!');
+  Put(True,
+    'AICaps.CopyHint',
+    'Sao ch'#233'p m'#7909'c '#273#227' ch'#7885'n; kh'#244'ng ch'#7885'n m'#7909'c th'#236' sao ch'#233'p c'#7843' danh s'#225'ch.');
+  Put(True,
+    'AICaps.ExamplePrefix',
+    'V'#237' d'#7909':');
+  Put(True,
+    'AICaps.ExampleReady',
+    'V'#237' d'#7909' '#273#227' '#273#7863't v'#224'o '#244' y'#234'u c'#7847'u: ch'#7881'nh n'#7871'u c'#7847'n r'#7891'i b'#7845'm G'#7917'i.');
+  Put(True,
+    'AICaps.Export',
+    'Xu'#7845't...');
+  Put(True,
+    'AICaps.ExportFilter',
+    'T'#7879'p v'#259'n b'#7843'n (*.txt)|*.txt|Markdown (*.md)|*.md');
+  Put(True,
+    'AICaps.ExportHint',
+    'L'#432'u c'#7843' danh s'#225'ch k'#232'm v'#237' d'#7909' ra t'#7879'p v'#259'n b'#7843'n (.txt) ho'#7863'c Markdown (.md).');
+  Put(True,
+    'AICaps.Filter',
+    'G'#245' '#273#7875' l'#7885'c danh s'#225'ch...');
+  Put(True,
+    'AICaps.Intro.Agent',
+    'T'#244'i '#273#7885'c c'#225'c t'#7879'p b'#7841'n ch'#7885'n, tr'#7843' l'#7901'i b'#7857'ng d'#7919' li'#7879'u ch'#237'nh x'#225'c v'#224' '#273#7873' xu'#7845't ch'
+        + #7881'nh s'#7917'a '#273#7875' b'#7841'n xem tr'#432#7899'c khi l'#432'u. Ch'#7885'n m'#7897't m'#7909'c v'#224' b'#7845'm "D'#249'ng v'#237' d'#7909'" '#273#7875' '
+        + 'th'#7917'.');
+  Put(True,
+    'AICaps.Intro.Assistant',
+    'T'#244'i l'#224'm vi'#7879'c tr'#234'n t'#7879'p '#273'ang m'#7903' v'#224' ch'#7841'y t'#237'nh n'#259'ng FastFile gi'#250'p b'#7841'n, t'#7915'n'
+        + 'g b'#432#7899'c. Ch'#7885'n m'#7897't m'#7909'c v'#224' b'#7845'm "D'#249'ng v'#237' d'#7909'" '#273#7875' th'#7917'.');
+  Put(True,
+    'AICaps.Intro.Hub',
+    'T'#244'i ki'#7875'm k'#234' c'#225'c th'#432' m'#7909'c v'#224' t'#7879'p b'#7841'n ch'#7885'n v'#224' ch'#7841'y ph'#226'n t'#237'ch chuy'#234'n s'#226'u ('
+        + 'ch'#7881' '#273#7885'c). Ch'#7885'n m'#7897't m'#7909'c v'#224' b'#7845'm "D'#249'ng v'#237' d'#7909'" '#273#7875' th'#7917'.');
+  Put(True,
+    'AICaps.Item.AgentMode',
+    'N'#250't t'#225'c nh'#226'n: chuy'#7875'n y'#234'u c'#7847'u cho t'#225'c nh'#226'n AI v'#7899'i nhi'#7873'u t'#7879'p, '#273#7871'm ch'#237'nh '
+        + 'x'#225'c, SQL v'#224' ch'#7881'nh s'#7917'a b'#7841'n xem l'#7841'i.|Trong t'#7845't c'#7843' t'#7879'p .csv c'#7911'a C:\dados,'
+        + ' bao nhi'#234'u d'#242'ng c'#243' e-mail tr'#7889'ng?');
+  Put(True,
+    'AICaps.Item.Analyze',
+    #272#7885'c v'#224' ph'#226'n t'#237'ch n'#7897'i dung: t'#243'm t'#7855't, m'#7851'u, gi'#7843'i th'#237'ch v'#224' so s'#225'nh.|T'#243'm t'#7855
+        + 't c'#225'c l'#7895'i ch'#237'nh trong nh'#7853't k'#253' n'#224'y v'#224' n'#243'i l'#7895'i n'#224'o xu'#7845't hi'#7879'n nhi'#7873'u nh'#7845't.');
+  Put(True,
+    'AICaps.Item.Anon',
+    #7848'n danh h'#243'a d'#7919' li'#7879'u c'#225' nh'#226'n nh'#432' t'#234'n, e-mail, s'#7889' '#273'i'#7879'n tho'#7841'i v'#224' s'#7889' gi'#7845'y '
+        + 't'#7901'.|'#7848'n danh h'#243'a e-mail v'#224' s'#7889' '#273'i'#7879'n tho'#7841'i trong t'#7879'p n'#224'y.');
+  Put(True,
+    'AICaps.Item.Chain',
+    'Gh'#233'p nhi'#7873'u b'#432#7899'c trong m'#7897't y'#234'u c'#7847'u (l'#7885'c, xu'#7845't, t'#7841'o t'#224'i li'#7879'u...).|L'#7885'c c'#225
+        + 'c d'#242'ng c'#243' ERROR, xu'#7845't ra t'#7879'p m'#7899'i v'#224' t'#7841'o PDF v'#7899'i ch'#250'ng.');
+  Put(True,
+    'AICaps.Item.Code',
+    'T'#7841'o m'#227' ngu'#7891'n (Python, JavaScript, TypeScript/React, Java, Go, C#, Pasc'
+        + 'al, SQL, JSON, HTML...) t'#7915' t'#7879'p ho'#7863'c m'#244' t'#7843', ki'#7875'm tra c'#250' ph'#225'p, s'#7917'a l'#7895'i b'
+        + #7857'ng AI v'#224' gi'#7843'i th'#237'ch m'#227' l'#224'm g'#236'.|T'#7841'o script Python '#273#7885'c clientes.csv v'#224' '
+        + 'hi'#7879'n e-mail.');
+  Put(True,
+    'AICaps.Item.Consumer',
+    'Tr'#7843' l'#7901'i c'#226'u h'#7887'i v'#7873' n'#7897'i dung t'#7879'p b'#7857'ng tr'#242' chuy'#7879'n AI (tr'#242' chuy'#7879'n SQL v'#224' '
+        + 'tr'#242' chuy'#7879'n n'#226'ng cao).|M'#7903' tr'#242' chuy'#7879'n SQL tr'#234'n clientes.csv v'#224' h'#7887'i c'#243' ba'
+        + 'o nhi'#234'u kh'#225'ch h'#224'ng theo th'#224'nh ph'#7889'.');
+  Put(True,
+    'AICaps.Item.Count',
+    #272#7871'm ch'#237'nh x'#225'c '#273#7885'c t'#7915' ch'#237'nh t'#7879'p (d'#242'ng, l'#7847'n xu'#7845't hi'#7879'n, t'#7893'ng), kh'#244'ng '#432#7899'c '
+        + 'l'#432#7907'ng.|Bao nhi'#234'u d'#242'ng ch'#7913'a ERROR?');
+  Put(True,
+    'AICaps.Item.CsvSort',
+    'S'#7855'p x'#7871'p ch'#7871' '#273#7897' xem ph'#226'n c'#225'ch '#273'ang m'#7903' theo m'#7897't c'#7897't. T'#7879'p v'#7851'n tr'#234'n '#273#297'a.|S'
+        + #7855'p x'#7871'p t'#7879'p n'#224'y theo c'#7897't tr'#7841'ng th'#225'i, gi'#7843'm d'#7847'n.');
+end;
+
+procedure AddVietnamesePart03(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'AICaps.Item.Describe',
+    'Gi'#7843'i th'#237'ch t'#7915'ng t'#7879'p '#273#227' t'#7843'i ho'#7863'c ch'#7885'n l'#224' g'#236' v'#224' d'#249'ng '#273#7875' l'#224'm g'#236': '#273#7883'nh d'#7841'n'
+        + 'g, b'#7843'ng m'#227', d'#7845'u ph'#226'n c'#225'ch v'#224' c'#7897't, k'#237'ch th'#432#7899'c, d'#242'ng, m'#7851'u, v'#224' quan h'#7879' gi'
+        + #7919'a c'#225'c t'#7879'p.|T'#7879'p n'#224'y d'#249'ng '#273#7875' l'#224'm g'#236'? C'#225'c t'#7879'p '#273#227' ch'#7885'n l'#224' g'#236'?');
+  Put(True,
+    'AICaps.Item.Doc',
+    'T'#7841'o t'#224'i li'#7879'u t'#7915' n'#7897'i dung t'#7879'p: PDF, Word, HTML, Markdown, b'#225'o c'#225'o.|T'#7841'o '
+        + 'b'#225'o c'#225'o PDF v'#7899'i c'#225'c l'#7895'i c'#7911'a nh'#7853't k'#253' n'#224'y.');
+  Put(True,
+    'AICaps.Item.Edits',
+    #272#7873' xu'#7845't ch'#7881'nh s'#7917'a (thay th'#7871', ch'#232'n ho'#7863'c x'#243'a d'#242'ng) '#273#7875' b'#7841'n ch'#7845'p nh'#7853'n ho'#7863'c'
+        + ' t'#7915' ch'#7889'i t'#7915'ng c'#225'i tr'#432#7899'c khi l'#432'u.|X'#243'a c'#225'c d'#242'ng tr'#7889'ng '#7903' cu'#7889'i t'#7879'p.');
+  Put(True,
+    'AICaps.Item.Exact',
+    'T'#236'm ch'#237'nh x'#225'c v'#7899'i s'#7889' d'#242'ng v'#224' '#273#7885'c m'#7885'i kho'#7843'ng d'#242'ng, k'#7875' c'#7843' t'#7879'p r'#7845't l'#7899'n.|H'
+        + 'i'#7879'n d'#242'ng 120 '#273#7871'n 140.');
+  Put(True,
+    'AICaps.Item.Export',
+    'Xu'#7845't d'#242'ng, d'#242'ng kh'#7899'p ho'#7863'c k'#7871't qu'#7843' l'#7885'c ra t'#7879'p m'#7899'i; x'#243'a d'#242'ng tr'#249'ng.|Xu'#7845't'
+        + ' c'#225'c d'#242'ng ch'#7913'a ERROR ra t'#7879'p m'#7899'i.');
+  Put(True,
+    'AICaps.Item.Filter',
+    'Ch'#7881' hi'#7879'n d'#242'ng kh'#7899'p (ch'#7913'a, b'#7855't '#273#7847'u b'#7857'ng ho'#7863'c regex) v'#224' sao ch'#233'p k'#7871't qu'#7843
+        + '.|Ch'#7881' hi'#7879'n c'#225'c d'#242'ng c'#243' WARN.');
+  Put(True,
+    'AICaps.Item.Find',
+    'T'#236'm v'#259'n b'#7843'n trong t'#7879'p '#273'ang m'#7903' (ti'#7871'p, tr'#432#7899'c, m'#7885'i l'#7847'n xu'#7845't hi'#7879'n) v'#224' t'#236'm '
+        + 'trong t'#7879'p kh'#225'c.|T'#236'm m'#7885'i l'#7847'n xu'#7845't hi'#7879'n c'#7911'a timeout.');
+  Put(True,
+    'AICaps.Item.Goto',
+    #272'i t'#7899'i d'#242'ng, offset byte, '#273#7847'u ho'#7863'c cu'#7889'i t'#7879'p, v'#224' qu'#7843'n l'#253' d'#7845'u trang.|'#272'i '
+        + 't'#7899'i d'#242'ng 5000.');
+  Put(True,
+    'AICaps.Item.HowTo',
+    'Gi'#7843'i th'#237'ch c'#225'ch d'#249'ng FastFile: menu, ph'#237'm t'#7855't v'#224' t'#237'nh n'#259'ng.|L'#224'm sao '#273#7875
+        + ' so s'#225'nh hai t'#7879'p?');
+  Put(True,
+    'AICaps.Item.HubActions',
+    'G'#7907'i '#253' b'#432#7899'c ti'#7871'p theo c'#7909' th'#7875' (ch'#7881' '#273#7885'c): n'#234'n d'#7885'n g'#236', xu'#7845't, '#7849'n danh h'#243'a h'
+        + 'o'#7863'c g'#7917'i cho t'#225'c nh'#226'n AI.|D'#7921'a tr'#234'n th'#432' m'#7909'c n'#224'y, t'#244'i n'#234'n l'#224'm g'#236' ti'#7871'p?');
+  Put(True,
+    'AICaps.Item.HubContent',
+    'Qu'#233't n'#7897'i dung t'#7879'p t'#236'm ch'#7911' '#273#7873', l'#7895'i, tr'#249'ng l'#7863'p v'#224' m'#7851'u l'#7863'p l'#7841'i trong v'#249'ng'
+        + ' ch'#7885'n.|Trong c'#225'c t'#7879'p .log n'#224'y, l'#7895'i ph'#7893' bi'#7871'n nh'#7845't l'#224' g'#236' v'#224' ch'#250'ng t'#7853'p tr'
+        + 'ung '#7903' '#273#226'u?');
+  Put(True,
+    'AICaps.Item.HubInventory',
+    'X'#226'y d'#7921'ng ki'#7875'm k'#234' th'#432' m'#7909'c v'#224' t'#7879'p '#273#227' ch'#7885'n: s'#7889' l'#432#7907'ng, ph'#7847'n m'#7903' r'#7897'ng, k'#237'ch '
+        + 'th'#432#7899'c v'#224' th'#432' m'#7909'c l'#7899'n nh'#7845't.|Ki'#7875'm k'#234' th'#432' m'#7909'c n'#224'y: bao nhi'#234'u t'#7879'p theo ph'#7847
+        + 'n m'#7903' r'#7897'ng v'#224' th'#432' m'#7909'c n'#224'o l'#7899'n nh'#7845't?');
+  Put(True,
+    'AICaps.Item.HubMulti',
+    'L'#224'm vi'#7879'c tr'#234'n nhi'#7873'u th'#432' m'#7909'c v'#224' t'#7879'p c'#249'ng l'#250'c v'#7899'i c'#249'ng y'#234'u c'#7847'u ch'#7849'n '#273'o'#225'n'
+        + '.|So s'#225'nh hai th'#432' m'#7909'c n'#224'y: kh'#225'c g'#236' v'#7873' lo'#7841'i t'#7879'p v'#224' k'#237'ch th'#432#7899'c?');
+  Put(True,
+    'AICaps.Item.HubPrivacy',
+    'T'#236'm d'#7919' li'#7879'u c'#225' nh'#226'n (PII) nh'#432' e-mail, '#273'i'#7879'n tho'#7841'i v'#224' s'#7889' gi'#7845'y t'#7901' trong v'
+        + #249'ng ch'#7885'n.|Qu'#233't c'#225'c th'#432' m'#7909'c n'#224'y t'#236'm e-mail, '#273'i'#7879'n tho'#7841'i v'#224' s'#7889' d'#7841'ng CPF/S'
+        + 'SN.');
+  Put(True,
+    'AICaps.Item.HubReport',
+    'T'#7841'o b'#225'o c'#225'o ch'#7849'n '#273'o'#225'n d'#7877' '#273#7885'c: t'#243'm t'#7855't, ph'#225't hi'#7879'n theo m'#7913'c nghi'#234'm tr'#7885'ng'
+        + ' v'#224' h'#7841'n ch'#7871'.|Vi'#7871't t'#243'm t'#7855't '#273'i'#7873'u h'#224'nh v'#7873' r'#7911'i ro v'#224' ph'#225't hi'#7879'n trong th'#432' m'
+        + #7909'c n'#224'y.');
+  Put(True,
+    'AICaps.Item.HubSql',
+    'Ch'#7849'n '#273'o'#225'n t'#7879'p CSV v'#224' d'#7841'ng b'#7843'ng: c'#7897't, d'#7845'u ph'#226'n c'#225'ch, ki'#7875'u v'#224' c'#226'u h'#7887'i SQ'
+        + 'L m'#7851'u.|Nh'#7919'ng t'#7879'p CSV n'#224'o tr'#244'ng d'#7841'ng b'#7843'ng '#7903' '#273#226'y, v'#224' ch'#250'ng c'#243' c'#7897't g'#236'?');
+  Put(True,
+    'AICaps.Item.HubStructure',
+    #193'nh x'#7841' c'#226'y th'#432' m'#7909'c v'#224' c'#7845'u tr'#250'c: '#273#7897' s'#226'u, th'#432' m'#7909'c tr'#7889'ng, m'#7851'u '#273#7863't t'#234'n v'#224' '
+        + 'b'#7889' c'#7909'c l'#7841'.|M'#244' t'#7843' c'#7845'u tr'#250'c th'#432' m'#7909'c d'#7921' '#225'n n'#224'y v'#224' '#273#225'nh d'#7845'u '#273'i'#7873'u b'#7845't th'#432#7901'n'
+        + 'g.');
+  Put(True,
+    'AICaps.Item.HubToAgent',
+    'Ch'#7849'n '#273'o'#225'n ch'#7881' '#273#7885'c; '#273#7875' '#225'p d'#7909'ng ch'#7881'nh s'#7917'a, '#7849'n danh h'#243'a ho'#7863'c macro, ti'#7871'p '
+        + 't'#7909'c '#7903' tab t'#225'c nh'#226'n AI.|Sau ch'#7849'n '#273'o'#225'n n'#224'y, m'#7903' t'#225'c nh'#226'n AI '#273#7875' '#7849'n danh h'#243
+        + 'a e-mail '#273#227' t'#236'm th'#7845'y.');
+  Put(True,
+    'AICaps.Item.Macro',
+    'Vi'#7871't macro Python v'#224' ch'#7841'y tr'#234'n t'#7915'ng d'#242'ng c'#7911'a m'#7897't t'#7879'p ho'#7863'c m'#7895'i t'#7879'p '#273#227' c'
+        + 'h'#7885'n, sau xem l'#7841'i v'#224' xem tr'#432#7899'c; '#273#7847'u ra v'#224'o b'#7843'ng macro.|Ch'#7841'y macro Pytho'
+        + 'n tr'#234'n t'#7915'ng d'#242'ng c'#7911'a clientes.csv '#273#7875' chuy'#7875'n ng'#224'y sang yyyy-mm-dd.');
+  Put(True,
+    'AICaps.Item.Multi',
+    'L'#224'm vi'#7879'c tr'#234'n nhi'#7873'u t'#7879'p v'#224' th'#432' m'#7909'c c'#249'ng l'#250'c: t'#236'm, so s'#225'nh v'#224' thay '#273#7893'i '
+        + 'trong m'#7897't y'#234'u c'#7847'u.|Trong t'#7845't c'#7843' t'#7879'p .log, t'#7879'p n'#224'o ch'#7913'a t'#7915' timeout?');
+  Put(True,
+    'AICaps.Item.Open',
+    'M'#7903' t'#7879'p (k'#7875' c'#7843' g'#7847'n '#273#226'y), t'#7843'i l'#7841'i t'#7879'p v'#224' hi'#7879'n h'#7897'p tho'#7841'i m'#7903'.|M'#7903' t'#7879'p C:\lo'
+        + 'gs\app.log.');
+  Put(True,
+    'AICaps.Item.Replace',
+    'Thay th'#7871' v'#259'n b'#7843'n trong c'#7843' t'#7879'p.|Thay th'#7871' http:// b'#7857'ng https:// trong c'#7843
+        + ' t'#7879'p.');
+  Put(True,
+    'AICaps.Item.SearchCommands',
+    'glob t'#236'm '#273#432#7901'ng d'#7851'n. grep t'#236'm n'#7897'i dung. Nh'#243'm c'#243' t'#234'n (?<name>) th'#224'nh c'#7897't'
+        + '. T'#234'n tr'#7847'n m'#7903' tr'#7907' gi'#250'p AI.|glob "*.log"');
+  Put(True,
+    'AICaps.Item.Session',
+    'L'#432'u v'#224' m'#7903' l'#7841'i t'#7879'p, d'#242'ng, b'#7897' l'#7885'c, d'#7845'u trang v'#224' b'#7843'ng m'#227' trong m'#7897't .ffses'
+        + 'sion.|L'#432'u phi'#234'n n'#224'y.');
+  Put(True,
+    'AICaps.Item.Split',
+    'T'#225'ch t'#7879'p l'#7899'n th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau ho'#7863'c theo m'#7851'u, ho'#7863'c tr'#237'ch c'#225'c ph'
+        + #7847'n.|T'#225'ch t'#7879'p n'#224'y th'#224'nh 4 ph'#7847'n b'#7857'ng nhau.');
+  Put(True,
+    'AICaps.Item.Sql',
+    'Truy v'#7845'n SQL tr'#234'n CSV v'#224' t'#7879'p ph'#226'n c'#225'ch: b'#7897' l'#7885'c, t'#7893'ng, nh'#243'm v'#224' x'#7871'p h'#7841'ng'
+        + '.|B'#7857'ng SQL, hi'#7879'n 10 kh'#225'ch h'#224'ng c'#243' t'#7893'ng cao nh'#7845't trong sales.csv.');
+  Put(True,
+    'AICaps.Item.SqlChange',
+    'Thay '#273#7893'i d'#7919' li'#7879'u b'#7857'ng SQL (UPDATE, DELETE) th'#224'nh ch'#7881'nh s'#7917'a b'#7841'n xem tr'#432
+        + #7899'c khi l'#432'u.|'#272#7893'i th'#224'nh ph'#7889' c'#7911'a Bianca th'#224'nh S'#227'o Paulo trong clientes.cs'
+        + 'v.');
+  Put(True,
+    'AICaps.Item.Tabs',
+    'M'#7903' c'#225'c tab So s'#225'nh, G'#7897'p d'#242'ng, G'#7897'p t'#7879'p v'#224' G'#7847'n '#273#226'y, phi'#234'n v'#224' t'#249'y ch'#7885'n.|M'
+        + #7903' tab so s'#225'nh t'#7879'p.');
+  Put(True,
+    'AICaps.Item.Tail',
+    'Theo d'#245'i t'#7879'p theo th'#7901'i gian th'#7921'c (tail) v'#224' t'#7841'm d'#7915'ng.|Theo d'#245'i nh'#7853't k'#253' '
+        + 'n'#224'y theo th'#7901'i gian th'#7921'c.');
+  Put(True,
+    'AICaps.Item.Undo',
+    'Ho'#224'n t'#225'c v'#224' l'#224'm l'#7841'i thay '#273#7893'i, nh'#226'n '#273#244'i v'#224' d'#225'n d'#242'ng, s'#7917'a m'#7897't d'#242'ng.|Ho'#224'n'
+        + ' t'#225'c thay '#273#7893'i cu'#7889'i.');
+  Put(True,
+    'AICaps.Item.View',
+    #272#7893'i ch'#7871' '#273#7897' xem: xu'#7889'ng d'#242'ng, zoom, d'#7845'u kho'#7843'ng tr'#7855'ng, ch'#7871' '#273#7897' CSV, to'#224'n m'
+        + #224'n h'#236'nh.|B'#7853't xu'#7889'ng d'#242'ng v'#224' ph'#243'ng to.');
+  Put(True,
+    'AICaps.NoMatch',
+    'Kh'#244'ng c'#243' m'#7909'c kh'#7899'p b'#7897' l'#7885'c.');
+  Put(True,
+    'AICaps.Saved',
+    #272#227' l'#432'u!');
+  Put(True,
+    'AICaps.Sec.AI',
+    'AI, t'#224'i li'#7879'u v'#224' tr'#7907' gi'#250'p');
+  Put(True,
+    'AICaps.Sec.AgentOnly',
+    'Ph'#226'n t'#237'ch v'#224' ch'#7881'nh s'#7917'a tr'#234'n c'#225'c t'#7879'p c'#7911'a b'#7841'n');
+  Put(True,
+    'AICaps.Sec.AssistantOnly',
+    'Chuy'#7875'n cho t'#225'c nh'#226'n AI');
+  Put(True,
+    'AICaps.Sec.HubOnly',
+    'Ch'#7849'n '#273'o'#225'n th'#432' m'#7909'c v'#224' t'#7879'p');
+  Put(True,
+    'AICaps.Sec.Tools',
+    'C'#244'ng c'#7909' t'#7879'p');
+  Put(True,
+    'AICaps.Sec.View',
+    'M'#7903', '#273'i'#7873'u h'#432#7899'ng v'#224' xem');
+  Put(True,
+    'AICaps.Title.Agent',
+    'T'#225'c nh'#226'n AI: t'#244'i c'#243' th'#7875' l'#224'm g'#236'?');
+  Put(True,
+    'AICaps.Title.Assistant',
+    'Tr'#7907' l'#253' AI: t'#244'i c'#243' th'#7875' l'#224'm g'#236'?');
+  Put(True,
+    'AICaps.Title.Hub',
+    'Ch'#7849'n '#273'o'#225'n AI: t'#244'i c'#243' th'#7875' l'#224'm g'#236'?');
+  Put(True,
+    'AICaps.UseExample',
+    'D'#249'ng v'#237' d'#7909);
+  Put(True,
+    'AICaps.UseExampleHint',
+    #272#7863't v'#237' d'#7909' v'#224'o '#244' y'#234'u c'#7847'u; b'#7841'n c'#243' th'#7875' s'#7917'a tr'#432#7899'c khi g'#7917'i.');
+  Put(True,
+    'AI_PROMPT_CTX_TRUNCATED',
+    '...['#273#227' c'#7855't]');
+  Put(True,
+    'AI_PROMPT_HDR_EXAMPLES',
+    '--- V'#237' d'#7909' / kh'#7889'i qu'#233't (c'#243' th'#7875' b'#7883' c'#7855't) ---');
+  Put(True,
+    'AI_PROMPT_HDR_FOCUS_Q',
+    '--- C'#226'u h'#7887'i t'#7853'p trung ---');
+  Put(True,
+    'AI_PROMPT_HDR_OPT_NOTE',
+    '--- Ghi ch'#250' t'#249'y ch'#7885'n ---');
+  Put(True,
+    'AI_PROMPT_HDR_PATTERN',
+    '--- Tr'#432#7901'ng m'#7851'u hi'#7879'n t'#7841'i ---');
+  Put(True,
+    'AI_PROMPT_HDR_SOURCE',
+    '--- '#272#432#7901'ng d'#7851'n ngu'#7891'n ---');
+  Put(True,
+    'AI_PROMPT_HDR_TASK',
+    '--- Nhi'#7879'm v'#7909' ---');
+  Put(True,
+    'AI_PROMPT_HEADER',
+    '[FastFile - T'#225'ch theo M'#7851'u/Regex - tr'#7907' l'#253' gi'#7899'i h'#7841'n ph'#7841'm vi]');
+  Put(True,
+    'AI_PROMPT_REPLY_LANG',
+    'Vui l'#242'ng tr'#7843' l'#7901'i c'#249'ng ng'#244'n ng'#7919' v'#7899'i giao di'#7879'n ng'#432#7901'i d'#249'ng FastFile.');
+  Put(True,
+    'AI_PROMPT_RULES_P1',
+    'Quy t'#7855'c: CH'#7880' b'#224'n v'#7873' bi'#7875'u th'#7913'c ch'#237'nh quy '#273#7875' t'#225'ch ho'#7863'c l'#7885'c d'#242'ng v'#259'n b'#7843'n '
+        + 'trong FastFile (regex t'#432#417'ng th'#237'ch VBScript).');
+  Put(True,
+    'AI_PROMPT_RULES_P2',
+    'T'#7915' ch'#7889'i y'#234'u c'#7847'u kh'#244'ng li'#234'n quan (ng'#244'n ng'#7919' kh'#225'c, SQL, l'#7853'p tr'#236'nh chung, '
+        + 's'#7843'n ph'#7849'm kh'#225'c). D'#249'ng Markdown r'#245' r'#224'ng.');
+  Put(True,
+    'AI_PROMPT_RULES_P3',
+    #272#7883'nh d'#7841'ng: vi'#7871't m'#7895'i regex g'#7907'i '#253' tr'#234'n d'#242'ng ri'#234'ng d'#7841'ng: Regex: <pattern>'
+        + '. FastFile ph'#225't hi'#7879'n c'#225'c d'#242'ng n'#224'y '#273#7875' ki'#7875'm tra v'#7899'i VBScript.RegExp v'#224' h'
+        + 'i'#7879'n m'#7851'u s'#7861'n sao ch'#233'p.');
+  Put(True,
+    'AI_PROMPT_TASK_0',
+    'NHI'#7878'M V'#7908': '#272#7873' xu'#7845't bi'#7875'u th'#7913'c ch'#237'nh quy t'#432#417'ng th'#237'ch VBScript th'#7921'c t'#7871' '#273#7875' '
+        + 't'#225'ch t'#7879'p ngu'#7891'n th'#224'nh c'#225'c ph'#7847'n c'#243' ngh'#297'a. D'#249'ng g'#7907'i '#253' c'#7897't/d'#7845'u ph'#226'n c'#225'ch t'
+        + #7915' ng'#7919' c'#7843'nh. '#272#432'a d'#242'ng regex ng'#7855'n g'#7885'n v'#224' l'#253' do m'#7897't d'#242'ng cho m'#7895'i c'#225'i.');
+  Put(True,
+    'AI_PROMPT_TASK_1',
+    'NHI'#7878'M V'#7908': Xem l'#7841'i v'#224' c'#7843'i thi'#7879'n "M'#7851'u hi'#7879'n t'#7841'i" '#273#7875' t'#225'ch t'#7879'p n'#224'y. Gi'#7843'i th'
+        + #237'ch v'#7845'n '#273#7873' (n'#7871'u c'#243') v'#224' g'#7907'i '#253' regex t'#7889't h'#417'n.');
+  Put(True,
+    'AI_PROMPT_TASK_2',
+    'NHI'#7878'M V'#7908': CH'#7880' tr'#7843' l'#7901'i c'#226'u h'#7887'i t'#7853'p trung n'#224'y v'#7873' regex '#273#7875' t'#225'ch ho'#7863'c l'#7885'c '
+        + 'd'#242'ng tr'#234'n m'#224'n h'#236'nh n'#224'y.');
+  Put(True,
+    'AI_PY_HELP_TITLE_SCRIPT',
+    'Tr'#7907' gi'#250'p AI - Macro Python');
+  Put(True,
+    'AI_PY_HELP_TITLE_TAIL',
+    'Tr'#7907' gi'#250'p AI - Macro Python Tail');
+  Put(True,
+    'AI_PY_MACRO_ACT_MRU',
+    #273#227' ch'#7885'n y'#234'u c'#7847'u g'#7847'n '#273#226'y');
+  Put(True,
+    'AI_PY_MACRO_ACT_PASTE',
+    #273#227' d'#225'n m'#227' v'#224'o tr'#236'nh so'#7841'n th'#7843'o');
+  Put(True,
+    'AI_PY_MACRO_ACT_RESPONSE',
+    'ph'#7843'n h'#7891'i AI');
+  Put(True,
+    'AI_PY_MACRO_ACT_TYPING',
+    's'#7917'a v'#259'n b'#7843'n y'#234'u c'#7847'u');
+  Put(True,
+    'AI_PY_MACRO_APPLIED',
+    #272#227' '#225'p d'#7909'ng m'#227' v'#224'o tr'#236'nh so'#7841'n th'#7843'o script. Ctrl+Z ho'#224'n t'#225'c.');
+  Put(True,
+    'AI_PY_MACRO_APPLY',
+    #193'p d'#7909'ng');
+  Put(True,
+    'AI_PY_MACRO_APPLY_CLOSE',
+    #193'p d'#7909'ng v'#224' '#272#243'ng');
+  Put(True,
+    'AI_PY_MACRO_APPLY_CLOSE_HINT',
+    #272#7863't m'#227' '#273#227' t'#7841'o v'#224'o tr'#236'nh so'#7841'n th'#7843'o script v'#224' '#273#243'ng c'#7917'a s'#7893' n'#224'y');
+  Put(True,
+    'AI_PY_MACRO_APPLY_HINT',
+    #272#7863't m'#227' '#273#227' t'#7841'o v'#224'o tr'#236'nh so'#7841'n th'#7843'o script v'#224' gi'#7919' c'#7917'a s'#7893' m'#7903' (Ctrl+Z ho'#224'n'
+        + ' t'#225'c)');
+  Put(True,
+    'AI_PY_MACRO_CANCELLED',
+    #272#227' h'#7911'y y'#234'u c'#7847'u. Ph'#7843'n h'#7891'i tr'#432#7899'c '#273#432#7907'c gi'#7919' l'#7841'i.');
+  Put(True,
+    'AI_PY_MACRO_CONTACTING',
+    #272'ang li'#234'n h'#7879' tr'#7907' l'#253'...');
+  Put(True,
+    'AI_PY_MACRO_CTX_LABEL',
+    'Xem tr'#432#7899'c ng'#7919' c'#7843'nh (g'#7917'i k'#232'm y'#234'u c'#7847'u)');
+  Put(True,
+    'AI_PY_MACRO_FAILED',
+    'Y'#234'u c'#7847'u th'#7845't b'#7841'i: %s');
+  Put(True,
+    'AI_PY_MACRO_FAILED_UNKNOWN',
+    'Kh'#244'ng nh'#7853'n '#273#432#7907'c ph'#7843'n h'#7891'i (kh'#244'ng c'#243' chi ti'#7871't k'#7929' thu'#7853't). Ki'#7875'm tra m'#7841'ng/t'
+        + #432#7901'ng l'#7917'a v'#224' quy'#7873'n truy c'#7853'p API Gateway t'#7915' m'#225'y n'#224'y.');
+  Put(True,
+    'AI_PY_MACRO_FINISHED',
+    'Xong. B'#7845'm '#193'p d'#7909'ng '#273#7875' d'#249'ng m'#227' trong tr'#236'nh so'#7841'n th'#7843'o script, ho'#7863'c '#193'p d'#7909'n'
+        + 'g v'#224' '#272#243'ng.');
+  Put(True,
+    'AI_PY_MACRO_HDR_EXAMPLES',
+    'V'#237' d'#7909' t'#237'ch h'#7907'p (tham kh'#7843'o):');
+  Put(True,
+    'AI_PY_MACRO_HDR_FOCUS',
+    'Y'#234'u c'#7847'u ng'#432#7901'i d'#249'ng (tr'#7885'ng t'#226'm b'#7855't bu'#7897'c):');
+  Put(True,
+    'AI_PY_MACRO_HDR_SCRIPT',
+    'Script hi'#7879'n t'#7841'i trong tr'#236'nh so'#7841'n th'#7843'o:');
+  Put(True,
+    'AI_PY_MACRO_NOTE_HINT',
+    'M'#244' t'#7843' macro n'#234'n l'#224'm g'#236' ('#237't nh'#7845't %d k'#253' t'#7921'). V'#237' d'#7909': vi'#7871't hoa c'#7897't CSV th'#7913
+        + ' 3, b'#7887' d'#242'ng tr'#7889'ng.');
+  Put(True,
+    'AI_PY_MACRO_NOTE_REQUIRED',
+    'Vui l'#242'ng nh'#7853'p '#237't nh'#7845't %d k'#253' t'#7921' m'#244' t'#7843' b'#7841'n mu'#7889'n macro Python l'#224'm g'#236'.');
+  Put(True,
+    'AI_PY_MACRO_NOTE_TITLE',
+    'Macro n'#234'n l'#224'm g'#236'?');
+  Put(True,
+    'AI_PY_MACRO_PASTE_BTN',
+    'D'#225'n v'#224'o tr'#236'nh so'#7841'n th'#7843'o script');
+  Put(True,
+    'AI_PY_MACRO_PASTE_EMPTY',
+    'Kh'#244'ng t'#236'm th'#7845'y m'#227' macro Python trong ph'#7843'n h'#7891'i '#273#7875' d'#225'n.');
+  Put(True,
+    'AI_PY_MACRO_PREV_PENDING',
+    'Y'#234'u c'#7847'u '#273#227' h'#7911'y v'#7851'n '#273'ang k'#7871't th'#250'c '#7903' n'#7873'n. Vui l'#242'ng '#273#7907'i v'#224'i gi'#226'y r'#7891'i th'#7917' '
+        + 'l'#7841'i.');
+  Put(True,
+    'AI_PY_MACRO_REDO',
+    'L'#224'm l'#7841'i');
+  Put(True,
+    'AI_PY_MACRO_REDONE',
+    #272#227' l'#224'm l'#7841'i: %s.');
+  Put(True,
+    'AI_PY_MACRO_REDO_HINT',
+    'L'#224'm l'#7841'i thay '#273#7893'i '#273#227' ho'#224'n t'#225'c (Ctrl+Y ho'#7863'c Ctrl+Shift+Z)');
+  Put(True,
+    'AI_PY_MACRO_RESP_LABEL',
+    'M'#227' Python '#273#227' t'#7841'o');
+  Put(True,
+    'AI_PY_MACRO_SAMPLE_FILE',
+    'M'#7851'u '#273#7841'i di'#7879'n: %d trong %d d'#242'ng t'#7879'p ngu'#7891'n');
+  Put(True,
+    'AI_PY_MACRO_SAMPLE_SELECTED',
+    'M'#7851'u '#273#7841'i di'#7879'n: %d trong %d h'#224'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'AI_PY_MACRO_SCOPE_SCRIPT',
+    'Tr'#7907' l'#253' n'#224'y ch'#7881' gi'#250'p b'#7841'n vi'#7871't m'#227' Python cho macro script FastFile (def '
+        + 'transform(line, ctx)). Kh'#244'ng tr'#7843' l'#7901'i ch'#7911' '#273#7873' kh'#225'c.');
+  Put(True,
+    'AI_PY_MACRO_SCOPE_TAIL',
+    'Tr'#7907' l'#253' n'#224'y ch'#7881' gi'#250'p b'#7841'n vi'#7871't m'#227' Python cho macro Tail (def transform(l'
+        + 'ine, ctx)). Kh'#244'ng tr'#7843' l'#7901'i ch'#7911' '#273#7873' kh'#225'c.');
+  Put(True,
+    'AI_PY_MACRO_UNDO',
+    'Ho'#224'n t'#225'c');
+  Put(True,
+    'AI_PY_MACRO_UNDONE',
+    #272#227' ho'#224'n t'#225'c: %s.');
+  Put(True,
+    'AI_PY_MACRO_UNDO_HINT',
+    'Ho'#224'n t'#225'c thay '#273#7893'i cu'#7889'i tr'#234'n m'#224'n h'#236'nh n'#224'y (Ctrl+Z): v'#259'n b'#7843'n y'#234'u c'#7847'u, y'#234
+        + 'u c'#7847'u g'#7847'n '#273#226'y, ph'#7843'n h'#7891'i AI ho'#7863'c m'#227' '#273#227' d'#225'n v'#224'o tr'#236'nh so'#7841'n th'#7843'o');
+  Put(True,
+    'AI_PY_MACRO_WAIT_CLOSE',
+    'Vui l'#242'ng '#273#7907'i tr'#7907' l'#253' xong tr'#432#7899'c khi '#273#243'ng.');
+  Put(True,
+    'AI_PY_MACRO_WAIT_SENDING',
+    #272'ang g'#7917'i y'#234'u c'#7847'u t'#7899'i AI...');
+  Put(True,
+    'AI_PY_MACRO_WAIT_TITLE',
+    #272'ang t'#7841'o macro Python b'#7857'ng AI');
+  Put(True,
+    'AI_PY_MACRO_WAIT_WAITING',
+    #272'ang ch'#7901' ph'#7843'n h'#7891'i AI... %d s (H'#7911'y d'#7915'ng ch'#7901')');
+end;
+
+procedure AddVietnamesePart04(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'AI_PY_PROMPT_FILTER_MANDATE',
+    'B'#7854'T BU'#7896'C cho y'#234'u c'#7847'u n'#224'y: ch'#7881' gi'#7919' ch'#7919' s'#7889' 0-9, d'#7845'u ch'#7845'm ph'#7849'y ; v'#224' #. D'#249
+        + 'ng import re '#7903' '#273#7847'u v'#224': return re.sub(r"[^0-9;#]", "", line). KH'#212'NG d'#249'n'
+        + 'g line[:N], line[i], ho'#7863'c range cho v'#7883' tr'#237' c'#7897't.');
+  Put(True,
+    'AI_PY_PROMPT_HDR_SAMPLE',
+    'D'#242'ng ngu'#7891'n '#273#7841'i di'#7879'n (ch'#7881' ng'#7919' c'#7843'nh; kh'#244'ng l'#7863'p l'#7841'i trong c'#226'u tr'#7843' l'#7901'i):');
+  Put(True,
+    'AI_PY_PROMPT_HEADER',
+    '[FastFile - Tr'#7907' l'#253' macro Python - gi'#7899'i h'#7841'n ph'#7841'm vi]');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P1',
+    'Quy t'#7855'c: CH'#7880' cung c'#7845'p m'#227' ngu'#7891'n Python cho macro FastFile d'#249'ng def tran'
+        + 'sform(line, ctx): tr'#7843' v'#7873' d'#242'ng '#273#227' bi'#7871'n '#273#7893'i (ho'#7863'c None '#273#7875' b'#7887').');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P2',
+    'Ch'#7881' d'#249'ng th'#432' vi'#7879'n chu'#7849'n Python tr'#7915' khi ng'#432#7901'i d'#249'ng y'#234'u c'#7847'u kh'#225'c. Kh'#244'ng '
+        + 'I/O t'#7879'p tr'#7915' khi nhi'#7879'm v'#7909' n'#234'u c'#7847'n.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P3',
+    'T'#7915' ch'#7889'i c'#226'u h'#7887'i kh'#244'ng li'#234'n quan. Tr'#7843' l'#7901'i c'#249'ng ng'#244'n ng'#7919' giao di'#7879'n FastF'
+        + 'ile. Xu'#7845't script ch'#7841'y '#273#432#7907'c '#273#7847'y '#273#7911' v'#7899'i def transform(line, ctx).');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P4',
+    'Kh'#244'ng bao gi'#7901' d'#225'n d'#242'ng d'#7919' li'#7879'u m'#7851'u t'#7879'p trong c'#226'u tr'#7843' l'#7901'i. D'#249'ng '#273#250'ng m'#7897
+        + 't h'#224'ng r'#224'o ```python. B'#234'n trong ch'#7881' '#273#7863't def transform(line, ctx) v'#224' c'#225
+        + 'c def h'#7895' tr'#7907' '#8212' kh'#244'ng # Teste, kh'#244'ng print demo, kh'#244'ng d'#242'ng ``` tr'#249'ng.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P5',
+    'Th'#7921'c hi'#7879'n '#273#250'ng '#273'i'#7873'u ng'#432#7901'i d'#249'ng y'#234'u c'#7847'u trong transform(line, ctx). Kh'#244
+        + 'ng b'#7883'a ch'#7881' s'#7889' c'#7897't tr'#7915' khi ng'#432#7901'i d'#249'ng n'#234'u. Kh'#244'ng stub n'#244'ng (ch'#7881' strip, '
+        + 'return line) khi '#273#227' y'#234'u c'#7847'u l'#7885'c. V'#237' d'#7909': ch'#7881' gi'#7919' ch'#7919' s'#7889', d'#7845'u ch'#7845'm ph'#7849'y '
+        + 'v'#224' # -> import re; return re.sub(r"[^0-9;#]", "", line).');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P6',
+    'D'#242'ng m'#7851'u t'#7879'p (n'#7871'u c'#243') ch'#7881' l'#224' ng'#7919' c'#7843'nh '#273#7875' hi'#7875'u d'#7845'u ph'#226'n c'#225'ch/h'#236'nh d'#7841'ng '
+        + #8212' kh'#244'ng bao gi'#7901' l'#7863'p l'#7841'i ho'#7863'c tr'#237'ch d'#7851'n ch'#250'ng trong c'#226'u tr'#7843' l'#7901'i.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P7',
+    'Tr'#7843' l'#7901'i ch'#7881' b'#7857'ng M'#7896'T kh'#7889'i ```python '#8212' kh'#244'ng v'#259'n xu'#244'i, kh'#244'ng d'#242'ng L1:/L'
+        + '2:, kh'#244'ng d'#7919' li'#7879'u m'#7851'u, kh'#244'ng c'#226'u h'#7887'i. Kh'#244'ng bao gi'#7901' d'#249'ng line[:N] ho'#7863'c'
+        + ' line[i] tr'#7915' khi ng'#432#7901'i d'#249'ng y'#234'u c'#7847'u r'#245' v'#7883' tr'#237' ho'#7863'c chu'#7895'i con.');
+  Put(True,
+    'AI_PY_PROMPT_RULES_P8',
+    #272#7883'nh d'#7841'ng '#273#7847'u ra: gi'#7919' th'#7913' t'#7921' v'#224' h'#236'nh d'#7841'ng g'#7889'c c'#7911'a d'#242'ng. Khi gi'#7919'/tr'#237'ch '
+        + 'k'#253' t'#7921', n'#7889'i b'#7857'ng '''' (chu'#7895'i r'#7895'ng, vd. "".join(...)). KH'#212'NG BAO GI'#7900' th'#234'm '
+        + 'kho'#7843'ng tr'#7855'ng, d'#7845'u ph'#7849'y, tab, d'#7845'u ngo'#7863'c k'#233'p ho'#7863'c nh'#227'n gi'#7919'a c'#225'c gi'#225' tr'#7883' '
+        + 'tr'#7915' khi ng'#432#7901'i d'#249'ng y'#234'u c'#7847'u d'#7845'u ph'#226'n c'#225'ch.');
+  Put(True,
+    'AI_PY_PROMPT_TASK_SCRIPT',
+    'G'#7907'i '#253' ho'#7863'c c'#7843'i thi'#7879'n macro Python cho b'#7843'ng Script Engine: def transfor'
+        + 'm(line, ctx) tr'#234'n t'#7915'ng d'#242'ng hi'#7879'n ho'#7863'c '#273#227' ch'#7885'n.');
+  Put(True,
+    'AI_PY_PROMPT_TASK_TAIL',
+    'G'#7907'i '#253' ho'#7863'c c'#7843'i thi'#7879'n macro Tail: Python def transform(line, ctx) ch'#7841'y '
+        + 'm'#7897't l'#7847'n m'#7895'i d'#242'ng m'#7899'i khi ch'#7871' '#273#7897' Tail B'#7852'T.');
+  Put(True,
+    'AI_SPLIT_CONTACTING',
+    #272'ang li'#234'n h'#7879' tr'#7907' l'#253'...');
+  Put(True,
+    'AI_SPLIT_CONTEXT_LABEL',
+    'Xem tr'#432#7899'c ng'#7919' c'#7843'nh (g'#7917'i k'#232'm y'#234'u c'#7847'u):');
+  Put(True,
+    'AI_SPLIT_FAILED',
+    'Kh'#244'ng nh'#7853'n '#273#432#7907'c ph'#7843'n h'#7891'i: %s');
+  Put(True,
+    'AI_SPLIT_FAILED_UNKNOWN',
+    'Kh'#244'ng nh'#7853'n '#273#432#7907'c ph'#7843'n h'#7891'i (kh'#244'ng c'#243' chi ti'#7871't k'#7929' thu'#7853't). Ki'#7875'm tra m'#7841'ng/t'
+        + #432#7901'ng l'#7917'a v'#224' quy'#7873'n truy c'#7853'p API Gateway t'#7915' m'#225'y n'#224'y.');
+  Put(True,
+    'AI_SPLIT_FINISHED',
+    'Xong.');
+  Put(True,
+    'AI_SPLIT_NOTE_HINT',
+    'Ghi ch'#250' t'#249'y ch'#7885'n cho preset 1-2. Preset 3: g'#245' c'#226'u h'#7887'i ch'#7881' v'#7873' regex t'#7841'i'
+        + ' '#273#226'y (b'#7855't bu'#7897'c, t'#7889'i thi'#7875'u %d k'#253' t'#7921').');
+  Put(True,
+    'AI_SPLIT_NOTE_REQUIRED',
+    'Vui l'#242'ng nh'#7853'p '#237't nh'#7845't %d k'#253' t'#7921' cho c'#226'u h'#7887'i regex t'#7853'p trung c'#7911'a b'#7841'n.');
+  Put(True,
+    'AI_SPLIT_PRESET_1',
+    'G'#7907'i '#253' m'#7851'u regex t'#7915' ng'#7919' c'#7843'nh t'#7879'p');
+  Put(True,
+    'AI_SPLIT_PRESET_2',
+    'Xem l'#7841'i ho'#7863'c c'#7843'i thi'#7879'n m'#7851'u hi'#7879'n t'#7841'i c'#7911'a t'#244'i');
+  Put(True,
+    'AI_SPLIT_PRESET_3',
+    'C'#226'u h'#7887'i regex t'#7853'p trung (d'#249'ng ghi ch'#250' b'#234'n d'#432#7899'i)');
+  Put(True,
+    'AI_SPLIT_SCOPE',
+    'Tr'#7907' l'#253' n'#224'y ch'#7881' b'#224'n v'#7873' bi'#7875'u th'#7913'c ch'#237'nh quy '#273#7875' t'#225'ch t'#7879'p v'#259'n b'#7843'n trong Fa'
+        + 'stFile (regex ki'#7875'u VBScript). Y'#234'u c'#7847'u kh'#244'ng li'#234'n quan b'#7883' t'#7915' ch'#7889'i. Ch'#7885'n'
+        + ' preset v'#224' t'#249'y ch'#7885'n th'#234'm ghi ch'#250' ng'#7855'n.');
+  Put(True,
+    'AI_SPLIT_TRUNCATED',
+    '[...]');
+  Put(True,
+    'AI_SPLIT_VALIDATION_NONE_PASTE',
+    'Kh'#244'ng t'#236'm th'#7845'y regex s'#7861'n '#273#7875' d'#225'n.');
+  Put(True,
+    'AI_SPLIT_VALIDATION_PASTE_HDR',
+    'Sao ch'#233'p v'#224'o M'#7851'u '#8212' m'#7895'i d'#242'ng d'#432#7899'i '#273#226'y l'#224' m'#7897't regex s'#7861'n VBScript (d'#225'n t'#7915
+        + 'ng d'#242'ng m'#7897't):');
+  Put(True,
+    'AI_SPLIT_VALIDATION_REJECT_HDR',
+    'G'#7907'i '#253' kh'#244'ng bi'#234'n d'#7883'ch '#273#432#7907'c trong FastFile (VBScript.RegExp):');
+  Put(True,
+    'AI_SPLIT_WAIT_CLOSE',
+    'Vui l'#242'ng '#273#7907'i tr'#7907' l'#253' xong tr'#432#7899'c khi '#273#243'ng.');
+  Put(True,
+    'About',
+    'Gi'#7899'i thi'#7879'u');
+  Put(True,
+    'About FastFile',
+    'Gi'#7899'i thi'#7879'u FastFile');
+  Put(True,
+    'Accept',
+    'Ch'#7845'p nh'#7853'n');
+  Put(True,
+    'Accept all',
+    'Ch'#7845'p nh'#7853'n t'#7845't c'#7843);
+  Put(True,
+    'Accessed',
+    #272#227' truy c'#7853'p');
+  Put(True,
+    'Active',
+    #272'ang ho'#7841't '#273#7897'ng');
+  Put(True,
+    'Add files...',
+    'Th'#234'm t'#7879'p...');
+  Put(True,
+    'Add folder...',
+    'Th'#234'm th'#432' m'#7909'c...');
+  Put(True,
+    'Add-ons',
+    'Ti'#7879'n '#237'ch b'#7893' sung');
+  Put(True,
+    'Add/Update',
+    'Th'#234'm/C'#7853'p nh'#7853't');
+  Put(True,
+    'Advanced AI Chat (file)',
+    'Tr'#242' chuy'#7879'n AI n'#226'ng cao (t'#7879'p)');
+  Put(True,
+    'Advanced AI Chat (file) (Ctrl+Alt+R)',
+    'Tr'#242' chuy'#7879'n AI n'#226'ng cao (t'#7879'p) (Ctrl+Alt+R)');
+  Put(True,
+    'Advanced AI Chat (file) Python plugin (ConsumerRAG.exe) not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y plugin Python Tr'#242' chuy'#7879'n AI n'#226'ng cao (t'#7879'p) (ConsumerRAG'
+        + '.exe).');
+  Put(True,
+    'Advanced Text Editor',
+    'Tr'#236'nh so'#7841'n th'#7843'o v'#259'n b'#7843'n n'#226'ng cao');
+  Put(True,
+    'After Date:',
+    'Sau ng'#224'y:');
+  Put(True,
+    'After Time:',
+    'Sau gi'#7901':');
+  Put(True,
+    'Agent.Action',
+    'H'#224'nh '#273#7897'ng FastFile');
+  Put(True,
+    'Agent.ActionConfirm',
+    'Ch'#7841'y h'#224'nh '#273#7897'ng FastFile n'#224'y ngay?');
+  Put(True,
+    'Agent.ActionPreview',
+    'Ch'#7841'y t'#237'nh n'#259'ng FastFile khi b'#7841'n b'#7845'm Ch'#7845'p nh'#7853'n. T'#237'nh n'#259'ng c'#243' c'#7917'a s'#7893' ri'#234
+        + 'ng s'#7869' m'#7903' '#273#7875' b'#7841'n xem t'#249'y ch'#7885'n v'#224' x'#225'c nh'#7853'n.');
+  Put(True,
+    'Agent.ActionStarted',
+    'H'#224'nh '#273#7897'ng FastFile '#273#227' b'#7855't '#273#7847'u trong c'#7917'a s'#7893' ch'#237'nh.');
+  Put(True,
+    'Agent.ActionsOneByOne',
+    'C'#225'c h'#224'nh '#273#7897'ng FastFile trong danh s'#225'ch ph'#7843'i '#273#432#7907'c ch'#7845'p nh'#7853'n t'#7915'ng c'#225'i m'#7897
+        + 't.');
+  Put(True,
+    'Agent.ActionsRun',
+    #272'ang ch'#7841'y %d h'#224'nh '#273#7897'ng FastFile trong c'#7917'a s'#7893' ch'#237'nh...');
+  Put(True,
+    'Agent.AskEmptyArea',
+    'V'#249'ng n'#224'y tr'#7889'ng.');
+  Put(True,
+    'Agent.AskFailed',
+    'Y'#234'u c'#7847'u AI th'#7845't b'#7841'i: %s');
+  Put(True,
+    'Agent.AskNoAnswer',
+    'AI kh'#244'ng tr'#7843' l'#7901'i.');
+  Put(True,
+    'Agent.AskQuestion',
+    'B'#7841'n mu'#7889'n h'#7887'i AI g'#236' v'#7873' n'#7897'i dung n'#224'y?');
+  Put(True,
+    'Agent.AskingStep',
+    #272'ang h'#7887'i AI (b'#432#7899'c %d)...');
+  Put(True,
+    'Agent.Assistant.Busy',
+    'Tr'#7907' l'#253' '#273'ang b'#7853'n v'#7899'i y'#234'u c'#7847'u kh'#225'c. Th'#7917' l'#7841'i khi xong.');
+  Put(True,
+    'Agent.Assistant.Done',
+    'Tr'#7907' l'#253' '#273#227' tr'#7843' l'#7901'i. C'#226'u tr'#7843' l'#7901'i n'#7857'm d'#432#7899'i c'#226'u tr'#7843' l'#7901'i c'#7911'a t'#225'c nh'#226'n.');
+  Put(True,
+    'Agent.Assistant.NoReply',
+    'Tr'#7907' l'#253' k'#7871't th'#250'c m'#224' kh'#244'ng c'#243' ph'#7843'n h'#7891'i. Xem b'#7843'ng Tr'#7907' l'#253'.');
+  Put(True,
+    'Agent.Assistant.ReplyHeader',
+    '--- Tr'#7907' l'#253' FastFile ---');
+  Put(True,
+    'Agent.Assistant.Unavailable',
+    'B'#7843'ng Tr'#7907' l'#253' kh'#244'ng kh'#7843' d'#7909'ng, n'#234'n kh'#244'ng th'#7875' chuy'#7875'n y'#234'u c'#7847'u cho n'#243'.');
+  Put(True,
+    'Agent.Assistant.Working',
+    'Tr'#7907' l'#253' FastFile '#273'ang x'#7917' l'#253' y'#234'u c'#7847'u...');
+  Put(True,
+    'Agent.Bridge.Busy',
+    'T'#225'c nh'#226'n AI '#273'ang b'#7853'n v'#7899'i y'#234'u c'#7847'u kh'#225'c. '#272#7907'i xong ho'#7863'c d'#7915'ng n'#243'.');
+  Put(True,
+    'Agent.Bridge.RejectConfirm',
+    'H'#7911'y %d ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't? S'#7869' kh'#244'ng ghi g'#236'.');
+  Put(True,
+    'Agent.ChangeLine',
+    #272#7893'i d'#242'ng %d');
+  Put(True,
+    'Agent.Chat.Button',
+    'Tr'#242' chuy'#7879'n');
+  Put(True,
+    'Agent.Chat.Hint',
+    'Hi'#7879'n ho'#7863'c '#7849'n khung tr'#242' chuy'#7879'n AI (tr'#7907' l'#253', t'#224'i li'#7879'u, ki'#7875'm tra ngu'#7891'n, tr'
+        + #7907' gi'#250'p FastFile).');
+  Put(True,
+    'Agent.Copied',
+    #272#227' sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    'Agent.CopyPaths',
+    'Sao ch'#233'p '#273#432#7901'ng d'#7851'n');
+  Put(True,
+    'Agent.CountAnswer',
+    '%s d'#242'ng ch'#7913'a "%s" trong %s t'#7879'p:');
+  Put(True,
+    'Agent.CountNote',
+    #272#7871'm n'#224'y l'#224' d'#242'ng ch'#7913'a v'#259'n b'#7843'n, kh'#244'ng ph'#7843'i ng'#432#7901'i ho'#7863'c b'#7843'n ghi ri'#234'ng bi'#7879't'
+        + '.');
+  Put(True,
+    'Agent.DeleteLine',
+    'X'#243'a d'#242'ng %d');
+  Put(True,
+    'Agent.EditsExpired',
+    'H'#7871't gi'#7901' (%d s): c'#225'c ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't '#273#227' b'#7883' h'#7911'y v'#224' kh'#244'ng ghi g'#236'. G'#7917'i l'
+        + #7841'i y'#234'u c'#7847'u '#273#7875' l'#224'm l'#7841'i.');
+  Put(True,
+    'Agent.EditsNote',
+    'Thay '#273#7893'i hi'#7879'n b'#234'n ph'#7843'i (nh'#7845'p '#273#250'p '#273#7875' ph'#243'ng to). Kh'#244'ng ghi g'#236' cho '#273#7871'n kh'
+        + 'i b'#7841'n b'#7845'm Ch'#7845'p nh'#7853'n.');
+  Put(True,
+    'Agent.ExpireHint',
+    'Quy'#7871't '#273#7883'nh trong %d gi'#226'y: Ch'#7845'p nh'#7853'n, T'#7915' ch'#7889'i ho'#7863'c Ch'#7845'p nh'#7853'n t'#7845't c'#7843'. Sa'
+        + 'u '#273#243' '#273#7873' xu'#7845't b'#7883' h'#7911'y v'#224' ph'#7843'i g'#7917'i l'#7841'i y'#234'u c'#7847'u. '#272#7893'i th'#7901'i gian n'#224'y trong T'
+        + #249'y ch'#7885'n > T'#249'y ch'#7885'n.');
+  Put(True,
+    'Agent.ExpireIn',
+    'H'#7871't h'#7841'n sau %d s');
+  Put(True,
+    'Agent.ExpiredShort',
+    'H'#7871't gi'#7901);
+  Put(True,
+    'Agent.FindCount',
+    '%d trong %d');
+  Put(True,
+    'Agent.FindNoMatch',
+    'kh'#244'ng kh'#7899'p');
+  Put(True,
+    'Agent.FindRootsHint',
+    'L'#7885'c ngu'#7891'n...');
+  Put(True,
+    'Agent.FullText',
+    'Xem to'#224'n v'#259'n');
+  Put(True,
+    'Agent.Guide',
+    '1) Th'#234'm t'#7879'p ho'#7863'c th'#432' m'#7909'c  '#8594'  2) M'#244' t'#7843' '#273'i'#7873'u b'#7841'n mu'#7889'n v'#224' b'#7845'm G'#7917'i  '#8594'  3) '
+        + #272#7885'c c'#226'u tr'#7843' l'#7901'i v'#224' xem l'#7841'i ch'#7881'nh s'#7917'a. Kh'#244'ng l'#432'u g'#236' cho '#273#7871'n khi b'#7841'n ch'#7845
+        + 'p nh'#7853'n.');
+  Put(True,
+    'Agent.ItemCount',
+    '%d m'#7909'c');
+  Put(True,
+    'Agent.Macro.Caption',
+    'Macro Python tr'#234'n t'#7915'ng d'#242'ng');
+  Put(True,
+    'Agent.Macro.FileMissing',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p: %s');
+  Put(True,
+    'Agent.Macro.Preview',
+    'Khi Ch'#7845'p nh'#7853'n, t'#7879'p m'#7903' trong b'#7843'ng macro Python v'#224' script n'#224'y ch'#7841'y tr'#234'n '
+        + 't'#7915'ng d'#242'ng, v'#7899'i xem tr'#432#7899'c c'#225'c d'#242'ng '#273#7847'u tr'#432#7899'c khi ch'#7841'y '#273#7847'y '#273#7911'. '#272#7847'u ra v'#224
+        + 'o b'#7843'ng; t'#7879'p g'#7889'c kh'#244'ng '#273#7893'i.');
+  Put(True,
+    'Agent.Macro.Running',
+    'Macro t'#225'c nh'#226'n: '#273'ang chu'#7849'n b'#7883' %s...');
+  Put(True,
+    'Agent.Macro.SelectedOnly',
+    'ch'#7881' c'#225'c d'#242'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'Agent.ModelToolCall',
+    'M'#244' h'#236'nh AI '#273#227' th'#7917' ch'#7841'y m'#227' thay v'#236' tr'#7843' l'#7901'i, v'#224' d'#7883'ch v'#7909' AI t'#7915' ch'#7889'i ph'#7843'n '
+        + 'h'#7891'i. Vui l'#242'ng g'#7917'i l'#7841'i y'#234'u c'#7847'u.');
+  Put(True,
+    'Agent.NewNothingToSave',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' l'#432'u; v'#249'ng '#273#227' tr'#7889'ng s'#7861'n.');
+  Put(True,
+    'Agent.NewPromptSaved',
+    'Y'#234'u c'#7847'u '#273#227' l'#432'u trong Y'#234'u c'#7847'u g'#7847'n '#273#226'y. S'#7861'n s'#224'ng cho y'#234'u c'#7847'u m'#7899'i.');
+  Put(True,
+    'Agent.NewSaveFailed',
+    'Kh'#244'ng l'#432'u '#273#432#7907'c, n'#234'n kh'#244'ng x'#243'a s'#7841'ch g'#236':');
+  Put(True,
+    'Agent.NewSaved',
+    #272#227' l'#432'u v'#224'o %s. S'#7861'n s'#224'ng cho y'#234'u c'#7847'u m'#7899'i.');
+  Put(True,
+    'Agent.NothingToCopy',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' sao ch'#233'p.');
+  Put(True,
+    'Agent.PickFilesTitle',
+    'Ch'#7885'n t'#7879'p '#273#7875' t'#225'c nh'#226'n '#273#7885'c');
+  Put(True,
+    'Agent.PickFolderLabel',
+    'Th'#432' m'#7909'c:');
+  Put(True,
+    'Agent.PickFolderOk',
+    'Ch'#7885'n th'#432' m'#7909'c');
+  Put(True,
+    'Agent.PickFolderTitle',
+    'Ch'#7885'n m'#7897't ho'#7863'c nhi'#7873'u th'#432' m'#7909'c '#273#7875' t'#225'c nh'#226'n '#273#7885'c');
+  Put(True,
+    'Agent.PreviewLoading',
+    #272'ang '#273#7885'c c'#225'c d'#242'ng t'#7915' t'#7879'p...');
+  Put(True,
+    'Agent.PreviewMore',
+    '... v'#224' %s d'#242'ng n'#7919'a (kh'#244'ng hi'#7879'n trong xem tr'#432#7899'c; t'#7845't c'#7843' '#273#432#7907'c '#225'p d'#7909'ng kh'
+        + 'i Ch'#7845'p nh'#7853'n)');
+end;
+
+procedure AddVietnamesePart05(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Agent.PreviewZoomHint',
+    'Nh'#7845'p '#273#250'p '#273#7875' ph'#243'ng to');
+  Put(True,
+    'Agent.Recent',
+    'Y'#234'u c'#7847'u g'#7847'n '#273#226'y');
+  Put(True,
+    'Agent.RecentCount',
+    '%d y'#234'u c'#7847'u g'#7847'n '#273#226'y - nh'#7845'p '#273#7875' ch'#7885'n');
+  Put(True,
+    'Agent.RecentEmpty',
+    '(ch'#432'a c'#243' y'#234'u c'#7847'u g'#7847'n '#273#226'y)');
+  Put(True,
+    'Agent.RecentHint',
+    'D'#249'ng l'#7841'i m'#7897't y'#234'u c'#7847'u tr'#432#7899'c. Danh s'#225'ch c'#243' t'#236'm ki'#7871'm, x'#243'a v'#224' x'#243'a t'#7845't c'#7843'. '
+        + 'Alt+Down m'#7903' t'#7915' h'#7897'p v'#259'n b'#7843'n.');
+  Put(True,
+    'Agent.RemoveAll',
+    'X'#243'a t'#7845't c'#7843);
+  Put(True,
+    'Agent.RemoveAllConfirm',
+    'X'#243'a t'#7845't c'#7843' %d ngu'#7891'n kh'#7887'i danh s'#225'ch? C'#225'c t'#7879'p tr'#234'n '#273#297'a kh'#244'ng b'#7883' '#7843'nh h'#432#7903'n'
+        + 'g.');
+  Put(True,
+    'Agent.RemoveSelected',
+    'X'#243'a m'#7909'c '#273#227' ch'#7885'n');
+  Put(True,
+    'Agent.RootRecent',
+    'G'#7847'n '#273#226'y');
+  Put(True,
+    'Agent.RootRecentHint',
+    'T'#7879'p v'#224' th'#432' m'#7909'c g'#7847'n '#273#226'y: nh'#7845'p '#273#7875' th'#234'm l'#7841'i (Alt+Down trong h'#7897'p l'#7885'c). T'#236'm'
+        + ', x'#243'a m'#7909'c, thu'#7897'c t'#237'nh v'#224' x'#243'a t'#7845't c'#7843', gi'#7889'ng c'#225'c danh s'#225'ch g'#7847'n '#273#226'y kh'#225'c.');
+  Put(True,
+    'Agent.RootRecentMissing',
+    'Kh'#244'ng t'#236'm th'#7845'y ('#273#227' x'#243'a kh'#7887'i danh s'#225'ch g'#7847'n '#273#226'y):'#13#10'%s');
+  Put(True,
+    'Agent.RootRecentTitle',
+    'T'#7879'p v'#224' th'#432' m'#7909'c g'#7847'n '#273#226'y');
+  Put(True,
+    'Agent.RootsHint',
+    'Ctrl+nh'#7845'p ho'#7863'c Shift+nh'#7845'p '#273#7875' ch'#7885'n nhi'#7873'u. Del x'#243'a v'#249'ng ch'#7885'n; nh'#7845'p chu'#7897't'
+        + ' ph'#7843'i '#273#7875' xem th'#234'm.');
+  Put(True,
+    'Agent.SelectAll',
+    'Ch'#7885'n t'#7845't c'#7843);
+  Put(True,
+    'Agent.SendHint',
+    'Ctrl+Enter c'#361'ng g'#7917'i.');
+  Put(True,
+    'Agent.SqlChanges',
+    '%d d'#242'ng s'#7869' thay '#273#7893'i trong %d '#273#7873' xu'#7845't. Ch'#432'a ghi g'#236': xem l'#7841'i trong tab "'
+        + 'Ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't" v'#224' nh'#7845'p "Ch'#7845'p nh'#7853'n".');
+  Put(True,
+    'Agent.SqlDirect',
+    #272#227' ph'#225't hi'#7879'n c'#226'u l'#7879'nh SQL: ch'#7841'y tr'#7921'c ti'#7871'p b'#7857'ng FastFile, kh'#244'ng qua AI.');
+  Put(True,
+    'Agent.SqlNoChange',
+    'Kh'#244'ng c'#243' d'#242'ng n'#224'o thay '#273#7893'i, n'#234'n kh'#244'ng c'#243' '#273#7873' xu'#7845't.');
+  Put(True,
+    'Agent.SqlQuery',
+    'C'#226'u l'#7879'nh SQL do FastFile ch'#7841'y:');
+  Put(True,
+    'Agent.SqlRowsAll',
+    'K'#7871't qu'#7843': %d h'#224'ng:');
+  Put(True,
+    'Agent.SqlRowsSome',
+    'K'#7871't qu'#7843': '#273'ang hi'#7879'n %d trong s'#7889' %d h'#224'ng:');
+  Put(True,
+    'Agent.SqlRunning',
+    #272'ang ch'#7841'y SQL...');
+  Put(True,
+    'Agent.SqlSkipped',
+    'L'#432'u '#253': %s '#273#227' b'#7887' qua %d gi'#225' tr'#7883' kh'#244'ng ph'#7843'i s'#7889'.');
+  Put(True,
+    'Agent.Step1',
+    '1. Ch'#7885'n t'#7879'p ho'#7863'c th'#432' m'#7909'c');
+  Put(True,
+    'Agent.Step2',
+    '2. M'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n');
+  Put(True,
+    'Agent.Step3',
+    '3. Xem l'#7841'i k'#7871't qu'#7843);
+  Put(True,
+    'Agent.ToolAsk',
+    'H'#7887'i AI');
+  Put(True,
+    'Agent.ToolAskHint',
+    'H'#7887'i AI m'#7897't c'#226'u v'#7873' n'#7897'i dung n'#224'y. Tr'#7843' l'#7901'i hi'#7879'n trong Tr'#7843' l'#7901'i.');
+  Put(True,
+    'Agent.ToolClear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'Agent.ToolClearAnswerHint',
+    'X'#243'a s'#7841'ch c'#226'u tr'#7843' l'#7901'i.');
+  Put(True,
+    'Agent.ToolClearPromptHint',
+    'X'#243'a s'#7841'ch v'#259'n b'#7843'n y'#234'u c'#7847'u.');
+  Put(True,
+    'Agent.ToolClearRootsHint',
+    'X'#243'a c'#225'c ngu'#7891'n '#273#227' ch'#7885'n (ho'#7863'c t'#7845't c'#7843', sau khi x'#225'c nh'#7853'n).');
+  Put(True,
+    'Agent.ToolCopy',
+    'Sao ch'#233'p');
+  Put(True,
+    'Agent.ToolCopyHint',
+    'Sao ch'#233'p v'#224'o Clipboard (v'#259'n b'#7843'n '#273#227' ch'#7885'n, ho'#7863'c t'#7845't c'#7843').');
+  Put(True,
+    'Agent.ToolCopyRootsHint',
+    'Sao ch'#233'p '#273#432#7901'ng d'#7851'n c'#7911'a c'#225'c ngu'#7891'n '#273#227' ch'#7885'n (ho'#7863'c c'#7911'a t'#7845't c'#7843').');
+  Put(True,
+    'Agent.ToolNew',
+    'M'#7899'i');
+  Put(True,
+    'Agent.ToolNewAnswerHint',
+    'L'#432'u y'#234'u c'#7847'u v'#224' c'#226'u tr'#7843' l'#7901'i v'#224'o t'#7879'p v'#259'n b'#7843'n (th'#432' m'#7909'c AgentHistory), r'#7891'i'
+        + ' x'#243'a s'#7841'ch c'#226'u tr'#7843' l'#7901'i');
+  Put(True,
+    'Agent.ToolNewPromptHint',
+    'L'#432'u y'#234'u c'#7847'u n'#224'y trong Y'#234'u c'#7847'u g'#7847'n '#273#226'y, r'#7891'i x'#243'a s'#7841'ch '#273#7875' b'#7855't '#273#7847'u y'#234'u c'#7847'u'
+        + ' m'#7899'i');
+  Put(True,
+    'Agent.ToolNewRootsHint',
+    'L'#432'u danh s'#225'ch t'#7879'p v'#224' th'#432' m'#7909'c v'#224'o t'#7879'p v'#259'n b'#7843'n (th'#432' m'#7909'c AgentHistory), r'
+        + #7891'i x'#243'a t'#7845't c'#7843);
+  Put(True,
+    'Agent.TotalFound',
+    'T'#7893'ng: t'#236'm th'#7845'y %d b'#7843'n ghi.');
+  Put(True,
+    'Agent.TotalFoundFor',
+    'T'#7893'ng: t'#236'm th'#7845'y %d b'#7843'n ghi cho %s.');
+  Put(True,
+    'Agent.TotalShort',
+    'T'#7893'ng: %d b'#7843'n ghi');
+  Put(True,
+    'All',
+    'T'#7845't c'#7843);
+  Put(True,
+    'All files (*.*)',
+    'T'#7845't c'#7843' t'#7879'p (*.*)');
+  Put(True,
+    'All files (*.*)|*.*',
+    'T'#7845't c'#7843' t'#7879'p (*.*)|*.*');
+  Put(True,
+    'All lines captured in this Tail session',
+    'T'#7845't c'#7843' d'#242'ng '#273#227' ghi trong phi'#234'n Tail n'#224'y');
+  Put(True,
+    'All visible lines',
+    'T'#7845't c'#7843' d'#242'ng '#273'ang hi'#7879'n');
+  Put(True,
+    'Allow',
+    'Cho ph'#233'p');
+  Put(True,
+    'Allow animation',
+    'Cho ph'#233'p ho'#7841't '#7843'nh');
+  Put(True,
+    'Already running...',
+    #272'ang ch'#7841'y r'#7891'i...');
+  Put(True,
+    'Also save macro results to file:',
+    'C'#361'ng l'#432'u k'#7871't qu'#7843' macro v'#224'o t'#7879'p:');
+  Put(True,
+    'Alternate - drop numeric duplicate suffix from profile URL:',
+    'Ph'#432#417'ng '#225'n kh'#225'c - b'#7887' h'#7853'u t'#7889' s'#7889' tr'#249'ng kh'#7887'i URL h'#7891' s'#417':');
+  Put(True,
+    'Anon.AllCaps',
+    'Coi c'#225'c t'#7915' VI'#7870'T HOA to'#224'n b'#7897' l'#224' t'#234'n');
+  Put(True,
+    'Anon.Apply',
+    #7848'n danh h'#243'a...');
+  Put(True,
+    'Anon.BusyClose',
+    #7848'n danh h'#243'a v'#7851'n '#273'ang ghi v'#224'o t'#7879'p. Vui l'#242'ng '#273#7907'i ho'#224'n t'#7845't tr'#432#7899'c khi '#273#243'ng'
+        + '.');
+  Put(True,
+    'Anon.Cancel',
+    'H'#7911'y');
+  Put(True,
+    'Anon.CancelledPartial',
+    #272#227' h'#7911'y '#7849'n danh h'#243'a. Kh'#244'ng c'#243' d'#7919' li'#7879'u ho'#224'n t'#225'c, ph'#7847'n '#273#227' x'#7917' l'#253' v'#7851'n b'#7883' '#7849'n'
+        + ' danh h'#243'a.');
+  Put(True,
+    'Anon.CancelledReverted',
+    #272#227' h'#7911'y '#7849'n danh h'#243'a. T'#7879'p '#273#227' '#273#432#7907'c kh'#244'i ph'#7909'c v'#7873' tr'#7841'ng th'#225'i ban '#273#7847'u.');
+  Put(True,
+    'Anon.Codes',
+    'M'#227' (ch'#7919' + s'#7889', v'#237' d'#7909' ABC-123)');
+  Put(True,
+    'Anon.Col.Anonymized',
+    #272#227' '#7849'n danh h'#243'a');
+  Put(True,
+    'Anon.Col.Line',
+    'D'#242'ng');
+  Put(True,
+    'Anon.Col.Original',
+    'G'#7889'c');
+  Put(True,
+    'Anon.Columns',
+    'C'#7897't:');
+  Put(True,
+    'Anon.Columns.Hint',
+    'C'#225'c c'#7897't c'#7847'n '#7849'n danh h'#243'a, v'#237' d'#7909' 2,4-6 (tr'#7889'ng = t'#7845't c'#7843')');
+  Put(True,
+    'Anon.ConfirmNoUndo',
+    #7848'n danh h'#243'a %s (%s) tr'#7921'c ti'#7871'p trong t'#7879'p KH'#212'NG c'#243' d'#7919' li'#7879'u ho'#224'n t'#225'c?'#13#10#13#10
+        + 'Kh'#244'ng th'#7875' ho'#224'n t'#225'c. H'#227'y ch'#7855'c ch'#7855'n b'#7841'n c'#243' b'#7843'n sao c'#7911'a t'#7879'p g'#7889'c.');
+  Put(True,
+    'Anon.ConfirmSample',
+    'V'#237' d'#7909' v'#7873' thay '#273#7893'i (t'#7915' b'#7843'n xem tr'#432#7899'c):');
+  Put(True,
+    'Anon.ConfirmSample.Line',
+    'D'#242'ng %d:');
+  Put(True,
+    'Anon.ConfirmUndo',
+    #7848'n danh h'#243'a %s (%s) tr'#7921'c ti'#7871'p trong t'#7879'p?'#13#10#13#10'K'#237'ch th'#432#7899'c t'#7879'p v'#224' b'#7889' c'#7909'c d'
+        + #242'ng gi'#7919' nguy'#234'n. B'#7841'n c'#243' th'#7875' ho'#224'n t'#225'c sau b'#7857'ng Ctrl+Z.');
+  Put(True,
+    'Anon.Consistent',
+    'Nh'#7845't qu'#225'n (c'#249'ng gi'#225' tr'#7883' '#8594' c'#249'ng thay th'#7871')');
+  Put(True,
+    'Anon.Dates',
+    'Ng'#224'y v'#224' gi'#7901);
+  Put(True,
+    'Anon.Delimiter.Comma',
+    'D'#7845'u ph'#7849'y (,)');
+  Put(True,
+    'Anon.Delimiter.None',
+    'Kh'#244'ng c'#243' d'#7845'u ph'#226'n c'#225'ch');
+  Put(True,
+    'Anon.Delimiter.Pipe',
+    'D'#7845'u g'#7841'ch '#273#7913'ng (|)');
+  Put(True,
+    'Anon.Delimiter.Semicolon',
+    'D'#7845'u ch'#7845'm ph'#7849'y (;)');
+  Put(True,
+    'Anon.Delimiter.Tab',
+    'Tab');
+  Put(True,
+    'Anon.Desc.Lines',
+    '%d d'#242'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'Anon.Desc.Range',
+    'd'#242'ng %d '#273#7871'n %d');
+  Put(True,
+    'Anon.Desc.WholeFile',
+    'to'#224'n b'#7897' t'#7879'p');
+  Put(True,
+    'Anon.Detail.Anonymized',
+    #272#227' '#7849'n danh h'#243'a:');
+  Put(True,
+    'Anon.Detail.Original',
+    'G'#7889'c:');
+  Put(True,
+    'Anon.Done',
+    #7848'n danh h'#243'a xong: %d d'#242'ng '#273#227' '#273#7893'i, %s '#273#432#7907'c ghi l'#7841'i trong %s.');
+  Put(True,
+    'Anon.DoneUndoHint',
+    'Nh'#7845'n Ctrl+Z (Ho'#224'n t'#225'c) '#273#7875' kh'#244'i ph'#7909'c d'#7919' li'#7879'u g'#7889'c.');
+  Put(True,
+    'Anon.Emails',
+    #272#7883'a ch'#7881' e-mail');
+  Put(True,
+    'Anon.ErrColumns',
+    'Danh s'#225'ch c'#7897't kh'#244'ng h'#7907'p l'#7879'. D'#249'ng s'#7889' v'#224' kho'#7843'ng nh'#432' 1,3,5-7.');
+  Put(True,
+    'Anon.ErrNoSelection',
+    'Kh'#244'ng c'#243' d'#242'ng n'#224'o '#273#432#7907'c ch'#7885'n. Ch'#7885'n d'#242'ng trong danh s'#225'ch ho'#7863'c ch'#7885'n ph'#7841'm '
+        + 'vi kh'#225'c.');
+  Put(True,
+    'Anon.ErrRange',
+    'Kho'#7843'ng d'#242'ng kh'#244'ng h'#7907'p l'#7879'. D'#249'ng s'#7889' t'#7915' 1 '#273#7871'n %s, v'#7899'i "t'#7915'" kh'#244'ng l'#7899'n h'#417'n '
+        + '"'#273#7871'n".');
+  Put(True,
+    'Anon.Failed',
+    #7848'n danh h'#243'a th'#7845't b'#7841'i: %s');
+  Put(True,
+    'Anon.FailedPartial',
+    #7848'n danh h'#243'a th'#7845't b'#7841'i: %s'#13#10#13#10'Kh'#244'ng c'#243' d'#7919' li'#7879'u ho'#224'n t'#225'c, m'#7897't ph'#7847'n t'#7879'p c'#243
+        + ' th'#7875' '#273#227' b'#7883' '#7849'n danh h'#243'a.');
+  Put(True,
+    'Anon.FailedReverted',
+    #7848'n danh h'#243'a th'#7845't b'#7841'i: %s'#13#10#13#10'T'#7879'p '#273#227' '#273#432#7907'c kh'#244'i ph'#7909'c v'#7873' tr'#7841'ng th'#225'i ban '#273#7847
+        + 'u.');
+  Put(True,
+    'Anon.Hist.DeleteAll',
+    'T'#7845't c'#7843' s'#7921' ki'#7879'n '#7849'n danh h'#243'a');
+  Put(True,
+    'Anon.Hist.DeleteAllConfirm',
+    'X'#243'a t'#7845't c'#7843' s'#7921' ki'#7879'n '#7849'n danh h'#243'a kh'#7887'i l'#7883'ch s'#7917' c'#7911'a t'#7879'p n'#224'y?'#13#10#13#10'Ch'#7881' l'#7883'ch s'
+        + #7917' thay '#273#7893'i: d'#7919' li'#7879'u t'#7879'p v'#224' ho'#224'n t'#225'c gi'#7919' nguy'#234'n.');
+  Put(True,
+    'Anon.Hist.DeleteLine',
+    'S'#7921' ki'#7879'n c'#7911'a d'#242'ng %d');
+  Put(True,
+    'Anon.Hist.DeleteLineConfirm',
+    'X'#243'a kh'#7887'i l'#7883'ch s'#7917' c'#225'c s'#7921' ki'#7879'n '#7849'n danh h'#243'a c'#243' ch'#7913'a d'#242'ng %d?'#13#10#13#10'Ch'#7881' l'#7883'ch '
+        + 's'#7917' thay '#273#7893'i: d'#7919' li'#7879'u t'#7879'p v'#224' ho'#224'n t'#225'c gi'#7919' nguy'#234'n.');
+  Put(True,
+    'Anon.Hist.DeleteMenu',
+    'X'#243'a '#7849'n danh h'#243'a kh'#7887'i l'#7883'ch s'#7917);
+  Put(True,
+    'Anon.Hist.Deleted',
+    'M'#7909'c '#7849'n danh h'#243'a '#273#227' x'#243'a kh'#7887'i l'#7883'ch s'#7917': %d');
+  Put(True,
+    'Anon.Hist.Lines',
+    #7848'n danh h'#243'a d'#7919' li'#7879'u: %d d'#242'ng k'#7875' t'#7915' d'#242'ng %d');
+  Put(True,
+    'Anon.Hist.NoDetail',
+    '(ch'#7881' t'#243'm t'#7855't: tr'#432#7899'c/sau '#273#432#7907'c ghi theo d'#242'ng t'#7889'i '#273'a 2000 d'#242'ng; b'#7843'n ghi c'
+        + #361' h'#417'n kh'#244'ng c'#243')');
+  Put(True,
+    'Anon.Hist.Tag',
+    #272#195' '#7848'N DANH H'#211'A');
+  Put(True,
+    'Anon.Hist.WholeFile',
+    #7848'n danh h'#243'a d'#7919' li'#7879'u: to'#224'n b'#7897' t'#7879'p');
+  Put(True,
+    'Anon.HistoryNote',
+    #272#227' '#7849'n danh h'#243'a: %s');
+end;
+
+procedure AddVietnamesePart06(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Anon.Info',
+    'Ph'#7841'm vi: %s. Xem tr'#432#7899'c: %d trong %d d'#242'ng thay '#273#7893'i. '#431#7899'c t'#237'nh d'#7919' li'#7879'u ho'
+        + #224'n t'#225'c: %s.');
+  Put(True,
+    'Anon.InfoNoUndo',
+    'Ph'#7841'm vi: %s. Xem tr'#432#7899'c: %d trong %d d'#242'ng thay '#273#7893'i. Kh'#244'ng c'#243' d'#7919' li'#7879'u ho'
+        + #224'n t'#225'c th'#236' thay '#273#7893'i l'#224' v'#297'nh vi'#7877'n.');
+  Put(True,
+    'Anon.JournalMissing',
+    'D'#7919' li'#7879'u ho'#224'n t'#225'c cho l'#7847'n '#7849'n danh h'#243'a n'#224'y kh'#244'ng c'#242'n. Thao t'#225'c '#273#227' b'#7883' x'#243'a'
+        + ' kh'#7887'i danh s'#225'ch ho'#224'n t'#225'c.');
+  Put(True,
+    'Anon.KeepUndo',
+    'Gi'#7919' d'#7919' li'#7879'u ho'#224'n t'#225'c (cho ph'#233'p Ho'#224'n t'#225'c / L'#224'm l'#7841'i)');
+  Put(True,
+    'Anon.KeepWords',
+    'Gi'#7919' c'#225'c t'#7915':');
+  Put(True,
+    'Anon.KeepWords.Hint',
+    'C'#225'c t'#7915' kh'#244'ng '#273#432#7907'c '#273#7893'i, c'#225'ch nhau b'#7857'ng kho'#7843'ng tr'#7855'ng ho'#7863'c d'#7845'u ph'#7849'y');
+  Put(True,
+    'Anon.Key',
+    'Kh'#243'a:');
+  Put(True,
+    'Anon.Key.Hint',
+    'C'#249'ng m'#7897't kh'#243'a t'#7841'o c'#249'ng c'#225'c thay th'#7871', k'#7875' c'#7843' '#7903' t'#7879'p kh'#225'c. H'#227'y gi'#7919' b'#237' m'#7853't.');
+  Put(True,
+    'Anon.Menu',
+    #7848'n danh h'#243'a d'#7919' li'#7879'u');
+  Put(True,
+    'Anon.Menu.File',
+    #7848'n danh h'#243'a to'#224'n b'#7897' t'#7879'p...');
+  Put(True,
+    'Anon.Menu.Selected',
+    #7848'n danh h'#243'a c'#225'c d'#242'ng '#273#227' ch'#7885'n...');
+  Put(True,
+    'Anon.MinDigits',
+    't'#7889'i thi'#7875'u ch'#7919' s'#7889':');
+  Put(True,
+    'Anon.NewKey',
+    'Kh'#243'a m'#7899'i');
+  Put(True,
+    'Anon.NothingChanged',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' '#7849'n danh h'#243'a trong ph'#7841'm vi '#273#227' ch'#7885'n v'#7899'i c'#225'c t'#249'y ch'#7885'n n'#224'y.'
+        + ' T'#7879'p kh'#244'ng b'#7883' thay '#273#7893'i.');
+  Put(True,
+    'Anon.Numbers',
+    'S'#7889' v'#224' gi'#225' tr'#7883);
+  Put(True,
+    'Anon.Options',
+    'T'#249'y ch'#7885'n');
+  Put(True,
+    'Anon.Preview',
+    'Xem tr'#432#7899'c (c'#225'c d'#242'ng '#273#7847'u c'#7911'a ph'#7841'm vi; x'#225'm = kh'#244'ng '#273#7893'i):');
+  Put(True,
+    'Anon.Progress.Apply',
+    #272'ang '#7849'n danh h'#243'a d'#7919' li'#7879'u...');
+  Put(True,
+    'Anon.Progress.Detail',
+    '%s / %s '#183' %.1f MB/s '#183' c'#242'n l'#7841'i %s');
+  Put(True,
+    'Anon.Progress.EtaCalc',
+    #273'ang t'#237'nh...');
+  Put(True,
+    'Anon.Progress.Redo',
+    #272'ang l'#224'm l'#7841'i '#7849'n danh h'#243'a...');
+  Put(True,
+    'Anon.Progress.Revert',
+    #272'ang ho'#224'n nguy'#234'n:');
+  Put(True,
+    'Anon.Progress.Undo',
+    #272'ang ho'#224'n t'#225'c '#7849'n danh h'#243'a...');
+  Put(True,
+    'Anon.RedoConfirm',
+    'L'#224'm l'#7841'i '#7849'n danh h'#243'a c'#7911'a %s?');
+  Put(True,
+    'Anon.Redone',
+    #272#227' l'#224'm l'#7841'i '#7849'n danh h'#243'a: %s');
+  Put(True,
+    'Anon.Refresh',
+    'L'#224'm m'#7899'i xem tr'#432#7899'c');
+  Put(True,
+    'Anon.Refreshed',
+    '(xem tr'#432#7899'c c'#7853'p nh'#7853't l'#250'c %s)');
+  Put(True,
+    'Anon.ResolveFailed',
+    'Kh'#244'ng t'#236'm th'#7845'y c'#225'c d'#242'ng '#273#227' ch'#7885'n trong t'#7879'p. '#272#7907'i t'#7879'p t'#7843'i xong r'#7891'i th'#7917' l'#7841
+        + 'i.');
+  Put(True,
+    'Anon.Scope',
+    'Ph'#7841'm vi');
+  Put(True,
+    'Anon.Scope.File',
+    'To'#224'n b'#7897' t'#7879'p (%s)');
+  Put(True,
+    'Anon.Scope.LimitNote',
+    'V'#249'ng ch'#7885'n ho'#7863'c kho'#7843'ng d'#242'ng c'#243' th'#7875' d'#249'ng t'#7889'i '#273'a %d d'#242'ng. To'#224'n b'#7897' t'#7879'p kh'#244
+        + 'ng b'#7883' gi'#7899'i h'#7841'n. '#272#7893'i trong T'#249'y ch'#7885'n.');
+  Put(True,
+    'Anon.Scope.Range',
+    'Kho'#7843'ng d'#242'ng (t'#7915' - '#273#7871'n):');
+  Put(True,
+    'Anon.Scope.Selection',
+    'C'#225'c d'#242'ng '#273#227' ch'#7885'n (%d trong %d)');
+  Put(True,
+    'Anon.Scope.TotalLines',
+    'T'#7879'p c'#243' %s d'#242'ng.');
+  Put(True,
+    'Anon.SkipHeader',
+    'Gi'#7919' d'#242'ng '#273#7847'u (ti'#234'u '#273#7873')');
+  Put(True,
+    'Anon.SwapFailed',
+    'Kh'#244'ng ho'#224'n t'#7845't '#273#432#7907'c thao t'#225'c: %s');
+  Put(True,
+    'Anon.Title',
+    #7848'n danh h'#243'a d'#7919' li'#7879'u');
+  Put(True,
+    'Anon.Truncated',
+    '(d'#242'ng d'#224'i: ch'#7881' hi'#7879'n ph'#7847'n '#273#7847'u)');
+  Put(True,
+    'Anon.UndoConfirm',
+    'Ho'#224'n t'#225'c '#7849'n danh h'#243'a c'#7911'a %s? D'#7919' li'#7879'u g'#7889'c s'#7869' '#273#432#7907'c kh'#244'i ph'#7909'c.');
+  Put(True,
+    'Anon.UndoMismatch',
+    'T'#7879'p '#273#227' thay '#273#7893'i sau l'#7847'n '#7849'n danh h'#243'a (ngo'#224'i l'#7883'ch s'#7917' ho'#224'n t'#225'c n'#224'y), n'#234'n '
+        + 'kh'#244'ng th'#7875' ho'#224'n t'#225'c an to'#224'n. Kh'#244'ng c'#243' g'#236' thay '#273#7893'i v'#224' thao t'#225'c '#273#227' b'#7883' x'#243'a'
+        + ' kh'#7887'i danh s'#225'ch.');
+  Put(True,
+    'Anon.Undone',
+    #272#227' ho'#224'n t'#225'c '#7849'n danh h'#243'a: %s');
+  Put(True,
+    'Anon.What',
+    'Nh'#7919'ng g'#236' c'#7847'n '#7849'n danh h'#243'a');
+  Put(True,
+    'Anon.Words',
+    'T'#7915':');
+  Put(True,
+    'Anon.Words.All',
+    'T'#7845't c'#7843' t'#7915);
+  Put(True,
+    'Anon.Words.Names',
+    'T'#234'n (t'#7915' vi'#7871't hoa ch'#7919' c'#225'i '#273#7847'u)');
+  Put(True,
+    'Anon.Words.None',
+    'Gi'#7919' t'#7845't c'#7843' t'#7915);
+  Put(True,
+    'Anonymize from line %d to the end',
+    #7848'n danh h'#243'a t'#7915' d'#242'ng %d '#273#7871'n cu'#7889'i');
+  Put(True,
+    'Anonymize lines %d-%d',
+    #7848'n danh h'#243'a d'#242'ng %d-%d');
+  Put(True,
+    'Anonymize name after %s (VBScript-safe; no lookbehind):',
+    #7848'n danh h'#243'a t'#234'n sau %s (an to'#224'n VBScript; kh'#244'ng lookbehind):');
+  Put(True,
+    'Anonymize the whole file',
+    #7848'n danh h'#243'a to'#224'n b'#7897' t'#7879'p');
+  Put(True,
+    'Another edit or undo is still in progress. Please wait.',
+    'M'#7897't ch'#7881'nh s'#7917'a ho'#7863'c ho'#224'n t'#225'c kh'#225'c v'#7851'n '#273'ang ch'#7841'y. Vui l'#242'ng '#273#7907'i.');
+  Put(True,
+    'Another script or tail macro is already running.',
+    'M'#7897't script ho'#7863'c macro Tail kh'#225'c '#273#227' '#273'ang ch'#7841'y.');
+  Put(True,
+    'Answer',
+    'Tr'#7843' l'#7901'i');
+  Put(True,
+    'Anywhere in the line - integer 100 or more (may match multiple columns'
+        + '):',
+    'B'#7845't k'#7923' '#273#226'u trong d'#242'ng - s'#7889' nguy'#234'n t'#7915' 100 tr'#7903' l'#234'n (c'#243' th'#7875' kh'#7899'p nhi'#7873'u c'#7897
+        + 't):');
+  Put(True,
+    'Appearance',
+    'Giao di'#7879'n');
+  Put(True,
+    'Application language',
+    'Ng'#244'n ng'#7919' '#7913'ng d'#7909'ng');
+  Put(True,
+    'Apply %d change(s) to the left file on disk?',
+    #193'p d'#7909'ng %d thay '#273#7893'i v'#224'o t'#7879'p b'#234'n tr'#225'i tr'#234'n '#273#297'a?');
+  Put(True,
+    'Apply %d change(s) to the right file on disk?',
+    #193'p d'#7909'ng %d thay '#273#7893'i v'#224'o t'#7879'p b'#234'n ph'#7843'i tr'#234'n '#273#297'a?');
+  Put(True,
+    'Apply every proposed edit?',
+    #193'p d'#7909'ng m'#7885'i ch'#7881'nh s'#7917'a '#273#227' '#273#7873' xu'#7845't?');
+  Put(True,
+    'Apply left to right (disk)',
+    #193'p d'#7909'ng tr'#225'i sang ph'#7843'i ('#273#297'a)');
+  Put(True,
+    'Apply right to left (disk)',
+    #193'p d'#7909'ng ph'#7843'i sang tr'#225'i ('#273#297'a)');
+  Put(True,
+    'Apply selected merge to the left file (disk)',
+    #193'p d'#7909'ng g'#7897'p '#273#227' ch'#7885'n v'#224'o t'#7879'p b'#234'n tr'#225'i ('#273#297'a)');
+  Put(True,
+    'Apply selected merge to the right file (disk)',
+    #193'p d'#7909'ng g'#7897'p '#273#227' ch'#7885'n v'#224'o t'#7879'p b'#234'n ph'#7843'i ('#273#297'a)');
+  Put(True,
+    'Apply the edit to %s?',
+    #193'p d'#7909'ng ch'#7881'nh s'#7917'a v'#224'o %s?');
+  Put(True,
+    'Apply to:',
+    #193'p d'#7909'ng v'#224'o:');
+  Put(True,
+    'Applying edits... %d%%',
+    #272'ang '#225'p d'#7909'ng ch'#7881'nh s'#7917'a... %d%%');
+  Put(True,
+    'Applying merge...',
+    #272'ang '#225'p d'#7909'ng g'#7897'p...');
+  Put(True,
+    'Archive',
+    'L'#432'u tr'#7919);
+  Put(True,
+    'Are you sure you want to delete this session history log file and its '
+        + 'directory?',
+    'B'#7841'n c'#243' ch'#7855'c mu'#7889'n x'#243'a t'#7879'p nh'#7853't k'#253' l'#7883'ch s'#7917' phi'#234'n n'#224'y v'#224' th'#432' m'#7909'c c'#7911'a n'#243'?');
+  Put(True,
+    'Arquivo de '#237'ndice n'#227'o encontrado (temp.txt). Releia o arquivo primeiro'
+        + '.',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p ch'#7881' m'#7909'c (temp.txt). Vui l'#242'ng '#273#7885'c l'#7841'i t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'Ask AI',
+    'H'#7887'i AI');
+  Put(True,
+    'Asking the model again...',
+    #272'ang h'#7887'i l'#7841'i AI...');
+  Put(True,
+    'Assistant.Agent.CannotStart',
+    'T'#225'c nh'#226'n AI kh'#244'ng th'#7875' b'#7855't '#273#7847'u y'#234'u c'#7847'u n'#224'y.');
+  Put(True,
+    'Assistant.Agent.Chip.Accept',
+    'Ch'#7845'p nh'#7853'n t'#7845't c'#7843);
+  Put(True,
+    'Assistant.Agent.Chip.Reject',
+    'T'#7915' ch'#7889'i t'#7845't c'#7843);
+  Put(True,
+    'Assistant.Agent.Chip.Review',
+    'Xem l'#7841'i trong T'#225'c nh'#226'n');
+  Put(True,
+    'Assistant.Agent.FromAgent',
+    'Y'#234'u c'#7847'u n'#224'y '#273#7871'n t'#7915' t'#225'c nh'#226'n AI, n'#234'n kh'#244'ng '#273#432#7907'c g'#7917'i l'#7841'i. H'#227'y h'#7887'i l'#7841'i b'#7857
+        + 'ng c'#225'ch kh'#225'c trong tab t'#225'c nh'#226'n AI.');
+  Put(True,
+    'Assistant.Agent.NoChanges',
+    'T'#225'c nh'#226'n AI k'#7871't th'#250'c m'#224' kh'#244'ng '#273#7873' xu'#7845't thay '#273#7893'i.');
+  Put(True,
+    'Assistant.Agent.Proposed',
+    '%d ch'#7881'nh s'#7917'a '#273#432#7907'c '#273#7873' xu'#7845't - ch'#432'a ghi g'#236'.');
+  Put(True,
+    'Assistant.Agent.Running',
+    'T'#225'c nh'#226'n AI '#273'ang x'#7917' l'#253' %s... (kh'#244'ng ghi g'#236' cho '#273#7871'n khi b'#7841'n ch'#7845'p nh'#7853'n)');
+  Put(True,
+    'Assistant.AgentMode',
+    'T'#225'c nh'#226'n');
+  Put(True,
+    'Assistant.AgentModeHint',
+    'Ch'#7871' '#273#7897' t'#225'c nh'#226'n: t'#225'c nh'#226'n AI '#273#7885'c t'#7879'p '#273'ang m'#7903' v'#224' '#273#7873' xu'#7845't ch'#7881'nh s'#7917'a. Kh'#244
+        + 'ng ghi g'#236' cho '#273#7871'n khi b'#7841'n nh'#7845'p Ch'#7845'p nh'#7853'n.');
+  Put(True,
+    'Assistant.AgentModeOff',
+    'T'#7855't ch'#7871' '#273#7897' t'#225'c nh'#226'n: Tr'#7907' l'#253' b'#236'nh th'#432#7901'ng.');
+  Put(True,
+    'Assistant.AgentModeOn',
+    'B'#7853't ch'#7871' '#273#7897' t'#225'c nh'#226'n: y'#234'u c'#7847'u g'#7917'i t'#7899'i t'#225'c nh'#226'n AI (t'#7879'p m'#7903', xem l'#7841'i tr'#432#7899
+        + 'c khi ghi).');
+  Put(True,
+    'Assistant.Cancelled',
+    #272#227' h'#7911'y.');
+  Put(True,
+    'Assistant.CharCountHint',
+    'S'#7889' k'#253' t'#7921' c'#242'n l'#7841'i (t'#7889'i '#273'a 500).');
+  Put(True,
+    'Assistant.ClearQuestion',
+    'X'#243'a s'#7841'ch c'#226'u h'#7887'i');
+  Put(True,
+    'Assistant.ClearReply',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'Assistant.Compose.SummaryDocTitle',
+    'T'#243'm t'#7855't t'#7879'p:');
+  Put(True,
+    'Assistant.ComposeFormats.Code',
+    'M'#227' ngu'#7891'n');
+  Put(True,
+    'Assistant.ComposeFormats.Docs',
+    'T'#224'i li'#7879'u');
+  Put(True,
+    'Assistant.ComposeFormats.Hint',
+    'C'#225'c lo'#7841'i t'#7879'p m'#224' tr'#7907' l'#253' c'#243' th'#7875' t'#7841'o.');
+  Put(True,
+    'Assistant.ComposeFormats.Intro',
+    'Tr'#7907' l'#253' c'#243' th'#7875' t'#7841'o c'#225'c ph'#7847'n m'#7903' r'#7897'ng n'#224'y:');
+  Put(True,
+    'Assistant.ComposeFormats.Text',
+    'V'#259'n b'#7843'n');
+  Put(True,
+    'Assistant.ComposeFormats.Title',
+    'C'#225'c lo'#7841'i t'#7879'p '#273#432#7907'c h'#7895' tr'#7907);
+  Put(True,
+    'Assistant.Confirm.ComposeWriteOutsideTemp',
+    'Ghi t'#7879'p '#273#227' t'#7841'o ra ngo'#224'i th'#432' m'#7909'c t'#7841'm c'#7911'a FastFile?'#13#10'%s');
+  Put(True,
+    'Assistant.ConfirmRun',
+    'Ch'#7841'y thao t'#225'c n'#224'y trong FastFile ngay?');
+  Put(True,
+    'Assistant.ConsumerGate.Blocked',
+    'FastFile s'#7869' kh'#244'ng m'#7903' cu'#7897'c tr'#242' chuy'#7879'n Python cho y'#234'u c'#7847'u n'#224'y. H'#227'y th'#7917' c'
+        + #244'ng c'#7909' g'#7889'c (g'#7897'p, l'#7885'c, xu'#7845't) ho'#7863'c di'#7877'n '#273#7841't l'#7841'i th'#224'nh c'#226'u h'#7887'i v'#7873' n'#7897'i dun'
+        + 'g/SQL.');
+  Put(True,
+    'Assistant.ConsumerGate.NotContentQuestion',
+    #272#226'y gi'#7889'ng thao t'#225'c tr'#236'nh so'#7841'n th'#7843'o FastFile (g'#7897'p, t'#225'ch, l'#7885'c, xu'#7845't, v.v'
+        + '.), kh'#244'ng ph'#7843'i c'#226'u h'#7887'i v'#7873' n'#7897'i dung t'#7879'p. D'#249'ng thanh c'#244'ng c'#7909' ho'#7863'c h'#7887'i c'#225
+        + 'ch ch'#7841'y c'#244'ng c'#7909' '#273#243'.');
+  Put(True,
+    'Assistant.ConsumerGate.NotSqlQuestion',
+    #272#226'y kh'#244'ng gi'#7889'ng c'#226'u h'#7887'i d'#7841'ng b'#7843'ng/SQL. '#272#7875' hi'#7875'u ngh'#297'a ho'#7863'c t'#243'm t'#7855't t'#7879'p,'
+        + ' h'#227'y h'#7887'i trong cu'#7897'c tr'#242' chuy'#7879'n Tr'#7907' l'#253' n'#224'y.');
+end;
+
+procedure AddVietnamesePart07(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Assistant.CopyReply',
+    'Sao ch'#233'p');
+  Put(True,
+    'Assistant.CountingDetail',
+    #272'ang '#273#7885'c t'#7879'p tr'#234'n '#273#297'a...');
+  Put(True,
+    'Assistant.CountingFile',
+    #272'ang '#273#7871'm d'#242'ng trong t'#7879'p...');
+  Put(True,
+    'Assistant.Done',
+    'Xong.');
+  Put(True,
+    'Assistant.DontShowAgain',
+    'Kh'#244'ng hi'#7879'n tr'#7907' l'#253' n'#224'y khi kh'#7903'i '#273#7897'ng');
+  Put(True,
+    'Assistant.ElapsedAi',
+    'Th'#7901'i gian ph'#7843'n h'#7891'i AI: %s');
+  Put(True,
+    'Assistant.ElapsedExecute',
+    'Th'#7901'i gian th'#7921'c thi: %s');
+  Put(True,
+    'Assistant.Error.ChatFileMissing',
+    'T'#7879'p n'#224'y kh'#244'ng t'#7891'n t'#7841'i. S'#7917'a '#273#432#7901'ng d'#7851'n trong c'#226'u h'#7887'i (ho'#7863'c trong h'#7897'p t'#234'n'
+        + ' t'#7879'p) tr'#432#7899'c khi g'#7917'i:'#13#10'%s');
+  Put(True,
+    'Assistant.Error.ChatPathIsFolder',
+    #272#432#7901'ng d'#7851'n '#273#243' l'#224' th'#432' m'#7909'c, kh'#244'ng ph'#7843'i t'#7879'p. H'#227'y '#273#432'a '#273#432#7901'ng d'#7851'n '#273#7847'y '#273#7911' c'#7911'a '
+        + 'm'#7897't t'#7879'p:'#13#10'%s');
+  Put(True,
+    'Assistant.Error.ComposeCancelled',
+    #272#227' h'#7911'y t'#7841'o t'#224'i li'#7879'u.');
+  Put(True,
+    'Assistant.Error.ComposeEmpty',
+    'M'#244' h'#236'nh tr'#7843' v'#7873' t'#224'i li'#7879'u tr'#7889'ng.');
+  Put(True,
+    'Assistant.Error.ComposeFormatUnsupported',
+    #272#7883'nh d'#7841'ng %s kh'#244'ng '#273#432#7907'c h'#7895' tr'#7907'.');
+  Put(True,
+    'Assistant.Error.ComposeGatewayEmpty',
+    'AI tr'#7843' v'#7873' t'#224'i li'#7879'u tr'#7889'ng. Th'#7917' l'#7841'i, ho'#7863'c y'#234'u c'#7847'u t'#243'm t'#7855't ng'#7855'n h'#417'n.');
+  Put(True,
+    'Assistant.Error.ComposeNothingToFix',
+    'Kh'#244'ng c'#243' t'#224'i li'#7879'u '#273#227' t'#7841'o '#273#7875' s'#7917'a. H'#227'y t'#7841'o t'#7879'p tr'#432#7899'c, ho'#7863'c '#273#432'a '#273#432#7901'ng d'#7851'n'
+        + ' .pas/.py/.md.');
+  Put(True,
+    'Assistant.Error.ComposeWriteFailed',
+    'Kh'#244'ng th'#7875' ghi t'#7879'p '#273#227' t'#7841'o.');
+  Put(True,
+    'Assistant.Error.ComposeWriteFailedAt',
+    'Kh'#244'ng th'#7875' l'#432'u t'#7879'p:'#13#10'%s');
+  Put(True,
+    'Assistant.Error.EmptyQuestion',
+    'H'#227'y g'#245' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n l'#224'm tr'#432#7899'c.');
+  Put(True,
+    'Assistant.Error.ExtractRange',
+    'Kho'#7843'ng ph'#7847'n kh'#244'ng h'#7907'p l'#7879' (ki'#7875'm tra total_parts, part_from, part_to).');
+  Put(True,
+    'Assistant.Error.FileNotFound',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p:');
+  Put(True,
+    'Assistant.Error.FilterTextRequired',
+    'C'#7847'n m'#7851'u l'#7885'c (filter_text) cho apply_filter.');
+  Put(True,
+    'Assistant.Error.HostNotReady',
+    'Tr'#7907' l'#253' ch'#432'a k'#7871't n'#7889'i v'#7899'i c'#7917'a s'#7893' ch'#237'nh.');
+  Put(True,
+    'Assistant.Error.LineOutOfRange',
+    'S'#7889' d'#242'ng n'#7857'm ngo'#224'i ph'#7841'm vi c'#7911'a t'#7879'p '#273'ang m'#7903'.');
+  Put(True,
+    'Assistant.Error.LineRangeRequired',
+    'C'#7847'n kho'#7843'ng d'#242'ng (v'#237' d'#7909' 3-10).');
+  Put(True,
+    'Assistant.Error.Network',
+    'Kh'#244'ng th'#7875' k'#7871't n'#7889'i d'#7883'ch v'#7909' AI.');
+  Put(True,
+    'Assistant.Error.NoFileOpen',
+    #272'i'#7873'n h'#7897'p t'#234'n t'#7879'p (ho'#7863'c m'#7903' m'#7897't t'#7879'p) tr'#432#7899'c, ho'#7863'c ghi '#273#432#7901'ng d'#7851'n '#273#7847'y '#273#7911' tr'
+        + 'ong y'#234'u c'#7847'u.');
+  Put(True,
+    'Assistant.Error.OutOfScopeHarmful',
+    'B'#7883' ch'#7863'n v'#236' an to'#224'n: FastFile s'#7869' kh'#244'ng '#273#7883'nh d'#7841'ng '#273#297'a, ch'#7841'y l'#7879'nh h'#7879' '#273'i'#7873'u'
+        + ' h'#224'nh, kh'#7903'i ch'#7841'y ch'#432#417'ng tr'#236'nh th'#7921'c thi, hay t'#7841'o ph'#7847'n m'#7873'm '#273#7897'c h'#7841'i/virus'
+        + '.'#13#10'Tr'#7907' l'#253' ch'#7881' gi'#250'p v'#7899'i t'#7879'p v'#259'n b'#7843'n v'#224' c'#225'c c'#244'ng c'#7909' trong FastFile.');
+  Put(True,
+    'Assistant.Error.PartsRange',
+    'S'#7889' ph'#7847'n ph'#7843'i n'#7857'm trong kho'#7843'ng 2 '#273#7871'n 1000.');
+  Put(True,
+    'Assistant.Error.PathRequired',
+    'C'#7847'n '#273#432#7901'ng d'#7851'n t'#7879'p '#273#7847'y '#273#7911' cho thao t'#225'c n'#224'y.');
+  Put(True,
+    'Assistant.Error.PdfUnicodeUnsupported',
+    'Xu'#7845't PDF '#273#417'n gi'#7843'n ch'#7881' h'#7895' tr'#7907' Windows-1252. D'#249'ng DOCX, ODT ho'#7863'c RTF cho'
+        + ' v'#259'n b'#7843'n n'#224'y.');
+  Put(True,
+    'Assistant.Error.RecentListOutOfRange',
+    'Kh'#244'ng c'#243' t'#7879'p '#7903' v'#7883' tr'#237' %d trong danh s'#225'ch t'#7879'p g'#7847'n '#273#226'y (tab Recent Files'
+        + ').');
+  Put(True,
+    'Assistant.Error.ReplaceTextRequired',
+    'C'#7847'n v'#259'n b'#7843'n thay th'#7871'.');
+  Put(True,
+    'Assistant.Error.UnknownAction',
+    'Y'#234'u c'#7847'u n'#224'y kh'#244'ng ph'#7843'i thao t'#225'c FastFile '#273#432#7907'c h'#7895' tr'#7907'.');
+  Put(True,
+    'Assistant.Execute',
+    '&Ch'#7841'y thao t'#225'c');
+  Put(True,
+    'Assistant.FileNoticeCopy',
+    'Sao ch'#233'p');
+  Put(True,
+    'Assistant.FileNoticeFolder',
+    'Th'#432' m'#7909'c');
+  Put(True,
+    'Assistant.FileNoticeOpen',
+    'M'#7903);
+  Put(True,
+    'Assistant.FixAi.Chip',
+    'S'#7917'a b'#7857'ng AI');
+  Put(True,
+    'Assistant.FixAi.Offer',
+    'X'#225'c th'#7921'c %s th'#7845't b'#7841'i. AI c'#243' th'#7875' s'#7917'a.');
+  Put(True,
+    'Assistant.FixAi.Question',
+    'S'#7917'a c'#225'c l'#7895'i x'#225'c th'#7921'c c'#7911'a t'#7879'p %s');
+  Put(True,
+    'Assistant.FixAi.Revalidated',
+    'T'#7879'p '#273#227' '#273#432#7907'c AI s'#7917'a v'#224' x'#225'c th'#7921'c l'#7841'i:');
+  Put(True,
+    'Assistant.FixAi.Running',
+    #272'ang g'#7917'i t'#7879'p v'#224' c'#225'c l'#7895'i t'#7899'i AI '#273#7875' s'#7917'a...');
+  Put(True,
+    'Assistant.Local.ChainReadSplit',
+    'FastFile s'#7869' '#273#7885'c t'#7879'p, r'#7891'i t'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau khi t'#7843'i xong.');
+  Put(True,
+    'Assistant.Local.WillApplyFilter',
+    'FastFile s'#7869' '#225'p d'#7909'ng b'#7897' l'#7885'c d'#242'ng tr'#234'n t'#7879'p '#273'ang m'#7903'.');
+  Put(True,
+    'Assistant.Local.WillComposeDocument',
+    #272'ang t'#7841'o t'#224'i li'#7879'u '#273#7897'c l'#7853'p. T'#7879'p s'#7869' '#273#432#7907'c ghi ra '#273#297'a; b'#7843'ng n'#224'y ch'#7881' hi'#7879'n '#273
+        + #432#7901'ng d'#7851'n.');
+  Put(True,
+    'Assistant.Local.WillComposeFileSummary',
+    'Quy tr'#236'nh b'#432#7899'c: t'#243'm t'#7855't t'#7879'p, r'#7891'i l'#432'u t'#224'i li'#7879'u Word (.rtf).');
+  Put(True,
+    'Assistant.Local.WillEditLine',
+    'FastFile s'#7869' t'#7899'i d'#242'ng v'#224' m'#7903' tr'#236'nh s'#7917'a d'#242'ng.');
+  Put(True,
+    'Assistant.Local.WillExportLines',
+    #272'ang xu'#7845't kho'#7843'ng d'#242'ng '#273#227' y'#234'u c'#7847'u ra m'#7897't t'#7879'p.');
+  Put(True,
+    'Assistant.Local.WillExportLinesRange',
+    #272'ang xu'#7845't d'#242'ng %s ra t'#7879'p m'#7899'i ('#273#432#7901'ng d'#7851'n hi'#7879'n khi b'#7855't '#273#7847'u xu'#7845't).');
+  Put(True,
+    'Assistant.Local.WillExportMatching',
+    'L'#7885'c c'#225'c d'#242'ng ch'#7913'a v'#259'n b'#7843'n, r'#7891'i xu'#7845't c'#225'c kh'#7899'p ra t'#7879'p .txt.');
+  Put(True,
+    'Assistant.Local.WillExtractPart',
+    'Tr'#237'ch m'#7897't ph'#7847'n c'#7911'a t'#7879'p (ki'#7875'u Ctrl+Shift+Q, c'#7847'n x'#225'c nh'#7853'n).');
+  Put(True,
+    'Assistant.Local.WillExtractPartAskFile',
+    'Tr'#237'ch m'#7897't ph'#7847'n t'#7879'p. Ch'#432'a m'#7903' t'#7879'p - b'#7841'n s'#7869' '#273#432#7907'c y'#234'u c'#7847'u ch'#7885'n t'#7879'p.');
+  Put(True,
+    'Assistant.Local.WillFindText',
+    'FastFile s'#7869' t'#236'm v'#259'n b'#7843'n trong t'#7879'p '#273'ang m'#7903' (kh'#7899'p '#273#7847'u ti'#234'n, t'#244' s'#225'ng List'
+        + 'View).');
+  Put(True,
+    'Assistant.Local.WillFixDocument',
+    #272'ang s'#7917'a l'#7841'i t'#7879'p '#273#227' t'#7841'o. FastFile s'#7869' ghi '#273#232'; b'#7843'ng n'#224'y ch'#7881' hi'#7879'n '#273#432#7901'ng d'
+        + #7851'n.');
+  Put(True,
+    'Assistant.Local.WillGotoLine',
+    'FastFile s'#7869' t'#7899'i d'#242'ng '#273#227' y'#234'u c'#7847'u (Ctrl+G) trong ListView.');
+  Put(True,
+    'Assistant.Local.WillMergeFiles',
+    'M'#7903' G'#7897'p t'#7879'p '#273#7875' n'#7889'i c'#225'c ph'#7847'n ho'#7863'c g'#7897'p ngu'#7891'n (d'#249'ng t'#7879'p '#273'ang m'#7903' n'#7871'u c'#243').');
+  Put(True,
+    'Assistant.Local.WillMergeFilesAskFile',
+    'N'#7889'i/g'#7897'p t'#7879'p. Ch'#432'a m'#7903' t'#7879'p - b'#7841'n s'#7869' '#273#432#7907'c y'#234'u c'#7847'u ch'#7885'n t'#7879'p.');
+  Put(True,
+    'Assistant.Local.WillReadFile',
+    'FastFile s'#7869' t'#7843'i v'#224' '#273#7885'c t'#7879'p b'#7841'n ch'#7881' '#273#7883'nh (tab Read, F5).');
+  Put(True,
+    'Assistant.Local.WillReplaceAll',
+    'Thay th'#7871' t'#7845't c'#7843' trong t'#7879'p '#273'ang m'#7903' (c'#7847'n x'#225'c nh'#7853'n).');
+  Put(True,
+    'Assistant.Local.WillShowConsumerAI',
+    'FastFile s'#7869' g'#7917'i c'#226'u h'#7887'i d'#7841'ng b'#7843'ng/SQL c'#7911'a b'#7841'n t'#7899'i '#273#7897'ng c'#417' Python. C'#226'u '
+        + 'tr'#7843' l'#7901'i gi'#7919' trong cu'#7897'c tr'#242' chuy'#7879'n Tr'#7907' l'#253' n'#224'y.');
+  Put(True,
+    'Assistant.Local.WillShowConsumerRAG',
+    'FastFile s'#7869' g'#7917'i c'#226'u h'#7887'i v'#7873' n'#7897'i dung t'#7879'p c'#7911'a b'#7841'n t'#7899'i '#273#7897'ng c'#417' ph'#226'n t'#237'ch '
+        + 'Python. C'#226'u tr'#7843' l'#7901'i gi'#7919' trong cu'#7897'c tr'#242' chuy'#7879'n Tr'#7907' l'#253' n'#224'y.');
+  Put(True,
+    'Assistant.Local.WillShowReadTab',
+    'FastFile s'#7869' m'#7903' m'#224'n h'#236'nh '#272#7885'c / t'#7843'i t'#7879'p.');
+  Put(True,
+    'Assistant.Local.WillShowScriptEngine',
+    'FastFile s'#7869' m'#7903' Macro v'#7899'i Python (Ctrl+Alt+E) '#273#7875' b'#7841'n ch'#7841'y script tr'#234'n c'
+        + #225'c d'#242'ng t'#7879'p.');
+  Put(True,
+    'Assistant.Local.WillShowTailMacro',
+    'FastFile s'#7869' m'#7903' b'#7843'ng macro Tail (Python) cho ch'#7871' '#273#7897' theo d'#245'i.');
+  Put(True,
+    'Assistant.Local.WillSplitEqual',
+    'T'#225'ch t'#7879'p '#273'ang m'#7903' th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau (an to'#224'n LF, c'#7847'n x'#225'c nh'#7853'n).');
+  Put(True,
+    'Assistant.Local.WillSplitEqualAskFile',
+    'T'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau. Ch'#432'a m'#7903' t'#7879'p - b'#7841'n s'#7869' '#273#432#7907'c y'#234'u c'#7847'u ch'#7885'n '
+        + 't'#7879'p.');
+  Put(True,
+    'Assistant.MenuItem',
+    'Tr'#7907' l'#253' AI...');
+  Put(True,
+    'Assistant.Offer.AskAI',
+    'H'#7887'i AI');
+  Put(True,
+    'Assistant.Offer.Chip.Compare',
+    'So s'#225'nh');
+  Put(True,
+    'Assistant.Offer.Chip.ConsumerAI',
+    'SQL AI');
+  Put(True,
+    'Assistant.Offer.Chip.ConsumerRAG',
+    'Tr'#242' chuy'#7879'n t'#7879'p');
+  Put(True,
+    'Assistant.Offer.Chip.Export',
+    'Xu'#7845't');
+  Put(True,
+    'Assistant.Offer.Chip.Index',
+    'T'#7841'o ch'#7881' m'#7909'c');
+  Put(True,
+    'Assistant.Offer.Chip.Merge',
+    'G'#7897'p');
+  Put(True,
+    'Assistant.Offer.Chip.OpenRead',
+    'M'#7903' / '#273#7885'c');
+  Put(True,
+    'Assistant.Offer.Chip.Script',
+    'Script');
+  Put(True,
+    'Assistant.Offer.CloseHint',
+    #7848'n g'#7907'i '#253' n'#224'y');
+  Put(True,
+    'Assistant.Offer.ConsumerAI',
+    'SQL / d'#7919' li'#7879'u AI');
+  Put(True,
+    'Assistant.Offer.ConsumerRAG',
+    'Tr'#242' chuy'#7879'n AI v'#7873' t'#7879'p');
+  Put(True,
+    'Assistant.Offer.Draft.Compare',
+    'So s'#225'nh xong. T'#244'i n'#234'n l'#224'm g'#236' v'#7899'i c'#225'c kh'#225'c bi'#7879't?');
+  Put(True,
+    'Assistant.Offer.Draft.CsvSort',
+    'T'#244'i v'#7915'a s'#7855'p x'#7871'p m'#7897't c'#7897't trong ch'#7871' '#273#7897' xem c'#243' d'#7845'u ph'#226'n c'#225'ch. T'#244'i n'#234'n l'#224'm'
+        + ' g'#236' ti'#7871'p?');
+  Put(True,
+    'Assistant.Offer.Draft.Dedupe',
+    'X'#243'a tr'#249'ng xong. G'#7907'i '#253' b'#432#7899'c x'#225'c minh ho'#7863'c xu'#7845't ti'#7871'p theo.');
+  Put(True,
+    'Assistant.Offer.Draft.Export',
+    'Xu'#7845't xong. T'#244'i n'#234'n l'#224'm g'#236' ti'#7871'p v'#7899'i k'#7871't qu'#7843' ho'#7863'c t'#7879'p ngu'#7891'n?');
+  Put(True,
+    'Assistant.Offer.Draft.Filter',
+    'B'#7897' l'#7885'c '#273#227' '#225'p d'#7909'ng. G'#7907'i '#253' b'#432#7899'c ti'#7871'p theo (xu'#7845't kh'#7899'p, ti'#7871'p t'#7909'c t'#236'm, x'#243'a '
+        + 's'#7841'ch b'#7897' l'#7885'c, h'#7887'i AI d'#7919' li'#7879'u).');
+  Put(True,
+    'Assistant.Offer.Draft.Find',
+    'T'#244'i v'#7915'a t'#236'm th'#7845'y v'#259'n b'#7843'n trong t'#7879'p. G'#7907'i '#253' b'#432#7899'c h'#7919'u '#237'ch ti'#7871'p theo (danh'
+        + ' s'#225'ch l'#7847'n xu'#7845't hi'#7879'n, thay th'#7871', xu'#7845't, l'#7885'c).');
+  Put(True,
+    'Assistant.Offer.Draft.FindCollect',
+    'T'#244'i '#273#227' thu th'#7853'p c'#225'c d'#242'ng kh'#7899'p. T'#244'i n'#234'n l'#224'm g'#236' ti'#7871'p (xu'#7845't, thay th'#7871', ti'
+        + 'nh ch'#7881'nh b'#7897' l'#7885'c, ph'#226'n t'#237'ch b'#7857'ng AI)?');
+  Put(True,
+    'Assistant.Offer.Draft.Generic',
+    'C'#242'n g'#236' n'#7919'a t'#244'i c'#243' th'#7875' l'#224'm v'#7899'i t'#7879'p n'#224'y trong FastFile?');
+  Put(True,
+    'Assistant.Offer.Draft.GrepGroups',
+    'B'#7843'ng grep c'#243' c'#225'c nh'#243'm '#273#432#7907'c '#273#7863't t'#234'n. T'#244'i n'#234'n l'#224'm g'#236' v'#7899'i c'#225'c c'#7897't n'#224'y?');
+  Put(True,
+    'Assistant.Offer.Draft.Index',
+    'Ch'#7881' m'#7909'c d'#242'ng '#273#227' s'#7861'n s'#224'ng. G'#7907'i '#253' quy tr'#236'nh t'#236'm/l'#7885'c nhanh h'#417'n cho t'#7879'p n'#224
+        + 'y.');
+  Put(True,
+    'Assistant.Offer.Draft.Merge',
+    'G'#7897'p xong. G'#7907'i '#253' b'#432#7899'c h'#7919'u '#237'ch ti'#7871'p theo cho t'#7879'p '#273#227' g'#7897'p.');
+  Put(True,
+    'Assistant.Offer.Draft.Read',
+    'T'#7879'p '#273#227' t'#7843'i. T'#244'i c'#243' th'#7875' l'#224'm g'#236' ti'#7871'p (t'#236'm, l'#7885'c, xu'#7845't, SQL/d'#7919' li'#7879'u AI, gi'
+        + #7843'i th'#237'ch t'#7879'p)?');
+  Put(True,
+    'Assistant.Offer.Draft.Replace',
+    'Thay th'#7871' xong. G'#7907'i '#253' c'#225'ch x'#225'c minh thay '#273#7893'i ho'#7863'c ti'#7871'p t'#7909'c ch'#7881'nh s'#7917'a.');
+  Put(True,
+    'Assistant.Offer.Draft.Script',
+    'Script xong. G'#7907'i '#253' c'#225'ch xem l'#7841'i '#273#7847'u ra ho'#7863'c ch'#7841'y ph'#233'p bi'#7871'n '#273#7893'i kh'#225'c.');
+  Put(True,
+    'Assistant.Offer.Draft.Session',
+    'Phi'#234'n n'#224'y gi'#7919' t'#7879'p, d'#242'ng, b'#7897' l'#7885'c, d'#7845'u trang v'#224' b'#7843'ng m'#227'. T'#244'i n'#234'n kh'#244'i ph'
+        + #7909'c ho'#7863'c '#273#7893'i g'#236'?');
+  Put(True,
+    'Assistant.Offer.Draft.Split',
+    'T'#225'ch t'#7879'p xong. G'#7907'i '#253' b'#432#7899'c ti'#7871'p theo (m'#7903' m'#7897't ph'#7847'n, g'#7897'p l'#7841'i, ph'#226'n t'#237'ch).');
+  Put(True,
+    'Assistant.Offer.DraftClearHint',
+    'X'#243'a s'#7841'ch g'#7907'i '#253' n'#224'y');
+  Put(True,
+    'Assistant.Offer.DraftClickHint',
+    'Nh'#7845'p '#273#250'p '#273#7875' sao ch'#233'p g'#7907'i '#253' n'#224'y v'#224'o h'#7897'p c'#226'u h'#7887'i.');
+  Put(True,
+    'Assistant.Offer.DraftCopyHint',
+    'Sao ch'#233'p g'#7907'i '#253' n'#224'y v'#224'o Clipboard');
+  Put(True,
+    'Assistant.Offer.FileInfo.Accessed',
+    'Truy c'#7853'p');
+  Put(True,
+    'Assistant.Offer.FileInfo.Created',
+    'T'#7841'o');
+  Put(True,
+    'Assistant.Offer.FileInfo.Lines',
+    'D'#242'ng');
+end;
+
+procedure AddVietnamesePart08(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Assistant.Offer.FileInfo.Modified',
+    'S'#7917'a '#273#7893'i');
+  Put(True,
+    'Assistant.Offer.FileInfo.NoFile',
+    'Hi'#7879'n kh'#244'ng c'#243' t'#7879'p n'#224'o '#273#432#7907'c t'#7843'i.');
+  Put(True,
+    'Assistant.Offer.FileInfo.Path',
+    #272#432#7901'ng d'#7851'n');
+  Put(True,
+    'Assistant.Offer.FileInfo.Size',
+    'K'#237'ch th'#432#7899'c');
+  Put(True,
+    'Assistant.Offer.FileInfo.Title',
+    'Th'#244'ng tin t'#7879'p '#273#227' t'#7843'i');
+  Put(True,
+    'Assistant.Offer.FileInfo.WindowsProps',
+    'Thu'#7897'c t'#237'nh Windows...');
+  Put(True,
+    'Assistant.Offer.MoreInfo',
+    'Th'#234'm th'#244'ng tin');
+  Put(True,
+    'Assistant.Offer.MoreInfoHint',
+    'Hi'#7879'n chi ti'#7871't v'#7873' t'#7879'p '#273#227' t'#7843'i');
+  Put(True,
+    'Assistant.Offer.Summary.Export',
+    'Xu'#7845't xong '#8212' %d d'#242'ng.');
+  Put(True,
+    'Assistant.Offer.Summary.Filter',
+    'L'#7885'c xong '#8212' %d d'#242'ng kh'#7899'p.');
+  Put(True,
+    'Assistant.Offer.Summary.Merge',
+    'G'#7897'p th'#224'nh c'#244'ng.');
+  Put(True,
+    'Assistant.Offer.Summary.Read',
+    'T'#7879'p s'#7861'n s'#224'ng '#8212' '#273#227' t'#7843'i %d d'#242'ng.');
+  Put(True,
+    'Assistant.Offer.Summary.Split',
+    'T'#225'ch xong '#8212' '#273#227' t'#7841'o %d ph'#7847'n.');
+  Put(True,
+    'Assistant.Offer.WhatNext',
+    'B'#7841'n mu'#7889'n l'#224'm g'#236' ti'#7871'p theo?');
+  Put(True,
+    'Assistant.Pipeline.Activity.compare',
+    'so s'#225'nh');
+  Put(True,
+    'Assistant.Pipeline.Activity.dedupe',
+    'x'#243'a tr'#249'ng');
+  Put(True,
+    'Assistant.Pipeline.Activity.export',
+    'xu'#7845't');
+  Put(True,
+    'Assistant.Pipeline.Activity.filter',
+    'l'#7885'c');
+  Put(True,
+    'Assistant.Pipeline.Activity.find_collect',
+    't'#236'm l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'Assistant.Pipeline.Activity.find_hit',
+    't'#236'm');
+  Put(True,
+    'Assistant.Pipeline.Activity.index',
+    'ch'#7881' m'#7909'c');
+  Put(True,
+    'Assistant.Pipeline.Activity.merge',
+    'g'#7897'p');
+  Put(True,
+    'Assistant.Pipeline.Activity.read',
+    #273#7885'c');
+  Put(True,
+    'Assistant.Pipeline.Activity.replace',
+    'thay th'#7871);
+  Put(True,
+    'Assistant.Pipeline.Activity.script',
+    'script');
+  Put(True,
+    'Assistant.Pipeline.Activity.split',
+    't'#225'ch');
+  Put(True,
+    'Assistant.Pipeline.ResumeDraft',
+    'Ti'#7871'p t'#7909'c t'#7915' ch'#7895' ch'#250'ng ta d'#7915'ng trong FastFile. Ho'#7841't '#273#7897'ng g'#7847'n nh'#7845't: %s. '
+        + 'T'#243'm t'#7855't: %s.');
+  Put(True,
+    'Assistant.Pipeline.ResumeFile',
+    'T'#7879'p: %s.');
+  Put(True,
+    'Assistant.Pipeline.ResumeHits',
+    'Kh'#7899'p: %s.');
+  Put(True,
+    'Assistant.Pipeline.ResumeNeedle',
+    'V'#259'n b'#7843'n t'#236'm/l'#7885'c: "%s".');
+  Put(True,
+    'Assistant.Pipeline.ResumeSuggest',
+    'G'#7907'i '#253' c'#225'c b'#432#7899'c c'#7909' th'#7875' ti'#7871'p theo v'#224', n'#7871'u h'#7919'u '#237'ch, c'#225'c thao t'#225'c FastFile'
+        + ' ch'#237'nh x'#225'c c'#7847'n ch'#7841'y.');
+  Put(True,
+    'Assistant.Popup.PasteLinesFile',
+    'D'#225'n d'#242'ng v'#224'o t'#7879'p');
+  Put(True,
+    'Assistant.Processing',
+    #272'ang x'#7917' l'#253' Tr'#7907' l'#253' AI...');
+  Put(True,
+    'Assistant.ProcessingDetail',
+    #272'ang ch'#7901' m'#244' h'#236'nh...');
+  Put(True,
+    'Assistant.Prompt.SelectFileToJoin',
+    'Ch'#7885'n t'#7879'p '#273#7875' n'#7889'i/g'#7897'p (ho'#7863'c b'#7845't k'#7923' t'#7879'p anh em .part001)');
+  Put(True,
+    'Assistant.Prompt.SelectFileToSplit',
+    'Ch'#7885'n t'#7879'p '#273#7875' t'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau');
+  Put(True,
+    'Assistant.PythonBtn',
+    'Python');
+  Put(True,
+    'Assistant.PythonHint',
+    'M'#7903' Script Engine (macro Python) cho c'#225'c d'#242'ng ListView '#273#227' ch'#7885'n ho'#7863'c '#273#227' '
+        + #273#225'nh d'#7845'u.');
+  Put(True,
+    'Assistant.RecentQuestions',
+    'C'#226'u h'#7887'i g'#7847'n '#273#226'y');
+  Put(True,
+    'Assistant.RecentQuestionsEmpty',
+    '(ch'#432'a c'#243' c'#226'u h'#7887'i g'#7847'n '#273#226'y)');
+  Put(True,
+    'Assistant.RecentQuestionsHint',
+    'Ch'#7885'n m'#7897't c'#226'u h'#7887'i g'#7847'n '#273#226'y '#273#7875' d'#249'ng l'#7841'i trong h'#7897'p b'#234'n d'#432#7899'i.');
+  Put(True,
+    'Assistant.RecentQuestionsMore',
+    'Hi'#7879'n th'#234'm');
+  Put(True,
+    'Assistant.RecentQuestionsMoreHint',
+    'Hi'#7879'n c'#225'c c'#226'u h'#7887'i g'#7847'n '#273#226'y c'#242'n l'#7841'i');
+  Put(True,
+    'Assistant.Reply',
+    'Tr'#7843' l'#7901'i');
+  Put(True,
+    'Assistant.Reply.LineContainsCount',
+    'C'#225'c d'#242'ng ch'#7913'a "%s": %s.');
+  Put(True,
+    'Assistant.Reply.LinePrefixCount',
+    'C'#225'c d'#242'ng b'#7855't '#273#7847'u b'#7857'ng "%s": %s.');
+  Put(True,
+    'Assistant.Reply.LinePrefixCountScanned',
+    'T'#7893'ng s'#7889' d'#242'ng '#273#227' qu'#233't: %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileAccessed',
+    'L'#7847'n truy c'#7853'p g'#7847'n nh'#7845't c'#7911'a "%s": %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileCreated',
+    'Ng'#224'y t'#7841'o c'#7911'a "%s": %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileLineCount',
+    'T'#7879'p "%s" c'#243' %s d'#242'ng.');
+  Put(True,
+    'Assistant.Reply.OpenFileLineCountUnknown',
+    'S'#7889' d'#242'ng ch'#432'a c'#243'. H'#227'y m'#7903'/'#273#7885'c t'#7879'p tr'#432#7899'c ('#273#432#7901'ng d'#7851'n trong h'#7897'p t'#7879'p).');
+  Put(True,
+    'Assistant.Reply.OpenFileMetaUnavailable',
+    'Kh'#244'ng '#273#7885'c '#273#432#7907'c ng'#224'y/k'#237'ch th'#432#7899'c t'#7879'p t'#7915' '#273#297'a cho '#273#432#7901'ng d'#7851'n n'#224'y.');
+  Put(True,
+    'Assistant.Reply.OpenFileModified',
+    'L'#7847'n s'#7917'a '#273#7893'i g'#7847'n nh'#7845't c'#7911'a "%s": %s.');
+  Put(True,
+    'Assistant.Reply.OpenFileProps',
+    'T'#7879'p "%s":'#13#10'T'#7841'o: %s'#13#10'S'#7917'a '#273#7893'i: %s'#13#10'Truy c'#7853'p: %s'#13#10'K'#237'ch th'#432#7899'c: %s byte.');
+  Put(True,
+    'Assistant.Reply.OpenFileSize',
+    'K'#237'ch th'#432#7899'c c'#7911'a "%s": %s byte.');
+  Put(True,
+    'Assistant.ReplyPlaceholder',
+    'Ph'#7843'n h'#7891'i AI hi'#7879'n '#7903' '#273#226'y sau khi b'#7841'n nh'#7845'p G'#7917'i.');
+  Put(True,
+    'Assistant.ReplyReady',
+    'Tr'#7843' l'#7901'i s'#7861'n s'#224'ng.');
+  Put(True,
+    'Assistant.ReplyStyle.Applied',
+    #272#227' '#225'p d'#7909'ng ki'#7875'u tr'#7843' l'#7901'i.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Bullets',
+    'D'#249'ng m'#7897't d'#242'ng ti'#234'u '#273#7873' ng'#7855'n, r'#7891'i 3-6 '#273'i'#7875'm '#273#7847'u d'#242'ng. M'#7895'i '#273'i'#7875'm m'#7897't '#253' r'#245'. '
+        + 'K'#7871't th'#250'c b'#7857'ng "Ti'#7871'p:" v'#224' m'#7897't h'#224'nh '#273#7897'ng g'#7907'i '#253'.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Concise',
+    'Tr'#7843' l'#7901'i trong 2-4 c'#226'u ng'#7855'n. Kh'#244'ng r'#432#7901'm r'#224'. B'#7855't '#273#7847'u b'#7857'ng k'#7871't qu'#7843', r'#7891'i m'
+        + #7897't h'#224'nh '#273#7897'ng ti'#7871'p theo n'#7871'u h'#7919'u '#237'ch.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Friendly',
+    'Gi'#7843'i th'#237'ch b'#7857'ng ng'#244'n ng'#7919' '#273#417'n gi'#7843'n cho ng'#432#7901'i kh'#244'ng chuy'#234'n. '#272'o'#7841'n ng'#7855'n. '#272
+        + #432'a m'#7897't m'#7865'o t'#249'y ch'#7885'n '#7903' cu'#7889'i. Khuy'#7871'n kh'#237'ch, kh'#244'ng h'#7841' th'#7845'p.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Steps',
+    'Gi'#7843'i th'#237'ch theo c'#225'c b'#432#7899'c '#273#225'nh s'#7889' (1., 2., 3.). M'#7895'i b'#432#7899'c m'#7897't h'#224'nh '#273#7897'ng.'
+        + ' N'#234'u ng'#7855'n r'#7911'i ro ho'#7863'c '#273'i'#7873'u ki'#7879'n ti'#234'n quy'#7871't n'#7871'u li'#234'n quan.');
+  Put(True,
+    'Assistant.ReplyStyle.Body.Technical',
+    'Vi'#7871't ghi ch'#250' k'#7929' thu'#7853't g'#7885'n: Ng'#7919' c'#7843'nh, '#272'i'#7873'u '#273#227' x'#7843'y ra, Ch'#7881' s'#7889' k'#7871't qu'#7843' (n'
+        + #7871'u c'#243'), Khuy'#7871'n ngh'#7883'. '#431'u ti'#234'n thu'#7853't ng'#7919' ch'#237'nh x'#225'c; tr'#225'nh ng'#244'n ng'#7919' marke'
+        + 'ting.');
+  Put(True,
+    'Assistant.ReplyStyle.Bullets',
+    'D'#7845'u '#273#7847'u d'#242'ng');
+  Put(True,
+    'Assistant.ReplyStyle.Concise',
+    'Ng'#7855'n g'#7885'n');
+  Put(True,
+    'Assistant.ReplyStyle.Custom',
+    'M'#7851'u t'#249'y ch'#7881'nh...');
+  Put(True,
+    'Assistant.ReplyStyle.Default',
+    'M'#7863'c '#273#7883'nh');
+  Put(True,
+    'Assistant.ReplyStyle.Edit',
+    'S'#7917'a...');
+  Put(True,
+    'Assistant.ReplyStyle.EditHint',
+    'S'#7917'a m'#7851'u ph'#7843'n h'#7891'i / c'#225' nh'#226'n h'#243'a (v'#237' d'#7909' v'#224' preset d'#249'ng l'#7841'i '#273#432#7907'c).');
+  Put(True,
+    'Assistant.ReplyStyle.EditIntro',
+    'M'#244' t'#7843' c'#225'ch b'#7841'n mu'#7889'n '#273#7883'nh d'#7841'ng c'#226'u tr'#7843' l'#7901'i (gi'#7885'ng '#273'i'#7879'u, c'#7845'u tr'#250'c, tr'#432#7901'n'
+        + 'g). Ch'#7885'n v'#237' d'#7909' b'#234'n d'#432#7899'i ho'#7863'c vi'#7871't m'#7851'u c'#7911'a b'#7841'n.');
+  Put(True,
+    'Assistant.ReplyStyle.EditTitle',
+    'C'#225' nh'#226'n h'#243'a ph'#7843'n h'#7891'i AI');
+  Put(True,
+    'Assistant.ReplyStyle.Examples',
+    'V'#237' d'#7909' c'#243' s'#7861'n');
+  Put(True,
+    'Assistant.ReplyStyle.Friendly',
+    'Gi'#7843'i th'#237'ch th'#226'n thi'#7879'n');
+  Put(True,
+    'Assistant.ReplyStyle.Label',
+    'Ki'#7875'u');
+  Put(True,
+    'Assistant.ReplyStyle.SaveAs',
+    'L'#432'u th'#224'nh preset...');
+  Put(True,
+    'Assistant.ReplyStyle.SaveAsPrompt',
+    'T'#234'n preset:');
+  Put(True,
+    'Assistant.ReplyStyle.SaveAsTitle',
+    'L'#432'u ki'#7875'u tr'#7843' l'#7901'i');
+  Put(True,
+    'Assistant.ReplyStyle.Saved',
+    #272#227' l'#432'u preset ki'#7875'u tr'#7843' l'#7901'i.');
+  Put(True,
+    'Assistant.ReplyStyle.Steps',
+    'T'#7915'ng b'#432#7899'c');
+  Put(True,
+    'Assistant.ReplyStyle.Technical',
+    'B'#225'o c'#225'o k'#7929' thu'#7853't');
+  Put(True,
+    'Assistant.ReplyTooLargeFallback',
+    'M'#244' h'#236'nh tr'#7843' v'#7873' ph'#7843'n h'#7891'i r'#7845't l'#7899'n. FastFile s'#7869' kh'#244'ng hi'#7879'n n'#7897'i dung t'#7879'p '#7903
+        + ' '#273#226'y '#8212' h'#227'y d'#249'ng thao t'#225'c th'#7921'c thi tr'#234'n t'#7879'p '#273'ang m'#7903'.');
+  Put(True,
+    'Assistant.ReplyTruncated',
+    '[Tr'#7843' l'#7901'i '#273#227' r'#250't ng'#7855'n: b'#7843'ng tr'#7907' l'#253' kh'#244'ng th'#7875' hi'#7879'n dump t'#7879'p l'#7899'n. H'#227'y d'#249'n'
+        + 'g thao t'#225'c FastFile (xu'#7845't, l'#7885'c, thay th'#7871') tr'#234'n t'#7879'p.]');
+  Put(True,
+    'Assistant.ResizeHint',
+    'K'#233'o '#273#7875' '#273#7893'i k'#237'ch th'#432#7899'c Tr'#7907' l'#253' AI');
+  Put(True,
+    'Assistant.RewriteBtn',
+    'G'#7907'i '#253);
+  Put(True,
+    'Assistant.RewriteHint',
+    'Y'#234'u c'#7847'u AI g'#7907'i '#253' m'#7897't c'#226'u h'#7887'i r'#245' h'#417'n t'#7915' nh'#7919'ng g'#236' b'#7841'n '#273#227' g'#245'.');
+  Put(True,
+    'Assistant.Rewriting',
+    #272'ang g'#7907'i '#253' c'#226'u h'#7887'i r'#245' h'#417'n...');
+  Put(True,
+    'Assistant.Rewritten',
+    'C'#226'u h'#7887'i g'#7907'i '#253' '#273#227' s'#7861'n s'#224'ng. Xem l'#7841'i, r'#7891'i G'#7917'i.');
+  Put(True,
+    'Assistant.Send',
+    '&G'#7917'i');
+  Put(True,
+    'Assistant.SplitHint',
+    'K'#233'o '#273#7875' '#273#7893'i k'#237'ch th'#432#7899'c v'#249'ng c'#226'u h'#7887'i so v'#7899'i tr'#7843' l'#7901'i');
+  Put(True,
+    'Assistant.Status.AnonymizeLines',
+    #272#227' m'#7903' h'#7897'p tho'#7841'i '#7848'n danh h'#243'a.');
+  Put(True,
+    'Assistant.Status.ChainDone',
+    'T'#7845't c'#7843' thao t'#225'c '#273#227' l'#234'n k'#7871' ho'#7841'ch '#273#227' '#273#432#7907'c b'#7855't '#273#7847'u.');
+  Put(True,
+    'Assistant.Status.ChainReadThenMore',
+    #272#227' b'#7855't '#273#7847'u t'#7843'i t'#7879'p; thao t'#225'c ti'#7871'p theo s'#7869' ch'#7841'y khi '#273#7885'c xong.');
+  Put(True,
+    'Assistant.Status.CharCode',
+    #272#227' m'#7903' gi'#225' tr'#7883' m'#227' k'#253' t'#7921'.');
+  Put(True,
+    'Assistant.Status.Checkboxes',
+    #272#227' m'#7903' ch'#7871' '#273#7897' danh s'#225'ch h'#7897'p ki'#7875'm.');
+  Put(True,
+    'Assistant.Status.ComposeFixed',
+    #272#227' c'#7853'p nh'#7853't: %s');
+  Put(True,
+    'Assistant.Status.ComposeOpenInWord',
+    'M'#7903' t'#7879'p '#273#227' l'#432'u (.rtf/.docx/.odt/.pdf) trong Word ho'#7863'c '#7913'ng d'#7909'ng t'#432#417'ng th'
+        + #237'ch.');
+  Put(True,
+    'Assistant.Status.ComposePipelineDone',
+    'Quy tr'#236'nh xong (t'#243'm t'#7855't + t'#7879'p Word).');
+  Put(True,
+    'Assistant.Status.ComposePipelineStep1',
+    'B'#432#7899'c 1/2: '#273'ang t'#243'm t'#7855't m'#7851'u t'#7879'p'#8230);
+  Put(True,
+    'Assistant.Status.ComposePipelineStep2',
+    'B'#432#7899'c 2/2: '#273'ang ghi t'#7879'p Word (.rtf)'#8230);
+  Put(True,
+    'Assistant.Status.ComposeSaved',
+    #272#227' t'#7841'o: %s');
+end;
+
+procedure AddVietnamesePart09(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Assistant.Status.ComposeSavedDetail',
+    #272#227' l'#432'u t'#7879'p.'#13#10#272#432#7901'ng d'#7851'n: %s');
+  Put(True,
+    'Assistant.Status.ComposeSavedShort',
+    #272#227' l'#432'u: %s');
+  Put(True,
+    'Assistant.Status.ComposeWillSaveTo',
+    'S'#7869' l'#432'u v'#224'o:'#13#10'%s');
+  Put(True,
+    'Assistant.Status.CopiedToClipboard',
+    #272#227' sao ch'#233'p v'#224'o Clipboard.');
+  Put(True,
+    'Assistant.Status.CountingContains',
+    #272'ang '#273#7871'm d'#242'ng theo chu'#7895'i con'#8230);
+  Put(True,
+    'Assistant.Status.CountingPrefixes',
+    #272'ang '#273#7871'm d'#242'ng theo ti'#7873'n t'#7889#8230);
+  Put(True,
+    'Assistant.Status.DedupStarted',
+    #272#227' b'#7855't '#273#7847'u x'#243'a c'#225'c d'#242'ng tr'#249'ng l'#7863'p.');
+  Put(True,
+    'Assistant.Status.DelegatingRAG',
+    #272'ang h'#7887'i engine ph'#226'n t'#237'ch t'#7879'p (Python)...');
+  Put(True,
+    'Assistant.Status.DelegatingSQL',
+    #272'ang h'#7887'i engine SQL (Python)...');
+  Put(True,
+    'Assistant.Status.DeleteLine',
+    #272#227' b'#7855't '#273#7847'u x'#243'a d'#242'ng.');
+  Put(True,
+    'Assistant.Status.EditLine',
+    #272#227' m'#7903' tr'#236'nh s'#7917'a d'#242'ng.');
+  Put(True,
+    'Assistant.Status.Export',
+    #272#227' b'#7855't '#273#7847'u xu'#7845't.');
+  Put(True,
+    'Assistant.Status.ExportFiltered',
+    #272#227' b'#7855't '#273#7847'u xu'#7845't c'#225'c d'#242'ng '#273#227' l'#7885'c/'#273'u'#244'i.');
+  Put(True,
+    'Assistant.Status.ExportLines',
+    #272'ang xu'#7845't kho'#7843'ng d'#242'ng '#273#227' ch'#7885'n ra t'#7879'p.');
+  Put(True,
+    'Assistant.Status.ExportLinesDetail',
+    #272'ang xu'#7845't c'#225'c d'#242'ng %s ra t'#7879'p m'#7899'i:'#13#10'%s');
+  Put(True,
+    'Assistant.Status.ExportMatching',
+    #272'ang xu'#7845't c'#225'c d'#242'ng '#273#227' l'#7885'c ra t'#7879'p.');
+  Put(True,
+    'Assistant.Status.ExtractStarted',
+    #272#227' b'#7855't '#273#7847'u tr'#237'ch xu'#7845't c'#225'c ph'#7847'n t'#7879'p.');
+  Put(True,
+    'Assistant.Status.FilterActiveInfo',
+    'B'#7897' l'#7885'c '#273'ang ho'#7841't '#273#7897'ng: "%s" '#8212' %s k'#7871't qu'#7843'%s.');
+  Put(True,
+    'Assistant.Status.FilterCleared',
+    #272#227' x'#243'a s'#7841'ch b'#7897' l'#7885'c.');
+  Put(True,
+    'Assistant.Status.FilterContinued',
+    #272'ang ti'#7871'p t'#7909'c lu'#7891'ng l'#7885'c (c'#242'n k'#7871't qu'#7843')...');
+  Put(True,
+    'Assistant.Status.FilterCopied',
+    #272#227' sao ch'#233'p c'#225'c d'#242'ng '#273#227' l'#7885'c v'#224'o Clipboard.');
+  Put(True,
+    'Assistant.Status.FilterDialog',
+    #272#227' m'#7903' h'#7897'p tho'#7841'i l'#7885'c.');
+  Put(True,
+    'Assistant.Status.FilterInactive',
+    'Kh'#244'ng c'#243' b'#7897' l'#7885'c d'#242'ng '#273'ang ho'#7841't '#273#7897'ng. M'#7903' L'#7885'c/Grep (Ctrl+L) ho'#7863'c y'#234'u c'#7847'u'
+        + ' '#225'p d'#7909'ng m'#7897't m'#7851'u.');
+  Put(True,
+    'Assistant.Status.FilterPartialNote',
+    ' (m'#7897't ph'#7847'n '#8212' c'#242'n k'#7871't qu'#7843' kh'#225'c)');
+  Put(True,
+    'Assistant.Status.FilterStarted',
+    #272#227' b'#7855't '#273#7847'u l'#7885'c.');
+  Put(True,
+    'Assistant.Status.Find',
+    #272#227' m'#7903' h'#7897'p tho'#7841'i t'#236'm.');
+  Put(True,
+    'Assistant.Status.FindStarted',
+    #272#227' b'#7855't '#273#7847'u t'#236'm ki'#7871'm (k'#7871't qu'#7843' '#273#7847'u ti'#234'n s'#7869' '#273#432#7907'c t'#244' s'#225'ng).');
+  Put(True,
+    'Assistant.Status.FreqStrings',
+    #272#227' b'#7855't '#273#7847'u tr'#237'ch xu'#7845't chu'#7895'i th'#432#7901'ng g'#7863'p.');
+  Put(True,
+    'Assistant.Status.GotoLine',
+    #272#227' th'#7921'c hi'#7879'n '#273'i t'#7899'i d'#242'ng.');
+  Put(True,
+    'Assistant.Status.Help',
+    #272#227' m'#7903' tr'#7907' gi'#250'p (F1).');
+  Put(True,
+    'Assistant.Status.NothingToCopy',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' sao ch'#233'p.');
+  Put(True,
+    'Assistant.Status.OpenStarted',
+    #272'ang t'#7843'i t'#7879'p...');
+  Put(True,
+    'Assistant.Status.Replace',
+    #272#227' m'#7903' T'#236'm v'#224' thay th'#7871'.');
+  Put(True,
+    'Assistant.Status.ReplaceAll',
+    #272#227' b'#7855't '#273#7847'u Thay th'#7871' t'#7845't c'#7843'.');
+  Put(True,
+    'Assistant.Status.ReplyCleared',
+    #272#227' x'#243'a s'#7841'ch cu'#7897'c tr'#242' chuy'#7879'n tr'#7907' l'#253'.');
+  Put(True,
+    'Assistant.Status.SplitStarted',
+    #272#227' b'#7855't '#273#7847'u t'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau.');
+  Put(True,
+    'Assistant.Status.TabCompare',
+    #272#227' m'#7903' tab so s'#225'nh/g'#7897'p.');
+  Put(True,
+    'Assistant.Status.TabMergeFiles',
+    #272#227' m'#7903' tab g'#7897'p t'#7879'p.');
+  Put(True,
+    'Assistant.Status.TabMergeLines',
+    #272#227' m'#7903' tab g'#7897'p d'#242'ng.');
+  Put(True,
+    'Assistant.Status.TabRead',
+    #272#227' m'#7903' m'#224'n h'#236'nh '#273#7885'c t'#7879'p.');
+  Put(True,
+    'Assistant.Status.TabRecent',
+    #272#227' m'#7903' m'#224'n h'#236'nh t'#7879'p g'#7847'n '#273#226'y.');
+  Put(True,
+    'Assistant.Status.Tail',
+    #272#227' b'#7853't ch'#7871' '#273#7897' Tail/Follow.');
+  Put(True,
+    'Assistant.Status.WordWrap',
+    #272#227' chuy'#7875'n ch'#7871' '#273#7897' xu'#7889'ng d'#242'ng.');
+  Put(True,
+    'Assistant.Thinking',
+    #272'ang suy ngh'#297'...');
+  Put(True,
+    'Assistant.Title',
+    'Tr'#7907' l'#253' AI');
+  Put(True,
+    'Assistant.TranslateBtn',
+    'D'#7883'ch');
+  Put(True,
+    'Assistant.TranslateHint',
+    'D'#7883'ch v'#259'n b'#7843'n '#273#227' nh'#7853'p. Nh'#7845'p '#273#7875' ch'#7885'n ng'#244'n ng'#7919'.');
+  Put(True,
+    'Assistant.Translated',
+    #272#227' d'#7883'ch c'#226'u h'#7887'i.');
+  Put(True,
+    'Assistant.Translating',
+    #272'ang d'#7883'ch c'#226'u h'#7887'i...');
+  Put(True,
+    'Assistant.Validate.Cancelled',
+    #272#227' h'#7911'y x'#225'c th'#7921'c (kh'#244'ng c'#243' t'#7879'p n'#224'o '#273#432#7907'c ch'#7885'n).');
+  Put(True,
+    'Assistant.Validate.ExeMissing',
+    'Kh'#244'ng th'#7875' x'#225'c th'#7921'c t'#7879'p n'#224'y: tr'#236'nh x'#225'c th'#7921'c %s kh'#244'ng c'#243' tr'#234'n m'#225'y n'#224'y (k'
+        + 'h'#244'ng t'#236'm th'#7845'y v'#224' kh'#244'ng th'#7875' t'#7843'i xu'#7889'ng). Ki'#7875'm tra k'#7871't n'#7889'i internet r'#7891'i t'
+        + 'h'#7917' l'#7841'i; ph'#7847'n c'#242'n l'#7841'i c'#7911'a FastFile v'#7851'n ho'#7841't '#273#7897'ng b'#236'nh th'#432#7901'ng.');
+  Put(True,
+    'Assistant.Validate.Failed',
+    'X'#225'c th'#7921'c th'#7845't b'#7841'i.');
+  Put(True,
+    'Assistant.Validate.FileMissing',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p '#273#227' t'#7841'o.');
+  Put(True,
+    'Assistant.Validate.NeedPath',
+    'Ch'#432'a cho '#273#432#7901'ng d'#7851'n ngu'#7891'n. Cung c'#7845'p '#273#432#7901'ng d'#7851'n '#273#7847'y '#273#7911', ho'#7863'c y'#234'u c'#7847'u t'#7843'i '
+        + 't'#7879'p ngu'#7891'n '#273#7875' x'#225'c th'#7921'c.');
+  Put(True,
+    'Assistant.Validate.Ok',
+    'Ngu'#7891'n c'#243' v'#7867' h'#7907'p l'#7879'.');
+  Put(True,
+    'Assistant.Validate.PickTitle',
+    'T'#7843'i ngu'#7891'n '#273#7875' x'#225'c th'#7921'c');
+  Put(True,
+    'Assistant.Validate.Running',
+    #272'ang x'#225'c th'#7921'c ngu'#7891'n...');
+  Put(True,
+    'Assistant.Validate.SupportedLanguages',
+    'C'#225'c ng'#244'n ng'#7919' '#273#432#7907'c x'#225'c th'#7921'c (ch'#7881' c'#250' ph'#225'p; m'#227' kh'#244'ng bao gi'#7901' '#273#432#7907'c ch'#7841'y):'#13
+        + #10'- Python (.py)'#13#10'- JavaScript (.js, .mjs, .cjs), JSX (.jsx)'#13#10'- TypeScr'
+        + 'ipt (.ts), TSX / React (.tsx)'#13#10'- JSON (.json), HTML (.html, .htm), SQL'
+        + ' (.sql): t'#237'ch h'#7907'p s'#7861'n trong FastFile'#13#10'- Java (.java), Go (.go), C# (.c'
+        + 's): v'#7899'i javac / gofmt / csc '#273#227' c'#224'i tr'#234'n PC n'#224'y (n'#7871'u kh'#244'ng FastFile s'#7869' '
+        + 'b'#225'o thi'#7871'u c'#225'i n'#224'o)'#13#10'Trong chat: y'#234'u c'#7847'u x'#225'c th'#7921'c m'#7897't '#273#432#7901'ng d'#7851'n, ho'#7863'c "'
+        + 't'#7843'i ngu'#7891'n '#273#7875' x'#225'c th'#7921'c" '#273#7875' ch'#7885'n t'#7879'p. N'#250't "</> Code: learn more" gi'#7843'i th'
+        + #237'ch m'#7885'i th'#7913'.');
+  Put(True,
+    'Assistant.Validate.Timeout',
+    'X'#225'c th'#7921'c h'#7871't th'#7901'i gian ch'#7901'.');
+  Put(True,
+    'Assistant.Validate.Unsupported',
+    'Kh'#244'ng th'#7875' x'#225'c th'#7921'c ki'#7875'u t'#7879'p n'#224'y.');
+  Put(True,
+    'Assistant.ValidateHint',
+    'Ki'#7875'm tra c'#250' ph'#225'p c'#7911'a m'#227' ngu'#7891'n (Python, JS/TS/React, JSON, HTML, SQL, J'
+        + 'ava, Go, C#). M'#227' kh'#244'ng bao gi'#7901' '#273#432#7907'c ch'#7841'y.');
+  Put(True,
+    'Assistant.ValidateSource',
+    'X'#225'c th'#7921'c');
+  Put(True,
+    'Assistant.Wait.Connecting',
+    #272'ang k'#7871't n'#7889'i t'#7899'i c'#7893'ng AI...');
+  Put(True,
+    'Assistant.Wait.Receiving',
+    #272'ang nh'#7853'n ph'#7843'n h'#7891'i...');
+  Put(True,
+    'Assistant.Wait.Sending',
+    #272'ang g'#7917'i prompt...');
+  Put(True,
+    'Assistant.Wait.WaitingModel',
+    #272'ang ch'#7901' m'#244' h'#236'nh...');
+  Put(True,
+    'Assistant.WhatDoYouWant',
+    'B'#7841'n mu'#7889'n l'#224'm g'#236'?');
+  Put(True,
+    'At Least:',
+    #205't nh'#7845't:');
+  Put(True,
+    'At Most:',
+    'Nhi'#7873'u nh'#7845't:');
+  Put(True,
+    'Attention: use the ENTER key only, not TAB.',
+    'Ch'#250' '#253': ch'#7881' d'#249'ng ph'#237'm ENTER, kh'#244'ng d'#249'ng TAB.');
+  Put(True,
+    'Attributes',
+    'Thu'#7897'c t'#237'nh');
+  Put(True,
+    'Auto PPI: ',
+    'PPI t'#7921' '#273#7897'ng: ');
+  Put(True,
+    'Auto scaling',
+    'T'#7927' l'#7879' t'#7921' '#273#7897'ng');
+  Put(True,
+    'Auto suggestion from file:',
+    'G'#7907'i '#253' t'#7921' '#273#7897'ng t'#7915' t'#7879'p:');
+  Put(True,
+    'Auto suggestion: choose a source file and leave the field to auto-dete'
+        + 'ct a practical pattern/regex.',
+    'G'#7907'i '#253' t'#7921' '#273#7897'ng: ch'#7885'n t'#7879'p ngu'#7891'n v'#224' r'#7901'i kh'#7887'i tr'#432#7901'ng '#273#7875' t'#7921' ph'#225't hi'#7879'n m'#7851'u/r'
+        + 'egex th'#7921'c t'#7871'.');
+  Put(True,
+    'Awaiting input',
+    #272'ang ch'#7901' nh'#7853'p li'#7879'u');
+  Put(True,
+    'Batch delete: %d line(s) at line %d',
+    'X'#243'a h'#224'ng lo'#7841't: %d d'#242'ng t'#7841'i d'#242'ng %d');
+  Put(True,
+    'Batch insert: %d line(s) at line %d',
+    'Ch'#232'n h'#224'ng lo'#7841't: %d d'#242'ng t'#7841'i d'#242'ng %d');
+  Put(True,
+    'Batch paste %d line(s) at line %d',
+    'D'#225'n h'#224'ng lo'#7841't %d d'#242'ng t'#7841'i d'#242'ng %d');
+  Put(True,
+    'Before Date:',
+    'Tr'#432#7899'c ng'#224'y:');
+  Put(True,
+    'Before Time:',
+    'Tr'#432#7899'c gi'#7901':');
+  Put(True,
+    'BgLoad.CancelButton',
+    'H'#7911'y');
+  Put(True,
+    'BgLoad.CancelHint',
+    'H'#7911'y t'#236'm ki'#7871'm / l'#7885'c '#273'ang ch'#7841'y (Esc)');
+  Put(True,
+    'BgLoad.Cancelled',
+    #272#227' h'#7911'y thao t'#225'c.');
+  Put(True,
+    'BgLoad.Copying',
+    #272'ang sao ch'#233'p c'#225'c d'#242'ng '#273#227' l'#7885'c...');
+  Put(True,
+    'BgLoad.Filtering',
+    #272'ang l'#7885'c t'#7879'p...');
+  Put(True,
+    'BgLoad.Finding',
+    #272'ang t'#236'm trong t'#7879'p...');
+  Put(True,
+    'BgLoad.FindingAll',
+    #272'ang t'#236'm t'#7845't c'#7843' c'#225'c l'#7847'n xu'#7845't hi'#7879'n...');
+  Put(True,
+    'Bookmark limit reached (10,000).',
+    #272#227' '#273#7841't gi'#7899'i h'#7841'n d'#7845'u trang (10,000).');
+  Put(True,
+    'BookmarkBar.ByteFmt',
+    'Offset byte %d');
+  Put(True,
+    'BookmarkBar.ClearAll',
+    'X'#243'a s'#7841'ch t'#7845't c'#7843);
+  Put(True,
+    'BookmarkBar.ClearConfirm',
+    'X'#243'a s'#7841'ch t'#7845't c'#7843' d'#7845'u trang?');
+  Put(True,
+    'BookmarkBar.CloseHint',
+    #272#243'ng b'#7843'ng d'#7845'u trang');
+  Put(True,
+    'BookmarkBar.Copied',
+    #272#227' sao ch'#233'p %d d'#242'ng d'#7845'u trang v'#224'o Clipboard.');
+  Put(True,
+    'BookmarkBar.CopyHint',
+    'Sao ch'#233'p t'#7845't c'#7843' d'#242'ng d'#7845'u trang v'#224'o Clipboard');
+  Put(True,
+    'BookmarkBar.DockHint',
+    'Ghim b'#7843'ng d'#7845'u trang');
+  Put(True,
+    'BookmarkBar.ExportHint',
+    'Xu'#7845't t'#7845't c'#7843' d'#7845'u trang ra t'#7879'p');
+  Put(True,
+    'BookmarkBar.Exported',
+    #272#227' xu'#7845't %d d'#7845'u trang ra t'#7879'p.');
+  Put(True,
+    'BookmarkBar.FloatHint',
+    'Th'#7843' n'#7893'i b'#7843'ng d'#7845'u trang');
+  Put(True,
+    'BookmarkBar.HitLineFmt',
+    'D'#242'ng %d: %s');
+end;
+
+procedure AddVietnamesePart10(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'BookmarkBar.Next',
+    'Ti'#7871'p');
+  Put(True,
+    'BookmarkBar.PageFmt',
+    'Trang %d / %d  (%d)');
+  Put(True,
+    'BookmarkBar.PageNextHint',
+    'Trang sau');
+  Put(True,
+    'BookmarkBar.PagePrevHint',
+    'Trang tr'#432#7899'c');
+  Put(True,
+    'BookmarkBar.PeekHint',
+    'Nh'#7845'p '#273#7875' kh'#244'i ph'#7909'c b'#7843'ng d'#7845'u trang');
+  Put(True,
+    'BookmarkBar.Prev',
+    'Tr'#432#7899'c');
+  Put(True,
+    'BookmarkBar.Remove',
+    'X'#243'a');
+  Put(True,
+    'BookmarkBar.RemoveHint',
+    'X'#243'a d'#7845'u trang '#273#227' ch'#7885'n');
+  Put(True,
+    'BookmarkBar.ResizeHint',
+    'K'#233'o '#273#7875' '#273#7893'i k'#237'ch th'#432#7899'c danh s'#225'ch d'#7845'u trang. Nh'#7845'p '#273#250'p chuy'#7875'n gi'#7919'a chi'#7873'u '
+        + 'cao m'#7863'c '#273#7883'nh v'#224' n'#7917'a c'#7917'a s'#7893'.');
+  Put(True,
+    'BookmarkBar.ShowPanel',
+    'Hi'#7879'n b'#7843'ng &d'#7845'u trang');
+  Put(True,
+    'BookmarkBar.Status.Count',
+    '%d d'#7845'u trang');
+  Put(True,
+    'BookmarkBar.Title',
+    'D'#7845'u trang');
+  Put(True,
+    'Boolean flag = 1',
+    'C'#7901' Boolean = 1');
+  Put(True,
+    'Boolean-like column (example: ,1, between commas):',
+    'C'#7897't ki'#7875'u Boolean (v'#237' d'#7909': ,1, gi'#7919'a c'#225'c d'#7845'u ph'#7849'y):');
+  Put(True,
+    'Broad matcher - narrow with surrounding delimiter context if you see f'
+        + 'alse positives.',
+    'B'#7897' kh'#7899'p r'#7897'ng - thu h'#7865'p b'#7857'ng ng'#7919' c'#7843'nh d'#7845'u ph'#226'n c'#225'ch xung quanh n'#7871'u th'#7845'y'
+        + ' d'#432#417'ng t'#237'nh gi'#7843'.');
+  Put(True,
+    'Broad pattern that may touch multiple numeric columns - prefer anchori'
+        + 'ng with column-specific prefixes when possible.',
+    'M'#7851'u r'#7897'ng c'#243' th'#7875' ch'#7841'm nhi'#7873'u c'#7897't s'#7889' - n'#234'n neo b'#7857'ng ti'#7873'n t'#7889' ri'#234'ng t'#7915'ng c'#7897
+        + 't khi c'#243' th'#7875'.');
+  Put(True,
+    'Broken pipe while sending lines.',
+    #7888'ng (pipe) b'#7883' '#273#7913't khi g'#7917'i d'#242'ng.');
+  Put(True,
+    'Browse...',
+    'Duy'#7879't...');
+  Put(True,
+    'Build diff',
+    'T'#7841'o diff');
+  Put(True,
+    'Build time: ',
+    'Th'#7901'i gian build: ');
+  Put(True,
+    'Building diff (bounded window)...',
+    #272'ang t'#7841'o diff (c'#7917'a s'#7893' gi'#7899'i h'#7841'n)...');
+  Put(True,
+    'Building line index...',
+    #272'ang t'#7841'o ch'#7881' m'#7909'c d'#242'ng...');
+  Put(True,
+    'By comparing sample lines, the first column where characters differ is'
+        + ' around position %d. Digit tokens observed there include: %s. Sorting '
+        + 'the file by the field that should drive splitting usually gives meanin'
+        + 'gful parts.',
+    'Khi so s'#225'nh c'#225'c d'#242'ng m'#7851'u, c'#7897't '#273#7847'u ti'#234'n c'#243' k'#253' t'#7921' kh'#225'c nhau kho'#7843'ng '#7903' v'#7883' '
+        + 'tr'#237' %d. C'#225'c token ch'#7919' s'#7889' quan s'#225't '#273#432#7907'c '#7903' '#273#243' g'#7891'm: %s. S'#7855'p x'#7871'p t'#7879'p theo '
+        + 'tr'#432#7901'ng d'#249'ng '#273#7875' t'#225'ch th'#432#7901'ng cho c'#225'c ph'#7847'n c'#243' '#253' ngh'#297'a.');
+  Put(True,
+    'By equal parts (N parts, preserving complete lines)',
+    'Theo c'#225'c ph'#7847'n b'#7857'ng nhau (N ph'#7847'n, gi'#7919' nguy'#234'n d'#242'ng '#273#7847'y '#273#7911')');
+  Put(True,
+    'By pattern / regex (new file when match is found)',
+    'Theo m'#7851'u / regex (t'#7879'p m'#7899'i khi t'#236'm th'#7845'y kh'#7899'p)');
+  Put(True,
+    'Byte position in file (1-based; $ prefix for hex):',
+    'V'#7883' tr'#237' byte trong t'#7879'p (b'#7855't '#273#7847'u t'#7915' 1); ti'#7873'n t'#7889' $ cho hex):');
+  Put(True,
+    'Byte position is out of range for this file.',
+    'V'#7883' tr'#237' byte n'#7857'm ngo'#224'i ph'#7841'm vi c'#7911'a t'#7879'p n'#224'y.');
+  Put(True,
+    'C&SV / Column mode',
+    'Ch'#7871' '#273#7897' C&SV / C'#7897't');
+  Put(True,
+    'C&lose',
+    '&'#272#243'ng');
+  Put(True,
+    'CANCEL = abort.',
+    'CANCEL = h'#7911'y b'#7887'.');
+  Put(True,
+    'CSV mode disabled.',
+    #272#227' t'#7855't ch'#7871' '#273#7897' CSV.');
+  Put(True,
+    'CSV mode enabled.',
+    #272#227' b'#7853't ch'#7871' '#273#7897' CSV.');
+  Put(True,
+    'CSV shape - exact field count (matches well-formed rows):',
+    'H'#236'nh d'#7841'ng CSV - '#273#250'ng s'#7889' tr'#432#7901'ng (kh'#7899'p c'#225'c h'#224'ng '#273#250'ng d'#7841'ng):');
+  Put(True,
+    'CSV: show header row as &data',
+    'CSV: hi'#7879'n h'#224'ng ti'#234'u '#273#7873' nh'#432' &d'#7919' li'#7879'u');
+  Put(True,
+    'Cache in disk',
+    'B'#7897' nh'#7899' '#273#7879'm tr'#234'n '#273#297'a');
+  Put(True,
+    'Calculator',
+    'M'#225'y t'#237'nh');
+  Put(True,
+    'Cancel',
+    'H'#7911'y');
+  Put(True,
+    'Cancel loading',
+    'H'#7911'y t'#7843'i');
+  Put(True,
+    'Cancelled',
+    #272#227' h'#7911'y');
+  Put(True,
+    'Cancelling...',
+    #272'ang h'#7911'y...');
+  Put(True,
+    'Cannot sort the list while a search is in progress.',
+    'Kh'#244'ng th'#7875' s'#7855'p x'#7871'p danh s'#225'ch khi '#273'ang t'#236'm.');
+  Put(True,
+    'Capture lines whose name field starts with "Dr." or "Dra.":',
+    'B'#7855't c'#225'c d'#242'ng c'#243' tr'#432#7901'ng t'#234'n b'#7855't '#273#7847'u b'#7857'ng "Dr." ho'#7863'c "Dra.":');
+  Put(True,
+    'Capture numeric values in',
+    'B'#7855't c'#225'c gi'#225' tr'#7883' s'#7889' trong');
+  Put(True,
+    'Captures date (year-month-day), "T" separator, full time, and timezone'
+        + ' offset.',
+    'B'#7855't ng'#224'y (n'#259'm-th'#225'ng-ng'#224'y), d'#7845'u ph'#226'n c'#225'ch "T", gi'#7901' '#273#7847'y '#273#7911' v'#224' l'#7879'ch m'#250'i g'
+        + 'i'#7901'.');
+  Put(True,
+    'Captures numbers with 2-4 digits (common for prices in the R$ 50-1000 '
+        + 'range).',
+    'B'#7855't s'#7889' c'#243' 2-4 ch'#7919' s'#7889' (th'#432#7901'ng cho gi'#225' trong kho'#7843'ng R$ 50-1000).');
+  Put(True,
+    'Captures the first long run of digits at the line start. Tune the mini'
+        + 'mum length {10,} after measuring columns in your layout.',
+    'B'#7855't chu'#7895'i ch'#7919' s'#7889' d'#224'i '#273#7847'u ti'#234'n '#7903' '#273#7847'u d'#242'ng. '#272'i'#7873'u ch'#7881'nh '#273#7897' d'#224'i t'#7889'i thi'#7875'u '
+        + '{10,} sau khi '#273'o c'#225'c c'#7897't trong b'#7889' c'#7909'c c'#7911'a b'#7841'n.');
+  Put(True,
+    'Case Sensitive',
+    'Ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Case sensitive',
+    'Ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Case sensitive search?',
+    'T'#236'm ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng?');
+  Put(True,
+    'Category',
+    'Danh m'#7909'c');
+  Put(True,
+    'Change scaling',
+    #272#7893'i t'#7927' l'#7879);
+  Put(True,
+    'CharCode.ByteOffset',
+    'Offset byte trong t'#7879'p (b'#7855't '#273#7847'u t'#7915' 1): %d');
+  Put(True,
+    'CharCode.Category',
+    'Danh m'#7909'c: %s');
+  Put(True,
+    'CharCode.Category.Control',
+    #272'i'#7873'u khi'#7875'n');
+  Put(True,
+    'CharCode.Category.Ideograph',
+    'Ch'#7919' t'#432#7907'ng h'#236'nh');
+  Put(True,
+    'CharCode.Category.Letter',
+    'Ch'#7919' c'#225'i');
+  Put(True,
+    'CharCode.Category.Null',
+    'Null');
+  Put(True,
+    'CharCode.Category.Number',
+    'S'#7889);
+  Put(True,
+    'CharCode.Category.Other',
+    'Kh'#225'c');
+  Put(True,
+    'CharCode.Category.Separator',
+    'D'#7845'u ph'#226'n c'#225'ch');
+  Put(True,
+    'CharCode.CharIndex',
+    'Ch'#7881' s'#7889' k'#253' t'#7921': %d');
+  Put(True,
+    'CharCode.CharIndexLabel',
+    'Ch'#7881' s'#7889' k'#253' t'#7921' trong d'#242'ng (b'#7855't '#273#7847'u t'#7915' 1):');
+  Put(True,
+    'CharCode.CodePoint',
+    'Unicode: U+%X');
+  Put(True,
+    'CharCode.Decimal',
+    'Th'#7853'p ph'#226'n: %d');
+  Put(True,
+    'CharCode.DisplayChar',
+    'K'#253' t'#7921': %s');
+  Put(True,
+    'CharCode.InvalidIndex',
+    'Ch'#7881' s'#7889' k'#253' t'#7921' kh'#244'ng h'#7907'p l'#7879' cho d'#242'ng n'#224'y.');
+  Put(True,
+    'CharCode.Line',
+    'D'#242'ng: %d');
+  Put(True,
+    'CharCode.LineByteOffset',
+    'Offset byte '#273#7847'u d'#242'ng (b'#7855't '#273#7847'u t'#7915' 1): %d');
+  Put(True,
+    'CharCode.NonPrintable',
+    '(kh'#244'ng in '#273#432#7907'c)');
+  Put(True,
+    'CharCode.Utf8Bytes',
+    'Byte UTF-8: %s');
+  Put(True,
+    'Character Code Value...',
+    'Gi'#225' tr'#7883' m'#227' k'#253' t'#7921'...');
+  Put(True,
+    'Check to enable this option.',
+    #272#225'nh d'#7845'u '#273#7875' b'#7853't t'#249'y ch'#7885'n n'#224'y.');
+  Put(True,
+    'Choose a source file to generate copy-paste regex examples from the fi'
+        + 'rst 1000 non-empty lines.',
+    'Ch'#7885'n t'#7879'p ngu'#7891'n '#273#7875' t'#7841'o v'#237' d'#7909' regex sao ch'#233'p-d'#225'n t'#7915' 1000 d'#242'ng kh'#244'ng r'#7895'ng'
+        + ' '#273#7847'u ti'#234'n.');
+  Put(True,
+    'Choose a source file to generate mode-specific examples.',
+    'Ch'#7885'n t'#7879'p ngu'#7891'n '#273#7875' t'#7841'o v'#237' d'#7909' theo ch'#7871' '#273#7897'.');
+  Put(True,
+    'Choose an option from the list.',
+    'Ch'#7885'n m'#7897't t'#249'y ch'#7885'n t'#7915' danh s'#225'ch.');
+  Put(True,
+    'Choose mode "By equal parts" and set N (ex: 10).',
+    'Ch'#7885'n ch'#7871' '#273#7897' "Theo c'#225'c ph'#7847'n b'#7857'ng nhau" v'#224' '#273#7863't N (vd: 10).');
+  Put(True,
+    'Choose output file name for split by lines.',
+    'Ch'#7885'n t'#234'n t'#7879'p '#273#7847'u ra '#273#7875' t'#225'ch theo d'#242'ng.');
+  Put(True,
+    'Cleanup mojibake',
+    'D'#7885'n mojibake');
+  Put(True,
+    'Clear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'Clear'#13#10'Ctrl+Shift+X',
+    'X'#243'a s'#7841'ch'#13#10'Ctrl+Shift+X');
+  Put(True,
+    'Clear a&ll bookmarks',
+    'X'#243'a s'#7841'ch t'#7845't &c'#7843' d'#7845'u trang');
+  Put(True,
+    'Clear editor',
+    'X'#243'a s'#7841'ch tr'#236'nh so'#7841'n');
+  Put(True,
+    'Clear history',
+    'X'#243'a s'#7841'ch l'#7883'ch s'#7917);
+  Put(True,
+    'Clear macro output',
+    'X'#243'a s'#7841'ch '#273#7847'u ra macro');
+  Put(True,
+    'Clear output',
+    'X'#243'a s'#7841'ch '#273#7847'u ra');
+  Put(True,
+    'Clear the current input or results.',
+    'X'#243'a s'#7841'ch n'#7897'i dung nh'#7853'p ho'#7863'c k'#7871't qu'#7843' hi'#7879'n t'#7841'i.');
+  Put(True,
+    'Clear transcript',
+    'X'#243'a s'#7841'ch b'#7843'n ghi');
+  Put(True,
+    'Click the AI Chat (SQL) button to start an inter-application session.',
+    'Nh'#7845'p n'#250't AI Chat (SQL) '#273#7875' b'#7855't '#273#7847'u phi'#234'n li'#234'n '#7913'ng d'#7909'ng.');
+  Put(True,
+    'Click the AI Chat button to start an inter-application session.',
+    'Nh'#7845'p n'#250't AI Chat '#273#7875' b'#7855't '#273#7847'u phi'#234'n li'#234'n '#7913'ng d'#7909'ng.');
+  Put(True,
+    'Click the Advanced AI Chat (file) button to start a Q&A session.',
+    'Nh'#7845'p n'#250't Advanced AI Chat (file) '#273#7875' b'#7855't '#273#7847'u phi'#234'n h'#7887'i '#273#225'p.');
+  Put(True,
+    'Click to execute this action.',
+    'Nh'#7845'p '#273#7875' th'#7921'c hi'#7879'n thao t'#225'c n'#224'y.');
+  Put(True,
+    'Close',
+    #272#243'ng');
+  Put(True,
+    'Close'#13#10'Ctrl+Shift+W',
+    #272#243'ng'#13#10'Ctrl+Shift+W');
+  Put(True,
+    'Close the current tab and return to main view.',
+    #272#243'ng tab hi'#7879'n t'#7841'i v'#224' quay v'#7873' giao di'#7879'n ch'#237'nh.');
+  Put(True,
+    'Close this window',
+    #272#243'ng c'#7917'a s'#7893' n'#224'y');
+  Put(True,
+    'Colors match the list when marks are ON. Shortcut: Ctrl+Alt+M.',
+    'M'#224'u kh'#7899'p v'#7899'i danh s'#225'ch khi '#273#225'nh d'#7845'u B'#7852'T. Ph'#237'm t'#7855't: Ctrl+Alt+M.');
+  Put(True,
+    'Column "%s" in the sample suggests a 1/0 style flag after an ISO-like '
+        + 'timestamp; adjust literals if your timestamp differs.',
+    'C'#7897't "%s" trong m'#7851'u g'#7907'i '#253' c'#7901' ki'#7875'u 1/0 sau d'#7845'u th'#7901'i gian d'#7841'ng ISO; ch'#7881'nh'
+        + ' literal n'#7871'u d'#7845'u th'#7901'i gian c'#7911'a b'#7841'n kh'#225'c.');
+  Put(True,
+    'Column 1 in the sampled rows appears numeric-only - pattern grabs lead'
+        + 'ing digits.',
+    'C'#7897't 1 trong c'#225'c h'#224'ng m'#7851'u ch'#7881' g'#7891'm s'#7889' - m'#7851'u l'#7845'y c'#225'c ch'#7919' s'#7889' '#273#7847'u.');
+  Put(True,
+    'Column 1 mixes token shapes - pattern captures the first non-whitespac'
+        + 'e field.',
+    'C'#7897't 1 tr'#7897'n nhi'#7873'u d'#7841'ng token - m'#7851'u b'#7855't tr'#432#7901'ng kh'#244'ng kho'#7843'ng tr'#7855'ng '#273#7847'u ti'
+        + #234'n.');
+  Put(True,
+    'Column contains numeric values suitable for range filtering.',
+    'C'#7897't ch'#7913'a gi'#225' tr'#7883' s'#7889' ph'#249' h'#7907'p '#273#7875' l'#7885'c theo kho'#7843'ng.');
+end;
+
+procedure AddVietnamesePart11(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Column uses ISO 8601 timestamp (e.g. 2022-10-13T16:50:21-03:00).',
+    'C'#7897't d'#249'ng d'#7845'u th'#7901'i gian ISO 8601 (vd. 2022-10-13T16:50:21-03:00).');
+  Put(True,
+    'Combine multiple tests if one rule is insufficient.',
+    'K'#7871't h'#7907'p nhi'#7873'u ki'#7875'm tra n'#7871'u m'#7897't quy t'#7855'c ch'#432'a '#273#7911'.');
+  Put(True,
+    'Combine with item 5 if you need both shape and business-rule checks.',
+    'K'#7871't h'#7907'p v'#7899'i m'#7909'c 5 n'#7871'u c'#7847'n c'#7843' ki'#7875'm tra h'#236'nh d'#7841'ng v'#224' quy t'#7855'c nghi'#7879'p v'#7909'.');
+  Put(True,
+    'Community: ',
+    'C'#7897'ng '#273#7891'ng: ');
+  Put(True,
+    'Compare / Merge + History',
+    'So s'#225'nh / G'#7897'p + L'#7883'ch s'#7917);
+  Put(True,
+    'Compare / merge',
+    'So s'#225'nh / g'#7897'p');
+  Put(True,
+    'Compare / merge'#13#10'Ctrl+Shift+H',
+    'So s'#225'nh / g'#7897'p'#13#10'Ctrl+Shift+H');
+  Put(True,
+    'Compare / merge + &history tab',
+    'Tab so s'#225'nh / g'#7897'p + &l'#7883'ch s'#7917);
+  Put(True,
+    'Compare / merge + &history...',
+    'So s'#225'nh / g'#7897'p + &l'#7883'ch s'#7917'...');
+  Put(True,
+    'Compare / merge + session history',
+    'So s'#225'nh / g'#7897'p + l'#7883'ch s'#7917' phi'#234'n');
+  Put(True,
+    'Compile error',
+    'L'#7895'i bi'#234'n d'#7883'ch');
+  Put(True,
+    'Compiled OK - processing lines...',
+    'Bi'#234'n d'#7883'ch OK - '#273'ang x'#7917' l'#253' d'#242'ng...');
+  Put(True,
+    'Compiling...',
+    #272'ang bi'#234'n d'#7883'ch...');
+  Put(True,
+    'Compressed',
+    #272#227' n'#233'n');
+  Put(True,
+    'Confirm',
+    'X'#225'c nh'#7853'n');
+  Put(True,
+    'Confirm AI processing',
+    'X'#225'c nh'#7853'n x'#7917' l'#253' AI');
+  Put(True,
+    'Confirm the operation?',
+    'X'#225'c nh'#7853'n thao t'#225'c?');
+  Put(True,
+    'Confirmation',
+    'X'#225'c nh'#7853'n');
+  Put(True,
+    'Confirms the line has exactly the expected number of delimiter-separat'
+        + 'ed fields for this layout.',
+    'X'#225'c nh'#7853'n d'#242'ng c'#243' '#273#250'ng s'#7889' tr'#432#7901'ng ph'#226'n t'#225'ch b'#7857'ng d'#7845'u ph'#226'n c'#225'ch nh'#432' b'#7889' c'#7909
+        + 'c n'#224'y.');
+  Put(True,
+    'Connected',
+    #272#227' k'#7871't n'#7889'i');
+  Put(True,
+    'Contact email:',
+    'Email li'#234'n h'#7879':');
+  Put(True,
+    'Contact the author right now !',
+    'Li'#234'n h'#7879' t'#225'c gi'#7843' ngay b'#226'y gi'#7901' !');
+  Put(True,
+    'Content',
+    'N'#7897'i dung');
+  Put(True,
+    'Content copied to clipboard.',
+    #272#227' sao ch'#233'p n'#7897'i dung v'#224'o Clipboard.');
+  Put(True,
+    'Content exported to memo.',
+    #272#227' xu'#7845't n'#7897'i dung ra memo.');
+  Put(True,
+    'Content mode:',
+    'Ch'#7871' '#273#7897' n'#7897'i dung:');
+  Put(True,
+    'Content:',
+    'N'#7897'i dung:');
+  Put(True,
+    'Contents copied to the clipboard. Just paste (CTRL+V).',
+    #272#227' sao ch'#233'p n'#7897'i dung v'#224'o Clipboard. Ch'#7881' c'#7847'n d'#225'n (CTRL+V).');
+  Put(True,
+    'Continue with split now?',
+    'Ti'#7871'p t'#7909'c t'#225'ch ngay?');
+  Put(True,
+    'Continue?',
+    'Ti'#7871'p t'#7909'c?');
+  Put(True,
+    'Copy',
+    'Sao ch'#233'p');
+  Put(True,
+    'Copy all',
+    'Sao ch'#233'p t'#7845't c'#7843);
+  Put(True,
+    'Copy only a specific range of lines from source',
+    'Ch'#7881' sao ch'#233'p m'#7897't kho'#7843'ng d'#242'ng c'#7909' th'#7875' t'#7915' ngu'#7891'n');
+  Put(True,
+    'Copy preview line',
+    'Sao ch'#233'p d'#242'ng xem tr'#432#7899'c');
+  Put(True,
+    'Copy preview line (number and text)',
+    'Sao ch'#233'p d'#242'ng xem tr'#432#7899'c (s'#7889' v'#224' v'#259'n b'#7843'n)');
+  Put(True,
+    'Copy preview text only',
+    'Ch'#7881' sao ch'#233'p v'#259'n b'#7843'n xem tr'#432#7899'c');
+  Put(True,
+    'Copy selected left',
+    'Sao ch'#233'p v'#249'ng ch'#7885'n (tr'#225'i)');
+  Put(True,
+    'Copy selected right',
+    'Sao ch'#233'p v'#249'ng ch'#7885'n (ph'#7843'i)');
+  Put(True,
+    'Copy selection',
+    'Sao ch'#233'p v'#249'ng ch'#7885'n');
+  Put(True,
+    'Copy selection to clipboard (same as Ctrl+C)',
+    'Sao ch'#233'p v'#249'ng ch'#7885'n v'#224'o Clipboard (gi'#7889'ng Ctrl+C)');
+  Put(True,
+    'Could not apply the edit.',
+    'Kh'#244'ng th'#7875' '#225'p d'#7909'ng ch'#7881'nh s'#7917'a.');
+  Put(True,
+    'Could not build preview for pattern/regex:',
+    'Kh'#244'ng th'#7875' t'#7841'o xem tr'#432#7899'c cho m'#7851'u/regex:');
+  Put(True,
+    'Could not compute split boundaries: file too small for the requested n'
+        + 'umber of parts.',
+    'Kh'#244'ng th'#7875' t'#237'nh ranh gi'#7899'i t'#225'ch: t'#7879'p qu'#225' nh'#7887' cho s'#7889' ph'#7847'n y'#234'u c'#7847'u.');
+  Put(True,
+    'Could not compute split boundaries: last part would be empty.',
+    'Kh'#244'ng th'#7875' t'#237'nh ranh gi'#7899'i t'#225'ch: ph'#7847'n cu'#7889'i s'#7869' r'#7895'ng.');
+  Put(True,
+    'Could not compute split boundaries: not enough line breaks for the req'
+        + 'uested number of parts.',
+    'Kh'#244'ng th'#7875' t'#237'nh ranh gi'#7899'i t'#225'ch: kh'#244'ng '#273#7911' ng'#7855't d'#242'ng cho s'#7889' ph'#7847'n y'#234'u c'#7847'u.');
+  Put(True,
+    'Could not count lines in the source file.',
+    'Kh'#244'ng th'#7875' '#273#7871'm d'#242'ng trong t'#7879'p ngu'#7891'n.');
+  Put(True,
+    'Could not create stdin pipe.',
+    'Kh'#244'ng th'#7875' t'#7841'o '#7889'ng stdin.');
+  Put(True,
+    'Could not create stdout pipe.',
+    'Kh'#244'ng th'#7875' t'#7841'o '#7889'ng stdout.');
+  Put(True,
+    'Could not detect CSV format in this file.',
+    'Kh'#244'ng ph'#225't hi'#7879'n '#273#432#7907'c '#273#7883'nh d'#7841'ng CSV trong t'#7879'p n'#224'y.');
+  Put(True,
+    'Could not download Python plugin %s. Error: %s',
+    'Kh'#244'ng th'#7875' t'#7843'i plugin Python %s. L'#7895'i: %s');
+  Put(True,
+    'Could not finalize merge file rename operation.',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't '#273#7893'i t'#234'n t'#7879'p g'#7897'p.');
+  Put(True,
+    'Could not finalize save (rename). Error %d: %s',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't l'#432'u ('#273#7893'i t'#234'n). L'#7895'i %d: %s');
+  Put(True,
+    'Could not finalize script processing.',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't x'#7917' l'#253' script.');
+  Put(True,
+    'Could not initialize COM for the regex filter.',
+    'Kh'#244'ng th'#7875' kh'#7903'i t'#7841'o COM cho b'#7897' l'#7885'c regex.');
+  Put(True,
+    'Could not open output file for large-file mode.',
+    'Kh'#244'ng th'#7875' m'#7903' t'#7879'p '#273#7847'u ra cho ch'#7871' '#273#7897' t'#7879'p l'#7899'n.');
+  Put(True,
+    'Could not open source file: ',
+    'Kh'#244'ng th'#7875' m'#7903' t'#7879'p ngu'#7891'n: ');
+  Put(True,
+    'Could not remove or rename the target file (in use or access denied).',
+    'Kh'#244'ng th'#7875' x'#243'a ho'#7863'c '#273#7893'i t'#234'n t'#7879'p '#273#237'ch ('#273'ang d'#249'ng ho'#7863'c b'#7883' t'#7915' ch'#7889'i truy c'#7853
+        + 'p).');
+  Put(True,
+    'Could not replace destination file.',
+    'Kh'#244'ng th'#7875' thay th'#7871' t'#7879'p '#273#237'ch.');
+  Put(True,
+    'Could not resolve insertion position. Read destination file again and '
+        + 'retry.',
+    'Kh'#244'ng th'#7875' x'#225'c '#273#7883'nh v'#7883' tr'#237' ch'#232'n. '#272#7885'c l'#7841'i t'#7879'p '#273#237'ch r'#7891'i th'#7917' l'#7841'i.');
+  Put(True,
+    'Could not resolve line for that byte position.',
+    'Kh'#244'ng th'#7875' x'#225'c '#273#7883'nh d'#242'ng cho v'#7883' tr'#237' byte '#273#243'.');
+  Put(True,
+    'Could not send script to engine.',
+    'Kh'#244'ng th'#7875' g'#7917'i script t'#7899'i engine.');
+  Put(True,
+    'Could not start AI Chat Python plugin (ConsumerAI.exe).',
+    'Kh'#244'ng th'#7875' kh'#7903'i '#273#7897'ng plugin Python AI Chat (ConsumerAI.exe).');
+  Put(True,
+    'Could not start Advanced AI Chat (file) Python plugin (ConsumerRAG.exe'
+        + ').',
+    'Kh'#244'ng th'#7875' kh'#7903'i '#273#7897'ng plugin Python Advanced AI Chat (file) (ConsumerRAG'
+        + '.exe).');
+  Put(True,
+    'Could not start Python plugin ScriptEngine.exe.',
+    'Kh'#244'ng th'#7875' kh'#7903'i '#273#7897'ng plugin Python ScriptEngine.exe.');
+  Put(True,
+    'Could not start fast file processing in script engine.',
+    'Kh'#244'ng th'#7875' b'#7855't '#273#7847'u x'#7917' l'#253' t'#7879'p nhanh trong script engine.');
+  Put(True,
+    'Could not start fast tail processing in script engine.',
+    'Kh'#244'ng th'#7875' b'#7855't '#273#7847'u x'#7917' l'#253' tail nhanh trong script engine.');
+  Put(True,
+    'Could not start python/py process.',
+    'Kh'#244'ng th'#7875' kh'#7903'i '#273#7897'ng ti'#7871'n tr'#236'nh python/py.');
+  Put(True,
+    'Could not validate pattern/regex against the selected file:',
+    'Kh'#244'ng th'#7875' x'#225'c th'#7921'c m'#7851'u/regex v'#7899'i t'#7879'p '#273#227' ch'#7885'n:');
+  Put(True,
+    'Count character positions with a fixed font or specification sheet, th'
+        + 'en edit each (. {n} ) length. This example splits into four segments a'
+        + 'nd inserts semicolons.',
+    #272#7871'm v'#7883' tr'#237' k'#253' t'#7921' b'#7857'ng font c'#7889' '#273#7883'nh ho'#7863'c b'#7843'ng '#273#7863'c t'#7843', r'#7891'i s'#7917'a t'#7915'ng '#273#7897' d'
+        + #224'i (. {n} ). V'#237' d'#7909' n'#224'y t'#225'ch th'#224'nh b'#7889'n '#273'o'#7841'n v'#224' ch'#232'n d'#7845'u ch'#7845'm ph'#7849'y.');
+  Put(True,
+    'Counting matches...',
+    #272'ang '#273#7871'm c'#225'c l'#7847'n kh'#7899'p...');
+  Put(True,
+    'Create blank lines',
+    'T'#7841'o d'#242'ng tr'#7889'ng');
+  Put(True,
+    'Created',
+    #272#227' t'#7841'o');
+  Put(True,
+    'Creation Date:',
+    'Ng'#224'y t'#7841'o:');
+  Put(True,
+    'Criteria',
+    'Ti'#234'u ch'#237);
+  Put(True,
+    'Csv.AskAI',
+    'H'#7887'i AI v'#7873' c'#225'c c'#7897't n'#224'y');
+  Put(True,
+    'Csv.HeaderLine',
+    'D'#242'ng '#273#243' l'#224' ti'#234'u '#273#7873' c'#7897't.');
+  Put(True,
+    'Csv.SortAsc',
+    't'#259'ng d'#7847'n');
+  Put(True,
+    'Csv.SortBusy',
+    #272'ang s'#7855'p x'#7871'p %s / %s d'#242'ng. Nh'#7845'n Esc '#273#7875' h'#7911'y.');
+  Put(True,
+    'Csv.SortCancelled',
+    #272#227' h'#7911'y s'#7855'p x'#7871'p c'#7897't.');
+  Put(True,
+    'Csv.SortCleared',
+    #272#227' x'#243'a s'#7841'ch s'#7855'p x'#7871'p c'#7897't.');
+  Put(True,
+    'Csv.SortDesc',
+    'gi'#7843'm d'#7847'n');
+  Put(True,
+    'Csv.SortDone',
+    #272#227' s'#7855'p x'#7871'p theo %s (%s). T'#7879'p v'#7851'n tr'#234'n '#273#297'a.');
+  Put(True,
+    'Csv.SortFailed',
+    'Kh'#244'ng th'#7875' s'#7855'p x'#7871'p c'#7897't n'#224'y.');
+  Put(True,
+    'Csv.SortNeedColumn',
+    #272#7863't t'#234'n c'#7897't c'#7847'n s'#7855'p x'#7871'p, theo s'#7889' ho'#7863'c ti'#234'u '#273#7873'.');
+  Put(True,
+    'Csv.SortNoFilter',
+    'X'#243'a s'#7841'ch b'#7897' l'#7885'c tr'#432#7899'c khi s'#7855'p x'#7871'p c'#7897't.');
+  Put(True,
+    'Csv.SortNone',
+    'th'#7913' t'#7921' t'#7879'p');
+  Put(True,
+    'Ctrl+ shortcuts are shown to the right of each menu command.',
+    'Ph'#237'm t'#7855't Ctrl+ hi'#7879'n b'#234'n ph'#7843'i m'#7895'i l'#7879'nh menu.');
+  Put(True,
+    'Custom',
+    'T'#249'y ch'#7881'nh');
+  Put(True,
+    'Custom PPI: ',
+    'PPI t'#249'y ch'#7881'nh: ');
+  Put(True,
+    'Custom PixelsPerInch value',
+    'Gi'#225' tr'#7883' PixelsPerInch t'#249'y ch'#7881'nh');
+  Put(True,
+    'Cut',
+    'C'#7855't');
+  Put(True,
+    'D&uplicate line',
+    'Nh'#226'n &'#273#244'i d'#242'ng');
+  Put(True,
+    'Date && Time',
+    'Ng'#224'y && Gi'#7901);
+  Put(True,
+    'Date/Time',
+    'Ng'#224'y/Gi'#7901);
+  Put(True,
+    'Delete',
+    'X'#243'a');
+  Put(True,
+    'Delete %d selected line(s) from the file?',
+    'X'#243'a %d d'#242'ng '#273#227' ch'#7885'n kh'#7887'i t'#7879'p?');
+  Put(True,
+    'Delete Duplicate Lines...',
+    'X'#243'a c'#225'c d'#242'ng tr'#249'ng l'#7863'p...');
+  Put(True,
+    'Delete Line',
+    'X'#243'a d'#242'ng');
+  Put(True,
+    'Delete Lines',
+    'X'#243'a c'#225'c d'#242'ng');
+  Put(True,
+    'Delete confirmation',
+    'X'#225'c nh'#7853'n x'#243'a');
+end;
+
+procedure AddVietnamesePart12(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Delete lines'#13#10'Ctrl+Shift+D',
+    'X'#243'a d'#242'ng'#13#10'Ctrl+Shift+D');
+  Put(True,
+    'Delete lines %d-%d',
+    'X'#243'a d'#242'ng %d-%d');
+  Put(True,
+    'Delete lines (batch)',
+    'X'#243'a d'#242'ng (h'#224'ng lo'#7841't)');
+  Put(True,
+    'Delete selected lines from the file.',
+    'X'#243'a c'#225'c d'#242'ng '#273#227' ch'#7885'n kh'#7887'i t'#7879'p.');
+  Put(True,
+    'Deleting duplicate lines...',
+    #272'ang x'#243'a c'#225'c d'#242'ng tr'#249'ng l'#7863'p...');
+  Put(True,
+    'Deleting selected lines...',
+    #272'ang x'#243'a c'#225'c d'#242'ng '#273#227' ch'#7885'n...');
+  Put(True,
+    'Deleting selected lines... (part %d of %d)',
+    #272'ang x'#243'a c'#225'c d'#242'ng '#273#227' ch'#7885'n... (ph'#7847'n %d / %d)');
+  Put(True,
+    'Delimited text with numeric first column detected; using regex "%s".',
+    'Ph'#225't hi'#7879'n v'#259'n b'#7843'n ph'#226'n t'#225'ch v'#7899'i c'#7897't '#273#7847'u l'#224' s'#7889'; d'#249'ng regex "%s".');
+  Put(True,
+    'Delimiters: "-" for ranges, "," or ";" for specific lines.'#13'Spaces are '
+        + 'ignored.',
+    'D'#7845'u ph'#226'n c'#225'ch: "-" cho kho'#7843'ng, "," ho'#7863'c ";" cho d'#242'ng c'#7909' th'#7875'.'#13'Kho'#7843'ng tr'
+        + #7855'ng b'#7883' b'#7887' qua.');
+  Put(True,
+    'Delta File Editor',
+    'Tr'#236'nh s'#7917'a t'#7879'p Delta');
+  Put(True,
+    'DeltaEditor.Added: %d',
+    #272#227' th'#234'm d'#242'ng %d.');
+  Put(True,
+    'DeltaEditor.Copied: %d',
+    #272#227' sao ch'#233'p %d d'#242'ng.');
+  Put(True,
+    'DeltaEditor.Hint',
+    'T'#7889'i '#273'a %d d'#242'ng. S'#7917'a c'#225'c d'#242'ng c'#7847'n thay th'#7871' trong t'#7879'p, r'#7891'i nh'#7845'p G'#7897'p. Ch'#7885
+        + 'n m'#7897't h'#224'ng '#273#7875' s'#7917'a.');
+  Put(True,
+    'DeltaEditor.Removed: %d',
+    #272#227' x'#243'a %d d'#242'ng.');
+  Put(True,
+    'DeltaEditor.Updated: %d',
+    #272#227' c'#7853'p nh'#7853't d'#242'ng %d.');
+  Put(True,
+    'Describe what you want from these files.',
+    'M'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n t'#7915' c'#225'c t'#7879'p n'#224'y.');
+  Put(True,
+    'Destination file (current):',
+    'T'#7879'p '#273#237'ch (hi'#7879'n t'#7841'i):');
+  Put(True,
+    'Destination file is in use by another process: ',
+    'T'#7879'p '#273#237'ch '#273'ang '#273#432#7907'c ti'#7871'n tr'#236'nh kh'#225'c s'#7917' d'#7909'ng: ');
+  Put(True,
+    'Destination file must have at least 2 lines for insertion by line.',
+    'T'#7879'p '#273#237'ch ph'#7843'i c'#243' '#237't nh'#7845't 2 d'#242'ng '#273#7875' ch'#232'n theo d'#242'ng.');
+  Put(True,
+    'Destination file not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p '#273#237'ch.');
+  Put(True,
+    'Destination file:',
+    'T'#7879'p '#273#237'ch:');
+  Put(True,
+    'Detailed Info',
+    'Th'#244'ng tin chi ti'#7871't');
+  Put(True,
+    'Details',
+    'Chi ti'#7871't');
+  Put(True,
+    'Detected encoding (file):',
+    'B'#7843'ng m'#227' ph'#225't hi'#7879'n (t'#7879'p):');
+  Put(True,
+    'Detected host/path style domain sample from column data: %s',
+    'M'#7851'u mi'#7873'n ki'#7875'u host/'#273#432#7901'ng d'#7851'n ph'#225't hi'#7879'n t'#7915' d'#7919' li'#7879'u c'#7897't: %s');
+  Put(True,
+    'Detected on file: ',
+    'Ph'#225't hi'#7879'n tr'#234'n t'#7879'p: ');
+  Put(True,
+    'Detected selected line: %d (you can change it).',
+    'D'#242'ng '#273#227' ch'#7885'n ph'#225't hi'#7879'n: %d (b'#7841'n c'#243' th'#7875' '#273#7893'i).');
+  Put(True,
+    'Developed by: ',
+    'Ph'#225't tri'#7875'n b'#7903'i: ');
+  Put(True,
+    'Device',
+    'Thi'#7871't b'#7883);
+  Put(True,
+    'Dialogs',
+    'H'#7897'p tho'#7841'i');
+  Put(True,
+    'Diferenciar mai'#250'sculas/min'#250'sculas?',
+    'T'#236'm ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng?');
+  Put(True,
+    'Diff by lines (range)',
+    'Diff theo d'#242'ng (kho'#7843'ng)');
+  Put(True,
+    'Different-text mode requires at least %d lines in the text box.',
+    'Ch'#7871' '#273#7897' v'#259'n b'#7843'n kh'#225'c y'#234'u c'#7847'u '#237't nh'#7845't %d d'#242'ng trong h'#7897'p v'#259'n b'#7843'n.');
+  Put(True,
+    'Digite o texto para procurar:',
+    'Nh'#7853'p v'#259'n b'#7843'n c'#7847'n t'#236'm:');
+  Put(True,
+    'Directory',
+    'Th'#432' m'#7909'c');
+  Put(True,
+    'Disabled',
+    #272#227' t'#7855't');
+  Put(True,
+    'Discard this edit?',
+    'H'#7911'y b'#7887' ch'#7881'nh s'#7917'a n'#224'y?');
+  Put(True,
+    'Disconnected',
+    #272#227' ng'#7855't k'#7871't n'#7889'i');
+  Put(True,
+    'DiskSpace.Button.Cancel',
+    '&H'#7911'y');
+  Put(True,
+    'DiskSpace.Button.Continue',
+    '&Ti'#7871'p t'#7909'c');
+  Put(True,
+    'DiskSpace.Button.Export',
+    '&Xu'#7845't');
+  Put(True,
+    'DiskSpace.Error.OperationFailed',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't thao t'#225'c. C'#243' th'#7875' do thi'#7871'u dung l'#432#7907'ng '#273#297'a, th'#432' m'#7909'c t'
+        + #7841'm '#273#7847'y, ho'#7863'c thi'#7871'u b'#7897' nh'#7899'. C'#225'c t'#7879'p t'#7841'm '#273#227' '#273#432#7907'c d'#7885'n khi c'#243' th'#7875'.');
+  Put(True,
+    'DiskSpace.Export.DialogTitle',
+    'C'#7843'nh b'#225'o dung l'#432#7907'ng '#273#297'a khi xu'#7845't');
+  Put(True,
+    'DiskSpace.Export.Filter',
+    'T'#7879'p v'#259'n b'#7843'n (*.txt)|*.txt');
+  Put(True,
+    'DiskSpace.Export.Success',
+    #272#227' l'#432'u th'#244'ng b'#225'o v'#224'o:'#13#10'%s');
+  Put(True,
+    'DiskSpace.Op.CompareMerge',
+    'So s'#225'nh / g'#7897'p ('#225'p d'#7909'ng thay '#273#7893'i)');
+  Put(True,
+    'DiskSpace.Op.MergeFiles',
+    'G'#7897'p t'#7879'p');
+  Put(True,
+    'DiskSpace.Op.MergeLines',
+    'G'#7897'p d'#242'ng');
+  Put(True,
+    'DiskSpace.Op.SplitEqual',
+    'T'#225'ch t'#7879'p th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau');
+  Put(True,
+    'DiskSpace.Op.SplitFraction',
+    'Tr'#237'ch xu'#7845't c'#225'c ph'#7847'n t'#7879'p');
+  Put(True,
+    'DiskSpace.Op.SplitPattern',
+    'T'#225'ch t'#7879'p theo m'#7851'u/regex');
+  Put(True,
+    'DiskSpace.Size.About',
+    'kho'#7843'ng %s');
+  Put(True,
+    'DiskSpace.Unit.B',
+    'B');
+  Put(True,
+    'DiskSpace.Unit.GB',
+    'GB');
+  Put(True,
+    'DiskSpace.Unit.KB',
+    'KB');
+  Put(True,
+    'DiskSpace.Unit.MB',
+    'MB');
+  Put(True,
+    'DiskSpace.Unit.TB',
+    'TB');
+  Put(True,
+    'DiskSpace.Warning.Body',
+    'Thao t'#225'c: %s'#13#10#13#10'Thao t'#225'c n'#224'y c'#243' th'#7875' c'#7847'n th'#234'm %s dung l'#432#7907'ng '#273#297'a tr'#7889'ng.'#13
+        + #10#7892' '#273#297'a: %s'#13#10'Kh'#7843' d'#7909'ng: %s'#13#10'Thi'#7871'u: %s'#13#10#13#10'C'#225'c t'#7879'p l'#224'm vi'#7879'c t'#7841'm c'#243' th'#7875' l'#432'u'
+        + ' d'#432#7899'i:'#13#10'%s'#13#10#13#10'N'#7871'u ti'#7871'p t'#7909'c, thao t'#225'c c'#243' th'#7875' d'#7915'ng gi'#7919'a ch'#7915'ng ho'#7863'c '#273#7875' l'#7841
+        + 'i t'#7879'p t'#7841'm tr'#234'n '#273#297'a.'#13#10#13#10'B'#7841'n v'#7851'n mu'#7889'n ti'#7871'p t'#7909'c?');
+  Put(True,
+    'DiskSpace.Warning.Title',
+    'Dung l'#432#7907'ng '#273#297'a');
+  Put(True,
+    'Do you want to continue?',
+    'B'#7841'n mu'#7889'n ti'#7871'p t'#7909'c?');
+  Put(True,
+    'Doctoralia-style CSV detected: examples assume columns doctor_id,title'
+        + ',name,city1,city2,region,specialization,reviews,newest_review_date,tel'
+        + 'emedicine,price,url,...',
+    'Ph'#225't hi'#7879'n CSV ki'#7875'u Doctoralia: v'#237' d'#7909' gi'#7843' '#273#7883'nh c'#225'c c'#7897't doctor_id,title,'
+        + 'name,city1,city2,region,specialization,reviews,newest_review_date,tele'
+        + 'medicine,price,url,...');
+  Put(True,
+    'Does not re-read file. DEFAULT = BOM/heuristics.',
+    'Kh'#244'ng '#273#7885'c l'#7841'i t'#7879'p. M'#7862'C '#272#7882'NH = BOM/heuristic.');
+  Put(True,
+    'Does not re-read file. Pick UTF-8 / ANSI / UTF-16 / UTF-32 to force.',
+    'Kh'#244'ng '#273#7885'c l'#7841'i t'#7879'p. Ch'#7885'n UTF-8 / ANSI / UTF-16 / UTF-32 '#273#7875' '#233'p.');
+  Put(True,
+    'Does not re-read file. Pick UTF-8 / ANSI / UTF-16 to force.',
+    'Kh'#244'ng '#273#7885'c l'#7841'i t'#7879'p. Ch'#7885'n UTF-8 / ANSI / UTF-16 '#273#7875' '#233'p.');
+  Put(True,
+    'Don''t show this screen on startup',
+    'Kh'#244'ng hi'#7879'n m'#224'n h'#236'nh n'#224'y khi kh'#7903'i '#273#7897'ng');
+  Put(True,
+    'Download cancelled by user.',
+    'Ng'#432#7901'i d'#249'ng '#273#227' h'#7911'y t'#7843'i xu'#7889'ng.');
+  Put(True,
+    'Downloaded Python plugin %s is invalid or incomplete (PyInstaller arch'
+        + 'ive). Rebuild with data-lake-duckdb-main\build_exe_lancedb.bat, upload'
+        + ' to FTP, then try again.',
+    'Plugin Python %s '#273#227' t'#7843'i kh'#244'ng h'#7907'p l'#7879' ho'#7863'c kh'#244'ng '#273#7847'y '#273#7911' (kho l'#432'u tr'#7919' Py'
+        + 'Installer). Build l'#7841'i b'#7857'ng data-lake-duckdb-main\build_exe_lancedb.bat'
+        + ', t'#7843'i l'#234'n FTP, r'#7891'i th'#7917' l'#7841'i.');
+  Put(True,
+    'Downloaded Python plugin is not a valid PyInstaller executable.',
+    'Plugin Python '#273#227' t'#7843'i kh'#244'ng ph'#7843'i executable PyInstaller h'#7907'p l'#7879'.');
+  Put(True,
+    'Downloading Python plugin %s ... please wait.',
+    #272'ang t'#7843'i plugin Python %s ... vui l'#242'ng ch'#7901'.');
+  Put(True,
+    'Duplicate Line',
+    'Nh'#226'n '#273#244'i d'#242'ng');
+  Put(True,
+    'E&xit',
+    '&Tho'#225't');
+  Put(True,
+    'E&xport filtered results',
+    '&Xu'#7845't k'#7871't qu'#7843' '#273#227' l'#7885'c');
+  Put(True,
+    'E&xport tail / filtered lines',
+    '&Xu'#7845't '#273'u'#244'i / d'#242'ng '#273#227' l'#7885'c');
+  Put(True,
+    'E&xtract file parts...',
+    'Tr'#237'ch &xu'#7845't c'#225'c ph'#7847'n t'#7879'p...');
+  Put(True,
+    'Each block explains the goal, then shows Regex:, then Logic:. FastFile'
+        + ' uses VBScript.RegExp (no (?<=...) lookbehind).',
+    'M'#7895'i kh'#7889'i gi'#7843'i th'#237'ch m'#7909'c ti'#234'u, r'#7891'i hi'#7879'n Regex:, r'#7891'i Logic:. FastFile d'#249
+        + 'ng VBScript.RegExp (kh'#244'ng c'#243' lookbehind (?<=...)).');
+  Put(True,
+    'Each block has a short explanation, then a line starting with Regex:, '
+        + 'then Logic:. FastFile uses VBScript.RegExp - lookbehind (?<=...) is no'
+        + 't supported; lookahead (?=...) is supported.',
+    'M'#7895'i kh'#7889'i c'#243' gi'#7843'i th'#237'ch ng'#7855'n, r'#7891'i m'#7897't d'#242'ng b'#7855't '#273#7847'u b'#7857'ng Regex:, r'#7891'i Log'
+        + 'ic:. FastFile d'#249'ng VBScript.RegExp - kh'#244'ng h'#7895' tr'#7907' lookbehind (?<=...);'
+        + ' h'#7895' tr'#7907' lookahead (?=...).');
+  Put(True,
+    'Edit',
+    'S'#7917'a');
+  Put(True,
+    'Edit'#13#10'Ctrl+Shift+I',
+    'S'#7917'a'#13#10'Ctrl+Shift+I');
+  Put(True,
+    'Edit / index',
+    'S'#7917'a / ch'#7881' m'#7909'c');
+  Put(True,
+    'Edit Line',
+    'S'#7917'a d'#242'ng');
+  Put(True,
+    'Edit applied.',
+    #272#227' '#225'p d'#7909'ng ch'#7881'nh s'#7917'a.');
+  Put(True,
+    'Edit line replacements (.delta) and merge into the current file (ReadF'
+        + 'ileThread). Saves a .delta next to the app and runs merge in backgroun'
+        + 'd.',
+    'S'#7917'a c'#225'c thay th'#7871' d'#242'ng (.delta) v'#224' g'#7897'p v'#224'o t'#7879'p hi'#7879'n t'#7841'i (ReadFileThread'
+        + '). L'#432'u .delta c'#7841'nh '#7913'ng d'#7909'ng v'#224' ch'#7841'y g'#7897'p n'#7873'n.');
+  Put(True,
+    'Edit preview',
+    'S'#7917'a xem tr'#432#7899'c');
+  Put(True,
+    'Edit selected lines in the file.',
+    'S'#7917'a c'#225'c d'#242'ng '#273#227' ch'#7885'n trong t'#7879'p.');
+  Put(True,
+    'Edit the lines to replace in the file, then click Merge. Select a row '
+        + 'to edit it.',
+    'S'#7917'a c'#225'c d'#242'ng c'#7847'n thay th'#7871' trong t'#7879'p, r'#7891'i nh'#7845'p G'#7897'p. Ch'#7885'n m'#7897't h'#224'ng '#273#7875' s'#7917
+        + 'a.');
+  Put(True,
+    'Editing file (delete %d lines)...',
+    #272'ang s'#7917'a t'#7879'p (x'#243'a %d d'#242'ng)...');
+  Put(True,
+    'Editing file (delete)...',
+    #272'ang s'#7917'a t'#7879'p (x'#243'a)...');
+  Put(True,
+    'Editing file (insert %d lines)...',
+    #272'ang s'#7917'a t'#7879'p (ch'#232'n %d d'#242'ng)...');
+  Put(True,
+    'Editing file (insert)...',
+    #272'ang s'#7917'a t'#7879'p (ch'#232'n)...');
+  Put(True,
+    'Editing file (replace)...',
+    #272'ang s'#7917'a t'#7879'p (thay th'#7871')...');
+  Put(True,
+    'Editing file...',
+    #272'ang s'#7917'a t'#7879'p...');
+  Put(True,
+    'Edits applied: %d file(s).',
+    #272#227' '#225'p d'#7909'ng ch'#7881'nh s'#7917'a: %d t'#7879'p.');
+  Put(True,
+    'Elapsed time: %s',
+    'Th'#7901'i gian '#273#227' tr'#244'i: %s');
+  Put(True,
+    'EmEditor.CsvNotActive',
+    'T'#7855't ch'#7871' '#273#7897' CSV');
+  Put(True,
+    'EmEditor.DedupColumnLabel',
+    'C'#7897't (b'#7855't '#273#7847'u t'#7915' 1):');
+  Put(True,
+    'EmEditor.DedupCsvColumn',
+    'Gi'#225' tr'#7883' c'#7897't CSV');
+  Put(True,
+    'EmEditor.DedupDone',
+    #272#227' x'#243'a c'#225'c d'#242'ng tr'#249'ng. S'#7889' d'#242'ng duy nh'#7845't gi'#7919' l'#7841'i: %d');
+  Put(True,
+    'EmEditor.DedupKeyGroup',
+    'Ki'#7875'm tra tr'#249'ng l'#7863'p');
+  Put(True,
+    'EmEditor.DedupNeedCsv',
+    'B'#7853't ch'#7871' '#273#7897' CSV / C'#7897't tr'#432#7899'c '#273#7875' lo'#7841'i tr'#249'ng theo c'#7897't.');
+  Put(True,
+    'EmEditor.DedupWholeLine',
+    'C'#7843' d'#242'ng');
+end;
+
+procedure AddVietnamesePart13(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'EmEditor.ErrorPrefix',
+    'L'#7895'i thao t'#225'c: ');
+  Put(True,
+    'EmEditor.FreqDone',
+    'Chu'#7895'i th'#432#7901'ng g'#7863'p '#273#227' l'#432'u v'#224'o:%s'#13#10'M'#7909'c: %d');
+  Put(True,
+    'EmEditor.FreqModeCells',
+    #212' CSV');
+  Put(True,
+    'EmEditor.FreqModeGroup',
+    'Ch'#7871' '#273#7897' '#273#7871'm');
+  Put(True,
+    'EmEditor.FreqModeLines',
+    'D'#242'ng');
+  Put(True,
+    'EmEditor.FreqModeWords',
+    'T'#7915);
+  Put(True,
+    'EmEditor.FreqOutputHeader',
+    'string,count');
+  Put(True,
+    'EmEditor.MergeFailed',
+    'Kh'#244'ng g'#7897'p '#273#432#7907'c c'#225'c kh'#7889'i '#273#227' s'#7855'p x'#7871'p.');
+  Put(True,
+    'EmEditor.MinCountLabel',
+    'S'#7889' l'#7847'n t'#7889'i thi'#7875'u:');
+  Put(True,
+    'EmEditor.NeedFile',
+    'H'#227'y m'#7903' v'#224' '#273#7885'c m'#7897't t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'EmEditor.NeedLine',
+    'H'#227'y ch'#7885'n m'#7897't d'#242'ng trong danh s'#225'ch tr'#432#7899'c.');
+  Put(True,
+    'EmEditor.Progress.EtaCalc',
+    #273'ang '#432#7899'c t'#237'nh...');
+  Put(True,
+    'EmEditor.Progress.EtaLong',
+    '> 24 gi'#7901);
+  Put(True,
+    'EmEditor.Progress.EtaSoon',
+    #273'ang ho'#224'n t'#7845't...');
+  Put(True,
+    'EmEditor.Progress.Finalizing',
+    #272'ang thay th'#7871' t'#7879'p g'#7889'c...');
+  Put(True,
+    'EmEditor.Progress.ScanBytes',
+    '%s  %.2f / %.2f GB');
+  Put(True,
+    'EmEditor.Progress.ScanDetail',
+    '%s  %.2f / %.2f GB  |  %.0f MB/s  |  ~%s');
+  Put(True,
+    'EmEditor.Progress.Scanning',
+    #272'ang qu'#233't t'#7879'p...');
+  Put(True,
+    'EmEditor.Progress.Sorting',
+    #272'ang s'#7855'p x'#7871'p c'#225'c kh'#7889'i...');
+  Put(True,
+    'EmEditor.Progress.WriteDetail',
+    '%s  %d/%d  |  ~%s');
+  Put(True,
+    'EmEditor.Progress.Writing',
+    #272'ang ghi k'#7871't qu'#7843'...');
+  Put(True,
+    'EmEditor.Progress.WritingBucket',
+    #272'ang ghi k'#7871't qu'#7843' (nh'#243'm %d/%d)...');
+  Put(True,
+    'EmEditor.SaveFilter',
+    'T'#7879'p CSV (*.csv)|*.csv|T'#7879'p v'#259'n b'#7843'n (*.txt)|*.txt|T'#7845't c'#7843' t'#7879'p (*.*)|*.*');
+  Put(True,
+    'Empty input file',
+    'T'#7879'p '#273#7847'u v'#224'o tr'#7889'ng');
+  Put(True,
+    'Enable "Use Python macros on new lines" first.',
+    'H'#227'y b'#7853't "D'#249'ng macro Python tr'#234'n d'#242'ng m'#7899'i" tr'#432#7899'c.');
+  Put(True,
+    'Enable Python macro on each new tail line',
+    'B'#7853't macro Python tr'#234'n m'#7895'i d'#242'ng '#273'u'#244'i m'#7899'i');
+  Put(True,
+    'Enable Tail (Ctrl+T) and append lines, or apply a filter (Ctrl+L).',
+    'B'#7853't Tail (Ctrl+T) v'#224' th'#234'm d'#242'ng, ho'#7863'c '#225'p d'#7909'ng b'#7897' l'#7885'c (Ctrl+L).');
+  Put(True,
+    'Enable Tail / Follow mode (Ctrl+T) and wait for new lines to be append'
+        + 'ed to the file.',
+    'B'#7853't ch'#7871' '#273#7897' Tail / Theo d'#245'i (Ctrl+T) v'#224' ch'#7901' c'#225'c d'#242'ng m'#7899'i '#273#432#7907'c th'#234'm v'#224'o '
+        + 't'#7879'p.');
+  Put(True,
+    'Encrypted',
+    #272#227' m'#227' h'#243'a');
+  Put(True,
+    'English',
+    'Ti'#7871'ng Anh');
+  Put(True,
+    'Enter a tail macro script first.',
+    'H'#227'y nh'#7853'p script macro Tail tr'#432#7899'c.');
+  Put(True,
+    'Enter a word to search in the file',
+    'Nh'#7853'p m'#7897't t'#7915' c'#7847'n t'#236'm trong t'#7879'p');
+  Put(True,
+    'Enter search text.',
+    'Nh'#7853'p v'#259'n b'#7843'n c'#7847'n t'#236'm.');
+  Put(True,
+    'Enter the lines to export (e.g. 1-4 or 1,4,10):',
+    'Nh'#7853'p c'#225'c d'#242'ng c'#7847'n xu'#7845't (v'#237' d'#7909' 1-4 ho'#7863'c 1,4,10):');
+  Put(True,
+    'Equal parts',
+    'C'#225'c ph'#7847'n b'#7857'ng nhau');
+  Put(True,
+    'Equal parts'#13#10'Ctrl+Shift+P',
+    'C'#225'c ph'#7847'n b'#7857'ng nhau'#13#10'Ctrl+Shift+P');
+  Put(True,
+    'Equal parts count (2..1000):',
+    'S'#7889' ph'#7847'n b'#7857'ng nhau (2..1000):');
+  Put(True,
+    'Equal parts count (2..1000, only in equal-parts mode):',
+    'S'#7889' ph'#7847'n b'#7857'ng nhau (2..1000, ch'#7881' '#7903' ch'#7871' '#273#7897' ph'#7847'n b'#7857'ng nhau):');
+  Put(True,
+    'Equal-length splits without Regex',
+    'T'#225'ch '#273#7897' d'#224'i b'#7857'ng nhau kh'#244'ng d'#249'ng Regex');
+  Put(True,
+    'Equal-parts mode preview: file will be split into %d parts, preserving'
+        + ' complete lines.',
+    'Xem tr'#432#7899'c ch'#7871' '#273#7897' ph'#7847'n b'#7857'ng nhau: t'#7879'p s'#7869' '#273#432#7907'c t'#225'ch th'#224'nh %d ph'#7847'n, gi'#7919' n'
+        + 'guy'#234'n d'#242'ng '#273#7847'y '#273#7911'.');
+  Put(True,
+    'Equal-parts mode preview: file will be split preserving complete lines'
+        + '.',
+    'Xem tr'#432#7899'c ch'#7871' '#273#7897' ph'#7847'n b'#7857'ng nhau: t'#7879'p s'#7869' '#273#432#7907'c t'#225'ch gi'#7919' nguy'#234'n d'#242'ng '#273#7847'y '
+        + #273#7911'.');
+  Put(True,
+    'Error',
+    'L'#7895'i');
+  Put(True,
+    'Error downloading Python plugin %s: %s',
+    'L'#7895'i t'#7843'i plugin Python %s: %s');
+  Put(True,
+    'Error validating line range: ',
+    'L'#7895'i x'#225'c th'#7921'c kho'#7843'ng d'#242'ng: ');
+  Put(True,
+    'Error: ',
+    'L'#7895'i: ');
+  Put(True,
+    'Error: "From line" (%d) cannot be greater than "To line" (%d).',
+    'L'#7895'i: "T'#7915' d'#242'ng" (%d) kh'#244'ng '#273#432#7907'c l'#7899'n h'#417'n "'#272#7871'n d'#242'ng" (%d).');
+  Put(True,
+    'Error: "From line" (%d) exceeds total lines in source file (%d).',
+    'L'#7895'i: "T'#7915' d'#242'ng" (%d) v'#432#7907't qu'#225' t'#7893'ng s'#7889' d'#242'ng trong t'#7879'p ngu'#7891'n (%d).');
+  Put(True,
+    'Error: "From line" cannot be empty.',
+    'L'#7895'i: "T'#7915' d'#242'ng" kh'#244'ng '#273#432#7907'c '#273#7875' tr'#7889'ng.');
+  Put(True,
+    'Error: "From line" must be a valid number.',
+    'L'#7895'i: "T'#7915' d'#242'ng" ph'#7843'i l'#224' m'#7897't s'#7889' h'#7907'p l'#7879'.');
+  Put(True,
+    'Error: "From line" must be at least 1.',
+    'L'#7895'i: "T'#7915' d'#242'ng" ph'#7843'i '#237't nh'#7845't l'#224' 1.');
+  Put(True,
+    'Error: "To line" (%d) exceeds total lines in source file (%d).',
+    'L'#7895'i: "'#272#7871'n d'#242'ng" (%d) v'#432#7907't qu'#225' t'#7893'ng s'#7889' d'#242'ng trong t'#7879'p ngu'#7891'n (%d).');
+  Put(True,
+    'Error: "To line" cannot be empty.',
+    'L'#7895'i: "'#272#7871'n d'#242'ng" kh'#244'ng '#273#432#7907'c '#273#7875' tr'#7889'ng.');
+  Put(True,
+    'Error: "To line" must be a valid number.',
+    'L'#7895'i: "'#272#7871'n d'#242'ng" ph'#7843'i l'#224' m'#7897't s'#7889' h'#7907'p l'#7879'.');
+  Put(True,
+    'Error: "To line" must be at least 1.',
+    'L'#7895'i: "'#272#7871'n d'#242'ng" ph'#7843'i '#237't nh'#7845't l'#224' 1.');
+  Put(True,
+    'Error: Could not read source file to validate line count.',
+    'L'#7895'i: Kh'#244'ng '#273#7885'c '#273#432#7907'c t'#7879'p ngu'#7891'n '#273#7875' x'#225'c th'#7921'c s'#7889' d'#242'ng.');
+  Put(True,
+    'Error: Source file not found: %s',
+    'L'#7895'i: Kh'#244'ng t'#236'm th'#7845'y t'#7879'p ngu'#7891'n: %s');
+  Put(True,
+    'Estimated output files (approx.): %d',
+    'S'#7889' t'#7879'p '#273#7847'u ra '#432#7899'c t'#237'nh (x'#7845'p x'#7881'): %d');
+  Put(True,
+    'Estimated output files (approx., based on sample): %d',
+    'S'#7889' t'#7879'p '#273#7847'u ra '#432#7899'c t'#237'nh (x'#7845'p x'#7881', d'#7921'a tr'#234'n m'#7851'u): %d');
+  Put(True,
+    'Example targets ",1," style markers - edit spacing and commas for your'
+        + ' delimiter style.',
+    'V'#237' d'#7909' nh'#7855'm t'#7899'i d'#7845'u ",1," '#8212' ch'#7881'nh kho'#7843'ng tr'#7855'ng v'#224' d'#7845'u ph'#7849'y theo ki'#7875'u d'#7845
+        + 'u ph'#226'n c'#225'ch c'#7911'a b'#7841'n.');
+  Put(True,
+    'Examples',
+    'V'#237' d'#7909);
+  Put(True,
+    'Examples:',
+    'V'#237' d'#7909':');
+  Put(True,
+    'Exclude files that match the entered text.',
+    'Lo'#7841'i tr'#7915' c'#225'c t'#7879'p kh'#7899'p v'#7899'i v'#259'n b'#7843'n '#273#227' nh'#7853'p.');
+  Put(True,
+    'Excluded',
+    #272#227' lo'#7841'i tr'#7915);
+  Put(True,
+    'Executable not found',
+    'Kh'#244'ng t'#236'm th'#7845'y file th'#7921'c thi');
+  Put(True,
+    'Executable not found: ',
+    'Kh'#244'ng t'#236'm th'#7845'y file th'#7921'c thi: ');
+  Put(True,
+    'Execute',
+    'Th'#7921'c thi');
+  Put(True,
+    'Execution-style examples (based on sampled text):',
+    'V'#237' d'#7909' ki'#7875'u th'#7921'c thi (d'#7921'a tr'#234'n v'#259'n b'#7843'n l'#7845'y m'#7851'u):');
+  Put(True,
+    'Exit',
+    'Tho'#225't');
+  Put(True,
+    'Exp&ort',
+    'X&u'#7845't');
+  Put(True,
+    'Export',
+    'Xu'#7845't');
+  Put(True,
+    'Export'#13#10'Ctrl+Shift+O',
+    'Xu'#7845't'#13#10'Ctrl+Shift+O');
+  Put(True,
+    'Export Help Content',
+    'Xu'#7845't n'#7897'i dung tr'#7907' gi'#250'p');
+  Put(True,
+    'Export Lines',
+    'Xu'#7845't d'#242'ng');
+  Put(True,
+    'Export finished! File saved to: %s',
+    'Xu'#7845't xong! T'#7879'p '#273#227' l'#432'u v'#224'o: %s');
+  Put(True,
+    'Export finished! Lines copied to clipboard.',
+    'Xu'#7845't xong! C'#225'c d'#242'ng '#273#227' sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    'Export lines appended while Tail / Follow mode was active (Ctrl+T).',
+    'Xu'#7845't c'#225'c d'#242'ng '#273#432#7907'c th'#234'm trong khi ch'#7871' '#273#7897' Tail / Theo d'#245'i '#273'ang b'#7853't (Ctr'
+        + 'l+T).');
+  Put(True,
+    'Export path is required.',
+    'C'#7847'n '#273#432#7901'ng d'#7851'n xu'#7845't.');
+  Put(True,
+    'Export selected lines or results.',
+    'Xu'#7845't c'#225'c d'#242'ng ho'#7863'c k'#7871't qu'#7843' '#273#227' ch'#7885'n.');
+  Put(True,
+    'Export tail lines',
+    'Xu'#7845't d'#242'ng '#273'u'#244'i');
+  Put(True,
+    'Export to ClipBoard',
+    'Xu'#7845't ra Clipboard');
+  Put(True,
+    'Export to Clipboard',
+    'Xu'#7845't ra Clipboard');
+  Put(True,
+    'Export transcript',
+    'Xu'#7845't b'#7843'n ghi h'#7897'i tho'#7841'i');
+  Put(True,
+    'Export...',
+    'Xu'#7845't...');
+  Put(True,
+    'ExportDone.ClickFile',
+    'Nh'#7845'p m'#7897't t'#7879'p '#273#7875' m'#7903' trong FastFile:');
+  Put(True,
+    'ExportDone.Copied',
+    #272#227' sao ch'#233'p!');
+  Put(True,
+    'ExportDone.CopyPath',
+    'Sao ch'#233'p '#273#432#7901'ng d'#7851'n');
+  Put(True,
+    'ExportDone.CopyPaths',
+    'Sao ch'#233'p c'#225'c '#273#432#7901'ng d'#7851'n');
+  Put(True,
+    'ExportDone.Details',
+    'Chi ti'#7871't');
+  Put(True,
+    'ExportDone.Elapsed',
+    'Th'#7901'i gian: %s');
+  Put(True,
+    'ExportDone.FileLabel',
+    'T'#7879'p:');
+  Put(True,
+    'ExportDone.FolderLabel',
+    'Th'#432' m'#7909'c:');
+  Put(True,
+    'ExportDone.Missing',
+    'T'#7879'p '#273#432#7907'c t'#7841'o g'#7847'n nh'#7845't kh'#244'ng c'#242'n t'#7891'n t'#7841'i:'#13#10'%s');
+  Put(True,
+    'ExportDone.More',
+    '... v'#224' %d t'#7879'p n'#7919'a trong th'#432' m'#7909'c');
+  Put(True,
+    'ExportDone.NoneYet',
+    'Ch'#432'a c'#243' t'#7879'p n'#224'o '#273#432#7907'c t'#7841'o.');
+  Put(True,
+    'ExportDone.OpenDefault',
+    'M'#7903' b'#7857'ng ch'#432#417'ng tr'#236'nh Windows m'#7863'c '#273#7883'nh');
+  Put(True,
+    'ExportDone.OpenFolder',
+    'M'#7903' th'#432' m'#7909'c');
+  Put(True,
+    'ExportDone.OpenInApp',
+    'M'#7903' trong FastFile');
+  Put(True,
+    'ExportDone.OpenLink',
+    'Nh'#7845'p v'#224'o '#273#226'y '#273#7875' m'#7903' t'#7879'p '#273#227' t'#7841'o');
+  Put(True,
+    'ExportDone.Records',
+    #272#227' xu'#7845't %d b'#7843'n ghi');
+  Put(True,
+    'ExportDone.ShowLast',
+    'T'#7879'p '#273#432#7907'c t'#7841'o g'#7847'n nh'#7845't');
+end;
+
+procedure AddVietnamesePart14(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'ExportDone.ShowLastHint',
+    'Hi'#7879'n l'#7841'i c'#7917'a s'#7893' c'#7911'a t'#7879'p '#273#432#7907'c t'#7841'o g'#7847'n nh'#7845't (m'#7903' t'#7879'p, m'#7903' th'#432' m'#7909'c ho'#7863'c sao'
+        + ' ch'#233'p '#273#432#7901'ng d'#7851'n).');
+  Put(True,
+    'ExportDone.Title',
+    #272#227' t'#7841'o t'#7879'p th'#224'nh c'#244'ng');
+  Put(True,
+    'ExportDone.TitleN',
+    #272#227' t'#7841'o th'#224'nh c'#244'ng %d t'#7879'p');
+  Put(True,
+    'ExportDone.TotalSize',
+    'T'#7893'ng: %s');
+  Put(True,
+    'Exported Lines',
+    'C'#225'c d'#242'ng '#273#227' xu'#7845't');
+  Put(True,
+    'Exporting',
+    #272'ang xu'#7845't');
+  Put(True,
+    'Exporting lines to file...',
+    #272'ang xu'#7845't d'#242'ng ra t'#7879'p...');
+  Put(True,
+    'Exporting lines...',
+    #272'ang xu'#7845't d'#242'ng...');
+  Put(True,
+    'Exporting tail lines to file...',
+    #272'ang xu'#7845't d'#242'ng '#273'u'#244'i ra t'#7879'p...');
+  Put(True,
+    'Extended'#13#10'borders',
+    'Vi'#7873'n'#13#10'm'#7903' r'#7897'ng');
+  Put(True,
+    'Extension files exclusion',
+    'Lo'#7841'i tr'#7915' t'#7879'p theo ph'#7847'n m'#7903' r'#7897'ng');
+  Put(True,
+    'Extract Frequent Strings...',
+    'Tr'#237'ch chu'#7895'i th'#432#7901'ng g'#7863'p...');
+  Put(True,
+    'Extract doctor names (Title + Name)',
+    'Tr'#237'ch t'#234'n b'#225'c s'#297' (Danh x'#432'ng + T'#234'n)');
+  Put(True,
+    'Extract file parts from file',
+    'Tr'#237'ch c'#225'c ph'#7847'n t'#7879'p t'#7915' t'#7879'p');
+  Put(True,
+    'Extract only the slug after the domain in column',
+    'Ch'#7881' tr'#237'ch slug sau t'#234'n mi'#7873'n trong c'#7897't');
+  Put(True,
+    'Extract parts',
+    'Tr'#237'ch c'#225'c ph'#7847'n');
+  Put(True,
+    'Extract parts'#13#10'Ctrl+Shift+Q',
+    'Tr'#237'ch c'#225'c ph'#7847'n'#13#10'Ctrl+Shift+Q');
+  Put(True,
+    'Extract.AI.Button',
+    'T'#7841'o b'#7857'ng AI');
+  Put(True,
+    'Extract.AI.Explanation',
+    'AI: %s');
+  Put(True,
+    'Extract.AI.Failed',
+    'AI kh'#244'ng th'#7875' tr'#7843' l'#7901'i: %s');
+  Put(True,
+    'Extract.AI.Generated',
+    'Regex do AI t'#7841'o: %s');
+  Put(True,
+    'Extract.AI.Hint',
+    'AI '#273#7873' xu'#7845't bi'#7875'u th'#7913'c ch'#237'nh quy t'#7915' m'#244' t'#7843' c'#7911'a b'#7841'n v'#224' m'#7897't m'#7851'u n'#7897'i dung (g'
+        + #7917'i t'#7889'i '#273'a 3.000 k'#253' t'#7921').');
+  Put(True,
+    'Extract.AI.Label',
+    'H'#7887'i AI:');
+  Put(True,
+    'Extract.AI.NeedText',
+    'H'#227'y m'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n tr'#237'ch tr'#432#7899'c.');
+  Put(True,
+    'Extract.AI.NoRegex',
+    'AI kh'#244'ng tr'#7843' v'#7873' bi'#7875'u th'#7913'c ch'#237'nh quy h'#7907'p l'#7879'. H'#227'y th'#7917' m'#244' t'#7843' theo c'#225'ch kh'
+        + #225'c.');
+  Put(True,
+    'Extract.AI.Placeholder',
+    'M'#244' t'#7843' nh'#7919'ng g'#236' c'#7847'n tr'#237'ch, v'#237' d'#7909' s'#7889' '#273#417'n h'#224'ng b'#7855't '#273#7847'u b'#7857'ng PED-');
+  Put(True,
+    'Extract.AI.Recent',
+    'Y'#234'u c'#7847'u AI g'#7847'n '#273#226'y');
+  Put(True,
+    'Extract.AI.RecentEmpty',
+    'Ch'#432'a c'#243' y'#234'u c'#7847'u AI g'#7847'n '#273#226'y.');
+  Put(True,
+    'Extract.AI.RecentHint',
+    'Y'#234'u c'#7847'u AI g'#7847'n '#273#226'y (F4 ho'#7863'c Alt+Down)');
+  Put(True,
+    'Extract.BadRegex',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy kh'#244'ng h'#7907'p l'#7879': %s');
+  Put(True,
+    'Extract.Button',
+    'Tr'#237'ch...');
+  Put(True,
+    'Extract.Columns.Hint',
+    'S'#7889' c'#7897't, v'#237' d'#7909' 3 ho'#7863'c 2,4-6');
+  Put(True,
+    'Extract.Copied',
+    #272#227' sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    'Extract.CopyRegex',
+    'Sao ch'#233'p regex');
+  Put(True,
+    'Extract.CopyRegexHint',
+    'Sao ch'#233'p bi'#7875'u th'#7913'c ch'#237'nh quy v'#224'o clipboard');
+  Put(True,
+    'Extract.Count',
+    '%d l'#7847'n xu'#7845't hi'#7879'n '#183' %d k'#253' t'#7921);
+  Put(True,
+    'Extract.CountChars',
+    '%d k'#253' t'#7921);
+  Put(True,
+    'Extract.CustomHint',
+    'Nh'#7853'p bi'#7875'u th'#7913'c ch'#237'nh quy, ho'#7863'c m'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n trong "H'#7887'i AI" '
+        + 'r'#7891'i nh'#7845'p "T'#7841'o b'#7857'ng AI".');
+  Put(True,
+    'Extract.Delim.Auto',
+    'T'#7921' '#273#7897'ng');
+  Put(True,
+    'Extract.Delimiter',
+    'D'#7845'u ph'#226'n c'#225'ch:');
+  Put(True,
+    'Extract.Example',
+    'V'#237' d'#7909':');
+  Put(True,
+    'Extract.Group1',
+    'D'#249'ng nh'#243'm b'#7855't (capture group) 1');
+  Put(True,
+    'Extract.Hint',
+    'Tr'#237'ch ch'#7919' s'#7889', ch'#7919' c'#225'i, e-mail, ng'#224'y, c'#7897't ho'#7863'c c'#225'c kh'#7899'p bi'#7875'u th'#7913'c ch'#237'nh'
+        + ' quy t'#7915' v'#259'n b'#7843'n '#273#227' ch'#7885'n (ho'#7863'c to'#224'n b'#7897' n'#7897'i dung).');
+  Put(True,
+    'Extract.KeepSpaces',
+    'Gi'#7919' kho'#7843'ng tr'#7855'ng');
+  Put(True,
+    'Extract.Kind.AlNum',
+    'Ch'#7881' ch'#7919' c'#225'i v'#224' ch'#7919' s'#7889);
+  Put(True,
+    'Extract.Kind.Cep',
+    'CEP (m'#227' b'#432'u ch'#237'nh Brazil)');
+  Put(True,
+    'Extract.Kind.Cnpj',
+    'CNPJ (Brasil)');
+  Put(True,
+    'Extract.Kind.Columns',
+    'C'#7897't / tr'#432#7901'ng (v'#259'n b'#7843'n c'#243' d'#7845'u ph'#226'n c'#225'ch)');
+  Put(True,
+    'Extract.Kind.Cpf',
+    'CPF (Brasil)');
+  Put(True,
+    'Extract.Kind.Custom',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy t'#249'y ch'#7881'nh');
+  Put(True,
+    'Extract.Kind.Dates',
+    'Ng'#224'y th'#225'ng');
+  Put(True,
+    'Extract.Kind.Digits',
+    'Ch'#7881' ch'#7919' s'#7889' (0-9)');
+  Put(True,
+    'Extract.Kind.Ips',
+    #272#7883'a ch'#7881' IP (IPv4)');
+  Put(True,
+    'Extract.Kind.Letters',
+    'Ch'#7881' ch'#7919' c'#225'i');
+  Put(True,
+    'Extract.Kind.Money',
+    'S'#7889' ti'#7873'n (R$, US$, '#8364', '#163')');
+  Put(True,
+    'Extract.Kind.NoDigits',
+    'X'#243'a ch'#7919' s'#7889);
+  Put(True,
+    'Extract.Kind.NoSpecial',
+    'X'#243'a k'#253' t'#7921' '#273#7863'c bi'#7879't');
+  Put(True,
+    'Extract.Kind.Numbers',
+    'S'#7889' (nguy'#234'n v'#224' th'#7853'p ph'#226'n)');
+  Put(True,
+    'Extract.Kind.Phones',
+    'S'#7889' '#273'i'#7879'n tho'#7841'i');
+  Put(True,
+    'Extract.Kind.Quoted',
+    'V'#259'n b'#7843'n trong d'#7845'u ngo'#7863'c k'#233'p');
+  Put(True,
+    'Extract.Kind.Special',
+    'Ch'#7881' k'#253' t'#7921' '#273#7863'c bi'#7879't');
+  Put(True,
+    'Extract.Kind.Times',
+    'Th'#7901'i gian');
+  Put(True,
+    'Extract.Kind.Urls',
+    'URL / li'#234'n k'#7871't');
+  Put(True,
+    'Extract.Kind.Words',
+    'T'#7915);
+  Put(True,
+    'Extract.MatchCase',
+    'Ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Extract.NotFound',
+    'Kh'#244'ng t'#236'm th'#7845'y g'#236'.');
+  Put(True,
+    'Extract.PreviewCut',
+    '('#273'ang hi'#7879'n %d k'#253' t'#7921' '#273#7847'u)');
+  Put(True,
+    'Extract.Regex',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy:');
+  Put(True,
+    'Extract.RegexCopied',
+    #272#227' sao ch'#233'p bi'#7875'u th'#7913'c ch'#237'nh quy v'#224'o clipboard.');
+  Put(True,
+    'Extract.Replace',
+    'Thay th'#7871' n'#7897'i dung');
+  Put(True,
+    'Extract.ReplaceSel',
+    'Thay th'#7871' v'#249'ng ch'#7885'n');
+  Put(True,
+    'Extract.Result',
+    'K'#7871't qu'#7843':');
+  Put(True,
+    'Extract.Sep.NewLine',
+    'D'#242'ng m'#7899'i');
+  Put(True,
+    'Extract.Sep.None',
+    'Kh'#244'ng c'#243);
+  Put(True,
+    'Extract.Sep.Space',
+    'Kho'#7843'ng tr'#7855'ng');
+  Put(True,
+    'Extract.Separator',
+    'D'#7845'u ph'#226'n c'#225'ch:');
+  Put(True,
+    'Extract.SourceAll',
+    'Ngu'#7891'n: to'#224'n b'#7897' n'#7897'i dung (%d k'#253' t'#7921')');
+  Put(True,
+    'Extract.SourceSel',
+    'Ngu'#7891'n: v'#259'n b'#7843'n '#273#227' ch'#7885'n (%d k'#253' t'#7921')');
+  Put(True,
+    'Extract.Title',
+    'Tr'#237'ch t'#7915' n'#7897'i dung');
+  Put(True,
+    'Extract.Unique',
+    'X'#243'a tr'#249'ng');
+  Put(True,
+    'Extract.What',
+    'Nh'#7919'ng g'#236' c'#7847'n tr'#237'ch:');
+  Put(True,
+    'Extracting frequent strings...',
+    #272'ang tr'#237'ch chu'#7895'i th'#432#7901'ng g'#7863'p...');
+  Put(True,
+    'Extracts digit sequences that do not start with zero and have length f'
+        + 'our or more - helps ignore long padding fields.',
+    'Tr'#237'ch c'#225'c d'#227'y ch'#7919' s'#7889' kh'#244'ng b'#7855't '#273#7847'u b'#7857'ng s'#7889' kh'#244'ng v'#224' d'#224'i t'#7915' b'#7889'n tr'#7903' l'#234'n'
+        + ' '#8212' gi'#250'p b'#7887' qua c'#225'c tr'#432#7901'ng '#273#7879'm d'#224'i.');
+  Put(True,
+    'FF_DELETE_ACCESS_DENIED',
+    'Truy c'#7853'p b'#7883' t'#7915' ch'#7889'i. T'#7879'p c'#243' th'#7875' b'#7883' b'#7843'o v'#7879' ho'#7863'c '#273'ang '#273#432#7907'c d'#249'ng.');
+  Put(True,
+    'FF_DELETE_COULD_NOT_DELETE',
+    'Kh'#244'ng x'#243'a '#273#432#7907'c t'#7879'p: ');
+  Put(True,
+    'FF_DELETE_SCHEDULED_REBOOT_OK',
+    'T'#7879'p '#273#227' '#273#432#7907'c l'#234'n l'#7883'ch x'#243'a khi kh'#7903'i '#273#7897'ng l'#7841'i.');
+  Put(True,
+    'FF_DELETE_SCHEDULE_REBOOT_FAIL',
+    'Kh'#244'ng l'#234'n l'#7883'ch '#273#432#7907'c vi'#7879'c x'#243'a khi kh'#7903'i '#273#7897'ng l'#7841'i.');
+  Put(True,
+    'FF_DELETE_SCHEDULE_REBOOT_QUESTION',
+    'L'#234'n l'#7883'ch x'#243'a t'#7921' '#273#7897'ng v'#224'o l'#7847'n kh'#7903'i '#273#7897'ng l'#7841'i h'#7879' th'#7889'ng ti'#7871'p theo?');
+  Put(True,
+    'FF_DELETE_SHARING_VIOLATION',
+    'Vi ph'#7841'm chia s'#7867'. T'#7879'p '#273'ang '#273#432#7907'c ti'#7871'n tr'#236'nh kh'#225'c s'#7917' d'#7909'ng.');
+  Put(True,
+    'FF_DELETE_UNKNOWN_ERROR',
+    'L'#7895'i kh'#244'ng x'#225'c '#273#7883'nh: %s');
+  Put(True,
+    'FF_HELP.AIChatFileBlock',
+    'H'#7886'I '#272#193'P T'#7878'P TRONG TR'#7906' L'#221', B'#7842'NG TR'#210' CHUY'#7878'N & XEM TR'#431#7898'C (v3.0.4+)'#13#10'-----'
+        + '----------------------------------------------------------'#13#10'  '#272#7863't c'#226'u '
+        + 'h'#7887'i v'#7873' t'#7879'p '#273'ang m'#7903' trong Tr'#7907' l'#253' AI (Ctrl+Alt+A).'#13#10'  Python (ConsumerRA'
+        + 'G / FastTextRAG) ch'#7841'y n'#7873'n, n'#234'n'#13#10'  ngay c'#7843' t'#7879'p GB+ (v'#237' d'#7909' TXT 3,6 GB) c'
+        + #361'ng m'#7903' nhanh; l'#7853'p ch'#7881' m'#7909'c ng'#7919' ngh'#297'a l'#224' t'#249'y ch'#7885'n.'#13#10'  H'#7911'y t'#7843'i kh'#244'ng c'#242'n '
+        + 'l'#224'm '#273#7913'ng giao di'#7879'n: plugin Python'#13#10'  (ConsumerRAG.exe) '#273#432#7907'c d'#7915'ng '#7903' n'#7873'n'
+        + '.'#13#10'  Con l'#259'n chu'#7897't (v'#224' Ctrl+con l'#259'n) tr'#234'n thanh b'#234'n Tr'#7907' l'#253' ho'#7863'c Script'
+        + #13#10'  cu'#7897'n b'#7843'n ghi '#273#243', kh'#244'ng ph'#7843'i danh s'#225'ch ch'#237'nh.'#13#10'  '#272#7885'c (Ctrl+1 / than'
+        + 'h c'#244'ng c'#7909'): khi '#273#227' m'#7903' t'#7879'p th'#236' m'#7903' tr'#236'nh duy'#7879't'#13#10'  t'#7879'p v'#224' t'#7843'i ngay t'#7879'p '#273#227
+        + ' ch'#7885'n.'#13#10'  So s'#225'nh / xem tr'#432#7899'c g'#7897'p v'#224' l'#7883'ch s'#7917' phi'#234'n hi'#7879'n '#273#250'ng d'#7845'u'#13#10'  (U'
+        + 'TF-8 / ANSI / UTF-16 t'#7921' nh'#7853'n; nh'#7853't k'#253' phi'#234'n l'#432'u d'#7841'ng UTF-8).');
+  Put(True,
+    'FF_HELP.AssistantBlock',
+    '  Ctrl+Alt+A b'#7853't/t'#7855't Tr'#7907' l'#253' AI FastFile (v3.0.5.254). Thao t'#225'c ng'#244'n ng'
+        + #7919' t'#7921' nhi'#234'n + so'#7841'n: t'#7841'o t'#243'm t'#7855't Word/RTF/DOCX/ODT/PDF v'#224' m'#227' ngu'#7891'n (.py/'
+        + '.js/.ts/.go/.java/...). T'#7879'p v'#224'o fastfile_assistant\ (kh'#244'ng ph'#7843'i fastfi'
+        + 'le_temp). N'#250't X'#243'a s'#7841'ch/Sao ch'#233'p tr'#7843' l'#7901'i. Kh'#243'a an to'#224'n ch'#7863'n malware, '#273#7883
+        + 'nh d'#7841'ng '#273#297'a, shell h'#7879' '#273'i'#7873'u h'#224'nh v'#224' ph'#7847'n m'#7903' r'#7897'ng nguy hi'#7875'm. count_match'
+        + 'ing_lines '#273#7871'm kh'#7899'p ch'#7913'a/m'#7897't ph'#7847'n c'#7909'c b'#7897' ('#432'u ti'#234'n AI). Y'#234'u c'#7847'u m'#7903' m'#7909'c T'
+        + #7879'p g'#7847'n '#273#226'y th'#7913' N. D'#249'ng c'#244'ng c'#7909' c'#7909'c b'#7897' khi c'#243' th'#7875' (l'#7885'c+xu'#7845't, thay th'#7871', '
+        + 't'#225'ch). Ctrl+L m'#7903' FilterBar neo (MRU 20). Thanh tr'#7841'ng th'#225'i Mode/Wrap/Ta'
+        + 'il/Filter nh'#7845'p '#273#7875' b'#7853't/t'#7855't. C'#226'u h'#7887'i SQL v'#224' n'#7897'i dung t'#7879'p '#7903' l'#7841'i Tr'#7907' l'#253' (C'
+        + 'trl+Alt+A); engine Python ch'#7841'y n'#7873'n. Khi focus trong b'#7843'ng: Ctrl+H/L/F, '
+        + 'Ctrl+Shift+L/Q, Ctrl+Z/Y, Ctrl+C/V. Ng'#244'n ng'#7919' giao di'#7879'n: 14 (g'#7891'm ti'#7871'ng '
+        + 'Nh'#7853't, Trung Gi'#7843'n th'#7875'/Ph'#7891'n th'#7875'). Kh'#7903'i '#273#7897'ng t'#249'y ch'#7885'n (ASkin.ini: Assista'
+        + 'ntShowOnStartup). AssistantLog=1 ghi th'#234'm Assistant.log.');
+  Put(True,
+    'FF_HELP.EmEditorBlock',
+    'C'#212'NG C'#7908' / PHI'#202'N / T'#217'Y CH'#7884'N (t'#225'i t'#7893' ch'#7913'c menu v2.1.7.29+)'#13#10'------------'
+        + '---------------------------------------------------'#13#10'  C'#244'ng c'#7909' > L'#7885'c v'
+        + #224' ph'#226'n t'#237'ch:'#13#10'    - Xem > Gi'#225' tr'#7883' m'#227' k'#253' t'#7921': Unicode U+, th'#7853'p ph'#226'n, byt'
+        + 'e UTF-8,'#13#10'      offset byte cho m'#7897't k'#253' t'#7921' tr'#234'n d'#242'ng hi'#7879'n t'#7841'i (kh'#244'ng qu'
+        + #233't to'#224'n b'#7897').'#13#10'    - Tr'#237'ch chu'#7895'i th'#432#7901'ng g'#7863'p: qu'#233't MMF; d'#242'ng / t'#7915' / '#244' CS'
+        + 'V;'#13#10'      tr'#224'n bucket khi t'#7879'p > 8 MB; xu'#7845't CSV; ti'#7871'n tr'#236'nh GB | MB/s |'
+        + ' ETA.'#13#10'    - X'#243'a d'#242'ng tr'#249'ng: gi'#7919' l'#7847'n xu'#7845't hi'#7879'n '#273#7847'u; c'#7843' d'#242'ng ho'#7863'c kh'#243'a '
+        + 'c'#7897't'#13#10'      CSV; t'#7853'p b'#259'm x'#237'ch tr'#234'n '#273#297'a; t'#7879'p t'#7841'm + '#273#7893'i t'#234'n;'#13#10'      ki'#7875'm '
+        + 'tra dung l'#432#7907'ng '#273#297'a tr'#432#7899'c khi ghi.'#13#10'  Phi'#234'n: b'#7853't/t'#7855't phi'#234'n ch'#7881' '#273#7885'c; l'#432'u'
+        + '/t'#7843'i t'#7879'p phi'#234'n.'#13#10'  T'#249'y ch'#7885'n: ch'#7881' ch'#237'nh s'#225'ch thao t'#225'c n'#7863'ng ph'#226'n '#273'o'#7841'n (c'
+        + 'huy'#7875'n t'#7915' T'#249'y ch'#7885'n ph'#7859'ng c'#361').');
+  Put(True,
+    'FF_HELP.IdleWorkspaceBlock',
+    'TH'#431#416'NG HI'#7878'U KH'#212'NG GIAN L'#192'M VI'#7878'C R'#7894'I (v3.0.2+)'#13#10'-----------------------'
+        + '----------------------------------------'#13#10'  Khi kh'#244'ng c'#243' tab t'#224'i li'#7879'u '
+        + 'n'#224'o hi'#7879'n, kh'#244'ng gian trung t'#226'm hi'#7879'n gradient'#13#10'  xanh nh'#7841't v'#7899'i logo Fas'
+        + 'tFile, h'#236'nh m'#7901' l'#7899'n ph'#237'a sau,'#13#10'  c'#249'ng ti'#234'u '#273#7873', kh'#7849'u hi'#7879'u v'#224' b'#7843'n quy'#7873'n c'
+        + #259'n gi'#7919'a.'#13#10'  D'#249'ng PNG '#273#7897' ph'#226'n gi'#7843'i cao (1200+ px); scale Lanczos v'#224' b'#7897' '
+        + 'nh'#7899' '#273#7879'm'#13#10'  v'#7869' gi'#7919' cung tr'#242'n m'#432#7907't, kh'#244'ng ch'#7899'p h'#236'nh ch'#7919' nh'#7853't l'#250'c kh'#7903'i '#273#7897
+        + 'ng.'#13#10'  V'#7883' tr'#237' gi'#7919' c'#7889' '#273#7883'nh khi m'#7903' ho'#7863'c '#273#243'ng b'#7843'ng tr'#7907' l'#253' AI.'#13#10'  Xem DOC_'
+        + 'IDLE_LOGO_WORKSPACE.md trong th'#432' m'#7909'c ngu'#7891'n.');
+  Put(True,
+    'FF_HELP.ReadPanelBlock',
+    'B'#7842'NG '#272#7884'C '#8212' KH'#7888'I C'#7896'T & T'#7920' '#272'I'#7872'N (v3.0.2+)'#13#10'-----------------------------'
+        + '----------------------------------'#13#10'  C'#7897't n'#7897'i dung (c'#7897't 2): Ctrl ho'#7863'c '
+        + 'Alt + k'#233'o = ch'#7885'n kh'#7889'i'#13#10'    d'#7885'c; '#273#7897' r'#7897'ng theo k'#233'o c'#7911'a b'#7841'n (sao ch'#233'p b'#7857'n'
+        + 'g Ctrl+C).'#13#10'  F11 khi c'#243' v'#249'ng ch'#7885'n kh'#7889'i: m'#7903' r'#7897'ng h'#7871't chi'#7873'u r'#7897'ng n'#7897'i du'
+        + 'ng;'#13#10'  F11 m'#7897't m'#236'nh (kh'#244'ng kh'#7889'i): b'#7853't/t'#7855't xem to'#224'n m'#224'n h'#236'nh.'#13#10'  C'#7897't s'#7889
+        + ' d'#242'ng: k'#233'o xu'#7889'ng kh'#244'ng Ctrl/Alt = t'#7921' '#273'i'#7873'n h'#224'ng tr'#7889'ng'#13#10'    (xem tr'#432#7899'c t'
+        + 'r'#7921'c ti'#7871'p; ch'#7871' '#273#7897' CSV ch'#232'n h'#224'ng ch'#7881' c'#243' d'#7845'u ph'#226'n c'#225'ch).'#13#10'  Danh s'#225'ch h'#7897'p'
+        + ' ki'#7875'm: c'#249'ng quy t'#7855'c kh'#7889'i Ctrl/Alt trong v'#249'ng v'#259'n b'#7843'n.');
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock',
+    'T'#205'NH N'#258'NG G'#7846'N '#272#194'Y (v3.0.5.211 '#8211' v3.0.5.225)'#13#10'-------------------------'
+        + '--------------------------------------'#13#10'  Ctrl+F: thanh T'#236'm l'#7847'n xu'#7845't h'
+        + 'i'#7879'n neo '#8212' F3 / Shift+F3, danh s'#225'ch kh'#7899'p ph'#226'n trang c'#243' th'#7875' nh'#7845'p, T'#7843'i th'
+        + #234'm.'#13#10'  Ctrl+B: thanh D'#7845'u trang neo '#8212' nh'#7843'y, Tr'#432#7899'c/Sau, x'#243'a, x'#243'a t'#7845't c'#7843','
+        + ' Xu'#7845't/Sao ch'#233'p.'#13#10'  Tab: k'#233'o th'#7843' '#273#7875' s'#7855'p l'#7841'i (th'#7913' t'#7921' l'#432'u trong INI).'#13#10'  '
+        + 'T'#249'y ch'#7885'n: k'#237'ch th'#432#7899'c MRU, '#273#7897' tr'#7877'/gi'#7899'i h'#7841'n g'#7907'i '#253' d'#242'ng v'#224' k'#237'ch th'#432#7899'c tr'#237
+        + 'ch l'#7883'ch s'#7917'.'#13#10'  K'#7871't th'#250'c d'#242'ng CR+LF / LF / CR '#273#432#7907'c h'#7895' tr'#7907' m'#7885'i routine; '
+        + 'chuy'#7875'n '#273#7893'i EOL v'#224' b'#7843'ng m'#227'.'#13#10'  So'#7841'n d'#242'ng: Ctrl+F / Ctrl+H t'#236'm & thay th'
+        + #7871', F3 ti'#7871'p, F4 / Shift+F4 thay th'#7871' / thay t'#7845't c'#7843','#13#10'    Ctrl+Z / Ctrl+Y'
+        + ' ho'#224'n t'#225'c/l'#224'm l'#7841'i, Ctrl+Shift+Del x'#243'a s'#7841'ch, Alt+Up / Alt+Down d'#242'ng tr'#432
+        + #7899'c/sau,'#13#10'    Ctrl+Shift+A H'#7887'i AI, Ctrl+Enter x'#225'c nh'#7853'n, Esc h'#7911'y.'#13#10'  L'#7883'c'
+        + 'h s'#7917' phi'#234'n (Ctrl+Shift+H): h'#7897'p ki'#7875'm + Ch'#7885'n t'#7845't c'#7843' + x'#243'a, s'#7855'p theo d'#242'ng'
+        + ' ho'#7863'c ng'#224'y,'#13#10'    kho'#7843'ng ng'#224'y T'#7915'/'#272#7871'n (Esc x'#243'a), xu'#7845't TXT/CSV, H'#7887'i AI, x'
+        + 'u'#7845't theo ch'#250' gi'#7843'i,'#13#10'    xem tr'#432#7899'c ph'#226'n trang an to'#224'n RAM cho t'#7879'p l'#7899'n.'#13
+        + #10'  Diff gi'#7919'a hai t'#7879'p: cu'#7897'n '#273#7891'ng b'#7897'; '#225'p d'#7909'ng tr'#225'i <-> ph'#7843'i nhanh, c'#243' th'
+        + #7875' h'#7911'y.'#13#10'  Tr'#7907' l'#253': chip "Ti'#7871'p theo?" sau m'#7895'i thao t'#225'c; ti'#7871'p t'#7909'c ch'#7895' b'#7841'n'
+        + ' d'#7915'ng.'#13#10'  '#7892'n '#273#7883'nh: b'#7843'o v'#7879' ngo'#7841'i l'#7879' to'#224'n c'#7909'c + watchdog treo giao di'#7879'n '
+        + '/ b'#7897' nh'#7899'.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock2',
+    'T'#205'NH N'#258'NG G'#7846'N '#272#194'Y (v3.0.5.226 '#8211' v3.0.5.232)'#13#10'-------------------------'
+        + '--------------------------------------'#13#10'  T'#225'c nh'#226'n AI tr'#234'n t'#7879'p (Ctrl+A'
+        + 'lt+G): ch'#7885'n t'#7879'p/th'#432' m'#7909'c, m'#244' t'#7843' y'#234'u c'#7847'u, xem l'#7841'i c'#226'u tr'#7843' l'#7901'i.'#13#10'    Ch'#432'a'
+        + ' ghi g'#236' tr'#432#7899'c khi Ch'#7845'p nh'#7853'n; Ch'#7845'p nh'#7853'n / T'#7915' ch'#7889'i / Ch'#7845'p nh'#7853'n t'#7845't c'#7843' tr'
+        + 'ong th'#7901'i h'#7841'n'#13#10'    (m'#7863'c '#273#7883'nh 20 gi'#226'y, T'#249'y ch'#7885'n > T'#249'y ch'#7885'n). '#272#7871'm, t'#236'm, '#273
+        + #7885'c, s'#7917'a/ch'#232'n/x'#243'a d'#242'ng,'#13#10'    '#7849'n danh h'#243'a v'#224' ch'#7841'y thao t'#225'c FastFile (tha'
+        + 'y t'#7845't c'#7843', t'#225'ch, xu'#7845't, l'#7885'c...).'#13#10'    SQL ho'#7863'c t'#7915' th'#432#7901'ng trong 14 ng'#244'n n'
+        + 'g'#7919': SELECT / GROUP BY / SUM tr'#234'n CSV; UPDATE / DELETE / INSERT'#13#10'    th'
+        + #224'nh '#273#7873' xu'#7845't. "not partial" / "exact" = c'#7843' t'#7915'.'#13#10'    M'#7895'i v'#249'ng c'#243' thanh r'
+        + 'i'#234'ng (m'#7899'i, x'#243'a s'#7841'ch, sao ch'#233'p, h'#7887'i AI); n'#250't ch'#7881' b'#7853't khi c'#243' n'#7897'i dung.'#13#10
+        + '  T'#7879'p '#273#227' t'#7841'o: c'#7917'a s'#7893' m'#7903' t'#7879'p, m'#7903' th'#432' m'#7909'c ho'#7863'c sao ch'#233'p '#273#432#7901'ng d'#7851'n; "T'#7879'p '
+        + #273#432#7907'c t'#7841'o g'#7847'n nh'#7845't" m'#7903' l'#7841'i.'#13#10'  '#7848'n danh h'#243'a (Ctrl+Alt+D ho'#7863'c c'#7843' t'#7879'p): d'#7919
+        + ' li'#7879'u gi'#7843' c'#249'ng ki'#7875'u v'#224' '#273#7897' d'#224'i; xem tr'#432#7899'c; ho'#224'n t'#225'c.'#13#10'  L'#7883'ch s'#7917' phi'#234'n: '
+        + 'nh'#7845'p '#273#250'p s'#7921' ki'#7879'n = d'#242'ng '#273#7847'y '#273#7911' tr'#432#7899'c/sau, tr'#432#7901'ng, xu'#7845't TXT/CSV/JSON.'#13#10
+        + '  PPI t'#249'y ch'#7881'nh tr'#234'n thanh c'#244'ng c'#7909': t'#7927' l'#7879' giao di'#7879'n khi ch'#7841'y, '#273#7891'ng b'#7897' '
+        + 'zoom thanh tr'#7841'ng th'#225'i.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock3',
+    'T'#205'NH N'#258'NG G'#7846'N '#272#194'Y (v3.0.5.233 '#8211' v3.0.5.239)'#13#10'-------------------------'
+        + '--------------------------------------'#13#10'  S'#7917'a d'#242'ng nhanh (t'#7915' 32 MB): c'
+        + 'h'#232'n, thay th'#7871' v'#224' x'#243'a qua ch'#7881' m'#7909'c d'#242'ng'#13#10'    (t'#7841'i ch'#7895', d'#7883'ch ho'#7863'c vi'#7871't l'#7841
+        + 'i). Nh'#7853't k'#253' kh'#244'i ph'#7909'c ph'#7909'c h'#7891'i t'#7879'p n'#7871'u '#7913'ng d'#7909'ng d'#7915'ng gi'#7919'a ch'#7915'ng.'#13#10'  Tr'
+        + #432#7899'c khi l'#432'u d'#242'ng '#273#227' ch'#7885'n, danh s'#225'ch tr'#432#7899'c/sau ch'#7881' hi'#7879'n ph'#7847'n thay '#273#7893'i.'#13
+        + #10'  So'#7841'n d'#242'ng '#8212' Tr'#237'ch: ch'#7919' s'#7889', e-mail, ng'#224'y, c'#7897't, CPF ho'#7863'c regex ri'#234'ng.'
+        + #13#10'  Python: xem tr'#432#7899'c ng'#7855'n (ok / b'#7887' qua / l'#7895'i) tr'#432#7899'c khi ch'#7841'y '#273#7847'y '#273#7911'.'#13
+        + #10'  Win64: ch'#7881' m'#7909'c d'#242'ng song song t'#7915' 128 MB, b'#7897' nh'#7899' c'#243' gi'#7899'i h'#7841'n.'#13#10'  Ki'#7875
+        + 'm tra ngu'#7891'n: JSON, HTML v'#224' SQL trong FastFile; Java, Go v'#224' C# v'#7899'i'#13#10'   '
+        + ' tr'#236'nh bi'#234'n d'#7883'ch '#273#227' c'#243' tr'#234'n m'#225'y n'#224'y. "M'#227' ngu'#7891'n v'#7899'i AI" gi'#7843'i th'#237'ch t'#7841'o,'
+        + ' ki'#7875'm tra v'#224' s'#7917'a.'#13#10'  T'#225'c nh'#226'n AI: l'#7853'p h'#7891' s'#417' t'#7915'ng t'#7879'p, hi'#7875'u t'#7879'p b'#7841'n n'#234'u'
+        + ' t'#234'n (14 ng'#244'n ng'#7919')'#13#10'    v'#224' c'#243' th'#7875' ch'#7841'y macro Python tr'#234'n m'#7895'i d'#242'ng (xem'
+        + ' tr'#432#7899'c; t'#7879'p g'#7889'c gi'#7919' nguy'#234'n).'#13#10'  Ch'#7885'n th'#432' m'#7909'c: nhi'#7873'u th'#432' m'#7909'c t'#7915' nhi'#7873'u n'
+        + #417'i.'#13#10'  "T'#244'i c'#243' th'#7875' l'#224'm g'#236'?" tr'#234'n Tr'#7907' l'#253', t'#225'c nh'#226'n AI v'#224' ch'#7849'n '#273'o'#225'n AI ('
+        + 'F1 c'#361'ng '#273#432#7907'c).'#13#10'  Ch'#7849'n '#273'o'#225'n AI (Ctrl+Alt+U): chuy'#234'n gia ch'#7881' '#273#7885'c '#8212' ki'#7875'm'
+        + ' k'#234', c'#7845'u tr'#250'c, n'#7897'i dung,'#13#10'    SQL, quy'#7873'n ri'#234'ng t'#432' v'#224' thao t'#225'c. D'#249'ng t'#225
+        + 'c nh'#226'n AI '#273#7875' '#225'p d'#7909'ng ch'#7881'nh s'#7917'a.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock4',
+    'T'#205'NH N'#258'NG G'#7846'N '#272#194'Y (v3.0.5.245 '#8211' v3.0.5.249)'#13#10'-------------------------'
+        + '--------------------------------------'#13#10'  T'#236'm, L'#7885'c v'#224' D'#7845'u trang m'#7903' g'#7885'n'
+        + '. Tay n'#7855'm d'#432#7899'i c'#249'ng '#273#7893'i k'#237'ch th'#432#7899'c.'#13#10'    '#272#243'ng n'#7857'm c'#7841'nh X'#243'a s'#7841'ch.'#13#10'  gl'
+        + 'ob/grep gi'#7919' l'#7879'nh g'#7847'n '#273#226'y v'#224' th'#234'm v'#237' d'#7909'. Y'#234'u c'#7847'u tr'#7889'ng v'#7851'n tr'#7889'ng.'#13#10'  H'#7887
+        + 'i AI m'#7903' c'#7841'nh trang b'#7841'n '#273'ang d'#249'ng.'#13#10'  T'#225'ch theo d'#242'ng hi'#7879'n xem tr'#432#7899'c kho'
+        + #7843'ng v'#224' c'#249'ng c'#244'ng c'#7909' d'#242'ng nh'#432' danh s'#225'ch t'#7879'p.'#13#10'    L'#432'u qu'#233't t'#7879'p v'#224' ghi t'
+        + #7879'p m'#7899'i. Kho'#7843'ng kh'#244'ng '#273#432#7907'c t'#7843'i th'#224'nh danh s'#225'ch.'#13#10'  T'#249'y ch'#7885'n hi'#7879'n m'#7895'i gi'
+        + #7899'i h'#7841'n d'#242'ng v'#224' m'#7863'c '#273#7883'nh. Con l'#259'n chu'#7897't cu'#7897'n trang '#273#243'.'#13#10'    '#7848'n danh h'#243'a'
+        + ' gi'#7899'i h'#7841'n v'#249'ng ch'#7885'n ho'#7863'c kho'#7843'ng. C'#7843' t'#7879'p kh'#244'ng b'#7883' gi'#7899'i h'#7841'n.'#13#10'  Danh s'#225'c'
+        + 'h ng'#244'n ng'#7919' '#273#7863't ng'#244'n ng'#7919' g'#7847'n '#273#226'y l'#234'n tr'#432#7899'c. G'#245' '#273#7875' t'#236'm.'#13#10'    Danh s'#225'ch '#273
+        + #243'ng trong khi ng'#244'n ng'#7919' m'#7899'i '#273'ang t'#7843'i.'#13#10'  L'#7885'c v'#224' so'#7841'n d'#242'ng hi'#7879'n v'#237' d'#7909' re'
+        + 'gex.'#13#10'    H'#7887'i AI '#273#7873' xu'#7845't m'#7851'u v'#224' kh'#244'ng ch'#7841'y n'#243'.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock5',
+    'T'#205'NH N'#258'NG G'#7846'N '#272#194'Y (v3.0.5.250 '#8211' v3.0.5.254)'#13#10'-------------------------'
+        + '--------------------------------------'#13#10'  Ph'#7843'i sang tr'#225'i: ti'#7871'ng '#7842' R'#7853'p '
+        + 'v'#224' Do Th'#225'i ph'#7843'n chi'#7871'u form, h'#7897'p tho'#7841'i v'#224' '#273'i'#7873'u khi'#7875'n'#13#10'    d'#7921'ng trong m'#227
+        + '. V'#259'n b'#7843'n t'#7879'p v'#7851'n tr'#225'i sang ph'#7843'i.'#13#10'  Giao di'#7879'n c'#243' 16 ng'#244'n ng'#7919'. Ti'#7871'ng '#7842
+        + ' R'#7853'p v'#224' Do Th'#225'i '#273#432#7907'c d'#7883'ch '#273#7847'y '#273#7911'.'#13#10'  Danh s'#225'ch ng'#244'n ng'#7919' hi'#7879'n c'#7901' c'#7841'nh m'
+        + #7895'i t'#234'n.'#13#10'  Trong ti'#7871'ng '#7842' R'#7853'p v'#224' Do Th'#225'i c'#225'c c'#7897't danh s'#225'ch t'#7879'p '#273#7885'c t'#7915' p'
+        + 'h'#7843'i.'#13#10'    S'#7889' d'#242'ng n'#7857'm b'#234'n ph'#7843'i. V'#259'n b'#7843'n trong m'#7895'i '#244' v'#7851'n tr'#225'i sang ph'#7843'i'
+        + '.'#13#10'  Menu ng'#244'n ng'#7919' r'#7897'ng h'#417'n '#273#7875' t'#234'n kh'#244'ng b'#7883' c'#7855't.'#13#10'  C'#225'c ph'#7847'n b'#7857'ng nhau'
+        + ' n'#7857'm tr'#234'n thanh c'#244'ng c'#7909', ngay sau G'#7897'p t'#7879'p (Ctrl+Shift+P).'#13#10'    N'#243' m'#7903' T'
+        + #225'ch t'#7879'p th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau.'#13#10);
+end;
+
+procedure AddVietnamesePart15(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'FF_HELP.Win64IndexBlock',
+    'HOST WIN64 & L'#7852'P CH'#7880' M'#7908'C NHANH (v3.0.3+)'#13#10'----------------------------'
+        + '-----------------------------------'#13#10'  FastFile bi'#234'n d'#7883'ch cho Win32 (D'
+        + 'elphi 7) v'#224' Win64 (Delphi 10.4.2+).'#13#10'  '#272#7847'u ra: Build\Win32\ ho'#7863'c Build'
+        + '\Win64\ c'#7841'nh d'#7921' '#225'n; th'#432' m'#7909'c Skins'#13#10'  '#273#432#7907'c sao ch'#233'p theo n'#7873'n t'#7843'ng khi b'
+        + 'i'#234'n d'#7883'ch.'#13#10'  F5 / '#272#7885'c: qu'#233't line-feed SWAR (kh'#7889'i 8 byte; '#273#432#7901'ng r'#7897'ng 32'
+        + ' byte'#13#10'  khi c'#243' AVX2). T'#7879'p > 2 GB ch'#7881' d'#249'ng temp_ckpt.txt th'#432'a.'#13#10'  Ti'#7871'n'
+        + ' tr'#236'nh l'#7899'p ph'#7911' t'#7843'i c'#7853'p nh'#7853't m'#432#7907't (~22 Hz) khi qu'#233't nhanh.'#13#10'  Nh'#7853't k'#253' b'
+        + #7897' '#273#7871'm th'#7901'i gian thao t'#225'c g'#243'c tr'#234'n ph'#7843'i li'#7879't k'#234' m'#7895'i h'#224'nh '#273#7897'ng xong ('#273#7885'c'
+        + ','#13#10'  t'#225'ch, g'#7897'p, v.v.) k'#232'm th'#7901'i gian; Win64 d'#249'ng ListBox chu'#7849'n.'#13#10'  Xem '
+        + 'uLineIndexScan.pas v'#224' CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).');
+  Put(True,
+    'Failed to delete lines: %s',
+    'Kh'#244'ng x'#243'a '#273#432#7907'c d'#242'ng: %s');
+  Put(True,
+    'Fast mode for large files (auto range above %d MB)',
+    'Ch'#7871' '#273#7897' nhanh cho t'#7879'p l'#7899'n (t'#7921' '#273#7897'ng kho'#7843'ng tr'#234'n %d MB)');
+  Put(True,
+    'FastFile - Help & Feature Reference',
+    'FastFile - Tr'#7907' gi'#250'p & Tham chi'#7871'u t'#237'nh n'#259'ng');
+  Put(True,
+    'FastFile - Huge text file processor',
+    'FastFile - B'#7897' x'#7917' l'#253' t'#7879'p v'#259'n b'#7843'n c'#7921'c l'#7899'n');
+  Put(True,
+    'FastFile - Version History',
+    'FastFile - L'#7883'ch s'#7917' phi'#234'n b'#7843'n');
+  Put(True,
+    'FastFile AI - Version ',
+    'FastFile AI - Phi'#234'n b'#7843'n ');
+  Put(True,
+    'FastFile AI connected',
+    'FastFile AI '#273#227' k'#7871't n'#7889'i');
+  Put(True,
+    'FastFile AI engine not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y plugin Tr'#242' chuy'#7879'n AI Python (ConsumerAI.exe).');
+  Put(True,
+    'FastFile auto-generated regex examples (dynamic '#8212' from file content):',
+    'V'#237' d'#7909' regex t'#7921' t'#7841'o c'#7911'a FastFile ('#273#7897'ng '#8212' t'#7915' n'#7897'i dung t'#7879'p):');
+  Put(True,
+    'FastFile is a powerful tool designed specially to read and edit huge t'
+        + 'ext files from Windows O.S. It is suitable not only for very large fil'
+        + 'es, but can be files of any size.'#13#10#9#13#10'With this software you can perfo'
+        + 'rm CRUD (Create, read, update and delete) line operations for large fi'
+        + 'les.     '#13#10#13#10'Freeware. You can use it freely without restrictions.'#13#10'Th'
+        + 'is software is distributed under the Mozilla Public License 1.0 (MPL-1'
+        + '.0).',
+    'FastFile l'#224' c'#244'ng c'#7909' m'#7841'nh '#273#432#7907'c thi'#7871't k'#7871' '#273#7863'c bi'#7879't '#273#7875' '#273#7885'c v'#224' s'#7917'a t'#7879'p v'#259'n '
+        + 'b'#7843'n c'#7921'c l'#7899'n tr'#234'n Windows O.S. Ph'#249' h'#7907'p kh'#244'ng ch'#7881' v'#7899'i t'#7879'p r'#7845't l'#7899'n, m'#224' v'#7899
+        + 'i t'#7879'p m'#7885'i k'#237'ch th'#432#7899'c.'#13#10#9#13#10'V'#7899'i ph'#7847'n m'#7873'm n'#224'y b'#7841'n c'#243' th'#7875' th'#7921'c hi'#7879'n thao t'
+        + #225'c d'#242'ng CRUD (t'#7841'o, '#273#7885'c, c'#7853'p nh'#7853't v'#224' x'#243'a) cho t'#7879'p l'#7899'n.     '#13#10#13#10'Ph'#7847'n m'#7873'm'
+        + ' mi'#7877'n ph'#237'. B'#7841'n c'#243' th'#7875' d'#249'ng t'#7921' do kh'#244'ng h'#7841'n ch'#7871'.'#13#10'Ph'#7847'n m'#7873'm n'#224'y '#273#432#7907'c ph'#226
+        + 'n ph'#7889'i theo Mozilla Public License 1.0 (MPL-1.0).');
+  Put(True,
+    'Fil&ter / Grep',
+    'L'#7885'&c / Grep');
+  Put(True,
+    'File Info',
+    'Th'#244'ng tin t'#7879'p');
+  Put(True,
+    'File Line Editor',
+    'So'#7841'n d'#242'ng t'#7879'p');
+  Put(True,
+    'File Name',
+    'T'#234'n t'#7879'p');
+  Put(True,
+    'File Name (Separate multiple names with semicolon):',
+    'T'#234'n t'#7879'p (nhi'#7873'u t'#234'n c'#225'ch nhau b'#7857'ng d'#7845'u ch'#7845'm ph'#7849'y):');
+  Put(True,
+    'File changed on disk',
+    'T'#7879'p '#273#227' thay '#273#7893'i tr'#234'n '#273#297'a');
+  Put(True,
+    'File changed on disk since load',
+    'T'#7879'p '#273#227' b'#7883' s'#7917'a tr'#234'n '#273#297'a k'#7875' t'#7915' khi '#273#432#7907'c t'#7843'i '#7903' '#273#226'y.'#13#10#13#10'C'#243' = T'#7843'i l'#7841'i t'#7915' '#273#297
+        + 'a v'#224' h'#7911'y thao t'#225'c n'#224'y.'#13#10'Kh'#244'ng = B'#7887' qua v'#224' ti'#7871'p t'#7909'c (ghi '#273#232' t'#7879'p tr'#234'n '#273#297
+        + 'a).'#13#10'H'#7911'y = D'#7915'ng.');
+  Put(True,
+    'File created successfully: %s',
+    #272#227' t'#7841'o t'#7879'p th'#224'nh c'#244'ng: %s');
+  Put(True,
+    'File created:',
+    'T'#7879'p '#273#227' t'#7841'o:');
+  Put(True,
+    'File details',
+    'Chi ti'#7871't t'#7879'p');
+  Put(True,
+    'File mask',
+    'M'#7863't n'#7841' t'#7879'p');
+  Put(True,
+    'File name:',
+    'T'#234'n t'#7879'p:');
+  Put(True,
+    'File not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p.');
+  Put(True,
+    'File not found:',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p:');
+  Put(True,
+    'File not loaded',
+    'T'#7879'p ch'#432'a '#273#432#7907'c t'#7843'i');
+  Put(True,
+    'File path:',
+    #272#432#7901'ng d'#7851'n t'#7879'p:');
+  Put(True,
+    'File saved with success.',
+    #272#227' l'#432'u t'#7879'p th'#224'nh c'#244'ng.');
+  Put(True,
+    'File size',
+    'K'#237'ch th'#432#7899'c t'#7879'p');
+  Put(True,
+    'File toolbar',
+    'Thanh c'#244'ng c'#7909' t'#7879'p');
+  Put(True,
+    'File: ',
+    'T'#7879'p: ');
+  Put(True,
+    'FileBar.ClearFileNameHint',
+    'X'#243'a s'#7841'ch t'#234'n t'#7879'p v'#224' b'#7897' nh'#7899' '#273#7879'm '#273#7885'c (l'#7847'n '#273#7885'c sau t'#7843'i t'#7915' '#273#7847'u)');
+  Put(True,
+    'FileBar.ClearUiHint',
+    'X'#243'a s'#7841'ch giao di'#7879'n (kh'#244'ng x'#243'a t'#7879'p tr'#234'n '#273#297'a)');
+  Put(True,
+    'FileBar.EmptyClickMRUHint',
+    'Nh'#7845'p '#273#7875' ch'#7885'n m'#7897't t'#7879'p g'#7847'n '#273#226'y');
+  Put(True,
+    'FileBar.MRUHint',
+    'T'#7879'p g'#7847'n '#273#226'y (MRU) (Ctrl+R)');
+  Put(True,
+    'FileBar.ReadFileF5Hint',
+    #272#7885'c / T'#7843'i (F5)');
+  Put(True,
+    'FileBar.RefreshViewHint',
+    'L'#224'm m'#7899'i khung danh s'#225'ch (gi'#7919' ho'#224'n t'#225'c)');
+  Put(True,
+    'FileBar.ReloadFromDiskHint',
+    'T'#7843'i l'#7841'i t'#7915' '#273#297'a (x'#243'a b'#7897' nh'#7899' '#273#7879'm v'#224' m'#7903' l'#7841'i)');
+  Put(True,
+    'FileFormat.CS.Arabic',
+    #7842' R'#7853'p');
+  Put(True,
+    'FileFormat.CS.Baltic',
+    'Baltic');
+  Put(True,
+    'FileFormat.CS.CJK',
+    'Trung/Nh'#7853't/H'#224'n');
+  Put(True,
+    'FileFormat.CS.Central',
+    'Trung '#194'u');
+  Put(True,
+    'FileFormat.CS.Cyrillic',
+    'Kirin');
+  Put(True,
+    'FileFormat.CS.Greek',
+    'Hy L'#7841'p');
+  Put(True,
+    'FileFormat.CS.Hebrew',
+    'Do Th'#225'i');
+  Put(True,
+    'FileFormat.CS.Thai',
+    'Th'#225'i');
+  Put(True,
+    'FileFormat.CS.Turkish',
+    'Th'#7893' Nh'#297' K'#7923);
+  Put(True,
+    'FileFormat.CS.Vietnamese',
+    'Vi'#7879't');
+  Put(True,
+    'FileFormat.CS.Western',
+    'T'#226'y '#194'u');
+  Put(True,
+    'FileFormat.Converting',
+    #272'ang chuy'#7875'n '#273#7893'i '#273#7883'nh d'#7841'ng t'#7879'p...');
+  Put(True,
+    'FileFormat.DefaultEOL.Saved',
+    'K'#7871't th'#250'c d'#242'ng m'#7863'c '#273#7883'nh '#273#7863't th'#224'nh %s.');
+  Put(True,
+    'FileFormat.DefaultEnc.Saved',
+    'B'#7843'ng m'#227' m'#7863'c '#273#7883'nh cho t'#7879'p m'#7899'i '#273#7863't th'#224'nh %s.');
+  Put(True,
+    'FileFormat.DiskSpaceOp',
+    'Chuy'#7875'n '#273#7893'i '#273#7883'nh d'#7841'ng t'#7879'p');
+  Put(True,
+    'FileFormat.EOL.Confirm',
+    'Chuy'#7875'n to'#224'n b'#7897' t'#7879'p sang %s? Thao t'#225'c n'#224'y vi'#7871't l'#7841'i t'#7879'p tr'#234'n '#273#297'a.');
+  Put(True,
+    'FileFormat.EOL.ConvertMac',
+    'Chuy'#7875'n sang '#273#7883'nh d'#7841'ng Macintosh (CR)');
+  Put(True,
+    'FileFormat.EOL.ConvertUnix',
+    'Chuy'#7875'n sang '#273#7883'nh d'#7841'ng UNIX (LF)');
+  Put(True,
+    'FileFormat.EOL.ConvertWindows',
+    'Chuy'#7875'n sang '#273#7883'nh d'#7841'ng Windows (CR LF)');
+  Put(True,
+    'FileFormat.EOL.Done',
+    'K'#7871't th'#250'c d'#242'ng '#273#227' chuy'#7875'n sang %s.');
+  Put(True,
+    'FileFormat.EOL.Mac',
+    'Macintosh (CR)');
+  Put(True,
+    'FileFormat.EOL.Mixed',
+    'K'#7871't th'#250'c d'#242'ng h'#7895'n h'#7907'p');
+  Put(True,
+    'FileFormat.EOL.Title',
+    'K'#7871't th'#250'c d'#242'ng');
+  Put(True,
+    'FileFormat.EOL.Unix',
+    'UNIX (LF)');
+  Put(True,
+    'FileFormat.EOL.Unknown',
+    'K'#7871't th'#250'c d'#242'ng');
+  Put(True,
+    'FileFormat.EOL.Windows',
+    'Windows (CR LF)');
+  Put(True,
+    'FileFormat.Enc.CharacterSets',
+    'B'#7897' k'#253' t'#7921);
+  Put(True,
+    'FileFormat.Enc.Confirm',
+    'Chuy'#7875'n to'#224'n b'#7897' t'#7879'p sang %s? Thao t'#225'c n'#224'y vi'#7871't l'#7841'i t'#7879'p tr'#234'n '#273#297'a.');
+  Put(True,
+    'FileFormat.Enc.ConvertCharacterSets',
+    'Chuy'#7875'n sang b'#7897' k'#253' t'#7921);
+  Put(True,
+    'FileFormat.Enc.ConvertTo',
+    'Chuy'#7875'n sang');
+  Put(True,
+    'FileFormat.Enc.Done',
+    'B'#7843'ng m'#227' '#273#227' chuy'#7875'n sang %s.');
+  Put(True,
+    'FileFormat.Enc.EncodeIn',
+    'M'#227' h'#243'a th'#224'nh');
+  Put(True,
+    'FileFormat.Enc.HintRightClick',
+    'Nh'#7845'p chu'#7897't ph'#7843'i '#273#7875' M'#227' h'#243'a th'#224'nh / Chuy'#7875'n sang (nh'#432' Notepad++).');
+  Put(True,
+    'FileFormat.Enc.InAnsi',
+    'M'#227' h'#243'a th'#224'nh ANSI');
+  Put(True,
+    'FileFormat.Enc.InUtf16BE',
+    'M'#227' h'#243'a th'#224'nh UTF-16 BE BOM');
+  Put(True,
+    'FileFormat.Enc.InUtf16LE',
+    'M'#227' h'#243'a th'#224'nh UTF-16 LE BOM');
+  Put(True,
+    'FileFormat.Enc.InUtf32BE',
+    'M'#227' h'#243'a th'#224'nh UTF-32 BE BOM');
+  Put(True,
+    'FileFormat.Enc.InUtf32LE',
+    'M'#227' h'#243'a th'#224'nh UTF-32 LE BOM');
+  Put(True,
+    'FileFormat.Enc.InUtf8',
+    'M'#227' h'#243'a th'#224'nh UTF-8');
+  Put(True,
+    'FileFormat.Enc.InUtf8Bom',
+    'M'#227' h'#243'a th'#224'nh UTF-8 BOM');
+  Put(True,
+    'FileFormat.Enc.Title',
+    'B'#7843'ng m'#227);
+  Put(True,
+    'FileFormat.Enc.ToAnsi',
+    'Chuy'#7875'n sang ANSI');
+  Put(True,
+    'FileFormat.Enc.ToUtf16BE',
+    'Chuy'#7875'n sang UTF-16 BE BOM');
+  Put(True,
+    'FileFormat.Enc.ToUtf16LE',
+    'Chuy'#7875'n sang UTF-16 LE BOM');
+  Put(True,
+    'FileFormat.Enc.ToUtf32BE',
+    'Chuy'#7875'n sang UTF-32 BE BOM');
+  Put(True,
+    'FileFormat.Enc.ToUtf32LE',
+    'Chuy'#7875'n sang UTF-32 LE BOM');
+  Put(True,
+    'FileFormat.Enc.ToUtf8',
+    'Chuy'#7875'n sang UTF-8');
+  Put(True,
+    'FileFormat.Enc.ToUtf8Bom',
+    'Chuy'#7875'n sang UTF-8 BOM');
+  Put(True,
+    'FileFormat.Encoding.HintRightClick',
+    'Nh'#7845'p chu'#7897't ph'#7843'i: menu '#273#7883'nh d'#7841'ng t'#7879'p (chuy'#7875'n b'#7843'ng m'#227' / k'#7871't th'#250'c d'#242'ng).');
+  Put(True,
+    'FileFormat.Error.Failed',
+    'Chuy'#7875'n '#273#7893'i th'#7845't b'#7841'i.');
+  Put(True,
+    'FileFormat.Error.NoFile',
+    'Hi'#7879'n ch'#432'a c'#243' t'#7879'p n'#224'o '#273#432#7907'c t'#7843'i.');
+  Put(True,
+    'FileFormat.Menu.DefaultEOL',
+    'K'#7871't th'#250'c d'#242'ng &m'#7863'c '#273#7883'nh cho t'#7879'p m'#7899'i');
+  Put(True,
+    'FileFormat.Menu.DefaultNewEnc',
+    'B'#7843'ng m'#227' &m'#7863'c '#273#7883'nh cho t'#7879'p m'#7899'i');
+  Put(True,
+    'FileFormat.Menu.EOLConversion',
+    'Chuy'#7875'n '#273#7893'i &EOL');
+  Put(True,
+    'FileFormat.Menu.Encoding',
+    '&B'#7843'ng m'#227);
+  Put(True,
+    'FileFormat.Menu.NewFile',
+    'T'#7879'p &m'#7899'i...');
+  Put(True,
+    'FileFormat.NewFile.Created',
+    #272#227' t'#7841'o %s (%s, %s).');
+  Put(True,
+    'FileSearch.GalleryGroup',
+    'T'#236'm ki'#7871'm');
+  Put(True,
+    'FileSearch.HideBookmarks',
+    #7848'n D'#7845'u trang');
+  Put(True,
+    'FileSearch.HideFilter',
+    #7848'n L'#7885'c / Grep');
+  Put(True,
+    'FileSearch.HideFind',
+    #7848'n T'#236'm (L'#7847'n xu'#7845't hi'#7879'n)');
+  Put(True,
+    'FileSearch.MoreTools',
+    'C'#244'ng c'#7909#13#10't'#236'm ki'#7871'm');
+end;
+
+procedure AddVietnamesePart16(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'FileSearch.MoreToolsHint',
+    'Hi'#7879'n ho'#7863'c '#7849'n b'#7843'ng T'#236'm v'#224' L'#7885'c/Grep');
+  Put(True,
+    'FileSearch.ShowBookmarks',
+    'Hi'#7879'n D'#7845'u trang');
+  Put(True,
+    'FileSearch.ShowFilter',
+    'Hi'#7879'n L'#7885'c / Grep');
+  Put(True,
+    'FileSearch.ShowFind',
+    'Hi'#7879'n T'#236'm (L'#7847'n xu'#7845't hi'#7879'n)');
+  Put(True,
+    'FileSearch.ToggleBookmarks',
+    'D'#7845'u trang');
+  Put(True,
+    'FileSearch.ToggleFilter',
+    'L'#7885'c / Grep');
+  Put(True,
+    'FileSearch.ToggleFind',
+    'T'#236'm (L'#7847'n xu'#7845't hi'#7879'n)');
+  Put(True,
+    'Filename',
+    'T'#234'n t'#7879'p');
+  Put(True,
+    'Files',
+    'C'#225'c t'#7879'p');
+  Put(True,
+    'Files found',
+    'T'#7879'p t'#236'm th'#7845'y');
+  Put(True,
+    'Files ready: %d',
+    'T'#7879'p s'#7861'n s'#224'ng: %d');
+  Put(True,
+    'Files:',
+    'T'#7879'p:');
+  Put(True,
+    'Filter / Grep',
+    'L'#7885'c / Grep');
+  Put(True,
+    'Filter / Grep active:',
+    'L'#7885'c / Grep '#273'ang b'#7853't:');
+  Put(True,
+    'Filter already complete (no more hits to load).',
+    'B'#7897' l'#7885'c '#273#227' ho'#224'n t'#7845't (kh'#244'ng c'#242'n kh'#7899'p '#273#7875' t'#7843'i).');
+  Put(True,
+    'Filter by specialty keywords in',
+    'L'#7885'c theo t'#7915' kh'#243'a chuy'#234'n khoa trong');
+  Put(True,
+    'Filter cleared.',
+    #272#227' x'#243'a b'#7897' l'#7885'c.');
+  Put(True,
+    'Filter has no results to export.',
+    'B'#7897' l'#7885'c kh'#244'ng c'#243' k'#7871't qu'#7843' '#273#7875' xu'#7845't.');
+  Put(True,
+    'Filter hit file missing; restart the filter.',
+    'Thi'#7871'u t'#7879'p kh'#7899'p b'#7897' l'#7885'c; h'#227'y ch'#7841'y l'#7841'i b'#7897' l'#7885'c.');
+  Put(True,
+    'Filter hit limit reached. Narrow the pattern or index the file.',
+    #272#227' '#273#7841't gi'#7899'i h'#7841'n kh'#7899'p b'#7897' l'#7885'c. Thu h'#7865'p m'#7851'u ho'#7863'c l'#7853'p ch'#7881' m'#7909'c t'#7879'p.');
+  Put(True,
+    'Filter is partial. Continue loading more hits?',
+    'B'#7897' l'#7885'c c'#242'n m'#7897't ph'#7847'n. Ti'#7871'p t'#7909'c t'#7843'i th'#234'm kh'#7899'p?');
+  Put(True,
+    'Filter is still running...',
+    'B'#7897' l'#7885'c v'#7851'n '#273'ang ch'#7841'y...');
+  Put(True,
+    'Filter keeps matching lines only - tune digit counts for %s after prof'
+        + 'iling real values.',
+    'B'#7897' l'#7885'c ch'#7881' gi'#7919' d'#242'ng kh'#7899'p '#8212' ch'#7881'nh s'#7889' ch'#7919' s'#7889' cho %s sau khi ph'#226'n t'#237'ch gi'
+        + #225' tr'#7883' th'#7921'c.');
+  Put(True,
+    'Filter keeps only lines where the regex matches - combine with positio'
+        + 'nal ^.{n} if you must anchor to a column.',
+    'B'#7897' l'#7885'c ch'#7881' gi'#7919' d'#242'ng kh'#7899'p regex '#8212' k'#7871't h'#7907'p v'#7899'i ^.{n} v'#7883' tr'#237' n'#7871'u ph'#7843'i neo'
+        + ' theo c'#7897't.');
+  Put(True,
+    'Filter match mode: Yes = line starts with, No = contains, OK = regex ('
+        + 'VBScript). Cancel = abort.',
+    'Ch'#7871' '#273#7897' kh'#7899'p b'#7897' l'#7885'c: C'#243' = d'#242'ng b'#7855't '#273#7847'u b'#7857'ng, Kh'#244'ng = ch'#7913'a, OK = regex ('
+        + 'VBScript). H'#7911'y = d'#7915'ng.');
+  Put(True,
+    'Filter '#8212' names with particle De/Da/Dos/Das (case-sensitive spacing). R'
+        + 'egex:',
+    'L'#7885'c '#8212' t'#234'n c'#243' ti'#7875'u t'#7915' De/Da/Dos/Das (kho'#7843'ng tr'#7855'ng ph'#226'n bi'#7879't hoa/th'#432#7901'ng)'
+        + '. Regex:');
+  Put(True,
+    'Filter '#8212' newest_review_date in October 2022. Regex:',
+    'L'#7885'c '#8212' newest_review_date trong th'#225'ng 10 n'#259'm 2022. Regex:');
+  Put(True,
+    'Filter '#8212' price is '#8220'Consultar valores'#8221'. Regex:',
+    'L'#7885'c '#8212' gi'#225' l'#224' "Consultar valores". Regex:');
+  Put(True,
+    'Filter '#8212' reviews count has 3+ digits before review date (100+). Regex:',
+    'L'#7885'c '#8212' s'#7889' '#273#225'nh gi'#225' c'#243' t'#7915' 3 ch'#7919' s'#7889' tr'#7903' l'#234'n tr'#432#7899'c ng'#224'y '#273#225'nh gi'#225' (100+). R'
+        + 'egex:');
+  Put(True,
+    'Filter '#8212' title field is Dr. or Dra. Regex:',
+    'L'#7885'c '#8212' tr'#432#7901'ng danh x'#432'ng l'#224' Dr. ho'#7863'c Dra. Regex:');
+  Put(True,
+    'Filter '#8212' title field is Prof. Regex:',
+    'L'#7885'c '#8212' tr'#432#7901'ng danh x'#432'ng l'#224' Prof. Regex:');
+  Put(True,
+    'Filter/extract URLs from',
+    'L'#7885'c/tr'#237'ch URL t'#7915);
+  Put(True,
+    'Filter: %d hits (partial) - Continue for more',
+    'L'#7885'c: %d kh'#7899'p (m'#7897't ph'#7847'n) - Ti'#7871'p t'#7909'c '#273#7875' th'#234'm');
+  Put(True,
+    'Filter: %d/%d',
+    'L'#7885'c: %d/%d');
+  Put(True,
+    'Filter: &Continue (more hits)',
+    'L'#7885'c: &Ti'#7871'p t'#7909'c (th'#234'm kh'#7899'p)');
+  Put(True,
+    'Filter: &auto detect mode',
+    'L'#7885'c: t'#7921' &nh'#7853'n ch'#7871' '#273#7897);
+  Put(True,
+    'Filter: &automatic match case',
+    'L'#7885'c: t'#7921' '#273#7897'ng ph'#226'n bi'#7879't ch'#7919' &hoa/th'#432#7901'ng');
+  Put(True,
+    'Filter: auto detect mode',
+    'L'#7885'c: t'#7921' nh'#7853'n ch'#7871' '#273#7897);
+  Put(True,
+    'Filter: automatic match case',
+    'L'#7885'c: t'#7921' '#273#7897'ng ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Filter: i&gnore case',
+    'L'#7885'c: &kh'#244'ng ph'#226'n bi'#7879't hoa/th'#432#7901'ng');
+  Put(True,
+    'Filter: ignore case',
+    'L'#7885'c: kh'#244'ng ph'#226'n bi'#7879't hoa/th'#432#7901'ng');
+  Put(True,
+    'Filter: line &starts with',
+    'L'#7885'c: d'#242'ng &b'#7855't '#273#7847'u b'#7857'ng');
+  Put(True,
+    'Filter: line count too large for filter memory (32-bit limit).',
+    'L'#7885'c: s'#7889' d'#242'ng qu'#225' l'#7899'n cho b'#7897' nh'#7899' b'#7897' l'#7885'c (gi'#7899'i h'#7841'n 32-bit).');
+  Put(True,
+    'Filter: line starts with',
+    'L'#7885'c: d'#242'ng b'#7855't '#273#7847'u b'#7857'ng');
+  Put(True,
+    'Filter: lines &contain text',
+    'L'#7885'c: d'#242'ng &ch'#7913'a v'#259'n b'#7843'n');
+  Put(True,
+    'Filter: lines contain text',
+    'L'#7885'c: d'#242'ng ch'#7913'a v'#259'n b'#7843'n');
+  Put(True,
+    'Filter: match c&ase',
+    'L'#7885'c: ph'#226'n bi'#7879't ch'#7919' ho&a/th'#432#7901'ng');
+  Put(True,
+    'Filter: match case',
+    'L'#7885'c: ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Filter: regular e&xpression',
+    'L'#7885'c: bi'#7875'u th'#7913'c ch'#237'nh &quy');
+  Put(True,
+    'Filter: regular expression',
+    'L'#7885'c: bi'#7875'u th'#7913'c ch'#237'nh quy');
+  Put(True,
+    'Filter: use line prefix match? (Yes = line starts with text, No = cont'
+        + 'ains anywhere)',
+    'L'#7885'c: d'#249'ng kh'#7899'p ti'#7873'n t'#7889' d'#242'ng? (C'#243' = d'#242'ng b'#7855't '#273#7847'u b'#7857'ng v'#259'n b'#7843'n, Kh'#244'ng = '
+        + 'ch'#7913'a '#7903' b'#7845't k'#7923' '#273#226'u)');
+  Put(True,
+    'FilterBar.Apply',
+    #193'p d'#7909'ng');
+  Put(True,
+    'FilterBar.ApplyHint',
+    #193'p d'#7909'ng / l'#224'm l'#7841'i b'#7897' l'#7885'c v'#7899'i v'#259'n b'#7843'n trong h'#7897'p (Enter)');
+  Put(True,
+    'FilterBar.AskCheckedOrAll',
+    'C'#243' %d d'#242'ng '#273#227' '#273#225'nh d'#7845'u trong c'#225'c kh'#7899'p b'#7897' l'#7885'c (%d t'#7893'ng).'#13#10'C'#243' = ch'#7881' '#273#227' '#273
+        + #225'nh d'#7845'u'#13#10'Kh'#244'ng = t'#7845't c'#7843' kh'#7899'p '#273#227' l'#7885'c'#13#10'H'#7911'y = d'#7915'ng');
+  Put(True,
+    'FilterBar.AskSelectedOrAll',
+    'C'#243' %d d'#242'ng '#273#227' ch'#7885'n v'#224' %d kh'#7899'p '#273#227' l'#7885'c.'#13#10'C'#243' = ch'#7881' '#273#227' ch'#7885'n'#13#10'Kh'#244'ng = t'#7845't c'
+        + #7843' kh'#7899'p '#273#227' l'#7885'c'#13#10'H'#7911'y = d'#7915'ng');
+  Put(True,
+    'FilterBar.Case.Off',
+    'aa');
+  Put(True,
+    'FilterBar.Case.On',
+    'Aa');
+  Put(True,
+    'FilterBar.Clear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'FilterBar.ClearHint',
+    'X'#243'a s'#7841'ch b'#7897' l'#7885'c '#273'ang b'#7853't (gi'#7919' v'#259'n b'#7843'n '#273#7875' l'#224'm l'#7841'i)');
+  Put(True,
+    'FilterBar.CloseHint',
+    #272#243'ng b'#7843'ng b'#7897' l'#7885'c');
+  Put(True,
+    'FilterBar.ConfirmCopyAll',
+    'Sao ch'#233'p t'#7845't c'#7843' %d d'#242'ng '#273#227' l'#7885'c v'#224'o clipboard?');
+  Put(True,
+    'FilterBar.ConfirmExportAll',
+    'Xu'#7845't t'#7845't c'#7843' %d d'#242'ng '#273#227' l'#7885'c ra t'#7879'p?');
+  Put(True,
+    'FilterBar.Continue',
+    'Ti'#7871'p t'#7909'c');
+  Put(True,
+    'FilterBar.ContinueHint',
+    'T'#7843'i th'#234'm kh'#7899'p (b'#7897' l'#7885'c lu'#7891'ng m'#7897't ph'#7847'n)');
+  Put(True,
+    'FilterBar.Copy',
+    'Sao ch'#233'p');
+  Put(True,
+    'FilterBar.CopyHint',
+    'Sao ch'#233'p k'#7871't qu'#7843' b'#7897' l'#7885'c v'#224'o clipboard (t'#7845't c'#7843' kh'#7899'p, ho'#7863'c ch'#7881' v'#249'ng ch'#7885'n'
+        + ' l'#432#7899'i)');
+  Put(True,
+    'FilterBar.EmptyPattern',
+    'Nh'#7853'p m'#7851'u b'#7897' l'#7885'c tr'#432#7899'c khi '#225'p d'#7909'ng.');
+  Put(True,
+    'FilterBar.Export',
+    'Xu'#7845't');
+  Put(True,
+    'FilterBar.ExportHint',
+    'Xu'#7845't k'#7871't qu'#7843' b'#7897' l'#7885'c ra t'#7879'p (t'#7845't c'#7843' kh'#7899'p, ho'#7863'c ch'#7881' v'#249'ng ch'#7885'n l'#432#7899'i)');
+  Put(True,
+    'FilterBar.Hide',
+    #7848'n');
+  Put(True,
+    'FilterBar.HideHint',
+    #7848'n thanh n'#224'y (b'#7897' l'#7885'c v'#7851'n b'#7853't). Nh'#7845'p d'#7843'i ho'#7863'c Ctrl+L '#273#7875' hi'#7879'n l'#7841'i.');
+  Put(True,
+    'FilterBar.Mode.Contains',
+    'Ch'#7913'a');
+  Put(True,
+    'FilterBar.Mode.Prefix',
+    'Ti'#7873'n t'#7889);
+  Put(True,
+    'FilterBar.Mode.Regex',
+    'Regex');
+  Put(True,
+    'FilterBar.NoResults',
+    'Kh'#244'ng c'#243' k'#7871't qu'#7843' b'#7897' l'#7885'c '#273#7875' xu'#7845't ho'#7863'c sao ch'#233'p.');
+  Put(True,
+    'FilterBar.PatternHint',
+    'Nh'#7853'p m'#7851'u b'#7897' l'#7885'c (Enter = '#193'p d'#7909'ng).');
+  Put(True,
+    'FilterBar.PeekHint',
+    'B'#7897' l'#7885'c '#273'ang b'#7853't '#8212' nh'#7845'p '#273#7875' hi'#7879'n thanh b'#7897' l'#7885'c');
+  Put(True,
+    'FilterBar.Recent',
+    'B'#7897' l'#7885'c g'#7847'n '#273#226'y');
+  Put(True,
+    'FilterBar.RecentEmpty',
+    '(ch'#432'a c'#243' b'#7897' l'#7885'c g'#7847'n '#273#226'y)');
+  Put(True,
+    'FilterBar.RecentHint',
+    'M'#7903' danh s'#225'ch th'#7843' xu'#7889'ng 20 b'#7897' l'#7885'c g'#7847'n nh'#7845't.');
+  Put(True,
+    'FilterBar.RecentMore',
+    'Hi'#7879'n th'#234'm');
+  Put(True,
+    'FilterBar.RecentMoreHint',
+    'Hi'#7879'n c'#225'c b'#7897' l'#7885'c g'#7847'n '#273#226'y c'#242'n l'#7841'i');
+  Put(True,
+    'FilterBar.ResizeHint',
+    'K'#233'o '#273#7875' '#273#7893'i k'#237'ch th'#432#7899'c b'#7897' l'#7885'c. Nh'#7845'p '#273#250'p chuy'#7875'n gi'#7919'a chi'#7873'u cao m'#7863'c '#273#7883'nh '
+        + 'v'#224' n'#7917'a c'#7917'a s'#7893'.');
+  Put(True,
+    'FilterBar.Status.Idle',
+    'Nh'#7853'p m'#7851'u v'#224' nh'#7845'n '#193'p d'#7909'ng (Enter)');
+  Put(True,
+    'Filtering',
+    #272'ang l'#7885'c');
+  Put(True,
+    'Filtering (stream)...',
+    #272'ang l'#7885'c (lu'#7891'ng)...');
+  Put(True,
+    'Filtering...',
+    #272'ang l'#7885'c...');
+  Put(True,
+    'Find',
+    'T'#236'm');
+  Put(True,
+    'Find &Next',
+    'T'#236'm &ti'#7871'p');
+  Put(True,
+    'Find Files',
+    'T'#236'm t'#7879'p');
+  Put(True,
+    'Find Next',
+    'T'#236'm ti'#7871'p');
+  Put(True,
+    'Find and &Replace...',
+    'T'#236'm v'#224' &thay th'#7871'...');
+  Put(True,
+    'Find and Replace',
+    'T'#236'm v'#224' thay th'#7871);
+  Put(True,
+    'Find in &Files...',
+    'T'#236'm trong &t'#7879'p...');
+  Put(True,
+    'Find rows where the specialty ends with common suffix "ista":',
+    'T'#236'm h'#224'ng c'#243' chuy'#234'n khoa k'#7871't th'#250'c b'#7857'ng h'#7853'u t'#7889' ph'#7893' bi'#7871'n "ista":');
+  Put(True,
+    'Find what:',
+    'T'#236'm g'#236':');
+  Put(True,
+    'FindOcc.Assistant.Btn.Find',
+    'T'#236'm');
+  Put(True,
+    'FindOcc.Assistant.Btn.Replace',
+    'Thay th'#7871);
+  Put(True,
+    'FindOcc.Assistant.FoundSummary',
+    'T'#236'm th'#7845'y "%s" t'#7841'i d'#242'ng %d.');
+  Put(True,
+    'FindOcc.Assistant.HitsSummary',
+    #272#227' thu th'#7853'p %d d'#242'ng kh'#7899'p trong danh s'#225'ch.');
+end;
+
+procedure AddVietnamesePart17(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'FindOcc.Assistant.NoHits',
+    'Kh'#244'ng thu th'#7853'p '#273#432#7907'c d'#242'ng kh'#7899'p n'#224'o.');
+  Put(True,
+    'FindOcc.Assistant.PartialSummary',
+    #272#227' thu th'#7853'p %d d'#242'ng kh'#7899'p cho '#273#7871'n nay (m'#7897't ph'#7847'n '#8212' T'#7843'i th'#234'm).');
+  Put(True,
+    'FindOcc.Assistant.WhatNext',
+    'B'#7841'n mu'#7889'n l'#224'm g'#236' ti'#7871'p theo?');
+  Put(True,
+    'FindOcc.Clear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'FindOcc.ClearHint',
+    'X'#243'a t'#244' s'#225'ng t'#236'm ki'#7871'm v'#224' danh s'#225'ch l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'FindOcc.Cleared',
+    #272#227' x'#243'a c'#225'c l'#7847'n xu'#7845't hi'#7879'n t'#236'm ki'#7871'm');
+  Put(True,
+    'FindOcc.CloseHint',
+    #272#243'ng b'#7843'ng l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'FindOcc.Copy',
+    'Sao ch'#233'p');
+  Put(True,
+    'FindOcc.CopyHint',
+    'Sao ch'#233'p c'#225'c l'#7847'n xu'#7845't hi'#7879'n '#273#227' thu th'#7853'p v'#224'o Clipboard');
+  Put(True,
+    'FindOcc.Export',
+    'Xu'#7845't');
+  Put(True,
+    'FindOcc.ExportHint',
+    'Xu'#7845't c'#225'c l'#7847'n xu'#7845't hi'#7879'n '#273#227' thu th'#7853'p ra t'#7879'p');
+  Put(True,
+    'FindOcc.Go',
+    'T'#236'm');
+  Put(True,
+    'FindOcc.GoHint',
+    'T'#236'm kh'#7899'p ti'#7871'p theo (gi'#7889'ng Ctrl+F)');
+  Put(True,
+    'FindOcc.HideListHint',
+    #7848'n danh s'#225'ch k'#7871't qu'#7843' (gi'#7919' b'#7843'ng T'#236'm m'#7903')');
+  Put(True,
+    'FindOcc.HitLimitReached',
+    #272#227' '#273#7841't gi'#7899'i h'#7841'n l'#7847'n xu'#7845't hi'#7879'n (5.000.000). Thu h'#7865'p v'#259'n b'#7843'n t'#236'm ho'#7863'c xu'
+        + #7845't nh'#7919'ng g'#236' b'#7841'n c'#243'.');
+  Put(True,
+    'FindOcc.HitLineFmt',
+    'D'#242'ng %d: %s');
+  Put(True,
+    'FindOcc.ListPageNextHint',
+    'Trang ti'#7871'p theo c'#7911'a danh s'#225'ch l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'FindOcc.ListPagePrevHint',
+    'Trang tr'#432#7899'c c'#7911'a danh s'#225'ch l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'FindOcc.ListPageStatus',
+    'Trang %d / %d '#183' %d kh'#7899'p');
+  Put(True,
+    'FindOcc.LoadMore',
+    'T'#7843'i th'#234'm');
+  Put(True,
+    'FindOcc.LoadMoreHint',
+    'T'#7843'i l'#244' kh'#7899'p '#273#227' thu th'#7853'p ti'#7871'p theo t'#7915' '#273#297'a (kh'#244'ng ph'#7843'i F3)');
+  Put(True,
+    'FindOcc.Next',
+    'Ti'#7871'p (F3)');
+  Put(True,
+    'FindOcc.NextHint',
+    'T'#7899'i kh'#7899'p '#273#417'n ti'#7871'p theo (gi'#7889'ng F3)');
+  Put(True,
+    'FindOcc.PeekHint',
+    'Hi'#7879'n thanh L'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'FindOcc.Prev',
+    'Tr'#432#7899'c (Shift+F3)');
+  Put(True,
+    'FindOcc.PrevHint',
+    'T'#7899'i kh'#7899'p '#273#417'n tr'#432#7899'c (gi'#7889'ng Shift+F3)');
+  Put(True,
+    'FindOcc.ResizeHint',
+    'K'#233'o '#273#7875' '#273#7893'i k'#237'ch th'#432#7899'c danh s'#225'ch l'#7847'n xu'#7845't hi'#7879'n. Nh'#7845'p '#273#250'p chuy'#7875'n gi'#7919'a ch'
+        + 'i'#7873'u cao m'#7863'c '#273#7883'nh v'#224' n'#7917'a c'#7917'a s'#7893'.');
+  Put(True,
+    'FindOcc.SearchHint',
+    'G'#245' v'#259'n b'#7843'n '#273#7875' t'#236'm (gi'#7889'ng Ctrl+F), r'#7891'i Enter');
+  Put(True,
+    'FindOcc.ShowListHint',
+    'Hi'#7879'n danh s'#225'ch k'#7871't qu'#7843);
+  Put(True,
+    'FindOcc.Status.Collecting',
+    #272'ang thu th'#7853'p kh'#7899'p cho "%s"...');
+  Put(True,
+    'FindOcc.Status.CollectingShort',
+    #272'ang thu th'#7853'p kh'#7899'p...');
+  Put(True,
+    'FindOcc.Status.Idle',
+    'G'#245' b'#234'n d'#432#7899'i ho'#7863'c d'#249'ng Ctrl+F, r'#7891'i Tr'#432#7899'c / Ti'#7871'p ho'#7863'c Hi'#7879'n t'#7845't c'#7843' trong '
+        + 'danh s'#225'ch');
+  Put(True,
+    'FindOcc.Status.Offer',
+    'T'#236'm th'#7845'y '#7903' d'#242'ng %d '#183' "%s" '#8212' Tr'#432#7899'c / Ti'#7871'p ho'#7863'c Hi'#7879'n t'#7845't c'#7843' trong danh s'
+        + #225'ch');
+  Put(True,
+    'FindOcc.Status.Partial',
+    '%d kh'#7899'p (m'#7897't ph'#7847'n) '#183' "%s" '#8212' T'#7843'i th'#234'm');
+  Put(True,
+    'FindOcc.Status.Ready',
+    '%d kh'#7899'p '#183' "%s" (trong danh s'#225'ch)');
+  Put(True,
+    'FindOcc.Status.ReadyToCollect',
+    'S'#7861'n s'#224'ng '#183' "%s" '#8212' Tr'#432#7899'c / Ti'#7871'p ho'#7863'c Hi'#7879'n t'#7845't c'#7843' trong danh s'#225'ch');
+  Put(True,
+    'FindOcc.Title',
+    'L'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'FindOcc.ViewAllInList',
+    'Hi'#7879'n t'#7845't c'#7843' trong danh s'#225'ch');
+  Put(True,
+    'FindOcc.ViewAllInListHint',
+    'T'#7841'o danh s'#225'ch kh'#7899'p ph'#226'n trang; nh'#7845'p m'#7897't h'#224'ng '#273#7875' nh'#7843'y trong danh s'#225'ch t'
+        + #7879'p');
+  Put(True,
+    'Finds complete words ending with the suffix "ista" (e.g., alergista, d'
+        + 'ermatologista).',
+    'T'#236'm c'#225'c t'#7915' ho'#224'n ch'#7881'nh k'#7871't th'#250'c b'#7857'ng h'#7853'u t'#7889' "ista" (v'#237' d'#7909': alergista, d'
+        + 'ermatologista).');
+  Put(True,
+    'First column / leading token:',
+    'C'#7897't '#273#7847'u / token '#273#7847'u:');
+  Put(True,
+    'First line',
+    'D'#242'ng '#273#7847'u');
+  Put(True,
+    'First line must be >= 1.',
+    'D'#242'ng '#273#7847'u ph'#7843'i >= 1.');
+  Put(True,
+    'First line number to export.',
+    'S'#7889' d'#242'ng '#273#7847'u ti'#234'n '#273#7875' xu'#7845't.');
+  Put(True,
+    'First matching lines:',
+    'C'#225'c d'#242'ng kh'#7899'p '#273#7847'u ti'#234'n:');
+  Put(True,
+    'Fixed layouts often encode record type in the first positions. First c'
+        + 'haracters of line 1 (sample): %s.',
+    'B'#7889' c'#7909'c c'#7889' '#273#7883'nh th'#432#7901'ng m'#227' h'#243'a ki'#7875'u b'#7843'n ghi '#7903' c'#225'c v'#7883' tr'#237' '#273#7847'u. C'#225'c k'#253' t'#7921' '
+        + #273#7847'u c'#7911'a d'#242'ng 1 (m'#7851'u): %s.');
+  Put(True,
+    'Focus column "%s": keep rows where that field shows three or more digi'
+        + 't characters starting with 1-9 (example: counts 100+).',
+    'T'#7853'p trung c'#7897't "%s": gi'#7919' c'#225'c h'#224'ng c'#243' tr'#432#7901'ng '#273#243' hi'#7879'n t'#7915' ba ch'#7919' s'#7889' tr'#7903' l'#234
+        + 'n b'#7855't '#273#7847'u b'#7857'ng 1-9 (v'#237' d'#7909': s'#7889' '#273#7871'm 100+).');
+  Put(True,
+    'Folder',
+    'Th'#432' m'#7909'c');
+  Put(True,
+    'Folder saved with success.',
+    #272#227' l'#432'u th'#432' m'#7909'c th'#224'nh c'#244'ng.');
+  Put(True,
+    'FolderPick.AddSel',
+    'Th'#234'm '#273#227' ch'#7885'n');
+  Put(True,
+    'FolderPick.AddSelHint',
+    'Th'#234'm c'#225'c th'#432' m'#7909'c '#273#227' ch'#7885'n v'#224'o danh s'#225'ch b'#234'n ph'#7843'i');
+  Put(True,
+    'FolderPick.AddThis',
+    'Th'#234'm th'#432' m'#7909'c n'#224'y');
+  Put(True,
+    'FolderPick.AddThisHint',
+    'Th'#234'm th'#432' m'#7909'c '#273'ang m'#7903' v'#224'o danh s'#225'ch b'#234'n ph'#7843'i');
+  Put(True,
+    'FolderPick.AddedN',
+    #272#227' th'#234'm %d');
+  Put(True,
+    'FolderPick.Already',
+    #272#227' c'#243' trong danh s'#225'ch.');
+  Put(True,
+    'FolderPick.BackHint',
+    'Quay l'#7841'i');
+  Put(True,
+    'FolderPick.Cancel',
+    'H'#7911'y');
+  Put(True,
+    'FolderPick.Clear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'FolderPick.ClearHint',
+    'X'#243'a s'#7841'ch danh s'#225'ch n'#224'y');
+  Put(True,
+    'FolderPick.CloseHint',
+    #272#243'ng');
+  Put(True,
+    'FolderPick.Confirm',
+    'Th'#234'm th'#432' m'#7909'c');
+  Put(True,
+    'FolderPick.Confirm1',
+    'Th'#234'm 1 th'#432' m'#7909'c');
+  Put(True,
+    'FolderPick.ConfirmN',
+    'Th'#234'm %d th'#432' m'#7909'c');
+  Put(True,
+    'FolderPick.DriveCD',
+    'CD ho'#7863'c DVD (%s)');
+  Put(True,
+    'FolderPick.DriveFixed',
+    #7892' '#273#297'a c'#7909'c b'#7897' (%s)');
+  Put(True,
+    'FolderPick.DriveRam',
+    #7892' RAM (%s)');
+  Put(True,
+    'FolderPick.DriveRemote',
+    'M'#7841'ng (%s)');
+  Put(True,
+    'FolderPick.DriveRemovable',
+    'Th'#225'o l'#7855'p '#273#432#7907'c (%s)');
+  Put(True,
+    'FolderPick.DriveUnknown',
+    #7892' '#273#297'a (%s)');
+  Put(True,
+    'FolderPick.EmptyDir',
+    'Kh'#244'ng c'#243' th'#432' m'#7909'c con '#7903' '#273#226'y');
+  Put(True,
+    'FolderPick.EmptyHint',
+    'C'#225'c th'#432' m'#7909'c b'#7841'n th'#234'm s'#7869' hi'#7879'n '#7903' '#273#226'y.');
+  Put(True,
+    'FolderPick.EmptyTitle',
+    'Ch'#432'a c'#243' g'#236' '#7903' '#273#226'y');
+  Put(True,
+    'FolderPick.Hidden',
+    'Hi'#7879'n m'#7909'c '#7849'n');
+  Put(True,
+    'FolderPick.HiddenHint',
+    'Hi'#7879'n th'#432' m'#7909'c '#7849'n');
+  Put(True,
+    'FolderPick.HintOkSel',
+    'Th'#234'm c'#225'c th'#432' m'#7909'c '#273#227' ch'#7885'n v'#224' '#273#243'ng. Ctrl+Enter c'#361'ng l'#224'm v'#7853'y.');
+  Put(True,
+    'FolderPick.HintOkThis',
+    'Th'#234'm th'#432' m'#7909'c '#273'ang m'#7903' v'#224' '#273#243'ng. Ctrl+Enter c'#361'ng l'#224'm v'#7853'y.');
+  Put(True,
+    'FolderPick.HintOkTray',
+    'Th'#234'm c'#225'c th'#432' m'#7909'c trong danh s'#225'ch v'#224' '#273#243'ng. Ctrl+Enter c'#361'ng l'#224'm v'#7853'y.');
+  Put(True,
+    'FolderPick.ListHint',
+    'Ctrl+nh'#7845'p ch'#7885'n nhi'#7873'u. Nh'#7845'p '#273#250'p '#273#7875' m'#7903'.');
+  Put(True,
+    'FolderPick.NeedOne',
+    'Ch'#7885'n '#237't nh'#7845't m'#7897't th'#432' m'#7909'c.');
+  Put(True,
+    'FolderPick.NoDrives',
+    'Kh'#244'ng t'#236'm th'#7845'y '#7893' '#273#297'a n'#224'o.');
+  Put(True,
+    'FolderPick.NotFound',
+    'Kh'#244'ng t'#236'm th'#7845'y th'#432' m'#7909'c.');
+  Put(True,
+    'FolderPick.Open',
+    'M'#7903);
+  Put(True,
+    'FolderPick.OpenFail',
+    'Kh'#244'ng th'#7875' m'#7903' th'#432' m'#7909'c n'#224'y.');
+  Put(True,
+    'FolderPick.OpenHint',
+    'M'#7903' '#273#432#7901'ng d'#7851'n '#273#227' g'#245' '#7903' '#273#226'y');
+  Put(True,
+    'FolderPick.PathHint',
+    #272#432#7901'ng d'#7851'n th'#432' m'#7909'c');
+  Put(True,
+    'FolderPick.Recent',
+    'G'#7847'n '#273#226'y');
+  Put(True,
+    'FolderPick.RecentHint',
+    'Th'#432' m'#7909'c g'#7847'n '#273#226'y: nh'#7845'p '#273#7875' m'#7903' v'#224' th'#234'm m'#7897't (Alt+Down). T'#236'm, x'#243'a, thu'#7897'c t'#237
+        + 'nh v'#224' x'#243'a t'#7845't c'#7843', gi'#7889'ng c'#225'c danh s'#225'ch g'#7847'n '#273#226'y kh'#225'c.');
+  Put(True,
+    'FolderPick.RecentMissing',
+    'Kh'#244'ng t'#236'm th'#7845'y ('#273#227' x'#243'a kh'#7887'i danh s'#225'ch g'#7847'n '#273#226'y):'#13#10'%s');
+  Put(True,
+    'FolderPick.RecentTitle',
+    'Th'#432' m'#7909'c g'#7847'n '#273#226'y');
+  Put(True,
+    'FolderPick.RefreshHint',
+    'L'#224'm m'#7899'i');
+  Put(True,
+    'FolderPick.Remove',
+    'X'#243'a');
+  Put(True,
+    'FolderPick.RemoveHint',
+    'X'#243'a c'#225'c th'#432' m'#7909'c '#273#227' ch'#7885'n kh'#7887'i danh s'#225'ch n'#224'y');
+  Put(True,
+    'FolderPick.SelectedN',
+    #272#227' ch'#7885'n %d');
+  Put(True,
+    'FolderPick.Sub',
+    'Nh'#7845'p '#273#250'p m'#7903' th'#432' m'#7909'c. Th'#234'm n'#243', ho'#7863'c nh'#7919'ng th'#432' m'#7909'c b'#7841'n ch'#7885'n, v'#224'o danh s'#225
+        + 'ch b'#234'n ph'#7843'i.');
+  Put(True,
+    'FolderPick.ThisPC',
+    'PC n'#224'y');
+  Put(True,
+    'FolderPick.Title.Agent',
+    'Th'#234'm th'#432' m'#7909'c');
+  Put(True,
+    'FolderPick.Title.Hub',
+    'Th'#432' m'#7909'c c'#7847'n ch'#7849'n '#273'o'#225'n');
+  Put(True,
+    'FolderPick.ToAdd',
+    'C'#7847'n th'#234'm');
+  Put(True,
+    'FolderPick.ToAddN',
+    'C'#7847'n th'#234'm (%d)');
+  Put(True,
+    'FolderPick.UpHint',
+    'Th'#432' m'#7909'c cha');
+end;
+
+procedure AddVietnamesePart18(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Folders',
+    'Th'#432' m'#7909'c');
+  Put(True,
+    'Folders exclude',
+    'Th'#432' m'#7909'c lo'#7841'i tr'#7915);
+  Put(True,
+    'Folders exclusion',
+    'Lo'#7841'i tr'#7915' th'#432' m'#7909'c');
+  Put(True,
+    'Footer (optional):',
+    'Ch'#226'n trang (t'#249'y ch'#7885'n):');
+  Put(True,
+    'Footer Example (XML):',
+    'V'#237' d'#7909' ch'#226'n trang (XML):');
+  Put(True,
+    'Footer to inject in every split file (optional):',
+    'Ch'#226'n trang ch'#232'n v'#224'o m'#7885'i t'#7879'p t'#225'ch (t'#249'y ch'#7885'n):');
+  Put(True,
+    'Footer to inject in every split file (optional, split mode only):',
+    'Ch'#226'n trang ch'#232'n v'#224'o m'#7885'i t'#7879'p t'#225'ch (t'#249'y ch'#7885'n, ch'#7881' ch'#7871' '#273#7897' t'#225'ch):');
+  Put(True,
+    'For different text mode, provide one line per new line to insert.',
+    'V'#7899'i ch'#7871' '#273#7897' v'#259'n b'#7843'n kh'#225'c, cung c'#7845'p m'#7897't d'#242'ng cho m'#7895'i d'#242'ng m'#7899'i c'#7847'n ch'#232'n.');
+  Put(True,
+    'For your example ^<User\s+id=.*>, the input file must actually have li'
+        + 'nes starting with <User ...>.',
+    'V'#7899'i v'#237' d'#7909' ^<User\s+id=.*>, t'#7879'p '#273#7847'u v'#224'o ph'#7843'i th'#7921'c s'#7921' c'#243' c'#225'c d'#242'ng b'#7855't '#273#7847
+        + 'u b'#7857'ng <User ...>.');
+  Put(True,
+    'Force Zero Scan Mode (Ultra Large Files)',
+    'B'#7855't bu'#7897'c ch'#7871' '#273#7897' Zero Scan (t'#7879'p c'#7921'c l'#7899'n)');
+  Put(True,
+    'Force line-segmented mode (heavy ops)',
+    'B'#7855't bu'#7897'c ch'#7871' '#273#7897' ph'#226'n '#273'o'#7841'n theo d'#242'ng (thao t'#225'c n'#7863'ng)');
+  Put(True,
+    'Found at byte %s (~line %d)',
+    'T'#236'm th'#7845'y '#7903' byte %s (~d'#242'ng %d)');
+  Put(True,
+    'Found at line %d',
+    'T'#236'm th'#7845'y '#7903' d'#242'ng %d');
+  Put(True,
+    'French',
+    'Ti'#7871'ng Ph'#225'p');
+  Put(True,
+    'From line must be >= 1.',
+    'T'#7915' d'#242'ng ph'#7843'i >= 1.');
+  Put(True,
+    'From line:',
+    'T'#7915' d'#242'ng:');
+  Put(True,
+    'From:',
+    'T'#7915':');
+  Put(True,
+    'Full Version - Registered'#13#10#13#10'Windows XP .. Windows 11'#13#10'Win32 and Win64',
+    'Phi'#234'n b'#7843'n '#273#7847'y '#273#7911' - '#272#227' '#273#259'ng k'#253#13#10#13#10'Windows XP .. Windows 11'#13#10'Win32 v'#224' Wi'
+        + 'n64');
+  Put(True,
+    'Generate a file using the selected line range.',
+    'T'#7841'o t'#7879'p d'#249'ng kho'#7843'ng d'#242'ng '#273#227' ch'#7885'n.');
+  Put(True,
+    'Generating new file by source and target lines',
+    #272'ang t'#7841'o t'#7879'p m'#7899'i theo d'#242'ng ngu'#7891'n v'#224' '#273#237'ch');
+  Put(True,
+    'Generating splitted files - max 100',
+    #272'ang t'#7841'o c'#225'c t'#7879'p '#273#227' t'#225'ch - t'#7889'i '#273'a 100');
+  Put(True,
+    'German',
+    'Ti'#7871'ng '#272#7913'c');
+  Put(True,
+    'Go to bottom (Ctrl+End)',
+    'T'#7899'i cu'#7889'i (Ctrl+End)');
+  Put(True,
+    'Go to byte offset',
+    'T'#7899'i v'#7883' tr'#237' byte');
+  Put(True,
+    'Go to line %d',
+    'T'#7899'i d'#242'ng %d');
+  Put(True,
+    'Go to line %d (byte %s)',
+    'T'#7899'i d'#242'ng %d (byte %s)');
+  Put(True,
+    'Go to top (Ctrl+Home)',
+    'T'#7899'i '#273#7847'u (Ctrl+Home)');
+  Put(True,
+    'HTTP(S) URL field:',
+    'Tr'#432#7901'ng URL HTTP(S):');
+  Put(True,
+    'Header (optional):',
+    #272#7847'u trang (t'#249'y ch'#7885'n):');
+  Put(True,
+    'Header Example (CSV):',
+    'V'#237' d'#7909' '#273#7847'u trang (CSV):');
+  Put(True,
+    'Header Example (XML):',
+    'V'#237' d'#7909' '#273#7847'u trang (XML):');
+  Put(True,
+    'Header to inject in every split file (optional):',
+    #272#7847'u trang ch'#232'n v'#224'o m'#7885'i t'#7879'p t'#225'ch (t'#249'y ch'#7885'n):');
+  Put(True,
+    'Header to inject in every split file (optional, split mode only):',
+    #272#7847'u trang ch'#232'n v'#224'o m'#7885'i t'#7879'p t'#225'ch (t'#249'y ch'#7885'n, ch'#7881' ch'#7871' '#273#7897' t'#225'ch):');
+  Put(True,
+    'Help',
+    'Tr'#7907' gi'#250'p');
+  Put(True,
+    'Help'#13#10'F1',
+    'Tr'#7907' gi'#250'p'#13#10'F1');
+  Put(True,
+    'Help shortcut: AI Chat (SQL)',
+    'Tr'#242' chuy'#7879'n AI (SQL)');
+  Put(True,
+    'Help shortcut: Advanced AI Chat (file)',
+    'Tr'#242' chuy'#7879'n AI n'#226'ng cao (t'#7879'p)');
+  Put(True,
+    'Here are practical Regex examples applied to the data in file %s:',
+    #272#226'y l'#224' c'#225'c v'#237' d'#7909' Regex th'#7921'c t'#7871' '#225'p d'#7909'ng cho d'#7919' li'#7879'u trong t'#7879'p %s:');
+  Put(True,
+    'Hidden',
+    #7848'n');
+  Put(True,
+    'Hide',
+    #7848'n');
+  Put(True,
+    'Hide the watermark?',
+    #7848'n h'#236'nh m'#7901'?');
+  Put(True,
+    'Hints showing',
+    #272'ang hi'#7879'n g'#7907'i '#253);
+  Put(True,
+    'Hist.AppendedAtEnd: +%d chars: "%s"',
+    #273#227' th'#234'm v'#224'o cu'#7889'i +%d k'#253' t'#7921': "%s"');
+  Put(True,
+    'Hist.AskAI.GoalLabel',
+    'B'#7841'n mu'#7889'n bi'#7871't g'#236' v'#7873' l'#7883'ch s'#7917' '#273#227' ch'#7885'n?');
+  Put(True,
+    'Hist.AskAI.GoalTitle',
+    'H'#7887'i tr'#7907' l'#253);
+  Put(True,
+    'Hist.AskAI.More: %d',
+    '... v'#224' %d m'#7909'c n'#7919'a kh'#244'ng '#273#432#7907'c '#273#432'a v'#224'o.');
+  Put(True,
+    'Hist.AskAI.NeedGoal',
+    'G'#245' '#273'i'#7873'u b'#7841'n mu'#7889'n h'#7887'i.');
+  Put(True,
+    'Hist.AskAI.NeedSel',
+    #272#225'nh d'#7845'u '#237't nh'#7845't m'#7897't m'#7909'c, ho'#7863'c ch'#7885'n m'#7897't, tr'#432#7899'c khi h'#7887'i tr'#7907' l'#253'.');
+  Put(True,
+    'Hist.AskAI.PipelineNote',
+    'C'#226'u h'#7887'i v'#7873' l'#7883'ch s'#7917' phi'#234'n:');
+  Put(True,
+    'Hist.AskAI.QuestionTemplate',
+    '%s'#13#10#13#10'T'#7879'p: %s'#13#10#13#10'%s');
+  Put(True,
+    'Hist.ChangedAt: at %d: "%s" -> "%s"',
+    't'#7841'i %d: "%s" -> "%s"');
+  Put(True,
+    'Hist.ChangedLineItem: %d',
+    'D'#242'ng %d');
+  Put(True,
+    'Hist.ChangedLines: %d',
+    'C'#225'c d'#242'ng '#273#227' thay '#273#7893'i (%d)');
+  Put(True,
+    'Hist.ChangedLinesFiltered: %s %s',
+    'C'#225'c d'#242'ng '#273#227' thay '#273#7893'i (%s trong %s)');
+  Put(True,
+    'Hist.ChangedLinesHint',
+    'C'#225'c d'#242'ng c'#243' s'#7917'a, ch'#232'n, x'#243'a ho'#7863'c ho'#224'n t'#225'c/l'#224'm l'#7841'i trong phi'#234'n n'#224'y. Nh'#7845'p'
+        + ' '#273#7875' t'#7899'i d'#242'ng v'#224' xem s'#7921' ki'#7879'n. S'#7889' d'#242'ng l'#224' t'#7841'i th'#7901'i '#273'i'#7875'm s'#7917'a.');
+  Put(True,
+    'Hist.ChangedLinesIndexing: %d',
+    'C'#225'c d'#242'ng '#273#227' thay '#273#7893'i: '#273'ang l'#7853'p ch'#7881' m'#7909'c... %d%%');
+  Put(True,
+    'Hist.ChangedRangeItem: %d %d',
+    'D'#242'ng %d-%d');
+  Put(True,
+    'Hist.ChangedWhenHint',
+    'Th'#7901'i gian b'#234'n ph'#7843'i l'#224' s'#7921' ki'#7879'n cu'#7889'i tr'#234'n d'#242'ng '#273#243' (s'#7917'a, ch'#232'n, x'#243'a ho'#7863'c g'
+        + #7897'p).');
+  Put(True,
+    'Hist.CheckHint',
+    #272#225'nh d'#7845'u h'#7897'p '#273#7875' '#273#432'a m'#7909'c '#273#243' v'#224'o. B'#7841'n c'#243' th'#7875' '#273#225'nh d'#7845'u nhi'#7873'u v'#224' x'#243'a, xu'#7845't'
+        + ' ho'#7863'c h'#7887'i AI v'#7873' ch'#250'ng.');
+  Put(True,
+    'Hist.ChgFirstPage',
+    'Trang '#273#7847'u');
+  Put(True,
+    'Hist.ChgGotoButton',
+    #272'i');
+  Put(True,
+    'Hist.ChgGotoCue',
+    'T'#7899'i d'#242'ng...');
+  Put(True,
+    'Hist.ChgGotoHint',
+    'G'#245' s'#7889' d'#242'ng r'#7891'i nh'#7845'n Enter ho'#7863'c '#272'i '#273#7875' nh'#7843'y t'#7899'i. S'#7921' ki'#7879'n hi'#7879'n khi c'#243'.');
+  Put(True,
+    'Hist.ChgLastPage',
+    'Trang cu'#7889'i');
+  Put(True,
+    'Hist.ChgNextPage',
+    'Trang ti'#7871'p');
+  Put(True,
+    'Hist.ChgPageHint',
+    'Trang hi'#7879'n t'#7841'i / t'#7893'ng trang (1.000 d'#242'ng m'#7895'i trang)');
+  Put(True,
+    'Hist.ChgPrevPage',
+    'Trang tr'#432#7899'c');
+  Put(True,
+    'Hist.ClearChangedHint',
+    'X'#243'a s'#7841'ch l'#7883'ch s'#7917' thay '#273#7893'i (s'#7917'a, ch'#232'n, x'#243'a, g'#7897'p) c'#7911'a t'#7879'p n'#224'y');
+  Put(True,
+    'Hist.ClearConfirm: %s',
+    'X'#243'a s'#7841'ch to'#224'n b'#7897' l'#7883'ch s'#7917' thay '#273#7893'i c'#7911'a "%s"?'#13#10#13#10'Danh s'#225'ch c'#225'c d'#242'ng '#273#227' t'
+        + 'hay '#273#7893'i v'#224' m'#7885'i s'#7921' ki'#7879'n s'#7869' b'#7883' x'#243'a. B'#7843'n th'#226'n t'#7879'p kh'#244'ng b'#7883' thay '#273#7893'i. Kh'#244'n'
+        + 'g th'#7875' ho'#224'n t'#225'c.');
+  Put(True,
+    'Hist.ClearFailed: %s',
+    'Kh'#244'ng th'#7875' x'#243'a s'#7841'ch l'#7883'ch s'#7917' thay '#273#7893'i: %s');
+  Put(True,
+    'Hist.ClearNothing',
+    'T'#7879'p n'#224'y kh'#244'ng c'#243' l'#7883'ch s'#7917' thay '#273#7893'i '#273#7875' x'#243'a s'#7841'ch.');
+  Put(True,
+    'Hist.ClearTitle',
+    'X'#243'a s'#7841'ch l'#7883'ch s'#7917' thay '#273#7893'i');
+  Put(True,
+    'Hist.Ctx.AskAI',
+    'H'#7887'i AI...');
+  Put(True,
+    'Hist.Ctx.CheckAll',
+    #272#225'nh d'#7845'u t'#7845't c'#7843);
+  Put(True,
+    'Hist.Ctx.ClearDateFilter',
+    'X'#243'a s'#7841'ch b'#7897' l'#7885'c ng'#224'y');
+  Put(True,
+    'Hist.Ctx.CopyAll',
+    'Sao ch'#233'p t'#7845't c'#7843' ('#273'ang hi'#7879'n)');
+  Put(True,
+    'Hist.Ctx.CopyChecked',
+    'Sao ch'#233'p m'#7909'c '#273#227' '#273#225'nh d'#7845'u');
+  Put(True,
+    'Hist.Ctx.CopyEvent',
+    'Sao ch'#233'p s'#7921' ki'#7879'n');
+  Put(True,
+    'Hist.Ctx.CopyItem',
+    'Sao ch'#233'p m'#7909'c');
+  Put(True,
+    'Hist.Ctx.CopyLineNo',
+    'Sao ch'#233'p s'#7889' d'#242'ng');
+  Put(True,
+    'Hist.Ctx.CopyRow',
+    'Sao ch'#233'p v'#259'n b'#7843'n h'#224'ng');
+  Put(True,
+    'Hist.Ctx.DeleteChecked',
+    'X'#243'a '#273#227' '#273#225'nh d'#7845'u...');
+  Put(True,
+    'Hist.Ctx.Export',
+    'Xu'#7845't (TXT / CSV)...');
+  Put(True,
+    'Hist.Ctx.GotoLine',
+    'T'#7899'i d'#242'ng...');
+  Put(True,
+    'Hist.Ctx.ShowAll',
+    'Hi'#7879'n to'#224'n b'#7897' l'#7883'ch s'#7917);
+  Put(True,
+    'Hist.Ctx.ShowDetail',
+    'Hi'#7879'n d'#242'ng '#273#7847'y '#273#7911' (tr'#432#7899'c / sau)...');
+  Put(True,
+    'Hist.Ctx.ShowInHistory',
+    'Hi'#7879'n trong l'#7883'ch s'#7917);
+  Put(True,
+    'Hist.Ctx.Sort',
+    'S'#7855'p x'#7871'p theo');
+  Put(True,
+    'Hist.Ctx.ToggleCheck',
+    #272#225'nh d'#7845'u / b'#7887' '#273#225'nh d'#7845'u');
+  Put(True,
+    'Hist.Ctx.UncheckAll',
+    'B'#7887' '#273#225'nh d'#7845'u t'#7845't c'#7843);
+  Put(True,
+    'Hist.DateFilter.ChgHint',
+    'Ch'#7881' hi'#7879'n c'#225'c d'#242'ng c'#243' thay '#273#7893'i '#273#7847'u ho'#7863'c cu'#7889'i n'#7857'm trong kho'#7843'ng. Esc x'#243'a '
+        + 's'#7841'ch tr'#432#7901'ng.');
+  Put(True,
+    'Hist.DateFilter.ClearHint',
+    'X'#243'a s'#7841'ch b'#7897' l'#7885'c ng'#224'y');
+  Put(True,
+    'Hist.DateFilter.From',
+    'T'#7915);
+  Put(True,
+    'Hist.DateFilter.FromHint',
+    'Ng'#224'y b'#7855't '#273#7847'u (bao g'#7891'm). Nh'#7845'p n'#250't '#273#7875' m'#7903' l'#7883'ch.');
+  Put(True,
+    'Hist.DateFilter.Invalid',
+    'Ng'#224'y kh'#244'ng h'#7907'p l'#7879'. V'#237' d'#7909': 25/09/2026, 2026-09-25, 21:30.');
+  Put(True,
+    'Hist.DateFilter.JrnHint',
+    'Ch'#7881' hi'#7879'n c'#225'c s'#7921' ki'#7879'n trong kho'#7843'ng. Esc x'#243'a s'#7841'ch tr'#432#7901'ng.');
+  Put(True,
+    'Hist.DateFilter.NoMatch',
+    'Kh'#244'ng c'#243' s'#7921' ki'#7879'n v'#224'o ng'#224'y/gi'#7901' '#273#243'.');
+  Put(True,
+    'Hist.DateFilter.Shown: %d %d',
+    #8212' b'#7897' l'#7885'c ng'#224'y: %d trong %d');
+  Put(True,
+    'Hist.DateFilter.To',
+    #272#7871'n');
+  Put(True,
+    'Hist.DateFilter.ToHint',
+    'Ng'#224'y k'#7871't th'#250'c (bao g'#7891'm). Ch'#7881' ch'#7885'n "T'#7915'" s'#7869' '#273'i'#7873'n c'#249'ng ng'#224'y v'#224'o '#273#226'y.');
+end;
+
+procedure AddVietnamesePart19(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Hist.DblClickToggleList',
+    'Nh'#7845'p '#273#250'p ti'#234'u '#273#7873' '#273#7875' '#7849'n/hi'#7879'n danh s'#225'ch d'#242'ng '#273#227' thay '#273#7893'i.');
+  Put(True,
+    'Hist.DeleteEventsConfirm: %d',
+    'X'#243'a %d s'#7921' ki'#7879'n kh'#7887'i nh'#7853't k'#253' phi'#234'n? T'#7879'p gi'#7919' nguy'#234'n; ch'#7881' c'#225'c m'#7909'c nh'#7853't k'#253
+        + ' n'#224'y b'#7883' x'#243'a.');
+  Put(True,
+    'Hist.DeleteFailed: %s',
+    'Kh'#244'ng th'#7875' c'#7853'p nh'#7853't nh'#7853't k'#253' phi'#234'n: %s');
+  Put(True,
+    'Hist.DeleteNone',
+    'Ch'#432'a '#273#225'nh d'#7845'u g'#236'.');
+  Put(True,
+    'Hist.DeleteSelConfirm: %d',
+    'X'#243'a c'#225'c m'#7909'c nh'#7853't k'#253' phi'#234'n cho %d d'#242'ng '#273#227' thay '#273#7893'i? T'#7879'p gi'#7919' nguy'#234'n; ch'#7881
+        + ' nh'#7853't k'#253' phi'#234'n b'#7883' x'#243'a.');
+  Put(True,
+    'Hist.DeletedText: %s',
+    #273#227' x'#243'a: %s');
+  Put(True,
+    'Hist.Detail.After: %s',
+    'sau: %s');
+  Put(True,
+    'Hist.Detail.Appended: %s',
+    #273#227' th'#234'm: %s');
+  Put(True,
+    'Hist.Detail.AtPos: %d',
+    'v'#7883' tr'#237': %d');
+  Put(True,
+    'Hist.Detail.Before: %s',
+    'tr'#432#7899'c: %s');
+  Put(True,
+    'Hist.Detail.Deleted: %s',
+    #273#227' x'#243'a: %s');
+  Put(True,
+    'Hist.Detail.ExcerptLimit: %d',
+    '(l'#7883'ch s'#7917' ch'#7881' gi'#7919' %d k'#253' t'#7921' '#273#7847'u c'#7911'a m'#7895'i d'#242'ng)');
+  Put(True,
+    'Hist.Detail.FullAfter: %s',
+    'd'#242'ng sau: %s');
+  Put(True,
+    'Hist.Detail.FullBefore: %s',
+    'd'#242'ng tr'#432#7899'c: %s');
+  Put(True,
+    'Hist.Detail.FullLine: %s',
+    'd'#242'ng '#273#7847'y '#273#7911': %s');
+  Put(True,
+    'Hist.Detail.Inserted: %s',
+    #273#227' ch'#232'n: %s');
+  Put(True,
+    'Hist.Detail.Removed: %s',
+    #273#227' g'#7905': %s');
+  Put(True,
+    'Hist.DockEvents',
+    'G'#7855'n s'#7921' ki'#7879'n');
+  Put(True,
+    'Hist.DockEventsHint',
+    'Chuy'#7875'n s'#7921' ki'#7879'n phi'#234'n sang c'#7917'a s'#7893' ri'#234'ng, ho'#7863'c tr'#7903' l'#7841'i tab n'#224'y ('#273#243'ng c'#7917'a'
+        + ' s'#7893' c'#361'ng g'#7855'n l'#7841'i).');
+  Put(True,
+    'Hist.DockEventsTitle',
+    'S'#7921' ki'#7879'n phi'#234'n');
+  Put(True,
+    'Hist.DockPreview',
+    'G'#7855'n xem tr'#432#7899'c');
+  Put(True,
+    'Hist.DockPreviewHint',
+    'Chuy'#7875'n xem tr'#432#7899'c t'#7879'p (k'#232'm thanh xu'#7845't) sang c'#7917'a s'#7893' ri'#234'ng, ho'#7863'c tr'#7903' l'#7841'i '
+        + 'tab n'#224'y ('#273#243'ng c'#7917'a s'#7893' c'#361'ng g'#7855'n l'#7841'i).');
+  Put(True,
+    'Hist.EventCoversLine: %d %d %d',
+    '[d'#242'ng %d-%d, g'#7891'm d'#242'ng %d]');
+  Put(True,
+    'Hist.EventHead: %s  [%s]  line %d',
+    '%s  [%s]  d'#242'ng %d');
+  Put(True,
+    'Hist.ExportCsvHeader',
+    'T'#7915' d'#242'ng;'#272#7871'n d'#242'ng;S'#7921' ki'#7879'n cu'#7889'i;'#272#227' s'#7917'a;'#272#227' ch'#232'n;'#272#227' x'#243'a;Thay th'#7871' t'#7845't c'#7843';Ho'
+        + #224'n t'#225'c');
+  Put(True,
+    'Hist.ExportDone: %s',
+    #272#227' xu'#7845't t'#7899'i %s');
+  Put(True,
+    'Hist.ExportEmpty',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' xu'#7845't.');
+  Put(True,
+    'Hist.ExportFilter',
+    'T'#7879'p v'#259'n b'#7843'n (*.txt)|*.txt|CSV (*.csv)|*.csv');
+  Put(True,
+    'Hist.HideChangedLines',
+    #7848'n danh s'#225'ch d'#242'ng '#273#227' thay '#273#7893'i');
+  Put(True,
+    'Hist.InsertedText: %s',
+    #273#227' ch'#232'n: %s');
+  Put(True,
+    'Hist.JournalHeaderAll: %d',
+    'T'#7845't c'#7843' s'#7921' ki'#7879'n phi'#234'n (%d)');
+  Put(True,
+    'Hist.JournalHeaderLine: %d %d',
+    'S'#7921' ki'#7879'n cho d'#242'ng %d (%d)');
+  Put(True,
+    'Hist.JournalHintFiltered: %d',
+    'Nh'#7853't k'#253' phi'#234'n: ch'#7885'n m'#7897't d'#242'ng xem tr'#432#7899'c '#273#7875' xem s'#7921' ki'#7879'n (ho'#7863'c b'#7853't Hi'#7879'n t'
+        + #7845't c'#7843'). T'#7889'i '#273'a %d m'#7909'c g'#7847'n '#273#226'y. C'#225'c d'#242'ng b'#7855't '#273#7847'u b'#7857'ng # b'#7883' '#7849'n.');
+  Put(True,
+    'Hist.LenDeltaMinus: size %d -> %d (%d)',
+    'k'#237'ch th'#432#7899'c %d -> %d (%d)');
+  Put(True,
+    'Hist.LenDeltaPlus: size %d -> %d (+%d)',
+    'k'#237'ch th'#432#7899'c %d -> %d (+%d)');
+  Put(True,
+    'Hist.LenSame: size %d',
+    'k'#237'ch th'#432#7899'c %d');
+  Put(True,
+    'Hist.LineEnds: end "%s" -> "%s"',
+    'cu'#7889'i "%s" -> "%s"');
+  Put(True,
+    'Hist.LineEventsCapped: %d',
+    'Ch'#7881' hi'#7879'n %d s'#7921' ki'#7879'n cu'#7889'i cho d'#242'ng n'#224'y.');
+  Put(True,
+    'Hist.LoadingLineEvents: %d',
+    #272'ang t'#7843'i t'#7845't c'#7843' %d s'#7921' ki'#7879'n cho d'#242'ng n'#224'y t'#7915' nh'#7853't k'#253' phi'#234'n...');
+  Put(True,
+    'Hist.NoEventsForLine: %d',
+    'Kh'#244'ng c'#243' s'#7921' ki'#7879'n nh'#7853't k'#253' phi'#234'n cho d'#242'ng %d.');
+  Put(True,
+    'Hist.RemovedFromEnd: -%d chars: "%s"',
+    #273#227' g'#7905' kh'#7887'i cu'#7889'i -%d k'#253' t'#7921': "%s"');
+  Put(True,
+    'Hist.SelectLineHint',
+    'Ch'#7885'n m'#7897't d'#242'ng trong xem tr'#432#7899'c b'#234'n d'#432#7899'i '#273#7875' xem chi ti'#7871't nh'#7853't k'#253' phi'#234'n.');
+  Put(True,
+    'Hist.ShowAllJournal',
+    'Hi'#7879'n t'#7845't c'#7843' m'#7909'c nh'#7853't k'#253' phi'#234'n');
+  Put(True,
+    'Hist.ShowAllJournalHint',
+    'Khi '#273#225'nh d'#7845'u, hi'#7879'n m'#7885'i m'#7909'c nh'#7853't k'#253' phi'#234'n c'#249'ng l'#250'c (h'#224'nh vi tr'#432#7899'c). Khi'
+        + ' b'#7887' '#273#225'nh d'#7845'u, ch'#7881' hi'#7879'n m'#7909'c c'#7911'a d'#242'ng '#273#227' ch'#7885'n trong xem tr'#432#7899'c.');
+  Put(True,
+    'Hist.ShowChangedLines',
+    'Danh s'#225'ch d'#242'ng '#273#227' thay '#273#7893'i');
+  Put(True,
+    'Hist.ShowChangedLinesBtn',
+    'Hi'#7879'n l'#7841'i danh s'#225'ch d'#242'ng '#273#227' thay '#273#7893'i');
+  Put(True,
+    'Hist.ShowChangedLinesHint',
+    'Hi'#7879'n ho'#7863'c '#7849'n danh s'#225'ch d'#242'ng '#273#227' thay '#273#7893'i b'#234'n tr'#225'i s'#7921' ki'#7879'n phi'#234'n.');
+  Put(True,
+    'Hist.SortMenu.DateAsc',
+    'Ng'#224'y thay '#273#7893'i '#8212' c'#361' nh'#7845't tr'#432#7899'c (t'#259'ng d'#7847'n)');
+  Put(True,
+    'Hist.SortMenu.DateDesc',
+    'Ng'#224'y thay '#273#7893'i '#8212' m'#7899'i nh'#7845't tr'#432#7899'c (gi'#7843'm d'#7847'n)');
+  Put(True,
+    'Hist.SortMenu.LineAsc',
+    'S'#7889' d'#242'ng (t'#259'ng d'#7847'n)');
+  Put(True,
+    'Hist.SortMenu.LineDesc',
+    'S'#7889' d'#242'ng (gi'#7843'm d'#7847'n)');
+  Put(True,
+    'Hist.SortMenu.LogOrder',
+    'Th'#7913' t'#7921' g'#7889'c (nh'#432' '#273#227' ghi)');
+  Put(True,
+    'Hist.SourceMruCue',
+    'Ch'#7885'n t'#7879'p c'#243' l'#7883'ch s'#7917' phi'#234'n (F4)');
+  Put(True,
+    'Hist.SourceMruEmpty',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p n'#224'o c'#243' l'#7883'ch s'#7917' so s'#225'nh/g'#7897'p.');
+  Put(True,
+    'Hist.SourceMruHint',
+    'T'#7879'p '#273'ang hi'#7879'n l'#7883'ch s'#7917'. Nh'#7845'p m'#361'i t'#234'n (ho'#7863'c nh'#7845'n F4) '#273#7875' ch'#7885'n t'#7879'p kh'#225'c c'#243
+        + ' l'#7883'ch s'#7917' so s'#225'nh/g'#7897'p.');
+  Put(True,
+    'Hist.SourceMruMoreHint',
+    'Hi'#7879'n c'#225'c t'#7879'p c'#242'n l'#7841'i c'#243' l'#7883'ch s'#7917);
+  Put(True,
+    'Hist.SourceMruTitle',
+    'C'#225'c t'#7879'p c'#243' l'#7883'ch s'#7917' so s'#225'nh/g'#7897'p');
+  Put(True,
+    'Hist.Tool.AI',
+    'AI');
+  Put(True,
+    'Hist.Tool.AIHint',
+    'G'#7917'i c'#225'c m'#7909'c '#273#227' '#273#225'nh d'#7845'u t'#7899'i tr'#7907' l'#253' '#273#7875' b'#7841'n h'#7887'i v'#7873' ch'#250'ng.');
+  Put(True,
+    'Hist.Tool.All',
+    'T'#7845't c'#7843);
+  Put(True,
+    'Hist.Tool.AllHint',
+    'Ch'#7885'n m'#7885'i m'#7909'c, ho'#7863'c b'#7887' ch'#7885'n n'#7871'u m'#7885'i th'#7913' '#273#227' '#273#432#7907'c ch'#7885'n.');
+  Put(True,
+    'Hist.Tool.Delete',
+    'X'#243'a');
+  Put(True,
+    'Hist.Tool.DeleteHint',
+    'X'#243'a c'#225'c m'#7909'c '#273#227' '#273#225'nh d'#7845'u kh'#7887'i nh'#7853't k'#253' phi'#234'n. B'#7843'n th'#226'n t'#7879'p kh'#244'ng b'#7883' thay'
+        + ' '#273#7893'i.');
+  Put(True,
+    'Hist.Tool.Export',
+    'Xu'#7845't');
+  Put(True,
+    'Hist.Tool.ExportHint',
+    'Xu'#7845't c'#225'c m'#7909'c '#273#227' '#273#225'nh d'#7845'u (ho'#7863'c m'#7909'c hi'#7879'n t'#7841'i, ho'#7863'c t'#7845't c'#7843' n'#7871'u ch'#432'a '#273#225'nh'
+        + ' d'#7845'u g'#236') ra t'#7879'p v'#259'n b'#7843'n ho'#7863'c CSV.');
+  Put(True,
+    'Hist.Tool.None',
+    'Kh'#244'ng c'#243);
+  Put(True,
+    'Hist.Tool.SortHint',
+    'Ch'#7885'n th'#7913' t'#7921': ng'#224'y thay '#273#7893'i (m'#7899'i ho'#7863'c c'#361' tr'#432#7899'c) ho'#7863'c s'#7889' d'#242'ng (t'#259'ng ho'#7863'c'
+        + ' gi'#7843'm).');
+  Put(True,
+    'Hist.Tool.SortLine',
+    'D'#242'ng '#8593);
+  Put(True,
+    'Hist.Tool.SortLineDesc',
+    'D'#242'ng '#8595);
+  Put(True,
+    'Hist.Tool.SortLog',
+    'Th'#7913' t'#7921' g'#7889'c');
+  Put(True,
+    'Hist.Tool.SortNew',
+    'Ng'#224'y '#8595);
+  Put(True,
+    'Hist.Tool.SortOld',
+    'Ng'#224'y '#8593);
+  Put(True,
+    'Hist.UndockEvents',
+    'Th'#225'o g'#7855'n s'#7921' ki'#7879'n');
+  Put(True,
+    'Hist.UndockPreview',
+    'Th'#225'o g'#7855'n xem tr'#432#7899'c');
+  Put(True,
+    'HistDetail.ChangePos',
+    'Thay '#273#7893'i %d trong %d');
+  Put(True,
+    'HistDetail.ChangesCount',
+    '%d thay '#273#7893'i');
+  Put(True,
+    'HistDetail.Col.After',
+    'Sau');
+  Put(True,
+    'HistDetail.Col.Before',
+    'Tr'#432#7899'c');
+  Put(True,
+    'HistDetail.Col.Field',
+    'Tr'#432#7901'ng');
+  Put(True,
+    'HistDetail.Copy',
+    'Sao ch'#233'p');
+  Put(True,
+    'HistDetail.CopyAfter',
+    'Sao ch'#233'p d'#242'ng sau');
+  Put(True,
+    'HistDetail.CopyAll',
+    'Sao ch'#233'p t'#7845't c'#7843' s'#7921' ki'#7879'n trong danh s'#225'ch (%d)');
+  Put(True,
+    'HistDetail.CopyBefore',
+    'Sao ch'#233'p d'#242'ng tr'#432#7899'c');
+  Put(True,
+    'HistDetail.CopyEvent',
+    'Sao ch'#233'p s'#7921' ki'#7879'n n'#224'y (tr'#432#7899'c v'#224' sau)');
+  Put(True,
+    'HistDetail.CopySelected',
+    'Sao ch'#233'p s'#7921' ki'#7879'n '#273#227' ch'#7885'n (%d)');
+  Put(True,
+    'HistDetail.CsvHeader',
+    'Ng'#224'y/gi'#7901';Thao t'#225'c;D'#242'ng;D'#242'ng tr'#432#7899'c;D'#242'ng sau;K'#253' t'#7921' tr'#432#7899'c;K'#253' t'#7921' sau;T'#243'm t'
+        + #7855't');
+  Put(True,
+    'HistDetail.Delim.Auto',
+    'T'#7921' '#273#7897'ng');
+  Put(True,
+    'HistDetail.Delim.Comma',
+    'D'#7845'u ph'#7849'y (,)');
+  Put(True,
+    'HistDetail.Delim.None',
+    'Kh'#244'ng c'#243' (c'#7843' d'#242'ng)');
+  Put(True,
+    'HistDetail.Delim.Semicolon',
+    'D'#7845'u ch'#7845'm ph'#7849'y (;)');
+  Put(True,
+    'HistDetail.Delim.Space',
+    'D'#7845'u c'#225'ch');
+  Put(True,
+    'HistDetail.Delim.Tab',
+    'Tab');
+  Put(True,
+    'HistDetail.Delimiter',
+    'D'#7845'u ph'#226'n c'#225'ch:');
+  Put(True,
+    'HistDetail.EventHead',
+    '%s  [%s]  d'#242'ng %d');
+  Put(True,
+    'HistDetail.EventHeadNoLine',
+    '%s  [%s]');
+  Put(True,
+    'HistDetail.EventsHint',
+    'Nh'#7845'p '#273#7875' xem m'#7897't s'#7921' ki'#7879'n. Ctrl+nh'#7845'p ho'#7863'c Shift+nh'#7845'p ch'#7885'n nhi'#7873'u s'#7921' ki'#7879'n '
+        + #273#7875' sao ch'#233'p ho'#7863'c xu'#7845't c'#249'ng l'#250'c. Nh'#7845'p chu'#7897't ph'#7843'i '#273#7875' xem th'#234'm t'#249'y ch'#7885'n.');
+  Put(True,
+    'HistDetail.EventsLabel',
+    'S'#7921' ki'#7879'n trong danh s'#225'ch: %d '#8212' '#273#227' ch'#7885'n '#273#7875' sao ch'#233'p / xu'#7845't: %d (Ctrl+nh'#7845
+        + 'p ho'#7863'c Shift+nh'#7845'p ch'#7885'n nhi'#7873'u)');
+  Put(True,
+    'HistDetail.Export',
+    'Xu'#7845't');
+  Put(True,
+    'HistDetail.ExportAll',
+    'Xu'#7845't t'#7845't c'#7843' s'#7921' ki'#7879'n trong danh s'#225'ch (%d)...');
+  Put(True,
+    'HistDetail.ExportCurrent',
+    'Xu'#7845't s'#7921' ki'#7879'n n'#224'y (TXT / CSV / JSON)...');
+end;
+
+procedure AddVietnamesePart20(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'HistDetail.ExportDoneN',
+    #272#227' xu'#7845't %d s'#7921' ki'#7879'n t'#7899'i %s');
+  Put(True,
+    'HistDetail.ExportFailed',
+    'Kh'#244'ng th'#7875' xu'#7845't: %s');
+  Put(True,
+    'HistDetail.ExportFilter',
+    'T'#7879'p v'#259'n b'#7843'n (*.txt)|*.txt|CSV (*.csv)|*.csv|JSON (*.json)|*.json');
+  Put(True,
+    'HistDetail.ExportSelected',
+    'Xu'#7845't s'#7921' ki'#7879'n '#273#227' ch'#7885'n (%d)...');
+  Put(True,
+    'HistDetail.Exported',
+    #272#227' xu'#7845't: %s '#183' S'#7921' ki'#7879'n: %d');
+  Put(True,
+    'HistDetail.Fields.CopyAfter',
+    'Sao ch'#233'p gi'#225' tr'#7883' sau');
+  Put(True,
+    'HistDetail.Fields.CopyBefore',
+    'Sao ch'#233'p gi'#225' tr'#7883' tr'#432#7899'c');
+  Put(True,
+    'HistDetail.Fields.CopyRows',
+    'Sao ch'#233'p h'#224'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'HistDetail.FieldsInfo',
+    '%d tr'#432#7901'ng '#183' %d '#273#227' thay '#273#7893'i');
+  Put(True,
+    'HistDetail.File',
+    'T'#7879'p: %s');
+  Put(True,
+    'HistDetail.GridHint',
+    'Nh'#7845'p '#273#250'p m'#7897't s'#7921' ki'#7879'n (ho'#7863'c nh'#7845'n Enter) '#273#7875' xem d'#242'ng '#273#7847'y '#273#7911' tr'#432#7899'c / sau '
+        + 'v'#224' t'#249'y ch'#7885'n xu'#7845't.');
+  Put(True,
+    'HistDetail.LineAfter',
+    'D'#242'ng sau (%d k'#253' t'#7921'):');
+  Put(True,
+    'HistDetail.LineBefore',
+    'D'#242'ng tr'#432#7899'c (%d k'#253' t'#7921'):');
+  Put(True,
+    'HistDetail.NextChange',
+    'Thay '#273#7893'i ti'#7871'p '#9654);
+  Put(True,
+    'HistDetail.NextChangeHint',
+    'T'#244' s'#225'ng '#273'o'#7841'n '#273#227' thay '#273#7893'i ti'#7871'p theo tr'#234'n c'#7843' hai d'#242'ng (F3)');
+  Put(True,
+    'HistDetail.NoLines',
+    'S'#7921' ki'#7879'n n'#224'y kh'#244'ng ghi n'#7897'i dung d'#242'ng. Xem tab "T'#243'm t'#7855't s'#7921' ki'#7879'n".');
+  Put(True,
+    'HistDetail.OnlyChanged',
+    'Ch'#7881' c'#225'c tr'#432#7901'ng '#273#227' thay '#273#7893'i');
+  Put(True,
+    'HistDetail.PrevChange',
+    #9664' Thay '#273#7893'i tr'#432#7899'c');
+  Put(True,
+    'HistDetail.PrevChangeHint',
+    'T'#244' s'#225'ng '#273'o'#7841'n '#273#227' thay '#273#7893'i tr'#432#7899'c tr'#234'n c'#7843' hai d'#242'ng (Shift+F3)');
+  Put(True,
+    'HistDetail.SelectAll',
+    'Ch'#7885'n t'#7845't c'#7843' s'#7921' ki'#7879'n');
+  Put(True,
+    'HistDetail.SelectNone',
+    'X'#243'a s'#7841'ch v'#249'ng ch'#7885'n');
+  Put(True,
+    'HistDetail.Stats',
+    'Tr'#432#7899'c: %d k'#253' t'#7921' '#183' Sau: %d k'#253' t'#7921' (ch'#234'nh l'#7879'ch: %s) '#183' '#272'o'#7841'n '#273#227' thay '#273#7893'i: %'
+        + 'd');
+  Put(True,
+    'HistDetail.Tab.Fields',
+    'Tr'#432#7901'ng (c'#7897't)');
+  Put(True,
+    'HistDetail.Tab.Lines',
+    'D'#242'ng '#273#7847'y '#273#7911);
+  Put(True,
+    'HistDetail.Tab.Summary',
+    'T'#243'm t'#7855't s'#7921' ki'#7879'n');
+  Put(True,
+    'HistDetail.Title',
+    'L'#7883'ch s'#7917' phi'#234'n '#8212' d'#242'ng '#273#7847'y '#273#7911);
+  Put(True,
+    'HistDetail.TitleN',
+    'L'#7883'ch s'#7917' phi'#234'n '#8212' d'#242'ng '#273#7847'y '#273#7911' (%d trong %d)');
+  Put(True,
+    'HistDetail.Truncated',
+    'C'#7843'nh b'#225'o: n'#7897'i dung '#273#432#7907'c ghi b'#7883' c'#7855't '#7903' %d k'#253' t'#7921' (gi'#7899'i h'#7841'n '#273#7863't trong T'#249'y '
+        + 'ch'#7885'n).');
+  Put(True,
+    'HistDetail.WordWrap',
+    'Xu'#7889'ng d'#242'ng t'#7921' '#273#7897'ng');
+  Put(True,
+    'HistExport.ButtonHint',
+    'Xu'#7845't c'#225'c d'#242'ng c'#7911'a c'#7843' t'#7879'p theo m'#224'u ch'#250' gi'#7843'i '#273#227' ch'#7885'n th'#224'nh m'#7897't t'#7879'p (ph'#226'n'
+        + ' trang, '#237't b'#7897' nh'#7899').');
+  Put(True,
+    'HistExport.Cancelled',
+    #272#227' h'#7911'y xu'#7845't.');
+  Put(True,
+    'HistExport.Done',
+    'Xu'#7845't xong: %s d'#242'ng '#273#227' ghi v'#224'o %s');
+  Put(True,
+    'HistExport.Failed',
+    'Xu'#7845't th'#7845't b'#7841'i: %s');
+  Put(True,
+    'HistExport.FilterAll',
+    'T'#7845't c'#7843' t'#7879'p');
+  Put(True,
+    'HistExport.FilterText',
+    'T'#7879'p v'#259'n b'#7843'n');
+  Put(True,
+    'HistExport.KindHint',
+    'Nh'#7845'p '#273#7875' '#273#432'a v'#224'o ho'#7863'c lo'#7841'i tr'#7915' c'#225'c d'#242'ng c'#7911'a m'#224'u ch'#250' gi'#7843'i n'#224'y khi xu'#7845't.');
+  Put(True,
+    'HistExport.Label',
+    'Xu'#7845't:');
+  Put(True,
+    'HistExport.NoFile',
+    'Kh'#244'ng c'#243' t'#7879'p n'#224'o '#273#432#7907'c t'#7843'i trong xem tr'#432#7899'c l'#7883'ch s'#7917'.');
+  Put(True,
+    'HistExport.NoLines',
+    'Kh'#244'ng c'#243' d'#242'ng n'#224'o kh'#7899'p c'#225'c m'#224'u ch'#250' gi'#7843'i '#273#227' ch'#7885'n.');
+  Put(True,
+    'HistExport.NoneSelected',
+    'Ch'#7885'n '#237't nh'#7845't m'#7897't m'#224'u ch'#250' gi'#7843'i '#273#7875' xu'#7845't.');
+  Put(True,
+    'HistExport.Progress',
+    #272'ang xu'#7845't: %d%% (%s d'#242'ng '#273#227' ghi)... nh'#7845'p H'#7911'y '#273#7875' d'#7915'ng.');
+  Put(True,
+    'HistExport.SameFile',
+    'T'#7879'p xu'#7845't kh'#244'ng th'#7875' l'#224' c'#249'ng t'#7879'p '#273'ang hi'#7879'n trong xem tr'#432#7899'c.');
+  Put(True,
+    'HistExport.SaveTitle',
+    'Xu'#7845't d'#242'ng theo m'#224'u ch'#250' gi'#7843'i');
+  Put(True,
+    'HistExport.WaitIndex',
+    'Vui l'#242'ng '#273#7907'i ch'#7881' m'#7909'c t'#7879'p ho'#224'n t'#7845't (xem ch'#250' th'#237'ch xem tr'#432#7899'c) r'#7891'i th'#7917' l'#7841
+        + 'i.');
+  Put(True,
+    'HistExport.WithLineNo',
+    'S'#7889' d'#242'ng + ki'#7875'u');
+  Put(True,
+    'HistExport.WithLineNoHint',
+    'Khi b'#7853't, m'#7895'i d'#242'ng xu'#7845't b'#7855't '#273#7847'u b'#7857'ng s'#7889' d'#242'ng v'#224' ki'#7875'u (v'#237' d'#7909' 123<TAB>[ED'
+        + 'T]<TAB>v'#259'n b'#7843'n).');
+  Put(True,
+    'HistLegend.Deleted',
+    #272#227' x'#243'a');
+  Put(True,
+    'HistLegend.Edited',
+    #272#227' s'#7917'a');
+  Put(True,
+    'HistLegend.Equal',
+    'B'#7857'ng nhau');
+  Put(True,
+    'HistLegend.Inserted',
+    #272#227' ch'#232'n');
+  Put(True,
+    'HistLegend.UndoRedo',
+    'Ho'#224'n t'#225'c/L'#224'm l'#7841'i');
+  Put(True,
+    'History file preview (colors from journal; line numbers are as at edit'
+        + ' time).',
+    'Xem tr'#432#7899'c t'#7879'p l'#7883'ch s'#7917' (m'#224'u t'#7915' nh'#7853't k'#253' phi'#234'n; s'#7889' d'#242'ng l'#224' t'#7841'i th'#7901'i '#273'i'#7875'm '
+        + 's'#7917'a).');
+  Put(True,
+    'History log path:',
+    #272#432#7901'ng d'#7851'n nh'#7853't k'#253' l'#7883'ch s'#7917':');
+  Put(True,
+    'Home page: ',
+    'Trang ch'#7911': ');
+  Put(True,
+    'How to interpret file bytes in the list (like Notepad++). Does not re-'
+        + 'read the file.'#13#10'DEFAULT = use detected encoding (BOM / heuristics).'#13#10'E'
+        + 'nabled after Read. Pick another option to see a change; same encoding '
+        + 'may look identical.',
+    'C'#225'ch di'#7877'n gi'#7843'i byte t'#7879'p trong danh s'#225'ch (nh'#432' Notepad++). Kh'#244'ng '#273#7885'c l'#7841'i'
+        + ' t'#7879'p.'#13#10'DEFAULT = d'#249'ng b'#7843'ng m'#227' '#273#227' ph'#225't hi'#7879'n (BOM / heuristic).'#13#10'B'#7853't sau'
+        + ' khi '#272#7885'c. Ch'#7885'n t'#249'y ch'#7885'n kh'#225'c '#273#7875' th'#7845'y thay '#273#7893'i; c'#249'ng b'#7843'ng m'#227' c'#243' th'#7875' tr'#244
+        + 'ng gi'#7889'ng h'#7879't.');
+  Put(True,
+    'How to use: set X in "Equal parts count" and run.',
+    'C'#225'ch d'#249'ng: '#273#7863't X trong "s'#7889' ph'#7847'n b'#7857'ng nhau" r'#7891'i ch'#7841'y.');
+  Put(True,
+    'Hub.AddFiles',
+    'Th'#234'm t'#7879'p...');
+  Put(True,
+    'Hub.AddFolder',
+    'Th'#234'm th'#432' m'#7909'c...');
+  Put(True,
+    'Hub.Agents',
+    'Chuy'#234'n gia');
+  Put(True,
+    'Hub.Analyze',
+    'G'#7917'i');
+  Put(True,
+    'Hub.Clear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'Hub.Depth',
+    #272#7897' s'#226'u');
+  Put(True,
+    'Hub.EditsEmpty',
+    'Kh'#244'ng c'#243' ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't trong ch'#7849'n '#273'o'#225'n n'#224'y (ch'#7881' '#273#7885'c). D'#249'ng t'#225'c nh'#226
+        + 'n AI '#273#7875' '#225'p d'#7909'ng thay '#273#7893'i.');
+  Put(True,
+    'Hub.ExportAnswerHint',
+    'L'#432'u c'#226'u tr'#7843' l'#7901'i ch'#7849'n '#273'o'#225'n th'#224'nh t'#7879'p v'#259'n b'#7843'n UTF-8 (.txt) ho'#7863'c Markdown'
+        + ' (.md).');
+  Put(True,
+    'Hub.Guide',
+    '1) Ch'#7885'n t'#7879'p ho'#7863'c th'#432' m'#7909'c  '#8594'  2) M'#244' t'#7843' c'#7847'n ch'#7849'n '#273'o'#225'n v'#224' nh'#7845'p G'#7917'i  '#8594'  3)'
+        + ' Xem l'#7841'i c'#226'u tr'#7843' l'#7901'i. Ch'#7881' '#273#7885'c; d'#249'ng t'#225'c nh'#226'n AI '#273#7875' '#225'p d'#7909'ng ch'#7881'nh s'#7917'a.');
+  Put(True,
+    'Hub.IncludeSubdirs',
+    'G'#7891'm th'#432' m'#7909'c con');
+  Put(True,
+    'Hub.Mask',
+    'M'#7863't n'#7841);
+  Put(True,
+    'Hub.MaxFiles',
+    'T'#7889'i '#273'a t'#7879'p');
+  Put(True,
+    'Hub.Menu',
+    'AI ch'#7849'n &'#273'o'#225'n');
+  Put(True,
+    'Hub.NeedPrompt',
+    'M'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n ch'#7849'n '#273'o'#225'n.');
+  Put(True,
+    'Hub.NeedSources',
+    'Th'#234'm '#237't nh'#7845't m'#7897't t'#7879'p ho'#7863'c th'#432' m'#7909'c.');
+  Put(True,
+    'Hub.OpenFile',
+    'M'#7903' t'#7879'p');
+  Put(True,
+    'Hub.Options',
+    'T'#249'y ch'#7885'n');
+  Put(True,
+    'Hub.Phase.aggregate',
+    #272'ang t'#7893'ng h'#7907'p');
+  Put(True,
+    'Hub.Phase.cancelled',
+    #272#227' h'#7911'y');
+  Put(True,
+    'Hub.Phase.delegate',
+    #272'ang '#7911'y th'#225'c');
+  Put(True,
+    'Hub.Phase.discovery',
+    'Kh'#225'm ph'#225);
+  Put(True,
+    'Hub.Phase.done',
+    'Xong');
+  Put(True,
+    'Hub.Phase.evaluate',
+    #272'ang '#273#225'nh gi'#225);
+  Put(True,
+    'Hub.Phase.failed',
+    'Th'#7845't b'#7841'i');
+  Put(True,
+    'Hub.Phase.idle',
+    'Nh'#224'n r'#7895'i');
+  Put(True,
+    'Hub.Phase.plan',
+    #272'ang l'#7853'p k'#7871' ho'#7841'ch');
+  Put(True,
+    'Hub.Phase.synthesize',
+    #272'ang t'#7893'ng h'#7907'p k'#7871't qu'#7843);
+  Put(True,
+    'Hub.PickFolder',
+    'Ch'#7885'n th'#432' m'#7909'c '#273#7875' ch'#7849'n '#273'o'#225'n');
+  Put(True,
+    'Hub.Prompt',
+    'Ch'#250'ng ta n'#234'n ch'#7849'n '#273'o'#225'n g'#236'?');
+  Put(True,
+    'Hub.Remove',
+    'X'#243'a '#273#227' ch'#7885'n');
+  Put(True,
+    'Hub.RemoveAll',
+    'X'#243'a t'#7845't c'#7843);
+  Put(True,
+    'Hub.Role.actions',
+    'H'#224'nh '#273#7897'ng g'#7907'i '#253);
+  Put(True,
+    'Hub.Role.content',
+    'N'#7897'i dung');
+  Put(True,
+    'Hub.Role.inventory',
+    'Ki'#7875'm k'#234);
+  Put(True,
+    'Hub.Role.privacy',
+    'Quy'#7873'n ri'#234'ng t'#432' / PII');
+  Put(True,
+    'Hub.Role.sql',
+    'SQL / d'#7841'ng b'#7843'ng');
+  Put(True,
+    'Hub.Role.structure',
+    'C'#7845'u tr'#250'c');
+  Put(True,
+    'Hub.SelectAll',
+    'Ch'#7885'n t'#7845't c'#7843);
+  Put(True,
+    'Hub.SendHint',
+    'Ctrl+Enter c'#361'ng b'#7855't '#273#7847'u ph'#226'n t'#237'ch.');
+  Put(True,
+    'Hub.Sources',
+    '1. Ch'#7885'n t'#7879'p ho'#7863'c th'#432' m'#7909'c');
+  Put(True,
+    'Hub.Status.Cancelled',
+    #272#227' h'#7911'y.');
+  Put(True,
+    'Hub.Status.Done',
+    'Xong '#8212' %d ph'#225't hi'#7879'n.');
+  Put(True,
+    'Hub.Status.Failed',
+    'Ch'#7849'n '#273'o'#225'n th'#7845't b'#7841'i.');
+  Put(True,
+    'Hub.Status.Ready',
+    'S'#7861'n s'#224'ng.');
+end;
+
+procedure AddVietnamesePart21(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Hub.Status.Running',
+    #272'ang ch'#7841'y...');
+  Put(True,
+    'Hub.Status.Starting',
+    #272'ang b'#7855't '#273#7847'u ch'#7849'n '#273'o'#225'n...');
+  Put(True,
+    'Hub.Status.Stopping',
+    #272'ang d'#7915'ng...');
+  Put(True,
+    'Hub.Step2',
+    '2. M'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n');
+  Put(True,
+    'Hub.Step3',
+    '3. Xem l'#7841'i k'#7871't qu'#7843);
+  Put(True,
+    'Hub.Stop',
+    'D'#7915'ng');
+  Put(True,
+    'Hub.TabCaption',
+    'Ch'#7849'n '#273'o'#225'n AI');
+  Put(True,
+    'Hub.Toolbar',
+    'Ch'#7849'n '#273'o'#225'n AI');
+  Put(True,
+    'I don''t know',
+    'T'#244'i kh'#244'ng bi'#7871't');
+  Put(True,
+    'ID',
+    'ID');
+  Put(True,
+    'IDs',
+    'IDs');
+  Put(True,
+    'ISO timestamp check',
+    'Ki'#7875'm tra d'#7845'u th'#7901'i gian ISO');
+  Put(True,
+    'If you want to split the CSV file every time you find a new region val'
+        + 'ue (assuming the file is sorted), or start a new file for each state.',
+    'N'#7871'u b'#7841'n mu'#7889'n t'#225'ch t'#7879'p CSV m'#7895'i khi t'#236'm th'#7845'y gi'#225' tr'#7883' v'#249'ng m'#7899'i (gi'#7843' s'#7917' t'#7879
+        + 'p '#273#227' '#273#432#7907'c s'#7855'p x'#7871'p), ho'#7863'c b'#7855't '#273#7847'u m'#7897't t'#7879'p m'#7899'i cho m'#7895'i bang.');
+  Put(True,
+    'If you want to split the CSV file every time you find a new value like'
+        + ' %s (assuming the file is sorted), or start a new file for each catego'
+        + 'ry.',
+    'N'#7871'u b'#7841'n mu'#7889'n t'#225'ch t'#7879'p CSV m'#7895'i khi t'#236'm th'#7845'y gi'#225' tr'#7883' m'#7899'i nh'#432' %s (gi'#7843' s'#7917' '
+        + 't'#7879'p '#273#227' '#273#432#7907'c s'#7855'p x'#7871'p), ho'#7863'c b'#7855't '#273#7847'u m'#7897't t'#7879'p m'#7899'i cho m'#7895'i danh m'#7909'c.');
+  Put(True,
+    'If your goal is just N output files (ex: 10), use "By equal parts" mod'
+        + 'e.',
+    'N'#7871'u m'#7909'c ti'#234'u c'#7911'a b'#7841'n ch'#7881' l'#224' N t'#7879'p '#273#7847'u ra (v'#237' d'#7909': 10), h'#227'y d'#249'ng ch'#7871' '#273#7897' '
+        + '"Theo c'#225'c ph'#7847'n b'#7857'ng nhau".');
+  Put(True,
+    'Imagine you want to anonymize %s for a test, replacing it with "USER_R'
+        + 'EDACTED".',
+    'H'#227'y t'#432#7903'ng t'#432#7907'ng b'#7841'n mu'#7889'n '#7849'n danh h'#243'a %s cho m'#7897't b'#224'i ki'#7875'm th'#7917', thay th'#7871
+        + ' b'#7857'ng "USER_REDACTED".');
+  Put(True,
+    'Import',
+    'Nh'#7853'p');
+  Put(True,
+    'Import file extensions',
+    'Ph'#7847'n m'#7903' r'#7897'ng t'#7879'p nh'#7853'p');
+  Put(True,
+    'Importing file extensions to exclude from search',
+    #272'ang nh'#7853'p ph'#7847'n m'#7903' r'#7897'ng t'#7879'p '#273#7875' lo'#7841'i tr'#7915' kh'#7887'i t'#236'm ki'#7871'm');
+  Put(True,
+    'In Split mode, each matching line starts a new output file (that line '
+        + 'is the first line of the new part). Pick a pattern that matches only b'
+        + 'oundaries you want.',
+    #7902' ch'#7871' '#273#7897' T'#225'ch, m'#7895'i d'#242'ng kh'#7899'p b'#7855't '#273#7847'u m'#7897't t'#7879'p '#273#7847'u ra m'#7899'i (d'#242'ng '#273#243' l'#224' d'#242
+        + 'ng '#273#7847'u c'#7911'a ph'#7847'n m'#7899'i). Ch'#7885'n m'#7851'u ch'#7881' kh'#7899'p v'#7899'i c'#225'c ranh gi'#7899'i b'#7841'n mu'#7889'n.');
+  Put(True,
+    'In this mode, define N in "Equal parts count" and the app keeps full l'
+        + 'ines.',
+    #7902' ch'#7871' '#273#7897' n'#224'y, '#273#7863't N trong "S'#7889' ph'#7847'n b'#7857'ng nhau" v'#224' '#7913'ng d'#7909'ng gi'#7919' nguy'#234'n c'
+        + #225'c d'#242'ng '#273#7847'y '#273#7911'.');
+  Put(True,
+    'Include macro results in tail export (Ctrl+Shift+L)',
+    'Bao g'#7891'm k'#7871't qu'#7843' macro trong xu'#7845't '#273'u'#244'i (Ctrl+Shift+L)');
+  Put(True,
+    'Include subfolders',
+    'Bao g'#7891'm th'#432' m'#7909'c con');
+  Put(True,
+    'Include subfolders in file search.',
+    'Bao g'#7891'm th'#432' m'#7909'c con khi t'#236'm t'#7879'p.');
+  Put(True,
+    'Included',
+    #272#227' bao g'#7891'm');
+  Put(True,
+    'Indexing file for paged preview: %d%% (%s lines so far)...',
+    #272'ang l'#7853'p ch'#7881' m'#7909'c t'#7879'p cho xem tr'#432#7899'c ph'#226'n trang: %d%% (%s d'#242'ng '#273#7871'n nay).'
+        + '..');
+  Put(True,
+    'Information',
+    'Th'#244'ng tin');
+  Put(True,
+    'Information label.',
+    'Nh'#227'n th'#244'ng tin.');
+  Put(True,
+    'Information panel.',
+    'B'#7843'ng th'#244'ng tin.');
+  Put(True,
+    'Initializing FastFile AI...',
+    #272'ang kh'#7903'i t'#7841'o FastFile AI...');
+  Put(True,
+    'Insert %d blank line(s) starting at line %d?',
+    'Ch'#232'n %d d'#242'ng tr'#7889'ng b'#7855't '#273#7847'u t'#7915' d'#242'ng %d?');
+  Put(True,
+    'Insert %d line(s) before line %d',
+    'Ch'#232'n %d d'#242'ng tr'#432#7899'c d'#242'ng %d');
+  Put(True,
+    'Insert %d line(s) from the clipboard starting at line %d?',
+    'Ch'#232'n %d d'#242'ng t'#7915' clipboard b'#7855't '#273#7847'u t'#7915' d'#242'ng %d?');
+  Put(True,
+    'Insert &multiple lines...',
+    'Ch'#232'n &nhi'#7873'u d'#242'ng...');
+  Put(True,
+    'Insert Line',
+    'Ch'#232'n d'#242'ng');
+  Put(True,
+    'Insert from prompt',
+    'Ch'#232'n t'#7915' l'#7901'i nh'#7855'c');
+  Put(True,
+    'Insert line &after',
+    'Ch'#232'n d'#242'ng &sau');
+  Put(True,
+    'Insert line after',
+    'Ch'#232'n d'#242'ng sau');
+  Put(True,
+    'Insert line before',
+    'Ch'#232'n d'#242'ng tr'#432#7899'c');
+  Put(True,
+    'Insert multiple lines',
+    'Ch'#232'n nhi'#7873'u d'#242'ng');
+  Put(True,
+    'Insert source after destination line.',
+    'Ch'#232'n ngu'#7891'n sau d'#242'ng '#273#237'ch.');
+  Put(True,
+    'Insert source after destination line:',
+    'Ch'#232'n ngu'#7891'n sau d'#242'ng '#273#237'ch.');
+  Put(True,
+    'Insert source at beginning (first line).',
+    'Ch'#232'n ngu'#7891'n '#7903' '#273#7847'u (d'#242'ng '#273#7847'u ti'#234'n).');
+  Put(True,
+    'Insert source at end of destination file.',
+    'Ch'#232'n ngu'#7891'n v'#224'o cu'#7889'i t'#7879'p '#273#237'ch.');
+  Put(True,
+    'Insert.CountWithMax',
+    'S'#7889' d'#242'ng m'#7899'i (t'#7889'i '#273'a %d):');
+  Put(True,
+    'Instant Open (Zero Scan)',
+    'M'#7903' t'#7913'c th'#236' (Kh'#244'ng qu'#233't)');
+  Put(True,
+    'Instant open: edits need a line map for correct file positions.',
+    'M'#7903' t'#7913'c th'#236': ch'#7881'nh s'#7917'a c'#7847'n b'#7843'n '#273#7891' d'#242'ng '#273#7875' c'#243' v'#7883' tr'#237' t'#7879'p '#273#250'ng.');
+  Put(True,
+    'Instant open: no line index yet.',
+    'M'#7903' t'#7913'c th'#236': ch'#432'a c'#243' ch'#7881' m'#7909'c d'#242'ng.');
+  Put(True,
+    'Invalid Regex:',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy kh'#244'ng h'#7907'p l'#7879':');
+  Put(True,
+    'Invalid byte position.',
+    'V'#7883' tr'#237' byte kh'#244'ng h'#7907'p l'#7879'.');
+  Put(True,
+    'Invalid filename!',
+    'T'#234'n t'#7879'p kh'#244'ng h'#7907'p l'#7879'!');
+  Put(True,
+    'Invalid line range for export.',
+    'Ph'#7841'm vi d'#242'ng kh'#244'ng h'#7907'p l'#7879' '#273#7875' xu'#7845't.');
+  Put(True,
+    'Invalid line. Use a value from %d to %d.',
+    'D'#242'ng kh'#244'ng h'#7907'p l'#7879'. D'#249'ng gi'#225' tr'#7883' t'#7915' %d '#273#7871'n %d.');
+  Put(True,
+    'Ir para linha',
+    #272'i t'#7899'i d'#242'ng');
+  Put(True,
+    'Is Regex',
+    'L'#224' Regex');
+  Put(True,
+    'It is under development.',
+    #272'ang '#273#432#7907'c ph'#225't tri'#7875'n.');
+  Put(True,
+    'It will be removed from the list. Confirm ?',
+    'S'#7869' b'#7883' x'#243'a kh'#7887'i danh s'#225'ch. X'#225'c nh'#7853'n?');
+  Put(True,
+    'Italian',
+    'Ti'#7871'ng '#221);
+  Put(True,
+    'Journal colors:',
+    'M'#224'u nh'#7853't k'#253' phi'#234'n:');
+  Put(True,
+    'Journal entries: click to jump to the line in the preview below. Lines'
+        + ' starting with # are hidden. Up to %d recent log lines are loaded.',
+    'M'#7909'c nh'#7853't k'#253' phi'#234'n: nh'#7845'p '#273#7875' nh'#7843'y t'#7899'i d'#242'ng trong xem tr'#432#7899'c b'#234'n d'#432#7899'i. C'#225'c'
+        + ' d'#242'ng b'#7855't '#273#7847'u b'#7857'ng # b'#7883' '#7849'n. T'#7889'i '#273'a %d d'#242'ng nh'#7853't k'#253' g'#7847'n '#273#226'y '#273#432#7907'c t'#7843'i.');
+  Put(True,
+    'Journal too large; line colors omitted on preview.',
+    'Nh'#7853't k'#253' phi'#234'n qu'#225' l'#7899'n; m'#224'u d'#242'ng b'#7883' b'#7887' qua tr'#234'n xem tr'#432#7899'c.');
+  Put(True,
+    'Jump to a specific line number.',
+    'Nh'#7843'y t'#7899'i m'#7897't s'#7889' d'#242'ng c'#7909' th'#7875'.');
+  Put(True,
+    'Keeps lines where eight consecutive digits appear just before the end.',
+    'Gi'#7919' c'#225'c d'#242'ng c'#243' t'#225'm ch'#7919' s'#7889' li'#234'n ti'#7871'p xu'#7845't hi'#7879'n ngay tr'#432#7899'c cu'#7889'i d'#242'ng.');
+  Put(True,
+    'Language.Loading.Assistant',
+    #272'ang c'#7853'p nh'#7853't tr'#7907' l'#253' AI...');
+  Put(True,
+    'Language.Loading.Finish',
+    #272'ang ho'#224'n t'#7845't giao di'#7879'n...');
+  Put(True,
+    'Language.Loading.Menus',
+    #272'ang c'#7853'p nh'#7853't menu v'#224' thanh c'#244'ng c'#7909'...');
+  Put(True,
+    'Language.Loading.Preparing',
+    #272'ang '#273#7893'i ng'#244'n ng'#7919' giao di'#7879'n');
+  Put(True,
+    'Language.Loading.Recent',
+    #272'ang c'#7853'p nh'#7853't t'#7879'p g'#7847'n '#273#226'y...');
+  Put(True,
+    'Language.Loading.Reverting',
+    #272#227' h'#7911'y - '#273'ang kh'#244'i ph'#7909'c ng'#244'n ng'#7919' tr'#432#7899'c...');
+  Put(True,
+    'Language.Loading.Title',
+    #272'ang t'#7843'i %s...');
+  Put(True,
+    'Language.Mru.Hint',
+    'Ng'#244'n ng'#7919' '#7913'ng d'#7909'ng. Ng'#244'n ng'#7919' g'#7847'n '#273#226'y hi'#7879'n tr'#432#7899'c. G'#245' '#273#7875' t'#236'm.');
+  Put(True,
+    'Language.Mru.MoreHint',
+    'Hi'#7879'n c'#225'c ng'#244'n ng'#7919' kh'#225'c');
+  Put(True,
+    'Language.Mru.Title',
+    'Ng'#244'n ng'#7919' g'#7847'n '#273#226'y');
+  Put(True,
+    'Large file mode enabled. Output will be saved directly to: %s',
+    #272#227' b'#7853't ch'#7871' '#273#7897' t'#7879'p l'#7899'n. '#272#7847'u ra s'#7869' '#273#432#7907'c l'#432'u tr'#7921'c ti'#7871'p v'#224'o: %s');
+  Put(True,
+    'Large file: history preview limited to first %d lines (%d MB read wind'
+        + 'ow).',
+    'T'#7879'p l'#7899'n: xem tr'#432#7899'c l'#7883'ch s'#7917' gi'#7899'i h'#7841'n '#7903' %d d'#242'ng '#273#7847'u (%d MB c'#7917'a s'#7893' '#273#7885'c).');
+  Put(True,
+    'Last accessed:',
+    'Truy c'#7853'p l'#7847'n cu'#7889'i:');
+  Put(True,
+    'Last line',
+    'D'#242'ng cu'#7889'i');
+  Put(True,
+    'Last line must be >= first line.',
+    'D'#242'ng cu'#7889'i ph'#7843'i >= d'#242'ng '#273#7847'u.');
+  Put(True,
+    'Last line number to export.',
+    'S'#7889' d'#242'ng cu'#7889'i '#273#7875' xu'#7845't.');
+  Put(True,
+    'Last loaded',
+    'T'#7843'i l'#7847'n cu'#7889'i');
+  Put(True,
+    'Launch error',
+    'L'#7895'i kh'#7903'i ch'#7841'y');
+  Put(True,
+    'Left file',
+    'T'#7879'p tr'#225'i');
+  Put(True,
+    'Legend:',
+    'Ch'#250' gi'#7843'i:');
+  Put(True,
+    'License',
+    'Gi'#7845'y ph'#233'p');
+  Put(True,
+    'Limit.ActionLines',
+    'T'#7889'i '#273'a %d d'#242'ng');
+  Put(True,
+    'Limit.ActionLinesHint',
+    'Sao ch'#233'p, x'#243'a s'#7841'ch, xu'#7845't, s'#7917'a v'#224' H'#7887'i AI d'#249'ng chung gi'#7899'i h'#7841'n n'#224'y. '#7848'n da'
+        + 'nh h'#243'a, g'#7897'p v'#224' d'#7883'ch c'#243' gi'#7899'i h'#7841'n ri'#234'ng trong T'#249'y ch'#7885'n.');
+  Put(True,
+    'Limit.DefaultPair',
+    'M'#7863'c '#273#7883'nh: %s (t'#7879'p) / %s (clipboard).');
+  Put(True,
+    'Limit.DefaultValue',
+    'm'#7863'c '#273#7883'nh %d');
+  Put(True,
+    'Line',
+    'D'#242'ng');
+  Put(True,
+    'Line ',
+    'D'#242'ng ');
+  Put(True,
+    'Line #',
+    'D'#242'ng #');
+  Put(True,
+    'Line %d does not exist in the file. Valid range: 1..%d.',
+    'D'#242'ng %d kh'#244'ng t'#7891'n t'#7841'i trong t'#7879'p. Ph'#7841'm vi h'#7907'p l'#7879': 1..%d.');
+  Put(True,
+    'Line %s  |  %s / %s B',
+    'D'#242'ng %s  |  %s / %s B');
+  Put(True,
+    'Line %s  |  Part %d  |  %s / %s B',
+    'D'#242'ng %s  |  Ph'#7847'n %d  |  %s / %s B');
+  Put(True,
+    'Line Hints (ON)',
+    'G'#7907'i '#253' d'#242'ng (B'#7852'T)');
+  Put(True,
+    'Line Number',
+    'S'#7889' d'#242'ng');
+  Put(True,
+    'Line Number is required.',
+    'S'#7889' d'#242'ng l'#224' b'#7855't bu'#7897'c.');
+  Put(True,
+    'Line Number:',
+    'S'#7889' d'#242'ng:');
+  Put(True,
+    'Line autofill: %d blank line(s) at line %d',
+    'T'#7921' '#273'i'#7873'n d'#242'ng: %d d'#242'ng tr'#7889'ng t'#7841'i d'#242'ng %d');
+  Put(True,
+    'Line must be a valid integer.',
+    'D'#242'ng ph'#7843'i l'#224' s'#7889' nguy'#234'n h'#7907'p l'#7879'.');
+end;
+
+procedure AddVietnamesePart22(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Line number (valid range: 1..totalLines-1):',
+    'S'#7889' d'#242'ng (ph'#7841'm vi h'#7907'p l'#7879': 1 '#273#7871'n t'#7893'ng s'#7889' d'#242'ng - 1):');
+  Put(True,
+    'Line number must be greater than 0.',
+    'S'#7889' d'#242'ng ph'#7843'i l'#7899'n h'#417'n 0.');
+  Put(True,
+    'Line parameters are required.',
+    'Tham s'#7889' d'#242'ng l'#224' b'#7855't bu'#7897'c.');
+  Put(True,
+    'Line range (from line ... to line ...)',
+    'Ph'#7841'm vi d'#242'ng (t'#7915' d'#242'ng ... '#273#7871'n d'#242'ng ...)');
+  Put(True,
+    'Line range must be between %d and %d.',
+    'Ph'#7841'm vi d'#242'ng ph'#7843'i n'#7857'm gi'#7919'a %d v'#224' %d.');
+  Put(True,
+    'Line-segmented &mode (heavy ops)',
+    'Ch'#7871' '#273#7897' &ph'#226'n '#273'o'#7841'n d'#242'ng (thao t'#225'c n'#7863'ng)');
+  Put(True,
+    'Line-segmented force:',
+    'Bu'#7897'c ph'#226'n '#273'o'#7841'n d'#242'ng:');
+  Put(True,
+    'Line-segmented mode is ON: Replace All runs on line-aligned parts; mat'
+        + 'ches that span a part boundary may be missed.',
+    'Ch'#7871' '#273#7897' ph'#226'n '#273'o'#7841'n d'#242'ng '#272'ANG B'#7852'T: Thay th'#7871' t'#7845't c'#7843' ch'#7841'y tr'#234'n c'#225'c ph'#7847'n c'#259'n'
+        + ' theo d'#242'ng; c'#225'c kh'#7899'p v'#432#7907't ranh gi'#7899'i ph'#7847'n c'#243' th'#7875' b'#7883' b'#7887' s'#243't.');
+  Put(True,
+    'Line-segmented mode:',
+    'Ch'#7871' '#273#7897' ph'#226'n '#273'o'#7841'n d'#242'ng:');
+  Put(True,
+    'Line-segmented policy:',
+    'Ch'#237'nh s'#225'ch ph'#226'n '#273'o'#7841'n d'#242'ng:');
+  Put(True,
+    'Line-segmented processing for heavy operations (off by default)',
+    'X'#7917' l'#253' ph'#226'n '#273'o'#7841'n d'#242'ng cho thao t'#225'c n'#7863'ng (m'#7863'c '#273#7883'nh t'#7855't)');
+  Put(True,
+    'Line:',
+    'D'#242'ng:');
+  Put(True,
+    'Line: ',
+    'D'#242'ng: ');
+  Put(True,
+    'Line: %d  Col: %d',
+    'D'#242'ng: %d  C'#7897't: %d');
+  Put(True,
+    'Line: 0  Col: 0',
+    'D'#242'ng: 0  C'#7897't: 0');
+  Put(True,
+    'LineEditor.AdjLineUnavailable',
+    'D'#242'ng t'#432#417'ng '#7913'ng kh'#244'ng t'#7891'n t'#7841'i ho'#7863'c tr'#7889'ng.');
+  Put(True,
+    'LineEditor.Anon',
+    #7848'n danh h'#243'a');
+  Put(True,
+    'LineEditor.AnonHint',
+    #7848'n danh h'#243'a v'#259'n b'#7843'n '#273#227' ch'#7885'n (ho'#7863'c to'#224'n b'#7897' n'#7897'i dung) v'#7899'i c'#225'c t'#249'y ch'#7885'n v'
+        + #224' kh'#243'a c'#7911'a l'#7847'n '#7849'n danh h'#243'a g'#7847'n nh'#7845't.');
+  Put(True,
+    'LineEditor.AnonNoChange',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' '#7849'n danh h'#243'a v'#7899'i c'#225'c t'#249'y ch'#7885'n hi'#7879'n t'#7841'i.');
+  Put(True,
+    'LineEditor.AskAI.EmptyResponse',
+    'AI tr'#7843' v'#7873' k'#7871't qu'#7843' tr'#7889'ng.');
+  Put(True,
+    'LineEditor.AskAI.MergePrompt',
+    'AI n'#234'n l'#224'm g'#236' v'#7899'i c'#225'c d'#242'ng '#273#227' ch'#7885'n '#273#7875' g'#7897'p?');
+  Put(True,
+    'LineEditor.AskAI.PipelineNote',
+    'H'#7887'i AI t'#7915' Tr'#236'nh s'#7917'a d'#242'ng t'#7879'p.');
+  Put(True,
+    'LineEditor.AskAI.PromptLabel: %s',
+    'AI n'#234'n l'#224'm g'#236' v'#7899'i d'#242'ng %s?');
+  Put(True,
+    'LineEditor.AskAI.QuestionTemplate',
+    'Tr'#234'n (c'#225'c) d'#242'ng %1:s: %0:s');
+  Put(True,
+    'LineEditor.AskAI.RequestFailed: %s',
+    'Y'#234'u c'#7847'u AI th'#7845't b'#7841'i: %s');
+  Put(True,
+    'LineEditor.AskAIHint',
+    'H'#7887'i AI v'#7873' d'#242'ng n'#224'y ho'#7863'c v'#249'ng ch'#7885'n g'#7897'p.');
+  Put(True,
+    'LineEditor.Clear',
+    'X'#243'a s'#7841'ch');
+  Put(True,
+    'LineEditor.ClearHint',
+    'X'#243'a s'#7841'ch to'#224'n b'#7897' n'#7897'i dung');
+  Put(True,
+    'LineEditor.CopyLineHint: %d',
+    #272'i'#7873'n n'#7897'i dung b'#7857'ng d'#242'ng %d');
+  Put(True,
+    'LineEditor.CopyNextLine',
+    'Mang d'#242'ng ti'#7871'p theo');
+  Put(True,
+    'LineEditor.CopyPrevLine',
+    'Mang d'#242'ng tr'#432#7899'c');
+  Put(True,
+    'LineEditor.Find',
+    'T'#236'm:');
+  Put(True,
+    'LineEditor.FindAccents',
+    'B'#7887' qua d'#7845'u thanh');
+  Put(True,
+    'LineEditor.FindBadRegex',
+    'Bi'#7875'u th'#7913'c kh'#244'ng h'#7907'p l'#7879);
+  Put(True,
+    'LineEditor.FindBadRegexMsg: %s',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy "%s" kh'#244'ng h'#7907'p l'#7879'.'#13#10#13#10'Ki'#7875'm tra m'#7851'u v'#224' th'#7917' l'#7841'i.');
+  Put(True,
+    'LineEditor.FindCase',
+    'Ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'LineEditor.FindCount: %d %d',
+    '%d / %d');
+  Put(True,
+    'LineEditor.FindCue',
+    'V'#259'n b'#7843'n c'#7847'n t'#236'm (Ctrl+F) - bao g'#7891'm kh'#7899'p m'#7897't ph'#7847'n');
+  Put(True,
+    'LineEditor.FindEmpty',
+    'Nh'#7853'p v'#259'n b'#7843'n c'#7847'n t'#236'm.');
+  Put(True,
+    'LineEditor.FindHint',
+    'T'#236'm m'#7885'i l'#7847'n xu'#7845't hi'#7879'n trong n'#7897'i dung (k'#7875' c'#7843' chu'#7895'i con) v'#224' t'#244' s'#225'ng ch'#250'n'
+        + 'g. Enter / F3 = ti'#7871'p, Shift+Enter / Shift+F3 = tr'#432#7899'c, Esc = x'#243'a s'#7841'ch.');
+  Put(True,
+    'LineEditor.FindNextHint',
+    'L'#7847'n xu'#7845't hi'#7879'n ti'#7871'p theo (F3 / Enter)');
+  Put(True,
+    'LineEditor.FindNone',
+    'Kh'#244'ng t'#236'm th'#7845'y');
+  Put(True,
+    'LineEditor.FindNoneMsg: %s',
+    'Kh'#244'ng t'#236'm th'#7845'y v'#259'n b'#7843'n "%s".');
+  Put(True,
+    'LineEditor.FindPrevHint',
+    'L'#7847'n xu'#7845't hi'#7879'n tr'#432#7899'c (Shift+F3 / Shift+Enter)');
+  Put(True,
+    'LineEditor.FindRegex',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy');
+  Put(True,
+    'LineEditor.FindRegexHint',
+    'Di'#7877'n gi'#7843'i v'#259'n b'#7843'n nh'#432' bi'#7875'u th'#7913'c ch'#237'nh quy (v'#237' d'#7909': 12\d{3} ho'#7863'c ^ABC|XY'
+        + 'Z$).');
+  Put(True,
+    'LineEditor.FindWord',
+    'C'#7843' t'#7915);
+  Put(True,
+    'LineEditor.KeyAlt',
+    'Alt');
+  Put(True,
+    'LineEditor.KeyCtrl',
+    'Ctrl');
+  Put(True,
+    'LineEditor.KeyDel',
+    'Del');
+  Put(True,
+    'LineEditor.KeyEnter',
+    'Enter');
+  Put(True,
+    'LineEditor.KeyEsc',
+    'Esc');
+  Put(True,
+    'LineEditor.KeyShift',
+    'Shift');
+  Put(True,
+    'LineEditor.MergeConfirm',
+    'G'#7897'p c'#225'c d'#242'ng '#273#227' ch'#7885'n th'#224'nh m'#7897't?');
+  Put(True,
+    'LineEditor.MergeConfirmDetail: %d %d',
+    'D'#242'ng '#273#237'ch: %0:d. T'#7893'ng s'#7889' d'#242'ng trong g'#7897'p: %1:d.');
+  Put(True,
+    'LineEditor.MergeLines',
+    'G'#7897'p d'#242'ng');
+  Put(True,
+    'LineEditor.MergeLinesHint',
+    'Ch'#7885'n c'#225'c d'#242'ng g'#7847'n nhau '#273#7875' g'#7897'p th'#224'nh m'#7897't, r'#7891'i x'#225'c nh'#7853'n.');
+  Put(True,
+    'LineEditor.MergeListHint',
+    'Ch'#7885'n c'#225'c d'#242'ng '#273#7875' g'#7897'p th'#224'nh m'#7897't (d'#242'ng th'#7845'p nh'#7845't gi'#7919' l'#224'm '#273#237'ch).');
+  Put(True,
+    'LineEditor.MergeNeedTwo',
+    'Ch'#7885'n '#237't nh'#7845't hai d'#242'ng '#273#7875' g'#7897'p.');
+  Put(True,
+    'LineEditor.MergeUnavailable',
+    'G'#7897'p d'#242'ng kh'#244'ng kh'#7843' d'#7909'ng trong ng'#7919' c'#7843'nh n'#224'y.');
+  Put(True,
+    'LineEditor.MultiCaption',
+    'S'#7917'a c'#225'c d'#242'ng '#273#227' ch'#7885'n (%d)');
+  Put(True,
+    'LineEditor.MultiContent',
+    'N'#7897'i dung (m'#7895'i h'#224'ng l'#224' m'#7897't d'#242'ng t'#7879'p - kh'#244'ng g'#7897'p ho'#7863'c t'#225'ch h'#224'ng):');
+  Put(True,
+    'LineEditor.MultiCountMismatch',
+    'N'#7897'i dung ph'#7843'i c'#243' '#273#250'ng %d d'#242'ng (m'#7897't cho m'#7895'i d'#242'ng '#273#227' ch'#7885'n), nh'#432'ng c'#243' %d.'
+        + ' Kh'#244'ng g'#7897'p ho'#7863'c t'#225'ch d'#242'ng.');
+  Put(True,
+    'LineEditor.MultiLinesLabel',
+    'C'#225'c d'#242'ng:');
+  Put(True,
+    'LineEditor.MultiNoChange',
+    'Kh'#244'ng c'#243' d'#242'ng n'#224'o b'#7883' thay '#273#7893'i.');
+  Put(True,
+    'LineEditor.MultiOp',
+    'S'#7917'a c'#225'c d'#242'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'LineEditor.PreviewConfirm',
+    'Xem tr'#432#7899'c v'#224' l'#432'u');
+  Put(True,
+    'LineEditor.Redo',
+    'L'#224'm l'#7841'i');
+  Put(True,
+    'LineEditor.RedoHint',
+    'L'#224'm l'#7841'i thay '#273#7893'i '#273#227' ho'#224'n t'#225'c.');
+  Put(True,
+    'LineEditor.Replace',
+    'Thay th'#7871':');
+  Put(True,
+    'LineEditor.ReplaceAll',
+    'Thay th'#7871' t'#7845't c'#7843);
+  Put(True,
+    'LineEditor.ReplaceCue',
+    'V'#259'n b'#7843'n thay th'#7871' (Ctrl+H)');
+  Put(True,
+    'LineEditor.ReplaceEmptyConfirm: %d %s',
+    'V'#259'n b'#7843'n thay th'#7871' tr'#7889'ng: %d l'#7847'n xu'#7845't hi'#7879'n c'#7911'a "%s" s'#7869' b'#7883' x'#243'a.'#13#10#13#10'B'#7841'n c'#243
+        + ' th'#7853't s'#7921' mu'#7889'n ti'#7871'p t'#7909'c?');
+  Put(True,
+    'LineEditor.ReplaceHint',
+    'Enter / F4: thay th'#7871' l'#7847'n xu'#7845't hi'#7879'n hi'#7879'n t'#7841'i. Shift+Enter / Shift+F4: t'
+        + 'hay th'#7871' t'#7845't c'#7843'. V'#7899'i bi'#7875'u th'#7913'c ch'#237'nh quy: $1..$9 ch'#232'n nh'#243'm, \n xu'#7889'ng d'#242
+        + 'ng, \t tab.');
+  Put(True,
+    'LineEditor.ReplaceOne',
+    'Thay th'#7871);
+  Put(True,
+    'LineEditor.ReplacedCount: %d',
+    #272#227' thay th'#7871' %d');
+  Put(True,
+    'LineEditor.ReplacedMsg: %d',
+    #272#227' thay th'#7871' %d l'#7847'n xu'#7845't hi'#7879'n.');
+  Put(True,
+    'LineEditor.Undo',
+    'Ho'#224'n t'#225'c');
+  Put(True,
+    'LineEditor.UndoHint',
+    'Ho'#224'n t'#225'c thay '#273#7893'i n'#7897'i dung cu'#7889'i (g'#245', d'#225'n, x'#243'a s'#7841'ch, thay th'#7871', mang d'#242'n'
+        + 'g).');
+  Put(True,
+    'Lines/Time:',
+    'D'#242'ng/Th'#7901'i gian:');
+  Put(True,
+    'Lines: %d',
+    'C'#225'c d'#242'ng: %d');
+  Put(True,
+    'LinesPreview.Back',
+    'Quay l'#7841'i');
+  Put(True,
+    'LinesPreview.Caption',
+    'Xem tr'#432#7899'c thay '#273#7893'i tr'#432#7899'c khi l'#432'u');
+  Put(True,
+    'LinesPreview.ColAfter',
+    'Sau');
+  Put(True,
+    'LinesPreview.ColBefore',
+    'Tr'#432#7899'c');
+  Put(True,
+    'LinesPreview.ColLine',
+    'D'#242'ng');
+  Put(True,
+    'LinesPreview.Save',
+    'L'#432'u v'#224'o t'#7879'p');
+  Put(True,
+    'LinesPreview.Summary',
+    '%d trong %d d'#242'ng '#273#227' ch'#7885'n s'#7869' '#273#432#7907'c thay '#273#7893'i v'#224' l'#432'u v'#224'o t'#7879'p tr'#234'n '#273#297'a. Xem'
+        + ' l'#7841'i tr'#432#7899'c khi x'#225'c nh'#7853'n.');
+  Put(True,
+    'LinesPreview.UndoNote',
+    'Ch'#7881' li'#7879't k'#234' c'#225'c d'#242'ng '#273#227' '#273#7893'i. Sau khi l'#432'u, b'#7841'n c'#243' th'#7875' ho'#224'n t'#225'c b'#7857'ng Ctr'
+        + 'l+Z.');
+  Put(True,
+    'Links',
+    'Li'#234'n k'#7871't');
+  Put(True,
+    'List capped at the max file count.',
+    'Danh s'#225'ch b'#7883' gi'#7899'i h'#7841'n '#7903' s'#7889' t'#7879'p t'#7889'i '#273'a.');
+  Put(True,
+    'List mode: checkbox list',
+    'Ch'#7871' '#273#7897' danh s'#225'ch: danh s'#225'ch h'#7897'p ch'#7885'n');
+  Put(True,
+    'List mode: list view',
+    'Ch'#7871' '#273#7897' danh s'#225'ch: ch'#7871' '#273#7897' xem danh s'#225'ch chu'#7849'n');
+  Put(True,
+    'List of files found by the current search.',
+    'Danh s'#225'ch t'#7879'p t'#236'm '#273#432#7907'c b'#7903'i t'#236'm ki'#7871'm hi'#7879'n t'#7841'i.');
+  Put(True,
+    'List of generated files and ranges.',
+    'Danh s'#225'ch t'#7879'p '#273#227' t'#7841'o v'#224' ph'#7841'm vi.');
+  Put(True,
+    'List of items.',
+    'Danh s'#225'ch m'#7909'c.');
+  Put(True,
+    'List of lines and results.',
+    'Danh s'#225'ch d'#242'ng v'#224' k'#7871't qu'#7843'.');
+  Put(True,
+    'List view uses: ',
+    'Ch'#7871' '#273#7897' xem danh s'#225'ch d'#249'ng: ');
+  Put(True,
+    'ListView zoom (Ctrl + mouse wheel)',
+    'Thu ph'#243'ng ListView (Ctrl + b'#225'nh xe chu'#7897't)');
+  Put(True,
+    'ListView.AnonymizeHint',
+    #7848'n danh h'#243'a c'#225'c d'#242'ng '#273#227' ch'#7885'n (1 '#273#7871'n %d): ch'#7885'n t'#249'y ch'#7885'n, ki'#7875'm tra xem t'
+        + 'r'#432#7899'c v'#224' x'#225'c nh'#7853'n; ch'#7881' khi '#273#243' c'#225'c d'#242'ng m'#7899'i '#273#432#7907'c thay '#273#7893'i v'#224' l'#432'u v'#224'o t'#7879'p'
+        + ' tr'#234'n '#273#297'a.');
+end;
+
+procedure AddVietnamesePart23(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'ListView.AskAI',
+    'H'#7887'i AI');
+  Put(True,
+    'ListView.AskAI.NeedGoal',
+    'Vui l'#242'ng m'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n AI l'#224'm.');
+  Put(True,
+    'ListView.AskAI.OfferSummary: %d',
+    'B'#7841'n '#273#227' h'#7887'i AI v'#7873' %d d'#242'ng '#273#227' ch'#7885'n.');
+  Put(True,
+    'ListView.AskAI.PipelineNote: %d',
+    'H'#7887'i AI v'#7873' %d d'#242'ng '#273#227' ch'#7885'n.');
+  Put(True,
+    'ListView.AskAI.PromptLabel: %d',
+    'AI n'#234'n l'#224'm g'#236' v'#7899'i %d d'#242'ng '#273#227' ch'#7885'n?');
+  Put(True,
+    'ListView.AskAI.QuestionTemplate',
+    'Tr'#234'n c'#225'c d'#242'ng '#273#227' ch'#7885'n %1:s (%2:s d'#242'ng): %0:s');
+  Put(True,
+    'ListView.AskAIHint',
+    'H'#7887'i AI c'#7847'n l'#224'm g'#236' v'#7899'i c'#225'c d'#242'ng '#273#227' ch'#7885'n ho'#7863'c '#273#227' '#273#225'nh d'#7845'u.');
+  Put(True,
+    'ListView.ClearLinesConfirm',
+    'X'#243'a s'#7841'ch v'#259'n b'#7843'n c'#7911'a %d d'#242'ng '#273#227' ch'#7885'n?');
+  Put(True,
+    'ListView.ClearLinesHint',
+    'X'#243'a s'#7841'ch v'#259'n b'#7843'n c'#7911'a c'#225'c d'#242'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'ListView.CopiedLines',
+    '%d d'#242'ng '#273#227' ch'#7885'n '#273#227' sao ch'#233'p v'#224'o clipboard.');
+  Put(True,
+    'ListView.CopyLinesHint',
+    'Sao ch'#233'p c'#225'c d'#242'ng '#273#227' ch'#7885'n v'#224'o clipboard');
+  Put(True,
+    'ListView.EditLines',
+    'S'#7917'a d'#242'ng');
+  Put(True,
+    'ListView.EditLinesHint',
+    'S'#7917'a c'#225'c d'#242'ng '#273#227' ch'#7885'n (1 '#273#7871'n %d) trong tr'#236'nh s'#7917'a d'#242'ng (Ctrl+Shift+E): t'
+        + #236'm/thay th'#7871', AI, '#7849'n danh h'#243'a, tr'#237'ch xu'#7845't. Hi'#7879'n xem tr'#432#7899'c tr'#432#7899'c khi l'#432'u'
+        + ' v'#224'o t'#7879'p.');
+  Put(True,
+    'ListView.ExportLinesHint',
+    'Xu'#7845't c'#225'c d'#242'ng '#273#227' ch'#7885'n ra t'#7879'p (ch'#7881' v'#249'ng ch'#7885'n)');
+  Put(True,
+    'ListView.ExportedLines',
+    '%d d'#242'ng '#273#227' ch'#7885'n '#273#227' xu'#7845't ra t'#7879'p.');
+  Put(True,
+    'ListView.LinesSaving',
+    #272'ang l'#432'u %d d'#242'ng '#273#227' '#273#7893'i v'#224'o t'#7879'p...');
+  Put(True,
+    'ListView.MergeLines',
+    'G'#7897'p d'#242'ng');
+  Put(True,
+    'ListView.MergeLines.PrefillStatus: %d',
+    'G'#7897'p d'#242'ng: %d d'#242'ng '#273#227' ch'#7885'n '#273#227' t'#7843'i v'#224'o tr'#236'nh so'#7841'n th'#7843'o.');
+  Put(True,
+    'ListView.MergeLinesHint',
+    'M'#7903' G'#7897'p d'#242'ng v'#7899'i c'#225'c d'#242'ng '#273#227' ch'#7885'n '#273#227' '#273'i'#7873'n s'#7861'n (t'#7889'i '#273'a %d).');
+  Put(True,
+    'ListView.NeedSelection',
+    'H'#227'y ch'#7885'n m'#7897't ho'#7863'c nhi'#7873'u d'#242'ng tr'#432#7899'c.');
+  Put(True,
+    'ListView.SelLimitExceeded',
+    '%d d'#242'ng '#273'ang '#273#432#7907'c ch'#7885'n, nh'#432'ng gi'#7899'i h'#7841'n m'#7895'i thao t'#225'c l'#224' %d d'#242'ng. Ch'#7885'n '#237
+        + 't d'#242'ng h'#417'n ho'#7863'c '#273#7893'i gi'#7899'i h'#7841'n trong T'#249'y ch'#7885'n.');
+  Put(True,
+    'ListView.TooManyLines',
+    'Ch'#7885'n t'#7889'i '#273'a %d d'#242'ng cho thao t'#225'c n'#224'y.');
+  Put(True,
+    'ListView.TranslateHint',
+    'D'#7883'ch c'#225'c d'#242'ng '#273#227' ch'#7885'n (t'#7889'i '#273'a %d). Nh'#7845'p '#273#7875' ch'#7885'n ng'#244'n ng'#7919'.');
+  Put(True,
+    'Loading cancelled',
+    #272#227' h'#7911'y t'#7843'i');
+  Put(True,
+    'Location',
+    'V'#7883' tr'#237);
+  Put(True,
+    'Location (Separate multiple directories with semicolon):',
+    'V'#7883' tr'#237' (T'#225'ch nhi'#7873'u th'#432' m'#7909'c b'#7857'ng d'#7845'u ch'#7845'm ph'#7849'y):');
+  Put(True,
+    'Logged: INS/EDT/DEL, BINS/BAUT/BDEL (batch insert/autofill/delete), UN'
+        + 'DO/REDO. Read panel: Ctrl+V / Shift+Insert paste X lines; drag Line # '
+        + 'column to autofill blank rows; Ctrl+Shift+N insert multiple; Ctrl+Z / '
+        + 'Ctrl+Y undo/redo the whole block.',
+    #272#227' ghi: INS/EDT/DEL, BINS/BAUT/BDEL (ch'#232'n/t'#7921' '#273'i'#7873'n/x'#243'a h'#224'ng lo'#7841't), UNDO'
+        + '/REDO. B'#7843'ng '#273#7885'c: Ctrl+V / Shift+Insert d'#225'n X d'#242'ng; k'#233'o c'#7897't D'#242'ng # '#273#7875' t'
+        + #7921' '#273'i'#7873'n h'#224'ng tr'#7889'ng; Ctrl+Shift+N ch'#232'n nhi'#7873'u; Ctrl+Z / Ctrl+Y ho'#224'n t'#225'c/l'
+        + #224'm l'#7841'i c'#7843' kh'#7889'i.');
+  Put(True,
+    'Logic:',
+    'Nguy'#234'n t'#7855'c:');
+  Put(True,
+    'Logic: Every match is replaced, preserving the rest of the line unchan'
+        + 'ged.',
+    'Nguy'#234'n t'#7855'c: M'#7885'i kh'#7899'p '#273#7873'u '#273#432#7907'c thay th'#7871', gi'#7919' nguy'#234'n ph'#7847'n c'#242'n l'#7841'i c'#7911'a d'#242
+        + 'ng.');
+  Put(True,
+    'Logic: Every time the line contains the exact region value (for exampl'
+        + 'e, Sao Paulo), the system starts a new file.',
+    'Nguy'#234'n t'#7855'c: M'#7895'i khi d'#242'ng ch'#7913'a '#273#250'ng gi'#225' tr'#7883' v'#249'ng (v'#237' d'#7909', Sao Paulo), h'#7879
+        + ' th'#7889'ng b'#7855't '#273#7847'u m'#7897't t'#7879'p m'#7899'i.');
+  Put(True,
+    'Logic: Every time the line contains the exact value of %s, the system '
+        + 'would start a new file.',
+    'Nguy'#234'n t'#7855'c: M'#7895'i khi d'#242'ng ch'#7913'a '#273#250'ng gi'#225' tr'#7883' c'#7911'a %s, h'#7879' th'#7889'ng s'#7869' b'#7855't '#273#7847'u'
+        + ' m'#7897't t'#7879'p m'#7899'i.');
+  Put(True,
+    'Logic: Extracts the %s (start of line) and the %s (numbers that appear'
+        + ' just before another pattern).',
+    'Nguy'#234'n t'#7855'c: Tr'#237'ch xu'#7845't %s ('#273#7847'u d'#242'ng) v'#224' %s (c'#225'c s'#7889' xu'#7845't hi'#7879'n ngay tr'#432#7899
+        + 'c m'#7851'u kh'#225'c).');
+  Put(True,
+    'Logic: Filters lines where the field %s has 3 or more digits (i.e., 10'
+        + '0 to 999, 1000, etc.).',
+    'Nguy'#234'n t'#7855'c: L'#7885'c c'#225'c d'#242'ng trong '#273#243' tr'#432#7901'ng %s c'#243' 3 ch'#7919' s'#7889' tr'#7903' l'#234'n (t'#7913'c l'
+        + #224' 100 '#273#7871'n 999, 1000, v.v.).');
+  Put(True,
+    'Logic: If the line matches, output is true; otherwise false.',
+    'Nguy'#234'n t'#7855'c: N'#7871'u d'#242'ng kh'#7899'p, '#273#7847'u ra l'#224' true; ng'#432#7907'c l'#7841'i false.');
+  Put(True,
+    'Logic: It searches for what comes after %s until the next comma and re'
+        + 'places the real value.',
+    'Nguy'#234'n t'#7855'c: T'#236'm nh'#7919'ng g'#236' '#273#7913'ng sau %s '#273#7871'n d'#7845'u ph'#7849'y ti'#7871'p theo v'#224' thay th'
+        + #7871' gi'#225' tr'#7883' th'#7853't.');
+  Put(True,
+    'Logic: Only lines that match are kept in the output.',
+    'Nguy'#234'n t'#7855'c: Ch'#7881' c'#225'c d'#242'ng kh'#7899'p '#273#432#7907'c gi'#7919' trong '#273#7847'u ra.');
+  Put(True,
+    'Logic: Returns every occurrence that matches the regex in each line.',
+    'Nguy'#234'n t'#7855'c: Tr'#7843' v'#7873' m'#7885'i l'#7847'n xu'#7845't hi'#7879'n kh'#7899'p regex trong m'#7895'i d'#242'ng.');
+  Put(True,
+    'Logic: broad pattern - narrow it to a specific column if needed.',
+    'Nguy'#234'n t'#7855'c: m'#7851'u r'#7897'ng - thu h'#7865'p v'#7873' m'#7897't c'#7897't c'#7909' th'#7875' n'#7871'u c'#7847'n.');
+  Put(True,
+    'Logic: captures Dr./Dra. and replaces the following name field.',
+    'Nguy'#234'n t'#7855'c: b'#7855't Dr./Dra. v'#224' thay th'#7871' tr'#432#7901'ng t'#234'n theo sau.');
+  Put(True,
+    'Logic: combine or edit patterns as needed for your columns.',
+    'Nguy'#234'n t'#7855'c: k'#7871't h'#7907'p ho'#7863'c s'#7917'a m'#7851'u theo nhu c'#7847'u cho c'#225'c c'#7897't c'#7911'a b'#7841'n.');
+  Put(True,
+    'Logic: each line containing that token "%s" starts or continues a part'
+        + '.',
+    'Nguy'#234'n t'#7855'c: m'#7895'i d'#242'ng ch'#7913'a token "%s" '#273#243' b'#7855't '#273#7847'u ho'#7863'c ti'#7871'p t'#7909'c m'#7897't ph'#7847'n'
+        + '.');
+  Put(True,
+    'Logic: keeps rows where the %s field meets the numeric rule.',
+    'Nguy'#234'n t'#7855'c: gi'#7919' c'#225'c h'#224'ng trong '#273#243' tr'#432#7901'ng %s th'#7887'a quy t'#7855'c s'#7889'.');
+  Put(True,
+    'Logic: patterns built from column typing - edit for %s or other fields'
+        + '.',
+    'Nguy'#234'n t'#7855'c: m'#7851'u d'#7921'ng t'#7915' ki'#7875'u c'#7897't - s'#7917'a cho %s ho'#7863'c c'#225'c tr'#432#7901'ng kh'#225'c.');
+  Put(True,
+    'MRU.ClearAll',
+    'X'#243'a t'#7845't c'#7843' m'#7909'c');
+  Put(True,
+    'MRU.ClearAllConfirm',
+    'X'#243'a t'#7845't c'#7843' m'#7909'c kh'#7887'i danh s'#225'ch n'#224'y?');
+  Put(True,
+    'MRU.ClearAllHint',
+    'X'#243'a m'#7885'i m'#7909'c kh'#7887'i danh s'#225'ch g'#7847'n '#273#226'y n'#224'y');
+  Put(True,
+    'MRU.ClearFind',
+    'X'#243'a s'#7841'ch t'#236'm ki'#7871'm');
+  Put(True,
+    'MRU.FileProperties',
+    'Thu'#7897'c t'#237'nh');
+  Put(True,
+    'MRU.FilePropertiesHint',
+    'Thu'#7897'c t'#237'nh Windows c'#7911'a t'#7879'p n'#224'y (k'#237'ch th'#432#7899'c, ng'#224'y, thu'#7897'c t'#237'nh)');
+  Put(True,
+    'MRU.Find',
+    'T'#236'm...');
+  Put(True,
+    'MRU.FindHint',
+    'T'#236'm m'#7897't ph'#7847'n trong danh s'#225'ch g'#7847'n '#273#226'y n'#224'y');
+  Put(True,
+    'MRU.FindNoMatch',
+    '(kh'#244'ng c'#243' kh'#7899'p)');
+  Put(True,
+    'MRU.RemoveFromList',
+    'X'#243'a kh'#7887'i danh s'#225'ch');
+  Put(True,
+    'MRU.RemoveFromListHint',
+    'X'#243'a m'#7909'c n'#224'y kh'#7887'i t'#7879'p g'#7847'n '#273#226'y (kh'#244'ng x'#243'a t'#7879'p)');
+  Put(True,
+    'MRU.RemoveItemHint',
+    'X'#243'a m'#7909'c n'#224'y kh'#7887'i danh s'#225'ch');
+  Put(True,
+    'MRU.RemovedBecauseMissing',
+    #272#227' x'#243'a kh'#7887'i t'#7879'p g'#7847'n '#273#226'y v'#236' kh'#244'ng c'#242'n tr'#234'n '#273#297'a.');
+  Put(True,
+    'MRU.ShowFirst',
+    'Hi'#7879'n 10 '#273#7847'u ti'#234'n');
+  Put(True,
+    'MRU.ShowFirstHint',
+    'Quay l'#7841'i 10 m'#7909'c '#273#7847'u ti'#234'n');
+  Put(True,
+    'MRU.ShowMore',
+    'Hi'#7879'n th'#234'm');
+  Put(True,
+    'MRU.ShowMoreHint',
+    'Hi'#7879'n ph'#7847'n c'#242'n l'#7841'i c'#7911'a danh s'#225'ch g'#7847'n '#273#226'y n'#224'y');
+  Put(True,
+    'Macro results',
+    'K'#7871't qu'#7843' macro');
+  Put(True,
+    'Magnifier',
+    'K'#237'nh l'#250'p');
+  Put(True,
+    'Managing',
+    #272'ang qu'#7843'n l'#253);
+  Put(True,
+    'Mark legend: CR',
+    'CR (carriage return / v'#7873' '#273#7847'u d'#242'ng)');
+  Put(True,
+    'Mark legend: CR/LF at line end note',
+    'D'#7845'u CR/LF hi'#7879'n '#7903' cu'#7889'i m'#7895'i d'#242'ng (k'#253' t'#7921' k'#7871't d'#242'ng t'#7879'p).');
+  Put(True,
+    'Mark legend: LF',
+    'LF (line feed / xu'#7889'ng d'#242'ng)');
+  Put(True,
+    'Mark legend: NUL',
+    'NUL (byte 0)');
+  Put(True,
+    'Mark legend: Other controls',
+    #272'i'#7873'u khi'#7875'n kh'#225'c (ASCII 1-31, hi'#7879'n d'#7841'ng ^ch'#7919')');
+  Put(True,
+    'Mark legend: Space',
+    'Kho'#7843'ng tr'#7855'ng');
+  Put(True,
+    'Mark legend: Tab',
+    'Tab');
+  Put(True,
+    'Mask names',
+    'Che t'#234'n');
+  Put(True,
+    'Match mode emits captured text per occurrence; parentheses define what'
+        + ' is extracted.',
+    'Ch'#7871' '#273#7897' kh'#7899'p ph'#225't v'#259'n b'#7843'n '#273#227' b'#7855't theo m'#7895'i l'#7847'n xu'#7845't hi'#7879'n; ngo'#7863'c '#273#417'n x'#225'c '
+        + #273#7883'nh ph'#7847'n '#273#432#7907'c tr'#237'ch xu'#7845't.');
+  Put(True,
+    'Match only whole words.',
+    'Ch'#7881' kh'#7899'p c'#7843' t'#7915'.');
+  Put(True,
+    'Match pulls captures per line - extend pattern for %s or other columns'
+        + ' as needed.',
+    'Kh'#7899'p k'#233'o c'#225'c nh'#243'm b'#7855't theo t'#7915'ng d'#242'ng - m'#7903' r'#7897'ng m'#7851'u cho %s ho'#7863'c c'#225'c c'#7897't'
+        + ' kh'#225'c khi c'#7847'n.');
+  Put(True,
+    'Match uppercase and lowercase exactly.',
+    'Kh'#7899'p ch'#237'nh x'#225'c ch'#7919' hoa v'#224' ch'#7919' th'#432#7901'ng.');
+  Put(True,
+    'Match '#8212' numeric doctor_id at line start. Regex:',
+    'Kh'#7899'p '#8212' doctor_id s'#7889' '#7903' '#273#7847'u d'#242'ng. Regex:');
+  Put(True,
+    'Match '#8212' profile slug from URL (capture group 1). Regex:',
+    'Kh'#7899'p '#8212' slug h'#7891' s'#417' t'#7915' URL (nh'#243'm b'#7855't 1). Regex:');
+  Put(True,
+    'Matches lines whose first two characters are digits (example: record t'
+        + 'ype). Widen to ^(\d{3}) if your layout uses three type digits.',
+    'Kh'#7899'p c'#225'c d'#242'ng c'#243' hai k'#253' t'#7921' '#273#7847'u l'#224' ch'#7919' s'#7889' (v'#237' d'#7909': lo'#7841'i b'#7843'n ghi). M'#7903' r'#7897'n'
+        + 'g th'#224'nh ^(\d{3}) n'#7871'u b'#7889' c'#7909'c d'#249'ng ba ch'#7919' s'#7889' lo'#7841'i.');
+  Put(True,
+    'Matches the title at line start, followed by capitalized name words (a'
+        + 'ccents included).',
+    'Kh'#7899'p ti'#234'u '#273#7873' '#7903' '#273#7847'u d'#242'ng, theo sau l'#224' c'#225'c t'#7915' t'#234'n vi'#7871't hoa (bao g'#7891'm d'#7845'u)'
+        + '.');
+  Put(True,
+    'Max files',
+    'S'#7889' t'#7879'p t'#7889'i '#273'a');
+  Put(True,
+    'Max folder depth',
+    #272#7897' s'#226'u th'#432' m'#7909'c t'#7889'i '#273'a');
+  Put(True,
+    'Max indexed offset:',
+    'Offset '#273#227' l'#7853'p ch'#7881' m'#7909'c t'#7889'i '#273'a (byte):');
+  Put(True,
+    'Maximum: %s lines (file) / %s lines (clipboard).',
+    'T'#7889'i '#273'a: %s d'#242'ng (t'#7879'p) / %s d'#242'ng (clipboard).');
+  Put(True,
+    'Maximum: 100,000 lines (file) / 500 lines (clipboard).',
+    'T'#7889'i '#273'a: 100.000 d'#242'ng (t'#7879'p) / 500 d'#242'ng (clipboard).');
+  Put(True,
+    'Memory Airbag activated! The file has more than 2 billion lines, excee'
+        + 'ding the 32-bit Windows safe limit. Reading was automatically aborted '
+        + 'to protect the system from crashing.',
+    'T'#250'i kh'#237' b'#7897' nh'#7899' '#273#227' k'#237'ch ho'#7841't! T'#7879'p c'#243' h'#417'n 2 t'#7927' d'#242'ng, v'#432#7907't gi'#7899'i h'#7841'n an to'
+        + #224'n Windows 32-bit. Vi'#7879'c '#273#7885'c '#273#227' t'#7921' '#273#7897'ng d'#7915'ng '#273#7875' b'#7843'o v'#7879' h'#7879' th'#7889'ng kh'#7887'i s'#7921
+        + ' c'#7889'.');
+  Put(True,
+    'Menu bar: Underlined letter = Alt+letter (example: Alt+F, E, V, T, S, '
+        + 'O for File, Edit, View, Tools, Session, Options).',
+    'Thanh menu: Ch'#7919' g'#7841'ch d'#432#7899'i = Alt+ch'#7919' (v'#237' d'#7909': Alt+F, E, V, T, S, O cho F'
+        + 'ile, Edit, View, Tools, Session, Options).');
+  Put(True,
+    'Menu.Options.Performance',
+    '&Hi'#7879'u n'#259'ng (thao t'#225'c n'#7863'ng)');
+  Put(True,
+    'Menu.Session',
+    '&Phi'#234'n');
+  Put(True,
+    'Menu.Tools',
+    '&C'#244'ng c'#7909);
+  Put(True,
+    'Menu.Tools.Automation',
+    '&T'#7921' '#273#7897'ng h'#243'a');
+  Put(True,
+    'Menu.Tools.ExportClear',
+    '&Xu'#7845't v'#224' x'#243'a s'#7841'ch');
+  Put(True,
+    'Menu.Tools.FilterAnalysis',
+    '&L'#7885'c v'#224' ph'#226'n t'#237'ch');
+  Put(True,
+    'Menu.Tools.Lines',
+    'Thao t'#225'c &d'#242'ng');
+  Put(True,
+    'Menu.Tools.SplitMerge',
+    '&T'#225'ch v'#224' g'#7897'p t'#7879'p');
+  Put(True,
+    'Menu.Tools.Tail',
+    '&Tail / theo d'#245'i');
+  Put(True,
+    'Merge',
+    'G'#7897'p');
+  Put(True,
+    'Merge &files...',
+    'G'#7897'p &t'#7879'p...');
+  Put(True,
+    'Merge Delta Error: ',
+    'L'#7895'i Delta g'#7897'p: ');
+  Put(True,
+    'Merge Error: ',
+    'L'#7895'i g'#7897'p: ');
+  Put(True,
+    'Merge Files',
+    'G'#7897'p t'#7879'p');
+end;
+
+procedure AddVietnamesePart24(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Merge Lines',
+    'G'#7897'p d'#242'ng');
+  Put(True,
+    'Merge apply finished OK.',
+    #193'p d'#7909'ng g'#7897'p ho'#224'n t'#7845't OK.');
+  Put(True,
+    'Merge completed in: %s millisecs.',
+    'G'#7897'p ho'#224'n t'#7845't trong: %s mili gi'#226'y.');
+  Put(True,
+    'Merge files',
+    'G'#7897'p t'#7879'p');
+  Put(True,
+    'Merge files'#13#10'Ctrl+Shift+J',
+    'G'#7897'p t'#7879'p'#13#10'Ctrl+Shift+J');
+  Put(True,
+    'Merge files completed in: %s millisecs.',
+    'G'#7897'p t'#7879'p ho'#224'n t'#7845't trong: %s.');
+  Put(True,
+    'Merge files error: ',
+    'L'#7895'i g'#7897'p t'#7879'p: ');
+  Put(True,
+    'Merge files: %s '#8212' %s',
+    'G'#7897'p t'#7879'p: %s '#8212' %s');
+  Put(True,
+    'Merge finished with %d error(s).',
+    'G'#7897'p xong v'#7899'i %d l'#7895'i.');
+  Put(True,
+    'Merge lines',
+    'G'#7897'p d'#242'ng');
+  Put(True,
+    'Merge lines'#13#10'Ctrl+Shift+M',
+    'G'#7897'p d'#242'ng'#13#10'Ctrl+Shift+M');
+  Put(True,
+    'Merge lines (delta)',
+    'G'#7897'p d'#242'ng (delta)');
+  Put(True,
+    'Merge lines (delta): %d line(s) from line %d',
+    'G'#7897'p d'#242'ng (delta): %d d'#242'ng t'#7915' d'#242'ng %d');
+  Put(True,
+    'Merge mode',
+    'Ch'#7871' '#273#7897' g'#7897'p');
+  Put(True,
+    'Merge multiple edited lines into the source file.',
+    'G'#7897'p nhi'#7873'u d'#242'ng '#273#227' s'#7917'a v'#224'o t'#7879'p ngu'#7891'n.');
+  Put(True,
+    'Merge the file into itself',
+    'G'#7897'p t'#7879'p v'#224'o ch'#237'nh n'#243);
+  Put(True,
+    'Merge.Cancelled',
+    #272#227' h'#7911'y g'#7897'p. T'#7879'p kh'#244'ng b'#7883' thay '#273#7893'i.');
+  Put(True,
+    'Merge.FileChanged',
+    'T'#7879'p '#273#227' b'#7883' ch'#432#417'ng tr'#236'nh kh'#225'c thay '#273#7893'i trong l'#250'c g'#7897'p. Kh'#244'ng ghi g'#236'; ch'#7841'y'
+        + ' l'#7841'i diff.');
+  Put(True,
+    'Merge.LinesMissing: %d',
+    '%d thay '#273#7893'i tr'#7887' t'#7899'i c'#225'c d'#242'ng kh'#244'ng c'#242'n t'#7891'n t'#7841'i trong t'#7879'p '#273#237'ch (n'#243' '#273#227' '#273
+        + #7893'i sau diff). Ch'#7841'y l'#7841'i diff.');
+  Put(True,
+    'Merge.NoDiskSpace: %s %s',
+    'Kh'#244'ng '#273#7911' dung l'#432#7907'ng '#273#297'a tr'#7889'ng trong th'#432' m'#7909'c c'#7911'a t'#7879'p '#273#7875' l'#432'u k'#7871't qu'#7843'. C'#7847
+        + 'n: %s; tr'#7889'ng: %s.');
+  Put(True,
+    'Merge.WriteFailed: %s',
+    'Kh'#244'ng th'#7875' ghi t'#7879'p: %s');
+  Put(True,
+    'MergeFiles.Hint.JoinParts',
+    #272#7875' gh'#233'p l'#7841'i c'#225'c t'#7879'p t'#225'ch '#273#7873'u, ch'#7885'n b'#7845't k'#7923' t'#7879'p .part001 / .part002 l'#224'm '
+        + 'Ngu'#7891'n v'#224' '#273#7863't '#272#237'ch. X'#225'c nh'#7853'n s'#7869' n'#7889'i t'#7845't c'#7843' c'#225'c ph'#7847'n '#273#225'nh s'#7889' theo th'#7913' t'#7921
+        + '.');
+  Put(True,
+    'MergeFiles.Join.Cancelled',
+    #272#227' h'#7911'y n'#7889'i c'#225'c t'#7879'p ph'#7847'n.');
+  Put(True,
+    'MergeFiles.Join.Confirm',
+    'N'#7889'i %d t'#7879'p ph'#7847'n th'#224'nh:'#13#10'%s'#13#10#13#10'Ti'#7871'p t'#7909'c?');
+  Put(True,
+    'MergeFiles.Join.NoPartsFound',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p .partNNN n'#224'o cho t'#234'n n'#224'y.');
+  Put(True,
+    'MergeFiles.Join.OnlyOnePart',
+    'Ch'#7881' t'#236'm th'#7845'y m'#7897't t'#7879'p ph'#7847'n (%s). C'#7847'n '#237't nh'#7845't hai ph'#7847'n '#273#7875' n'#7889'i.');
+  Put(True,
+    'MergeFiles.Join.OverwriteConfirm',
+    #272#237'ch '#273#227' t'#7891'n t'#7841'i:'#13#10'%s'#13#10#13#10'Ghi '#273#232'?');
+  Put(True,
+    'MergeFiles.Join.Progress',
+    #272'ang n'#7889'i c'#225'c t'#7879'p ph'#7847'n...');
+  Put(True,
+    'MergeFiles.Join.ProgressDetail',
+    'Ph'#7847'n %d / %d');
+  Put(True,
+    'MergeFiles.Join.Success',
+    #272#227' n'#7889'i %d t'#7879'p ph'#7847'n th'#224'nh:'#13#10'%s');
+  Put(True,
+    'MergeFiles.Progress.Appending',
+    #272'ang n'#7889'i ngu'#7891'n v'#224'o cu'#7889'i '#273#237'ch...');
+  Put(True,
+    'MergeFiles.Progress.Backup',
+    #272'ang t'#7841'o b'#7843'n sao an to'#224'n...');
+  Put(True,
+    'MergeFiles.Progress.Finalizing',
+    #272'ang ho'#224'n t'#7845't...');
+  Put(True,
+    'MergeFiles.Progress.Merging',
+    #272'ang g'#7897'p d'#7919' li'#7879'u t'#7879'p...');
+  Put(True,
+    'MergeFiles.Progress.ScanningLines',
+    #272'ang '#273#7883'nh v'#7883' ranh gi'#7899'i d'#242'ng trong t'#7879'p ngu'#7891'n...');
+  Put(True,
+    'Merging ...',
+    #272'ang g'#7897'p ...');
+  Put(True,
+    'Merging files...',
+    #272'ang g'#7897'p t'#7879'p...');
+  Put(True,
+    'Missing closing "/" delimiter.',
+    'Thi'#7871'u d'#7845'u ph'#226'n c'#225'ch '#273#243'ng "/".');
+  Put(True,
+    'Mode',
+    'Ch'#7871' '#273#7897);
+  Put(True,
+    'Mode-specific examples (auto-detected from file):',
+    'V'#237' d'#7909' theo ch'#7871' '#273#7897' (t'#7921' ph'#225't hi'#7879'n t'#7915' t'#7879'p):');
+  Put(True,
+    'Mode:%s  Wrap:%s  Tail:%s  Filter:%s  Marks:%s  Reading:%s',
+    'Ch'#7871' '#273#7897':%s  Xu'#7889'ng d'#242'ng:%s  Tail:%s  L'#7885'c:%s  D'#7845'u:%s  '#272#7885'c:%s');
+  Put(True,
+    'Modified',
+    #272#227' s'#7917'a '#273#7893'i');
+  Put(True,
+    'Modified:',
+    #272#227' s'#7917'a '#273#7893'i:');
+  Put(True,
+    'More',
+    'Th'#234'm');
+  Put(True,
+    'More tools',
+    'Th'#234'm c'#244'ng c'#7909);
+  Put(True,
+    'MsgDlg.Abort',
+    'H'#7911'y b'#7887);
+  Put(True,
+    'MsgDlg.All',
+    'T'#7845't c'#7843);
+  Put(True,
+    'MsgDlg.Ignore',
+    'B'#7887' qua');
+  Put(True,
+    'MsgDlg.NoToAll',
+    'Kh'#244'ng cho t'#7845't c'#7843);
+  Put(True,
+    'MsgDlg.Retry',
+    'Th'#7917' l'#7841'i');
+  Put(True,
+    'MsgDlg.YesToAll',
+    'C'#243' cho t'#7845't c'#7843);
+  Put(True,
+    'NO = edit using physical line count from file start (slow on huge file'
+        + 's).',
+    'KH'#212'NG = s'#7917'a d'#249'ng s'#7889' d'#242'ng v'#7853't l'#253' t'#7915' '#273#7847'u t'#7879'p (ch'#7853'm tr'#234'n t'#7879'p kh'#7893'ng l'#7891').');
+  Put(True,
+    'NO = search by bytes now (estimated line in status bar).',
+    'KH'#212'NG = t'#236'm theo byte ngay (d'#242'ng '#432#7899'c t'#237'nh tr'#234'n thanh tr'#7841'ng th'#225'i).');
+  Put(True,
+    'Name',
+    'T'#234'n');
+  Put(True,
+    'Name && Location',
+    'T'#234'n && V'#7883' tr'#237);
+  Put(True,
+    'Narrow the surrounding context once you identify which column must exc'
+        + 'eed a threshold.',
+    'Thu h'#7865'p ng'#7919' c'#7843'nh xung quanh sau khi x'#225'c '#273#7883'nh c'#7897't n'#224'o ph'#7843'i v'#432#7907't ng'#432#7905'ng.');
+  Put(True,
+    'Navigate quickly through loaded lines.',
+    #272'i'#7873'u h'#432#7899'ng nhanh qua c'#225'c d'#242'ng '#273#227' t'#7843'i.');
+  Put(True,
+    'No',
+    'Kh'#244'ng');
+  Put(True,
+    'No active filter. Press Ctrl+L first.',
+    'Kh'#244'ng c'#243' b'#7897' l'#7885'c '#273'ang ho'#7841't '#273#7897'ng. Nh'#7845'n Ctrl+L tr'#432#7899'c.');
+  Put(True,
+    'No bookmarks found in current filter results.',
+    'Kh'#244'ng t'#236'm th'#7845'y d'#7845'u trang trong k'#7871't qu'#7843' l'#7885'c hi'#7879'n t'#7841'i.');
+  Put(True,
+    'No bookmarks set.',
+    'Ch'#432'a '#273#7863't d'#7845'u trang.');
+  Put(True,
+    'No data could be read from the first lines of this file for the AI req'
+        + 'uest.',
+    'Kh'#244'ng '#273#7885'c '#273#432#7907'c d'#7919' li'#7879'u t'#7915' c'#225'c d'#242'ng '#273#7847'u c'#7911'a t'#7879'p n'#224'y cho y'#234'u c'#7847'u AI.');
+  Put(True,
+    'No dynamic category examples detected in sampled lines.',
+    'Kh'#244'ng ph'#225't hi'#7879'n v'#237' d'#7909' danh m'#7909'c '#273#7897'ng trong c'#225'c d'#242'ng m'#7851'u.');
+  Put(True,
+    'No dynamic examples detected for this mode in sampled lines.',
+    'Kh'#244'ng ph'#225't hi'#7879'n v'#237' d'#7909' '#273#7897'ng cho ch'#7871' '#273#7897' n'#224'y trong c'#225'c d'#242'ng m'#7851'u.');
+  Put(True,
+    'No file selected.',
+    'Ch'#432'a ch'#7885'n t'#7879'p.');
+  Put(True,
+    'No files in the selection.',
+    'Kh'#244'ng c'#243' t'#7879'p trong v'#249'ng ch'#7885'n.');
+  Put(True,
+    'No line index is available for search (dense index and checkpoint file'
+        + ' are missing). Please read the file again.',
+    'Kh'#244'ng c'#243' ch'#7881' m'#7909'c d'#242'ng cho t'#236'm ki'#7871'm (thi'#7871'u ch'#7881' m'#7909'c d'#224'y v'#224' t'#7879'p checkpoin'
+        + 't). Vui l'#242'ng '#273#7885'c l'#7841'i t'#7879'p.');
+  Put(True,
+    'No lines entered. Operation cancelled.',
+    'Ch'#432'a nh'#7853'p d'#242'ng. Thao t'#225'c '#273#227' h'#7911'y.');
+  Put(True,
+    'No lines matched this pattern/regex in the selected file, so only 1 ou'
+        + 'tput file would be generated.',
+    'Kh'#244'ng c'#243' d'#242'ng n'#224'o kh'#7899'p m'#7851'u/regex trong t'#7879'p '#273#227' ch'#7885'n, n'#234'n ch'#7881' 1 t'#7879'p '#273#7847'u '
+        + 'ra s'#7869' '#273#432#7907'c t'#7841'o.');
+  Put(True,
+    'No match found among the current filter lines.',
+    'Kh'#244'ng t'#236'm th'#7845'y kh'#7899'p trong c'#225'c d'#242'ng l'#7885'c hi'#7879'n t'#7841'i.');
+  Put(True,
+    'No match on current line.',
+    'Kh'#244'ng c'#243' kh'#7899'p tr'#234'n d'#242'ng hi'#7879'n t'#7841'i.');
+  Put(True,
+    'No match selected. Use Find Next first.',
+    'Ch'#432'a ch'#7885'n kh'#7899'p. D'#249'ng T'#236'm ti'#7871'p tr'#432#7899'c.');
+  Put(True,
+    'No matching line found in preview.',
+    'Kh'#244'ng t'#236'm th'#7845'y d'#242'ng kh'#7899'p trong xem tr'#432#7899'c.');
+  Put(True,
+    'No mergeable diff rows selected.',
+    'Kh'#244'ng c'#243' h'#224'ng diff c'#243' th'#7875' g'#7897'p n'#224'o '#273#432#7907'c ch'#7885'n.');
+  Put(True,
+    'No new lines in this Tail session yet. Enable Tail (Ctrl+T) and append'
+        + ' lines to the file.',
+    'Ch'#432'a c'#243' d'#242'ng '#273'u'#244'i m'#7899'i trong phi'#234'n Tail n'#224'y. B'#7853't Tail (Ctrl+T) v'#224' th'#234'm '
+        + 'd'#242'ng v'#224'o t'#7879'p.');
+  Put(True,
+    'No recent files.',
+    'Kh'#244'ng c'#243' t'#7879'p g'#7847'n '#273#226'y.');
+  Put(True,
+    'No recent tabs',
+    'Kh'#244'ng c'#243' tab g'#7847'n '#273#226'y');
+  Put(True,
+    'No regex examples for equal-parts mode.',
+    'Kh'#244'ng c'#243' v'#237' d'#7909' regex cho ch'#7871' '#273#7897' c'#225'c ph'#7847'n b'#7857'ng nhau.');
+  Put(True,
+    'No selected line detected. Please enter the start line.',
+    'Kh'#244'ng ph'#225't hi'#7879'n d'#242'ng '#273#227' ch'#7885'n. Vui l'#242'ng nh'#7853'p d'#242'ng b'#7855't '#273#7847'u.');
+  Put(True,
+    'No session history file yet. Edits will append here.',
+    'Ch'#432'a c'#243' t'#7879'p l'#7883'ch s'#7917' phi'#234'n. C'#225'c ch'#7881'nh s'#7917'a s'#7869' '#273#432#7907'c th'#234'm v'#224'o '#273#226'y.');
+  Put(True,
+    'No stable 8-digit trailer was inferred - generic pattern.',
+    'Kh'#244'ng suy ra '#273#432#7907'c '#273'u'#244'i 8 ch'#7919' s'#7889' '#7893'n '#273#7883'nh - m'#7851'u chung.');
+  Put(True,
+    'No tail lines to export in this session.',
+    'Kh'#244'ng c'#243' d'#242'ng '#273'u'#244'i '#273#7875' xu'#7845't trong phi'#234'n n'#224'y.');
+  Put(True,
+    'No valid source file',
+    'Kh'#244'ng c'#243' t'#7879'p ngu'#7891'n h'#7907'p l'#7879);
+  Put(True,
+    'Normal',
+    'B'#236'nh th'#432#7901'ng');
+  Put(True,
+    'Not Content Indexed',
+    'Ch'#432'a l'#7853'p ch'#7881' m'#7909'c n'#7897'i dung');
+  Put(True,
+    'Not connected',
+    'Ch'#432'a k'#7871't n'#7889'i');
+  Put(True,
+    'Not enough disk space: need %s, free %s.',
+    'Kh'#244'ng '#273#7911' dung l'#432#7907'ng '#273#297'a: c'#7847'n %s, tr'#7889'ng %s.');
+  Put(True,
+    'Not enough free disk space to complete this operation safely.',
+    'Kh'#244'ng '#273#7911' dung l'#432#7907'ng '#273#297'a tr'#7889'ng '#273#7875' ho'#224'n t'#7845't thao t'#225'c n'#224'y m'#7897't c'#225'ch an to'#224
+        + 'n.');
+  Put(True,
+    'Not enough lines in the file for this many parts (lines: %d, parts: %d'
+        + ').',
+    'Kh'#244'ng '#273#7911' d'#242'ng trong t'#7879'p cho nhi'#7873'u ph'#7847'n nh'#432' v'#7853'y (d'#242'ng: %d, ph'#7847'n: %d).');
+  Put(True,
+    'Not enough stable variation was detected between lines - try counting '
+        + 'fixed positions manually, then refine this pattern.',
+    'Kh'#244'ng ph'#225't hi'#7879'n '#273#7911' bi'#7871'n thi'#234'n '#7893'n '#273#7883'nh gi'#7919'a c'#225'c d'#242'ng - h'#227'y th'#7917' '#273#7871'm v'#7883' t'
+        + 'r'#237' c'#7889' '#273#7883'nh th'#7911' c'#244'ng, r'#7891'i tinh ch'#7881'nh m'#7851'u n'#224'y.');
+  Put(True,
+    'Not found',
+    'Kh'#244'ng t'#236'm th'#7845'y');
+  Put(True,
+    'Not found in filter',
+    'Kh'#244'ng t'#236'm th'#7845'y trong b'#7897' l'#7885'c');
+  Put(True,
+    'Note about the disclaimer: I do not accept any responsibility about th'
+        + 'e usability or in case of any damage caused by the use of my programs '
+        + 'or files. Use them at your own risk. If they don'#8217't work properly, you '
+        + 'have the sources.',
+    'L'#432'u '#253' v'#7873' tuy'#234'n b'#7889' mi'#7877'n tr'#7915': T'#244'i kh'#244'ng ch'#7883'u b'#7845't k'#7923' tr'#225'ch nhi'#7879'm n'#224'o v'#7873' k'
+        + 'h'#7843' n'#259'ng s'#7917' d'#7909'ng ho'#7863'c trong tr'#432#7901'ng h'#7907'p thi'#7879't h'#7841'i do s'#7917' d'#7909'ng ch'#432#417'ng tr'#236'n'
+        + 'h ho'#7863'c t'#7879'p c'#7911'a t'#244'i. H'#227'y d'#249'ng ch'#250'ng v'#7899'i r'#7911'i ro c'#7911'a b'#7841'n. N'#7871'u ch'#250'ng kh'#244'ng'
+        + ' ho'#7841't '#273#7897'ng '#273#250'ng, b'#7841'n c'#243' m'#227' ngu'#7891'n.');
+  Put(True,
+    'Note: file is very large, preview was truncated for responsiveness.',
+    'L'#432'u '#253': t'#7879'p r'#7845't l'#7899'n, xem tr'#432#7899'c '#273#227' b'#7883' c'#7855't '#273#7875' '#273#7843'm b'#7843'o ph'#7843'n h'#7891'i.');
+  Put(True,
+    'Note: the last 8 digits of the trailing numeric island (%s) are the sa'
+        + 'me on every scanned line - do not rely on ''split when the trailer chan'
+        + 'ges'' until trailers differ; prefer this varying-column pattern.',
+    'L'#432'u '#253': 8 ch'#7919' s'#7889' cu'#7889'i c'#7911'a c'#7909'm s'#7889' '#273'u'#244'i (%s) gi'#7889'ng nhau tr'#234'n m'#7885'i d'#242'ng '#273#227' '
+        + 'qu'#233't - '#273#7915'ng d'#7921'a v'#224'o ''t'#225'ch khi '#273'u'#244'i thay '#273#7893'i'' cho '#273#7871'n khi c'#225'c '#273'u'#244'i kh'#225'c'
+        + ' nhau; '#432'u ti'#234'n m'#7851'u c'#7897't bi'#7871'n thi'#234'n n'#224'y.');
+  Put(True,
+    'Nothing selected.',
+    'Kh'#244'ng c'#243' g'#236' '#273#432#7907'c ch'#7885'n.');
+  Put(True,
+    'Nothing to export',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' xu'#7845't');
+  Put(True,
+    'Nothing to redo',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' l'#224'm l'#7841'i');
+  Put(True,
+    'Nothing to undo',
+    'Kh'#244'ng c'#243' g'#236' '#273#7875' ho'#224'n t'#225'c');
+  Put(True,
+    'Nothing was changed or proposed: the model did not send a valid comman'
+        + 'd. Rephrase the request and try again.',
+    'Kh'#244'ng c'#243' g'#236' b'#7883' thay '#273#7893'i ho'#7863'c '#273#7873' xu'#7845't: m'#244' h'#236'nh kh'#244'ng g'#7917'i l'#7879'nh h'#7907'p l'#7879'. D'
+        + 'i'#7877'n '#273#7841't l'#7841'i y'#234'u c'#7847'u v'#224' th'#7917' l'#7841'i.');
+end;
+
+procedure AddVietnamesePart25(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Notice.ClosesIn',
+    #272#243'ng sau %d gi'#226'y');
+  Put(True,
+    'Number of lines must be a valid integer.',
+    'S'#7889' d'#242'ng ph'#7843'i l'#224' s'#7889' nguy'#234'n h'#7907'p l'#7879'.');
+  Put(True,
+    'Number of lines must be between %d and %d.',
+    'S'#7889' d'#242'ng ph'#7843'i n'#7857'm trong kho'#7843'ng %d '#273#7871'n %d.');
+  Put(True,
+    'Number of new lines:',
+    'S'#7889' d'#242'ng m'#7899'i:');
+  Put(True,
+    'Number of parts (2..1000):',
+    'S'#7889' ph'#7847'n (2..1000):');
+  Put(True,
+    'Number of parts must be between %d and %d.',
+    'S'#7889' ph'#7847'n ph'#7843'i n'#7857'm trong kho'#7843'ng %d '#273#7871'n %d.');
+  Put(True,
+    'Number of parts must be between 2 and 1000.',
+    'S'#7889' ph'#7847'n ph'#7843'i n'#7857'm trong kho'#7843'ng 2 '#273#7871'n 1000.');
+  Put(True,
+    'Number of parts:',
+    'S'#7889' ph'#7847'n:');
+  Put(True,
+    'Numero da linha (1..',
+    'S'#7889' d'#242'ng (t'#7915' 1 '#273#7871'n ');
+  Put(True,
+    'N'#250'mero da linha (1..',
+    'S'#7889' d'#242'ng (1..');
+  Put(True,
+    'OFF',
+    'T'#7854'T');
+  Put(True,
+    'OK',
+    'OK');
+  Put(True,
+    'ON',
+    'B'#7852'T');
+  Put(True,
+    'Offline',
+    'Ngo'#7841'i tuy'#7871'n');
+  Put(True,
+    'Ok',
+    'OK');
+  Put(True,
+    'Ok, I will not show it again.',
+    'Ok, t'#244'i s'#7869' kh'#244'ng hi'#7879'n l'#7841'i n'#7919'a.');
+  Put(True,
+    'Only the first %s lines can be shown in the grid.',
+    'Ch'#7881' %s d'#242'ng '#273#7847'u c'#243' th'#7875' hi'#7879'n trong l'#432#7899'i.');
+  Put(True,
+    'Open',
+    'M'#7903);
+  Put(True,
+    'Open File Location',
+    'M'#7903' v'#7883' tr'#237' t'#7879'p');
+  Put(True,
+    'Open File...',
+    'M'#7903' t'#7879'p...');
+  Put(True,
+    'Open Selected',
+    'M'#7903' '#273#227' ch'#7885'n');
+  Put(True,
+    'Open and edit multi-gigabyte text files instantly - where other editor'
+        + 's can''t keep up. Exclusive features like Python macros, AI to extract/'
+        + 'analyze files, and much more.',
+    'M'#7903' v'#224' s'#7917'a t'#7879'p v'#259'n b'#7843'n nhi'#7873'u gigabyte ngay l'#7853'p t'#7913'c '#8212' n'#417'i c'#225'c tr'#236'nh so'#7841'n'
+        + ' th'#7843'o kh'#225'c kh'#244'ng theo k'#7883'p. T'#237'nh n'#259'ng '#273#7897'c quy'#7873'n nh'#432' macro Python, AI '#273#7875
+        + ' tr'#237'ch xu'#7845't/ph'#226'n t'#237'ch t'#7879'p, v'#224' nhi'#7873'u h'#417'n n'#7919'a.');
+  Put(True,
+    'Open file',
+    'M'#7903' t'#7879'p');
+  Put(True,
+    'Open file from parts ?',
+    'M'#7903' t'#7879'p t'#7915' c'#225'c ph'#7847'n?');
+  Put(True,
+    'Open split file tools.',
+    'M'#7903' c'#244'ng c'#7909' t'#225'ch t'#7879'p.');
+  Put(True,
+    'Open the Find Files tab.',
+    'M'#7903' th'#7867' T'#236'm t'#7879'p.');
+  Put(True,
+    'Open the Read File tab.',
+    'M'#7903' th'#7867' '#272#7885'c t'#7879'p.');
+  Put(True,
+    'Open this file?',
+    'M'#7903' t'#7879'p n'#224'y?');
+  Put(True,
+    'Open.AskReadAfterBrowse',
+    'T'#7879'p '#273#227' ch'#7885'n: %s'#13#10#13#10'B'#7841'n c'#243' mu'#7889'n '#273#7885'c ngay kh'#244'ng?');
+  Put(True,
+    'Open.ForceIndexThisFile.NoFile',
+    'H'#227'y m'#7903' m'#7897't t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'Open.IndexFailed.Body',
+    'Khi '#273'ang '#273#7885'c "%s", '#273#227' x'#7843'y ra s'#7921' c'#7889':'#13#10'%s');
+  Put(True,
+    'Open.IndexFailed.Cancelled',
+    #272#227' h'#7911'y m'#7903'.');
+  Put(True,
+    'Open.IndexFailed.RetryHint',
+    'B'#7841'n c'#243' th'#7875' m'#7903' t'#7879'p '#7903' ch'#7871' '#273#7897' xem nhanh h'#417'n (kh'#244'ng d'#7921'ng ch'#7881' m'#7909'c d'#242'ng '#273#7847'y '
+        + #273#7911'). Ti'#7871'p t'#7909'c?');
+  Put(True,
+    'Open.IndexFailed.Title',
+    'Kh'#244'ng th'#7875' chu'#7849'n b'#7883' t'#7879'p');
+  Put(True,
+    'Open.IndexFailed.TooManyLines',
+    'T'#7879'p c'#243' h'#417'n 2 t'#7927' d'#242'ng (gi'#7899'i h'#7841'n h'#7879' th'#7889'ng).');
+  Put(True,
+    'Open.InstantRetry.Status',
+    'M'#7903' nhanh (b'#7843'n '#273#7891' d'#242'ng g'#7847'n '#273#250'ng)');
+  Put(True,
+    'Open.MaxGbLimit.Confirm',
+    'L'#432'u gi'#7899'i h'#7841'n l'#224' %d GB cho c'#225'c l'#7847'n m'#7903' sau?');
+  Put(True,
+    'Open.MaxGbLimit.Empty',
+    'Nh'#7853'p m'#7897't s'#7889' (GB).');
+  Put(True,
+    'Open.MaxGbLimit.Prompt',
+    'C'#225'c t'#7879'p '#273#7871'n k'#237'ch th'#432#7899'c n'#224'y (GB) '#273#432#7907'c m'#7903' v'#7899'i ch'#7881' m'#7909'c d'#242'ng '#273#7847'y '#273#7911'. T'#7879'p l'
+        + #7899'n h'#417'n d'#249'ng m'#7903' nhanh.');
+  Put(True,
+    'Open.MaxGbLimit.RangeHint',
+    'Kho'#7843'ng h'#7907'p l'#7879': %d '#273#7871'n %d GB. M'#7863'c '#273#7883'nh n'#7871'u kh'#244'ng h'#7907'p l'#7879': %d GB.');
+  Put(True,
+    'Open.MaxGbLimit.Saved',
+    #272#227' l'#432'u gi'#7899'i h'#7841'n: %d GB.');
+  Put(True,
+    'Open.MaxGbLimit.Title',
+    'Gi'#7899'i h'#7841'n k'#237'ch th'#432#7899'c t'#7879'p c'#243' ch'#7881' m'#7909'c');
+  Put(True,
+    'Open.MaxGbLimit.TooLarge',
+    'Gi'#225' tr'#7883' qu'#225' l'#7899'n.');
+  Put(True,
+    'Open.MaxGbLimit.TooSmall',
+    'Gi'#225' tr'#7883' qu'#225' nh'#7887'.');
+  Put(True,
+    'Open: always build line index',
+    'M'#7903': lu'#244'n d'#7921'ng ch'#7881' m'#7909'c d'#242'ng');
+  Put(True,
+    'Open: always instant (Zero Scan)',
+    'M'#7903': lu'#244'n t'#7913'c th'#236' (Zero Scan)');
+  Put(True,
+    'Open: automatic (recommended)',
+    'M'#7903': t'#7921' '#273#7897'ng (khuy'#7871'n ngh'#7883')');
+  Put(True,
+    'Open: build line index for this file',
+    'M'#7903': d'#7921'ng ch'#7881' m'#7909'c d'#242'ng cho t'#7879'p n'#224'y');
+  Put(True,
+    'Open: indexed file size limit (GB)...',
+    'M'#7903': gi'#7899'i h'#7841'n k'#237'ch th'#432#7899'c t'#7879'p c'#243' ch'#7881' m'#7909'c (GB)...');
+  Put(True,
+    'Operation',
+    'Thao t'#225'c');
+  Put(True,
+    'Operation cancelled.',
+    #272#227' h'#7911'y thao t'#225'c.');
+  Put(True,
+    'Operation failed or cancelled.',
+    'Thao t'#225'c th'#7845't b'#7841'i ho'#7863'c '#273#227' h'#7911'y.');
+  Put(True,
+    'Operation:',
+    'Thao t'#225'c:');
+  Put(True,
+    'Options',
+    'T'#249'y ch'#7885'n');
+  Put(True,
+    'Options: %s',
+    'T'#249'y ch'#7885'n: %s');
+  Put(True,
+    'Output',
+    #272#7847'u ra');
+  Put(True,
+    'Output FileName:',
+    'T'#234'n t'#7879'p '#273#7847'u ra:');
+  Put(True,
+    'Output file: %s',
+    'T'#7879'p '#273#7847'u ra: %s');
+  Put(True,
+    'Output:',
+    #272#7847'u ra:');
+  Put(True,
+    'Output: %s',
+    #272#7847'u ra: %s');
+  Put(True,
+    'Outputs true/false per line - ideal after CSV imports or conversions.',
+    'Xu'#7845't true/false theo t'#7915'ng d'#242'ng '#8212' l'#253' t'#432#7903'ng sau khi nh'#7853'p ho'#7863'c chuy'#7875'n '#273#7893'i'
+        + ' CSV.');
+  Put(True,
+    'PAUSED',
+    'T'#7840'M D'#7914'NG');
+  Put(True,
+    'PY_MACRO_EX_01',
+    '# 1 - Chuy'#7875'n sang ch'#7919' hoa');
+  Put(True,
+    'PY_MACRO_EX_02',
+    '# 2 - Th'#234'm ti'#7873'n t'#7889' s'#7889' d'#242'ng');
+  Put(True,
+    'PY_MACRO_EX_03',
+    '# 3 - B'#7887' qua d'#242'ng tr'#7889'ng');
+  Put(True,
+    'PY_MACRO_EX_04',
+    '# 4 - L'#7885'c: ch'#7881' gi'#7919' d'#242'ng ch'#7913'a t'#7915' kh'#243'a');
+  Put(True,
+    'PY_MACRO_EX_05',
+    '# 5 - X'#243'a kho'#7843'ng tr'#7855'ng th'#7915'a (chu'#7849'n h'#243'a whitespace)');
+  Put(True,
+    'PY_MACRO_EX_06',
+    '# 6 - '#272#7883'nh d'#7841'ng l'#7841'i tr'#432#7901'ng CSV (d'#7845'u ph'#226'n c'#225'ch = ch'#7845'm ph'#7849'y)');
+  Put(True,
+    'PY_MACRO_EX_07',
+    '# 7 - '#272#7871'm t'#7915' tr'#234'n m'#7895'i d'#242'ng');
+  Put(True,
+    'PY_MACRO_EX_08',
+    '# 8 - Thay th'#7871' nhi'#7873'u t'#7915' qua dict');
+  Put(True,
+    'PY_MACRO_EX_09',
+    '# 9 - B'#7897' '#273#7871'm b'#7873'n qua ctx');
+  Put(True,
+    'PY_MACRO_EX_10_SCRIPT',
+    '# 10 - G'#226'y l'#7895'i c'#7889' '#253' (ki'#7875'm tra b'#7897' '#273#7871'm LINE_ERROR)');
+  Put(True,
+    'PY_MACRO_EX_10_TAIL',
+    '# 10 - Ch'#7881' ghi nh'#7853't k'#253' d'#242'ng ch'#7913'a ERROR (theo d'#245'i '#273'u'#244'i / nh'#7853't k'#253' '#273'i'#7875'n h'
+        + #236'nh)');
+  Put(True,
+    'Panel.Dock',
+    'G'#7855'n v'#224'o c'#7917'a s'#7893);
+  Put(True,
+    'Panel.DockHint',
+    'G'#7855'n l'#7841'i b'#7843'ng n'#224'y v'#224'o c'#7917'a s'#7893' ch'#237'nh');
+  Put(True,
+    'Panel.DragDockHint',
+    'Th'#7843' v'#224'o c'#7841'nh g'#7889'c ho'#7863'c nh'#7845'p '#273#250'p ti'#234'u '#273#7873' '#273#7875' g'#7855'n');
+  Put(True,
+    'Panel.DragUndockHint',
+    'K'#233'o ti'#234'u '#273#7873' n'#224'y '#273#7875' t'#225'ch b'#7843'ng');
+  Put(True,
+    'Panel.RestoreFloat',
+    'Kh'#244'i ph'#7909'c khung nh'#236'n g'#7889'c');
+  Put(True,
+    'Panel.RestoreFloatHint',
+    'Kh'#244'i ph'#7909'c b'#7843'ng n'#224'y v'#7873' khung n'#7893'i g'#7889'c '#7903' v'#7883' tr'#237' cu'#7889'i');
+  Put(True,
+    'Panel.Undock',
+    'T'#225'ch b'#7843'ng');
+  Put(True,
+    'Panel.UndockHint',
+    'T'#225'ch b'#7843'ng n'#224'y th'#224'nh c'#7917'a s'#7893' n'#7893'i');
+  Put(True,
+    'Parts are sized evenly by bytes; each part ends only after a complete '
+        + 'line (LF). Part sizes may differ slightly.',
+    'C'#225'c ph'#7847'n c'#243' k'#237'ch th'#432#7899'c '#273#7873'u theo byte; m'#7895'i ph'#7847'n ch'#7881' k'#7871't th'#250'c sau m'#7897't d'#242
+        + 'ng ho'#224'n ch'#7881'nh (LF). K'#237'ch th'#432#7899'c ph'#7847'n c'#243' th'#7875' h'#417'i kh'#225'c nhau.');
+  Put(True,
+    'Paste',
+    'D'#225'n');
+  Put(True,
+    'Paste clipboard lines into file at selected line',
+    'D'#225'n c'#225'c d'#242'ng clipboard v'#224'o t'#7879'p t'#7841'i d'#242'ng '#273#227' ch'#7885'n');
+  Put(True,
+    'Pattern',
+    'M'#7851'u');
+  Put(True,
+    'Pattern cannot be empty.',
+    'M'#7851'u kh'#244'ng '#273#432#7907'c '#273#7875' tr'#7889'ng.');
+  Put(True,
+    'Pattern mode: a new part starts when a line matches. Equal-parts mode:'
+        + ' file is split by size, but every part ends only after a complete line'
+        + '.',
+    'Ch'#7871' '#273#7897' m'#7851'u: ph'#7847'n m'#7899'i b'#7855't '#273#7847'u khi m'#7897't d'#242'ng kh'#7899'p. Ch'#7871' '#273#7897' ph'#7847'n b'#7857'ng nhau:'
+        + ' t'#7879'p '#273#432#7907'c t'#225'ch theo k'#237'ch th'#432#7899'c, nh'#432'ng m'#7895'i ph'#7847'n ch'#7881' k'#7871't th'#250'c sau m'#7897't d'#242
+        + 'ng ho'#224'n ch'#7881'nh.');
+  Put(True,
+    'Pattern to trigger split (new file created when match found):',
+    'M'#7851'u k'#237'ch ho'#7841't t'#225'ch (t'#7879'p m'#7899'i '#273#432#7907'c t'#7841'o khi t'#236'm th'#7845'y kh'#7899'p):');
+  Put(True,
+    'Pattern/Regex',
+    'M'#7851'u/Regex');
+  Put(True,
+    'Pattern/Regex'#13#10'Ctrl+Alt+P',
+    'M'#7851'u/Regex'#13#10'Ctrl+Alt+P');
+  Put(True,
+    'Pattern/Regex Examples:',
+    'V'#237' d'#7909' M'#7851'u/Regex:');
+  Put(True,
+    'Pattern/Regex is evaluated line-by-line. If a line matches, a new part'
+        + ' starts from that line. If no line matches, only 1 file is generated.',
+    'M'#7851'u/Regex '#273#432#7907'c '#273#225'nh gi'#225' theo t'#7915'ng d'#242'ng. N'#7871'u m'#7897't d'#242'ng kh'#7899'p, ph'#7847'n m'#7899'i b'#7855
+        + 't '#273#7847'u t'#7915' d'#242'ng '#273#243'. N'#7871'u kh'#244'ng d'#242'ng n'#224'o kh'#7899'p, ch'#7881' t'#7841'o 1 t'#7879'p.');
+  Put(True,
+    'Pattern/Regex is evaluated line-by-line. If a line matches, a new part'
+        + ' starts from that line. If no line matches, only 1 file is generated. '
+        + 'Equal-parts count is ignored in pattern/regex mode.',
+    'M'#7851'u/Regex '#273#432#7907'c '#273#225'nh gi'#225' theo t'#7915'ng d'#242'ng. N'#7871'u m'#7897't d'#242'ng kh'#7899'p, ph'#7847'n m'#7899'i b'#7855
+        + 't '#273#7847'u t'#7915' d'#242'ng '#273#243'. N'#7871'u kh'#244'ng d'#242'ng n'#224'o kh'#7899'p, ch'#7881' t'#7841'o 1 t'#7879'p. S'#7889' ph'#7847'n b'#7857'ng'
+        + ' nhau b'#7883' b'#7887' qua '#7903' ch'#7871' '#273#7897' m'#7851'u/regex.');
+  Put(True,
+    'Pattern/Regex is evaluated line-by-line. In Split mode: a new part sta'
+        + 'rts when a line matches. In Regex modes: a single output file is produ'
+        + 'ced. JS-style /pattern/gi syntax is accepted.',
+    'M'#7851'u/Regex '#273#432#7907'c '#273#225'nh gi'#225' theo t'#7915'ng d'#242'ng. '#7902' ch'#7871' '#273#7897' T'#225'ch: ph'#7847'n m'#7899'i b'#7855't '#273#7847
+        + 'u khi m'#7897't d'#242'ng kh'#7899'p. '#7902' ch'#7871' '#273#7897' Regex: t'#7841'o m'#7897't t'#7879'p '#273#7847'u ra duy nh'#7845't. C'#250' p'
+        + 'h'#225'p ki'#7875'u JS /pattern/gi '#273#432#7907'c ch'#7845'p nh'#7853'n.');
+  Put(True,
+    'Pattern/Regex to start a NEW file from the matched line:',
+    'M'#7851'u/Regex '#273#7875' b'#7855't '#273#7847'u t'#7879'p M'#7898'I t'#7915' d'#242'ng kh'#7899'p:');
+  Put(True,
+    'Pattern/Regex, Equal parts, Extract parts, Find Files, Select skin',
+    'M'#7851'u/Regex, Ph'#7847'n b'#7857'ng nhau, Tr'#237'ch xu'#7845't ph'#7847'n, T'#236'm t'#7879'p, Ch'#7885'n giao di'#7879'n');
+  Put(True,
+    'Pattern/Regex:',
+    'M'#7851'u/Regex:');
+  Put(True,
+    'Pipe error',
+    'L'#7895'i pipe');
+  Put(True,
+    'Please check one or more lines first.',
+    'Vui l'#242'ng '#273#225'nh d'#7845'u m'#7897't ho'#7863'c nhi'#7873'u d'#242'ng tr'#432#7899'c.');
+  Put(True,
+    'Please choose an existing left file.',
+    'Vui l'#242'ng ch'#7885'n m'#7897't t'#7879'p tr'#225'i '#273'ang t'#7891'n t'#7841'i.');
+end;
+
+procedure AddVietnamesePart26(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Please choose an existing right file.',
+    'Vui l'#242'ng ch'#7885'n m'#7897't t'#7879'p ph'#7843'i '#273'ang t'#7891'n t'#7841'i.');
+  Put(True,
+    'Please enter a Python script in the editor.',
+    'Vui l'#242'ng nh'#7853'p script Python v'#224'o tr'#236'nh so'#7841'n th'#7843'o.');
+  Put(True,
+    'Please enter a search word.',
+    'Vui l'#242'ng nh'#7853'p t'#7915' t'#236'm ki'#7871'm.');
+  Put(True,
+    'Please enter a valid file list, one per line, example',
+    'Vui l'#242'ng nh'#7853'p danh s'#225'ch t'#7879'p h'#7907'p l'#7879', m'#7895'i d'#242'ng m'#7897't t'#7879'p, v'#237' d'#7909);
+  Put(True,
+    'Please enter a valid line number.',
+    'Vui l'#242'ng nh'#7853'p s'#7889' d'#242'ng h'#7907'p l'#7879'.');
+  Put(True,
+    'Please enter with file extension to exclude in the files search',
+    'Vui l'#242'ng nh'#7853'p ph'#7847'n m'#7903' r'#7897'ng t'#7879'p c'#7847'n lo'#7841'i tr'#7915' khi t'#236'm t'#7879'p');
+  Put(True,
+    'Please enter with folder extension to exclude in the files search',
+    'Vui l'#242'ng nh'#7853'p ph'#7847'n m'#7903' r'#7897'ng th'#432' m'#7909'c c'#7847'n lo'#7841'i tr'#7915' khi t'#236'm t'#7879'p');
+  Put(True,
+    'Please read a file first.',
+    'Vui l'#242'ng '#273#7885'c m'#7897't t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'Please read the file first.',
+    'Vui l'#242'ng '#273#7885'c t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'Please select a file first.',
+    'Vui l'#242'ng ch'#7885'n m'#7897't t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'Please select a file.',
+    'Vui l'#242'ng ch'#7885'n m'#7897't t'#7879'p.');
+  Put(True,
+    'Please select a line first.',
+    'Vui l'#242'ng ch'#7885'n m'#7897't d'#242'ng tr'#432#7899'c.');
+  Put(True,
+    'Please select both Left and Right files.',
+    'Vui l'#242'ng ch'#7885'n c'#7843' t'#7879'p Tr'#225'i v'#224' Ph'#7843'i.');
+  Put(True,
+    'Please select one or more lines in the list first.',
+    'Vui l'#242'ng ch'#7885'n m'#7897't ho'#7863'c nhi'#7873'u d'#242'ng trong danh s'#225'ch tr'#432#7899'c.');
+  Put(True,
+    'Please select or check one or more lines first.',
+    'Vui l'#242'ng ch'#7885'n ho'#7863'c '#273#225'nh d'#7845'u m'#7897't ho'#7863'c nhi'#7873'u d'#242'ng tr'#432#7899'c.');
+  Put(True,
+    'Please select/read the destination file first.',
+    'Vui l'#242'ng ch'#7885'n/'#273#7885'c t'#7879'p '#273#237'ch tr'#432#7899'c.');
+  Put(True,
+    'Please specify an output filename.',
+    'Vui l'#242'ng ch'#7881' '#273#7883'nh t'#234'n t'#7879'p '#273#7847'u ra.');
+  Put(True,
+    'Please wait...',
+    'Vui l'#242'ng '#273#7907'i...');
+  Put(True,
+    'Portuguese (Brazil)',
+    'Ti'#7871'ng B'#7891' '#272#224'o Nha (Brazil)');
+  Put(True,
+    'Pr&evious bookmark',
+    'D'#7845'u trang &tr'#432#7899'c');
+  Put(True,
+    'Prefs.AgentDecisionSeconds',
+    'Th'#7901'i gian ch'#7845'p nh'#7853'n/t'#7915' ch'#7889'i ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't (gi'#226'y)');
+  Put(True,
+    'Prefs.AgentSampleLines',
+    'S'#7889' d'#242'ng ph'#226'n t'#237'ch '#273#7875' m'#244' t'#7843' t'#7879'p');
+  Put(True,
+    'Prefs.AnonymizeMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a '#273#7875' '#7849'n danh h'#243'a');
+  Put(True,
+    'Prefs.AssistantRecentMax',
+    'T'#7889'i '#273'a g'#7847'n '#273#226'y c'#7911'a tr'#7907' l'#253);
+  Put(True,
+    'Prefs.Caption',
+    'T'#249'y ch'#7885'n');
+  Put(True,
+    'Prefs.DefaultRestored',
+    'Gi'#225' tr'#7883' m'#7863'c '#273#7883'nh (%d) '#273#227' '#273#432#7907'c kh'#244'i ph'#7909'c. Nh'#7845'p OK l'#7847'n n'#7919'a '#273#7875' l'#432'u, ho'#7863'c '
+        + 'nh'#7853'p gi'#225' tr'#7883' kh'#225'c.');
+  Put(True,
+    'Prefs.DefaultUIScalePPI',
+    'T'#7927' l'#7879' giao di'#7879'n m'#7863'c '#273#7883'nh (PPI)');
+  Put(True,
+    'Prefs.DefaultUIScalePPIHint',
+    '0 = Windows DPI; kho'#7843'ng %d-%d (m'#7863'c '#273#7883'nh 0)');
+  Put(True,
+    'Prefs.EmptyValue',
+    'Nh'#7853'p m'#7897't gi'#225' tr'#7883' cho "%s".');
+  Put(True,
+    'Prefs.ExportClipboardMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a sao ch'#233'p v'#224'o clipboard');
+  Put(True,
+    'Prefs.ExportFileMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a xu'#7845't ra t'#7879'p');
+  Put(True,
+    'Prefs.FilterRecentMax',
+    'T'#7889'i '#273'a g'#7847'n '#273#226'y c'#7911'a b'#7897' l'#7885'c');
+  Put(True,
+    'Prefs.HistoryLineExcerptMax',
+    'K'#253' t'#7921' l'#432'u m'#7895'i d'#242'ng (tr'#432#7899'c/sau)');
+  Put(True,
+    'Prefs.InsertMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a ch'#232'n m'#7897't l'#7847'n');
+  Put(True,
+    'Prefs.Intro',
+    'Gi'#225' tr'#7883' tr'#7889'ng ho'#7863'c kh'#244'ng h'#7907'p l'#7879' s'#7869' quay v'#7873' m'#7863'c '#273#7883'nh hi'#7879'n b'#234'n d'#432#7899'i.');
+  Put(True,
+    'Prefs.InvalidNumber',
+    'S'#7889' kh'#244'ng h'#7907'p l'#7879' cho "%s".');
+  Put(True,
+    'Prefs.LineHintMaxChars',
+    'S'#7889' k'#253' t'#7921' t'#7889'i '#273'a c'#7911'a g'#7907'i '#253' d'#242'ng');
+  Put(True,
+    'Prefs.LineHintMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a c'#7911'a g'#7907'i '#253' d'#242'ng');
+  Put(True,
+    'Prefs.LineHintShowDelayMs',
+    #272#7897' tr'#7877' g'#7907'i '#253' d'#242'ng (ms)');
+  Put(True,
+    'Prefs.MenuItem',
+    '&T'#249'y ch'#7885'n...');
+  Put(True,
+    'Prefs.MergeMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a '#273#7875' g'#7897'p');
+  Put(True,
+    'Prefs.OpenTabsMruMax',
+    'T'#7889'i '#273'a th'#7867' m'#7903' MRU');
+  Put(True,
+    'Prefs.OutOfRange',
+    '"%s" ph'#7843'i n'#7857'm trong kho'#7843'ng %d '#273#7871'n %d.');
+  Put(True,
+    'Prefs.PythonMacroSampleLines',
+    'S'#7889' d'#242'ng m'#7851'u macro Python');
+  Put(True,
+    'Prefs.PythonMacroSampleLinesHint',
+    'C'#225'c m'#7851'u '#273#432#7907'c ph'#226'n b'#7889' tr'#234'n c'#225'c h'#224'ng '#273#227' ch'#7885'n, ho'#7863'c tr'#234'n to'#224'n b'#7897' t'#7879'p khi '
+        + 'kh'#244'ng ch'#7885'n g'#236'.');
+  Put(True,
+    'Prefs.RangeDefault',
+    'Kho'#7843'ng %d-%d (m'#7863'c '#273#7883'nh %d)');
+  Put(True,
+    'Prefs.ResetDefaults',
+    'Kh'#244'i ph'#7909'c m'#7863'c '#273#7883'nh');
+  Put(True,
+    'Prefs.Section.Agent',
+    'T'#225'c nh'#226'n AI');
+  Put(True,
+    'Prefs.Section.Display',
+    'Hi'#7875'n th'#7883);
+  Put(True,
+    'Prefs.Section.Hints',
+    'G'#7907'i '#253' d'#242'ng');
+  Put(True,
+    'Prefs.Section.History',
+    'L'#7883'ch s'#7917' phi'#234'n');
+  Put(True,
+    'Prefs.Section.MRU',
+    'Danh s'#225'ch g'#7847'n '#273#226'y (MRU)');
+  Put(True,
+    'Prefs.Section.MoreLimits',
+    'Gi'#7899'i h'#7841'n kh'#225'c');
+  Put(True,
+    'Prefs.Section.SelLines',
+    'Gi'#7899'i h'#7841'n d'#242'ng');
+  Put(True,
+    'Prefs.SelectedLinesActionMax',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a '#273#7875' sao ch'#233'p, xu'#7845't, s'#7917'a ho'#7863'c h'#7887'i AI');
+  Put(True,
+    'Prefs.SplitFilesMax',
+    'S'#7889' t'#7879'p t'#7889'i '#273'a tr'#234'n thanh tr'#432#7907't T'#225'ch theo t'#7879'p');
+  Put(True,
+    'Prefs.SplitPartsMax',
+    'S'#7889' ph'#7847'n t'#7889'i '#273'a khi t'#225'ch '#273#7873'u ho'#7863'c theo ph'#226'n s'#7889);
+  Put(True,
+    'Prefs.TranslateMaxLines',
+    'S'#7889' d'#242'ng t'#7889'i '#273'a '#273#7875' d'#7883'ch');
+  Put(True,
+    'Preparing editing',
+    #272'ang chu'#7849'n b'#7883' ch'#7881'nh s'#7917'a');
+  Put(True,
+    'Preview',
+    'Xem tr'#432#7899'c');
+  Put(True,
+    'Preview skipped. New text:',
+    #272#227' b'#7887' qua xem tr'#432#7899'c. V'#259'n b'#7843'n m'#7899'i:');
+  Put(True,
+    'Preview summary (sampled): %d matching lines in first %d lines scanned'
+        + '.',
+    'T'#243'm t'#7855't xem tr'#432#7899'c (m'#7851'u): %d d'#242'ng kh'#7899'p trong %d d'#242'ng qu'#233't '#273#7847'u ti'#234'n.');
+  Put(True,
+    'Preview summary: %d matching lines in %d total lines.',
+    'T'#243'm t'#7855't xem tr'#432#7899'c: %d d'#242'ng kh'#7899'p trong t'#7893'ng %d d'#242'ng.');
+  Put(True,
+    'Preview summary: file is too large to auto-validate. Click Preview to '
+        + 'sample matches (fast), or Confirm to run full processing.',
+    'T'#243'm t'#7855't xem tr'#432#7899'c: t'#7879'p qu'#225' l'#7899'n '#273#7875' t'#7921' x'#225'c th'#7921'c. Nh'#7845'p Xem tr'#432#7899'c '#273#7875' l'#7845'y m'
+        + #7851'u kh'#7899'p (nhanh), ho'#7863'c X'#225'c nh'#7853'n '#273#7875' ch'#7841'y x'#7917' l'#253' '#273#7847'y '#273#7911'.');
+  Put(True,
+    'Preview: %d matching lines found in %d lines. Expected output files (a'
+        + 'pprox.): %d. Continue?',
+    'Xem tr'#432#7899'c: t'#236'm th'#7845'y %d d'#242'ng kh'#7899'p trong %d d'#242'ng. S'#7889' t'#7879'p '#273#7847'u ra d'#7921' ki'#7871'n '
+        + '(g'#7847'n '#273#250'ng): %d. Ti'#7871'p t'#7909'c?');
+  Put(True,
+    'Prices: ',
+    'Gi'#225': ');
+  Put(True,
+    'Process finished successfully!',
+    'Qu'#225' tr'#236'nh ho'#224'n t'#7845't th'#224'nh c'#244'ng!');
+  Put(True,
+    'Processing %d selected line(s) only...',
+    #272'ang x'#7917' l'#253' ch'#7881' %d d'#242'ng '#273#227' ch'#7885'n...');
+  Put(True,
+    'Processing ...',
+    #272'ang x'#7917' l'#253' ...');
+  Put(True,
+    'Processing diff...',
+    #272'ang x'#7917' l'#253' diff...');
+  Put(True,
+    'Processing...',
+    #272'ang x'#7917' l'#253'...');
+  Put(True,
+    'Procurar',
+    'T'#236'm');
+  Put(True,
+    'Prompt',
+    'L'#7901'i nh'#7855'c');
+  Put(True,
+    'Proposals on %s overlap. Accept them one at a time.',
+    'C'#225'c '#273#7873' xu'#7845't tr'#234'n %s ch'#7891'ng nhau. Ch'#7845'p nh'#7853'n t'#7915'ng c'#225'i m'#7897't.');
+  Put(True,
+    'Proposed edits',
+    'Ch'#7881'nh s'#7917'a '#273#7873' xu'#7845't');
+  Put(True,
+    'Protection Activated (FastFile)',
+    'B'#7843'o v'#7879' '#273#227' k'#237'ch ho'#7841't (FastFile)');
+  Put(True,
+    'Python Macro Integration',
+    'T'#237'ch h'#7907'p macro Python');
+  Put(True,
+    'Python plugin ScriptEngine.exe not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y plugin Python ScriptEngine.exe.');
+  Put(True,
+    'Python plugin download incomplete: received %d of %d bytes.',
+    'T'#7843'i plugin Python ch'#432'a ho'#224'n t'#7845't: nh'#7853'n '#273#432#7907'c %d trong s'#7889' %d byte.');
+  Put(True,
+    'Quick-Start Guide',
+    'H'#432#7899'ng d'#7851'n b'#7855't '#273#7847'u nhanh');
+  Put(True,
+    'Quit',
+    'Tho'#225't');
+  Put(True,
+    'Random Skin',
+    'Giao di'#7879'n ng'#7851'u nhi'#234'n');
+  Put(True,
+    'Read',
+    #272#7885'c');
+  Put(True,
+    'Read'#13#10'Ctrl+1',
+    #272#7885'c'#13#10'Ctrl+1');
+  Put(True,
+    'Read'#13#10'F5',
+    #272#7885'c'#13#10'F5');
+  Put(True,
+    'Read &tab',
+    'Th'#7867' &'#272#7885'c');
+  Put(True,
+    'Read / &Load',
+    #272#7885'c / &T'#7843'i');
+  Put(True,
+    'Read / Load (F5)',
+    #272#7885'c / T'#7843'i (F5)');
+  Put(True,
+    'Read File',
+    #272#7885'c t'#7879'p');
+  Put(True,
+    'Read summary (status):',
+    'T'#243'm t'#7855't '#273#7885'c (thanh tr'#7841'ng th'#225'i):');
+  Put(True,
+    'Read the selected file and load its lines.',
+    #272#7885'c t'#7879'p '#273#227' ch'#7885'n v'#224' t'#7843'i c'#225'c d'#242'ng c'#7911'a n'#243'.');
+  Put(True,
+    'Read view',
+    'Danh s'#225'ch t'#7879'p');
+  Put(True,
+    'Read-only',
+    'Ch'#7881' '#273#7885'c');
+  Put(True,
+    'Read-only &session',
+    'Phi'#234'n &ch'#7881' '#273#7885'c');
+  Put(True,
+    'Read-only session',
+    'Phi'#234'n ch'#7881' '#273#7885'c');
+  Put(True,
+    'Read-only session is enabled. Turn it off in Options to edit or save t'
+        + 'he file.',
+    'Phi'#234'n ch'#7881' '#273#7885'c '#273'ang b'#7853't. T'#7855't trong T'#249'y ch'#7885'n '#273#7875' s'#7917'a ho'#7863'c l'#432'u t'#7879'p.');
+  Put(True,
+    'Read-only session is enabled. Turn it off to modify the file.',
+    'Phi'#234'n ch'#7881' '#273#7885'c '#273'ang b'#7853't. T'#7855't '#273#7875' s'#7917'a '#273#7893'i t'#7879'p.');
+  Put(True,
+    'Read-only session:',
+    'Phi'#234'n ch'#7881' '#273#7885'c:');
+  Put(True,
+    'Reading file...',
+    #272'ang '#273#7885'c t'#7879'p...');
+  Put(True,
+    'Reading lines...',
+    #272'ang '#273#7885'c d'#242'ng...');
+end;
+
+procedure AddVietnamesePart27(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Readonly',
+    'Ch'#7881' '#273#7885'c');
+  Put(True,
+    'Ready',
+    'S'#7861'n s'#224'ng');
+  Put(True,
+    'Ready.',
+    'S'#7861'n s'#224'ng.');
+  Put(True,
+    'Recent',
+    'G'#7847'n '#273#226'y');
+  Put(True,
+    'Recent &tabs',
+    'Th'#7867' &g'#7847'n '#273#226'y');
+  Put(True,
+    'Recent Files',
+    'T'#7879'p g'#7847'n '#273#226'y');
+  Put(True,
+    'Recent Files & Folders',
+    'T'#7879'p v'#224' th'#432' m'#7909'c g'#7847'n '#273#226'y');
+  Put(True,
+    'Recent Folders',
+    'Th'#432' m'#7909'c g'#7847'n '#273#226'y');
+  Put(True,
+    'Recent files (MRU) (Ctrl+R)',
+    'T'#7879'p g'#7847'n '#273#226'y (MRU) (Ctrl+R)');
+  Put(True,
+    'Recent files startup screen',
+    'M'#224'n h'#236'nh kh'#7903'i '#273#7897'ng t'#7879'p g'#7847'n '#273#226'y');
+  Put(True,
+    'Recent tabs.Hint',
+    'M'#7903' l'#7841'i th'#7867' d'#249'ng g'#7847'n '#273#226'y, ho'#7863'c kh'#244'i ph'#7909'c phi'#234'n cu'#7889'i');
+  Put(True,
+    'RecentFiles.More',
+    'Hi'#7879'n th'#234'm');
+  Put(True,
+    'RecentFiles.MoreHint',
+    'Hi'#7879'n c'#225'c t'#7879'p g'#7847'n '#273#226'y c'#242'n l'#7841'i');
+  Put(True,
+    'Redo',
+    'L'#224'm l'#7841'i');
+  Put(True,
+    'Redo delete on line %d? The line will be deleted again.',
+    'L'#224'm l'#7841'i x'#243'a tr'#234'n d'#242'ng %d? D'#242'ng s'#7869' b'#7883' x'#243'a l'#7841'i.');
+  Put(True,
+    'Redo edit on line %d? Apply: "%s"',
+    'L'#224'm l'#7841'i s'#7917'a tr'#234'n d'#242'ng %d? '#193'p d'#7909'ng: "%s"');
+  Put(True,
+    'Redo edit on line %d? The edited content will be applied again.',
+    'L'#224'm l'#7841'i s'#7917'a tr'#234'n d'#242'ng %d? N'#7897'i dung '#273#227' s'#7917'a s'#7869' '#273#432#7907'c '#225'p d'#7909'ng l'#7841'i.');
+  Put(True,
+    'Redo failed.',
+    'L'#224'm l'#7841'i th'#7845't b'#7841'i.');
+  Put(True,
+    'Redo insert at line %d? Insert: "%s"',
+    'L'#224'm l'#7841'i ch'#232'n t'#7841'i d'#242'ng %d? Ch'#232'n: "%s"');
+  Put(True,
+    'Redo insert at line %d? The line will be inserted again.',
+    'L'#224'm l'#7841'i ch'#232'n t'#7841'i d'#242'ng %d? D'#242'ng s'#7869' '#273#432#7907'c ch'#232'n l'#7841'i.');
+  Put(True,
+    'Redo is not available for merge files yet.',
+    'L'#224'm l'#7841'i ch'#432'a kh'#7843' d'#7909'ng cho g'#7897'p t'#7879'p.');
+  Put(True,
+    'Redo line autofill (%d line(s) at line %d)',
+    'L'#224'm l'#7841'i t'#7921' '#273'i'#7873'n d'#242'ng (%d d'#242'ng t'#7841'i d'#242'ng %d)');
+  Put(True,
+    'Redo line autofill of %d blank line(s) at line %d?',
+    'L'#224'm l'#7841'i t'#7921' '#273'i'#7873'n %d d'#242'ng tr'#7889'ng t'#7841'i d'#242'ng %d?');
+  Put(True,
+    'Redo paste of %d line(s) starting at line %d?',
+    'L'#224'm l'#7841'i d'#225'n %d d'#242'ng b'#7855't '#273#7847'u t'#7841'i d'#242'ng %d?');
+  Put(True,
+    'Redo the last undone change on line %d?',
+    'L'#224'm l'#7841'i thay '#273#7893'i '#273#227' ho'#224'n t'#225'c cu'#7889'i c'#249'ng tr'#234'n d'#242'ng %d?');
+  Put(True,
+    'Redo: delete line ',
+    'L'#224'm l'#7841'i: x'#243'a d'#242'ng ');
+  Put(True,
+    'Redo: edit line ',
+    'L'#224'm l'#7841'i: s'#7917'a d'#242'ng ');
+  Put(True,
+    'Redo: insert line ',
+    'L'#224'm l'#7841'i: ch'#232'n d'#242'ng ');
+  Put(True,
+    'Redo: line autofill %d blank line(s) at line %d',
+    'L'#224'm l'#7841'i: t'#7921' '#273'i'#7873'n d'#242'ng %d d'#242'ng tr'#7889'ng t'#7841'i d'#242'ng %d');
+  Put(True,
+    'Redo: paste %d line(s) at line %d',
+    'L'#224'm l'#7841'i: d'#225'n %d d'#242'ng t'#7841'i d'#242'ng %d');
+  Put(True,
+    'Refresh list view',
+    'L'#224'm m'#7899'i khung danh s'#225'ch');
+  Put(True,
+    'Refresh list view (keep undo)',
+    'L'#224'm m'#7899'i khung danh s'#225'ch (gi'#7919' ho'#224'n t'#225'c)');
+  Put(True,
+    'Regex %s completed. %d line(s) processed in %s.'#13#10'Output: %s',
+    'Regex %s ho'#224'n t'#7845't. %d d'#242'ng '#273#227' x'#7917' l'#253' trong %s.'#13#10#272#7847'u ra: %s');
+  Put(True,
+    'Regex %s completed. %d line(s) processed in %s. Output: %s',
+    'Regex %s ho'#224'n t'#7845't. %d d'#242'ng '#273#227' x'#7917' l'#253' trong %s. '#272#7847'u ra: %s');
+  Put(True,
+    'Regex Filter - eight digits before end of line',
+    'B'#7897' l'#7885'c Regex - t'#225'm ch'#7919' s'#7889' tr'#432#7899'c cu'#7889'i d'#242'ng');
+  Put(True,
+    'Regex Filter - large integers embedded in the row',
+    'B'#7897' l'#7885'c Regex - s'#7889' nguy'#234'n l'#7899'n nh'#250'ng trong h'#224'ng');
+  Put(True,
+    'Regex Filter - lines whose numeric trailer ends with eight digits',
+    'B'#7897' l'#7885'c Regex - d'#242'ng c'#243' '#273'u'#244'i s'#7889' k'#7871't th'#250'c b'#7857'ng t'#225'm ch'#7919' s'#7889);
+  Put(True,
+    'Regex Filter - numeric threshold inside a column',
+    'B'#7897' l'#7885'c Regex - ng'#432#7905'ng s'#7889' trong m'#7897't c'#7897't');
+  Put(True,
+    'Regex Filter: Keep only lines where regex matches',
+    'B'#7897' l'#7885'c Regex: Ch'#7881' gi'#7919' d'#242'ng kh'#7899'p regex');
+  Put(True,
+    'Regex Match - HTTP(S) URLs embedded in fields',
+    'Kh'#7899'p Regex - URL HTTP(S) nh'#250'ng trong tr'#432#7901'ng');
+  Put(True,
+    'Regex Match - capture leading structured numbers',
+    'Kh'#7899'p Regex - b'#7855't s'#7889' c'#243' c'#7845'u tr'#250'c '#7903' '#273#7847'u');
+  Put(True,
+    'Regex Match - first column / leading token',
+    'Kh'#7899'p Regex - c'#7897't '#273#7847'u / token d'#7851'n '#273#7847'u');
+  Put(True,
+    'Regex Match - meaningful digit runs (skip zero padding)',
+    'Kh'#7899'p Regex - chu'#7895'i ch'#7919' s'#7889' c'#243' ngh'#297'a (b'#7887' '#273#7879'm s'#7889' 0)');
+  Put(True,
+    'Regex Match: Extract all occurrences',
+    'Kh'#7899'p Regex: Tr'#237'ch xu'#7845't t'#7845't c'#7843' l'#7847'n xu'#7845't hi'#7879'n');
+  Put(True,
+    'Regex Replace - anonymize professional prefix + name',
+    'Thay th'#7871' Regex - '#7849'n danh h'#243'a ti'#7873'n t'#7889' ngh'#7873' nghi'#7879'p + t'#234'n');
+  Put(True,
+    'Regex Replace - trim duplicate profile suffix from URL',
+    'Thay th'#7871' Regex - c'#7855't h'#7853'u t'#7889' h'#7891' s'#417' tr'#249'ng kh'#7887'i URL');
+  Put(True,
+    'Regex Replace - turn fixed columns into separated fields',
+    'Thay th'#7871' Regex - bi'#7871'n c'#7897't c'#7889' '#273#7883'nh th'#224'nh tr'#432#7901'ng t'#225'ch');
+  Put(True,
+    'Regex Replace: Replace matches',
+    'Thay th'#7871' Regex: Thay th'#7871' c'#225'c kh'#7899'p');
+  Put(True,
+    'Regex Test - delimiter / field-count sanity check',
+    'Ki'#7875'm tra Regex - ki'#7875'm tra d'#7845'u ph'#226'n c'#225'ch / s'#7889' tr'#432#7901'ng');
+  Put(True,
+    'Regex Test - line begins with expected prefix',
+    'Ki'#7875'm tra Regex - d'#242'ng b'#7855't '#273#7847'u b'#7857'ng ti'#7873'n t'#7889' mong '#273#7907'i');
+  Put(True,
+    'Regex Test - numeric flag between delimiters',
+    'Ki'#7875'm tra Regex - c'#7901' s'#7889' gi'#7919'a c'#225'c d'#7845'u ph'#226'n c'#225'ch');
+  Put(True,
+    'Regex Test - optional flag column',
+    'Ki'#7875'm tra Regex - c'#7897't c'#7901' t'#249'y ch'#7885'n');
+  Put(True,
+    'Regex Test: Write "true"/"false"',
+    'Ki'#7875'm tra Regex: Ghi "true"/"false"');
+  Put(True,
+    'Regex categories',
+    'Danh m'#7909'c Regex');
+  Put(True,
+    'Regex examples (first 1000 lines - copy/paste into Pattern):',
+    'V'#237' d'#7909' Regex (1000 d'#242'ng '#273#7847'u - sao ch'#233'p/d'#225'n v'#224'o M'#7851'u):');
+  Put(True,
+    'Regex filter - keep only lines where regex matches         (like JS fi'
+        + 'lter)',
+    'B'#7897' l'#7885'c Regex - ch'#7881' gi'#7919' d'#242'ng kh'#7899'p regex         (nh'#432' JS filter)');
+  Put(True,
+    'Regex filter requires a line index. Choose YES to index first, or use '
+        + 'plain text.',
+    'B'#7897' l'#7885'c Regex c'#7847'n ch'#7881' m'#7909'c d'#242'ng. Ch'#7885'n C'#211' '#273#7875' l'#7853'p ch'#7881' m'#7909'c tr'#432#7899'c, ho'#7863'c d'#249'ng'
+        + ' v'#259'n b'#7843'n thu'#7847'n.');
+  Put(True,
+    'Regex match - extract all occurrences from each line  (like JS match)',
+    'Kh'#7899'p Regex - tr'#237'ch xu'#7845't t'#7845't c'#7843' l'#7847'n xu'#7845't hi'#7879'n t'#7915' m'#7895'i d'#242'ng  (nh'#432' JS matc'
+        + 'h)');
+  Put(True,
+    'Regex quick examples (dynamic by file):',
+    'V'#237' d'#7909' nhanh Regex ('#273#7897'ng theo t'#7879'p):');
+  Put(True,
+    'Regex replace - replace matches in every line              (like JS re'
+        + 'place)',
+    'Thay th'#7871' Regex - thay th'#7871' kh'#7899'p tr'#234'n m'#7885'i d'#242'ng              (nh'#432' JS repl'
+        + 'ace)');
+  Put(True,
+    'Regex test - write "true"/"false" for every line        (like JS test)',
+    'Ki'#7875'm tra Regex - ghi "true"/"false" cho m'#7885'i d'#242'ng        (nh'#432' JS test)');
+  Put(True,
+    'Regex.Examples',
+    'V'#237' d'#7909': error|failure    ^[0-9]    [0-9]{4}-[0-9]{2}-[0-9]{2}');
+  Put(True,
+    'Regex.ExamplesHint',
+    'error|failure t'#236'm m'#7897't trong hai t'#7915'. ^[0-9] l'#224' d'#242'ng b'#7855't '#273#7847'u b'#7857'ng ch'#7919' s'#7889
+        + '. [0-9]{4}-[0-9]{2}-[0-9]{2} l'#224' ng'#224'y, v'#237' d'#7909' 2026-10-28.');
+  Put(True,
+    'Region-like field sample value "%s" (sort by region first for meaningf'
+        + 'ul splits).',
+    'Gi'#225' tr'#7883' m'#7851'u tr'#432#7901'ng ki'#7875'u v'#249'ng "%s" (s'#7855'p x'#7871'p theo v'#249'ng tr'#432#7899'c '#273#7875' t'#225'ch c'#243' '
+        + 'ngh'#297'a).');
+  Put(True,
+    'Regular expression: match case? (Yes = case sensitive, No = ignore cas'
+        + 'e)',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy: ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng? (C'#243' = ph'#226'n bi'#7879't, Kh'#244'ng '
+        + '= b'#7887' qua hoa/th'#432#7901'ng)');
+  Put(True,
+    'Reject',
+    'T'#7915' ch'#7889'i');
+  Put(True,
+    'Reload',
+    'T'#7843'i l'#7841'i');
+  Put(True,
+    'Reload from disk (clear cache and reopen)',
+    'T'#7843'i l'#7841'i t'#7915' '#273#297'a (x'#243'a cache v'#224' m'#7903' l'#7841'i)');
+  Put(True,
+    'Reloading session history...',
+    #272'ang t'#7843'i l'#7841'i l'#7883'ch s'#7917' phi'#234'n...');
+  Put(True,
+    'Remove',
+    'X'#243'a');
+  Put(True,
+    'Remove URL numeric suffix',
+    'X'#243'a h'#7853'u t'#7889' s'#7889' URL');
+  Put(True,
+    'Remove from recent list',
+    'X'#243'a kh'#7887'i danh s'#225'ch g'#7847'n '#273#226'y');
+  Put(True,
+    'Remove selected file from recent list?',
+    'X'#243'a t'#7879'p '#273#227' ch'#7885'n kh'#7887'i danh s'#225'ch g'#7847'n '#273#226'y?');
+  Put(True,
+    'Removes trailing -2 / -3 style duplicates while keeping the canonical '
+        + 'slug.',
+    'X'#243'a c'#225'c b'#7843'n tr'#249'ng h'#7853'u t'#7889' ki'#7875'u -2 / -3 '#7903' cu'#7889'i, v'#7851'n gi'#7919' slug chu'#7849'n.');
+  Put(True,
+    'Rename reported success but target file is missing.',
+    #272#7893'i t'#234'n b'#225'o th'#224'nh c'#244'ng nh'#432'ng t'#7879'p '#273#237'ch kh'#244'ng c'#243'.');
+  Put(True,
+    'Reparse Point',
+    #272'i'#7875'm ph'#226'n t'#237'ch l'#7841'i');
+  Put(True,
+    'Repeat one text in all new lines',
+    'L'#7863'p l'#7841'i m'#7897't v'#259'n b'#7843'n tr'#234'n t'#7845't c'#7843' d'#242'ng m'#7899'i');
+  Put(True,
+    'Replace',
+    'Thay th'#7871);
+  Put(True,
+    'Replace A&ll',
+    'Thay th'#7871' &t'#7845't c'#7843);
+  Put(True,
+    'Replace All',
+    'Thay th'#7871' t'#7845't c'#7843);
+  Put(True,
+    'Replace All completed. %d replacement(s). Time: %s ms.',
+    'Thay th'#7871' t'#7845't c'#7843' ho'#224'n t'#7845't. %d thay th'#7871'. Th'#7901'i gian: %s ms.');
+  Put(True,
+    'Replace all occurrences of "',
+    'Thay th'#7871' t'#7845't c'#7843' l'#7847'n xu'#7845't hi'#7879'n c'#7911'a "');
+  Put(True,
+    'Replace failed.',
+    'Thay th'#7871' th'#7845't b'#7841'i.');
+  Put(True,
+    'Replace lines %d-%d with %d line(s)',
+    'Thay th'#7871' d'#242'ng %d-%d b'#7857'ng %d d'#242'ng');
+  Put(True,
+    'Replace runs on each line; $1..$4 refer to the captured groups from le'
+        + 'ft to right.',
+    'Thay th'#7871' ch'#7841'y tr'#234'n m'#7895'i d'#242'ng; $1..$4 tr'#7887' t'#7899'i c'#225'c nh'#243'm b'#7855't t'#7915' tr'#225'i sang '
+        + 'ph'#7843'i.');
+  Put(True,
+    'Replace substitutes only capture group 2 while keeping the honorific i'
+        + 'n group 1.',
+    'Thay th'#7871' ch'#7881' thay nh'#243'm b'#7855't 2, gi'#7919' danh x'#432'ng '#7903' nh'#243'm 1.');
+  Put(True,
+    'Replace with:',
+    'Thay th'#7871' b'#7857'ng:');
+  Put(True,
+    'Replace '#8212' trim duplicate profile suffix (-2, -3) from Doctoralia URL p'
+        + 'ath. Replace with:',
+    'Thay th'#7871' '#8212' c'#7855't h'#7853'u t'#7889' h'#7891' s'#417' tr'#249'ng (-2, -3) kh'#7887'i '#273#432#7901'ng d'#7851'n URL Doctoral'
+        + 'ia. Thay th'#7871' b'#7857'ng:');
+  Put(True,
+    'Replace-all stopped at the safety limit of %d matches. The file was no'
+        + 't modified.',
+    'Thay th'#7871' t'#7845't c'#7843' d'#7915'ng '#7903' gi'#7899'i h'#7841'n an to'#224'n %d kh'#7899'p. T'#7879'p kh'#244'ng b'#7883' s'#7917'a '#273#7893'i.');
+  Put(True,
+    'Replaced on line',
+    #272#227' thay th'#7871' tr'#234'n d'#242'ng');
+  Put(True,
+    'Replaced on line ',
+    #272#227' thay th'#7871' tr'#234'n d'#242'ng ');
+  Put(True,
+    'Replacement text (used by "Regex replace" mode only):',
+    'V'#259'n b'#7843'n thay th'#7871' (ch'#7881' d'#249'ng '#7903' ch'#7871' '#273#7897' "Thay th'#7871' Regex"):');
+  Put(True,
+    'Replacement:',
+    'Thay th'#7871':');
+  Put(True,
+    'Replacing (streaming to temp file)...',
+    #272'ang thay th'#7871' (ghi lu'#7891'ng sang t'#7879'p t'#7841'm)...');
+  Put(True,
+    'Replacing... (part %d of %d) - %d replacements',
+    #272'ang thay th'#7871'... (ph'#7847'n %d trong %d) - %d thay th'#7871);
+  Put(True,
+    'Reprocess macro on new lines from this Tail session (Ctrl+Shift+R)',
+    'Ch'#7841'y l'#7841'i macro tr'#234'n d'#242'ng m'#7899'i t'#7915' phi'#234'n Tail n'#224'y (Ctrl+Shift+R)');
+  Put(True,
+    'Reprocess new tail lines',
+    'Ch'#7841'y l'#7841'i d'#242'ng '#273'u'#244'i m'#7899'i');
+  Put(True,
+    'Reprocess new tail lines (%d)',
+    'Ch'#7841'y l'#7841'i d'#242'ng '#273'u'#244'i m'#7899'i (%d)');
+  Put(True,
+    'Request stopped.',
+    #272#227' d'#7915'ng y'#234'u c'#7847'u.');
+  Put(True,
+    'Restart session',
+    'Kh'#7903'i '#273#7897'ng l'#7841'i phi'#234'n');
+end;
+
+procedure AddVietnamesePart28(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Restore last session tabs',
+    'Kh'#244'i ph'#7909'c th'#7867' phi'#234'n cu'#7889'i');
+  Put(True,
+    'Result: If the line matches this pattern, the test would return true.',
+    'K'#7871't qu'#7843': N'#7871'u d'#242'ng kh'#7899'p m'#7851'u n'#224'y, ki'#7875'm tra s'#7869' tr'#7843' v'#7873' true.');
+  Put(True,
+    'Return',
+    'Quay l'#7841'i');
+  Put(True,
+    'Reviews / count field "%s" is 100+ (3+ digits in that column):',
+    'Tr'#432#7901'ng '#273#225'nh gi'#225' / s'#7889' l'#432#7907'ng "%s" l'#224' 100+ (3+ ch'#7919' s'#7889' trong c'#7897't '#273#243'):');
+  Put(True,
+    'Revised prompt',
+    'L'#7901'i nh'#7855'c '#273#227' s'#7917'a');
+  Put(True,
+    'Right file',
+    'T'#7879'p ph'#7843'i');
+  Put(True,
+    'Run',
+    'Ch'#7841'y');
+  Put(True,
+    'Run error',
+    'L'#7895'i ch'#7841'y');
+  Put(True,
+    'Run script',
+    'Ch'#7841'y script');
+  Put(True,
+    'Run search in background threads.',
+    'Ch'#7841'y t'#236'm ki'#7871'm trong c'#225'c lu'#7891'ng n'#7873'n.');
+  Put(True,
+    'Running script over file lines...',
+    #272'ang ch'#7841'y script tr'#234'n c'#225'c d'#242'ng t'#7879'p...');
+  Put(True,
+    'S&elect (checkbox list)',
+    'Ch&'#7885'n (danh s'#225'ch h'#7897'p ch'#7885'n)');
+  Put(True,
+    'SCRIPT_ENGINE_CKPT_NOT_FOUND',
+    'C'#244'ng c'#7909' script: kh'#244'ng t'#236'm th'#7845'y temp_ckpt.txt '#8212' h'#227'y '#273#7885'c t'#7879'p (F5) tr'#432#7899'c.');
+  Put(True,
+    'SCRIPT_ENGINE_COMPILE_TIMEOUT',
+    'C'#244'ng c'#7909' script kh'#244'ng x'#225'c nh'#7853'n bi'#234'n d'#7883'ch k'#7883'p th'#7901'i.');
+  Put(True,
+    'SCRIPT_ENGINE_CONFIRM_ALL',
+    'B'#7841'n c'#243' th'#7853't s'#7921' mu'#7889'n ch'#7841'y script tr'#234'n t'#7845't c'#7843' %d d'#242'ng c'#7911'a t'#7879'p?');
+  Put(True,
+    'SCRIPT_ENGINE_CONFIRM_SEL',
+    'B'#7841'n c'#243' th'#7853't s'#7921' mu'#7889'n ch'#7841'y script tr'#234'n %d d'#242'ng '#273#227' ch'#7885'n?');
+  Put(True,
+    'SCRIPT_ENGINE_EXAMPLES_DOC',
+    #272#7883'nh ngh'#297'a:  def transform(line, ctx) -> str | None'#13#10'  line          :'
+        + ' v'#259'n b'#7843'n d'#242'ng hi'#7879'n t'#7841'i'#13#10'  ctx           : dict tr'#7841'ng th'#225'i b'#7873'n gi'#7919'a c'#225'c'
+        + ' d'#242'ng'#13#10'  ctx[''line_number''] : s'#7889' d'#242'ng t'#237'nh t'#7915' 1 trong t'#7879'p ngu'#7891'n'#13#10'  Tr'#7843
+        + ' v'#7873' str    : '#273#432'a d'#242'ng '#273#227' bi'#7871'n '#273#7893'i v'#224'o '#273#7847'u ra'#13#10'  Tr'#7843' v'#7873' None   : b'#7887' qua'
+        + ' (b'#7897' '#273#7871'm SKIP t'#259'ng)'#13#10'  Raise except  : l'#7895'i (b'#7897' '#273#7871'm LINE_ERROR t'#259'ng)');
+  Put(True,
+    'SCRIPT_ENGINE_EXAMPLES_HEADER',
+    '=== C'#244'ng c'#7909' Script - V'#237' d'#7909' Python ===');
+  Put(True,
+    'SCRIPT_ENGINE_FORCE_RUNFILE',
+    'Qu'#225' nhi'#7873'u d'#242'ng '#273#227' ch'#7885'n: chuy'#7875'n sang ch'#7871' '#273#7897' to'#224'n t'#7879'p nhanh (RUNFILE) th'
+        + 'ay v'#236' g'#7917'i t'#7915'ng d'#242'ng.');
+  Put(True,
+    'SCRIPT_ENGINE_LARGE_OUTPUT_SEE_BANNER',
+    'Ch'#7871' '#273#7897' t'#7879'p l'#7899'n: '#273#432#7901'ng d'#7851'n '#273#7847'u ra hi'#7879'n trong th'#244'ng b'#225'o ph'#237'a tr'#234'n.');
+  Put(True,
+    'SCRIPT_ENGINE_LARGE_RUN_HINT',
+    'T'#7879'p l'#7899'n: gi'#7919' import '#7903' '#273#7847'u script (kh'#244'ng trong transform). Ti'#7871'n tr'#236'nh c'
+        + #7853'p nh'#7853't theo byte/d'#242'ng; '#273#7847'u ra '#273#432#7907'c ghi ra t'#7879'p tr'#234'n '#273#297'a.');
+  Put(True,
+    'SCRIPT_ENGINE_OVERLAY_START',
+    #272'ang kh'#7903'i '#273#7897'ng c'#244'ng c'#7909' script (bi'#234'n d'#7883'ch / RUNFILE)...');
+  Put(True,
+    'SCRIPT_ENGINE_REBUILD_HINT',
+    'D'#7921'ng l'#7841'i plugin Python ScriptEngine.exe (ch'#7841'y data-lake-duckdb-main\\b'
+        + 'uild_exe_scriptengine.bat) v'#224' sao ch'#233'p c'#7841'nh FastFile.exe.');
+  Put(True,
+    'SCRIPT_ENGINE_RUNFILE_MODE',
+    'FastFile '#273'ang x'#7917' l'#253' t'#7879'p '#7903' ch'#7871' '#273#7897' RUNFILE g'#7889'c (ScriptEngine '#273#7885'c ngu'#7891'n t'
+        + 'r'#7921'c ti'#7871'p).');
+  Put(True,
+    'SCRIPT_ENGINE_SCOPE_PROMPT',
+    'C'#243' %d d'#242'ng '#273#227' ch'#7885'n.'#13#10#13#10'Ch'#7841'y script tr'#234'n T'#7844'T C'#7842' d'#242'ng c'#7911'a t'#7879'p, hay ch'#7881' c'
+        + #225'c d'#242'ng '#273#227' ch'#7885'n?'#13#10#13#10'C'#243' = t'#7845't c'#7843' d'#242'ng'#13#10'Kh'#244'ng = ch'#7881' d'#242'ng '#273#227' ch'#7885'n'#13#10'H'#7911'y = '
+        + 'h'#7911'y b'#7887);
+  Put(True,
+    'SCRIPT_ENGINE_UPDATE_FOR_OUTFILE',
+    'C'#7853'p nh'#7853't ScriptEngine.exe (ENGINE_VERSION 5+) '#273#7875' xu'#7845't t'#7879'p l'#7899'n nhanh nh'
+        + #7845't; l'#7847'n ch'#7841'y n'#224'y ghi qua Delphi v'#224'o c'#249'ng t'#7879'p.');
+  Put(True,
+    'SCRIPT_EXPORT_BALLOON_BODY',
+    '%s '#273#227' l'#432'u trong %s');
+  Put(True,
+    'SCRIPT_EXPORT_COPY_PATH',
+    'Sao ch'#233'p '#273#432#7901'ng d'#7851'n');
+  Put(True,
+    'SCRIPT_EXPORT_DONE_STATUS',
+    'Xong: %d ok, %d b'#7887' qua, %d l'#7895'i. '#272#7847'u ra: %s');
+  Put(True,
+    'SCRIPT_EXPORT_FILE_LINE',
+    'T'#7879'p: %s');
+  Put(True,
+    'SCRIPT_EXPORT_FOLDER_LINE',
+    'Th'#432' m'#7909'c: %s');
+  Put(True,
+    'SCRIPT_EXPORT_LINK_HINT',
+    'Nh'#7845'p t'#234'n t'#7879'p '#273#7875' m'#7903', ho'#7863'c th'#432' m'#7909'c '#273#7875' hi'#7879'n trong Explorer.');
+  Put(True,
+    'SCRIPT_EXPORT_OPEN_FOLDER',
+    'M'#7903' th'#432' m'#7909'c');
+  Put(True,
+    'SCRIPT_EXPORT_SAVED_TITLE',
+    #272#227' l'#432'u t'#7879'p');
+  Put(True,
+    'SCRIPT_EXPORT_STATUS_SHORT',
+    #272#7847'u ra: %s');
+  Put(True,
+    'SCRIPT_EXPORT_WRITING_TITLE',
+    #272'ang ghi '#273#7847'u ra ra '#273#297'a...');
+  Put(True,
+    'SPLIT_PATTERN_AI_BANNER_DISMISS',
+    '&'#272#227' hi'#7875'u');
+  Put(True,
+    'SPLIT_PATTERN_AI_BANNER_TEXT',
+    'G'#7907'i '#253' regex AI m'#7899'i '#273#227' th'#234'm v'#224'o memo v'#237' d'#7909' b'#234'n d'#432#7899'i. Cu'#7897'n t'#7899'i m'#7909'c "--- '
+        + 'AI suggestions ---".');
+  Put(True,
+    'SPLIT_PATTERN_AI_PROMPT_BODY',
+    'H'#227'y '#273#7873' xu'#7845't bi'#7875'u th'#7913'c ch'#237'nh quy th'#7921'c t'#7871' t'#432#417'ng th'#237'ch VBScript cho FastF'
+        + 'ile CH'#7880' d'#7921'a tr'#234'n c'#225'c d'#242'ng d'#432#7899'i '#273#226'y (c'#225'c d'#242'ng '#273#7847'u t'#7879'p c'#7911'a t'#244'i). C'#7845'u tr'#250
+        + 'c m'#7895'i g'#7907'i '#253' b'#7857'ng ti'#234'u '#273#7873' ng'#7855'n, m'#7897't d'#242'ng b'#7855't '#273#7847'u b'#7857'ng Regex:, v'#224' m'#7897't d'#242
+        + 'ng b'#7855't '#273#7847'u b'#7857'ng Logic:. Khi ph'#249' h'#7907'p h'#227'y g'#7891'm Split (t'#7879'p m'#7899'i khi d'#242'ng kh'
+        + #7899'p), Match, Test, Replace (th'#234'm Replace with: khi c'#7847'n), v'#224' Filter. Eng'
+        + 'ine: VBScript.RegExp - lookbehind (?<=) KH'#212'NG '#273#432#7907'c h'#7895' tr'#7907'; lookahead ('
+        + '?=) '#273#432#7907'c h'#7895' tr'#7907'. D'#249'ng v'#259'n b'#7843'n c'#243' c'#7845'u tr'#250'c thu'#7847'n.');
+  Put(True,
+    'Same 8-digit trailer on all scanned lines - this pattern matches every'
+        + ' line or none; narrow using column-specific substring tests if needed.',
+    'C'#249'ng '#273'u'#244'i 8 ch'#7919' s'#7889' tr'#234'n m'#7885'i d'#242'ng '#273#227' qu'#233't - m'#7851'u n'#224'y kh'#7899'p m'#7885'i d'#242'ng ho'#7863'c '
+        + 'kh'#244'ng d'#242'ng n'#224'o; thu h'#7865'p b'#7857'ng ki'#7875'm tra chu'#7895'i con theo c'#7897't n'#7871'u c'#7847'n.');
+  Put(True,
+    'Sample lines (raw, from current file):',
+    'D'#242'ng m'#7851'u (th'#244', t'#7915' t'#7879'p hi'#7879'n t'#7841'i):');
+  Put(True,
+    'Sample lines from file (dynamic '#8212' changes when you pick another file):',
+    'D'#242'ng m'#7851'u t'#7915' t'#7879'p ('#273#7897'ng '#8212' '#273#7893'i khi b'#7841'n ch'#7885'n t'#7879'p kh'#225'c):');
+  Put(True,
+    'Sample lines from file:',
+    'D'#242'ng m'#7851'u t'#7915' t'#7879'p:');
+  Put(True,
+    'Sample tokens inferred from your columns - primary (region-like): "%s"'
+        + '. Alternate token useful when categories drive file boundaries: "%s". '
+        + 'Sort by the active key before splitting so each part stays coherent.',
+    'Token m'#7851'u suy ra t'#7915' c'#7897't c'#7911'a b'#7841'n - ch'#237'nh (ki'#7875'u v'#249'ng): "%s". Token thay '
+        + 'th'#7871' h'#7919'u '#237'ch khi danh m'#7909'c quy'#7871't '#273#7883'nh ranh gi'#7899'i t'#7879'p: "%s". S'#7855'p x'#7871'p theo '
+        + 'kh'#243'a '#273'ang d'#249'ng tr'#432#7899'c khi t'#225'ch '#273#7875' m'#7895'i ph'#7847'n li'#7873'n m'#7841'ch.');
+  Put(True,
+    'Save file',
+    'L'#432'u t'#7879'p');
+  Put(True,
+    'Save output...',
+    'L'#432'u '#273#7847'u ra...');
+  Put(True,
+    'Save to file:',
+    'L'#432'u v'#224'o t'#7879'p:');
+  Put(True,
+    'Save to text file instead of clipboard',
+    'L'#432'u v'#224'o t'#7879'p v'#259'n b'#7843'n thay v'#236' clipboard');
+  Put(True,
+    'Saving file...',
+    #272'ang l'#432'u t'#7879'p...');
+  Put(True,
+    'Scale.RestoreDefault',
+    'Kh'#244'i ph'#7909'c t'#7927' l'#7879' m'#7863'c '#273#7883'nh');
+  Put(True,
+    'Scale.WindowsDPI',
+    'Windows DPI');
+  Put(True,
+    'Scanning sources... %d',
+    #272'ang qu'#233't ngu'#7891'n... %d');
+  Put(True,
+    'Script (define transform(line, ctx) -> str | None):',
+    'Script ('#273#7883'nh ngh'#297'a transform(line, ctx) -> str | None):');
+  Put(True,
+    'Script Engine is busy with a manual run. Wait for it to finish, then r'
+        + 'eprocess.',
+    'C'#244'ng c'#7909' Script '#273'ang b'#7853'n v'#7899'i l'#7847'n ch'#7841'y th'#7911' c'#244'ng. '#272#7907'i ho'#224'n t'#7845't r'#7891'i ch'#7841'y l'
+        + #7841'i.');
+  Put(True,
+    'Script Examples',
+    'V'#237' d'#7909' Script');
+  Put(True,
+    'Script cancelled by user.',
+    'Script '#273#227' h'#7911'y b'#7903'i ng'#432#7901'i d'#249'ng.');
+  Put(True,
+    'Script completed: %d lines processed successfully, %d skipped, %d erro'
+        + 'rs.',
+    'Script ho'#224'n t'#7845't: %d d'#242'ng x'#7917' l'#253' th'#224'nh c'#244'ng, %d b'#7887' qua, %d l'#7895'i.');
+  Put(True,
+    'Script engine is not running.',
+    'C'#244'ng c'#7909' script kh'#244'ng '#273'ang ch'#7841'y.');
+  Put(True,
+    'Script engine: using sparse line index for this large file (temp_ckpt.'
+        + 'txt).',
+    'C'#244'ng c'#7909' script: d'#249'ng ch'#7881' m'#7909'c d'#242'ng th'#432'a cho t'#7879'p l'#7899'n n'#224'y (temp_ckpt.txt)'
+        + '.');
+  Put(True,
+    'Script not found',
+    'Kh'#244'ng t'#236'm th'#7845'y script');
+  Put(True,
+    'ScriptOut.AtScriptLine',
+    ' (d'#242'ng script %s)');
+  Put(True,
+    'ScriptOut.Counts',
+    'D'#242'ng '#273#227' t'#7841'o: %s   |   '#272#227' b'#7887' qua: %s   |   L'#7895'i: %s');
+  Put(True,
+    'ScriptOut.DoneDetail',
+    '%s b'#7887' qua, %s l'#7895'i');
+  Put(True,
+    'ScriptOut.EmptyFileRemoved',
+    'T'#7879'p '#273#7847'u ra tr'#7889'ng v'#224' '#273#227' b'#7883' x'#243'a.');
+  Put(True,
+    'ScriptOut.ErrorLine',
+    '[ERROR d'#242'ng %s] %s');
+  Put(True,
+    'ScriptOut.MoreErrors',
+    '... v'#224' %s l'#7895'i n'#7919'a (kh'#244'ng li'#7879't k'#234').');
+  Put(True,
+    'ScriptOut.NoOutputHint',
+    'Kh'#244'ng c'#243' d'#242'ng n'#224'o '#273#432#7907'c t'#7841'o. Xem l'#7895'i ph'#237'a tr'#234'n, s'#7917'a script (ho'#7863'c h'#7887'i AI'
+        + ' l'#7841'i) v'#224' ch'#7841'y l'#7841'i.');
+  Put(True,
+    'ScriptOut.ResultTitle',
+    'K'#7871't qu'#7843' script');
+  Put(True,
+    'ScriptOut.TopError',
+    'L'#7895'i th'#432#7901'ng g'#7863'p nh'#7845't (%s d'#242'ng): %s');
+  Put(True,
+    'ScriptPreview.AllErrors',
+    'M'#7885'i d'#242'ng m'#7851'u '#273#7873'u th'#7845't b'#7841'i. S'#7917'a script tr'#432#7899'c khi t'#7841'o '#273#7847'u ra.');
+  Put(True,
+    'ScriptPreview.AllSkipped',
+    'Kh'#244'ng d'#242'ng m'#7851'u n'#224'o t'#7841'o '#273#7847'u ra (transform tr'#7843' v'#7873' None cho t'#7845't c'#7843').');
+  Put(True,
+    'ScriptPreview.Back',
+    'Quay l'#7841'i');
+  Put(True,
+    'ScriptPreview.Cancelled',
+    #272#227' h'#7911'y t'#7841'o '#273#7847'u ra sau xem tr'#432#7899'c.');
+  Put(True,
+    'ScriptPreview.ColLine',
+    'D'#242'ng');
+  Put(True,
+    'ScriptPreview.ColOriginal',
+    'G'#7889'c');
+  Put(True,
+    'ScriptPreview.ColResult',
+    'K'#7871't qu'#7843);
+  Put(True,
+    'ScriptPreview.ColStatus',
+    'Tr'#7841'ng th'#225'i');
+  Put(True,
+    'ScriptPreview.Generate',
+    'T'#7841'o '#273#7847'u ra');
+  Put(True,
+    'ScriptPreview.NoteFile',
+    'K'#7871't qu'#7843' '#273#7847'y '#273#7911' s'#7869' '#273#432#7907'c ghi v'#224'o t'#7879'p m'#7899'i c'#7841'nh t'#7879'p ngu'#7891'n.');
+  Put(True,
+    'ScriptPreview.NoteMemo',
+    'K'#7871't qu'#7843' '#273#7847'y '#273#7911' s'#7869' hi'#7879'n trong b'#7843'ng '#273#7847'u ra script.');
+  Put(True,
+    'ScriptPreview.Running',
+    #272'ang ch'#7841'y script tr'#234'n m'#7851'u %d d'#242'ng '#273#7875' xem tr'#432#7899'c...');
+  Put(True,
+    'ScriptPreview.SampleDone',
+    'M'#7851'u xem tr'#432#7899'c: %d d'#242'ng - %d OK, %d b'#7887' qua, %d l'#7895'i.');
+  Put(True,
+    'ScriptPreview.SkipDetail',
+    '(transform tr'#7843' v'#7873' None: d'#242'ng n'#224'y s'#7869' kh'#244'ng xu'#7845't hi'#7879'n trong '#273#7847'u ra)');
+  Put(True,
+    'ScriptPreview.StErr',
+    'L'#7895'i');
+  Put(True,
+    'ScriptPreview.StOk',
+    #272#7847'u ra');
+  Put(True,
+    'ScriptPreview.StSkip',
+    #272#227' b'#7887' qua');
+  Put(True,
+    'ScriptPreview.Summary',
+    'M'#7851'u %d d'#242'ng (trong %s c'#7847'n x'#7917' l'#253'): %d OK, %d b'#7887' qua, %d l'#7895'i');
+  Put(True,
+    'ScriptPreview.Title',
+    'Xem tr'#432#7899'c k'#7871't qu'#7843' script');
+  Put(True,
+    'ScriptRun.PreviewTitle',
+    #272'ang t'#7841'o xem tr'#432#7899'c script (m'#7851'u %d d'#242'ng)...');
+  Put(True,
+    'ScriptRun.ProcessedOf',
+    #272#227' x'#7917' l'#253' %s trong %s d'#242'ng (%s l'#7895'i)');
+  Put(True,
+    'ScriptRun.SendingLines',
+    #272'ang g'#7917'i d'#242'ng t'#7899'i c'#244'ng c'#7909' script: %s trong %s');
+  Put(True,
+    'Search',
+    'T'#236'm');
+  Put(True,
+    'Search (Enter in search box)',
+    'T'#236'm (Enter trong h'#7897'p t'#236'm)');
+  Put(True,
+    'Search / index',
+    'T'#236'm / ch'#7881' m'#7909'c');
+  Put(True,
+    'Search cancelled.',
+    #272#227' h'#7911'y t'#236'm ki'#7871'm.');
+  Put(True,
+    'Search error',
+    'L'#7895'i t'#236'm ki'#7871'm');
+  Put(True,
+    'Search error: ',
+    'L'#7895'i t'#236'm ki'#7871'm: ');
+  Put(True,
+    'Search for the typed text in the loaded lines.',
+    'T'#236'm v'#259'n b'#7843'n '#273#227' nh'#7853'p trong c'#225'c d'#242'ng '#273#227' t'#7843'i.');
+  Put(True,
+    'Search: &automatic match case',
+    'T'#236'm: &t'#7921' '#273#7897'ng ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Search: &ignore case',
+    'T'#236'm: &b'#7887' qua ch'#7919' hoa/th'#432#7901'ng');
+end;
+
+procedure AddVietnamesePart29(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Search: automatic match case',
+    'T'#236'm: t'#7921' '#273#7897'ng ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Search: ignore case',
+    'T'#236'm: kh'#244'ng ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'Search: match &case',
+    'T'#236'm: ph'#226'n bi'#7879't ch'#7919' &hoa/th'#432#7901'ng');
+  Put(True,
+    'Search: match case',
+    'T'#236'm: ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng');
+  Put(True,
+    'SearchCmd.AIGenerate',
+    'T'#7841'o b'#7857'ng AI');
+  Put(True,
+    'SearchCmd.AIInvalid',
+    'Ph'#7843'n h'#7891'i AI kh'#244'ng h'#7907'p l'#7879'. Kh'#244'ng c'#243' l'#7879'nh n'#224'o '#273#432#7907'c ch'#7841'y. H'#7887'i l'#7841'i ho'#7863'c nh'
+        + #7853'p l'#7879'nh glob/grep h'#7907'p l'#7879'.');
+  Put(True,
+    'SearchCmd.AIPrivacy',
+    'AI ch'#7881' nh'#7853'n y'#234'u c'#7847'u c'#7911'a b'#7841'n v'#224' l'#7879'nh n'#224'y, kh'#244'ng nh'#7853'n n'#7897'i dung t'#7879'p hay d'
+        + 'anh s'#225'ch ngu'#7891'n '#273#227' ch'#7885'n.');
+  Put(True,
+    'SearchCmd.AIRequest',
+    'M'#244' t'#7843' nh'#7919'ng g'#236' b'#7841'n mu'#7889'n t'#236'm ho'#7863'c y'#234'u c'#7847'u g'#7907'i '#253' l'#7879'nh:');
+  Put(True,
+    'SearchCmd.AIRequestCue',
+    'v'#237' d'#7909': d'#242'ng nh'#7853't k'#253' c'#243' l'#7895'i thanh to'#225'n');
+  Put(True,
+    'SearchCmd.AIReview',
+    'Xem l'#7841'i ho'#7863'c s'#7917'a l'#7879'nh, r'#7891'i nh'#7845'n Ch'#7841'y l'#7879'nh. G'#7907'i '#253' AI kh'#244'ng bao gi'#7901' ch'#7841'y'
+        + ' t'#7921' '#273#7897'ng.');
+  Put(True,
+    'SearchCmd.AIStopping',
+    #272'ang '#273#243'ng sau khi y'#234'u c'#7847'u AI hi'#7879'n t'#7841'i k'#7871't th'#250'c ho'#7863'c h'#7871't th'#7901'i gian; ph'#7843
+        + 'n h'#7891'i s'#7869' b'#7883' b'#7887' qua.');
+  Put(True,
+    'SearchCmd.AISuggestions',
+    'G'#7907'i '#253' l'#7879'nh');
+  Put(True,
+    'SearchCmd.AIWaiting',
+    #272'ang t'#7841'o l'#7879'nh b'#7857'ng AI. Kh'#244'ng c'#243' g'#236' '#273'ang '#273#432#7907'c th'#7921'c thi.');
+  Put(True,
+    'SearchCmd.Arguments',
+    #272#7889'i s'#7889' kh'#244'ng h'#7907'p l'#7879'. '#272#7863't m'#7897't m'#7851'u trong d'#7845'u ngo'#7863'c k'#233'p; xem grep --help.');
+  Put(True,
+    'SearchCmd.AskAI',
+    'H'#7887'i AI');
+  Put(True,
+    'SearchCmd.BookmarkUnavailable',
+    'Thao t'#225'c d'#7845'u trang kh'#244'ng kh'#7843' d'#7909'ng '#7903' '#273#226'y. D'#249'ng t'#7879'p '#273'ang m'#7903' '#273#227' l'#7853'p ch'#7881' m'
+        + #7909'c trong c'#7917'a s'#7893' ch'#237'nh.');
+  Put(True,
+    'SearchCmd.Ex.GlobCsv',
+    'C'#225'c t'#7879'p CSV trong th'#432' m'#7909'c '#273#227' ch'#7885'n. D'#7845'u * kh'#244'ng '#273'i v'#224'o th'#432' m'#7909'c con.');
+  Put(True,
+    'SearchCmd.Ex.GlobLimit',
+    'C'#249'ng t'#236'm ki'#7871'm nh'#7853't k'#253', gi'#7919' t'#7889'i '#273'a 500 '#273#432#7901'ng d'#7851'n.');
+  Put(True,
+    'SearchCmd.Ex.GlobLog',
+    'C'#225'c t'#7879'p nh'#7853't k'#253' trong th'#432' m'#7909'c '#273#227' ch'#7885'n v'#224' m'#7885'i th'#432' m'#7909'c con.');
+  Put(True,
+    'SearchCmd.Ex.GlobReport',
+    'T'#234'n nh'#432' report_2024.txt: ? kh'#7899'p '#273#250'ng m'#7897't k'#253' t'#7921'.');
+  Put(True,
+    'SearchCmd.Ex.GrepBookmarks',
+    'Ch'#7881' t'#236'm trong c'#225'c d'#242'ng '#273#227' g'#7855'n d'#7845'u trang c'#7911'a t'#7879'p '#273'ang m'#7903' t'#7915' pending, kh'
+        + #244'ng ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng.');
+  Put(True,
+    'SearchCmd.Ex.GrepGroups',
+    #272#7885'c m'#7897't '#273#7883'a ch'#7881' IPv4 v'#224' m'#227' tr'#7841'ng th'#225'i 3 ch'#7919' s'#7889' v'#224'o c'#225'c c'#7897't k'#7871't qu'#7843' ri'#234
+        + 'ng.');
+  Put(True,
+    'SearchCmd.Ex.GrepInvert',
+    'C'#225'c d'#242'ng kh'#244'ng ch'#7913'a v'#259'n b'#7843'n nguy'#234'n v'#259'n DEBUG.');
+  Put(True,
+    'SearchCmd.Ex.GrepLog',
+    'V'#259'n b'#7843'n nguy'#234'n v'#259'n error, m'#7885'i ch'#7919' hoa/th'#432#7901'ng, ch'#7881' trong t'#7879'p .log.');
+  Put(True,
+    'SearchCmd.Ex.GrepMark',
+    'G'#7855'n d'#7845'u trang m'#7895'i d'#242'ng kh'#7899'p trong t'#7879'p '#273'ang m'#7903'. C'#225'c t'#7879'p kh'#225'c b'#7883' b'#7887' qua.');
+  Put(True,
+    'SearchCmd.Ex.GrepOr',
+    'C'#225'c d'#242'ng ch'#7913'a error ho'#7863'c failure. M'#7851'u n'#224'y l'#224' bi'#7875'u th'#7913'c ch'#237'nh quy.');
+  Put(True,
+    'SearchCmd.Ex.GrepWord',
+    'C'#7843' t'#7915' id, kh'#244'ng ph'#226'n bi'#7879't ch'#7919' hoa/th'#432#7901'ng, kh'#244'ng ph'#7843'i ch'#7919' c'#225'i b'#234'n trong'
+        + ' t'#7915' d'#224'i h'#417'n.');
+  Put(True,
+    'SearchCmd.Failed',
+    'T'#236'm ki'#7871'm th'#7845't b'#7841'i; kh'#244'ng c'#243' thao t'#225'c n'#224'o '#273#432#7907'c '#225'p d'#7909'ng.');
+  Put(True,
+    'SearchCmd.File',
+    'T'#7879'p');
+  Put(True,
+    'SearchCmd.FileHelp',
+    'T'#7879'p l'#224' t'#249'y ch'#7885'n: grep "house" ho'#7863'c glob "*.txt" d'#249'ng tr'#432#7901'ng t'#234'n t'#7879'p ch'
+        + #237'nh tr'#432#7899'c c'#225'c ngu'#7891'n '#273#227' ch'#7885'n. Th'#234'm m'#7897't t'#7879'p trong d'#7845'u ngo'#7863'c k'#233'p '#273#7875' m'#7903' tr'
+        + #432#7899'c. C'#244'ng c'#7909' AI kh'#244'ng th'#7875' r'#7901'i c'#225'c ngu'#7891'n '#273#432#7907'c ph'#233'p.');
+  Put(True,
+    'SearchCmd.GroupColumns',
+    'Nh'#243'm c'#243' t'#234'n: %s');
+  Put(True,
+    'SearchCmd.Help',
+    'L'#7879'nh n'#7897'i b'#7897', kh'#244'ng ph'#7843'i l'#7879'nh shell. V'#7899'i th'#432' m'#7909'c '#273#227' ch'#7885'n, m'#7863't n'#7841' t'#225'c nh'
+        + #226'n, th'#432' m'#7909'c con, '#273#7897' s'#226'u v'#224' gi'#7899'i h'#7841'n s'#7889' t'#7879'p '#273#432#7907'c '#225'p d'#7909'ng. glob t'#236'm '#273#432#7901'n'
+        + 'g d'#7851'n (* trong m'#7897't th'#224'nh ph'#7847'n, ? m'#7897't k'#253' t'#7921', ** qua c'#225'c th'#432' m'#7909'c). grep '
+        + 't'#236'm n'#7897'i dung: -F nguy'#234'n v'#259'n (m'#7863'c '#273#7883'nh), -E Regex PCRE, -i kh'#244'ng ph'#226'n b'
+        + 'i'#7879't hoa/th'#432#7901'ng, -s ph'#226'n bi'#7879't hoa/th'#432#7901'ng, -v '#273#7843'o ng'#432#7907'c, -w c'#7843' t'#7915'; -n '#273#432
+        + #7907'c ch'#7845'p nh'#7853'n v'#224' s'#7889' d'#242'ng lu'#244'n hi'#7879'n. --glob l'#7885'c '#273#432#7901'ng d'#7851'n. --limit 1..10'
+        + '000 gi'#7899'i h'#7841'n m'#7885'i k'#7871't qu'#7843' (m'#7863'c '#273#7883'nh 200). --bookmarks ch'#7881' t'#236'm c'#225'c d'#242'ng '
+        + #273#227' g'#7855'n d'#7845'u trang c'#7911'a t'#7879'p '#273'ang m'#7903'. --mark th'#234'm d'#7845'u trang v'#224'o c'#225'c d'#242'ng k'
+        + 'h'#7899'p; k'#7871't qu'#7843' '#7903' t'#7879'p kh'#225'c b'#7883' b'#7887' qua. L'#7879'nh d'#7845'u trang y'#234'u c'#7847'u '#273#7885'c '#273#227' l'#7853'p c'
+        + 'h'#7881' m'#7909'c. D'#7845'u ngo'#7863'c k'#233'p gi'#7919' kho'#7843'ng tr'#7855'ng v'#224' d'#7845'u g'#7841'ch ch'#233'o ng'#432#7907'c; -- k'#7871't '
+        + 'th'#250'c t'#249'y ch'#7885'n. V'#259'n b'#7843'n thu'#7847'n gi'#7919' t'#236'm ki'#7871'm hi'#7879'n c'#243'. K'#7871't qu'#7843' ph'#226'n trang;'
+        + ' M'#7903' '#273'i'#7873'u h'#432#7899'ng, Sao ch'#233'p sao ch'#233'p k'#7871't qu'#7843' '#273#227' gi'#7919'. K'#7871't qu'#7843' m'#7897't ph'#7847'n/'#273#227' '
+        + 'h'#7911'y kh'#244'ng ph'#7843'i t'#7893'ng. C'#225'c v'#237' d'#7909' b'#234'n d'#432#7899'i d'#249'ng n'#7897'i dung m'#7851'u ti'#7871'ng Anh; t'
+        + 'hay v'#259'n b'#7843'n t'#236'm trong d'#7845'u ngo'#7863'c k'#233'p khi c'#7847'n.');
+  Put(True,
+    'SearchCmd.Hint',
+    'V'#259'n b'#7843'n, glob "*.log", grep -i "error", ho'#7863'c grep --help');
+  Put(True,
+    'SearchCmd.Index',
+    #272#7885'c/l'#7853'p ch'#7881' m'#7909'c t'#7879'p '#273'ang m'#7903' tr'#432#7899'c khi d'#249'ng l'#7879'nh d'#7845'u trang.');
+  Put(True,
+    'SearchCmd.LargeHelp',
+    'C'#225'c t'#7879'p GB '#273#432#7907'c truy'#7873'n theo kh'#7889'i; kh'#244'ng '#273#7879'm c'#7843' t'#7879'p. D'#242'ng gi'#7899'i h'#7841'n 16.7'
+        + '77.216 k'#253' t'#7921' '#273#227' gi'#7843'i m'#227' k'#232'm l'#7895'i r'#245' r'#224'ng. Khi '#273#7841't gi'#7899'i h'#7841'n kh'#7899'p, qu'#233't d'
+        + #7915'ng v'#224' k'#7871't qu'#7843' l'#224' m'#7897't ph'#7847'n, kh'#244'ng ph'#7843'i t'#7893'ng ch'#237'nh x'#225'c.');
+  Put(True,
+    'SearchCmd.LaunchHint',
+    'M'#7903' %s v'#7899'i tr'#7907' gi'#250'p AI, v'#237' d'#7909' v'#224' g'#7907'i '#253' l'#7879'nh');
+  Put(True,
+    'SearchCmd.LaunchQueued',
+    #272'ang m'#7903' tr'#7907' gi'#250'p %s trong c'#7917'a s'#7893' ch'#237'nh; ch'#432'a ch'#7841'y t'#236'm ki'#7871'm.');
+  Put(True,
+    'SearchCmd.Limit',
+    '--limit ph'#7843'i n'#7857'm trong kho'#7843'ng 1 '#273#7871'n 10000.');
+  Put(True,
+    'SearchCmd.LongLine',
+    #272#227' d'#7915'ng t'#236'm: %s, d'#242'ng %d v'#432#7907't qu'#225' %d k'#253' t'#7921' '#273#227' gi'#7843'i m'#227'. Kh'#244'ng c'#243' k'#7871't qu'
+        + #7843' ch'#237'nh x'#225'c.');
+  Put(True,
+    'SearchCmd.Mark',
+    'K'#7871't qu'#7843' d'#7845'u trang trong t'#7879'p '#273'ang m'#7903);
+  Put(True,
+    'SearchCmd.Marked',
+    #272#227' th'#234'm %d d'#7845'u trang; %d k'#7871't qu'#7843' b'#7883' b'#7887' qua (t'#7879'p kh'#225'c ho'#7863'c gi'#7899'i h'#7841'n d'#7845'u'
+        + ' trang).');
+  Put(True,
+    'SearchCmd.NoSources',
+    'Ch'#7885'n ngu'#7891'n trong t'#225'c nh'#226'n AI ho'#7863'c m'#7903' m'#7897't t'#7879'p tr'#432#7899'c.');
+  Put(True,
+    'SearchCmd.Option',
+    'T'#249'y ch'#7885'n kh'#244'ng h'#7907'p l'#7879' ho'#7863'c kh'#244'ng '#273#7847'y '#273#7911': %s');
+  Put(True,
+    'SearchCmd.OutsideSources',
+    'T'#7879'p n'#7857'm ngo'#224'i c'#225'c ngu'#7891'n t'#236'm '#273#432#7907'c ph'#233'p: %s');
+  Put(True,
+    'SearchCmd.Partial',
+    'K'#7871't qu'#7843' m'#7897't ph'#7847'n: '#273#227' '#273#7841't gi'#7899'i h'#7841'n kh'#7899'p ho'#7863'c ngu'#7891'n.');
+  Put(True,
+    'SearchCmd.Pattern',
+    'Nh'#7853'p l'#7879'nh glob ho'#7863'c grep v'#7899'i m'#7851'u kh'#244'ng r'#7895'ng.');
+  Put(True,
+    'SearchCmd.ProgressElapsed',
+    #272#227' qua: %s');
+  Put(True,
+    'SearchCmd.ProgressEta',
+    'C'#242'n l'#7841'i: ~%s');
+  Put(True,
+    'SearchCmd.ProgressFiles',
+    'T'#7879'p: %d / %d');
+  Put(True,
+    'SearchCmd.ProgressHits',
+    'Kh'#7899'p: %d');
+  Put(True,
+    'SearchCmd.ProgressListed',
+    'T'#236'm th'#7845'y %d t'#7879'p');
+  Put(True,
+    'SearchCmd.ProgressListing',
+    #272'ang li'#7879't k'#234' t'#7879'p trong c'#225'c ngu'#7891'n '#273#227' ch'#7885'n...');
+  Put(True,
+    'SearchCmd.ProgressScanning',
+    #272'ang t'#236'm t'#7879'p (glob / grep)...');
+  Put(True,
+    'SearchCmd.Queued',
+    'T'#236'm ki'#7871'm '#273#227' l'#234'n l'#7883'ch trong c'#7917'a s'#7893' ch'#237'nh; d'#7845'u trang ch'#432'a thay '#273#7893'i.');
+  Put(True,
+    'SearchCmd.Quotes',
+    'Thi'#7871'u d'#7845'u ngo'#7863'c k'#233'p '#273#243'ng trong l'#7879'nh t'#236'm.');
+  Put(True,
+    'SearchCmd.Read',
+    'Kh'#244'ng th'#7875' '#273#7885'c: %s');
+  Put(True,
+    'SearchCmd.RecentEmpty',
+    '(ch'#432'a c'#243' l'#7879'nh g'#7847'n '#273#226'y)');
+  Put(True,
+    'SearchCmd.RecentHint',
+    'C'#225'c l'#7879'nh glob v'#224' grep g'#7847'n '#273#226'y');
+  Put(True,
+    'SearchCmd.RecentMore',
+    'Hi'#7879'n th'#234'm');
+  Put(True,
+    'SearchCmd.RecentMoreHint',
+    'Hi'#7879'n c'#225'c l'#7879'nh g'#7847'n '#273#226'y c'#242'n l'#7841'i');
+  Put(True,
+    'SearchCmd.Regex',
+    'Bi'#7875'u th'#7913'c ch'#237'nh quy kh'#244'ng h'#7907'p l'#7879': %s');
+  Put(True,
+    'SearchCmd.Results',
+    'Hi'#7879'n %d k'#7871't qu'#7843'; '#273#227' qu'#233't %d t'#7879'p.');
+  Put(True,
+    'SearchCmd.Run',
+    'Ch'#7841'y l'#7879'nh');
+  Put(True,
+    'SearchCmd.Scanning',
+    #272'ang t'#236'm trong c'#225'c ngu'#7891'n '#273#227' ch'#7885'n... D'#7915'ng h'#7911'y vi'#7879'c qu'#233't.');
+  Put(True,
+    'SearchCmd.Stopped',
+    #272#227' h'#7911'y; k'#7871't qu'#7843' c'#243' th'#7875' kh'#244'ng '#273#7847'y '#273#7911'.');
+  Put(True,
+    'SearchCmd.WorkflowHelp',
+    'Ch'#7881' g'#245' grep/glob, ho'#7863'c d'#249'ng n'#250't t'#432#417'ng '#7913'ng trong T'#236'm, L'#7885'c v'#224' D'#7845'u trang,'
+        + ' '#273#7875' m'#7903' v'#237' d'#7909' m'#224' kh'#244'ng qu'#233't. Trong h'#7897'p tho'#7841'i, m'#244' t'#7843' y'#234'u c'#7847'u, T'#7841'o b'#7857'ng A'
+        + 'I, xem l'#7841'i gi'#7843'i th'#237'ch/l'#7879'nh c'#243' th'#7875' s'#7917'a v'#224' t'#7889'i '#273'a 3 g'#7907'i '#253', r'#7891'i Ch'#7841'y l'#7879'nh'
+        + '. L'#7879'nh th'#7911' c'#244'ng ho'#7841't '#273#7897'ng ngo'#7841'i tuy'#7871'n; t'#7841'o l'#7879'nh kh'#244'ng bao gi'#7901' ch'#7841'y t'#236'm'
+        + ' ki'#7871'm. Tr'#7907' l'#253'/t'#225'c nh'#226'n d'#249'ng t'#7879'p ch'#237'nh; ch'#7849'n '#273'o'#225'n gi'#7919' ngu'#7891'n ri'#234'ng v'#224' ch'
+        + #7881' '#273#7885'c. V'#7899'i t'#7879'p l'#7899'n, M'#7903' t'#7913'c th'#236' tr'#225'nh l'#7853'p ch'#7881' m'#7909'c ban '#273#7847'u; ch'#237'nh s'#225'ch m'
+        + #7903' hi'#7879'n t'#7841'i '#273#432#7907'c gi'#7919'.');
+  Put(True,
+    'Searching',
+    #272'ang t'#236'm');
+  Put(True,
+    'Searching...',
+    #272'ang t'#236'm...');
+  Put(True,
+    'Secondary pattern (same mode): Regex: ^.*,%s,.*$',
+    'M'#7851'u ph'#7909' (c'#249'ng ch'#7871' '#273#7897'): Regex: ^.*,%s,.*$');
+  Put(True,
+    'Segment',
+    'Ph'#226'n '#273'o'#7841'n');
+  Put(True,
+    'Segmented ops: &automatic (recommended)',
+    'Thao t'#225'c ph'#226'n '#273'o'#7841'n: &t'#7921' '#273#7897'ng (khuy'#7871'n ngh'#7883')');
+  Put(True,
+    'Segmented ops: always use',
+    'Thao t'#225'c ph'#226'n '#273'o'#7841'n: lu'#244'n d'#249'ng');
+  Put(True,
+    'Segmented ops: automatic (recommended)',
+    'Thao t'#225'c ph'#226'n '#273'o'#7841'n: t'#7921' '#273#7897'ng (khuy'#7871'n ngh'#7883')');
+  Put(True,
+    'Segmented ops: never use',
+    'Thao t'#225'c ph'#226'n '#273'o'#7841'n: kh'#244'ng bao gi'#7901' d'#249'ng');
+  Put(True,
+    'Segmented replace: invalid line index in temp.txt.',
+    'Thay th'#7871' ph'#226'n '#273'o'#7841'n: ch'#7881' m'#7909'c d'#242'ng kh'#244'ng h'#7907'p l'#7879' trong temp.txt.');
+  Put(True,
+    'Select',
+    'Ch'#7885'n');
+  Put(True,
+    'Select'#13#10'Ctrl+Shift+S',
+    'Ch'#7885'n'#13#10'Ctrl+Shift+S');
+  Put(True,
+    'Select'#13#10'skin',
+    'Ch'#7885'n'#13#10'giao di'#7879'n');
+  Put(True,
+    'Select a file ...',
+    'Ch'#7885'n m'#7897't t'#7879'p ...');
+  Put(True,
+    'Select a file or folder first.',
+    'Ch'#7885'n m'#7897't t'#7879'p ho'#7863'c th'#432' m'#7909'c tr'#432#7899'c.');
+  Put(True,
+    'Select a valid input file before starting AI Chat (SQL).',
+    'Ch'#7885'n t'#7879'p '#273#7847'u v'#224'o h'#7907'p l'#7879' tr'#432#7899'c khi b'#7855't '#273#7847'u AI Chat (SQL).');
+  Put(True,
+    'Select a valid input file before starting AI Chat.',
+    'Ch'#7885'n t'#7879'p '#273#7847'u v'#224'o h'#7907'p l'#7879' tr'#432#7899'c khi b'#7855't '#273#7847'u AI Chat.');
+  Put(True,
+    'Select a valid input file before starting Advanced AI Chat (file).',
+    'Ch'#7885'n t'#7879'p '#273#7847'u v'#224'o h'#7907'p l'#7879' tr'#432#7899'c khi b'#7855't '#273#7847'u AI Chat n'#226'ng cao (t'#7879'p).');
+  Put(True,
+    'Select all',
+    'Ch'#7885'n t'#7845't c'#7843);
+  Put(True,
+    'Select lines to merge into one (current line stays as target).',
+    'Ch'#7885'n c'#225'c d'#242'ng '#273#7875' g'#7897'p th'#224'nh m'#7897't (d'#242'ng hi'#7879'n t'#7841'i v'#7851'n l'#224' '#273#237'ch).');
+  Put(True,
+    'Select one of: Regex match, Regex test, Regex replace, Regex filter.',
+    'Ch'#7885'n m'#7897't trong: Kh'#7899'p Regex, Ki'#7875'm tra Regex, Thay th'#7871' Regex, L'#7885'c Regex.');
+  Put(True,
+    'Select skin',
+    'Ch'#7885'n giao di'#7879'n');
+  Put(True,
+    'Select the source file to read.',
+    'Ch'#7885'n t'#7879'p ngu'#7891'n '#273#7875' '#273#7885'c.');
+  Put(True,
+    'SelectRange.Added',
+    #272#227' th'#234'm %d d'#242'ng v'#224'o v'#249'ng ch'#7885'n; t'#7893'ng %d '#273#227' ch'#7885'n.');
+  Put(True,
+    'SelectRange.Invalid',
+    'Ph'#7841'm vi kh'#244'ng h'#7907'p l'#7879'. Nh'#7853'p m'#7897't ho'#7863'c nhi'#7873'u kho'#7843'ng t'#7915' 1 '#273#7871'n %d, v'#237' d'#7909' 5-'
+        + '20; 200-400.');
+  Put(True,
+    'SelectRange.ListOmitted',
+    'S'#7889' d'#242'ng b'#7883' b'#7887' qua v'#236' v'#249'ng ch'#7885'n v'#432#7907't qu'#225' %d d'#242'ng.');
+  Put(True,
+    'SelectRange.Menu',
+    'Ch'#7885'n d'#242'ng theo kho'#7843'ng...');
+  Put(True,
+    'SelectRange.Prompt',
+    'Nh'#7853'p m'#7897't ho'#7863'c nhi'#7873'u kho'#7843'ng d'#242'ng b'#7855't '#273#7847'u t'#7915' 1 '#273#7871'n %d (v'#237' d'#7909' 5-20; 200-4'
+        + '00). Ph'#226'n t'#225'ch kho'#7843'ng b'#7857'ng ; ho'#7863'c ,. C'#225'c v'#249'ng ch'#7885'n hi'#7879'n c'#243' '#273#432#7907'c gi'#7919'.');
+  Put(True,
+    'SelectRange.Title',
+    'Ch'#7885'n d'#242'ng theo kho'#7843'ng');
+  Put(True,
+    'SelectSkin dialog',
+    'H'#7897'p tho'#7841'i SelectSkin');
+  Put(True,
+    'Selected / checked lines only',
+    'Ch'#7881' d'#242'ng '#273#227' ch'#7885'n / '#273#227' '#273#225'nh d'#7845'u');
+  Put(True,
+    'Send',
+    'G'#7917'i');
+  Put(True,
+    'Sending lines...',
+    #272'ang g'#7917'i d'#242'ng...');
+  Put(True,
+    'Server returned HTTP status %d.',
+    'M'#225'y ch'#7911' tr'#7843' v'#7873' tr'#7841'ng th'#225'i HTTP %d.');
+  Put(True,
+    'Session',
+    'Phi'#234'n');
+end;
+
+procedure AddVietnamesePart30(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Session history',
+    'L'#7883'ch s'#7917' phi'#234'n');
+  Put(True,
+    'Session loaded.',
+    #272#227' t'#7843'i phi'#234'n.');
+  Put(True,
+    'Session saved.',
+    #272#227' l'#432'u phi'#234'n.');
+  Put(True,
+    'Session.AskAI',
+    'H'#7887'i AI v'#7873' phi'#234'n n'#224'y');
+  Put(True,
+    'Set how many files should be generated.',
+    #272#7863't s'#7889' t'#7879'p c'#7847'n t'#7841'o.');
+  Put(True,
+    'Short Overview',
+    'T'#7893'ng quan ng'#7855'n');
+  Put(True,
+    'Shortcut:',
+    'Ph'#237'm t'#7855't:');
+  Put(True,
+    'Shortcut: ',
+    'Ph'#237'm t'#7855't: ');
+  Put(True,
+    'Show &marks (tab/space/CR/LF, etc.)',
+    'Hi'#7879'n d'#7845'u &'#273#7863'c bi'#7879't (tab/space/CR/LF, v.v.)');
+  Put(True,
+    'Show CheckBoxes',
+    'Hi'#7879'n h'#7897'p ch'#7885'n');
+  Put(True,
+    'Show Hints',
+    'Hi'#7879'n g'#7907'i '#253);
+  Put(True,
+    'Show help and shortcuts.',
+    'Hi'#7879'n tr'#7907' gi'#250'p v'#224' ph'#237'm t'#7855't.');
+  Put(True,
+    'Show hover hints on lines and on all controls',
+    'Hi'#7879'n g'#7907'i '#253' khi di chu'#7897't tr'#234'n d'#242'ng v'#224' m'#7885'i '#273'i'#7873'u khi'#7875'n');
+  Put(True,
+    'Show macro results in panel (limited lines)',
+    'Hi'#7879'n k'#7871't qu'#7843' macro tr'#234'n b'#7843'ng (gi'#7899'i h'#7841'n d'#242'ng)');
+  Put(True,
+    'Show only lines containing:',
+    'Ch'#7881' hi'#7879'n d'#242'ng ch'#7913'a:');
+  Put(True,
+    'Show only lines matching (text or regex pattern):',
+    'Ch'#7881' hi'#7879'n d'#242'ng kh'#7899'p (v'#259'n b'#7843'n ho'#7863'c m'#7851'u regex):');
+  Put(True,
+    'Show/hide app icon',
+    'Hi'#7879'n/'#7849'n bi'#7875'u t'#432#7907'ng '#7913'ng d'#7909'ng');
+  Put(True,
+    'Size',
+    'K'#237'ch th'#432#7899'c');
+  Put(True,
+    'Size && Attributes',
+    'K'#237'ch th'#432#7899'c && Thu'#7897'c t'#237'nh');
+  Put(True,
+    'Size on disk:',
+    'K'#237'ch th'#432#7899'c tr'#234'n '#273#297'a:');
+  Put(True,
+    'Skin name:',
+    'T'#234'n giao di'#7879'n:');
+  Put(True,
+    'Skinned',
+    'C'#243' giao di'#7879'n');
+  Put(True,
+    'Source and destination files must be different.',
+    'T'#7879'p ngu'#7891'n v'#224' '#273#237'ch ph'#7843'i kh'#225'c nhau.');
+  Put(True,
+    'Source file (type path or use picker):',
+    'T'#7879'p ngu'#7891'n (nh'#7853'p '#273#432#7901'ng d'#7851'n ho'#7863'c d'#249'ng b'#7897' ch'#7885'n):');
+  Put(True,
+    'Source file is empty.',
+    'T'#7879'p ngu'#7891'n tr'#7889'ng.');
+  Put(True,
+    'Source file is required.',
+    'B'#7855't bu'#7897'c c'#243' t'#7879'p ngu'#7891'n.');
+  Put(True,
+    'Source file not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y t'#7879'p ngu'#7891'n.');
+  Put(True,
+    'Source file to split (path or picker):',
+    'T'#7879'p ngu'#7891'n '#273#7875' t'#225'ch ('#273#432#7901'ng d'#7851'n ho'#7863'c b'#7897' ch'#7885'n):');
+  Put(True,
+    'Source file to split:',
+    'T'#7879'p ngu'#7891'n '#273#7875' t'#225'ch:');
+  Put(True,
+    'Source file:',
+    'T'#7879'p ngu'#7891'n:');
+  Put(True,
+    'Source line',
+    'D'#242'ng ngu'#7891'n');
+  Put(True,
+    'Sources',
+    'Ngu'#7891'n');
+  Put(True,
+    'Spanish',
+    'Ti'#7871'ng T'#226'y Ban Nha');
+  Put(True,
+    'Sparse File',
+    'T'#7879'p th'#432'a');
+  Put(True,
+    'Specialty token',
+    'Token chuy'#234'n bi'#7879't');
+  Put(True,
+    'Specifications',
+    'Th'#244'ng s'#7889' k'#7929' thu'#7853't');
+  Put(True,
+    'Spl&it Files',
+    'T'#225'c&h t'#7879'p');
+  Put(True,
+    'Split',
+    'T'#225'ch');
+  Put(True,
+    'Split - record-type prefix (fallback)',
+    'T'#225'ch - ti'#7873'n t'#7889' ki'#7875'u b'#7843'n ghi (d'#7921' ph'#242'ng)');
+  Put(True,
+    'Split - start a new file when a delimiter-separated token appears',
+    'T'#225'ch - b'#7855't '#273#7847'u t'#7879'p m'#7899'i khi xu'#7845't hi'#7879'n token ph'#226'n t'#225'ch b'#7857'ng d'#7845'u ph'#226'n c'#225'c'
+        + 'h');
+  Put(True,
+    'Split - start a new output file when a line matches',
+    'T'#225'ch - b'#7855't '#273#7847'u t'#7879'p '#273#7847'u ra m'#7899'i khi m'#7897't d'#242'ng kh'#7899'p');
+  Put(True,
+    'Split / process mode:',
+    'Ch'#7871' '#273#7897' t'#225'ch / x'#7917' l'#253':');
+  Put(True,
+    'Split By Files',
+    'T'#225'ch theo t'#7879'p');
+  Put(True,
+    'Split By Lines',
+    'T'#225'ch theo d'#242'ng');
+  Put(True,
+    'Split Error: ',
+    'L'#7895'i t'#225'ch: ');
+  Put(True,
+    'Split File',
+    'T'#225'ch t'#7879'p');
+  Put(True,
+    'Split Files',
+    'T'#225'ch t'#7879'p');
+  Put(True,
+    'Split Files'#13#10'Ctrl+Shift+K',
+    'T'#225'ch t'#7879'p'#13#10'Ctrl+Shift+K');
+  Put(True,
+    'Split by Pattern/Regex',
+    'T'#225'ch theo m'#7851'u/Regex');
+  Put(True,
+    'Split by pattern cancelled.',
+    #272#227' h'#7911'y t'#225'ch theo m'#7851'u.');
+  Put(True,
+    'Split by pattern completed. %d file(s) created in %s.',
+    'Ho'#224'n t'#7845't t'#225'ch theo m'#7851'u. '#272#227' t'#7841'o %d t'#7879'p trong %s.');
+  Put(True,
+    'Split by pattern failed: %s',
+    'T'#225'ch theo m'#7851'u th'#7845't b'#7841'i: %s');
+  Put(True,
+    'Split completed. %d file(s) created in %s.',
+    'Ho'#224'n t'#7845't t'#225'ch. '#272#227' t'#7841'o %d t'#7879'p trong %s.');
+  Put(True,
+    'Split equal parts error: ',
+    'L'#7895'i t'#225'ch c'#225'c ph'#7847'n b'#7857'ng nhau: ');
+  Put(True,
+    'Split file by &Pattern/Regex...',
+    'T'#225'ch t'#7879'p theo &m'#7851'u/Regex...');
+  Put(True,
+    'Split file by Pattern/Regex',
+    'T'#225'ch t'#7879'p theo m'#7851'u/Regex');
+  Put(True,
+    'Split file into e&qual parts...',
+    'T'#225'ch t'#7879'p th'#224'nh c'#225'c ph'#7847'n &b'#7857'ng nhau...');
+  Put(True,
+    'Split file into equal parts',
+    'T'#225'ch t'#7879'p th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau');
+  Put(True,
+    'Split into Equal Parts',
+    'T'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau');
+  Put(True,
+    'Split into equal parts completed in: %s (%d file(s) created).',
+    'Ho'#224'n t'#7845't t'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau trong: %s ('#273#227' t'#7841'o %d t'#7879'p).');
+  Put(True,
+    'Split mode opens a new output file at every line where Test(regex) is '
+        + 'true - tighten the wildcards so only real boundaries match.',
+    'Ch'#7871' '#273#7897' t'#225'ch m'#7903' t'#7879'p '#273#7847'u ra m'#7899'i t'#7841'i m'#7895'i d'#242'ng m'#224' Test(regex) '#273#250'ng - si'#7871't '
+        + 'k'#253' t'#7921' '#273#7841'i di'#7879'n '#273#7875' ch'#7881' kh'#7899'p ranh gi'#7899'i th'#7853't.');
+  Put(True,
+    'Split mode:',
+    'Ch'#7871' '#273#7897' t'#225'ch:');
+  Put(True,
+    'Split source file into multiple files.',
+    'T'#225'ch t'#7879'p ngu'#7891'n th'#224'nh nhi'#7873'u t'#7879'p.');
+  Put(True,
+    'Split '#8212' or when specialty equals a value (sort by specialization first'
+        + '). Sample regex:',
+    'T'#225'ch '#8212' ho'#7863'c khi chuy'#234'n bi'#7879't b'#7857'ng m'#7897't gi'#225' tr'#7883' (s'#7855'p x'#7871'p theo chuy'#234'n m'#244'n '
+        + 'tr'#432#7899'c). Regex m'#7851'u:');
+  Put(True,
+    'Split '#8212' start a new part when the region slug appears (sort by region '
+        + 'first). Sample regex:',
+    'T'#225'ch '#8212' b'#7855't '#273#7847'u ph'#7847'n m'#7899'i khi xu'#7845't hi'#7879'n slug v'#249'ng (s'#7855'p x'#7871'p theo v'#249'ng tr'#432
+        + #7899'c). Regex m'#7851'u:');
+  Put(True,
+    'Split.EqualPartsCount',
+    'S'#7889' ph'#7847'n b'#7857'ng nhau (%d..%d, ch'#7881' '#7903' ch'#7871' '#273#7897' ph'#7847'n b'#7857'ng nhau):');
+  Put(True,
+    'Split.FractionTotalRange',
+    'T'#7893'ng ph'#7847'n b'#7857'ng nhau (m'#7851'u s'#7889', %d..%d):');
+  Put(True,
+    'Split.PartsBetween',
+    'S'#7889' ph'#7847'n ph'#7843'i n'#7857'm trong kho'#7843'ng %d '#273#7871'n %d.');
+  Put(True,
+    'Split.PartsRange',
+    'S'#7889' ph'#7847'n (%d..%d):');
+  Put(True,
+    'Split: Start a new file when a line matches',
+    'T'#225'ch: B'#7855't '#273#7847'u t'#7879'p m'#7899'i khi m'#7897't d'#242'ng kh'#7899'p');
+  Put(True,
+    'Split: equal parts (N parts, preserving complete lines)',
+    'T'#225'ch: c'#225'c ph'#7847'n b'#7857'ng nhau (N ph'#7847'n, gi'#7919' nguy'#234'n d'#242'ng '#273#7847'y '#273#7911')');
+  Put(True,
+    'Split: start a new file when a line matches (pattern/regex)',
+    'T'#225'ch: b'#7855't '#273#7847'u t'#7879'p m'#7899'i khi m'#7897't d'#242'ng kh'#7899'p (m'#7851'u/regex)');
+  Put(True,
+    'SplitByFiles.DoneFormat',
+    'Ho'#224'n t'#7845't t'#225'ch. '#272#227' t'#7841'o %d t'#7879'p.'#13#10#272#227' qua: %s');
+  Put(True,
+    'SplitByFiles.MaxCaption',
+    #272'ang t'#7841'o c'#225'c t'#7879'p '#273#227' t'#225'ch - t'#7889'i '#273'a %d');
+  Put(True,
+    'SplitByLines.DoneFormat',
+    #272#227' l'#432'u d'#242'ng %d-%d v'#224'o:'#13#10'%s'#13#10#13#10#272#227' qua: %s');
+  Put(True,
+    'SplitByLines.Empty.NoFileTitle',
+    'Ch'#432'a c'#243' g'#236' '#273#7875' tr'#237'ch xu'#7845't');
+  Put(True,
+    'SplitByLines.Empty.NotReadHint',
+    'D'#249'ng '#272#7885'c (Ctrl+1) '#273#7875' t'#7843'i; xem tr'#432#7899'c v'#224' tr'#237'ch xu'#7845't d'#249'ng c'#225'c d'#242'ng trong '
+        + 'b'#7897' nh'#7899'.');
+  Put(True,
+    'SplitByLines.Empty.NotReadTitle',
+    'T'#7879'p ch'#432'a '#273#432#7907'c '#273#7885'c');
+  Put(True,
+    'SplitByLines.Error.SameOutput',
+    'T'#7879'p '#273#7847'u ra ph'#7843'i kh'#225'c t'#7879'p ngu'#7891'n.');
+  Put(True,
+    'SplitByLines.Error.ToBeyondTotal',
+    'D'#242'ng '#273#7871'n ph'#7843'i <= %d.');
+  Put(True,
+    'SplitByLines.FooterHint',
+    'T'#7879'p ngu'#7891'n gi'#7919' nguy'#234'n kh'#244'ng '#273#7893'i.');
+  Put(True,
+    'SplitByLines.Info.NoFile',
+    'Kh'#244'ng c'#243' t'#7879'p '#273'ang m'#7903);
+  Put(True,
+    'SplitByLines.OfTotal',
+    'tr'#234'n %s d'#242'ng');
+  Put(True,
+    'SplitByLines.Preview.BadRange',
+    'D'#242'ng k'#7871't th'#250'c n'#7857'm tr'#432#7899'c d'#242'ng b'#7855't '#273#7847'u.');
+  Put(True,
+    'SplitByLines.Preview.Beyond',
+    'D'#242'ng k'#7871't th'#250'c v'#432#7907't qu'#225' cu'#7889'i t'#7879'p (%s d'#242'ng).');
+  Put(True,
+    'SplitByLines.Preview.NoFile',
+    'M'#7903' m'#7897't t'#7879'p '#273#7875' xem nh'#7919'ng d'#242'ng n'#224'o ph'#7847'n tr'#237'ch n'#224'y s'#7869' sao ch'#233'p.');
+  Put(True,
+    'SplitByLines.Preview.SampleAll',
+    'C'#225'c d'#242'ng trong ph'#7847'n tr'#237'ch n'#224'y');
+  Put(True,
+    'SplitByLines.Preview.SampleSome',
+    '%d d'#242'ng '#273#7847'u tr'#234'n %s d'#242'ng');
+  Put(True,
+    'SplitByLines.Preview.Summary',
+    'D'#242'ng %s '#273#7871'n %s (%s d'#242'ng, %d%% c'#7911'a t'#7879'p) s'#7869' '#273#432#7907'c l'#432'u th'#224'nh %s');
+  Put(True,
+    'SplitByLines.Preview.Title',
+    'Xem tr'#432#7899'c tr'#237'ch xu'#7845't');
+  Put(True,
+    'SplitByLines.RangeTitle',
+    'Tr'#237'ch m'#7897't kho'#7843'ng d'#242'ng');
+  Put(True,
+    'SplitEqualParts.CancelledOrIncomplete',
+    'Thao t'#225'c t'#225'ch ch'#432'a ho'#224'n t'#7845't. Kh'#244'ng c'#243' x'#225'c nh'#7853'n th'#224'nh c'#244'ng (v'#237' d'#7909' t'#225'c v'
+        + #7909' b'#7883' gi'#225'n '#273'o'#7841'n ho'#7863'c d'#7915'ng s'#7899'm).');
+  Put(True,
+    'SplitEqualParts.CountingLines',
+    #272'ang '#273#7871'm d'#242'ng (vui l'#242'ng '#273#7907'i)...');
+  Put(True,
+    'SplitEqualParts.FailureFormat',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't thao t'#225'c t'#225'ch.'#13#10#13#10'Chi ti'#7871't:'#13#10'%s');
+  Put(True,
+    'SplitEqualParts.LogSummary',
+    'T'#225'ch th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau: %d t'#7879'p -> %s');
+  Put(True,
+    'SplitEqualParts.SuccessFormat',
+    'Thao t'#225'c t'#225'ch '#273#227' ho'#224'n t'#7845't th'#224'nh c'#244'ng.'#13#10#13#10'Ph'#7847'n '#273#227' ghi: %d'#13#10#13#10'Th'#432' m'#7909'c '#273#7847
+        + 'u ra:'#13#10'%s'#13#10#13#10'T'#7879'p '#273#7847'u ra '#273#7847'u ti'#234'n:'#13#10'%s'#13#10#13#10'T'#7879'p '#273#7847'u ra cu'#7889'i c'#249'ng:'#13#10'%s'#13#10#13#10
+        + 'Th'#7901'i gian '#273#227' qua: %s');
+  Put(True,
+    'SplitFileFraction.CancelledOrIncomplete',
+    'Xu'#7845't c'#225'c ph'#7847'n ch'#432'a ho'#224'n t'#7845't. Kh'#244'ng c'#243' x'#225'c nh'#7853'n th'#224'nh c'#244'ng (v'#237' d'#7909' t'#225'c v'
+        + #7909' b'#7883' gi'#225'n '#273'o'#7841'n).');
+  Put(True,
+    'SplitFileFraction.Extracting',
+    #272'ang tr'#237'ch xu'#7845't (c'#225'c) ph'#7847'n t'#7879'p...');
+  Put(True,
+    'SplitFileFraction.FailureFormat',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't xu'#7845't c'#225'c ph'#7847'n.'#13#10#13#10'Chi ti'#7871't:'#13#10'%s');
+  Put(True,
+    'SplitFileFraction.FromPartLabel',
+    'Ph'#7847'n '#273#7847'u ti'#234'n c'#7847'n xu'#7845't (1 = ph'#7847'n '#273#7847'u):');
+end;
+
+procedure AddVietnamesePart31(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'SplitFileFraction.Hint',
+    'D'#249'ng c'#249'ng ranh gi'#7899'i an to'#224'n LF nh'#432' "c'#225'c ph'#7847'n b'#7857'ng nhau": d'#242'ng kh'#244'ng ba'
+        + 'o gi'#7901' b'#7883' c'#7855't gi'#7919'a ch'#7915'ng. T'#7879'p '#273#7847'u ra: basename.part_1_of_8.ext (t'#7915' kh'#243'a'
+        + ' '#273#432#7907'c d'#7883'ch trong t'#234'n t'#7879'p).');
+  Put(True,
+    'SplitFileFraction.InvalidRange',
+    'Ph'#7841'm vi ph'#7847'n kh'#244'ng h'#7907'p l'#7879': t'#7893'ng ph'#7847'n ph'#7843'i '#237't nh'#7845't 2 v'#224' kho'#7843'ng ph'#7847'n ph'#7843
+        + 'i h'#7907'p l'#7879'.');
+  Put(True,
+    'SplitFileFraction.LogSummary',
+    'Tr'#237'ch c'#225'c ph'#7847'n t'#7879'p: %d t'#7879'p -> %s');
+  Put(True,
+    'SplitFileFraction.NoPartsExported',
+    'Kh'#244'ng c'#243' t'#7879'p ph'#7847'n n'#224'o '#273#432#7907'c ghi (ki'#7875'm tra ph'#7841'm vi ph'#7847'n v'#224' th'#7917' l'#7841'i).');
+  Put(True,
+    'SplitFileFraction.PartsRangeError',
+    'Ph'#7841'm vi ph'#7847'n ph'#7843'i n'#7857'm trong kho'#7843'ng 1 '#273#7871'n %d, v'#7899'i ph'#7847'n '#273#7847'u nh'#7887' h'#417'n ho'#7863'c'
+        + ' b'#7857'ng ph'#7847'n cu'#7889'i.');
+  Put(True,
+    'SplitFileFraction.PreviewInvalid',
+    'Ph'#7841'm vi kh'#244'ng h'#7907'p l'#7879': ph'#7847'n '#273#7847'u ph'#7843'i nh'#7887' h'#417'n ho'#7863'c b'#7857'ng ph'#7847'n cu'#7889'i.');
+  Put(True,
+    'SplitFileFraction.PreviewRange',
+    'S'#7869' xu'#7845't c'#225'c ph'#7847'n %d '#273#7871'n %d tr'#234'n %d (vd. %d/%d '#273#7871'n %d/%d).');
+  Put(True,
+    'SplitFileFraction.PreviewSingle',
+    'S'#7869' ch'#7881' xu'#7845't ph'#7847'n %d tr'#234'n %d (%d/%d).');
+  Put(True,
+    'SplitFileFraction.ResultTitle',
+    'FastFile - Xu'#7845't ho'#224'n t'#7845't');
+  Put(True,
+    'SplitFileFraction.SuccessFormat',
+    'Xu'#7845't ho'#224'n t'#7845't th'#224'nh c'#244'ng.'#13#10'T'#7879'p '#273#227' ghi: %d (c'#225'c ph'#7847'n %d '#273#7871'n %d tr'#234'n %d)'
+        + #13#10'Th'#432' m'#7909'c '#273#7847'u ra: %s'#13#10'T'#7879'p '#273#7847'u: %s'#13#10'T'#7879'p cu'#7889'i: %s'#13#10'Th'#7901'i gian '#273#227' qua: %s');
+  Put(True,
+    'SplitFileFraction.ToPartLabel',
+    'Ph'#7847'n cu'#7889'i c'#7847'n xu'#7845't (b'#7857'ng ph'#7847'n '#273#7847'u n'#7871'u ch'#7881' m'#7897't ph'#7847'n):');
+  Put(True,
+    'SplitFileFraction.TotalPartsLabel',
+    'T'#7893'ng ph'#7847'n b'#7857'ng nhau (m'#7851'u s'#7889', 2..1000):');
+  Put(True,
+    'SplitFilePart.FilenameOf',
+    'c'#7911'a');
+  Put(True,
+    'SplitFilePart.FilenamePart',
+    'ph'#7847'n');
+  Put(True,
+    'Splitting file by pattern...',
+    #272'ang t'#225'ch t'#7879'p theo m'#7851'u...');
+  Put(True,
+    'Splitting file into equal parts...',
+    #272'ang t'#225'ch t'#7879'p th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau...');
+  Put(True,
+    'Splitting file...',
+    #272'ang t'#225'ch t'#7879'p...');
+  Put(True,
+    'SrcHelp.Button',
+    '</> M'#227': t'#236'm hi'#7875'u th'#234'm');
+  Put(True,
+    'SrcHelp.ButtonHint',
+    'AI c'#243' th'#7875' t'#7841'o g'#236', ng'#244'n ng'#7919' n'#224'o '#273#432#7907'c ki'#7875'm tra, c'#225'ch s'#7917'a l'#7895'i b'#7857'ng AI v'#224' '
+        + 't'#7915'ng t'#237'nh n'#259'ng n'#7857'm '#7903' '#273#226'u.');
+  Put(True,
+    'SrcHelp.CapsButton',
+    'M'#227' ngu'#7891'n...');
+  Put(True,
+    'SrcHelp.CopyHint',
+    'Sao ch'#233'p to'#224'n b'#7897' tr'#7907' gi'#250'p n'#224'y d'#7841'ng v'#259'n b'#7843'n.');
+  Put(True,
+    'SrcHelp.Fix.Auto',
+    'S'#7917'a t'#7921' '#273#7897'ng sau khi ki'#7875'm tra th'#7845't b'#7841'i|Nh'#7845'n "S'#7917'a b'#7857'ng AI": AI nh'#7853'n t'#7879'p '
+        + 'v'#224' c'#225'c l'#7895'i, t'#7879'p '#273#227' s'#7917'a '#273#432#7907'c l'#432'u '#273#232' l'#234'n (FastFile h'#7887'i tr'#432#7899'c n'#7871'u n'#7857'm ngo'
+        + #224'i th'#432' m'#7909'c fastfile_assistant) r'#7891'i ki'#7875'm tra l'#7841'i.|');
+  Put(True,
+    'SrcHelp.Fix.Manual',
+    #272#7893'i t'#7879'p '#273#432#7907'c t'#7841'o g'#7847'n nh'#7845't|Y'#234'u c'#7847'u thay '#273#7893'i trong h'#7897'p c'#226'u h'#7887'i; AI vi'#7871't '
+        + 'l'#7841'i t'#7879'p '#273#432#7907'c t'#7841'o g'#7847'n nh'#7845't.|s'#7917'a t'#7879'p '#273#227' t'#7841'o: th'#234'm x'#7917' l'#253' l'#7895'i');
+  Put(True,
+    'SrcHelp.Gen.Cs',
+    'C# (.cs)|L'#7899'p, record, giao di'#7879'n v'#224' d'#7883'ch v'#7909'.|t'#7841'o l'#7899'p C# BankAccount v'#7899'i'
+        + ' c'#225'c ph'#432#417'ng th'#7913'c Deposit v'#224' Withdraw');
+  Put(True,
+    'SrcHelp.Gen.Data',
+    'SQL, JSON, HTML, Markdown, TXT|Script, t'#7879'p c'#7845'u h'#236'nh, trang v'#224' v'#259'n b'#7843'n.'
+        + ' Ghi ph'#7847'n m'#7903' r'#7897'ng (.sql, .json, .html, .md, .txt) trong y'#234'u c'#7847'u.|t'#7841'o s'
+        + 'cript .sql t'#7841'o b'#7843'ng customers v'#7899'i id, name v'#224' e-mail');
+  Put(True,
+    'SrcHelp.Gen.Docs',
+    'T'#224'i li'#7879'u: PDF, DOCX, ODT, RTF (Word)|T'#243'm t'#7855't v'#224' b'#225'o c'#225'o, k'#7875' c'#7843' t'#7915' t'#7879'p '
+        + #273'ang m'#7903'.|t'#243'm t'#7855't t'#7879'p '#273'ang m'#7903' th'#224'nh PDF');
+  Put(True,
+    'SrcHelp.Gen.Go',
+    'Go (.go)|G'#243'i, struct v'#224' h'#224'm.|vi'#7871't ch'#432#417'ng tr'#236'nh Go (.go) '#273#7871'm s'#7889' d'#242'ng c'#7911
+        + 'a m'#7897't t'#7879'p v'#259'n b'#7843'n');
+  Put(True,
+    'SrcHelp.Gen.Java',
+    'Java (.java)|L'#7899'p, giao di'#7879'n v'#224' enum. M'#7897't l'#7899'p public m'#7895'i t'#7879'p, c'#249'ng t'#234'n '
+        + 'v'#7899'i t'#7879'p.|t'#7841'o l'#7899'p Java Product v'#7899'i name v'#224' price, getter v'#224' setter');
+  Put(True,
+    'SrcHelp.Gen.Js',
+    'JavaScript (.js)|L'#7899'p, h'#224'm v'#224' script Node.js. N'#243'i "JavaScript" ho'#7863'c ".j'
+        + 's".|t'#7841'o h'#224'm JavaScript ki'#7875'm tra '#273#7883'a ch'#7881' e-mail');
+  Put(True,
+    'SrcHelp.Gen.Other',
+    'C / C++, Rust, PHP, Ruby, Kotlin, Swift|'#272#432#7907'c t'#7841'o c'#249'ng c'#225'ch (.cpp, .c, '
+        + '.rs, .php, .rb, .kt, .swift), nh'#432'ng ch'#432'a '#273#432#7907'c ki'#7875'm tra.|vi'#7871't h'#224'm C++ '#273
+        + #7843'o ng'#432#7907'c chu'#7895'i');
+  Put(True,
+    'SrcHelp.Gen.Pas',
+    'Delphi / Pascal (.pas, .dpr, .inc)|Unit, l'#7899'p, th'#7911' t'#7909'c v'#224' h'#224'm.|t'#7841'o unit'
+        + ' Delphi v'#7899'i h'#224'm '#273#7883'nh d'#7841'ng s'#7889' '#273'i'#7879'n tho'#7841'i');
+  Put(True,
+    'SrcHelp.Gen.Py',
+    'Python (.py)|Script, l'#7899'p v'#224' h'#224'm. '#272#7875' bi'#7871'n '#273#7893'i c'#225'c d'#242'ng c'#7911'a t'#7879'p '#273'ang m'#7903','
+        + ' d'#249'ng macro Python (Ctrl+Alt+E) thay th'#7871'.|t'#7841'o script Python '#273#7885'c t'#7879'p CS'
+        + 'V v'#224' c'#7897'ng c'#7897't value');
+  Put(True,
+    'SrcHelp.Gen.React',
+    'React (.tsx) v'#224' JSX (.jsx)|Component v'#224' hook. "React" t'#7841'o .tsx; y'#234'u c'#7847
+        + 'u ".jsx" cho JavaScript thu'#7847'n.|t'#7841'o component React cho danh s'#225'ch vi'#7879'c '
+        + 'c'#7847'n l'#224'm b'#7857'ng TSX');
+  Put(True,
+    'SrcHelp.Gen.Ts',
+    'TypeScript / Angular (.ts)|Giao di'#7879'n, ki'#7875'u, l'#7899'p v'#224' d'#7883'ch v'#7909'. N'#243'i "TypeS'
+        + 'cript", "Angular" ho'#7863'c ".ts".|t'#7841'o giao di'#7879'n TypeScript Customer v'#224' l'#7899'p'
+        + ' CustomerService v'#7899'i ph'#432#417'ng th'#7913'c add v'#224' find');
+  Put(True,
+    'SrcHelp.Intro',
+    'Tr'#7907' l'#253' AI (Ctrl+Alt+A) vi'#7871't m'#7897't t'#7879'p ngu'#7891'n '#273#7847'y '#273#7911' t'#7915' y'#234'u c'#7847'u c'#7911'a b'#7841'n v'#224
+        + ' l'#432'u v'#224'o th'#432' m'#7909'c fastfile_assistant. Sau '#273#243' c'#243' th'#7875' ki'#7875'm tra c'#250' ph'#225'p v'#224
+        + ', n'#7871'u c'#243' l'#7895'i, s'#7917'a t'#7879'p b'#7857'ng AI. Nh'#7845'p '#273#250'p m'#7897't v'#237' d'#7909' '#273#7875' '#273#432'a v'#224'o h'#7897'p c'#226'u h'
+        + #7887'i.');
+  Put(True,
+    'SrcHelp.Lim.NoRun',
+    'Ch'#7841'y v'#224' bi'#234'n d'#7883'ch|M'#227' kh'#244'ng bao gi'#7901' '#273#432#7907'c ch'#7841'y v'#224' FastFile kh'#244'ng bi'#234'n d'#7883
+        + 'ch d'#7921' '#225'n (kh'#244'ng c'#243' package.json, tsconfig, Maven, npm install, ki'#7875'm th'
+        + #7917' hay '#273#7883'nh d'#7841'ng). M'#7895'i y'#234'u c'#7847'u t'#7841'o m'#7897't t'#7879'p.|');
+  Put(True,
+    'SrcHelp.Lim.NotValidated',
+    'Ng'#244'n ng'#7919' ch'#432'a ki'#7875'm tra|C / C++, Rust, PHP, Ruby, Kotlin, Swift v'#224' Delp'
+        + 'hi / Pascal '#273#432#7907'c t'#7841'o nh'#432'ng ch'#432'a '#273#432#7907'c ki'#7875'm tra.|');
+  Put(True,
+    'SrcHelp.Lim.SingleFile',
+    'M'#7897't t'#7879'p m'#7895'i l'#7847'n|Java v'#224' C# '#273#432#7907'c ki'#7875'm tra ri'#234'ng, n'#234'n tham chi'#7871'u t'#7899'i l'#7899'p'
+        + ' kh'#225'c trong d'#7921' '#225'n c'#243' th'#7875' hi'#7879'n th'#224'nh l'#7895'i. Ki'#7875'm tra JSON / HTML / SQL ch'
+        + #7881' mang t'#237'nh c'#7845'u tr'#250'c.|');
+  Put(True,
+    'SrcHelp.Sec.Fix',
+    'S'#7917'a b'#7857'ng AI');
+  Put(True,
+    'SrcHelp.Sec.Generate',
+    'T'#7841'o m'#227' ngu'#7891'n (AI)');
+  Put(True,
+    'SrcHelp.Sec.Limits',
+    'Ch'#432'a h'#7895' tr'#7907' (hi'#7879'n t'#7841'i)');
+  Put(True,
+    'SrcHelp.Sec.Status',
+    'Tr'#234'n m'#225'y n'#224'y (c'#244'ng c'#7909' ngo'#224'i)');
+  Put(True,
+    'SrcHelp.Sec.Validate',
+    'Ki'#7875'm tra (ch'#7881' c'#250' ph'#225'p; m'#227' kh'#244'ng bao gi'#7901' ch'#7841'y)');
+  Put(True,
+    'SrcHelp.Sec.Where',
+    'D'#249'ng '#7903' '#273#226'u');
+  Put(True,
+    'SrcHelp.Status.Companions',
+    'Python / JavaScript / TypeScript|ScriptEngine.exe v'#224' CodeCheck.exe '#273#432#7907
+        + 'c t'#7843'i t'#7921' '#273#7897'ng l'#7847'n '#273#7847'u d'#249'ng (c'#7847'n internet m'#7897't l'#7847'n). Kh'#244'ng c'#243' ch'#250'ng Fast'
+        + 'File s'#7869' b'#225'o v'#224' kh'#244'ng ki'#7875'm tra.|');
+  Put(True,
+    'SrcHelp.Status.Found',
+    #272#227' c'#224'i: %s');
+  Put(True,
+    'SrcHelp.Status.Native',
+    'JSON / HTML / SQL|T'#237'ch h'#7907'p trong FastFile: lu'#244'n s'#7861'n s'#224'ng, kh'#244'ng c'#7847'n ch'
+        + #432#417'ng tr'#236'nh ngo'#224'i.|');
+  Put(True,
+    'SrcHelp.Title',
+    'M'#227' ngu'#7891'n v'#7899'i AI: t'#7841'o, ki'#7875'm tra v'#224' s'#7917'a');
+  Put(True,
+    'SrcHelp.UseExampleHint',
+    #272#432'a v'#237' d'#7909' '#273#227' ch'#7885'n v'#224'o h'#7897'p c'#226'u h'#7887'i (r'#7891'i nh'#7845'n G'#7917'i).');
+  Put(True,
+    'SrcHelp.Val.Cs',
+    'C# (.cs)|D'#249'ng csc.exe t'#7915' Visual Studio / Build Tools (C# hi'#7879'n '#273#7841'i) ho'#7863
+        + 'c, n'#7871'u kh'#244'ng c'#243', b'#7843'n trong Windows .NET Framework (ch'#7881' C# 5). Kh'#244'ng c'#243
+        + ' csc.exe, FastFile s'#7869' b'#225'o v'#224' kh'#244'ng ki'#7875'm tra.|');
+  Put(True,
+    'SrcHelp.Val.Go',
+    'Go (.go)|D'#249'ng gofmt t'#7915' b'#7843'n c'#224'i Go (PATH, GOROOT ho'#7863'c C:\Program Files\'
+        + 'Go). Ch'#7881' c'#250' ph'#225'p. Kh'#244'ng c'#243' Go, FastFile s'#7869' b'#225'o v'#224' kh'#244'ng ki'#7875'm tra.|');
+  Put(True,
+    'SrcHelp.Val.How',
+    'C'#225'ch ki'#7875'm tra|D'#249'ng n'#250't ki'#7875'm tra tr'#234'n th'#7867' c'#7911'a t'#7879'p '#273#227' t'#7841'o, ho'#7863'c h'#7887'i tron'
+        + 'g h'#7897'p c'#226'u h'#7887'i k'#232'm '#273#432#7901'ng d'#7851'n '#273#7847'y '#273#7911'. Kh'#244'ng c'#243' '#273#432#7901'ng d'#7851'n th'#236' m'#7903' c'#7917'a s'#7893' '#273
+        + #7875' ch'#7885'n t'#7879'p.|ki'#7875'm tra c'#250' ph'#225'p c'#7911'a C:\temp\script.py');
+  Put(True,
+    'SrcHelp.Val.Java',
+    'Java (.java)|D'#249'ng javac t'#7915' JDK '#273#227' c'#224'i tr'#234'n m'#225'y n'#224'y (PATH, JAVA_HOME ho'
+        + #7863'c th'#432' m'#7909'c th'#244'ng th'#432#7901'ng). Bi'#234'n d'#7883'ch v'#224'o th'#432' m'#7909'c t'#7841'm, n'#234'n l'#7895'i ki'#7875'u c'#361'ng'
+        + ' '#273#432#7907'c b'#225'o. Kh'#244'ng c'#243' JDK, FastFile s'#7869' b'#225'o v'#224' kh'#244'ng ki'#7875'm tra.|');
+  Put(True,
+    'SrcHelp.Val.Js',
+    'JavaScript, JSX, TypeScript, TSX / React|C'#225'c t'#7879'p .js, .mjs, .cjs, .jsx'
+        + ', .ts v'#224' .tsx, ki'#7875'm tra b'#7903'i CodeCheck.exe (t'#7843'i t'#7921' '#273#7897'ng l'#7847'n '#273#7847'u d'#249'ng).|'
+        + 'ki'#7875'm tra c'#250' ph'#225'p c'#7911'a C:\projects\app\src\api.ts');
+  Put(True,
+    'SrcHelp.Val.Native',
+    'JSON, HTML, SQL (.json, .html, .htm, .sql)|FastFile t'#7921' ki'#7875'm tra, kh'#244'ng'
+        + ' c'#7847'n ch'#432#417'ng tr'#236'nh th'#234'm: c'#250' ph'#225'p JSON '#273#7847'y '#273#7911'; th'#7867' HTML m'#7903' v'#224' '#273#243'ng; d'#7845'u '
+        + 'ngo'#7863'c k'#233'p SQL, ch'#250' th'#237'ch, ngo'#7863'c '#273#417'n v'#224' kh'#7889'i BEGIN/CASE...END.|ki'#7875'm tra'
+        + ' c'#250' ph'#225'p c'#7911'a C:\data\config.json');
+  Put(True,
+    'SrcHelp.Val.Py',
+    'Python (.py)|Ki'#7875'm tra b'#7903'i ScriptEngine.exe, t'#7843'i t'#7921' '#273#7897'ng l'#7847'n '#273#7847'u d'#249'ng.|');
+  Put(True,
+    'SrcHelp.Where.Agent',
+    'T'#225'c nh'#226'n AI|H'#7887'i t'#225'c nh'#226'n nh'#432' b'#236'nh th'#432#7901'ng: n'#243' giao vi'#7879'c t'#7841'o, ki'#7875'm tra v'
+        + #224' s'#7917'a t'#7879'p ngu'#7891'n cho Tr'#7907' l'#253', v'#224' k'#7871't qu'#7843' hi'#7879'n d'#432#7899'i c'#226'u tr'#7843' l'#7901'i c'#7911'a t'#225'c n'
+        + 'h'#226'n (kh'#244'ng c'#7847'n ch'#7845'p nh'#7853'n).|ki'#7875'm tra c'#250' ph'#225'p c'#7911'a C:\projects\app\src\Ap'
+        + 'p.tsx');
+  Put(True,
+    'SrcHelp.Where.Assistant',
+    'Tr'#7907' l'#253' AI (Ctrl+Alt+A)|G'#245' y'#234'u c'#7847'u trong h'#7897'p c'#226'u h'#7887'i v'#224' nh'#7845'n G'#7917'i. T'#7879'p '#273
+        + #432#7907'c l'#432'u trong th'#432' m'#7909'c fastfile_assistant (ho'#7863'c '#273#432#7901'ng d'#7851'n b'#7841'n ch'#7881') v'#224' m'
+        + #7897't th'#7867' xanh cho ph'#233'p m'#7903', hi'#7879'n th'#432' m'#7909'c v'#224' ki'#7875'm tra.|t'#7841'o l'#7899'p JavaScript '
+        + 'Person v'#7899'i name, age v'#224' ph'#432#417'ng th'#7913'c toString');
+  Put(True,
+    'SrcHelp.Where.Card',
+    'N'#250't v'#224' li'#234'n k'#7871't|N'#250't </> (c'#7841'nh ? trong Tr'#7907' l'#253') v'#224' "M'#227' ngu'#7891'n..." trong "'
+        + 'T'#244'i c'#243' th'#7875' l'#224'm g'#236'?" m'#7903' tr'#7907' gi'#250'p n'#224'y. Sau khi ki'#7875'm tra th'#7845't b'#7841'i, b'#7843'ng '#273
+        + #7873' xu'#7845't "S'#7917'a b'#7857'ng AI" v'#224' "</> M'#227': t'#236'm hi'#7875'u th'#234'm".|');
+  Put(True,
+    'SrcVal.Cs.Scope',
+    'csc bi'#234'n d'#7883'ch t'#7879'p m'#7897't m'#236'nh v'#224'o th'#432' m'#7909'c t'#7841'm; tham chi'#7871'u t'#7899'i t'#7879'p kh'#225'c tr'
+        + 'ong d'#7921' '#225'n hi'#7879'n th'#224'nh l'#7895'i.');
+  Put(True,
+    'SrcVal.Empty',
+    'T'#7879'p tr'#7889'ng.');
+  Put(True,
+    'SrcVal.Go.Scope',
+    'gofmt ch'#7881' ki'#7875'm tra c'#250' ph'#225'p (ki'#7875'u v'#224' import kh'#244'ng '#273#432#7907'c ki'#7875'm tra).');
+  Put(True,
+    'SrcVal.Html.Comment',
+    'ch'#250' th'#237'ch "<!--" kh'#244'ng bao gi'#7901' '#273#432#7907'c '#273#243'ng b'#7857'ng "-->"');
+  Put(True,
+    'SrcVal.Html.Mismatch',
+    't'#236'm th'#7845'y </%s>, nh'#432'ng <%s> m'#7903' '#7903' d'#242'ng %d v'#7851'n c'#242'n m'#7903);
+  Put(True,
+    'SrcVal.Html.Scope',
+    #272#227' ki'#7875'm tra: th'#7867' m'#7903' v'#224' '#273#243'ng, ch'#250' th'#237'ch v'#224' d'#7845'u ngo'#7863'c k'#233'p. Thu'#7897'c t'#237'nh v'#224
+        + ' n'#7897'i dung CSS/JavaScript kh'#244'ng '#273#432#7907'c ki'#7875'm tra.');
+  Put(True,
+    'SrcVal.Html.Stray',
+    '</%s> kh'#244'ng c'#243' th'#7867' m'#7903' t'#432#417'ng '#7913'ng');
+  Put(True,
+    'SrcVal.Html.Unclosed',
+    '<%s> kh'#244'ng bao gi'#7901' '#273#432#7907'c '#273#243'ng');
+  Put(True,
+    'SrcVal.Html.Unterminated',
+    'th'#7867' <%s kh'#244'ng '#273#432#7907'c '#273#243'ng b'#7857'ng ">"');
+  Put(True,
+    'SrcVal.Java.Scope',
+    'javac bi'#234'n d'#7883'ch t'#7879'p v'#224'o th'#432' m'#7909'c t'#7841'm (kh'#244'ng ghi g'#236' c'#7841'nh t'#7879'p); l'#7895'i ki'#7875'u '
+        + 'c'#361'ng '#273#432#7907'c b'#225'o.');
+  Put(True,
+    'SrcVal.Json.BadEscape',
+    'chu'#7895'i tho'#225't kh'#244'ng h'#7907'p l'#7879' trong chu'#7895'i');
+  Put(True,
+    'SrcVal.Json.BadNumber',
+    's'#7889' kh'#244'ng h'#7907'p l'#7879);
+  Put(True,
+    'SrcVal.Json.CtrlInString',
+    'xu'#7889'ng d'#242'ng ho'#7863'c k'#253' t'#7921' '#273'i'#7873'u khi'#7875'n trong chu'#7895'i (d'#249'ng \n)');
+  Put(True,
+    'SrcVal.Json.Expected',
+    'mong '#273#7907'i %s, t'#236'm th'#7845'y "%s"');
+  Put(True,
+    'SrcVal.Json.TooDeep',
+    'qu'#225' nhi'#7873'u m'#7913'c l'#7891'ng nhau');
+  Put(True,
+    'SrcVal.Json.Trailing',
+    'n'#7897'i dung th'#7915'a sau cu'#7889'i JSON');
+  Put(True,
+    'SrcVal.Json.TrailingComma',
+    'd'#7845'u ph'#7849'y tr'#432#7899'c d'#7845'u ngo'#7863'c '#273#243'ng (kh'#244'ng cho ph'#233'p trong JSON)');
+  Put(True,
+    'SrcVal.Json.UnclosedString',
+    'chu'#7895'i m'#7903' '#7903' '#273#226'y ch'#432'a '#273#243'ng (thi'#7871'u ")');
+  Put(True,
+    'SrcVal.Json.Unexpected',
+    'k'#253' t'#7921' b'#7845't ng'#7901' "%s"');
+  Put(True,
+    'SrcVal.Json.UnexpectedEnd',
+    'k'#7871't th'#250'c t'#7879'p b'#7845't ng'#7901);
+  Put(True,
+    'SrcVal.LineCol',
+    'D'#242'ng %d, c'#7897't %d: %s');
+  Put(True,
+    'SrcVal.Native',
+    'Ki'#7875'm tra b'#7903'i ch'#237'nh FastFile (kh'#244'ng c'#7847'n ch'#432#417'ng tr'#236'nh ngo'#224'i).');
+  Put(True,
+    'SrcVal.Sql.BlockOpen',
+    '%s kh'#244'ng bao gi'#7901' '#273#432#7907'c '#273#243'ng b'#7857'ng END');
+  Put(True,
+    'SrcVal.Sql.CloseParen',
+    '")" kh'#244'ng c'#243' "(" t'#432#417'ng '#7913'ng');
+  Put(True,
+    'SrcVal.Sql.Comment',
+    'ch'#250' th'#237'ch "/*" kh'#244'ng bao gi'#7901' '#273#432#7907'c '#273#243'ng b'#7857'ng "*/"');
+  Put(True,
+    'SrcVal.Sql.EndWithoutBegin',
+    'END kh'#244'ng c'#243' BEGIN ho'#7863'c CASE t'#432#417'ng '#7913'ng');
+  Put(True,
+    'SrcVal.Sql.OpenParen',
+    '"(" kh'#244'ng bao gi'#7901' '#273#432#7907'c '#273#243'ng');
+  Put(True,
+    'SrcVal.Sql.Quote',
+    'v'#259'n b'#7843'n ho'#7863'c t'#234'n m'#7903' b'#7857'ng %s kh'#244'ng bao gi'#7901' '#273#432#7907'c '#273#243'ng');
+  Put(True,
+    'SrcVal.Sql.Scope',
+    #272#227' ki'#7875'm tra: d'#7845'u ngo'#7863'c k'#233'p, ch'#250' th'#237'ch, ngo'#7863'c '#273#417'n v'#224' kh'#7889'i BEGIN/CASE...'
+        + 'END. T'#234'n b'#7843'ng/c'#7897't v'#224' c'#250' ph'#225'p ri'#234'ng dialect kh'#244'ng '#273#432#7907'c ki'#7875'm tra.');
+  Put(True,
+    'SrcVal.Tool.ExitCode',
+    '%s k'#7871't th'#250'c v'#7899'i m'#227' %d v'#224' kh'#244'ng c'#243' th'#244'ng b'#225'o.');
+  Put(True,
+    'SrcVal.Tool.InstallCs',
+    #272#7875' b'#7853't: c'#224'i Visual Studio Build Tools (C# hi'#7879'n '#273#7841'i) ho'#7863'c .NET Framewor'
+        + 'k 4.x (csc.exe, ch'#7881' C# 5).');
+  Put(True,
+    'SrcVal.Tool.InstallGo',
+    #272#7875' b'#7853't: c'#224'i Go t'#7915' go.dev (gofmt '#273'i k'#232'm).');
+  Put(True,
+    'SrcVal.Tool.InstallJava',
+    #272#7875' b'#7853't: c'#224'i JDK (v'#237' d'#7909' Eclipse Temurin) v'#224' th'#234'm th'#432' m'#7909'c bin v'#224'o PATH h'
+        + 'o'#7863'c '#273#7863't JAVA_HOME.');
+  Put(True,
+    'SrcVal.Tool.LaunchFailed',
+    'Kh'#244'ng th'#7875' ki'#7875'm tra: kh'#244'ng kh'#7903'i '#273#7897'ng '#273#432#7907'c %s.');
+  Put(True,
+    'SrcVal.Tool.LegacyCsc',
+    'L'#432'u '#253': '#273#226'y l'#224' tr'#236'nh bi'#234'n d'#7883'ch .NET Framework c'#361' (C# 5). C'#250' ph'#225'p m'#7899'i h'#417
+        + 'n (chu'#7895'i $"...", th'#224'nh vi'#234'n =>, record...) b'#7883' b'#225'o l'#7895'i. C'#224'i Visual Stud'
+        + 'io Build Tools cho C# hi'#7879'n '#273#7841'i.');
+  Put(True,
+    'SrcVal.Tool.MissingCs',
+    'Kh'#244'ng th'#7875' ki'#7875'm tra t'#7879'p C# n'#224'y: kh'#244'ng t'#236'm th'#7845'y tr'#236'nh bi'#234'n d'#7883'ch C# csc.e'
+        + 'xe (Visual Studio Build Tools ho'#7863'c .NET Framework) tr'#234'n m'#225'y n'#224'y.');
+  Put(True,
+    'SrcVal.Tool.MissingGo',
+    'Kh'#244'ng th'#7875' ki'#7875'm tra t'#7879'p Go n'#224'y: kh'#244'ng t'#236'm th'#7845'y b'#7897' ki'#7875'm tra Go gofmt (b'#7843
+        + 'n c'#224'i Go) tr'#234'n m'#225'y n'#224'y.');
+  Put(True,
+    'SrcVal.Tool.MissingJava',
+    'Kh'#244'ng th'#7875' ki'#7875'm tra t'#7879'p Java n'#224'y: kh'#244'ng t'#236'm th'#7845'y tr'#236'nh bi'#234'n d'#7883'ch Java j'
+        + 'avac (JDK) tr'#234'n m'#225'y n'#224'y.');
+  Put(True,
+    'SrcVal.Tool.StillWorks',
+    'T'#7879'p kh'#244'ng b'#7883' thay '#273#7893'i v'#224' ph'#7847'n c'#242'n l'#7841'i c'#7911'a FastFile v'#7851'n ho'#7841't '#273#7897'ng b'#236'nh '
+        + 'th'#432#7901'ng.');
+  Put(True,
+    'SrcVal.Tool.Using',
+    'Ki'#7875'm tra b'#7857'ng: %s');
+  Put(True,
+    'SrcVal.Unexpected',
+    'Kh'#244'ng th'#7875' ho'#224'n t'#7845't ki'#7875'm tra: %s');
+end;
+
+procedure AddVietnamesePart32(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Stable Version:'#13#10#13#10'Compatible Windows versions:'#13#10'Supported platforms:',
+    'Phi'#234'n b'#7843'n '#7893'n '#273#7883'nh:'#13#10#13#10'C'#225'c phi'#234'n b'#7843'n Windows t'#432#417'ng th'#237'ch:'#13#10'N'#7873'n t'#7843'ng '#273#432#7907
+        + 'c h'#7895' tr'#7907':');
+  Put(True,
+    'Standard',
+    'Chu'#7849'n');
+  Put(True,
+    'Start at line (1-based):',
+    'B'#7855't '#273#7847'u t'#7841'i d'#242'ng (b'#7855't '#273#7847'u t'#7915' 1):');
+  Put(True,
+    'Start line is required.',
+    'B'#7855't bu'#7897'c c'#243' d'#242'ng b'#7855't '#273#7847'u.');
+  Put(True,
+    'Start searching files with current filters.',
+    'B'#7855't '#273#7847'u t'#236'm t'#7879'p v'#7899'i b'#7897' l'#7885'c hi'#7879'n t'#7841'i.');
+  Put(True,
+    'Starting Advanced AI Chat (file) session...',
+    #272'ang b'#7855't '#273#7847'u phi'#234'n AI Chat n'#226'ng cao (t'#7879'p)...');
+  Put(True,
+    'Starting Python Consumer AI inter-application session...',
+    #272'ang b'#7855't '#273#7847'u phi'#234'n AI Consumer Python li'#234'n '#7913'ng d'#7909'ng...');
+  Put(True,
+    'Starting...',
+    #272'ang b'#7855't '#273#7847'u...');
+  Put(True,
+    'StatusBar.ModeCompact',
+    'Ch'#7871' '#273#7897':%s  Ng'#7855't:%s  Tail:%s  L'#7885'c:%s  '#272#225'nh:%s  %s');
+  Put(True,
+    'Stop',
+    'D'#7915'ng');
+  Put(True,
+    'Stop'#13#10'animation',
+    'D'#7915'ng'#13#10'hi'#7879'u '#7913'ng');
+  Put(True,
+    'Stop the current file search.',
+    'D'#7915'ng t'#236'm t'#7879'p hi'#7879'n t'#7841'i.');
+  Put(True,
+    'Streaming replace writes a temp file, then swaps it over the original '
+        + 'when possible. Free disk space is checked first. A safety limit on mat'
+        + 'ch count applies. This cannot be undone.',
+    'Thay th'#7871' lu'#7891'ng ghi t'#7879'p t'#7841'm, r'#7891'i ho'#225'n '#273#7893'i l'#234'n b'#7843'n g'#7889'c khi c'#243' th'#7875'. Dung '
+        + 'l'#432#7907'ng '#273#297'a tr'#7889'ng '#273#432#7907'c ki'#7875'm tra tr'#432#7899'c. '#193'p d'#7909'ng gi'#7899'i h'#7841'n an to'#224'n v'#7873' s'#7889' kh'
+        + #7899'p. Kh'#244'ng th'#7875' ho'#224'n t'#225'c.');
+  Put(True,
+    'Structure validation',
+    'Ki'#7875'm tra c'#7845'u tr'#250'c');
+  Put(True,
+    'Suggest examples with AI',
+    'G'#7907'i '#253' v'#237' d'#7909' b'#7857'ng AI');
+  Put(True,
+    'Suggestions (auto-detected from file):',
+    'G'#7907'i '#253' (t'#7921' ph'#225't hi'#7879'n t'#7915' t'#7879'p):');
+  Put(True,
+    'Switch to checkbox selection mode.',
+    'Chuy'#7875'n sang ch'#7871' '#273#7897' ch'#7885'n b'#7857'ng h'#7897'p ch'#7885'n.');
+  Put(True,
+    'Sync scroll',
+    #272#7891'ng b'#7897' cu'#7897'n');
+  Put(True,
+    'System',
+    'H'#7879' th'#7889'ng');
+  Put(True,
+    'System Ready',
+    'H'#7879' th'#7889'ng s'#7861'n s'#224'ng');
+  Put(True,
+    'TAB',
+    'TAB');
+  Put(True,
+    'Tab content.',
+    'N'#7897'i dung tab.');
+  Put(True,
+    'TabCtx.Close',
+    #272#243'ng tab');
+  Put(True,
+    'TabCtx.CloseAll',
+    #272#243'ng t'#7845't c'#7843' tab');
+  Put(True,
+    'TabCtx.CloseLeft',
+    #272#243'ng c'#225'c tab b'#234'n tr'#225'i');
+  Put(True,
+    'TabCtx.CloseOthers',
+    #272#243'ng t'#7845't c'#7843' tr'#7915' tab n'#224'y');
+  Put(True,
+    'TabCtx.CloseOthersActive',
+    #272#243'ng t'#7845't c'#7843' tr'#7915' tab '#273'ang ho'#7841't '#273#7897'ng');
+  Put(True,
+    'TabCtx.CloseRight',
+    #272#243'ng c'#225'c tab b'#234'n ph'#7843'i');
+  Put(True,
+    'TabCtx.ClosedList',
+    'C'#225'c tab '#273#243'ng g'#7847'n '#273#226'y');
+  Put(True,
+    'TabCtx.MenuButtonHint',
+    'T'#249'y ch'#7885'n tab: m'#7903' tab, m'#7903' l'#7841'i tab '#273#227' '#273#243'ng, l'#432'u / kh'#244'i ph'#7909'c tab, '#273#243'ng ta'
+        + 'b (c'#361'ng b'#7857'ng nh'#7845'p ph'#7843'i v'#224'o tab)');
+  Put(True,
+    'TabCtx.NoClosed',
+    'Kh'#244'ng c'#243' tab '#273#227' '#273#243'ng trong phi'#234'n n'#224'y');
+  Put(True,
+    'TabCtx.OpenTabs',
+    'M'#7903' c'#225'c tab');
+  Put(True,
+    'TabCtx.Reopen',
+    'M'#7903' l'#7841'i tab '#273#227' '#273#243'ng');
+  Put(True,
+    'TabCtx.ReopenNamed',
+    'M'#7903' l'#7841'i tab '#273#227' '#273#243'ng: %s');
+  Put(True,
+    'TabCtx.SaveOpen',
+    'L'#432'u c'#225'c tab '#273'ang m'#7903);
+  Put(True,
+    'TabCtx.SavedOpen',
+    #272#227' l'#432'u c'#225'c tab '#273'ang m'#7903);
+  Put(True,
+    'TabCtx.SavedOpenDetail',
+    '%d tab. D'#249'ng "Kh'#244'i ph'#7909'c tab phi'#234'n tr'#432#7899'c" '#273#7875' m'#7903' l'#7841'i.');
+  Put(True,
+    'Table with results.',
+    'B'#7843'ng v'#7899'i k'#7871't qu'#7843'.');
+  Put(True,
+    'Tail / &Follow mode',
+    'Ch'#7871' '#273#7897' Tail / &Theo d'#245'i');
+  Put(True,
+    'Tail / Follow mode',
+    'Ch'#7871' '#273#7897' Tail / Theo d'#245'i');
+  Put(True,
+    'Tail / Follow '#8212' Python macro (optional)',
+    'Tail / Theo d'#245'i '#8212' macro Python (t'#249'y ch'#7885'n)');
+  Put(True,
+    'Tail / follow mode:',
+    'Ch'#7871' '#273#7897' Tail / theo d'#245'i:');
+  Put(True,
+    'Tail OFF',
+    'Tail T'#7854'T');
+  Put(True,
+    'Tail ON',
+    'Tail B'#7852'T');
+  Put(True,
+    'Tail PAUSED',
+    'Tail T'#7840'M D'#7914'NG');
+  Put(True,
+    'Tail PAUSED +%d new lines',
+    'Tail T'#7840'M D'#7914'NG +%d d'#242'ng m'#7899'i');
+  Put(True,
+    'Tail captured %d line(s), from line %d to %d.',
+    'Tail '#273#227' b'#7855't %d d'#242'ng, t'#7915' d'#242'ng %d '#273#7871'n %d.');
+  Put(True,
+    'Tail captured 0 line(s).',
+    'Tail '#273#227' b'#7855't 0 d'#242'ng.');
+  Put(True,
+    'Tail export cancelled.',
+    #272#227' h'#7911'y xu'#7845't Tail.');
+  Put(True,
+    'Tail export failed.',
+    'Xu'#7845't Tail th'#7845't b'#7841'i.');
+  Put(True,
+    'Tail export file',
+    'T'#7879'p xu'#7845't Tail');
+  Put(True,
+    'Tail is OFF - press Ctrl+T to follow the file again.',
+    'Tail '#273'ang T'#7854'T - nh'#7845'n Ctrl+T '#273#7875' theo d'#245'i t'#7879'p l'#7841'i.');
+  Put(True,
+    'Tail is OFF '#8212' press Ctrl+T to follow the file again.',
+    'Tail '#273'ang T'#7854'T '#8212' nh'#7845'n Ctrl+T '#273#7875' theo d'#245'i t'#7879'p l'#7841'i.');
+  Put(True,
+    'Tail is ON - new lines at end of file are followed.',
+    'Tail '#273'ang B'#7852'T - c'#225'c d'#242'ng m'#7899'i '#7903' cu'#7889'i t'#7879'p '#273#432#7907'c theo d'#245'i.');
+  Put(True,
+    'Tail is ON '#8212' new lines at end of file are followed.',
+    'Tail '#273'ang B'#7852'T '#8212' c'#225'c d'#242'ng m'#7899'i '#7903' cu'#7889'i t'#7879'p '#273#432#7907'c theo d'#245'i.');
+  Put(True,
+    'Tail is active but no new lines have been appended yet.',
+    'Tail '#273'ang ho'#7841't '#273#7897'ng nh'#432'ng ch'#432'a c'#243' d'#242'ng m'#7899'i n'#224'o '#273#432#7907'c th'#234'm.');
+  Put(True,
+    'Tail macro (&Python)...',
+    'Macro Tail (&Python)...');
+  Put(True,
+    'Tail macro - &reprocess new lines',
+    'Macro Tail - &x'#7917' l'#253' l'#7841'i d'#242'ng m'#7899'i');
+  Put(True,
+    'Tail macro - reprocess new lines',
+    'Macro Tail - x'#7917' l'#253' l'#7841'i d'#242'ng m'#7899'i');
+  Put(True,
+    'Tail macro cancelled.',
+    #272#227' h'#7911'y macro Tail.');
+  Put(True,
+    'Tail macro done: %d OK, %d skipped, %d errors.',
+    'Macro Tail xong: %d OK, %d b'#7887' qua, %d l'#7895'i.');
+  Put(True,
+    'Tail macro examples',
+    'V'#237' d'#7909' macro Tail');
+  Put(True,
+    'Tail macro examples doc',
+    #272#7883'nh ngh'#297'a:  def transform(line, ctx) -> str | None'#13#10'  line          :'
+        + ' v'#259'n b'#7843'n m'#7895'i d'#242'ng M'#7898'I '#273#432#7907'c th'#234'm khi Tail B'#7852'T'#13#10'  ctx           : dict v'
+        + #7899'i tr'#7841'ng th'#225'i b'#7873'n gi'#7919'a c'#225'c d'#242'ng tail'#13#10'  ctx[''line_number''] : s'#7889' d'#242'ng b'
+        + #7855't '#273#7847'u t'#7915' 1 trong t'#7879'p ngu'#7891'n'#13#10'  Tr'#7843' v'#7873' str    : '#273#432'a d'#242'ng '#273#227' bi'#7871'n '#273#7893'i v'#224
+        + 'o '#273#7847'u ra'#13#10'  Tr'#7843' v'#7873' None   : b'#7887' qua (b'#7897' '#273#7871'm SKIP t'#259'ng)'#13#10'  N'#233'm ngo'#7841'i l'#7879' '
+        + ' : l'#7895'i (b'#7897' '#273#7871'm LINE_ERROR t'#259'ng)');
+  Put(True,
+    'Tail macro examples intro',
+    '=== V'#237' d'#7909' macro Tail (ch'#7841'y tr'#234'n m'#7895'i d'#242'ng m'#7899'i khi Tail B'#7852'T) ===');
+  Put(True,
+    'Tail macro idle',
+    'Macro Tail '#273'ang ngh'#7881);
+  Put(True,
+    'Tail macro is already running. Wait for it to finish or close Script E'
+        + 'ngine runs.',
+    'Macro Tail '#273#227' '#273'ang ch'#7841'y. '#272#7907'i ho'#224'n t'#7845't ho'#7863'c '#273#243'ng c'#225'c l'#7847'n ch'#7841'y Script En'
+        + 'gine.');
+  Put(True,
+    'Tail macro output:',
+    #272#7847'u ra macro Tail:');
+  Put(True,
+    'Tail macro results file',
+    'T'#7879'p k'#7871't qu'#7843' macro Tail');
+  Put(True,
+    'Tail macro script (transform(line, ctx)):',
+    'Script macro Tail (transform(line, ctx)):');
+  Put(True,
+    'Tail macro '#8212' reprocess new lines',
+    'Macro Tail '#8212' x'#7917' l'#253' l'#7841'i d'#242'ng m'#7899'i');
+  Put(True,
+    'Tail macro: %d lines queued...',
+    'Macro Tail: %d d'#242'ng trong h'#224'ng '#273#7907'i...');
+  Put(True,
+    'Tail macro: %d new line(s) detected...',
+    'Macro Tail: ph'#225't hi'#7879'n %d d'#242'ng m'#7899'i...');
+  Put(True,
+    'Tail macro: Python plugin ScriptEngine.exe not found or failed to star'
+        + 't.',
+    'Macro Tail: kh'#244'ng t'#236'm th'#7845'y plugin Python ScriptEngine.exe ho'#7863'c kh'#244'ng k'
+        + 'h'#7903'i '#273#7897'ng '#273#432#7907'c.');
+  Put(True,
+    'Tail macro: chunk done, %d OK - next chunk...',
+    'Macro Tail: chunk xong, %d OK - chunk ti'#7871'p theo...');
+  Put(True,
+    'Tail macro: chunk done, %d OK '#8212' next chunk...',
+    'Macro Tail: chunk xong, %d OK '#8212' chunk ti'#7871'p theo...');
+  Put(True,
+    'Tail macro: compile error',
+    'Macro Tail: l'#7895'i bi'#234'n d'#7883'ch');
+  Put(True,
+    'Tail macro: compiled OK',
+    'Macro Tail: bi'#234'n d'#7883'ch OK');
+  Put(True,
+    'Tail macro: index file temp.txt not found - read the file (F5) first.',
+    'Macro Tail: kh'#244'ng t'#236'm th'#7845'y t'#7879'p ch'#7881' m'#7909'c temp.txt - '#273#7885'c t'#7879'p (F5) tr'#432#7899'c.');
+  Put(True,
+    'Tail macro: index file temp.txt not found '#8212' read the file (F5) first.',
+    'Macro Tail: kh'#244'ng t'#236'm th'#7845'y t'#7879'p ch'#7881' m'#7909'c temp.txt '#8212' '#273#7885'c t'#7879'p (F5) tr'#432#7899'c.');
+  Put(True,
+    'Tail macro: line %d of %d...',
+    'Macro Tail: d'#242'ng %d tr'#234'n %d...');
+  Put(True,
+    'Tail macro: line index not found - read the file (F5) first.',
+    'Macro Tail: kh'#244'ng t'#236'm th'#7845'y ch'#7881' m'#7909'c d'#242'ng - '#273#7885'c t'#7879'p (F5) tr'#432#7899'c.');
+  Put(True,
+    'Tail macro: processing %d of %d lines (chunked)...',
+    'Macro Tail: '#273'ang x'#7917' l'#253' %d tr'#234'n %d d'#242'ng (theo chunk)...');
+  Put(True,
+    'Tail macro: processing %d pending line(s)...',
+    'Macro Tail: '#273'ang x'#7917' l'#253' %d d'#242'ng '#273'ang ch'#7901'...');
+  Put(True,
+    'Tail macro: processing last %d of %d new lines (limit).',
+    'Macro Tail: '#273'ang x'#7917' l'#253' %d d'#242'ng m'#7899'i cu'#7889'i tr'#234'n %d (gi'#7899'i h'#7841'n).');
+  Put(True,
+    'Tail macro: processing new lines...',
+    'Macro Tail: '#273'ang x'#7917' l'#253' d'#242'ng m'#7899'i...');
+  Put(True,
+    'Tail macro: reprocessing %d line(s) from this Tail session...',
+    'Macro Tail: '#273'ang x'#7917' l'#253' l'#7841'i %d d'#242'ng t'#7915' phi'#234'n Tail n'#224'y...');
+  Put(True,
+    'Tail macro: run failed (see output).',
+    'Macro Tail: ch'#7841'y th'#7845't b'#7841'i (xem '#273#7847'u ra).');
+  Put(True,
+    'Tail macro: running on lines %d-%d...',
+    'Macro Tail: '#273'ang ch'#7841'y tr'#234'n d'#242'ng %d-%d...');
+  Put(True,
+    'Tail macro: timeout waiting for ScriptEngine.',
+    'Macro Tail: h'#7871't th'#7901'i gian ch'#7901' ScriptEngine.');
+  Put(True,
+    'Tail macro: timeout waiting for script compile.',
+    'Macro Tail: h'#7871't th'#7901'i gian ch'#7901' bi'#234'n d'#7883'ch script.');
+  Put(True,
+    'Target line',
+    'D'#242'ng '#273#237'ch');
+  Put(True,
+    'Targets Dr./Dra. patterns together with the following name field (%s).'
+        + ' VBScript-safe (no lookbehind).',
+    'Nh'#7855'm c'#225'c m'#7851'u Dr./Dra. c'#249'ng tr'#432#7901'ng t'#234'n theo sau (%s). An to'#224'n v'#7899'i VBScr'
+        + 'ipt (kh'#244'ng lookbehind).');
+  Put(True,
+    'Technical Note: To divide into equal parts preserving complete lines, '
+        + 'you generally do not use Regex, but rather the file size or line count'
+        + ' (e.g., split every 10,000 lines). In Delphi or Python, you would coun'
+        + 't \n or \r\n characters to ensure the cut doesn''t break a word in half'
+        + '.',
+    'Ghi ch'#250' k'#7929' thu'#7853't: '#272#7875' chia th'#224'nh c'#225'c ph'#7847'n b'#7857'ng nhau gi'#7919' nguy'#234'n d'#242'ng '#273#7847'y'
+        + ' '#273#7911', th'#432#7901'ng kh'#244'ng d'#249'ng Regex m'#224' d'#249'ng k'#237'ch th'#432#7899'c t'#7879'p ho'#7863'c s'#7889' d'#242'ng (vd. '
+        + 't'#225'ch m'#7895'i 10.000 d'#242'ng). Trong Delphi ho'#7863'c Python, b'#7841'n '#273#7871'm k'#253' t'#7921' \n ho'#7863'c'
+        + ' \r\n '#273#7875' '#273#7843'm b'#7843'o ch'#7895' c'#7855't kh'#244'ng c'#7855't '#273#244'i m'#7897't t'#7915'.');
+  Put(True,
+    'Telemedicine-style flag (column "%s" = 1 after ISO datetime):',
+    'C'#7901' ki'#7875'u telemedicine (c'#7897't "%s" = 1 sau datetime ISO):');
+  Put(True,
+    'Temporary',
+    'T'#7841'm th'#7901'i');
+  Put(True,
+    'Temporary RAG index cleared',
+    #272#227' x'#243'a ch'#7881' m'#7909'c RAG t'#7841'm th'#7901'i');
+  Put(True,
+    'Temporary output file was not created.',
+    'T'#7879'p '#273#7847'u ra t'#7841'm th'#7901'i ch'#432'a '#273#432#7907'c t'#7841'o.');
+  Put(True,
+    'Test writes true or false per input line - ideal for quickly validatin'
+        + 'g row types.',
+    'Test ghi true ho'#7863'c false cho m'#7895'i d'#242'ng '#273#7847'u v'#224'o - l'#253' t'#432#7903'ng '#273#7875' ki'#7875'm tra n'
+        + 'hanh ki'#7875'u h'#224'ng.');
+  Put(True,
+    'Test '#8212' line has all CSV fields (same delimiter count as header). Regex'
+        + ':',
+    'Test '#8212' d'#242'ng c'#243' '#273#7911' tr'#432#7901'ng CSV (c'#249'ng s'#7889' d'#7845'u ph'#226'n c'#225'ch nh'#432' ti'#234'u '#273#7873'). Rege'
+        + 'x:');
+  Put(True,
+    'Test '#8212' telemedicine column is 1 (after ISO datetime). Regex:',
+    'Test '#8212' c'#7897't telemedicine l'#224' 1 (sau datetime ISO). Regex:');
+end;
+
+procedure AddVietnamesePart33(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Text',
+    'V'#259'n b'#7843'n');
+  Put(True,
+    'Text cannot be empty in repeat mode.',
+    'V'#259'n b'#7843'n kh'#244'ng '#273#432#7907'c '#273#7875' tr'#7889'ng '#7903' ch'#7871' '#273#7897' l'#7863'p l'#7841'i.');
+  Put(True,
+    'Text content:',
+    'N'#7897'i dung v'#259'n b'#7843'n:');
+  Put(True,
+    'Text copied to clipboard!',
+    #272#227' sao ch'#233'p v'#259'n b'#7843'n v'#224'o Clipboard!');
+  Put(True,
+    'Text files (*.txt)',
+    'T'#7879'p v'#259'n b'#7843'n (*.txt)');
+  Put(True,
+    'Text files (*.txt)|*.txt|All files (*.*)|*.*',
+    'T'#7879'p v'#259'n b'#7843'n (*.txt)|*.txt|T'#7845't c'#7843' t'#7879'p (*.*)|*.*');
+  Put(True,
+    'Text not found.',
+    'Kh'#244'ng t'#236'm th'#7845'y v'#259'n b'#7843'n.');
+  Put(True,
+    'Texto n'#227'o encontrado.',
+    'Kh'#244'ng t'#236'm th'#7845'y v'#259'n b'#7843'n.');
+  Put(True,
+    'The AI returned an empty response. Try again or shorten the sample.',
+    'AI tr'#7843' v'#7873' ph'#7843'n h'#7891'i tr'#7889'ng. Th'#7917' l'#7841'i ho'#7863'c r'#250't ng'#7855'n m'#7851'u.');
+  Put(True,
+    'The Python plugin %s was downloaded but was not found in the applicati'
+        + 'on folder.',
+    'Plugin Python %s '#273#227' '#273#432#7907'c t'#7843'i xu'#7889'ng nh'#432'ng kh'#244'ng t'#236'm th'#7845'y trong th'#432' m'#7909'c '
+        + #7913'ng d'#7909'ng.');
+  Put(True,
+    'The file changed on disk. Ask the agent again.',
+    'T'#7879'p '#273#227' thay '#273#7893'i tr'#234'n '#273#297'a. H'#227'y h'#7887'i t'#225'c nh'#226'n l'#7841'i.');
+  Put(True,
+    'The last eight digits of the final digit island on the first line look'
+        + ' like %s (often a DDMMYYYY-style date).',
+    'T'#225'm ch'#7919' s'#7889' cu'#7889'i c'#7911'a c'#7909'm ch'#7919' s'#7889' cu'#7889'i tr'#234'n d'#242'ng '#273#7847'u tr'#244'ng gi'#7889'ng %s (th'#432#7901
+        + 'ng l'#224' ng'#224'y ki'#7875'u DDMMYYYY).');
+  Put(True,
+    'The model stopped after the turn limit.',
+    'M'#244' h'#236'nh '#273#227' d'#7915'ng sau gi'#7899'i h'#7841'n l'#432#7907't.');
+  Put(True,
+    'There is no difference between the files.',
+    'Kh'#244'ng c'#243' kh'#225'c bi'#7879't gi'#7919'a c'#225'c t'#7879'p.');
+  Put(True,
+    'This file is very large. The app will skip the full pre-scan (counting'
+        + ' matches) to keep the UI responsive.',
+    'T'#7879'p n'#224'y r'#7845't l'#7899'n. '#7912'ng d'#7909'ng s'#7869' b'#7887' qua qu'#233't tr'#432#7899'c '#273#7847'y '#273#7911' ('#273#7871'm kh'#7899'p) '#273#7875' gi'
+        + #7919' giao di'#7879'n ph'#7843'n h'#7891'i.');
+  Put(True,
+    'This line is not in the current filter results.',
+    'D'#242'ng n'#224'y kh'#244'ng n'#7857'm trong k'#7871't qu'#7843' l'#7885'c hi'#7879'n t'#7841'i.');
+  Put(True,
+    'This mode does not use Regex. The file will be split into X equal part'
+        + 's, preserving complete lines (no cuts in the middle of a line).',
+    'Ch'#7871' '#273#7897' n'#224'y kh'#244'ng d'#249'ng Regex. T'#7879'p s'#7869' '#273#432#7907'c t'#225'ch th'#224'nh X ph'#7847'n b'#7857'ng nhau, '
+        + 'gi'#7919' nguy'#234'n d'#242'ng '#273#7847'y '#273#7911' (kh'#244'ng c'#7855't gi'#7919'a d'#242'ng).');
+  Put(True,
+    'This operation cannot be undone.',
+    'Thao t'#225'c n'#224'y kh'#244'ng th'#7875' ho'#224'n t'#225'c.');
+  Put(True,
+    'This text will be automatically inserted at the very beginning of EVER'
+        + 'Y generated sub-file.',
+    'V'#259'n b'#7843'n n'#224'y s'#7869' '#273#432#7907'c t'#7921' '#273#7897'ng ch'#232'n v'#224'o ngay '#273#7847'u M'#7884'I t'#7879'p con '#273#432#7907'c t'#7841'o.');
+  Put(True,
+    'This text will be automatically inserted at the very end of EVERY gene'
+        + 'rated sub-file.',
+    'V'#259'n b'#7843'n n'#224'y s'#7869' '#273#432#7907'c t'#7921' '#273#7897'ng ch'#232'n v'#224'o ngay cu'#7889'i M'#7884'I t'#7879'p con '#273#432#7907'c t'#7841'o.');
+  Put(True,
+    'Threaded Search',
+    'T'#236'm ki'#7871'm '#273'a lu'#7891'ng');
+  Put(True,
+    'Time to delete lines: %s millisecs.',
+    'Th'#7901'i gian x'#243'a d'#242'ng: %s.');
+  Put(True,
+    'Time to execute that operation: %s millisecs.',
+    'Th'#7901'i gian th'#7921'c thi thao t'#225'c '#273#243': %s.');
+  Put(True,
+    'Time to read: %s millisecs.',
+    'Th'#7901'i gian '#273#7885'c: %s mili gi'#226'y.');
+  Put(True,
+    'Time to read: %s millisecs. Total lines: %d.',
+    'Th'#7901'i gian '#273#7885'c: %s mili gi'#226'y. T'#7893'ng s'#7889' d'#242'ng: %d.');
+  Put(True,
+    'Time to read: %s millisecs. Total lines: %d. Read threads: %d.',
+    'Th'#7901'i gian '#273#7885'c: %s mili gi'#226'y. T'#7893'ng s'#7889' d'#242'ng: %d. Lu'#7891'ng '#273#7885'c: %d.');
+  Put(True,
+    'TimerLog.ClearHint',
+    'X'#243'a s'#7841'ch nh'#7853't k'#253' b'#7897' '#273#7871'm th'#7901'i gian thao t'#225'c');
+  Put(True,
+    'TimerLog.CopyConfirm',
+    'Sao ch'#233'p v'#259'n b'#7843'n n'#224'y v'#224'o Clipboard?');
+  Put(True,
+    'TimerLog.CopyHint',
+    'Nh'#7845'p chu'#7897't ph'#7843'i '#273#7875' sao ch'#233'p v'#259'n b'#7843'n n'#224'y v'#224'o Clipboard');
+  Put(True,
+    'Tip',
+    'M'#7865'o');
+  Put(True,
+    'Tip: press ESC to cancel.',
+    'M'#7865'o: nh'#7845'n ESC '#273#7875' h'#7911'y.');
+  Put(True,
+    'Tips: regex is applied line-by-line; ^ means start of each line.',
+    'M'#7865'o: regex '#273#432#7907'c '#225'p d'#7909'ng theo t'#7915'ng d'#242'ng; ^ ngh'#297'a l'#224' '#273#7847'u m'#7895'i d'#242'ng.');
+  Put(True,
+    'Title prefix check',
+    'Ki'#7875'm tra ti'#7873'n t'#7889' ti'#234'u '#273#7873);
+  Put(True,
+    'TitleBar.ShowHideIcon',
+    'Hi'#7879'n/'#7849'n bi'#7875'u t'#432#7907'ng '#7913'ng d'#7909'ng');
+  Put(True,
+    'To keep in your file only lines where %s has a high numeric value (e.g'
+        + '., more than 100 reviews).',
+    #272#7875' ch'#7881' gi'#7919' trong t'#7879'p c'#225'c d'#242'ng m'#224' %s c'#243' gi'#225' tr'#7883' s'#7889' cao (v'#237' d'#7909': h'#417'n 100 '
+        + #273#225'nh gi'#225').');
+  Put(True,
+    'To line must be >= From line.',
+    'D'#242'ng '#272#7871'n ph'#7843'i >= d'#242'ng T'#7915'.');
+  Put(True,
+    'To line:',
+    #272#7871'n d'#242'ng:');
+  Put(True,
+    'To quickly identify which lines have a specific %s (like a column with'
+        + ' value 1).',
+    #272#7875' nhanh ch'#243'ng x'#225'c '#273#7883'nh d'#242'ng n'#224'o c'#243' %s c'#7909' th'#7875' (nh'#432' c'#7897't c'#243' gi'#225' tr'#7883' 1).');
+  Put(True,
+    'To split into N equal parts by line count or size, use FastFile''s equa'
+        + 'l-parts workflow instead of Regex - Regex cannot count lines across th'
+        + 'e whole file in one Test call.',
+    #272#7875' t'#225'ch th'#224'nh N ph'#7847'n b'#7857'ng nhau theo s'#7889' d'#242'ng ho'#7863'c k'#237'ch th'#432#7899'c, h'#227'y d'#249'ng '
+        + 'quy tr'#236'nh ph'#7847'n b'#7857'ng nhau c'#7911'a FastFile thay v'#236' Regex - Regex kh'#244'ng th'#7875' '
+        + #273#7871'm d'#242'ng tr'#234'n to'#224'n t'#7879'p trong m'#7897't l'#7847'n g'#7885'i Ki'#7875'm tra.');
+  Put(True,
+    'To:',
+    #272#7871'n:');
+  Put(True,
+    'Toggle Word Wrap (Ctrl+W)',
+    'B'#7853't/t'#7855't xu'#7889'ng d'#242'ng (Ctrl+W)');
+  Put(True,
+    'Too many lines to export to a file (%d; max %d). Reduce the range.',
+    'Qu'#225' nhi'#7873'u d'#242'ng '#273#7875' xu'#7845't ra t'#7879'p (%d; t'#7889'i '#273'a %d). Thu h'#7865'p ph'#7841'm vi.');
+  Put(True,
+    'Too many lines to export to the clipboard (%d; max %d). Reduce the ran'
+        + 'ge or save to a text file.',
+    'Qu'#225' nhi'#7873'u d'#242'ng '#273#7875' xu'#7845't ra Clipboard (%d; t'#7889'i '#273'a %d). Thu h'#7865'p ph'#7841'm vi h'
+        + 'o'#7863'c l'#432'u ra t'#7879'p v'#259'n b'#7843'n.');
+  Put(True,
+    'Toolbar hint: Compare / merge (Ctrl+Shift+H)',
+    'So s'#225'nh / g'#7897'p + l'#7883'ch s'#7917' (Ctrl+Shift+H)');
+  Put(True,
+    'Toolbar hint: Filter / Grep (Ctrl+L)',
+    'L'#7885'c / Grep (Ctrl+L)');
+  Put(True,
+    'Toolbar hint: Find (Ctrl+F)',
+    'T'#236'm v'#259'n b'#7843'n (Ctrl+F)');
+  Put(True,
+    'Toolbar hint: Find and replace (Ctrl+H)',
+    'T'#236'm v'#224' thay th'#7871' (Ctrl+H)');
+  Put(True,
+    'Toolbar hint: Line hover hints (ListView and Select mode)',
+    'Hi'#7879'n g'#7907'i '#253' khi di chu'#7897't tr'#234'n d'#242'ng v'#224' tr'#234'n m'#7885'i '#273'i'#7873'u khi'#7875'n (tr'#7907' l'#253', b'#7897' l'
+        + #7885'c, thanh c'#244'ng c'#7909')');
+  Put(True,
+    'Toolbar hint: Show marks (Ctrl+Alt+M)',
+    'Hi'#7879'n d'#7845'u TAB/space/CR/LF (Ctrl+Alt+M)');
+  Put(True,
+    'Toolbar hint: Word wrap (Ctrl+W)',
+    'Xu'#7889'ng d'#242'ng (Ctrl+W)');
+  Put(True,
+    'Toolbar hint: Zoom in (Ctrl+Plus)',
+    'Ph'#243'ng to ph'#244'ng ch'#7919' danh s'#225'ch (Ctrl+Plus)');
+  Put(True,
+    'Toolbar hint: Zoom out (Ctrl+Minus)',
+    'Thu nh'#7887' ph'#244'ng ch'#7919' danh s'#225'ch (Ctrl+Minus)');
+  Put(True,
+    'Toolbar.PythonMacro',
+    'Macro Python');
+  Put(True,
+    'Toolbar.PythonMacroHint',
+    'M'#7903' b'#7843'ng macro Python '#273#7875' bi'#7871'n '#273#7893'i c'#225'c d'#242'ng t'#7879'p b'#7857'ng script (Ctrl+Alt+E)');
+  Put(True,
+    'Tools',
+    'C'#244'ng c'#7909);
+  Put(True,
+    'ToolsGallery.ClearSearch',
+    'X'#243'a s'#7841'ch t'#236'm ki'#7871'm');
+  Put(True,
+    'ToolsGallery.GroupAppearance',
+    'Giao di'#7879'n');
+  Put(True,
+    'ToolsGallery.GroupFind',
+    'T'#236'm ki'#7871'm');
+  Put(True,
+    'ToolsGallery.GroupSplit',
+    'T'#225'ch & tr'#237'ch xu'#7845't');
+  Put(True,
+    'ToolsGallery.SearchCue',
+    'C'#244'ng c'#7909' t'#236'm ki'#7871'm...');
+  Put(True,
+    'ToolsGallery.Shortcut.FindFiles',
+    'Ctrl+Shift+F');
+  Put(True,
+    'ToolsGallery.Shortcut.SelectSkin',
+    'Ctrl+Alt+K');
+  Put(True,
+    'ToolsGallery.Subtitle',
+    'Ch'#7885'n m'#7897't c'#244'ng c'#7909);
+  Put(True,
+    'Top toolbar',
+    'Thanh c'#244'ng c'#7909' tr'#234'n');
+  Put(True,
+    'TopBar.MoreOptions',
+    'T'#249'y ch'#7885'n t'#7879'p (xu'#7845't, ch'#7885'n, l'#7885'c, x'#243'a s'#7841'ch...)');
+  Put(True,
+    'Total characters:',
+    'T'#7893'ng s'#7889' k'#253' t'#7921':');
+  Put(True,
+    'Total lines:',
+    'T'#7893'ng s'#7889' d'#242'ng:');
+  Put(True,
+    'Transcript cleared',
+    #272#227' x'#243'a s'#7841'ch b'#7843'n ghi');
+  Put(True,
+    'Transcript exported to: ',
+    #272#227' xu'#7845't b'#7843'n ghi t'#7899'i: ');
+  Put(True,
+    'Try another source file or pattern mode.',
+    'Th'#7917' t'#7879'p ngu'#7891'n ho'#7863'c ch'#7871' '#273#7897' m'#7851'u kh'#225'c.');
+  Put(True,
+    'Tutorials: ',
+    'H'#432#7899'ng d'#7851'n: ');
+  Put(True,
+    'Two-file diff',
+    'Diff hai t'#7879'p');
+  Put(True,
+    'Type a value here.',
+    'Nh'#7853'p m'#7897't gi'#225' tr'#7883' t'#7841'i '#273#226'y.');
+  Put(True,
+    'Type file name patterns to search.',
+    'Nh'#7853'p m'#7851'u t'#234'n t'#7879'p c'#7847'n t'#236'm.');
+  Put(True,
+    'Type folders where files should be searched.',
+    'Nh'#7853'p th'#432' m'#7909'c n'#417'i c'#7847'n t'#236'm t'#7879'p.');
+  Put(True,
+    'Type or choose the file path.',
+    'Nh'#7853'p ho'#7863'c ch'#7885'n '#273#432#7901'ng d'#7851'n t'#7879'p.');
+  Put(True,
+    'Type text content to find inside files.',
+    'Nh'#7853'p n'#7897'i dung v'#259'n b'#7843'n c'#7847'n t'#236'm trong t'#7879'p.');
+  Put(True,
+    'Type text to search within loaded lines.',
+    'Nh'#7853'p v'#259'n b'#7843'n c'#7847'n t'#236'm trong c'#225'c d'#242'ng '#273#227' t'#7843'i.');
+  Put(True,
+    'Type the text to search:',
+    'Nh'#7853'p v'#259'n b'#7843'n c'#7847'n t'#236'm:');
+  Put(True,
+    'Typed text:',
+    'V'#259'n b'#7843'n '#273#227' nh'#7853'p:');
+  Put(True,
+    'URLs',
+    'URL');
+  Put(True,
+    'Undo',
+    'Ho'#224'n t'#225'c');
+  Put(True,
+    'Undo delete on line %d? The deleted line will be restored.',
+    'Ho'#224'n t'#225'c x'#243'a d'#242'ng %d? D'#242'ng '#273#227' x'#243'a s'#7869' '#273#432#7907'c kh'#244'i ph'#7909'c.');
+  Put(True,
+    'Undo delete on line %d? The line will be restored: "%s"',
+    'Ho'#224'n t'#225'c x'#243'a d'#242'ng %d? D'#242'ng s'#7869' '#273#432#7907'c kh'#244'i ph'#7909'c: "%s"');
+  Put(True,
+    'Undo edit on line %d? The line will be restored to its previous conten'
+        + 't.',
+    'Ho'#224'n t'#225'c s'#7917'a d'#242'ng %d? D'#242'ng s'#7869' '#273#432#7907'c kh'#244'i ph'#7909'c v'#7873' n'#7897'i dung tr'#432#7899'c '#273#243'.');
+  Put(True,
+    'Undo edit on line %d? The line will be restored to: "%s"',
+    'Ho'#224'n t'#225'c s'#7917'a d'#242'ng %d? D'#242'ng s'#7869' '#273#432#7907'c kh'#244'i ph'#7909'c v'#7873': "%s"');
+  Put(True,
+    'Undo failed.',
+    'Ho'#224'n t'#225'c th'#7845't b'#7841'i.');
+  Put(True,
+    'Undo insert at line %d? The inserted line will be removed.',
+    'Ho'#224'n t'#225'c ch'#232'n t'#7841'i d'#242'ng %d? D'#242'ng '#273#227' ch'#232'n s'#7869' b'#7883' g'#7905'.');
+  Put(True,
+    'Undo line autofill (%d line(s) at line %d)',
+    'Ho'#224'n t'#225'c t'#7921' '#273'i'#7873'n d'#242'ng (%d d'#242'ng t'#7841'i d'#242'ng %d)');
+  Put(True,
+    'Undo line autofill of %d blank line(s) at line %d? The added lines wil'
+        + 'l be removed.',
+    'Ho'#224'n t'#225'c t'#7921' '#273'i'#7873'n %d d'#242'ng tr'#7889'ng t'#7841'i d'#242'ng %d? C'#225'c d'#242'ng '#273#227' th'#234'm s'#7869' b'#7883' g'#7905'.');
+  Put(True,
+    'Undo paste of %d line(s) starting at line %d? The pasted lines will be'
+        + ' removed.',
+    'Ho'#224'n t'#225'c d'#225'n %d d'#242'ng b'#7855't '#273#7847'u t'#7915' d'#242'ng %d? C'#225'c d'#242'ng '#273#227' d'#225'n s'#7869' b'#7883' g'#7905'.');
+  Put(True,
+    'Undo the last change on line %d?',
+    'Ho'#224'n t'#225'c thay '#273#7893'i cu'#7889'i c'#249'ng tr'#234'n d'#242'ng %d?');
+  Put(True,
+    'Undo: delete line ',
+    'Ho'#224'n t'#225'c: x'#243'a d'#242'ng ');
+  Put(True,
+    'Undo: insert line ',
+    'Ho'#224'n t'#225'c: ch'#232'n d'#242'ng ');
+  Put(True,
+    'Undo: remove %d autofill line(s) from line %d',
+    'Ho'#224'n t'#225'c: g'#7905' %d d'#242'ng t'#7921' '#273'i'#7873'n t'#7915' d'#242'ng %d');
+  Put(True,
+    'Undo: remove %d pasted line(s) from line %d',
+    'Ho'#224'n t'#225'c: g'#7905' %d d'#242'ng '#273#227' d'#225'n t'#7915' d'#242'ng %d');
+  Put(True,
+    'Undo: restore line ',
+    'Ho'#224'n t'#225'c: kh'#244'i ph'#7909'c d'#242'ng ');
+  Put(True,
+    'Unknown error.',
+    'L'#7895'i kh'#244'ng x'#225'c '#273#7883'nh.');
+  Put(True,
+    'Unsupported Python plugin for automatic download.',
+    'Plugin Python kh'#244'ng '#273#432#7907'c h'#7895' tr'#7907' t'#7843'i xu'#7889'ng t'#7921' '#273#7897'ng.');
+  Put(True,
+    'Unsupported regex flag: %s',
+    'C'#7901' regex kh'#244'ng '#273#432#7907'c h'#7895' tr'#7907': %s');
+end;
+
+procedure AddVietnamesePart34(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'Updating line index...',
+    #272'ang c'#7853'p nh'#7853't ch'#7881' m'#7909'c d'#242'ng...');
+  Put(True,
+    'Use Apply buttons to save merged lines to disk (batched). Green (equal'
+        + ') rows are ignored.',
+    'D'#249'ng n'#250't '#193'p d'#7909'ng '#273#7875' l'#432'u c'#225'c d'#242'ng '#273#227' g'#7897'p ra '#273#297'a (theo l'#244'). C'#225'c h'#224'ng xan'
+        + 'h (b'#7857'ng nhau) b'#7883' b'#7887' qua.');
+  Put(True,
+    'Use Ctrl+F first to define the search text.',
+    'Tr'#432#7899'c h'#7871't h'#227'y nh'#7853'p v'#259'n b'#7843'n t'#236'm trong b'#7843'ng S'#7889' l'#7847'n xu'#7845't hi'#7879'n (ho'#7863'c d'#249'ng '
+        + 'Ctrl+F).');
+  Put(True,
+    'Use Preview before running on the full file.',
+    'D'#249'ng Xem tr'#432#7899'c tr'#432#7899'c khi ch'#7841'y tr'#234'n to'#224'n t'#7879'p.');
+  Put(True,
+    'Use Python macros on new lines',
+    'D'#249'ng macro Python tr'#234'n c'#225'c d'#242'ng m'#7899'i');
+  Put(True,
+    'Use different text for each new line',
+    'D'#249'ng v'#259'n b'#7843'n kh'#225'c nhau cho m'#7895'i d'#242'ng m'#7899'i');
+  Put(True,
+    'Use in editor',
+    'D'#249'ng trong tr'#236'nh so'#7841'n th'#7843'o');
+  Put(True,
+    'Useful for extracting only the %s and the %s from each line.',
+    'H'#7919'u '#237'ch '#273#7875' ch'#7881' tr'#237'ch xu'#7845't %s v'#224' %s t'#7915' m'#7895'i d'#242'ng.');
+  Put(True,
+    'Useful links:',
+    'Li'#234'n k'#7871't h'#7919'u '#237'ch:');
+  Put(True,
+    'Useful to anonymize or normalize content in all lines (for example, re'
+        + 'moving numeric URL suffixes).',
+    'H'#7919'u '#237'ch '#273#7875' '#7849'n danh h'#243'a ho'#7863'c chu'#7849'n h'#243'a n'#7897'i dung tr'#234'n m'#7885'i d'#242'ng (v'#237' d'#7909': g'
+        + #7905' h'#7853'u t'#7889' s'#7889' c'#7911'a URL).');
+  Put(True,
+    'Useful to keep only rows that match a rule (for example, lines from on'
+        + 'e region).',
+    'H'#7919'u '#237'ch '#273#7875' ch'#7881' gi'#7919' c'#225'c h'#224'ng kh'#7899'p m'#7897't quy t'#7855'c (v'#237' d'#7909': d'#242'ng t'#7915' m'#7897't v'#249'ng)'
+        + '.');
+  Put(True,
+    'Useful to sample IDs and amounts embedded between runs of zeros.',
+    'H'#7919'u '#237'ch '#273#7875' l'#7845'y m'#7851'u ID v'#224' s'#7889' ti'#7873'n n'#7857'm gi'#7919'a c'#225'c chu'#7895'i s'#7889' kh'#244'ng.');
+  Put(True,
+    'Useful to validate each line quickly (for example, if a line keeps the'
+        + ' expected CSV structure).',
+    'H'#7919'u '#237'ch '#273#7875' x'#225'c th'#7921'c nhanh m'#7895'i d'#242'ng (v'#237' d'#7909': n'#7871'u d'#242'ng gi'#7919' c'#7845'u tr'#250'c CSV m'
+        + 'ong '#273#7907'i).');
+  Put(True,
+    'Useful when a column stores URLs; anchors may need quotes or extra del'
+        + 'imiters for your file.',
+    'H'#7919'u '#237'ch khi m'#7897't c'#7897't l'#432'u URL; neo c'#243' th'#7875' c'#7847'n d'#7845'u ngo'#7863'c k'#233'p ho'#7863'c d'#7845'u ph'#226
+        + 'n c'#225'ch th'#234'm cho t'#7879'p c'#7911'a b'#7841'n.');
+  Put(True,
+    'Useful when you want to extract specific tokens from each line (for ex'
+        + 'ample, IDs and URLs).',
+    'H'#7919'u '#237'ch khi b'#7841'n mu'#7889'n tr'#237'ch xu'#7845't token c'#7909' th'#7875' t'#7915' m'#7895'i d'#242'ng (v'#237' d'#7909': ID v'#224
+        + ' URL).');
+  Put(True,
+    'Uses a lookbehind to skip the domain and capture only the URL path.',
+    'D'#249'ng lookbehind '#273#7875' b'#7887' qua mi'#7873'n v'#224' ch'#7881' b'#7855't '#273#432#7901'ng d'#7851'n URL.');
+  Put(True,
+    'VBScript.RegExp is not available (invalid pattern or missing component'
+        + ').',
+    'VBScript.RegExp kh'#244'ng kh'#7843' d'#7909'ng (m'#7851'u kh'#244'ng h'#7907'p l'#7879' ho'#7863'c thi'#7871'u th'#224'nh ph'#7847'n'
+        + ').');
+  Put(True,
+    'Validate dates in',
+    'X'#225'c th'#7921'c ng'#224'y trong');
+  Put(True,
+    'Version History',
+    'L'#7883'ch s'#7917' phi'#234'n b'#7843'n');
+  Put(True,
+    'View encoding (list):',
+    'B'#7843'ng m'#227' xem (danh s'#225'ch):');
+  Put(True,
+    'View encoding: default (list follows detected BOM/heuristics).',
+    'B'#7843'ng m'#227' xem: m'#7863'c '#273#7883'nh (danh s'#225'ch theo BOM/heuristic '#273#227' ph'#225't hi'#7879'n).');
+  Put(True,
+    'View encoding: forced (list decode only; file on disk unchanged).',
+    'B'#7843'ng m'#227' xem: '#233'p bu'#7897'c (ch'#7881' gi'#7843'i m'#227' danh s'#225'ch; t'#7879'p tr'#234'n '#273#297'a kh'#244'ng '#273#7893'i).');
+  Put(True,
+    'View: ANSI (raw / system)',
+    'Xem: ANSI (th'#244' / h'#7879' th'#7889'ng)');
+  Put(True,
+    'View: DEFAULT (detected)',
+    'Xem: M'#7862'C '#272#7882'NH ('#273#227' ph'#225't hi'#7879'n)');
+  Put(True,
+    'View: UTF-16 BE',
+    'Xem: UTF-16 BE');
+  Put(True,
+    'View: UTF-16 LE',
+    'Xem: UTF-16 LE');
+  Put(True,
+    'View: UTF-32 BE',
+    'Xem: UTF-32 BE');
+  Put(True,
+    'View: UTF-32 LE',
+    'Xem: UTF-32 LE');
+  Put(True,
+    'View: UTF-8',
+    'Xem: UTF-8');
+  Put(True,
+    'Virtual',
+    #7842'o');
+  Put(True,
+    'Visible marks legend:',
+    'Ch'#250' gi'#7843'i d'#7845'u hi'#7879'n:');
+  Put(True,
+    'Waiting engine output...',
+    #272'ang ch'#7901' '#273#7847'u ra engine...');
+  Put(True,
+    'Waiting for Python...',
+    #272'ang ch'#7901' Python...');
+  Put(True,
+    'Warning',
+    'C'#7843'nh b'#225'o');
+  Put(True,
+    'Watchdog.Hang.Message',
+    'FastFile: giao di'#7879'n kh'#244'ng ph'#7843'n h'#7891'i kho'#7843'ng ~%u s.');
+  Put(True,
+    'Watchdog.Hang.Operation',
+    'Thao t'#225'c: %s');
+  Put(True,
+    'Watchdog.Hang.Question',
+    'Th'#7917' h'#7911'y c'#244'ng vi'#7879'c n'#7873'n (T'#236'm/L'#7885'c/l'#7853'p ch'#7881' m'#7909'c)?');
+  Put(True,
+    'Watchdog.Hang.Title',
+    'FastFile - c'#243' th'#7875' b'#7883' treo');
+  Put(True,
+    'Watchdog.Memory.Critical',
+    'FastFile: m'#7913'c d'#249'ng b'#7897' nh'#7899' t'#7899'i h'#7841'n (~%.0f MB). H'#7911'y c'#244'ng vi'#7879'c n'#7863'ng v'#224' gi'
+        + #7843'i ph'#243'ng b'#7897' nh'#7899' '#273#7879'm?');
+  Put(True,
+    'Watchdog.Memory.Title',
+    'FastFile - b'#7897' nh'#7899);
+  Put(True,
+    'What it does:',
+    'N'#243' l'#224'm g'#236':');
+  Put(True,
+    'What to export',
+    'N'#7897'i dung xu'#7845't');
+  Put(True,
+    'When enabled, Replace All and batch delete of checked lines may proces'
+        + 's the file in line-aligned segments (temporary parts), then merge. Can'
+        + ' reduce peak memory on very large files. Replace All: search text that'
+        + ' spans a segment boundary may not match.',
+    'Khi b'#7853't, Thay th'#7871' t'#7845't c'#7843' v'#224' x'#243'a h'#224'ng lo'#7841't c'#225'c d'#242'ng '#273#227' '#273#225'nh d'#7845'u c'#243' th'#7875' '
+        + 'x'#7917' l'#253' t'#7879'p theo c'#225'c '#273'o'#7841'n c'#259'n d'#242'ng (ph'#7847'n t'#7841'm), r'#7891'i g'#7897'p. C'#243' th'#7875' gi'#7843'm '#273#7881'nh'
+        + ' b'#7897' nh'#7899' tr'#234'n t'#7879'p r'#7845't l'#7899'n. Thay th'#7871' t'#7845't c'#7843': v'#259'n b'#7843'n t'#236'm k'#233'o d'#224'i qua bi'#234
+        + 'n '#273'o'#7841'n c'#243' th'#7875' kh'#244'ng kh'#7899'p.');
+  Put(True,
+    'When this pattern is found on a line, the current file is saved and a '
+        + 'new split file is started.',
+    'Khi m'#7851'u n'#224'y '#273#432#7907'c t'#236'm th'#7845'y tr'#234'n m'#7897't d'#242'ng, t'#7879'p hi'#7879'n t'#7841'i '#273#432#7907'c l'#432'u v'#224' m'#7897't '
+        + 't'#7879'p t'#225'ch m'#7899'i b'#7855't '#273#7847'u.');
+  Put(True,
+    'Whole Word',
+    'C'#7843' t'#7915);
+  Put(True,
+    'Whole file available: %s lines (paged reading, low memory).',
+    'To'#224'n t'#7879'p kh'#7843' d'#7909'ng: %s d'#242'ng ('#273#7885'c ph'#226'n trang, b'#7897' nh'#7899' th'#7845'p).');
+  Put(True,
+    'Whole word',
+    'C'#7843' t'#7915);
+  Put(True,
+    'Word Wrap (ON)',
+    'Xu'#7889'ng d'#242'ng (B'#7852'T)');
+  Put(True,
+    'Word wrap (visual):',
+    'Xu'#7889'ng d'#242'ng (tr'#7921'c quan):');
+  Put(True,
+    'Working...',
+    #272'ang l'#224'm...');
+  Put(True,
+    'Write',
+    'Ghi');
+  Put(True,
+    'Write a prompt first.',
+    'H'#227'y vi'#7871't l'#7901'i nh'#7855'c tr'#432#7899'c.');
+  Put(True,
+    'Writing',
+    #272'ang ghi');
+  Put(True,
+    'XML-like lines detected; using first tag <%s ...>.',
+    'Ph'#225't hi'#7879'n d'#242'ng ki'#7875'u XML; d'#249'ng th'#7867' '#273#7847'u <%s ...>.');
+  Put(True,
+    'YES = build line index now (full disk pass, exact line numbers).',
+    'C'#211' = x'#226'y ch'#7881' m'#7909'c d'#242'ng ngay (qu'#233't '#273#7847'y '#273#7911' '#273#297'a, s'#7889' d'#242'ng ch'#237'nh x'#225'c).');
+  Put(True,
+    'YES = build line index now (recommended).',
+    'C'#211' = x'#226'y ch'#7881' m'#7909'c d'#242'ng ngay (khuy'#7871'n ngh'#7883').');
+  Put(True,
+    'Yes',
+    'C'#243);
+  Put(True,
+    'You can drag and drop the source file into this window.',
+    'B'#7841'n c'#243' th'#7875' k'#233'o v'#224' th'#7843' t'#7879'p ngu'#7891'n v'#224'o c'#7917'a s'#7893' n'#224'y.');
+  Put(True,
+    'You can use the Preview button in the dialog to sample matches quickly'
+        + '.',
+    'B'#7841'n c'#243' th'#7875' d'#249'ng n'#250't Xem tr'#432#7899'c trong h'#7897'p tho'#7841'i '#273#7875' l'#7845'y m'#7851'u kh'#7899'p nhanh.');
+  Put(True,
+    'Your first line begins with sixteen consecutive digits. They are group'
+        + 'ed here as two blocks of eight (common for dates or IDs). Adjust group'
+        + 'ing if your specification names different field widths.',
+    'D'#242'ng '#273#7847'u c'#7911'a b'#7841'n b'#7855't '#273#7847'u b'#7857'ng m'#432#7901'i s'#225'u ch'#7919' s'#7889' li'#234'n ti'#7871'p. Ch'#250'ng '#273#432#7907'c nh'
+        + #243'm '#7903' '#273#226'y th'#224'nh hai kh'#7889'i t'#225'm ch'#7919' s'#7889' (th'#432#7901'ng d'#249'ng cho ng'#224'y ho'#7863'c ID). '#272'i'#7873
+        + 'u ch'#7881'nh nh'#243'm n'#7871'u '#273#7863'c t'#7843' c'#7911'a b'#7841'n '#273#7863't '#273#7897' r'#7897'ng tr'#432#7901'ng kh'#225'c.');
+  Put(True,
+    'ZeroScan.DiscoveringLastLine',
+    #272'ang t'#236'm d'#242'ng cu'#7889'i ('#273#7871'm ng'#7855't d'#242'ng trong t'#7879'p, vui l'#242'ng '#273#7907'i)...');
+  Put(True,
+    'ZeroScan.LastLineApprox',
+    'Cu'#7889'i t'#7879'p (~d'#242'ng %d, byte %s); '#432#7899'c l'#432#7907'ng t'#7927' l'#7879')');
+  Put(True,
+    'ZeroScan.LastLineCached',
+    'Cu'#7889'i t'#7879'p (d'#242'ng ~%d, byte %s); '#273#227' '#273#7879'm)');
+  Put(True,
+    'Zoom &in (list)',
+    'Ph'#243'ng &to (danh s'#225'ch)');
+  Put(True,
+    'Zoom o&ut (list)',
+    'Thu &nh'#7887' (danh s'#225'ch)');
+  Put(True,
+    '[Line preview limited to %s bytes for performance; file line total %s '
+        + 'bytes.]',
+    '[Xem tr'#432#7899'c d'#242'ng gi'#7899'i h'#7841'n %s byte v'#236' hi'#7879'u n'#259'ng; t'#7893'ng d'#242'ng t'#7879'p %s byte.]');
+  Put(True,
+    '[Line truncated for display: %s bytes total.]',
+    '[D'#242'ng b'#7883' c'#7855't '#273#7875' hi'#7875'n th'#7883': t'#7893'ng %s byte.]');
+  Put(True,
+    '[ReplaceAll] ',
+    '[ReplaceAll] ');
+  Put(True,
+    '[ReplaceAll] Error: ',
+    '[ReplaceAll] L'#7895'i: ');
+  Put(True,
+    '[ReplaceAll] Segmented output missing.',
+    '[ReplaceAll] Thi'#7871'u '#273#7847'u ra ph'#226'n '#273'o'#7841'n.');
+  Put(True,
+    '[ReplaceAll] Segmented part failed.',
+    '[ReplaceAll] Ph'#7847'n ph'#226'n '#273'o'#7841'n th'#7845't b'#7841'i.');
+  Put(True,
+    '[Save note] DEFAULT follows detection; a forced view only changes list'
+        + ' decoding until an operation rewrites the file on disk.',
+    '[Ghi ch'#250' l'#432'u] M'#7862'C '#272#7882'NH theo ph'#225't hi'#7879'n; ch'#7871' '#273#7897' xem '#233'p bu'#7897'c ch'#7881' '#273#7893'i gi'#7843'i'
+        + ' m'#227' danh s'#225'ch cho '#273#7871'n khi m'#7897't thao t'#225'c ghi l'#7841'i t'#7879'p tr'#234'n '#273#297'a.');
+  Put(True,
+    '[Scan] %d non-empty lines (max %d), delimiter [%s], fields: %d.',
+    '[Qu'#233't] %d d'#242'ng kh'#244'ng tr'#7889'ng (t'#7889'i '#273'a %d), d'#7845'u ph'#226'n c'#225'ch [%s], tr'#432#7901'ng: %d'
+        + '.');
+  Put(True,
+    '[Scan] Based on the first %d non-empty lines (maximum %d). Detected de'
+        + 'limiter [%s], fields: %d.',
+    '[Qu'#233't] D'#7921'a tr'#234'n %d d'#242'ng kh'#244'ng tr'#7889'ng '#273#7847'u ti'#234'n (t'#7889'i '#273'a %d). D'#7845'u ph'#226'n c'#225'c'
+        + 'h ph'#225't hi'#7879'n [%s], tr'#432#7901'ng: %d.');
+  Put(True,
+    '[Scan] Based on the first %d non-empty lines read from this file (maxi'
+        + 'mum %d). Layout: fixed-width / positional (few delimiter characters on'
+        + ' line 1).',
+    '[Qu'#233't] D'#7921'a tr'#234'n %d d'#242'ng kh'#244'ng tr'#7889'ng '#273#7847'u ti'#234'n '#273#7885'c t'#7915' t'#7879'p n'#224'y (t'#7889'i '#273'a %d'
+        + '). B'#7889' c'#7909'c: '#273#7897' r'#7897'ng c'#7889' '#273#7883'nh / v'#7883' tr'#237' ('#237't k'#253' t'#7921' ph'#226'n c'#225'ch tr'#234'n d'#242'ng 1).');
+  Put(True,
+    '[file] %s',
+    '[t'#7879'p] %s');
+  Put(True,
+    '[folder] %s',
+    '[th'#432' m'#7909'c] %s');
+  Put(True,
+    'animation',
+    'ho'#7841't '#7843'nh');
+  Put(True,
+    'blue: changed',
+    'xanh d'#432#417'ng = '#273#227' '#273#7893'i');
+  Put(True,
+    'bytes',
+    'byte');
+  Put(True,
+    'change',
+    'thay '#273#7893'i');
+  Put(True,
+    'delete',
+    'X'#243'a');
+  Put(True,
+    'equal',
+    'b'#7857'ng nhau');
+  Put(True,
+    'files generated successfully.',
+    't'#7879'p '#273#227' t'#7841'o th'#224'nh c'#244'ng.');
+  Put(True,
+    'filter',
+    'l'#7885'c');
+  Put(True,
+    'green: equal',
+    'xanh l'#225' = b'#7857'ng nhau');
+  Put(True,
+    'insert',
+    'ch'#232'n');
+  Put(True,
+    'lines',
+    'd'#242'ng');
+  Put(True,
+    'loading IA support ...',
+    #273'ang t'#7843'i h'#7895' tr'#7907' AI ...');
+  Put(True,
+    'match',
+    'kh'#7899'p');
+  Put(True,
+    'more technical info ...',
+    'th'#244'ng tin k'#7929' thu'#7853't h'#417'n ...');
+  Put(True,
+    'mostly true; false lines indicate other titles',
+    'h'#7847'u h'#7871't '#273#250'ng; d'#242'ng sai cho bi'#7871't ti'#234'u '#273#7873' kh'#225'c');
+  Put(True,
+    'red: removed (left)',
+    #273#7887' = '#273#227' g'#7905' (tr'#225'i)');
+  Put(True,
+    'regex',
+    'regex');
+  Put(True,
+    'replace',
+    'Thay th'#7871);
+  Put(True,
+    'replacements',
+    'thay th'#7871);
+  Put(True,
+    'resp: ',
+    'ph'#7843'n h'#7891'i: ');
+  Put(True,
+    'saved',
+    #273#227' l'#432'u');
+  Put(True,
+    'true lines contain sampled region/city text from file',
+    'd'#242'ng '#273#250'ng ch'#7913'a v'#259'n b'#7843'n v'#249'ng/th'#224'nh ph'#7889' l'#7845'y m'#7851'u t'#7915' t'#7879'p');
+  Put(True,
+    'true lines contain sampled specialty text from file',
+    'd'#242'ng '#273#250'ng ch'#7913'a v'#259'n b'#7843'n chuy'#234'n ng'#224'nh l'#7845'y m'#7851'u t'#7915' t'#7879'p');
+end;
+
+procedure AddVietnamesePart35(const Put: TExtraPutProc);
+begin
+  Put(True,
+    'yellow: added (right)',
+    'v'#224'ng = '#273#227' th'#234'm (ph'#7843'i)');
+  Put(False,
+    'language.option.hindi',
+    'Ti'#7871'ng Hindi');
+  Put(False,
+    'language.option.russian',
+    'Ti'#7871'ng Nga');
+  Put(False,
+    'language.option.korean',
+    'Ti'#7871'ng H'#224'n');
+  Put(False,
+    'language.option.dutch',
+    'Ti'#7871'ng H'#224' Lan');
+  Put(False,
+    'language.option.turkish',
+    'Ti'#7871'ng Th'#7893' Nh'#297' K'#7923);
+  Put(False,
+    'language.option.ukrainian',
+    'Ti'#7871'ng Ukraina');
+  Put(True,
+    'WorkflowWizard.AI',
+    'H'#7887'i AI');
+  Put(True,
+    'WorkflowWizard.Compare',
+    'So s'#225'nh / g'#7897'p');
+  Put(True,
+    'WorkflowWizard.Description',
+    'T'#7879'p c'#7911'a b'#7841'n '#273#227' s'#7861'n s'#224'ng. Ch'#7885'n vi'#7879'c b'#7841'n mu'#7889'n l'#224'm ti'#7871'p theo.');
+  Put(True,
+    'WorkflowWizard.Dismiss',
+    #272#243'ng');
+  Put(True,
+    'WorkflowWizard.DontShowAgain',
+    'Kh'#244'ng hi'#7879'n h'#432#7899'ng d'#7851'n n'#224'y n'#7919'a');
+  Put(True,
+    'WorkflowWizard.Edit',
+    'S'#7917'a d'#242'ng');
+  Put(True,
+    'WorkflowWizard.Merge',
+    'G'#7897'p t'#7879'p');
+  Put(True,
+    'WorkflowWizard.Pref.Show',
+    'Hi'#7879'n h'#432#7899'ng d'#7851'n b'#432#7899'c ti'#7871'p theo sau khi '#273#7885'c t'#7879'p');
+  Put(True,
+    'WorkflowWizard.Title',
+    'S'#7861'n s'#224'ng cho b'#432#7899'c ti'#7871'p theo?');
+  Put(True,
+    'WorkflowWizard.ShowNow',
+    'Hi'#7879'n h'#432#7899'ng d'#7851'n ngay');
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock6',
+    'C'#7852'P NH'#7852'T G'#7846'N '#272#194'Y (v3.0.5.255 '#8211' v3.0.5.261)'#13#10'--------------------------'
+        + '-------------------------------------'#13#10'  Giao di'#7879'n hi'#7879'n c'#243' 22 ng'#244'n ng'#7919
+        + ', g'#7891'm Hindi, Nga, H'#224'n,'#13#10'    H'#224' Lan, Th'#7893' Nh'#297' K'#7923' v'#224' Ukraina. Hindi d'#249'ng '
+        + 'b'#7889' c'#7909'c tr'#225'i-sang-ph'#7843'i.'#13#10'  X'#7917' l'#253' ph'#7847'n b'#7857'ng nhau '#273#7885'c c'#225'c kh'#7889'i '#225'nh x'#7841' b'#7897' '
+        + 'nh'#7899' m'#224' kh'#244'ng t'#7843'i'#13#10'    to'#224'n b'#7897' t'#7879'p; tab t'#225'ch v'#7851'n m'#7903' khi ho'#224'n t'#7845't.'#13#10'  Sa'
+        + 'u khi '#273#7885'c t'#7879'p, h'#432#7899'ng d'#7851'n b'#432#7899'c ti'#7871'p theo g'#7907'i '#253' c'#225'c h'#224'nh '#273#7897'ng h'#7919'u '#237'ch.'#13#10
+        + '    M'#7903' l'#7841'i trong T'#249'y ch'#7885'n ho'#7863'c t'#7855't t'#7841'i '#273#243'.'#13#10'  Menu ng'#7919' c'#7843'nh ch'#7881'nh s'#7917'a '
+        + 'v'#224' c'#225'ch di'#7877'n '#273#7841't l'#7883'ch s'#7917' phi'#234'n '#273#227' '#273#432#7907'c '#273#7883'a ph'#432#417'ng h'#243'a.'#13#10'  H'#432#7899'ng d'#7851'n v'#224
+        + ' T'#249'y ch'#7885'n '#273#432#7907'c thi'#7871't k'#7871' l'#7841'i; h'#432#7899'ng d'#7851'n kh'#7903'i t'#7841'o'#13#10'    kh'#244'ng nh'#7845'p nh'#225'y v'
+        + #224' kh'#244'ng l'#224'm gi'#225'n '#273'o'#7841'n vi'#7879'c '#273#7885'c t'#7879'p.'#13#10);
+  Put(False,
+    'language.option.thai',
+    'Ti'#7871'ng Th'#225'i');
+  Put(False,
+    'language.option.greek',
+    'Ti'#7871'ng Hy L'#7841'p');
+  Put(False,
+    'language.option.norwegian',
+    'Ti'#7871'ng Na Uy');
+  Put(False,
+    'language.option.swedish',
+    'Ti'#7871'ng Th'#7909'y '#272'i'#7875'n');
+  Put(False,
+    'language.option.danish',
+    'Ti'#7871'ng '#272'an M'#7841'ch');
+  Put(False,
+    'language.option.icelandic',
+    'Ti'#7871'ng Iceland');
+  Put(True,
+    'WorkflowWizard.OpenBtn',
+    'B'#432#7899'c ti'#7871'p theo');
+  Put(True,
+    'WorkflowWizard.OpenHint',
+    'Hi'#7879'n h'#432#7899'ng d'#7851'n b'#432#7899'c ti'#7871'p theo.');
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock7',
+    'C'#7852'P NH'#7852'T G'#7846'N '#272#194'Y (v3.0.5.262 '#8211' v3.0.5.265)'#13#10'--------------------------'
+        + '-------------------------------------'#13#10'  Th'#225'i, Hy L'#7841'p, Na Uy, Th'#7909'y '#272'i'#7875
+        + 'n, '#272'an M'#7841'ch v'#224' Iceland '#273#432'a'#13#10'    giao di'#7879'n l'#234'n 28 ng'#244'n ng'#7919'. C'#7843' s'#225'u '#273#7873'u '
+        + #273#7885'c tr'#225'i sang ph'#7843'i.'#13#10'  B'#432#7899'c ti'#7871'p theo theo ho'#7841't '#273#7897'ng hi'#7879'n t'#7841'i, nh'#432' t'#236'm'
+        + ', l'#7885'c,'#13#10'    t'#225'ch, g'#7897'p ho'#7863'c '#273#7885'c, thay v'#236' m'#7897't danh s'#225'ch c'#7889' '#273#7883'nh.'#13#10'  M'#7895'i '
+        + 'ho'#7841't '#273#7897'ng cung c'#7845'p th'#234'm h'#224'nh '#273#7897'ng ti'#7871'p theo.'#13#10'  M'#7897't n'#250't b'#234'n tr'#225'i Sao c'
+        + 'h'#233'p m'#7903' l'#7841'i h'#432#7899'ng d'#7851'n b'#432#7899'c ti'#7871'p theo.'#13#10);
+  Put(True,
+    'FF_HELP.RecentFeaturesBlock8',
+    'C'#7852'P NH'#7852'T G'#7846'N '#272#194'Y (v3.0.5.266 '#8211' v3.0.5.268)'#13#10'--------------------------'
+        + '-------------------------------------'#13#10'  H'#432#7899'ng d'#7851'n b'#432#7899'c ti'#7871'p theo ng'#7855'n'
+        + ' h'#417'n, n'#234'n danh s'#225'ch t'#7879'p v'#7851'n hi'#7879'n.'#13#10'  Bi'#7875'u t'#432#7907'ng '#272#7885'c n'#7857'm trong tr'#432#7901'ng '#273
+        + #432#7901'ng d'#7851'n t'#7879'p, b'#234'n tr'#225'i d'#7845'u X x'#243'a s'#7841'ch.'#13#10'  N'#243' d'#249'ng c'#249'ng h'#236'nh v'#7899'i '#272#7885'c tr'
+        + #234'n thanh c'#244'ng c'#7909' v'#224' t'#7843'i '#273#432#7901'ng d'#7851'n '#273#243'.'#13#10);
+  Put(False,
+    'language.option.finnish',
+    'Ti'#7871'ng Ph'#7847'n Lan');
+  Put(False,
+    'language.option.vietnamese',
+    'Ti'#7871'ng Vi'#7879't');
 end;
 
 procedure AddExtraTranslations(const Code: string; const Put: TExtraPutProc);
@@ -138643,6 +161659,82 @@ begin
     AddIcelandicPart33(Put);
     AddIcelandicPart34(Put);
     AddIcelandicPart35(Put);
+  end
+  else if Code = 'fi' then
+  begin
+    AddFinnishPart01(Put);
+    AddFinnishPart02(Put);
+    AddFinnishPart03(Put);
+    AddFinnishPart04(Put);
+    AddFinnishPart05(Put);
+    AddFinnishPart06(Put);
+    AddFinnishPart07(Put);
+    AddFinnishPart08(Put);
+    AddFinnishPart09(Put);
+    AddFinnishPart10(Put);
+    AddFinnishPart11(Put);
+    AddFinnishPart12(Put);
+    AddFinnishPart13(Put);
+    AddFinnishPart14(Put);
+    AddFinnishPart15(Put);
+    AddFinnishPart16(Put);
+    AddFinnishPart17(Put);
+    AddFinnishPart18(Put);
+    AddFinnishPart19(Put);
+    AddFinnishPart20(Put);
+    AddFinnishPart21(Put);
+    AddFinnishPart22(Put);
+    AddFinnishPart23(Put);
+    AddFinnishPart24(Put);
+    AddFinnishPart25(Put);
+    AddFinnishPart26(Put);
+    AddFinnishPart27(Put);
+    AddFinnishPart28(Put);
+    AddFinnishPart29(Put);
+    AddFinnishPart30(Put);
+    AddFinnishPart31(Put);
+    AddFinnishPart32(Put);
+    AddFinnishPart33(Put);
+    AddFinnishPart34(Put);
+    AddFinnishPart35(Put);
+  end
+  else if Code = 'vi' then
+  begin
+    AddVietnamesePart01(Put);
+    AddVietnamesePart02(Put);
+    AddVietnamesePart03(Put);
+    AddVietnamesePart04(Put);
+    AddVietnamesePart05(Put);
+    AddVietnamesePart06(Put);
+    AddVietnamesePart07(Put);
+    AddVietnamesePart08(Put);
+    AddVietnamesePart09(Put);
+    AddVietnamesePart10(Put);
+    AddVietnamesePart11(Put);
+    AddVietnamesePart12(Put);
+    AddVietnamesePart13(Put);
+    AddVietnamesePart14(Put);
+    AddVietnamesePart15(Put);
+    AddVietnamesePart16(Put);
+    AddVietnamesePart17(Put);
+    AddVietnamesePart18(Put);
+    AddVietnamesePart19(Put);
+    AddVietnamesePart20(Put);
+    AddVietnamesePart21(Put);
+    AddVietnamesePart22(Put);
+    AddVietnamesePart23(Put);
+    AddVietnamesePart24(Put);
+    AddVietnamesePart25(Put);
+    AddVietnamesePart26(Put);
+    AddVietnamesePart27(Put);
+    AddVietnamesePart28(Put);
+    AddVietnamesePart29(Put);
+    AddVietnamesePart30(Put);
+    AddVietnamesePart31(Put);
+    AddVietnamesePart32(Put);
+    AddVietnamesePart33(Put);
+    AddVietnamesePart34(Put);
+    AddVietnamesePart35(Put);
   end
   else
     raise EArgumentException.Create('Unknown translation language: ' + Code);

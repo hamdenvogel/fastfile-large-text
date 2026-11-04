@@ -3159,6 +3159,8 @@ type
     procedure RegisterActiveIndexReadThread(AThread: TThread);
     procedure UnregisterActiveIndexReadThread(AThread: TThread);
     procedure WaitForActiveIndexReadThread;
+    { Detach, Terminate, WaitFor. Do not Free when FreeOnTerminate (already freed). }
+    procedure StopOwnedBackgroundThread(var AThread: TThread);
     procedure BeginHeavyFileMutate;
     procedure EndHeavyFileMutate;
     { Safe from watchdog thread: Terminate only, no VCL UI. }
@@ -17255,6 +17257,15 @@ begin
   if FAppShutdownWorkDone then Exit;
   FAppShutdownWorkDone := True;
   FApplicationClosing := True;
+  FormShowed := False; { stop chrome/localize re-entry during ProcessMessages on close }
+  BidiShutdown; { kill RTL re-apply timer so it cannot restyle during teardown }
+  { Tear down Compare/merge history before FormDestroy: its FormCloseQuery used to
+    pump ProcessMessages and re-enter ApplyRecentFilesTabVisualStyle (AV). }
+  try
+    if Assigned(FCompareMergeHosted) then
+      FreeAndNil(FCompareMergeHosted);
+  except
+  end;
   if Assigned(tmrTail) then
     tmrTail.Enabled := False;
   FTailActive := False;
@@ -17809,6 +17820,8 @@ begin
       LANG_SWEDISH:   LangCode := 'sv';
       LANG_DANISH:    LangCode := 'da';
       LANG_ICELANDIC: LangCode := 'is';
+      LANG_FINNISH:   LangCode := 'fi';
+      LANG_VIETNAMESE: LangCode := 'vi';
       LANG_CHINESE:
         begin
           { SUBLANG: 0x01 Traditional, 0x02 Simplified, 0x03 HK, 0x04 Singapore }
@@ -17859,6 +17872,8 @@ begin
     alSwedish:      Result := Tr('language.option.swedish', 'Swedish');
     alDanish:       Result := Tr('language.option.danish', 'Danish');
     alIcelandic:    Result := Tr('language.option.icelandic', 'Icelandic');
+    alFinnish:      Result := Tr('language.option.finnish', 'Finnish');
+    alVietnamese:   Result := Tr('language.option.vietnamese', 'Vietnamese');
   else
     Result := Tr('language.option.english', 'English');
   end;
@@ -18218,6 +18233,9 @@ const
   CRedDK     = TColor($00300CC6); { #C60C30 }
   CBlueIS    = TColor($009C5202); { #02529C }
   CRedIS     = TColor($00351EDC); { #DC1E35 }
+  CBlueFI    = TColor($006C2F00); { #002F6C }
+  CRedVN     = TColor($000A17DA); { #DA190A }
+  CYellowVN  = TColor($0000FFFF); { #FFFF00 }
 var
   W, H, Saved, Third, Band, Stripe, Inset, CX, CY: Integer;
   Code: string;
@@ -18653,6 +18671,13 @@ begin
       DrawNordic(CRedDK, clWhite, clNone)
     else if SameText(Code, 'is') then
       DrawNordic(CBlueIS, CRedIS, clWhite)
+    else if SameText(Code, 'fi') then
+      DrawNordic(clWhite, CBlueFI, clNone)
+    else if SameText(Code, 'vi') then
+    begin
+      Fill(CRedVN);
+      Star(R.Left + W div 2, R.Top + H div 2, Max(H div 3, 2), Max(H div 8, 1), CYellowVN);
+    end
     else
       DrawUK; { en, and anything unrecognised }
     C.Brush.Style := bsSolid;
@@ -18784,6 +18809,7 @@ var
 begin
   if FUpdatingLanguageCombo then Exit;
   if not Assigned(comboLanguage) then Exit;
+  if FApplicationClosing or (csDestroying in ComponentState) then Exit;
 
   NewLang := AppLanguageFromComboIndex(comboLanguage.ItemIndex);
 
@@ -18792,6 +18818,7 @@ begin
 
   { Cobre ShowLoading: ele bombeia mensagens e um clique restante reabria a lista. }
   FLanguageSwitching := True;
+  BidiSuspendUpdates; { one BiDi pass at end of RetranslateAllForms; no timer mid-switch }
   try
 
   { The skinned drop-down stays on screen for the whole load and paints as an
@@ -18919,6 +18946,7 @@ begin
   finally
     CloseLanguageDropDown;
     FLanguageSwitching := False;
+    BidiResumeUpdates;
   end;
 end;
 
@@ -24525,8 +24553,7 @@ begin
     if Assigned(FFindThread) then
     begin
       Inc(FFindSearchId);
-      FFindThread.Terminate;
-      FFindThread := nil;
+      StopOwnedBackgroundThread(FFindThread);
       if FBgLoadKind = 2 then BgLoadEnd;
       UpdateStatusBar(TrText('Search cancelled.'), iaRight);
     end;
@@ -32913,8 +32940,8 @@ begin
     FreeAndNil(FExternalNotifyTimer);
   CleanupExternalNotifyIcon;
   DragAcceptFiles(Handle, False);
-  mru_location.Free;
-  mru_content.Free;
+  FreeAndNil(mru_location);
+  FreeAndNil(mru_content);
   if Assigned(ListView1) and Assigned(FOldListViewWndProc) then
     ListView1.WindowProc := FOldListViewWndProc;
   if FHookedStatusBarForViewEncoding and Assigned(sStatusBar1) then
@@ -32931,11 +32958,17 @@ begin
   // === Cleanup new features ===
   if FTailActive then
     StopTailFollowMode;
-  if Assigned(FFilterThread) then begin TFilterThread(FFilterThread).Terminate; FFilterThread := nil; end;
+  { Wait for FreeOnTerminate workers before freeing filter bits / form fields
+    (Terminate+nil alone raced Synchronize → intermittent EInvalidPointer). }
+  try
+    WaitForActiveIndexReadThread;
+  except
+  end;
+  StopOwnedBackgroundThread(FFilterThread);
+  StopOwnedBackgroundThread(FFindThread);
   if Assigned(FFilterBits) then begin FreeMem(FFilterBits); FFilterBits := nil; end;
   FFilterActive := False;
   SetLength(FFilterJumpTable, 0);
-  if Assigned(FFindThread) then begin FFindThread.Terminate; FFindThread := nil; end;
   ClearUndoRedo;
   FreeAndNil(FUndoStack);
   FreeAndNil(FRedoStack);
@@ -41746,6 +41779,32 @@ begin
   end;
 end;
 
+procedure TfrmMain.StopOwnedBackgroundThread(var AThread: TThread);
+var
+  Thr: TThread;
+  AutoFree: Boolean;
+begin
+  { Filter/find threads use FreeOnTerminate=True. After WaitFor the object is
+    already gone — Free would raise EInvalidPointer. Capture AutoFree first. }
+  if not Assigned(AThread) then Exit;
+  Thr := AThread;
+  AThread := nil;
+  AutoFree := Thr.FreeOnTerminate;
+  try
+    Thr.Terminate;
+  except
+  end;
+  try
+    Thr.WaitFor;
+  except
+  end;
+  if not AutoFree then
+    try
+      Thr.Free;
+    except
+    end;
+end;
+
 procedure TfrmMain.BeginHeavyFileMutate;
 begin
   TfrmSmoothLoading.SetHeavyFileMutateHold(True);
@@ -41793,34 +41852,13 @@ end;
 procedure TfrmMain.ReleaseSourceFileHandlesBeforeMutate;
 var
   I: Integer;
-  Thr: TThread;
 begin
   { Indexacao (TReadFileThread/MMF), filtro, busca e FSourceFileStream impedem rename do original. }
   BgLoadEnd;
   TfrmSmoothLoading.RequestCancel;
   WaitForActiveIndexReadThread;
-  if Assigned(FFilterThread) then
-  begin
-    Thr := FFilterThread;
-    FFilterThread := nil;
-    Thr.Terminate;
-    try
-      Thr.WaitFor;
-    except
-    end;
-    Thr.Free;
-  end;
-  if Assigned(FFindThread) then
-  begin
-    Thr := FFindThread;
-    FFindThread := nil;
-    Thr.Terminate;
-    try
-      Thr.WaitFor;
-    except
-    end;
-    Thr.Free;
-  end;
+  StopOwnedBackgroundThread(FFilterThread);
+  StopOwnedBackgroundThread(FFindThread);
   StopScriptEngineProcess;
   StopConsumerAIProcess;
   StopConsumerRAGProcess;
@@ -46574,8 +46612,7 @@ begin
   if Assigned(FFindThread) then
   begin
     Inc(FFindSearchId);
-    FFindThread.Terminate;
-    FFindThread := nil;
+    StopOwnedBackgroundThread(FFindThread);
     Any := True;
   end;
   if Assigned(FFilterThread) then
@@ -50304,11 +50341,9 @@ begin
   if (ADirection >= 0) and (StartPos <= 0) and (FLastFoundFilePos > 0) then
     StartPos := FLastFoundFilePos;
   if ByteOnly and (not Assigned(FSourceFileStream)) then Exit;
-  // Cancel any previous search thread (no WaitFor to avoid deadlock with Synchronize)
-  if Assigned(FFindThread) then begin
-    FFindThread.Terminate;
-    FFindThread := nil;
-  end;
+  { WaitFor is safe from the UI thread when the worker only Synchronize's and
+    does not call back into this same method. FreeOnTerminate: do not Free. }
+  StopOwnedBackgroundThread(FFindThread);
   Inc(FFindSearchId);
   UpdateStatusBar(TrText('Searching...'), iaRight);
   FFindByteOnlyActive := ByteOnly;
@@ -57952,10 +57987,7 @@ var
 begin
   if Trim(edtFileName.Text) = '' then begin ShowAppMessage(TrText('Please read a file first.')); Exit; end;
   if not Assigned(FSourceFileStream) then begin ShowAppMessage(TrText('Please read the file first.')); Exit; end;
-  if Assigned(FFilterThread) then begin
-    TFilterStreamThread(FFilterThread).Terminate;
-    FFilterThread := nil;
-  end;
+  StopOwnedBackgroundThread(FFilterThread);
   if Assigned(FFilterBits) then begin FreeMem(FFilterBits); FFilterBits := nil; end;
   FFilterUseHitsFile := False;
   if Assigned(FFilterHitsFileStream) then
@@ -58050,10 +58082,7 @@ var
 begin
   if Trim(edtFileName.Text) = '' then begin ShowAppMessage(TrText('Please read a file first.')); Exit; end;
   if not HasLineSearchIndex then Exit;
-  if Assigned(FFilterThread) then begin
-    TFilterThread(FFilterThread).Terminate;
-    FFilterThread := nil;
-  end;
+  StopOwnedBackgroundThread(FFilterThread);
   if Assigned(FFilterBits) then begin FreeMem(FFilterBits); FFilterBits := nil; end;
   FFilterActive := False;
   FFilteredCount := 0;
@@ -58260,10 +58289,9 @@ procedure TfrmMain.ClearFilter;
 begin
   if FBgLoadKind = 1 then
     BgLoadEnd;
-  if Assigned(FFilterThread) then begin
-    FFilterThread.Terminate;
-    FFilterThread := nil;
-  end;
+  { Must WaitFor: FreeOnTerminate thread may still Synchronize(NotifyOwner)
+    and hand FBits to FFilterBits after we FreeMem below. }
+  StopOwnedBackgroundThread(FFilterThread);
   FFilterActive := False;
   FFindOccKeepHits := False;
   FFilterStreamPartial := False;
@@ -58555,11 +58583,7 @@ begin
 
   { New panel search must drop stale hits from the previous needle so the
     occurrences list / Export / Copiar / pagination match the edit text. }
-  if Assigned(FFilterThread) then
-  begin
-    FFilterThread.Terminate;
-    FFilterThread := nil;
-  end;
+  StopOwnedBackgroundThread(FFilterThread);
   if FFindOccKeepHits or FFindOccDroveFilter or FFilterActive or (FFilteredCount > 0) then
     ClearFilter;
   FFindOccDroveFilter := False;
@@ -60481,8 +60505,9 @@ var
   Chk: TCheckBox;
   LV: TListView;
 begin
+  if FApplicationClosing or (csDestroying in ComponentState) then Exit;
   Tab := FindRecentFilesTab;
-  if not Assigned(Tab) then Exit;
+  if not Assigned(Tab) or (csDestroying in Tab.ComponentState) then Exit;
 
   Tab.Caption := TrText('Recent Files & Folders');
 
@@ -60565,18 +60590,37 @@ var
   Lbl: TLabel;
   PnlHead: TPanel;
   TitleTop, TitleFontH, TagFontH, GapTitleTag, TagH, PadL: Integer;
+  Comp: TComponent;
 begin
-  Tab := FindRecentFilesTab;
-  if not Assigned(Tab) then Exit;
+  { After Arabic BiDi + language switches, FormCloseQuery of hosted tabs pumps
+    messages; never restyle while shutting down (AV at SmallImages / chrome). }
+  if FApplicationClosing or (csDestroying in ComponentState) then Exit;
   if not FormShowed then Exit;
+  Tab := FindRecentFilesTab;
+  if not Assigned(Tab) or (csDestroying in Tab.ComponentState) then Exit;
 
-  EnsureRecentFilesChrome;
+  try
+    EnsureRecentFilesChrome;
+  except
+    Exit;
+  end;
 
-  if Assigned(RecentFilesTabFind('lvRecentFiles')) and (RecentFilesTabFind('lvRecentFiles') is TListView) then
+  Comp := RecentFilesTabFind('lvRecentFiles');
+  if Assigned(Comp) and (Comp is TListView) then
   begin
-    LV := RecentFilesTabFind('lvRecentFiles') as TListView;
-    EnsureRecentFilesTypeImages;
-    LV.SmallImages := FRecentFilesTypeImages;
+    LV := TListView(Comp);
+    if (csDestroying in LV.ComponentState) or not LV.HandleAllocated then Exit;
+    try
+      EnsureRecentFilesTypeImages;
+    except
+      Exit;
+    end;
+    if not Assigned(FRecentFilesTypeImages) then Exit;
+    try
+      LV.SmallImages := FRecentFilesTypeImages;
+    except
+      Exit;
+    end;
     LV.Align := alClient;
     LV.Color := clWindow;
     LV.Font.Name := 'Segoe UI';

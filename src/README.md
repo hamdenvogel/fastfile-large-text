@@ -621,10 +621,10 @@ Merging: `TEditFileThread.RunEditWait` is called per changed line. `TouchHistory
 
 ## Internationalization
 
-`uI18n.pas` supports **28 languages** resolved at runtime:
+`uI18n.pas` supports **30 languages** resolved at runtime:
 
 ```
-en | pt-BR | es | fr | de | it | pl | pt-PT | ro | hu | cs | ja | zh-CN | zh-TW | ar | he | hi | ru | ko | nl | tr | uk | th | el | nb | sv | da | is
+en | pt-BR | es | fr | de | it | pl | pt-PT | ro | hu | cs | ja | zh-CN | zh-TW | ar | he | hi | ru | ko | nl | tr | uk | th | el | nb | sv | da | is | fi | vi
 ```
 
 Two lookup tables per language (key-based and English-text-based), stored as sorted `TStringList` for O(log n) binary search (`FastIndexOfName`). At startup only **English + the active language** are populated (`PutNV` allow-list); other languages load on first switch.
@@ -637,9 +637,9 @@ ApplyTranslationsToForm(AForm)  // iterates all components recursively
 
 Language code stored in `ASkin.ini → Language` (e.g. `pt-BR`, `zh-CN`, `zh-TW`). Changed via language combo → persisted immediately.
 
-Hindi (`hi`, devanagari), Russian (`ru`), Korean (`ko`), Dutch (`nl`), Turkish (`tr`), Ukrainian (`uk`), Thai (`th`), Greek (`el`), Norwegian Bokmål (`nb`), Swedish (`sv`), Danish (`da`) and Icelandic (`is`) use **left-to-right** layouts. Only Arabic and Hebrew select RTL automatically; the existing manual BiDi override remains available.
+Hindi (`hi`, devanagari), Russian (`ru`), Korean (`ko`), Dutch (`nl`), Turkish (`tr`), Ukrainian (`uk`), Thai (`th`), Greek (`el`), Norwegian Bokmål (`nb`), Swedish (`sv`), Danish (`da`), Icelandic (`is`), Finnish (`fi`) and Vietnamese (`vi`) use **left-to-right** layouts. Only Arabic and Hebrew select RTL automatically; the existing manual BiDi override remains available.
 
-The twelve added catalogs live in `tools/i18n/*.json`, with a shared source snapshot in `tools/i18n/catalog.json`. `tools/gen_extra_i18n.py` validates every entry and emits `uI18nExtra.pas` offline using UTF-16 character constants (including surrogate pairs). It preserves Delphi format parameters, pipe separators and line breaks and refuses missing translations.
+The fourteen added catalogs live in `tools/i18n/*.json`, with a shared source snapshot in `tools/i18n/catalog.json`. `tools/gen_extra_i18n.py` validates every entry and emits `uI18nExtra.pas` offline using UTF-16 character constants (including surrogate pairs). It preserves Delphi format parameters, pipe separators and line breaks and refuses missing translations.
 
 ```text
 tests\i18ndump\build.cmd
@@ -651,7 +651,7 @@ tests\i18ndump\build.cmd
 python tools\gen_extra_i18n.py --check --runtime
 ```
 
-After refreshing the source snapshot, update all six translations and their catalog fingerprint before emission. Case-insensitive aliases must have the same translation; intentional unchanged technical tokens require explicit reasons. Never run external translation services on application source or UI text. Generated catalogs are compiled into the executable; no translation service or JSON file is required at runtime.
+After refreshing the source snapshot, update all fourteen translations and their catalog fingerprint before emission. Case-insensitive aliases must have the same translation; intentional unchanged technical tokens require explicit reasons. Never run external translation services on application source or UI text. Generated catalogs are compiled into the executable; no translation service or JSON file is required at runtime.
 
 ---
 

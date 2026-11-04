@@ -1,5 +1,5 @@
 {
-  "sha256": "64f08d98dca28e20ee3db2484d1ca13b28b6f6a8fff049fff7e0ef5c4b7945ac",
+  "sha256": "4c33b5510b75706dbd9b833c03e890d85aced76571e7b23abc63b54d9fa06525",
   "unchanged": {
     "28": "The hyphen is a separator glyph, not a word.",
     "149": "AI stays as the product token.",
@@ -3490,6 +3490,8 @@
     "3424": "Neste steg",
     "3425": "Vis veiledningen for neste steg.",
     "3426": "SISTE OPPDATERINGER (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, gresk, norsk, svensk, dansk og islandsk bringer\r\n    grensesnittet til 28 språk. Alle seks leses fra venstre mot høyre.\r\n  Neste steg følger gjeldende handling, som søk, filter,\r\n    deling, fletting eller lesing, i stedet for én fast liste.\r\n  Hver handling tilbyr flere oppfølgingshandlinger.\r\n  En knapp til venstre for Kopier åpner veiledningen igjen.\r\n",
-    "3427": "NYLIGE OPPDATERINGER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Veilederen for neste steg er lavere, så fillisten forblir synlig.\r\n  Et Les-ikon står i banefeltet, til venstre for X for tømming.\r\n  Det bruker samme tegning som Les på verktøylinjen og laster den banen.\r\n"
+    "3427": "NYLIGE OPPDATERINGER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Veilederen for neste steg er lavere, så fillisten forblir synlig.\r\n  Et Les-ikon står i banefeltet, til venstre for X for tømming.\r\n  Det bruker samme tegning som Les på verktøylinjen og laster den banen.\r\n",
+    "3428": "Finsk",
+    "3429": "Vietnamesisk"
   }
 }

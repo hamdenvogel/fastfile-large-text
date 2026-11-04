@@ -4,12 +4,22 @@
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 
-**Data:** 2 de novembro de 2026  
+**Data:** 4 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64) — editor de arquivos de texto enormes (GB+)  
-**Versão atual:** **3.0.5.268** — guia de próximos passos mais baixo e ícone de Ler no campo do caminho, mantendo os 28 idiomas, o guia por atividade, Preferências, RTL, glob/grep, o diagnóstico somente leitura e a edição segura.  
+**Versão atual:** **3.0.5.269** — interface em **30 idiomas** (finlandês e vietnamita), mantendo o guia de próximos passos, Preferências, RTL, glob/grep, o diagnóstico somente leitura e a edição segura.  
 **Objetivo deste documento:** consolidar sugestões técnicas, de UX e de negócio para tornar o FastFile um produto comercialmente competitivo.
 
 ---
+
+## ★ Actualização 3.0.5.269 (04/11/2026)
+
+Entrega incremental após **3.0.5.268**. O guia, o ícone de Ler e os 28 idiomas anteriores permanecem como estavam.
+
+| Trilha | Entrega |
+|---|---|
+| **3.0.5.269** | Finlandês e vietnamita ampliam a interface de 28 para **30 idiomas** (LTR; catálogo Extra). |
+
+**Internacionalização:** traduções completas em `tools/i18n/fi.json` e `vi.json`, emitidas em `uI18nExtra.pas`. Não há modelo de IA novo.
 
 ## ★ Actualização 3.0.5.268 (02/11/2026)
 
