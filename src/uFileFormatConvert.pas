@@ -293,15 +293,52 @@ begin
   end;
 end;
 
+function ClassifyLineEndingCounts(ACrlf, ACr, ALf: Integer): TLineEndingKind;
+begin
+  Result := lekUnknown;
+  if (ACrlf = 0) and (ACr = 0) and (ALf = 0) then
+    Exit;
+  if (ACrlf > 0) and (ACr = 0) and (ALf = 0) then
+    Result := lekWindows
+  else if (ALf > 0) and (ACrlf = 0) and (ACr = 0) then
+    Result := lekUnix
+  else if (ACr > 0) and (ACrlf = 0) and (ALf = 0) then
+    Result := lekMac
+  else if (ACrlf >= ACr) and (ACrlf >= ALf) then
+  begin
+    if (ACr + ALf) > (ACrlf div 20 + 1) then
+      Result := lekMixed
+    else
+      Result := lekWindows;
+  end
+  else if (ALf >= ACr) and (ALf >= ACrlf) then
+  begin
+    if (ACr + ACrlf) > (ALf div 20 + 1) then
+      Result := lekMixed
+    else
+      Result := lekUnix;
+  end
+  else
+  begin
+    if (ALf + ACrlf) > (ACr div 20 + 1) then
+      Result := lekMixed
+    else
+      Result := lekMac;
+  end;
+end;
+
 function DetectLineEndingFromBytes(const Sample: AnsiString): TLineEndingKind;
 var
   I, N: Integer;
   Crlf, Cr, Lf: Integer;
   B: Byte;
 begin
-  Result := lekUnknown;
   N := Length(Sample);
-  if N = 0 then Exit;
+  if N = 0 then
+  begin
+    Result := lekUnknown;
+    Exit;
+  end;
   Crlf := 0;
   Cr := 0;
   Lf := 0;
@@ -323,35 +360,80 @@ begin
       Inc(Lf);
     Inc(I);
   end;
-  if (Crlf = 0) and (Cr = 0) and (Lf = 0) then
-    Exit;
-  if (Crlf > 0) and (Cr = 0) and (Lf = 0) then
-    Result := lekWindows
-  else if (Lf > 0) and (Crlf = 0) and (Cr = 0) then
-    Result := lekUnix
-  else if (Cr > 0) and (Crlf = 0) and (Lf = 0) then
-    Result := lekMac
-  else if (Crlf >= Cr) and (Crlf >= Lf) then
-  begin
-    if (Cr + Lf) > (Crlf div 20 + 1) then
-      Result := lekMixed
-    else
-      Result := lekWindows;
-  end
-  else if (Lf >= Cr) and (Lf >= Crlf) then
-  begin
-    if (Cr + Crlf) > (Lf div 20 + 1) then
-      Result := lekMixed
-    else
-      Result := lekUnix;
-  end
-  else
-  begin
-    if (Lf + Crlf) > (Cr div 20 + 1) then
-      Result := lekMixed
-    else
-      Result := lekMac;
+  Result := ClassifyLineEndingCounts(Crlf, Cr, Lf);
+end;
+
+{ CR/LF só na unidade de código (0D 00 / 0A 00). O par de bytes 0D 0A dentro de
+  um caractere UTF-16 (U+0A0D) não é fim de linha. }
+function WideUnitControl(const Sample: AnsiString; AIndex1: Integer;
+  AKind: TEncodedLineScanKind): Integer;
+var
+  N, U: Integer;
+begin
+  Result := -1;
+  N := Length(Sample);
+  U := EncodedLineUnitBytes(AKind);
+  if (AIndex1 < 1) or (AIndex1 + U - 1 > N) then Exit;
+  case AKind of
+    elskUtf16LE:
+      if Sample[AIndex1 + 1] = #0 then
+        Result := Ord(Sample[AIndex1]);
+    elskUtf16BE:
+      if Sample[AIndex1] = #0 then
+        Result := Ord(Sample[AIndex1 + 1]);
+    elskUtf32LE:
+      if (Sample[AIndex1 + 1] = #0) and (Sample[AIndex1 + 2] = #0) and
+         (Sample[AIndex1 + 3] = #0) then
+        Result := Ord(Sample[AIndex1]);
+    elskUtf32BE:
+      if (Sample[AIndex1] = #0) and (Sample[AIndex1 + 1] = #0) and
+         (Sample[AIndex1 + 2] = #0) then
+        Result := Ord(Sample[AIndex1 + 3]);
   end;
+end;
+
+function DetectLineEndingFromWideUnits(const Sample: AnsiString;
+  AKind: TEncodedLineScanKind): TLineEndingKind;
+var
+  I, N, U, B, NextB: Integer;
+  Crlf, Cr, Lf: Integer;
+begin
+  N := Length(Sample);
+  U := EncodedLineUnitBytes(AKind);
+  Crlf := 0;
+  Cr := 0;
+  Lf := 0;
+  I := 1;
+  { BOM ocupa uma unidade (UTF-16: 2 bytes; UTF-32 LE: FF FE 00 00). }
+  if (AKind in [elskUtf16LE, elskUtf32LE]) and (N >= 2) and
+     (Sample[1] = #$FF) and (Sample[2] = #$FE) then
+    I := U + 1
+  else if (AKind = elskUtf16BE) and (N >= 2) and
+          (Sample[1] = #$FE) and (Sample[2] = #$FF) then
+    I := U + 1
+  else if (AKind = elskUtf32BE) and (N >= 4) and
+          (Sample[1] = #0) and (Sample[2] = #0) and
+          (Sample[3] = #$FE) and (Sample[4] = #$FF) then
+    I := U + 1;
+  while I + U - 1 <= N do
+  begin
+    B := WideUnitControl(Sample, I, AKind);
+    if B = 13 then
+    begin
+      NextB := WideUnitControl(Sample, I + U, AKind);
+      if NextB = 10 then
+      begin
+        Inc(Crlf);
+        Inc(I, U * 2);
+        Continue;
+      end;
+      Inc(Cr);
+    end
+    else if B = 10 then
+      Inc(Lf);
+    Inc(I, U);
+  end;
+  Result := ClassifyLineEndingCounts(Crlf, Cr, Lf);
 end;
 
 function DetectLineEndingFromFile(const AFileName: string): TLineEndingKind;
@@ -361,6 +443,8 @@ var
   N: Integer;
   Sz: Int64;
   SampleLen: Integer;
+  Enc: string;
+  Kind: TEncodedLineScanKind;
 begin
   Result := lekUnknown;
   if (AFileName = '') or (not FileExists(AFileName)) then Exit;
@@ -373,11 +457,18 @@ begin
       SetLength(Sample, SampleLen);
       N := F.Read(Pointer(Sample)^, SampleLen);
       SetLength(Sample, N);
-      { Skip BOM for EOL scan on UTF-8 }
-      if (N >= 3) and (Ord(Sample[1]) = $EF) and (Ord(Sample[2]) = $BB) and
-         (Ord(Sample[3]) = $BF) then
-        Sample := Copy(Sample, 4, MaxInt);
-      Result := DetectLineEndingFromBytes(Sample);
+      Enc := DetectTextEncodingFromBytes(Sample);
+      Kind := EncodedLineScanKindOf(Enc);
+      if Kind = elskByte then
+      begin
+        { Skip BOM for EOL scan on UTF-8 }
+        if (N >= 3) and (Ord(Sample[1]) = $EF) and (Ord(Sample[2]) = $BB) and
+           (Ord(Sample[3]) = $BF) then
+          Sample := Copy(Sample, 4, MaxInt);
+        Result := DetectLineEndingFromBytes(Sample);
+      end
+      else
+        Result := DetectLineEndingFromWideUnits(Sample, Kind);
     finally
       F.Free;
     end;

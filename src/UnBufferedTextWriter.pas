@@ -20,7 +20,8 @@ type
     FPos: Integer;
     FOffsetQueue: array[0..OFFSET_QUEUE_CAPACITY - 1] of Int64;
     FOffsetQueueCount: Integer;
-    FEol: array[0..1] of AnsiChar;
+    { CR/LF de 1 byte, ou a quebra larga de UTF-16 (2 ou 4) e UTF-32 (4 ou 8). }
+    FEol: array[0..7] of AnsiChar;
     FEolLen: Integer;
     procedure WriteOffsetRecordAt(const Value: Int64; ABufPos: Integer);
     procedure FlushOffsetQueue;
@@ -39,8 +40,8 @@ type
     procedure WriteRaw(P: Pointer; Len: Integer);
     { Bytes already flushed to disk plus bytes in the internal buffer. }
     function CurrentFileSize: Int64;
-    { Terminador usado por WriteLine (CR, LF ou CRLF; padrao CRLF). Registos de indice
-      (WriteOffsetDirect) mantem sempre CRLF de largura fixa. }
+    { Terminador usado por WriteLine. Aceita CR, LF, CRLF e a quebra UTF-16/UTF-32.
+      Registos de indice (WriteOffsetDirect) mantem sempre CRLF de 2 bytes. }
     property LineBreak: AnsiString read GetLineBreak write SetLineBreak;
   end;  
 
@@ -254,40 +255,46 @@ var
 begin
   FlushOffsetQueue;
   L := Length(S);
+  if FEolLen < 1 then
+    FEolLen := 2;
   Need := L + FEolLen;
   if FPos + Need > Length(FBuf) then FlushBuffer;
-  
+
   if L > 0 then
   begin
     Move(S[1], FBuf[FPos], L);
     Inc(FPos, L);
   end;
-  FBuf[FPos] := FEol[0]; Inc(FPos);
-  if FEolLen = 2 then
+  if FEolLen > 0 then
   begin
-    FBuf[FPos] := FEol[1]; Inc(FPos);
+    Move(FEol[0], FBuf[FPos], FEolLen);
+    Inc(FPos, FEolLen);
   end;
 end;
 
 function TBufferedTextWriter.GetLineBreak: AnsiString;
 begin
-  SetString(Result, PAnsiChar(@FEol[0]), FEolLen);
+  if FEolLen < 1 then
+    Result := #13#10
+  else
+    SetString(Result, PAnsiChar(@FEol[0]), FEolLen);
 end;
 
 procedure TBufferedTextWriter.SetLineBreak(const Value: AnsiString);
+var
+  I, N: Integer;
 begin
-  if (Value = #10) or (Value = #13) then
-  begin
-    FEol[0] := Value[1];
-    FEol[1] := #0;
-    FEolLen := 1;
-  end
-  else
+  N := Length(Value);
+  if (N < 1) or (N > Length(FEol)) then
   begin
     FEol[0] := #13;
     FEol[1] := #10;
     FEolLen := 2;
+    Exit;
   end;
+  for I := 1 to N do
+    FEol[I - 1] := Value[I];
+  FEolLen := N;
 end;
 
 function TBufferedTextWriter.CurrentFileSize: Int64;

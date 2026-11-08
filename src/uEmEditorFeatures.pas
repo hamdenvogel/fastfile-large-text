@@ -32,7 +32,7 @@ implementation
 uses
   Windows, Forms, Controls, StdCtrls, ExtCtrls, Dialogs, ComCtrls, Math,
   uI18n, uMMF, uSmoothLoading, UnBufferedTextWriter, UnUtils, uFastFilePaths, UnConsts,
-  uTextEncoding, uDiskSpaceCheck, uEolPolicy, MainUnit;
+  uTextEncoding, uDiskSpaceCheck, uEolPolicy, uFileFormatConvert, MainUnit;
 
 function EmNewFastFileTemp(const Tag: string): string; forward;
 function AnsiTrim(const S: AnsiString): AnsiString; forward;
@@ -915,59 +915,95 @@ end;
 procedure ScanFileLinesMMF(const ASourcePath: string; AOnLine: TAnsiLineCallback);
 var
   MMF: TMMFReader;
-  FileSize, CurPos: Int64;
-  Buf: AnsiString;
-  BytesRead, I, LineLen, Cap: Integer;
+  FileSize, ChunkOfs, ByteOfs: Int64;
+  Chunk: AnsiString;
+  ChunkLen, Contiguous: Cardinal;
+  P: PByte;
+  I, LineLen, Cap, TermLen: Integer;
   LineBuf: array of AnsiChar;
   TermCh: AnsiChar;
+  Enc: string;
+  ScanKind: TEncodedLineScanKind;
+  HitTerm, HadCR: Boolean;
 
-  procedure AppendLineChar(const C: AnsiChar);
+  procedure AppendByte(const C: AnsiChar);
   begin
     if LineLen >= Cap then
     begin
       Cap := Cap + 65536;
       SetLength(LineBuf, Cap);
     end;
-    LineBuf[LineLen] := C;
-    Inc(LineLen);
+    if LineLen < MAX_STATS_LINE then
+    begin
+      LineBuf[LineLen] := C;
+      Inc(LineLen);
+    end;
   end;
 
   procedure FlushLineAcc;
   var
     L: AnsiString;
   begin
-    if LineLen <= 0 then Exit;
-    SetString(L, PChar(@LineBuf[0]), LineLen);
-    while (Length(L) > 0) and (L[Length(L)] in [#13]) do
-      SetLength(L, Length(L) - 1);
+    if LineLen <= 0 then
+      L := ''
+    else
+    begin
+      SetString(L, PAnsiChar(@LineBuf[0]), LineLen);
+      if ScanKind in [elskUtf16LE, elskUtf16BE] then
+        L := Utf16LineBytes(L, Enc, HadCR)
+      else if ScanKind = elskByte then
+        while (Length(L) > 0) and (L[Length(L)] in [#13]) do
+          SetLength(L, Length(L) - 1);
+      { UTF-32: keep raw code units; callers decode via Enc when needed. }
+    end;
     AOnLine(L);
     LineLen := 0;
   end;
 
 begin
   TermCh := LineTermCharForFile(ASourcePath);
+  Enc := DetectTextFileEncoding(ASourcePath);
+  ScanKind := EncodedLineScanKindOf(Enc);
   MMF := TMMFReader.Create(ASourcePath);
   try
     FileSize := MMF.FileSize;
-    CurPos := 0;
+    ChunkOfs := 0;
     LineLen := 0;
     Cap := 65536;
     SetLength(LineBuf, Cap);
     ResetEmEditorProgress(FileSize);
-    SetLength(Buf, SCAN_BUF_SIZE);
-    while (CurPos < FileSize) and (not TfrmSmoothLoading.CancelRequested) do
+    while (ChunkOfs < FileSize) and (not TfrmSmoothLoading.CancelRequested) do
     begin
-      BytesRead := Integer(MMF.ReadBytes(CurPos, Buf[1], SCAN_BUF_SIZE));
-      if BytesRead <= 0 then Break;
-      for I := 1 to BytesRead do
+      P := MMF.PtrAt(ChunkOfs, 1, Contiguous);
+      if (P = nil) or (Contiguous = 0) then Break;
+      if Contiguous > Cardinal(FileSize - ChunkOfs) then
+        Contiguous := Cardinal(FileSize - ChunkOfs);
+      SetLength(Chunk, Contiguous);
+      Move(P^, Chunk[1], Contiguous);
+      ChunkLen := Contiguous;
+      I := 0;
+      while I < Integer(ChunkLen) do
       begin
-        if Buf[I] = TermCh then
-          FlushLineAcc
-        else if LineLen < MAX_STATS_LINE then
-          AppendLineChar(Buf[I]);
+        ByteOfs := ChunkOfs + I;
+        HitTerm := IsEncodedLineTermAt(PByte(@Chunk[1]), I, ByteOfs,
+          Integer(ChunkLen), ScanKind, Byte(TermCh), TermLen);
+        if HitTerm then
+        begin
+          FlushLineAcc;
+          Inc(I, TermLen);
+          Continue;
+        end;
+        if IsEncodedPartialTermAtEnd(PByte(@Chunk[1]), I, Integer(ChunkLen),
+           ByteOfs, ScanKind, Byte(TermCh), ChunkOfs + ChunkLen < FileSize) then
+          Break;
+        AppendByte(Chunk[I + 1]);
+        Inc(I);
       end;
-      Inc(CurPos, BytesRead);
-      PostScanProgress(CurPos, FileSize, 'EmEditor.Progress.Scanning');
+      if I <= 0 then
+        Inc(ChunkOfs, 1)
+      else
+        Inc(ChunkOfs, I);
+      PostScanProgress(ChunkOfs, FileSize, 'EmEditor.Progress.Scanning');
     end;
     PostScanProgress(FileSize, FileSize, 'EmEditor.Progress.Scanning');
     if LineLen > 0 then
@@ -982,6 +1018,7 @@ function RunDeleteDuplicateLines(const ASourcePath, ATempOutPath: string;
 var
   Ctx: TDedupScanContext;
   FileSize: Int64;
+  Enc: string;
 begin
   Result := 0;
   FileSize := UnUtils.GetFileSize(ASourcePath);
@@ -991,7 +1028,10 @@ begin
   Ctx.CsvColumn1 := ACsvColumn1;
   Ctx.UseBuckets := FileSize > FREQ_INMEM_FILE_LIMIT;
   Ctx.Writer := TBufferedTextWriter.Create(ATempOutPath, 4 * 1024 * 1024);
-  Ctx.Writer.LineBreak := OutputEolForFile(ASourcePath);
+  Enc := DetectTextFileEncoding(ASourcePath);
+  Ctx.Writer.LineBreak := EncodedOutputEolBytes(Enc,
+    EolKindForFile(ASourcePath) = lekWindows,
+    EolKindForFile(ASourcePath) = lekMac);
   try
     if Ctx.UseBuckets then
       Ctx.SeenBuckets := TSeenKeyCollector.Create

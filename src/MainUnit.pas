@@ -2611,6 +2611,9 @@ type
     procedure EolFormatMenuClick(Sender: TObject);
     procedure EncodingFormatMenuClick(Sender: TObject);
     procedure ApplyViewEncodingById(const AEncId: string);
+    { Combo na codificação detectada (UTF-16/UTF-8 no item correspondente).
+      ANSI fica em PADRÃO. Não redesenha a lista. }
+    procedure SelectDetectedViewEncoding;
     function RunFileFormatConversion(AMode: Integer; AEol: TLineEndingKind;
       const ADstEnc: string): Boolean;
     procedure PopulateEncodingMenusInto(AParent: TMenuItem; AForPopup: Boolean);
@@ -41613,17 +41616,12 @@ begin
   FDetectedEncoding := DetectFileEncoding(fFileName);
   FDetectedEol := DetectLineEndingFromFile(fFileName);
   UpdateEolStatusPanel;
-  FUpdatingViewEncodingCombo := True;
-  try
-    if Assigned(comboViewEncoding) then
-    begin
-      comboViewEncoding.ItemIndex := 0;
-      comboViewEncoding.Enabled := True;
-      comboViewEncoding.BringToFront;
-      LayoutViewEncodingCombo;
-    end;
-  finally
-    FUpdatingViewEncodingCombo := False;
+  SelectDetectedViewEncoding;
+  if Assigned(comboViewEncoding) then
+  begin
+    comboViewEncoding.Enabled := True;
+    comboViewEncoding.BringToFront;
+    LayoutViewEncodingCombo;
   end;
   if FFreshFileRead then
     ClearUndoRedo;
@@ -42192,6 +42190,38 @@ begin
   end;
 end;
 
+function ResolveLineDisplayEncoding(const AViewEnc, ADetected: string;
+  AComboIndex: Integer): string;
+begin
+  Result := AViewEnc;
+  if (Result = '') or SameText(Result, 'Unknown') then
+    Result := ADetected;
+  { PADRÃO segue o BOM. ANSI explícito (índice 2) continua a mostrar os octetos. }
+  if IsUnicodeFileEncoding(Result) then Exit;
+  if IsUnicodeFileEncoding(ADetected) and (AComboIndex <= 0) then
+    Result := ADetected;
+end;
+
+function TextFromLineBytes(const Raw: AnsiString; const Enc: string;
+  var ATrail: AnsiString): string;
+var
+  L, Cut: Integer;
+begin
+  Result := DisplayTextFromFileBytes(Raw, Enc);
+  if (Result <> '') and (Result[1] = #$FEFF) then
+    Delete(Result, 1, 1);
+  L := Length(Result);
+  Cut := L;
+  while (Cut > 0) and (Result[Cut] in [#10, #13]) do
+    Dec(Cut);
+  if Cut < L then
+  begin
+    if ATrail = '' then
+      ATrail := AnsiString(Copy(Result, Cut + 1, MaxInt));
+    SetLength(Result, Cut);
+  end;
+end;
+
 function TfrmMain.GetLineContent(LineIndex: Int64; out ATrailingLineBreaks: AnsiString): String;
 var
   StartOffset, EndOffset: Int64;
@@ -42199,6 +42229,8 @@ var
   LineLength: Integer;
   Buffer: AnsiString;
   BytesRead2: Integer;
+  Enc: string;
+  ComboIdx: Integer;
 begin
   Result := '';
   ATrailingLineBreaks := '';
@@ -42223,15 +42255,23 @@ begin
     SetLength(Buffer, LineLength);
     BytesRead2 := FSourceFileStream.Read(Pointer(Buffer)^, LineLength);
 
+    ComboIdx := 0;
+    if Assigned(comboViewEncoding) then
+      ComboIdx := comboViewEncoding.ItemIndex;
+    Enc := ResolveLineDisplayEncoding(EffectiveDisplayEncoding, FDetectedEncoding, ComboIdx);
+
     ATrailingLineBreaks := '';
-    while (BytesRead2 > 0) and (Buffer[BytesRead2] in [#10, #13]) do
-    begin
-      ATrailingLineBreaks := Buffer[BytesRead2] + ATrailingLineBreaks;
-      Dec(BytesRead2);
-    end;
+    { Em UTF-16 o último octeto 0A pode ser a metade de um caractere (U+0Axx).
+      Só se cortam CR/LF de 1 byte. A quebra larga sai depois da descodificação. }
+    if EncodedLineScanKindOf(Enc) = elskByte then
+      while (BytesRead2 > 0) and (Buffer[BytesRead2] in [#10, #13]) do
+      begin
+        ATrailingLineBreaks := Buffer[BytesRead2] + ATrailingLineBreaks;
+        Dec(BytesRead2);
+      end;
 
     SetLength(Buffer, BytesRead2);
-    Result := DisplayTextFromFileBytes(Buffer, EffectiveDisplayEncoding);
+    Result := TextFromLineBytes(Buffer, Enc, ATrailingLineBreaks);
     if FullLineLen > MAX_LINE_LEN_DISPLAY then
       Result := Result + ' ' + Format(TrText('[Line preview limited to %s bytes for performance; file line total %s bytes.]'),
         [UnUtils.FormatNumber(MAX_LINE_LEN_DISPLAY), UnUtils.FormatNumber(FullLineLen)]);
@@ -45039,7 +45079,18 @@ begin
     begin
       EncCombo := Ini.ReadInteger('Session', 'EncodingCombo', 0);
       EncId := Ini.ReadString('Session', 'Encoding', '');
-      if EncCombo = 0 then
+      { Uma vista ANSI gravada não pode esconder um ficheiro com BOM Unicode.
+        O utilizador ainda pode escolher ANSI depois de abrir. }
+      if IsUnicodeFileEncoding(FDetectedEncoding) and
+         (not Ini.ReadBool('Session', 'EncodingForced', False)) and
+         (not SameTextEncodingFamily(EncId, FDetectedEncoding)) then
+      begin
+        SelectDetectedViewEncoding;
+        InvalidateLineCache;
+        if Assigned(ListView1) then
+          ListView1.Invalidate;
+      end
+      else if EncCombo = 0 then
       begin
         if Ini.ReadBool('Session', 'EncodingForced', False) then
           ApplyViewEncodingById(EncId)
@@ -45281,15 +45332,17 @@ begin
   end;
 
   MaxPhys := totalLines;
-  if Assigned(FSourceFileStream) and (SourceFileSize64 > 0) and
-     (SourceFileSize64 <= ZERO_SCAN_FULL_COUNT_MAX) then
+  { Com indice largo, totalLines ja e a contagem certa. O varrimento por
+    octeto 0A conta o U+0A0D do UTF-16 como se fosse outra linha. }
+  if (not HasLineSearchIndex) and Assigned(FSourceFileStream) and
+     (SourceFileSize64 > 0) and (SourceFileSize64 <= ZERO_SCAN_FULL_COUNT_MAX) then
     MaxPhys := CountPhysicalLinesInOpenFile
   else if UsesProportionalZeroScanScroll and Assigned(FSourceFileStream) and
      (SourceFileSize64 > 0) then
     MaxPhys := DiscoverZeroScanLastPhysicalLine1Based;
   if MaxPhys < 1 then MaxPhys := 1;
 
-  { Primeira linha em branco apos o EOF na ListView -> inserir no fim. }
+  { Linha em branco apos o ultimo conteudo (EOF ou so CRLF final) -> preencher/inserir. }
   if (not isChecked) and (LineNum = MaxPhys + 1) then
   begin
     AppendAfterEof := True;
@@ -45312,6 +45365,19 @@ begin
     OriginalContent := GetLineContent(LineIdx);
     CurrentContent := OriginalContent;
     Op := AInitialOp;
+    { Ultima linha vazia (ficheiro termina em EOL): editar = escrever nela. }
+    if (LineNum = MaxPhys) and (OriginalContent = '') and
+       (AInitialOp in [otEdit, otReplace, otInsert]) then
+    begin
+      if AInitialOp = otInsert then
+      begin
+        AppendAfterEof := True;
+        Op := otInsert;
+        InsertAfter := False;
+      end
+      else
+        Op := otEdit;
+    end;
   end;
 
   FindSelStart := -1;
@@ -48767,29 +48833,80 @@ end;
 
 function TfrmMain.CountPhysicalLinesInOpenFile: Int64;
 var
-  Sz: Int64;
-  LfCount: Int64;
+  Sz, Pos0, LfCount: Int64;
   Last: Byte;
+  Kind: TEncodedLineScanKind;
+  Term: Byte;
+  UnitB, TermLen, I, N, ScanEnd: Integer;
+  Buf: array of Byte;
+  EndsWithTerm: Boolean;
 begin
-  { Line count = LF count; +1 only if the file does not end with LF (last partial line). }
+  { Line count = LF count; +1 only if the file does not end with LF (last partial line).
+    UTF-16/32: so conta a unidade de codigo (0A 00). O octeto 0A de U+0A0D nao e linha. }
   Result := 0;
   if not Assigned(FSourceFileStream) then Exit;
   Sz := SourceFileSize64;
   if Sz <= 0 then Exit;
-  LfCount := ZeroScanCountLfInRange(FSourceFileStream, 0, Sz);
-  FileStreamSeek64(FSourceFileStream, Sz - 1, Word(soFromBeginning));
-  if FSourceFileStream.Read(Last, 1) <> 1 then
+  Kind := EncodedLineScanKindOf(FDetectedEncoding);
+  if Kind = elskByte then
   begin
-    Result := LfCount;
+    LfCount := ZeroScanCountLfInRange(FSourceFileStream, 0, Sz);
+    FileStreamSeek64(FSourceFileStream, Sz - 1, Word(soFromBeginning));
+    if FSourceFileStream.Read(Last, 1) <> 1 then
+    begin
+      Result := LfCount;
+      if Result < 1 then Result := 1;
+      Exit;
+    end;
+    if Last = FSourceLineTermByte then
+      Result := LfCount
+    else
+      Result := LfCount + 1;
     if Result < 1 then Result := 1;
     Exit;
   end;
-  if Last = FSourceLineTermByte then
+
+  Term := FSourceLineTermByte;
+  if Term = 0 then Term := 10;
+  UnitB := EncodedLineUnitBytes(Kind);
+  if UnitB < 1 then UnitB := 2;
+  SetLength(Buf, 1024 * 1024);
+  Pos0 := 0;
+  LfCount := 0;
+  EndsWithTerm := False;
+  while Pos0 < Sz do
+  begin
+    N := Length(Buf);
+    if Pos0 + N > Sz then N := Integer(Sz - Pos0);
+    FileStreamSeek64(FSourceFileStream, Pos0, Word(soFromBeginning));
+    N := FSourceFileStream.Read(Buf[0], N);
+    if N <= 0 then Break;
+    ScanEnd := N;
+    if Pos0 + N < Sz then
+    begin
+      ScanEnd := N - (UnitB * 2);
+      if ScanEnd < 1 then ScanEnd := N;
+    end;
+    I := 0;
+    while I < ScanEnd do
+    begin
+      if IsEncodedLineTermAt(@Buf[0], I, Pos0 + I, N, Kind, Term, TermLen) then
+      begin
+        Inc(LfCount);
+        EndsWithTerm := Pos0 + I + TermLen = Sz;
+        if TermLen < 1 then TermLen := 1;
+        Inc(I, TermLen);
+      end
+      else
+        Inc(I);
+    end;
+    Inc(Pos0, ScanEnd);
+  end;
+  if EndsWithTerm then
     Result := LfCount
   else
     Result := LfCount + 1;
-  if Result < 1 then
-    Result := 1;
+  if Result < 1 then Result := 1;
 end;
 
 function TfrmMain.LineStartByte1BasedOnOrBefore(const Byte1Based: Int64): Int64;
@@ -49601,6 +49718,9 @@ var
   FullLineLen: Int64;
   LineLength, BytesRead2: Integer;
   Buffer: AnsiString;
+  Enc: string;
+  Trail: AnsiString;
+  ComboIdx: Integer;
 begin
   Result := '';
   if (not Assigned(FSourceFileStream)) or (AStartOffset <= 0) or (AEndOffset <= AStartOffset) then
@@ -49614,10 +49734,16 @@ begin
   FileStreamSeek64(FSourceFileStream, AStartOffset - 1, Word(soFromBeginning));
   SetLength(Buffer, LineLength);
   BytesRead2 := FSourceFileStream.Read(Pointer(Buffer)^, LineLength);
-  while (BytesRead2 > 0) and (Buffer[BytesRead2] in [#10, #13]) do
-    Dec(BytesRead2);
+  ComboIdx := 0;
+  if Assigned(comboViewEncoding) then
+    ComboIdx := comboViewEncoding.ItemIndex;
+  Enc := ResolveLineDisplayEncoding(EffectiveDisplayEncoding, FDetectedEncoding, ComboIdx);
+  if EncodedLineScanKindOf(Enc) = elskByte then
+    while (BytesRead2 > 0) and (Buffer[BytesRead2] in [#10, #13]) do
+      Dec(BytesRead2);
   SetLength(Buffer, BytesRead2);
-  Result := DisplayTextFromFileBytes(Buffer, EffectiveDisplayEncoding);
+  Trail := '';
+  Result := TextFromLineBytes(Buffer, Enc, Trail);
   if FullLineLen > MAX_LINE_LEN_DISPLAY then
     Result := Result + ' ' + Format(TrText('[Line preview limited to %s bytes for performance; file line total %s bytes.]'),
       [UnUtils.FormatNumber(MAX_LINE_LEN_DISPLAY), UnUtils.FormatNumber(FullLineLen)]);
@@ -51317,6 +51443,41 @@ begin
   begin
     if BidiIsRtl then FPopupEncodingFormat.Alignment := paRight else FPopupEncodingFormat.Alignment := paLeft;
     FPopupEncodingFormat.Popup(AScreenPos.X, AScreenPos.Y);
+  end;
+end;
+
+procedure TfrmMain.SelectDetectedViewEncoding;
+var
+  Idx: Integer;
+  U: string;
+begin
+  FForcedViewEncoding := '';
+  Idx := 0;
+  U := UpperCase(Trim(FDetectedEncoding));
+  if IsUtf8Encoding(U) then
+  begin
+    Idx := 1;
+    if EncodingWantsBom(U) then
+      FForcedViewEncoding := 'UTF-8 (BOM)';
+  end
+  else if IsUtf16BEEncoding(U) then
+    Idx := 4
+  else if IsUtf16LEEncoding(U) or (PosBMH('UTF-16', U) > 0) then
+    Idx := 3
+  else if IsUtf32BEEncoding(U) then
+    Idx := 6
+  else if IsUtf32LEEncoding(U) then
+    Idx := 5;
+  FUpdatingViewEncodingCombo := True;
+  try
+    if Assigned(comboViewEncoding) then
+    begin
+      if (Idx < 0) or (Idx >= comboViewEncoding.Items.Count) then
+        Idx := 0;
+      comboViewEncoding.ItemIndex := Idx;
+    end;
+  finally
+    FUpdatingViewEncodingCombo := False;
   end;
 end;
 

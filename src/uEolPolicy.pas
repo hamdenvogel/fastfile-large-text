@@ -66,39 +66,11 @@ begin
   AWriteTime := Data.ftLastWriteTime;
 end;
 
-{ UTF-16/32 (BOM): lekUnknown, mantendo LF como terminador e o EOL padrao na gravacao. }
+{ UTF-16/32 entram na mesma detecção por unidade de código. O byte usado para
+  varrer linhas continua a ser LF, salvo Mac (só CR). A gravação usa o tipo real. }
 function DetectEolKindForPolicy(const AFileName: string): TLineEndingKind;
-const
-  SAMPLE_BYTES = 65536;
-var
-  F: TFileStream;
-  Sample: AnsiString;
-  N: Integer;
 begin
-  Result := lekUnknown;
-  try
-    F := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
-    try
-      SetLength(Sample, SAMPLE_BYTES);
-      N := F.Read(Pointer(Sample)^, SAMPLE_BYTES);
-      SetLength(Sample, N);
-    finally
-      F.Free;
-    end;
-  except
-    Exit;
-  end;
-  if N <= 0 then Exit;
-  if (N >= 2) and (((Ord(Sample[1]) = $FF) and (Ord(Sample[2]) = $FE)) or
-                   ((Ord(Sample[1]) = $FE) and (Ord(Sample[2]) = $FF))) then
-    Exit;
-  if (N >= 4) and (Ord(Sample[1]) = 0) and (Ord(Sample[2]) = 0) and
-     (Ord(Sample[3]) = $FE) and (Ord(Sample[4]) = $FF) then
-    Exit;
-  if (N >= 3) and (Ord(Sample[1]) = $EF) and (Ord(Sample[2]) = $BB) and
-     (Ord(Sample[3]) = $BF) then
-    Delete(Sample, 1, 3);
-  Result := DetectLineEndingFromBytes(Sample);
+  Result := DetectLineEndingFromFile(AFileName);
 end;
 
 function EolKindForFile(const AFileName: string): TLineEndingKind;

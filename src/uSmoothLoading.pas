@@ -805,7 +805,7 @@ uses
   MainUnit, ThreadFileLog, uI18n, UnUtils, uFileSessionHistory, uFastFilePaths,
   uFastFileNotice, uFastFileMsgDlg, uExportDialog, uExportDoneDlg,
   UnConsts, uFileOpenPolicy, uDiskSpaceCheck,
-  uTextEncoding, uLineIndexScan, uEolPolicy, ComObj, ActiveX,
+  uTextEncoding, uLineIndexScan, uEolPolicy, uFileFormatConvert, ComObj, ActiveX,
   System.Generics.Collections, System.Generics.Defaults, uBidiLayout;
 
 type
@@ -1264,11 +1264,15 @@ var
   RegionBase, RegionSize, SliceLen: Integer;
   StartTick: UInt64;
   PathName: string;
+  ScanKind: TEncodedLineScanKind;
+  TermLen, i, Consumed: Integer;
+  HitTerm: Boolean;
 begin
   StartTick := GetTickCount64;
   IdxW := W.Dense;
   CkptW := W.Ckpt;
   BlkW := W.Blocks;
+  ScanKind := EncodedLineScanKindOf(DetectTextFileEncoding(fileName));
   { So checkpoint (ficheiros > 2 GB, modo normal): OnLf grava 1 linha em CKPT_INTERVAL. }
   SparseCkptOnly := FSkipDenseIndex and (IdxW = nil) and (BlkW = nil);
   CurrentPermille := 0;
@@ -1296,20 +1300,21 @@ begin
   end;
 
   { Chamado uma vez por terminador de linha: manter o mais leve possivel.
-    ALfPos0 = posicao do terminador em base 0; a linha seguinte comeca em
-    ALfPos0 + 2 (base 1). (n and (CKPT_INTERVAL - 1)) = 0 equivale a
-    "n multiplo de CKPT_INTERVAL" (potencia de 2), sem divisao. }
+    ALfPos0 = posicao do byte Term (0A/0D) em base 0; a linha seguinte comeca em
+    EncodedNextLineStart1Based (ANSI: ALfPos0+2). (n and (CKPT_INTERVAL - 1)) = 0
+    equivale a "n multiplo de CKPT_INTERVAL" (potencia de 2), sem divisao. }
   OnLf := procedure(const ALfPos0: Int64)
   begin
+    { Byte-path callback: TermLen is always 1. Wide path writes the index inline. }
     Inc(totalLines);
+    LineOff := EncodedNextLineStart1Based(ALfPos0, 1);
     if SparseCkptOnly then
     begin
       if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
-        CkptW.WriteOffsetDirect(ALfPos0 + 2);
+        CkptW.WriteOffsetDirect(LineOff);
     end
     else
     begin
-      LineOff := ALfPos0 + 2;
       if IdxW <> nil then IdxW.WriteOffsetDirect(LineOff);
       if BlkW <> nil then BlkW.NoteLineStart1Based(LineOff, ALfPos0);
       if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
@@ -1318,11 +1323,11 @@ begin
   end;
 
   { Caminho rapido (Win64, ficheiros >= LINE_INDEX_PARALLEL_MIN_BYTES): pipeline
-    multi-thread por blocos, para todos os indices (denso, checkpoint, blocos).
-    Devolve False sem escrever nada se nao se aplicar; segue-se o caminho sequencial. }
+    multi-thread por blocos — so para encodings de 1 byte (ANSI/UTF-8). UTF-16/32
+    exigem unidades alinhadas; o mapa de bits por byte desalinha o indice. }
   UsedParallel := False;
   ReadWorkers := 0;
-  if FTotalSize > 0 then
+  if (FTotalSize > 0) and (ScanKind = elskByte) then
   begin
     Bundle.IdxW := IdxW;
     Bundle.CkptW := CkptW;
@@ -1344,8 +1349,6 @@ begin
 
   if not UsedParallel then
   begin
-    { Caminho sequencial: ficheiro mapeado em memoria, percorrido por regioes
-      contiguas e, dentro de cada regiao, por fatias de READ_SCAN_SLICE_BYTES. }
     MMF := TMMFReader.Create(fileName);
     try
       AbsOffset := 0;
@@ -1353,19 +1356,69 @@ begin
       begin
         P := MMF.PtrAt(AbsOffset, 1, Contiguous);
         if (P = nil) or (Contiguous = 0) then Break;
-        RegionSize := Integer(Contiguous);
-        RegionBase := 0;
-        while RegionBase < RegionSize do
+        if Contiguous > Cardinal(FTotalSize - AbsOffset) then
+          Contiguous := Cardinal(FTotalSize - AbsOffset);
+
+        if ScanKind = elskByte then
         begin
-          SliceLen := RegionSize - RegionBase;
-          if SliceLen > READ_SCAN_SLICE_BYTES then
-            SliceLen := READ_SCAN_SLICE_BYTES;
-          ScanBufferForLineFeeds(PByte(PAnsiChar(P) + RegionBase), SliceLen,
-            AbsOffset + Int64(RegionBase), OnLf, ATermByte);
-          Inc(RegionBase, SliceLen);
-          DoProgress(AbsOffset + Int64(RegionBase));
+          { Caminho sequencial ANSI/UTF-8: fatias SWAR/AVX2. }
+          RegionSize := Integer(Contiguous);
+          RegionBase := 0;
+          while RegionBase < RegionSize do
+          begin
+            SliceLen := RegionSize - RegionBase;
+            if SliceLen > READ_SCAN_SLICE_BYTES then
+              SliceLen := READ_SCAN_SLICE_BYTES;
+            ScanBufferForLineFeeds(PByte(PAnsiChar(P) + RegionBase), SliceLen,
+              AbsOffset + Int64(RegionBase), OnLf, ATermByte);
+            Inc(RegionBase, SliceLen);
+            DoProgress(AbsOffset + Int64(RegionBase));
+          end;
+          AbsOffset := AbsOffset + Int64(Contiguous);
+        end
+        else
+        begin
+          { UTF-16/32: terminador por unidade de codigo; avanca TermLen. }
+          i := 0;
+          Consumed := Integer(Contiguous);
+          while i < Integer(Contiguous) do
+          begin
+            HitTerm := IsEncodedLineTermAt(P, i, AbsOffset + i, Integer(Contiguous),
+              ScanKind, ATermByte, TermLen);
+            if not HitTerm then
+            begin
+              if IsEncodedPartialTermAtEnd(P, i, Integer(Contiguous), AbsOffset + i,
+                 ScanKind, ATermByte, AbsOffset + Contiguous < FTotalSize) then
+              begin
+                Consumed := i;
+                if Consumed <= 0 then Consumed := 1;
+                Break;
+              end;
+              Inc(i);
+              Continue;
+            end;
+            Inc(totalLines);
+            LineOff := EncodedNextLineStart1Based(AbsOffset + i, TermLen);
+            if SparseCkptOnly then
+            begin
+              if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
+                CkptW.WriteOffsetDirect(LineOff);
+            end
+            else
+            begin
+              if IdxW <> nil then IdxW.WriteOffsetDirect(LineOff);
+              if BlkW <> nil then BlkW.NoteLineStart1Based(LineOff, AbsOffset + i);
+              if (totalLines and (CKPT_INTERVAL - 1)) = 0 then
+                CkptW.WriteOffsetDirect(LineOff);
+            end;
+            Inc(i, TermLen);
+          end;
+          if i >= Integer(Contiguous) then
+            Consumed := Integer(Contiguous);
+          if Consumed <= 0 then Break;
+          Inc(AbsOffset, Consumed);
+          DoProgress(AbsOffset);
         end;
-        AbsOffset := AbsOffset + Int64(Contiguous);
       end;
     finally
       MMF.Free;
@@ -1374,8 +1427,10 @@ begin
   DoProgress(FTotalSize);
   if UsedParallel then
     PathName := 'parallel'
+  else if ScanKind = elskByte then
+    PathName := 'sequential'
   else
-    PathName := 'sequential';
+    PathName := 'sequential-wide';
   LogAsync(FastFileRuntimeLogPath, Format('[ReadIndex] path=%s workers=%d bytes=%d lines=%d ms=%d',
     [PathName, FReadWorkerCount, FTotalSize, totalLines, Int64(GetTickCount64 - StartTick)]));
 end;
@@ -1771,7 +1826,9 @@ var
 begin
   Result := '';
   if FOperation = otDelete then Exit;
-  Eol := OutputEolForFile(FFileName);
+  Eol := EncodedOutputEolBytes(ResolveEditEncoding,
+    EolKindForFile(FFileName) = lekWindows,
+    EolKindForFile(FFileName) = lekMac);
   M := TMemoryStream.Create;
   try
     if (FOperation = otInsert) and Assigned(FInsertLines) and (FInsertLines.Count > 0) then
@@ -1837,8 +1894,9 @@ begin
   FFastMode := femNone;
   if not (FOperation in [otInsert, otDelete, otEdit, otReplace]) then Exit;
   if UnUtils.GetFileSize(FFileName) < FAST_EDIT_MIN_BYTES then Exit;
-  { UTF-16: terminador de 2 bytes; o indice por byte nao se aplica. }
-  if (not FIsRawContent) and (Pos('16', ResolveEditEncoding) > 0) then Exit;
+  { UTF-16/32: terminador multi-byte; o indice por byte nao se aplica. }
+  if (not FIsRawContent) and
+     (EncodedLineScanKindOf(ResolveEditEncoding) <> elskByte) then Exit;
   Req.FileName := FFileName;
   case FOperation of
     otInsert: Req.Kind := fekInsert;
@@ -2152,11 +2210,11 @@ procedure TEditFileThread.Execute;
 var
   MMF: TMMFReader;
   DestWriter: TBufferedTextWriter;
-  P, PLineStart: PAnsiChar;
+  P, PLineStart, PBase: PAnsiChar;
   Contiguous: Cardinal;
   AbsOffset: Int64;
   CurrentLine: Int64;
-  i, LineLen, InsN, CkptI: Integer;
+  LineLen, InsN, CkptI, TermLen, Consumed, Rel: Integer;
   FinalErr: string;
   RawOld: AnsiString;
   InsertDone: Boolean;
@@ -2167,6 +2225,9 @@ var
   OutLineCount: Int64;
   CkptErr: string;
   TermCh: AnsiChar;
+  EncScan: string;
+  ScanKind: TEncodedLineScanKind;
+  HitTerm, HadCR, TailWithoutEol: Boolean;
 
   function ForceDeleteFile(const FileName: string): Boolean;
   var
@@ -2193,6 +2254,20 @@ var
     end;
   end;
 
+  { A ultima linha pode nao ter terminador largo (UTF-16: 0D 00 0A 00).
+    Sem ele, o texto novo gruda na linha anterior. }
+  procedure CloseOpenTail;
+  var
+    Eol: AnsiString;
+  begin
+    if not TailWithoutEol then Exit;
+    if not Assigned(DestWriter) then Exit;
+    Eol := DestWriter.LineBreak;
+    if Length(Eol) > 0 then
+      DestWriter.WriteRaw(@Eol[1], Length(Eol));
+    TailWithoutEol := False;
+  end;
+
 begin
   inherited;
   if TryFastEdit then
@@ -2217,7 +2292,11 @@ begin
     FFileSizeAfter := FTotalSize;
     FOutputLineCount := 0;
     DestWriter := TBufferedTextWriter.Create(FTempFileName, 16 * 1024 * 1024);
-    DestWriter.LineBreak := OutputEolForFile(FFileName);
+    EncScan := ResolveEditEncoding;
+    ScanKind := EncodedLineScanKindOf(EncScan);
+    DestWriter.LineBreak := EncodedOutputEolBytes(EncScan,
+      EolKindForFile(FFileName) = lekWindows,
+      EolKindForFile(FFileName) = lekMac);
     if FOperation in [otDelete, otInsert] then
     begin
       CkptFileName := FastFileExeDirPath(TEMP_CKPT_FILE);
@@ -2231,6 +2310,7 @@ begin
     CurrentLine := 1;
     AbsOffset := 0;
     InsertDone := False;
+    TailWithoutEol := False;
     FCurrentPercent := 0;
     FLastProgressThousandths := -100;
     TargetHit := False;
@@ -2240,80 +2320,105 @@ begin
     begin
       P := PAnsiChar(MMF.PtrAt(AbsOffset, 1, Contiguous));
       if (P = nil) or (Contiguous = 0) then Break;
-
+      PBase := P;
       PLineStart := P;
-
-      for i := 0 to Contiguous - 1 do
+      Rel := 0;
+      Consumed := Integer(Contiguous);
+      while Rel < Integer(Contiguous) do
       begin
-        if P^ = TermCh then
+        HitTerm := IsEncodedLineTermAt(PByte(PBase), Rel, AbsOffset + Rel,
+          Integer(Contiguous), ScanKind, Byte(TermCh), TermLen);
+        if not HitTerm then
         begin
-          LineLen := (P - PLineStart) + 1;
-
-          if (FOperation = otDelete) and ShouldOmitLineForDelete(CurrentLine) then
+          if IsEncodedPartialTermAtEnd(PByte(PBase), Rel, Integer(Contiguous),
+             AbsOffset + Rel, ScanKind, Byte(TermCh),
+             AbsOffset + Contiguous < FTotalSize) then
           begin
-            SetLength(RawOld, LineLen);
-            if LineLen > 0 then
-              Move(PLineStart^, RawOld[1], LineLen);
-            { AnsiString + Move: never use UnicodeString here (D10+ would treat bytes as UTF-16). }
+            Consumed := Integer(PLineStart - PBase);
+            if Consumed <= 0 then Consumed := 1;
+            Break;
+          end;
+          Inc(Rel);
+          Continue;
+        end;
+        P := PBase + Rel;
+        LineLen := (P - PLineStart) + TermLen;
+
+        if (FOperation = otDelete) and ShouldOmitLineForDelete(CurrentLine) then
+        begin
+          SetLength(RawOld, LineLen);
+          if LineLen > 0 then
+            Move(PLineStart^, RawOld[1], LineLen);
+          { AnsiString + Move: never use UnicodeString here (D10+ would treat bytes as UTF-16). }
+          if ScanKind in [elskUtf16LE, elskUtf16BE] then
+            RawOld := Utf16LineBytes(RawOld, EncScan, HadCR)
+          else if ScanKind = elskByte then
             while (Length(RawOld) > 0) and (RawOld[Length(RawOld)] in [#10, #13]) do
               SetLength(RawOld, Length(RawOld) - 1);
-            FOldLineText := RawBytesToDisplayString(RawOld);
-          end
-          else if (CurrentLine = FTargetLine) then
-          begin
-            case FOperation of
-              otInsert: begin
-                InsN := WriteInsertLines(DestWriter);
-                DestWriter.WriteRaw(PLineStart, LineLen);
-                if Assigned(CkptWriter) then
-                begin
-                  for CkptI := 1 to InsN do
-                    OnKeptLineWritten;
+          FOldLineText := FileBytesToUnicodeText(RawOld, EncScan);
+        end
+        else if (CurrentLine = FTargetLine) then
+        begin
+          case FOperation of
+            otInsert: begin
+              InsN := WriteInsertLines(DestWriter);
+              DestWriter.WriteRaw(PLineStart, LineLen);
+              if Assigned(CkptWriter) then
+              begin
+                for CkptI := 1 to InsN do
                   OnKeptLineWritten;
-                end;
-                InsertDone := True;
+                OnKeptLineWritten;
               end;
-              otEdit, otReplace: begin
-                SetLength(RawOld, LineLen);
-                if LineLen > 0 then
-                  Move(PLineStart^, RawOld[1], LineLen);
+              InsertDone := True;
+            end;
+            otEdit, otReplace: begin
+              SetLength(RawOld, LineLen);
+              if LineLen > 0 then
+                Move(PLineStart^, RawOld[1], LineLen);
+              if ScanKind in [elskUtf16LE, elskUtf16BE] then
+                RawOld := Utf16LineBytes(RawOld, EncScan, HadCR)
+              else if ScanKind = elskByte then
                 while (Length(RawOld) > 0) and (RawOld[Length(RawOld)] in [#10, #13]) do
                   SetLength(RawOld, Length(RawOld) - 1);
-                FOldLineText := RawBytesToDisplayString(RawOld);
-                WriteContentLines(DestWriter);
-                TargetHit := True;
-              end;
+              FOldLineText := FileBytesToUnicodeText(RawOld, EncScan);
+              WriteContentLines(DestWriter);
+              TargetHit := True;
             end;
-          end
-          else
-          begin
-            DestWriter.WriteRaw(PLineStart, LineLen);
-            if Assigned(CkptWriter) then
-              OnKeptLineWritten;
           end;
-
-          Inc(CurrentLine);
-          PLineStart := P + 1;
+        end
+        else
+        begin
+          DestWriter.WriteRaw(PLineStart, LineLen);
+          if Assigned(CkptWriter) then
+            OnKeptLineWritten;
         end;
-        Inc(P);
+
+        Inc(CurrentLine);
+        Inc(Rel, TermLen);
+        PLineStart := PBase + Rel;
       end;
 
-      AbsOffset := AbsOffset + Contiguous;
+      if Rel >= Integer(Contiguous) then
+        Consumed := Integer(Contiguous);
+      AbsOffset := AbsOffset + Consumed;
 
       { Ultima linha sem LF final: processar o resto deste view no EOF. }
-      if (AbsOffset >= FTotalSize) and (PLineStart < P) and (not Terminated) and
-         (not TfrmSmoothLoading.CancelRequested) then
+      if (AbsOffset >= FTotalSize) and (PLineStart < PBase + Contiguous) and
+         (not Terminated) and (not TfrmSmoothLoading.CancelRequested) then
       begin
-        LineLen := P - PLineStart;
+        LineLen := (PBase + Contiguous) - PLineStart;
         if LineLen > 0 then
         begin
           if (FOperation = otDelete) and ShouldOmitLineForDelete(CurrentLine) then
           begin
             SetLength(RawOld, LineLen);
             Move(PLineStart^, RawOld[1], LineLen);
-            while (Length(RawOld) > 0) and (RawOld[Length(RawOld)] in [#10, #13]) do
-              SetLength(RawOld, Length(RawOld) - 1);
-            FOldLineText := RawBytesToDisplayString(RawOld);
+            if ScanKind in [elskUtf16LE, elskUtf16BE] then
+              RawOld := Utf16LineBytes(RawOld, EncScan, HadCR)
+            else if ScanKind = elskByte then
+              while (Length(RawOld) > 0) and (RawOld[Length(RawOld)] in [#10, #13]) do
+                SetLength(RawOld, Length(RawOld) - 1);
+            FOldLineText := FileBytesToUnicodeText(RawOld, EncScan);
           end
           else if CurrentLine = FTargetLine then
           begin
@@ -2332,9 +2437,12 @@ begin
               otEdit, otReplace: begin
                 SetLength(RawOld, LineLen);
                 Move(PLineStart^, RawOld[1], LineLen);
-                while (Length(RawOld) > 0) and (RawOld[Length(RawOld)] in [#10, #13]) do
-                  SetLength(RawOld, Length(RawOld) - 1);
-                FOldLineText := RawBytesToDisplayString(RawOld);
+                if ScanKind in [elskUtf16LE, elskUtf16BE] then
+                  RawOld := Utf16LineBytes(RawOld, EncScan, HadCR)
+                else if ScanKind = elskByte then
+                  while (Length(RawOld) > 0) and (RawOld[Length(RawOld)] in [#10, #13]) do
+                    SetLength(RawOld, Length(RawOld) - 1);
+                FOldLineText := FileBytesToUnicodeText(RawOld, EncScan);
                 WriteContentLines(DestWriter);
                 TargetHit := True;
               end;
@@ -2343,6 +2451,10 @@ begin
           else
           begin
             DestWriter.WriteRaw(PLineStart, LineLen);
+            TailWithoutEol := True;
+            if (FOperation = otInsert) and (not InsertDone) and
+               ((FTargetLine <= 0) or (FTargetLine > CurrentLine)) then
+              CloseOpenTail;
             if Assigned(CkptWriter) then
               OnKeptLineWritten;
           end;
@@ -2364,10 +2476,40 @@ begin
       Exit;
     end;
 
+    { Linha vazia depois do ultimo EOL (ficheiro acaba em CRLF/LF): nao ha bytes
+      ate ao EOF, por isso o ciclo nao a visita. Sem isto, clicar na ultima linha
+      em branco da ListView falha com "linha N nao existe". }
+    if (not Terminated) and (AbsOffset >= FTotalSize) and
+       (CurrentLine = FTargetLine) and (FTargetLine > 0) then
+    begin
+      case FOperation of
+        otInsert:
+          if not InsertDone then
+          begin
+            InsN := WriteInsertLines(DestWriter);
+            if Assigned(CkptWriter) then
+              for CkptI := 1 to InsN do
+                OnKeptLineWritten;
+            InsertDone := True;
+          end;
+        otEdit, otReplace:
+          if not TargetHit then
+          begin
+            FOldLineText := '';
+            WriteContentLines(DestWriter);
+            TargetHit := True;
+          end;
+        otDelete:
+          FOldLineText := '';
+      end;
+      Inc(CurrentLine);
+    end;
+
     { Insercao sem linha-ancora (TargetLine=0) ou alem do EOF:
       anexar no fim para manter semantica de "copiar para o outro lado". }
     if (FOperation = otInsert) and (not InsertDone) and (not Terminated) then
     begin
+      CloseOpenTail;
       InsN := WriteInsertLines(DestWriter);
       if Assigned(CkptWriter) then
         for CkptI := 1 to InsN do
@@ -2469,12 +2611,12 @@ procedure TMergeDeltaThread.Execute;
 var
   MMF: TMMFReader;
   DestWriter: TBufferedTextWriter;
-  P, PLineStart: PAnsiChar;
+  P, PLineStart, PBase: PAnsiChar;
   Contiguous: Cardinal;
   AbsOffset: Int64;
   CurrentLine: Int64;
   NewPercent: Integer;
-  i, LineLen: Integer;
+  i, LineLen, TermLen, Consumed: Integer;
   DeltaLines: TStringList;
   DeltaArr: TDeltaArray;
   DeltaCount, dIndex: Integer;
@@ -2484,6 +2626,8 @@ var
   LineText: String;
   TermCh: AnsiChar;
   Seen: TDictionary<Int64, Integer>;
+  ScanKind: TEncodedLineScanKind;
+  HitTerm: Boolean;
 
   function ForceDeleteFile(const FileName: string): Boolean;
   var
@@ -2589,7 +2733,10 @@ begin
   DestWriter := nil;
   MMF := TMMFReader.Create(FFileName);
   DestWriter := TBufferedTextWriter.Create(FTempFileName, 16 * 1024 * 1024);
-  DestWriter.LineBreak := OutputEolForFile(FFileName);
+  ScanKind := EncodedLineScanKindOf(FEnc);
+  DestWriter.LineBreak := EncodedOutputEolBytes(FEnc,
+    EolKindForFile(FFileName) = lekWindows,
+    EolKindForFile(FFileName) = lekMac);
   TermCh := LineTermCharForFile(FFileName);
   try
     try
@@ -2605,36 +2752,52 @@ begin
       begin
         P := PAnsiChar(MMF.PtrAt(AbsOffset, 1, Contiguous));
         if (P = nil) or (Contiguous = 0) then Break;
-
+        PBase := P;
         PLineStart := P;
-
-        for i := 0 to Contiguous - 1 do
+        i := 0;
+        Consumed := Integer(Contiguous);
+        while i < Integer(Contiguous) do
         begin
-          if P^ = TermCh then
+          HitTerm := IsEncodedLineTermAt(PByte(PBase), i, AbsOffset + i,
+            Integer(Contiguous), ScanKind, Byte(TermCh), TermLen);
+          if not HitTerm then
           begin
-            LineLen := (P - PLineStart) + 1;
-
-            if (dIndex < DeltaCount) and (CurrentLine = DeltaArr[dIndex].LineNumber) then
+            if IsEncodedPartialTermAtEnd(PByte(PBase), i, Integer(Contiguous),
+               AbsOffset + i, ScanKind, Byte(TermCh),
+               AbsOffset + Contiguous < FTotalSize) then
             begin
-              DestWriter.WriteLine(EncodeDeltaText(DeltaArr[dIndex].NewText));
-              Inc(dIndex);
-            end
-            else
-              DestWriter.WriteRaw(PLineStart, LineLen);
-
-            Inc(CurrentLine);
-            PLineStart := P + 1;
+              Consumed := Integer(PLineStart - PBase);
+              if Consumed <= 0 then Consumed := 1;
+              Break;
+            end;
+            Inc(i);
+            Continue;
           end;
-          Inc(P);
+          P := PBase + i;
+          LineLen := (P - PLineStart) + TermLen;
+
+          if (dIndex < DeltaCount) and (CurrentLine = DeltaArr[dIndex].LineNumber) then
+          begin
+            DestWriter.WriteLine(EncodeDeltaText(DeltaArr[dIndex].NewText));
+            Inc(dIndex);
+          end
+          else
+            DestWriter.WriteRaw(PLineStart, LineLen);
+
+          Inc(CurrentLine);
+          Inc(i, TermLen);
+          PLineStart := PBase + i;
         end;
 
-        AbsOffset := AbsOffset + Contiguous;
+        if i >= Integer(Contiguous) then
+          Consumed := Integer(Contiguous);
+        AbsOffset := AbsOffset + Consumed;
 
         { Last line without trailing LF: process remainder at EOF. }
-        if (AbsOffset >= FTotalSize) and (PLineStart < P) and (not Terminated) and
-           (not TfrmSmoothLoading.CancelRequested) then
+        if (AbsOffset >= FTotalSize) and (PLineStart < PBase + Contiguous) and
+           (not Terminated) and (not TfrmSmoothLoading.CancelRequested) then
         begin
-          LineLen := P - PLineStart;
+          LineLen := (PBase + Contiguous) - PLineStart;
           if LineLen > 0 then
           begin
             if (dIndex < DeltaCount) and (CurrentLine = DeltaArr[dIndex].LineNumber) then
@@ -2733,8 +2896,8 @@ begin
   FFastMode := femNone;
   if ACount <= 0 then Exit;
   if UnUtils.GetFileSize(FFileName) < FAST_EDIT_MIN_BYTES then Exit;
-  { UTF-16: terminador de 2 bytes; o indice por byte nao se aplica. }
-  if Pos('16', ResolveTextEncoding(FFileName, '')) > 0 then Exit;
+  { UTF-16/32: terminador multi-byte; o indice por byte nao se aplica. }
+  if EncodedLineScanKindOf(ResolveTextEncoding(FFileName, '')) <> elskByte then Exit;
   Eol := OutputEolForFile(FFileName);
   SetLength(Entries, ACount);
   for I := 0 to ACount - 1 do
@@ -5184,16 +5347,19 @@ var
   MMF: TMMFReader;
   DestWriter, CkptWriter: TBufferedTextWriter;
   TempFileName, CkptFileName, CkptTempName: string;
-  P, PLineStart: PAnsiChar;
+  P, PLineStart, PBase: PAnsiChar;
   Contiguous: Cardinal;
   AbsOffset: Int64;
   TotalSize: Int64;
   CurrentLine, OutLineCount: Int64;
-  i, LineLen: Integer;
+  i, LineLen, TermLen, Consumed: Integer;
   FinalErr: string;
   LastPct, Pct: Integer;
   CkptCountdown: Integer;
   TermCh: AnsiChar;
+  SrcEnc: string;
+  ScanKind: TEncodedLineScanKind;
+  HitTerm: Boolean;
 
   procedure OnKeptLineWritten;
   begin
@@ -5247,29 +5413,71 @@ begin
       AbsOffset := 0;
       LastPct := 0;
       TermCh := LineTermCharForFile(AFileName);
+      SrcEnc := DetectTextFileEncoding(AFileName);
+      ScanKind := EncodedLineScanKindOf(SrcEnc);
+      DestWriter.LineBreak := EncodedOutputEolBytes(SrcEnc,
+        EolKindForFile(AFileName) = lekWindows,
+        EolKindForFile(AFileName) = lekMac);
 
       while AbsOffset < TotalSize do
       begin
         P := PAnsiChar(MMF.PtrAt(AbsOffset, 1, Contiguous));
         if (P = nil) or (Contiguous = 0) then Break;
+        PBase := P;
 
         PLineStart := P;
-        for i := 0 to Integer(Contiguous) - 1 do
+        i := 0;
+        Consumed := Integer(Contiguous);
+        while i < Integer(Contiguous) do
         begin
-          if P^ = TermCh then
+          HitTerm := IsEncodedLineTermAt(PByte(PBase), i, AbsOffset + i,
+            Integer(Contiguous), ScanKind, Byte(TermCh), TermLen);
+          if HitTerm then
           begin
-            LineLen := (P - PLineStart) + 1;
+            P := PBase + i;
+            LineLen := (P - PLineStart) + TermLen;
             if not LineInSortedInt64Array(ALinesToDelete1Based, CurrentLine) then
             begin
               DestWriter.WriteRaw(PLineStart, LineLen);
               OnKeptLineWritten;
             end;
             Inc(CurrentLine);
-            PLineStart := P + 1;
+            Inc(i, TermLen);
+            PLineStart := PBase + i;
+            Continue;
           end;
-          Inc(P);
+          { Wide LE Term at view end without trailing 00.. — rewind for next map. }
+          if IsEncodedPartialTermAtEnd(PByte(PBase), i, Integer(Contiguous),
+             AbsOffset + i, ScanKind, Byte(TermCh),
+             AbsOffset + Contiguous < TotalSize) then
+          begin
+            Consumed := Integer(PLineStart - PBase);
+            if Consumed < 0 then Consumed := 0;
+            Break;
+          end;
+          Inc(i);
+          Consumed := i;
         end;
-        AbsOffset := AbsOffset + Contiguous;
+        if i >= Integer(Contiguous) then
+        begin
+          Consumed := Integer(Contiguous);
+          { Last line without terminator (EOF). }
+          if (PLineStart < PBase + Contiguous) and (AbsOffset + Contiguous >= TotalSize) then
+          begin
+            LineLen := (PBase + Contiguous) - PLineStart;
+            if (LineLen > 0) and
+               (not LineInSortedInt64Array(ALinesToDelete1Based, CurrentLine)) then
+            begin
+              DestWriter.WriteRaw(PLineStart, LineLen);
+              OnKeptLineWritten;
+            end;
+            if LineLen > 0 then
+              Inc(CurrentLine);
+          end;
+        end
+        else if Consumed <= 0 then
+          Consumed := 1; { avoid stall if Term sits alone at map start }
+        AbsOffset := AbsOffset + Consumed;
 
         { Report progress in a thread-safe way (worker or main thread).
           Keep 0..90% for scan/copy; caller reserves the tail for final save. }
@@ -5548,7 +5756,6 @@ var
   SearchFrom: Integer;
   WorkLen: Integer;
   CanReplace: Boolean;
-  ByteBefore, ByteAfter: Byte;
   MatchBufIdx: Integer;
 
   function ForceDeleteFile(const FileName: string): Boolean;
@@ -5568,6 +5775,72 @@ var
   function IsWordBoundaryChar(Ch: Byte): Boolean;
   begin
     Result := not (AnsiChar(Ch) in ['A'..'Z', 'a'..'z', '0'..'9', '_']);
+  end;
+
+  function WholeWordAllowedAt(const MatchAbs: Int64; const MatchBuf: Integer): Boolean;
+  var
+    Kind: TEncodedLineScanKind;
+    UnitN, BeforePos, AfterPos: Integer;
+    Edge: array[0..3] of Byte;
+    Ok: Boolean;
+  begin
+    Result := True;
+    Kind := EncodedLineScanKindOf(FEncoding);
+    UnitN := EncodedLineUnitBytes(Kind);
+    if UnitN <= 1 then
+    begin
+      if MatchBuf > 0 then
+        Result := IsWordBoundaryChar(WorkBuf[MatchBuf - 1])
+      else if MatchAbs > 0 then
+      begin
+        MMF.ReadBytes(MatchAbs - 1, Edge[0], 1);
+        Result := IsWordBoundaryChar(Edge[0]);
+      end;
+      if not Result then Exit;
+      if MatchBuf + NeedLen < WorkLen then
+        Result := IsWordBoundaryChar(WorkBuf[MatchBuf + NeedLen])
+      else if MatchAbs + NeedLen < FileSize then
+      begin
+        MMF.ReadBytes(MatchAbs + NeedLen, Edge[0], 1);
+        Result := IsWordBoundaryChar(Edge[0]);
+      end;
+      Exit;
+    end;
+    { Match must sit on a code-unit boundary. }
+    if (MatchAbs mod UnitN) <> 0 then
+    begin
+      Result := False;
+      Exit;
+    end;
+    if MatchAbs >= UnitN then
+    begin
+      BeforePos := MatchBuf - UnitN;
+      if BeforePos >= 0 then
+        Ok := not IsEncodedWordUnitAt(@WorkBuf[0], BeforePos, WorkLen, Kind)
+      else
+      begin
+        MMF.ReadBytes(MatchAbs - UnitN, Edge[0], UnitN);
+        Ok := not IsEncodedWordUnitAt(@Edge[0], 0, UnitN, Kind);
+      end;
+      if not Ok then
+      begin
+        Result := False;
+        Exit;
+      end;
+    end;
+    AfterPos := MatchBuf + NeedLen;
+    if MatchAbs + NeedLen + UnitN <= FileSize then
+    begin
+      if AfterPos + UnitN <= WorkLen then
+        Ok := not IsEncodedWordUnitAt(@WorkBuf[0], AfterPos, WorkLen, Kind)
+      else
+      begin
+        MMF.ReadBytes(MatchAbs + NeedLen, Edge[0], UnitN);
+        Ok := not IsEncodedWordUnitAt(@Edge[0], 0, UnitN, Kind);
+      end;
+      if not Ok then
+        Result := False;
+    end;
   end;
 
   procedure BuildUpTable;
@@ -5791,31 +6064,7 @@ begin
 
         CanReplace := True;
         if FWholeWord then
-        begin
-          if MatchBufIdx > 0 then
-          begin
-            ByteBefore := WorkBuf[MatchBufIdx - 1];
-            if not IsWordBoundaryChar(ByteBefore) then CanReplace := False;
-          end
-          else if MatchAbsPos > 0 then
-          begin
-            MMF.ReadBytes(MatchAbsPos - 1, ByteBefore, 1);
-            if not IsWordBoundaryChar(ByteBefore) then CanReplace := False;
-          end;
-          if CanReplace then
-          begin
-            if MatchBufIdx + NeedLen < WorkLen then
-            begin
-              ByteAfter := WorkBuf[MatchBufIdx + NeedLen];
-              if not IsWordBoundaryChar(ByteAfter) then CanReplace := False;
-            end
-            else if MatchAbsPos + NeedLen < FileSize then
-            begin
-              MMF.ReadBytes(MatchAbsPos + NeedLen, ByteAfter, 1);
-              if not IsWordBoundaryChar(ByteAfter) then CanReplace := False;
-            end;
-          end;
-        end;
+          CanReplace := WholeWordAllowedAt(MatchAbsPos, MatchBufIdx);
 
         if CanReplace then
         begin
@@ -6053,12 +6302,14 @@ var
   P: PByte;
   EntryIdx: Integer;
   CurrentLine0: Int64;
-  LFShift: TBMHByteShiftTable;
   LastProgressTick: Cardinal;
   LastPostedPercent: Integer;
   OutputPath: String;
   TermB: Byte;
   OutEol: AnsiString;
+  ScanKind: TEncodedLineScanKind;
+  SrcEnc: string;
+  ChunkBaseOfs: Int64;
 
   function ForceDeleteLocal(const FileName: string): Boolean;
   var
@@ -6153,31 +6404,50 @@ var
 
   procedure ProcessChunk(const Chunk: PAnsiChar; const ChunkLen: Integer);
   var
-    RunStart, SearchAt, LFPos: Integer;
+    RunStart, SearchAt, TermLen, Consumed: Integer;
+    HitTerm: Boolean;
   begin
     if (Chunk = nil) or (ChunkLen <= 0) then Exit;
     RunStart := 0;
     SearchAt := 0;
+    Consumed := ChunkLen;
     while SearchAt < ChunkLen do
     begin
       if ((SearchAt and $FFFF) = 0) and
          (Terminated or TfrmSmoothLoading.CancelRequested) then
         Exit;
-      LFPos := BMHFindBytePAnsi(Chunk, ChunkLen, SearchAt, TermB, LFShift);
-      if LFPos < 0 then Break;
+      HitTerm := IsEncodedLineTermAt(PByte(Chunk), SearchAt, ChunkBaseOfs + SearchAt,
+        ChunkLen, ScanKind, TermB, TermLen);
+      if not HitTerm then
+      begin
+        if IsEncodedPartialTermAtEnd(PByte(Chunk), SearchAt, ChunkLen,
+           ChunkBaseOfs + SearchAt, ScanKind, TermB,
+           ChunkBaseOfs + ChunkLen < FileSize) then
+        begin
+          { Keep bytes before the incomplete unit; leave the unit for the next map. }
+          Consumed := SearchAt;
+          if Consumed <= 0 then Consumed := 1;
+          Break;
+        end;
+        Inc(SearchAt);
+        Continue;
+      end;
       EnsureOutForLine(CurrentLine0);
       if Assigned(OutStream) then
-        OutStream.WriteBuffer((Chunk + RunStart)^, LFPos - RunStart + 1);
-      RunStart := LFPos + 1;
-      SearchAt := LFPos + 1;
+        OutStream.WriteBuffer((Chunk + RunStart)^, SearchAt - RunStart + TermLen);
+      RunStart := SearchAt + TermLen;
+      SearchAt := RunStart;
       Inc(CurrentLine0);
     end;
-    if RunStart < ChunkLen then
+    if SearchAt >= ChunkLen then
+      Consumed := ChunkLen;
+    if RunStart < Consumed then
     begin
       EnsureOutForLine(CurrentLine0);
       if Assigned(OutStream) then
-        OutStream.WriteBuffer((Chunk + RunStart)^, ChunkLen - RunStart);
+        OutStream.WriteBuffer((Chunk + RunStart)^, Consumed - RunStart);
     end;
+    ChunkBaseOfs := ChunkBaseOfs + Consumed;
   end;
 
   procedure UpdateProgressIfNeeded;
@@ -6205,14 +6475,18 @@ begin
   inherited;
   MMF := nil;
   OutStream := nil;
-  BMHInitSingleByte(LFShift);
   TermB := LineTermByteForFile(FOriginalFileName);
-  OutEol := OutputEolForFile(FOriginalFileName);
+  SrcEnc := DetectTextFileEncoding(FOriginalFileName);
+  ScanKind := EncodedLineScanKindOf(SrcEnc);
+  OutEol := EncodedOutputEolBytes(SrcEnc,
+    EolKindForFile(FOriginalFileName) = lekWindows,
+    EolKindForFile(FOriginalFileName) = lekMac);
   EntryIdx := 0;
   CurrentLine0 := 0;
   LastProgressTick := GetTickCount;
   LastPostedPercent := -1;
   FCurrentPercent := 0;
+  ChunkBaseOfs := 0;
 
   try
     try
@@ -6236,8 +6510,12 @@ begin
           Break;
         if Contiguous > Cardinal(FileSize - AbsOffset) then
           Contiguous := Cardinal(FileSize - AbsOffset);
+        ChunkBaseOfs := AbsOffset;
         ProcessChunk(PAnsiChar(P), Integer(Contiguous));
-        Inc(AbsOffset, Contiguous);
+        { ProcessChunk advances ChunkBaseOfs to bytes consumed (may be < Contiguous). }
+        if ChunkBaseOfs <= AbsOffset then
+          Break;
+        AbsOffset := ChunkBaseOfs;
         UpdateProgressIfNeeded;
       end;
 
@@ -7380,49 +7658,70 @@ const
   BUF_SIZE = 4 * 1024 * 1024;
   COUNT_PROGRESS_MAX = 40;
 var
-  F: TFileStream;
-  Buffer: PAnsiChar;
-  BytesRead: Integer;
-  LFShift: TBMHByteShiftTable;
-  LastWasLF: Boolean;
-  FileSize, Processed: Int64;
+  MMF: TMMFReader;
+  FileSize, AbsOffset: Int64;
+  Contiguous: Cardinal;
+  P: PByte;
+  i, TermLen, Consumed: Integer;
   NewPct, LastPct: Integer;
   TermB: Byte;
+  ScanKind: TEncodedLineScanKind;
+  HitTerm, LastWasTerm: Boolean;
 begin
   Result := 0;
   if not FileExists(AFileName) then Exit;
   TermB := LineTermByteForFile(AFileName);
-
-  F := nil;
-  Buffer := nil;
+  ScanKind := EncodedLineScanKindOf(DetectTextFileEncoding(AFileName));
+  MMF := nil;
   try
     try
-      begin
-      GetMem(Buffer, BUF_SIZE);
-      F := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
-      FileSize := F.Size;
-      BMHInitSingleByte(LFShift);
-      LastWasLF := False;
+      MMF := TMMFReader.Create(AFileName);
+      FileSize := MMF.FileSize;
+      if FileSize <= 0 then Exit;
       LastPct := -1;
-      Processed := 0;
-      while True do
+      LastWasTerm := False;
+      AbsOffset := 0;
+      while AbsOffset < FileSize do
       begin
         if TfrmSmoothLoading.CancelRequested then
         begin
           Result := -2;
           Exit;
         end;
-        BytesRead := F.Read(Buffer^, BUF_SIZE);
-        if BytesRead <= 0 then Break;
-
-        Inc(Result, BMHCountBytePAnsi(Buffer, BytesRead, TermB, LFShift));
-        if BytesRead > 0 then
-          LastWasLF := (Byte(Buffer[BytesRead - 1]) = TermB);
-        Inc(Processed, BytesRead);
-
+        P := MMF.PtrAt(AbsOffset, 1, Contiguous);
+        if (P = nil) or (Contiguous = 0) then Break;
+        if Contiguous > Cardinal(FileSize - AbsOffset) then
+          Contiguous := Cardinal(FileSize - AbsOffset);
+        i := 0;
+        Consumed := Integer(Contiguous);
+        while i < Integer(Contiguous) do
+        begin
+          HitTerm := IsEncodedLineTermAt(P, i, AbsOffset + i, Integer(Contiguous),
+            ScanKind, TermB, TermLen);
+          if not HitTerm then
+          begin
+            if IsEncodedPartialTermAtEnd(P, i, Integer(Contiguous), AbsOffset + i,
+               ScanKind, TermB, AbsOffset + Contiguous < FileSize) then
+            begin
+              Consumed := i;
+              if Consumed <= 0 then Consumed := 1;
+              Break;
+            end;
+            LastWasTerm := False;
+            Inc(i);
+            Continue;
+          end;
+          Inc(Result);
+          LastWasTerm := True;
+          Inc(i, TermLen);
+        end;
+        if i >= Integer(Contiguous) then
+          Consumed := Integer(Contiguous);
+        if Consumed <= 0 then Break;
+        Inc(AbsOffset, Consumed);
         if AReportProgress and (FileSize > 0) then
         begin
-          NewPct := Round((Processed * COUNT_PROGRESS_MAX) / FileSize);
+          NewPct := Round((AbsOffset * COUNT_PROGRESS_MAX) / FileSize);
           if NewPct > COUNT_PROGRESS_MAX then NewPct := COUNT_PROGRESS_MAX;
           if NewPct > LastPct then
           begin
@@ -7432,18 +7731,13 @@ begin
           end;
         end;
       end;
-
-      if (FileSize > 0) and (not LastWasLF) then
+      if (FileSize > 0) and (not LastWasTerm) then
         Inc(Result);
-      end;
     except
       Result := -1;
     end;
   finally
-    if Assigned(F) then
-      F.Free;
-    if Buffer <> nil then
-      FreeMem(Buffer);
+    FreeAndNil(MMF);
   end;
 end;
 
@@ -7455,21 +7749,58 @@ begin
 end;
 
 { Remove trailing CR/LF so part files match FastFile line indexing (LF count + 1). }
-procedure SplitPartTrimTrailingLineTerminators(AOut: TFileStream);
+procedure SplitPartTrimTrailingLineTerminators(AOut: TFileStream;
+  AKind: TEncodedLineScanKind = elskByte);
 var
   Pos: Int64;
-  B: Byte;
+  UnitN: Integer;
+  Buf: array[0..3] of Byte;
+
+  function UnitIsCrOrLf: Boolean;
+  begin
+    case AKind of
+      elskUtf16LE:
+        Result := (Buf[0] in [10, 13]) and (Buf[1] = 0);
+      elskUtf16BE:
+        Result := (Buf[0] = 0) and (Buf[1] in [10, 13]);
+      elskUtf32LE:
+        Result := (Buf[0] in [10, 13]) and (Buf[1] = 0) and (Buf[2] = 0) and
+          (Buf[3] = 0);
+      elskUtf32BE:
+        Result := (Buf[0] = 0) and (Buf[1] = 0) and (Buf[2] = 0) and
+          (Buf[3] in [10, 13]);
+    else
+      Result := Buf[0] in [10, 13];
+    end;
+  end;
+
 begin
   if not Assigned(AOut) or (AOut.Size <= 0) then Exit;
-  Pos := AOut.Size - 1;
-  while Pos >= 0 do
+  UnitN := EncodedLineUnitBytes(AKind);
+  if UnitN <= 1 then
   begin
-    AOut.Seek(Pos, soBeginning);
-    if AOut.Read(B, 1) <> 1 then Break;
-    if not (B in [10, 13]) then Break;
-    Dec(Pos);
+    Pos := AOut.Size - 1;
+    while Pos >= 0 do
+    begin
+      AOut.Seek(Pos, soBeginning);
+      if AOut.Read(Buf[0], 1) <> 1 then Break;
+      if not (Buf[0] in [10, 13]) then Break;
+      Dec(Pos);
+    end;
+    AOut.Size := Pos + 1;
+    Exit;
   end;
-  AOut.Size := Pos + 1;
+  Pos := AOut.Size;
+  while Pos >= UnitN do
+  begin
+    AOut.Seek(Pos - UnitN, soBeginning);
+    if AOut.Read(Buf[0], UnitN) <> UnitN then Break;
+    if UnitIsCrOrLf then
+      Dec(Pos, UnitN)
+    else
+      Break;
+  end;
+  AOut.Size := Pos;
 end;
 
 { ============================================================================ }
@@ -7587,6 +7918,9 @@ var
   LastProgressTick: Cardinal;
   TermB: Byte;
   OutEol: AnsiString;
+  ScanKind: TEncodedLineScanKind;
+  SrcEnc: string;
+  ChunkBaseOfs: Int64;
 
   function ForceDeleteLocal(const FileName: string): Boolean;
   var
@@ -7659,7 +7993,7 @@ var
   begin
     if Assigned(OutStream) then
     begin
-      SplitPartTrimTrailingLineTerminators(OutStream);
+      SplitPartTrimTrailingLineTerminators(OutStream, ScanKind);
       WritePartFooter(OutStream);
       FreeAndNil(OutStream);
     end;
@@ -7671,30 +8005,49 @@ var
 
   procedure ProcessChunk(const Chunk: PAnsiChar; const ChunkLen: Integer);
   var
-    RunStart, SearchAt: Integer;
+    RunStart, SearchAt, TermLen, Consumed: Integer;
+    HitTerm: Boolean;
   begin
     if (Chunk = nil) or (ChunkLen <= 0) then Exit;
     RunStart := 0;
     SearchAt := 0;
+    Consumed := ChunkLen;
     while SearchAt < ChunkLen do
     begin
-      if Byte(Chunk[SearchAt]) = TermB then
+      HitTerm := IsEncodedLineTermAt(PByte(Chunk), SearchAt, ChunkBaseOfs + SearchAt,
+        ChunkLen, ScanKind, TermB, TermLen);
+      if not HitTerm then
       begin
-        Inc(LinesWritten);
-        if (PartIdx < FPartCount - 1) and (LinesWritten >= LinesTarget) then
+        if IsEncodedPartialTermAtEnd(PByte(Chunk), SearchAt, ChunkLen,
+           ChunkBaseOfs + SearchAt, ScanKind, TermB,
+           ChunkBaseOfs + ChunkLen < FileSize) then
         begin
-          OutStream.WriteBuffer((Chunk + RunStart)^, SearchAt - RunStart + 1);
-          RunStart := SearchAt + 1;
-          Inc(PartIdx);
-          LinesWritten := 0;
-          LinesTarget := PartLineTarget(PartIdx);
-          OpenNextPart(PartIdx + 1);
+          Consumed := SearchAt;
+          if Consumed <= 0 then Consumed := 1;
+          Break;
         end;
+        Inc(SearchAt);
+        Continue;
       end;
-      Inc(SearchAt);
+      Inc(LinesWritten);
+      if (PartIdx < FPartCount - 1) and (LinesWritten >= LinesTarget) then
+      begin
+        OutStream.WriteBuffer((Chunk + RunStart)^, SearchAt - RunStart + TermLen);
+        RunStart := SearchAt + TermLen;
+        SearchAt := RunStart;
+        Inc(PartIdx);
+        LinesWritten := 0;
+        LinesTarget := PartLineTarget(PartIdx);
+        OpenNextPart(PartIdx + 1);
+      end
+      else
+        Inc(SearchAt, TermLen);
     end;
-    if RunStart < ChunkLen then
-      OutStream.WriteBuffer((Chunk + RunStart)^, ChunkLen - RunStart);
+    if SearchAt >= ChunkLen then
+      Consumed := ChunkLen;
+    if RunStart < Consumed then
+      OutStream.WriteBuffer((Chunk + RunStart)^, Consumed - RunStart);
+    ChunkBaseOfs := ChunkBaseOfs + Consumed;
   end;
 
   procedure UpdateProgressIfNeeded;
@@ -7728,7 +8081,12 @@ begin
   MMF := nil;
   OutStream := nil;
   TermB := LineTermByteForFile(FSourceFileName);
-  OutEol := OutputEolForFile(FSourceFileName);
+  SrcEnc := DetectTextFileEncoding(FSourceFileName);
+  ScanKind := EncodedLineScanKindOf(SrcEnc);
+  OutEol := EncodedOutputEolBytes(SrcEnc,
+    EolKindForFile(FSourceFileName) = lekWindows,
+    EolKindForFile(FSourceFileName) = lekMac);
+  ChunkBaseOfs := 0;
 
   if FPartCount < 2 then
   begin
@@ -7780,15 +8138,19 @@ begin
       begin
         P := MMF.PtrAt(AbsOffset, 1, Contiguous);
         if (P = nil) or (Contiguous = 0) then Break;
-
+        if Contiguous > Cardinal(FileSize - AbsOffset) then
+          Contiguous := Cardinal(FileSize - AbsOffset);
+        ChunkBaseOfs := AbsOffset;
         ProcessChunk(PAnsiChar(P), Integer(Contiguous));
-        Inc(AbsOffset, Contiguous);
+        if ChunkBaseOfs <= AbsOffset then
+          Break;
+        AbsOffset := ChunkBaseOfs;
         UpdateProgressIfNeeded;
       end;
 
       if Assigned(OutStream) then
       begin
-        SplitPartTrimTrailingLineTerminators(OutStream);
+        SplitPartTrimTrailingLineTerminators(OutStream, ScanKind);
         WritePartFooter(OutStream);
         FreeAndNil(OutStream);
       end;
@@ -7938,11 +8300,13 @@ var
   PartIdx: Integer;
   LinesTarget, LinesWritten: Int64;
   PartPath: String;
-  LFShift: TBMHByteShiftTable;
   LastPostedPercent: Integer;
   LastProgressTick: Cardinal;
   TermB: Byte;
   OutEol: AnsiString;
+  ScanKind: TEncodedLineScanKind;
+  SrcEnc: string;
+  ChunkBaseOfs: Int64;
 
   function PartShouldExport(const PartIndex1Based: Integer): Boolean;
   begin
@@ -8039,19 +8403,34 @@ var
 
   procedure ProcessChunk(const Chunk: PAnsiChar; const ChunkLen: Integer);
   var
-    RunStart, SearchAt, LFPos: Integer;
+    RunStart, SearchAt, TermLen, Consumed: Integer;
+    HitTerm: Boolean;
   begin
     if (Chunk = nil) or (ChunkLen <= 0) then Exit;
     RunStart := 0;
     SearchAt := 0;
+    Consumed := ChunkLen;
     while SearchAt < ChunkLen do
     begin
-      LFPos := BMHFindBytePAnsi(Chunk, ChunkLen, SearchAt, TermB, LFShift);
-      if LFPos < 0 then Break;
+      HitTerm := IsEncodedLineTermAt(PByte(Chunk), SearchAt, ChunkBaseOfs + SearchAt,
+        ChunkLen, ScanKind, TermB, TermLen);
+      if not HitTerm then
+      begin
+        if IsEncodedPartialTermAtEnd(PByte(Chunk), SearchAt, ChunkLen,
+           ChunkBaseOfs + SearchAt, ScanKind, TermB,
+           ChunkBaseOfs + ChunkLen < FileSize) then
+        begin
+          Consumed := SearchAt;
+          if Consumed <= 0 then Consumed := 1;
+          Break;
+        end;
+        Inc(SearchAt);
+        Continue;
+      end;
       if Assigned(OutStream) then
-        OutStream.WriteBuffer((Chunk + RunStart)^, LFPos - RunStart + 1);
-      RunStart := LFPos + 1;
-      SearchAt := LFPos + 1;
+        OutStream.WriteBuffer((Chunk + RunStart)^, SearchAt - RunStart + TermLen);
+      RunStart := SearchAt + TermLen;
+      SearchAt := RunStart;
       Inc(LinesWritten);
       if (PartIdx < FPartCount - 1) and (LinesWritten >= LinesTarget) then
       begin
@@ -8061,8 +8440,11 @@ var
         EnterPart(PartIdx + 1);
       end;
     end;
-    if Assigned(OutStream) and (RunStart < ChunkLen) then
-      OutStream.WriteBuffer((Chunk + RunStart)^, ChunkLen - RunStart);
+    if SearchAt >= ChunkLen then
+      Consumed := ChunkLen;
+    if Assigned(OutStream) and (RunStart < Consumed) then
+      OutStream.WriteBuffer((Chunk + RunStart)^, Consumed - RunStart);
+    ChunkBaseOfs := ChunkBaseOfs + Consumed;
   end;
 
   procedure UpdateProgressIfNeeded;
@@ -8095,9 +8477,13 @@ begin
   inherited;
   MMF := nil;
   OutStream := nil;
-  BMHInitSingleByte(LFShift);
   TermB := LineTermByteForFile(FSourceFileName);
-  OutEol := OutputEolForFile(FSourceFileName);
+  SrcEnc := DetectTextFileEncoding(FSourceFileName);
+  ScanKind := EncodedLineScanKindOf(SrcEnc);
+  OutEol := EncodedOutputEolBytes(SrcEnc,
+    EolKindForFile(FSourceFileName) = lekWindows,
+    EolKindForFile(FSourceFileName) = lekMac);
+  ChunkBaseOfs := 0;
   FExportedCount := 0;
 
   if (FPartCount < 2) or (FPartFrom < 1) or (FPartTo > FPartCount) or (FPartFrom > FPartTo) then
@@ -8149,8 +8535,13 @@ begin
       begin
         P := MMF.PtrAt(AbsOffset, 1, Contiguous);
         if (P = nil) or (Contiguous = 0) then Break;
+        if Contiguous > Cardinal(FileSize - AbsOffset) then
+          Contiguous := Cardinal(FileSize - AbsOffset);
+        ChunkBaseOfs := AbsOffset;
         ProcessChunk(PAnsiChar(P), Integer(Contiguous));
-        Inc(AbsOffset, Contiguous);
+        if ChunkBaseOfs <= AbsOffset then
+          Break;
+        AbsOffset := ChunkBaseOfs;
         UpdateProgressIfNeeded;
       end;
 

@@ -87,6 +87,8 @@ type
     FbtnReplAll: TButton;
     FOldReplEditWndProc: TWndMethod;
     FSuppressCtrlChar: Boolean;
+    { Evita colar duas vezes (KeyDown + WM_PASTE nativo do TMemo). }
+    FPasteGuard: Boolean;
     FEmptyReplOk: Boolean;
     FbtnUndo: TButton;
     FbtnRedo: TButton;
@@ -954,6 +956,31 @@ end;
 
 procedure TfrmLineEditor.MemoWndProc(var Msg: TMessage);
 begin
+  if Msg.Msg = WM_PASTE then
+  begin
+    if FPasteGuard then
+    begin
+      Msg.Result := 0;
+      Exit;
+    end;
+    if (not mmContent.Enabled) or mmContent.ReadOnly then
+    begin
+      Msg.Result := 0;
+      Exit;
+    end;
+    FPasteGuard := True;
+    try
+      UndoBegin;
+      try
+        FOldMemoWndProc(Msg);
+      finally
+        UndoEnd;
+      end;
+    finally
+      FPasteGuard := False;
+    end;
+    Exit;
+  end;
   FOldMemoWndProc(Msg);
   if (Msg.Msg = WM_PAINT) and (Length(FFindHits) > 0) then
     PaintFindHits;
@@ -1325,16 +1352,11 @@ end;
 
 procedure TfrmLineEditor.MemoPaste;
 begin
-  if not mmContent.Enabled then Exit;
-  if Clipboard.HasFormat(CF_TEXT) then
-  begin
-    UndoBegin;
-    try
-      mmContent.PasteFromClipboard;
-    finally
-      UndoEnd;
-    end;
-  end;
+  if not mmContent.Enabled or mmContent.ReadOnly then Exit;
+  if not (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_UNICODETEXT)) then
+    Exit;
+  { Um unico WM_PASTE (MemoWndProc faz o UndoBegin e bloqueia reentrada). }
+  mmContent.Perform(WM_PASTE, 0, 0);
 end;
 
 procedure TfrmLineEditor.UpdateMemoToolButtons;
@@ -1344,7 +1366,8 @@ begin
   En := mmContent.Enabled;
   btnSelectAll.Enabled := En;
   btnCopy.Enabled := En;
-  btnPaste.Enabled := En and Clipboard.HasFormat(CF_TEXT);
+  btnPaste.Enabled := En and
+    (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_UNICODETEXT));
   btnClear.Enabled := En;
   btnAskAI.Enabled := not FAskAIInProgress;
   if Assigned(FbtnAnon) then
@@ -1750,7 +1773,7 @@ begin
     FContextCut.Enabled := HasSelection and Target.Enabled and not Target.ReadOnly;
     FContextCopy.Enabled := HasSelection and Target.Enabled;
     FContextPaste.Enabled := Target.Enabled and not Target.ReadOnly and
-      Clipboard.HasFormat(CF_TEXT);
+      (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_UNICODETEXT));
     FContextDelete.Enabled := FContextCut.Enabled;
     FContextSelectAll.Enabled := Target.Enabled and (Length(Target.Text) > 0);
   end
@@ -1809,15 +1832,12 @@ var
 begin
   Target := EditContextTarget;
   if not Assigned(Target) or not Target.Enabled or Target.ReadOnly or
-     not Clipboard.HasFormat(CF_TEXT) then Exit;
+     not (Clipboard.HasFormat(CF_TEXT) or Clipboard.HasFormat(CF_UNICODETEXT)) then
+    Exit;
   if Target = mmContent then
-    UndoBegin;
-  try
+    MemoPaste
+  else
     Target.PasteFromClipboard;
-  finally
-    if Target = mmContent then
-      UndoEnd;
-  end;
   UpdateMemoToolButtons;
 end;
 
@@ -1919,6 +1939,8 @@ begin
         end;
       Ord('V'), Ord('v'):
         begin
+          { So disparamos WM_PASTE uma vez; Key=0 evita o colar nativo em dobro. }
+          FSuppressCtrlChar := True;
           MemoPaste;
           UpdateMemoToolButtons;
           Key := 0;

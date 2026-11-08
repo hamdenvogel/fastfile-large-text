@@ -30,6 +30,39 @@ function WideStringToFileBytes(const W: WideString; const Enc: string): AnsiStri
 function Utf16LineBytes(const Raw: AnsiString; const Enc: string; out AHadCR: Boolean): AnsiString;
 { CR LF or LF in the given UTF-16 byte order. }
 function Utf16LineBreakBytes(const Enc: string; ACR: Boolean): AnsiString;
+{ EOL octets to append when rewriting a UTF-16 file (Windows / Unix / Mac). }
+function Utf16OutputEolBytes(const Enc: string; AWindowsCRLF: Boolean;
+  AMacCR: Boolean = False): AnsiString;
+{ EOL for any detected encoding (byte / UTF-16 / UTF-32). }
+function EncodedOutputEolBytes(const Enc: string; AWindowsCRLF: Boolean;
+  AMacCR: Boolean = False): AnsiString;
+type
+  { How line terminators / word units are laid out on disk. }
+  TEncodedLineScanKind = (
+    elskByte,     { ANSI / UTF-8 / SBCS: one Term byte }
+    elskUtf16LE,  { Term,00 on even offset }
+    elskUtf16BE,  { 00,Term with Term on odd offset }
+    elskUtf32LE,  { Term,00,00,00 on offset mod 4 = 0 }
+    elskUtf32BE   { 00,00,00,Term with Term on offset mod 4 = 3 }
+  );
+
+function EncodedLineScanKindOf(const Enc: string): TEncodedLineScanKind;
+function EncodedLineUnitBytes(AKind: TEncodedLineScanKind): Integer;
+{ Line-terminator test for byte scanners. ATerm = 10 (LF) or 13 (CR/Mac).
+  Returns False when the unit is incomplete in the current buffer. }
+function IsEncodedLineTermAt(ABase: PByte; ARel: Integer; AFileOfs: Int64;
+  AAvail: Integer; AKind: TEncodedLineScanKind; ATerm: Byte;
+  out ATermLen: Integer): Boolean;
+{ 1-based start offset of the line that follows a terminator at 0-based ATermPos0. }
+function EncodedNextLineStart1Based(ATermPos0: Int64; ATermLen: Integer): Int64;
+{ Whole-word: True if the code unit before/after a match is a "word" character.
+  APos0 = 0-based file/buffer offset of the first byte of the unit to test. }
+function IsEncodedWordUnitAt(ABase: PByte; APos0: Integer; AAvail: Integer;
+  AKind: TEncodedLineScanKind): Boolean;
+{ Wide LE terminator started at buffer end but trailing 00.. not in this view. }
+function IsEncodedPartialTermAtEnd(ABase: PByte; ARel, AAvail: Integer;
+  AFileOfs: Int64; AKind: TEncodedLineScanKind; ATerm: Byte;
+  AMoreFileFollows: Boolean): Boolean;
 
 function ResolveTextEncoding(const AFileName: string; const AHint: string = ''): string;
 function IsUtf8Encoding(const Enc: string): Boolean;
@@ -38,6 +71,8 @@ function IsUtf16BEEncoding(const Enc: string): Boolean;
 function IsUtf32LEEncoding(const Enc: string): Boolean;
 function IsUtf32BEEncoding(const Enc: string): Boolean;
 function IsUnicodeFileEncoding(const Enc: string): Boolean;
+{ Mesma família (UTF-16 LE, UTF-8, ANSI, …), ignorando sufixos BOM / "no BOM". }
+function SameTextEncodingFamily(const A, B: string): Boolean;
 { Explicit Windows / ISO / OEM code page (e.g. CP1252, Windows-1250, ISO-8859-1). }
 function TryGetCodePageFromEncoding(const Enc: string; out CodePage: UINT): Boolean;
 function IsCodePageEncoding(const Enc: string): Boolean;
@@ -118,6 +153,22 @@ function IsUnicodeFileEncoding(const Enc: string): Boolean;
 begin
   Result := IsUtf8Encoding(Enc) or IsUtf16LEEncoding(Enc) or IsUtf16BEEncoding(Enc) or
     IsUtf32LEEncoding(Enc) or IsUtf32BEEncoding(Enc);
+end;
+
+function SameTextEncodingFamily(const A, B: string): Boolean;
+begin
+  if IsUtf16BEEncoding(A) or IsUtf16BEEncoding(B) then
+    Result := IsUtf16BEEncoding(A) and IsUtf16BEEncoding(B)
+  else if IsUtf16LEEncoding(A) or IsUtf16LEEncoding(B) then
+    Result := IsUtf16LEEncoding(A) and IsUtf16LEEncoding(B)
+  else if IsUtf32BEEncoding(A) or IsUtf32BEEncoding(B) then
+    Result := IsUtf32BEEncoding(A) and IsUtf32BEEncoding(B)
+  else if IsUtf32LEEncoding(A) or IsUtf32LEEncoding(B) then
+    Result := IsUtf32LEEncoding(A) and IsUtf32LEEncoding(B)
+  else if IsUtf8Encoding(A) or IsUtf8Encoding(B) then
+    Result := IsUtf8Encoding(A) and IsUtf8Encoding(B)
+  else
+    Result := SameText(Trim(A), Trim(B));
 end;
 
 function NormalizeCodePageEncodingId(CodePage: UINT): string;
@@ -602,6 +653,213 @@ begin
     Result := #10#0;
 end;
 
+function Utf16OutputEolBytes(const Enc: string; AWindowsCRLF: Boolean;
+  AMacCR: Boolean): AnsiString;
+begin
+  if AMacCR then
+  begin
+    if IsUtf16BEEncoding(Enc) then
+      Result := #0#13
+    else
+      Result := #13#0;
+  end
+  else
+    Result := Utf16LineBreakBytes(Enc, AWindowsCRLF);
+end;
+
+function EncodedOutputEolBytes(const Enc: string; AWindowsCRLF: Boolean;
+  AMacCR: Boolean): AnsiString;
+  function U32LE(B: Byte): AnsiString;
+  begin
+    Result := AnsiChar(B) + #0#0#0;
+  end;
+  function U32BE(B: Byte): AnsiString;
+  begin
+    Result := #0#0#0 + AnsiChar(B);
+  end;
+begin
+  case EncodedLineScanKindOf(Enc) of
+    elskUtf16LE, elskUtf16BE:
+      Result := Utf16OutputEolBytes(Enc, AWindowsCRLF, AMacCR);
+    elskUtf32LE:
+      if AMacCR then
+        Result := U32LE(13)
+      else if AWindowsCRLF then
+        Result := U32LE(13) + U32LE(10)
+      else
+        Result := U32LE(10);
+    elskUtf32BE:
+      if AMacCR then
+        Result := U32BE(13)
+      else if AWindowsCRLF then
+        Result := U32BE(13) + U32BE(10)
+      else
+        Result := U32BE(10);
+  else
+    if AMacCR then
+      Result := #13
+    else if AWindowsCRLF then
+      Result := #13#10
+    else
+      Result := #10;
+  end;
+end;
+
+function EncodedLineScanKindOf(const Enc: string): TEncodedLineScanKind;
+begin
+  if IsUtf32BEEncoding(Enc) then
+    Result := elskUtf32BE
+  else if IsUtf32LEEncoding(Enc) then
+    Result := elskUtf32LE
+  else if IsUtf16BEEncoding(Enc) then
+    Result := elskUtf16BE
+  else if IsUtf16LEEncoding(Enc) then
+    Result := elskUtf16LE
+  else
+    Result := elskByte;
+end;
+
+function EncodedLineUnitBytes(AKind: TEncodedLineScanKind): Integer;
+begin
+  case AKind of
+    elskUtf16LE, elskUtf16BE: Result := 2;
+    elskUtf32LE, elskUtf32BE: Result := 4;
+  else
+    Result := 1;
+  end;
+end;
+
+function EncodedNextLineStart1Based(ATermPos0: Int64; ATermLen: Integer): Int64;
+begin
+  { 0-based next = ATermPos0 + ATermLen; 1-based = that + 1. }
+  if ATermLen < 1 then ATermLen := 1;
+  Result := ATermPos0 + ATermLen + 1;
+end;
+
+function IsEncodedLineTermAt(ABase: PByte; ARel: Integer; AFileOfs: Int64;
+  AAvail: Integer; AKind: TEncodedLineScanKind; ATerm: Byte;
+  out ATermLen: Integer): Boolean;
+begin
+  Result := False;
+  ATermLen := 1;
+  if (ABase = nil) or (ARel < 0) or (ARel >= AAvail) then Exit;
+  if ABase[ARel] <> ATerm then Exit;
+  case AKind of
+    elskUtf16LE:
+      begin
+        if Odd(AFileOfs) then Exit;
+        if ARel + 1 >= AAvail then Exit;
+        if ABase[ARel + 1] <> 0 then Exit;
+        ATermLen := 2;
+        Result := True;
+      end;
+    elskUtf16BE:
+      begin
+        if not Odd(AFileOfs) then Exit;
+        if ARel < 1 then Exit;
+        if ABase[ARel - 1] <> 0 then Exit;
+        ATermLen := 1;
+        Result := True;
+      end;
+    elskUtf32LE:
+      begin
+        if (AFileOfs and 3) <> 0 then Exit;
+        if ARel + 3 >= AAvail then Exit;
+        if (ABase[ARel + 1] <> 0) or (ABase[ARel + 2] <> 0) or
+           (ABase[ARel + 3] <> 0) then Exit;
+        ATermLen := 4;
+        Result := True;
+      end;
+    elskUtf32BE:
+      begin
+        if (AFileOfs and 3) <> 3 then Exit;
+        if ARel < 3 then Exit;
+        if (ABase[ARel - 3] <> 0) or (ABase[ARel - 2] <> 0) or
+           (ABase[ARel - 1] <> 0) then Exit;
+        ATermLen := 1;
+        Result := True;
+      end;
+  else
+    Result := True;
+  end;
+end;
+
+function IsAsciiWordByte(B: Byte): Boolean;
+begin
+  Result := AnsiChar(B) in ['A'..'Z', 'a'..'z', '0'..'9', '_'];
+end;
+
+function IsEncodedWordUnitAt(ABase: PByte; APos0: Integer; AAvail: Integer;
+  AKind: TEncodedLineScanKind): Boolean;
+begin
+  Result := False;
+  if (ABase = nil) or (APos0 < 0) or (APos0 >= AAvail) then Exit;
+  case AKind of
+    elskUtf16LE:
+      begin
+        if (APos0 + 1 >= AAvail) or Odd(APos0) then Exit;
+        { Non-ASCII BMP (hi <> 0): treat as word; ASCII: classic word chars. }
+        if ABase[APos0 + 1] <> 0 then
+          Result := True
+        else
+          Result := IsAsciiWordByte(ABase[APos0]);
+      end;
+    elskUtf16BE:
+      begin
+        if (APos0 + 1 >= AAvail) or Odd(APos0) then Exit;
+        if ABase[APos0] <> 0 then
+          Result := True
+        else
+          Result := IsAsciiWordByte(ABase[APos0 + 1]);
+      end;
+    elskUtf32LE:
+      begin
+        if (APos0 + 3 >= AAvail) or ((APos0 and 3) <> 0) then Exit;
+        if (ABase[APos0 + 1] <> 0) or (ABase[APos0 + 2] <> 0) or
+           (ABase[APos0 + 3] <> 0) then
+          Result := True
+        else
+          Result := IsAsciiWordByte(ABase[APos0]);
+      end;
+    elskUtf32BE:
+      begin
+        if (APos0 + 3 >= AAvail) or ((APos0 and 3) <> 0) then Exit;
+        if (ABase[APos0] <> 0) or (ABase[APos0 + 1] <> 0) or
+           (ABase[APos0 + 2] <> 0) then
+          Result := True
+        else
+          Result := IsAsciiWordByte(ABase[APos0 + 3]);
+      end;
+  else
+    Result := IsAsciiWordByte(ABase[APos0]);
+  end;
+end;
+
+function IsEncodedPartialTermAtEnd(ABase: PByte; ARel, AAvail: Integer;
+  AFileOfs: Int64; AKind: TEncodedLineScanKind; ATerm: Byte;
+  AMoreFileFollows: Boolean): Boolean;
+begin
+  Result := False;
+  if (not AMoreFileFollows) or (ABase = nil) or (ARel < 0) or (ARel >= AAvail) then
+    Exit;
+  case AKind of
+    elskUtf16LE:
+      { Term started (0A) but trailing 00 not in this view. }
+      Result := (ABase[ARel] = ATerm) and (not Odd(AFileOfs)) and (ARel = AAvail - 1);
+    elskUtf16BE:
+      { Leading 00 of 00,Term at view end — Term byte is in the next map. }
+      Result := (ABase[ARel] = 0) and (not Odd(AFileOfs)) and (ARel = AAvail - 1);
+    elskUtf32LE:
+      Result := (ABase[ARel] = ATerm) and ((AFileOfs and 3) = 0) and (ARel + 3 >= AAvail);
+    elskUtf32BE:
+      { Incomplete 00,00,00,Term unit at view end (Term not yet visible). }
+      Result := ((AFileOfs and 3) = 0) and (ARel + 3 >= AAvail) and
+        (ABase[ARel] = 0);
+  else
+    Result := False;
+  end;
+end;
+
 function FileBytesToUnicodeText(const Raw: AnsiString; const Enc: string): string;
 begin
   Result := WideToDisplayString(FileBytesToWideString(Raw, Enc));
@@ -975,6 +1233,46 @@ begin
     Result := UnicodeContainsText(LineTxt, Needle, ACaseSensitive);
 end;
 
+{ UTF-16 LE sem BOM: byte alto (posicao par 1-based) muitas vezes e 00. }
+function LooksLikeUtf16LENoBom(const Sample: AnsiString): Boolean;
+var
+  I, N, HighNull, Units: Integer;
+begin
+  Result := False;
+  N := Length(Sample);
+  if N < 16 then Exit;
+  if Odd(N) then Dec(N);
+  HighNull := 0;
+  Units := N div 2;
+  I := 2;
+  while I <= N do
+  begin
+    if Sample[I] = #0 then Inc(HighNull);
+    Inc(I, 2);
+  end;
+  Result := (Units >= 8) and (HighNull * 2 >= Units);
+end;
+
+{ UTF-16 BE sem BOM: byte baixo (posicao impar 1-based) muitas vezes e 00. }
+function LooksLikeUtf16BENoBom(const Sample: AnsiString): Boolean;
+var
+  I, N, LowNull, Units: Integer;
+begin
+  Result := False;
+  N := Length(Sample);
+  if N < 16 then Exit;
+  if Odd(N) then Dec(N);
+  LowNull := 0;
+  Units := N div 2;
+  I := 1;
+  while I <= N do
+  begin
+    if Sample[I] = #0 then Inc(LowNull);
+    Inc(I, 2);
+  end;
+  Result := (Units >= 8) and (LowNull * 2 >= Units);
+end;
+
 function DetectTextEncodingFromBytes(const Sample: AnsiString): string;
 var
   N: Integer;
@@ -1015,6 +1313,20 @@ begin
   begin
     Result := 'UTF-32 BE';
     Exit;
+  end;
+  { Sem BOM: muitos 00 nos bytes altos → UTF-16 LE (ASCII/latin). O inverso → BE. }
+  if N >= 16 then
+  begin
+    if LooksLikeUtf16LENoBom(Sample) then
+    begin
+      Result := 'UTF-16 LE';
+      Exit;
+    end;
+    if LooksLikeUtf16BENoBom(Sample) then
+    begin
+      Result := 'UTF-16 BE';
+      Exit;
+    end;
   end;
   if IsProbablyUtf8(Sample) then
     Result := 'UTF-8 (no BOM)'
