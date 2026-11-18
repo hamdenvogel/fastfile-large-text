@@ -520,8 +520,12 @@ end;
 
 function SelfMirroringForm(AForm: TCustomForm): Boolean;
 begin
+  { TFfMsgForm lays itself out and must not be flipped again: a second mirror
+    puts the buttons' windows off the pixels the user clicks, so a modal
+    confirmation cannot be dismissed. }
   Result := (AForm <> nil) and
-    ((AForm.ClassName = 'TMessageForm') or (AForm.ClassName = 'TInputQueryForm'));
+    ((AForm.ClassName = 'TMessageForm') or (AForm.ClassName = 'TInputQueryForm') or
+     (AForm.ClassName = 'TFfMsgForm'));
 end;
 
 procedure BidiApplyForm(AForm: TCustomForm);
@@ -535,6 +539,15 @@ begin
   if Rtl then Want := bdRightToLeft else Want := bdLeftToRight;
   if Application.BiDiMode <> Want then
     Application.BiDiMode := Want;
+  { Message box places its own RTL layout and stays left-to-right at the
+    window level so clicks land on the buttons. }
+  if (AForm.ClassName = 'TFfMsgForm') then
+  begin
+    TControlAccess(AForm).ParentBiDiMode := False;
+    if AForm.BiDiMode <> bdLeftToRight then
+      AForm.BiDiMode := bdLeftToRight;
+    Exit;
+  end;
   { Forms that opted out of ParentBiDiMode keep their own value in sync. }
   if (not TControlAccess(AForm).ParentBiDiMode) and (AForm.BiDiMode <> Want) then
     AForm.BiDiMode := Want;

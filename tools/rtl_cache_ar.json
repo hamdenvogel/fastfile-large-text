@@ -3330,5 +3330,15 @@
   "Your file is ready. Choose what you would like to do next.": "ملفك جاهز. اختر ما ترغب في القيام به بعد ذلك.",
   "Show next-step guide after reading a file": "إظهار الخطوات التالية بعد قراءة ملف",
   "Don’t show this guide again": "عدم إظهار هذا الدليل مرة أخرى",
-  "Show guide now": "إظهار الدليل الآن"
+  "Show guide now": "إظهار الدليل الآن",
+  "Filter bookmarks (Enter = apply, Esc = clear)": "تصفية العلامات (Enter = تطبيق، Esc = مسح)",
+  "(no recent bookmark filters yet)": "(لا توجد عوامل تصفية للعلامات بعد)",
+  "Open the dropdown for the last 20 bookmark filters.": "افتح القائمة المنسدلة لآخر 20 عامل تصفية للعلامات.",
+  "Show the remaining recent bookmark filters": "إظهار عوامل تصفية العلامات الحديثة المتبقية",
+  "Recent searches": "عمليات البحث الأخيرة",
+  "(no recent searches yet)": "(لا توجد عمليات بحث حديثة بعد)",
+  "Open the dropdown for the last 20 searches.": "افتح القائمة المنسدلة لآخر 20 عملية بحث.",
+  "Show the remaining recent searches": "إظهار عمليات البحث الحديثة المتبقية",
+  "AI Assistant (ON)": "مساعد الذكاء الاصطناعي (تشغيل)",
+  "Show or hide the AI Assistant panel ({1})": "إظهار أو إخفاء لوحة مساعد الذكاء الاصطناعي ({1})"
 }

@@ -48,6 +48,8 @@ type
     FOnRequestDock: TNotifyEvent;
     FOnUpdateDockZone: TNotifyEvent;
     FDockZone: TRect;
+    FDockPreview: TRect;
+    FDockedByDrop: Boolean;
     FMainMagnet: TRect;
     FHasMovedAway: Boolean;
     FSuppressDock: Boolean;
@@ -74,6 +76,8 @@ type
     procedure ApplySavedBounds(ALeft, ATop, AWidth, AHeight: Integer);
     procedure PlaceUnderCursor(ADefaultW, ADefaultH: Integer);
     procedure SetDockZone(const AZone: TRect);
+    { Where the drop preview is drawn; empty = the whole dock zone. }
+    procedure SetDockPreview(const ARect: TRect);
     procedure SetMainMagnet(const ARect: TRect);
     procedure MarkJustTornOff;
     procedure BeginCaptionFollow;
@@ -81,7 +85,21 @@ type
     procedure RequestDock;
     property OnRequestDock: TNotifyEvent read FOnRequestDock write FOnRequestDock;
     property OnUpdateDockZone: TNotifyEvent read FOnUpdateDockZone write FOnUpdateDockZone;
+    { True only while OnRequestDock runs for a window dropped on the dock zone. }
+    property DockedByDrop: Boolean read FDockedByDrop;
   end;
+
+  TFontHeightSnap = record
+    Ctl: TControl;
+    Height: Integer;
+  end;
+  TFontHeightSnapshot = TArray<TFontHeightSnap>;
+
+{ The skin's custom PPI enlarges fonts on the float window and nothing shrinks
+  them on dock; capture before floating, restore after docking. Only controls
+  still under ARoot are restored, so freed controls are never touched. }
+function CaptureFontHeights(ARoot: TControl): TFontHeightSnapshot;
+procedure RestoreFontHeights(ARoot: TControl; const ASnap: TFontHeightSnapshot);
 
 function ControlIsOnFloatForm(ACtl: TControl): Boolean;
 function HostFormOf(ACtl: TControl): TCustomForm;
@@ -113,7 +131,57 @@ type
     property OnMouseMove;
     property OnMouseUp;
     property OnDblClick;
+    property Font;
+    property ParentFont;
   end;
+
+procedure CollectFontHeights(ACtl: TControl; var ASnap: TFontHeightSnapshot);
+var
+  I, N: Integer;
+begin
+  if not TControlAccess(ACtl).ParentFont then
+  begin
+    N := Length(ASnap);
+    SetLength(ASnap, N + 1);
+    ASnap[N].Ctl := ACtl;
+    ASnap[N].Height := TControlAccess(ACtl).Font.Height;
+  end;
+  if ACtl is TWinControl then
+    for I := 0 to TWinControl(ACtl).ControlCount - 1 do
+      CollectFontHeights(TWinControl(ACtl).Controls[I], ASnap);
+end;
+
+function CaptureFontHeights(ARoot: TControl): TFontHeightSnapshot;
+begin
+  Result := nil;
+  if Assigned(ARoot) then
+    CollectFontHeights(ARoot, Result);
+end;
+
+procedure ApplyFontHeights(ACtl: TControl; const ASnap: TFontHeightSnapshot);
+var
+  I: Integer;
+begin
+  for I := 0 to High(ASnap) do
+    if ASnap[I].Ctl = ACtl then
+    begin
+      if not TControlAccess(ACtl).ParentFont and
+         (TControlAccess(ACtl).Font.Height <> ASnap[I].Height) then
+        TControlAccess(ACtl).Font.Height := ASnap[I].Height;
+      Break;
+    end;
+  if ACtl is TWinControl then
+    for I := 0 to TWinControl(ACtl).ControlCount - 1 do
+      ApplyFontHeights(TWinControl(ACtl).Controls[I], ASnap);
+end;
+
+procedure RestoreFontHeights(ARoot: TControl; const ASnap: TFontHeightSnapshot);
+begin
+  if Assigned(ARoot) and (Length(ASnap) > 0) then
+    ApplyFontHeights(ARoot, ASnap);
+end;
+
+type
 
   TFastFileDockPreview = class(TForm)
   public
@@ -314,6 +382,8 @@ begin
   FHasMovedAway := True;
   FSuppressDock := False;
   FDockZone := Rect(0, 0, 0, 0);
+  FDockPreview := Rect(0, 0, 0, 0);
+  FDockedByDrop := False;
   FMainMagnet := Rect(0, 0, 0, 0);
   FFollowTimer := nil;
   FPreview := nil;
@@ -360,6 +430,8 @@ begin
 end;
 
 procedure TFastFileFloatForm.SyncDockPreview;
+var
+  R: TRect;
 begin
   NoteMoveAway;
   if FSuppressDock or not FHasMovedAway or not ShouldDock then
@@ -369,8 +441,11 @@ begin
   end;
   if not Assigned(FPreview) then
     FPreview := TFastFileDockPreview.CreatePreview;
-  FPreview.SetBounds(FDockZone.Left, FDockZone.Top,
-    FDockZone.Right - FDockZone.Left, FDockZone.Bottom - FDockZone.Top);
+  if FDockPreview.Right > FDockPreview.Left then
+    R := FDockPreview
+  else
+    R := FDockZone;
+  FPreview.SetBounds(R.Left, R.Top, R.Right - R.Left, R.Bottom - R.Top);
   if not FPreview.Visible then
     ShowWindow(FPreview.Handle, SW_SHOWNOACTIVATE);
 end;
@@ -425,7 +500,14 @@ begin
     { First drop after tear-off stays floating. Later drops dock only when
       the cursor is on the home slot and the window actually moved. }
     if (not Skip) and FHasMovedAway and WindowDidMove and ShouldDock then
-      RequestDock;
+    begin
+      FDockedByDrop := True;
+      try
+        RequestDock;
+      finally
+        FDockedByDrop := False;
+      end;
+    end;
   finally
     HideDockPreview;
   end;
@@ -504,6 +586,13 @@ end;
 procedure TFastFileFloatForm.SetDockZone(const AZone: TRect);
 begin
   FDockZone := AZone;
+end;
+
+procedure TFastFileFloatForm.SetDockPreview(const ARect: TRect);
+begin
+  FDockPreview := ARect;
+  if Assigned(FPreview) and FPreview.Visible then
+    SyncDockPreview;
 end;
 
 procedure TFastFileFloatForm.SetMainMagnet(const ARect: TRect);

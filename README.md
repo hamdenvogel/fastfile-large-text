@@ -9,7 +9,7 @@ scrolls as smoothly as a 10 KB one.
 
 > **Edition: Professional.** FastFile is not a hobby viewer: it is a professional product built for analysts,
 > DBAs, developers and support teams who handle production-size data every day — with safe atomic writes,
-> a full session log, an AI agent with reviewed proposals, data anonymization and 22 UI languages.
+> a full session log, an AI agent with reviewed proposals, data anonymization and 30 UI languages.
 
 ![FastFile Professional main window](Docs/screenshot-main.png)
 
@@ -39,7 +39,7 @@ scrolls as smoothly as a 10 KB one.
 - **Unicode localization** – Hindi, Russian, Korean, Dutch, Turkish, Ukrainian, Thai, Greek, Norwegian, Swedish, Danish and Icelandic use left-to-right layouts. Translation catalogs are generated offline with checks for missing entries, format parameters and separators.
 - **Skinnable UI** – AlphaSkins themes and adjustable UI scaling (PPI) for high-DPI monitors.
 
-Current version: **FastFile Professional 3.0.5.268** (2026-11-02) — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
+Current version: **FastFile Professional 3.0.5.274** (2026-11-18) — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
 
 ## glob / grep quick start
 

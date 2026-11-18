@@ -1,13 +1,36 @@
 ﻿# FastFile — Relatório de Implementações
 
-**Data:** 2 de novembro de 2026  
+**Data:** 18 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64)  
 **Pasta:** `FileReadThread-2\Src` (host D10: `delphi10_4_2\FastFile\src`)  
-**Versão publicada actual:** **`3.0.5.269`** — interface em **30 idiomas** (finlandês e vietnamita). As entregas **3.0.5.266–268** (guia mais baixo / ícone de Ler), **3.0.5.262–265** (28 idiomas e próximos passos por atividade) e **3.0.5.245–261** permanecem no histórico, sem repetição.
+**Versão publicada actual:** **`3.0.5.274`** — painéis de pesquisa em acordeão, **Mais** só com painel aberto, diálogos RTL clicáveis e navegação First/página estável após Último. As entregas **3.0.5.269** (30 idiomas), **3.0.5.266–268** (guia / ícone de Ler), **3.0.5.262–265** e **3.0.5.245–261** permanecem no histórico, sem repetição.
 
 ---
 
-## ★ FastFile 3.0.5.269 (atual) — 30 idiomas (finlandês e vietnamita) (04/11/2026)
+## ★ FastFile 3.0.5.274 (atual) — Search dock, Mais e RTL (18/11/2026)
+
+- Find / Filter / Bookmarks empilham em acordeão com capa de carga; F3 não pisca a capa quando o Find já está aberto.
+- Com painel aberto, botões da lista que não cabem vão para **Mais**; ao fechar os painéis a faixa volta ao normal.
+- Diálogos de confirmação continuam clicáveis em RTL; após **Último**, **Primeiro** e páginas seguem a funcionar; o status de página do Occurrences acompanha o idioma.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.274**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock9`) nos **30 idiomas** e metadados de `FastFile.dproj`.
+
+## ★ FastFile 3.0.5.273 (interno) — Navegação após Último (18/11/2026)
+
+- **Primeiro** / página deixam de ficar presos no fim do arquivo após **Último**; a faixa mantém **Primeiro** inteiro na tela; a legenda de página do Occurrences atualiza na troca de idioma.
+
+## ★ FastFile 3.0.5.272 (interno) — Diálogos RTL e coluna Linha # (18/11/2026)
+
+- Sim/Não e OK recebem o clique em árabe/hebraico (e com bidi ligado). Ao sair do RTL, a coluna **Linha #** volta a caber o prefixo do idioma.
+
+## ★ FastFile 3.0.5.271 (interno) — F3 sem flicker; Mais só com painéis (18/11/2026)
+
+- F3 / Shift+F3 atualizam o status sem remontar o dock. O menu **Mais** só aparece enquanto Find/Filter/Marcadores estão visíveis.
+
+## ★ FastFile 3.0.5.270 (interno) — Acordeão do Search Dock (18/11/2026)
+
+- Com dois ou mais painéis, a coluna mostra capa de carga e empilha um corpo aberto de cada vez; ocultar todos restaura o layout.
+
+## ★ FastFile 3.0.5.269 — 30 idiomas (finlandês e vietnamita) (04/11/2026)
 
 - Finlandês (`fi`) e vietnamita (`vi`) ampliam a interface de 28 para **30 idiomas**. Ambos usam layout da esquerda para a direita; catálogo em `tools/i18n` emitido em `uI18nExtra.pas`.
 - Combo de idiomas, bandeiras, detecção Windows e rótulos `language.option.*` nos 16 idiomas base (incl. AR/HE).

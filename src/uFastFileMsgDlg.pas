@@ -134,6 +134,10 @@ begin
   BorderStyle := bsNone;
   BorderIcons := [];
   Position := poScreenCenter;
+  { Stay LTR at the window level. RTL is a manual layout below; a second
+    mirror (bidi pass) moves the button windows off the pixels drawn. }
+  ParentBiDiMode := False;
+  BiDiMode := bdLeftToRight;
   KeyPreview := True;
   OnKeyDown := FormKeyDown;
   OnResize := FormResize;
@@ -150,13 +154,9 @@ end;
 
 destructor TFfMsgForm.Destroy;
 begin
-  if FRoundRgn <> 0 then
-  begin
-    if HandleAllocated then
-      SetWindowRgn(Handle, 0, False);
-    DeleteObject(FRoundRgn);
-    FRoundRgn := 0;
-  end;
+  if HandleAllocated then
+    SetWindowRgn(Handle, 0, False);
+  FRoundRgn := 0;
   inherited Destroy;
 end;
 
@@ -202,17 +202,31 @@ begin
 end;
 
 procedure TFfMsgForm.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  I: Integer;
+  B: TButton;
 begin
   if Key = VK_ESCAPE then
   begin
     Key := 0;
     ModalResult := mrCancel;
-  end
-  else if Key = VK_RETURN then
-  begin
-    Key := 0;
-    ModalResult := mrOk;
+    Exit;
   end;
+  if Key <> VK_RETURN then Exit;
+  Key := 0;
+  { Default button, not mrOk: a Yes/No question must not confirm as OK. }
+  if Assigned(FBtnRow) then
+    for I := 0 to FBtnRow.ControlCount - 1 do
+      if FBtnRow.Controls[I] is TButton then
+      begin
+        B := TButton(FBtnRow.Controls[I]);
+        if B.Default and B.Enabled then
+        begin
+          ModalResult := B.ModalResult;
+          Exit;
+        end;
+      end;
+  ModalResult := mrOk;
 end;
 
 procedure TFfMsgForm.ApplyRoundRegion;
@@ -224,10 +238,11 @@ begin
   if (ClientWidth < 8) or (ClientHeight < 8) then Exit;
   R := FfPx(MSG_CORNER);
   NewRgn := CreateRoundRectRgn(0, 0, ClientWidth + 1, ClientHeight + 1, R, R);
-  SetWindowRgn(Handle, NewRgn, True);
-  if FRoundRgn <> 0 then
-    DeleteObject(FRoundRgn);
-  FRoundRgn := NewRgn;
+  { SetWindowRgn takes ownership and deletes the previous region. A second
+    DeleteObject on that handle broke hit-testing after the RTL relayout. }
+  if SetWindowRgn(Handle, NewRgn, True) = 0 then
+    DeleteObject(NewRgn);
+  FRoundRgn := 0;
 end;
 
 procedure TFfMsgForm.FormResize(Sender: TObject);
@@ -409,6 +424,7 @@ begin
         B.Cancel := Order[I] in [mbCancel, mbNo];
         B.Height := Bh;
         B.Width := Bw;
+        B.Anchors := [akTop];
         B.Font.Name := FUiFont;
         B.Font.Size := 9;
         B.Font.Color := CMsgTitle;
@@ -503,9 +519,11 @@ end;
 procedure TFfMsgForm.LayoutContent(const ACaption, AMessage: string);
 var
   IconSz, Pad, LeftPad, ContentW, MsgH, MinW, MaxW, NeedH, I, X, Gap, TotalW: Integer;
+  IconLeft, TextLeft, TextW: Integer;
   B: TButton;
   MsgTop, CapH, FooterH: Integer;
   Body: string;
+  Rtl: Boolean;
 begin
   Color := FGradTop;
 
@@ -535,6 +553,7 @@ begin
   LeftPad := FfPx(16) + FfPx(MSG_ACCENT_W) + FfPx(16);
   FooterH := FfPx(MSG_FOOTER);
 
+  Rtl := BidiIsRtl;
   ContentW := MaxW - LeftPad - IconSz - Pad - FfPx(16);
   Body := BreakLongWords(AMessage, ContentW - FfPx(6));
   FMsg.Caption := Body;
@@ -547,11 +566,32 @@ begin
   ClientHeight := NeedH;
 
   FBtnRow.SetBounds(0, ClientHeight - FooterH, ClientWidth, FooterH);
+  FBtnRow.Anchors := [akLeft, akTop, akRight];
   FBtnRow.BringToFront;
 
+  { RTL is placed here once. Do not also run BidiApplyForm: that second
+    mirror leaves the button HWNDs off the glyphs, and the modal never closes. }
+  if Rtl then
+    IconLeft := ClientWidth - LeftPad - IconSz
+  else
+    IconLeft := LeftPad;
+  if Rtl then
+  begin
+    TextLeft := Pad;
+    TextW := Max(120, IconLeft - Pad - FfPx(16));
+    FCaptionLbl.Alignment := taRightJustify;
+    FMsg.Alignment := taRightJustify;
+  end
+  else
+  begin
+    TextLeft := LeftPad + IconSz + FfPx(16);
+    TextW := Max(120, ClientWidth - TextLeft - Pad);
+    FCaptionLbl.Alignment := taLeftJustify;
+    FMsg.Alignment := taLeftJustify;
+  end;
+
   if CapH > 0 then
-    FCaptionLbl.SetBounds(LeftPad + IconSz + FfPx(16), Pad,
-      ClientWidth - LeftPad - IconSz - Pad - FfPx(16), CapH);
+    FCaptionLbl.SetBounds(TextLeft, Pad, TextW, CapH);
 
   MsgTop := Pad + CapH;
   if CapH > 0 then
@@ -559,9 +599,8 @@ begin
   if MsgH < IconSz then
     MsgTop := MsgTop + (IconSz - MsgH) div 2;
 
-  FIconHost.SetBounds(LeftPad, Pad + CapH, IconSz, IconSz);
-  FMsg.SetBounds(LeftPad + IconSz + FfPx(16), MsgTop,
-    Max(120, ClientWidth - LeftPad - IconSz - Pad - FfPx(16)), MsgH);
+  FIconHost.SetBounds(IconLeft, Pad + CapH, IconSz, IconSz);
+  FMsg.SetBounds(TextLeft, MsgTop, TextW, MsgH);
 
   if FMsg.Top + FMsg.Height > FBtnRow.Top - FfPx(4) then
     FMsg.Height := Max(FfPx(20), FBtnRow.Top - FfPx(4) - FMsg.Top);
@@ -574,16 +613,33 @@ begin
       if TotalW > 0 then Inc(TotalW, Gap);
       Inc(TotalW, TButton(FBtnRow.Controls[I]).Width);
     end;
-  X := FBtnRow.ClientWidth - TotalW - FfPx(24);
-  if X < FfPx(20) then X := FfPx(20);
-  for I := 0 to FBtnRow.ControlCount - 1 do
-    if FBtnRow.Controls[I] is TButton then
-    begin
-      B := TButton(FBtnRow.Controls[I]);
-      B.Left := X;
-      B.Top := (FBtnRow.ClientHeight - B.Height) div 2;
-      Inc(X, B.Width + Gap);
-    end;
+  if Rtl then
+  begin
+    { Group on the left, first button (Yes / OK) at the group's right. }
+    X := FfPx(24) + TotalW;
+    for I := 0 to FBtnRow.ControlCount - 1 do
+      if FBtnRow.Controls[I] is TButton then
+      begin
+        B := TButton(FBtnRow.Controls[I]);
+        Dec(X, B.Width);
+        B.Left := X;
+        B.Top := (FBtnRow.ClientHeight - B.Height) div 2;
+        Dec(X, Gap);
+      end;
+  end
+  else
+  begin
+    X := FBtnRow.ClientWidth - TotalW - FfPx(24);
+    if X < FfPx(20) then X := FfPx(20);
+    for I := 0 to FBtnRow.ControlCount - 1 do
+      if FBtnRow.Controls[I] is TButton then
+      begin
+        B := TButton(FBtnRow.Controls[I]);
+        B.Left := X;
+        B.Top := (FBtnRow.ClientHeight - B.Height) div 2;
+        Inc(X, B.Width + Gap);
+      end;
+  end;
 
   FBtnRow.BringToFront;
   ApplyRoundRegion;
@@ -657,8 +713,6 @@ begin
 
     Frm.LayoutContent(Cap, Body);
     Frm.FBtnRow.BringToFront;
-    { positions above are left-to-right; mirror them for right-to-left UIs }
-    BidiApplyForm(Frm);
 
     Result := Frm.ShowModal;
   finally

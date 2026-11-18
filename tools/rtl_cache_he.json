@@ -3330,5 +3330,15 @@
   "Your file is ready. Choose what you would like to do next.": "הקובץ מוכן. בחר מה ברצונך לעשות עכשיו.",
   "Show next-step guide after reading a file": "הצג את השלבים הבאים לאחר קריאת קובץ",
   "Don’t show this guide again": "אל תציג מדריך זה שוב",
-  "Show guide now": "הצג את המדריך עכשיו"
+  "Show guide now": "הצג את המדריך עכשיו",
+  "Filter bookmarks (Enter = apply, Esc = clear)": "סינון סימניות (Enter = החל, Esc = נקה)",
+  "(no recent bookmark filters yet)": "(עדיין אין מסנני סימניות)",
+  "Open the dropdown for the last 20 bookmark filters.": "פתח את התפריט הנפתח עבור 20 מסנני הסימניות האחרונים.",
+  "Show the remaining recent bookmark filters": "הצג את מסנני הסימניות האחרונים שנותרו",
+  "Recent searches": "חיפושים אחרונים",
+  "(no recent searches yet)": "(עדיין אין חיפושים אחרונים)",
+  "Open the dropdown for the last 20 searches.": "פתח את התפריט הנפתח עבור 20 החיפושים האחרונים.",
+  "Show the remaining recent searches": "הצג את החיפושים האחרונים שנותרו",
+  "AI Assistant (ON)": "עוזר בינה מלאכותית (פועל)",
+  "Show or hide the AI Assistant panel ({1})": "הצג או הסתר את לוח עוזר הבינה המלאכותית ({1})"
 }

@@ -4,12 +4,26 @@
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 
-**Data:** 4 de novembro de 2026  
+**Data:** 18 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64) — editor de arquivos de texto enormes (GB+)  
-**Versão atual:** **3.0.5.269** — interface em **30 idiomas** (finlandês e vietnamita), mantendo o guia de próximos passos, Preferências, RTL, glob/grep, o diagnóstico somente leitura e a edição segura.  
+**Versão atual:** **3.0.5.274** — Search Dock em acordeão, **Mais** só com painel aberto, diálogos RTL clicáveis e navegação First/página estável; interface em **30 idiomas**.  
 **Objetivo deste documento:** consolidar sugestões técnicas, de UX e de negócio para tornar o FastFile um produto comercialmente competitivo.
 
 ---
+
+## ★ Actualização 3.0.5.274 (18/11/2026)
+
+Entrega incremental após **3.0.5.269**. Os 30 idiomas e o guia permanecem como estavam.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.270** | Find/Filter/Bookmarks em acordeão com capa de carga. |
+| **3.0.5.271** | F3 sem flicker da capa; **Mais** só com painéis abertos. |
+| **3.0.5.272** | Diálogos RTL clicáveis; coluna Linha # após troca de idioma/bidi. |
+| **3.0.5.273** | Navegação após Último; status de página do Occurrences no idioma atual. |
+| **3.0.5.274** | Sync de versão, F1 (`FF_HELP.RecentFeaturesBlock9`) e documentação. |
+
+**Internacionalização:** o bloco F1 novo está traduzido nos **30 idiomas**. Não há modelo de IA novo.
 
 ## ★ Actualização 3.0.5.269 (04/11/2026)
 

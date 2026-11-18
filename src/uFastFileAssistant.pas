@@ -4768,7 +4768,8 @@ end;
 
 procedure TFastFileAssistantCtrl.PersistStartupPreference;
 begin
-  if Assigned(ChkDontShowAgain) and (FIniPath <> '') then
+  { DontShowAgain is hidden; the Read-tab toolbar checkbox owns AssistantShowOnStartup. }
+  if Assigned(ChkDontShowAgain) and ChkDontShowAgain.Visible and (FIniPath <> '') then
     SaveAssistantShowOnStartup(FIniPath, not ChkDontShowAgain.Checked);
   SaveRecentQuestions;
 end;
@@ -12412,6 +12413,8 @@ begin
 end;
 
 procedure NotifyAssistantOfferNext(const ASummary, AActionIdsCsv, AAiDraft: string);
+var
+  IniPath: string;
 begin
   if Trim(AActionIdsCsv) = '' then Exit;
   if not Assigned(GAssistantCtrl) then
@@ -12420,7 +12423,16 @@ begin
     CreateFastFileAssistantUI(Application.MainForm, GAssistantHostPanel);
   end;
   if not FastFileAssistantPanelVisible then
+  begin
+    { Respect toolbar / ASkin.ini preference: do not auto-open when toggled off. }
+    if Assigned(GAssistantCtrl) and (GAssistantCtrl.FIniPath <> '') then
+      IniPath := GAssistantCtrl.FIniPath
+    else
+      IniPath := ExtractFilePath(Application.ExeName) + ASKIN_INI;
+    if not ShouldShowAssistantOnStartup(IniPath) then
+      Exit;
     ShowFastFileAssistantPanel;
+  end;
   if Assigned(GAssistantCtrl) then
     GAssistantCtrl.ShowOfferNext(ASummary, AActionIdsCsv, AAiDraft);
 end;

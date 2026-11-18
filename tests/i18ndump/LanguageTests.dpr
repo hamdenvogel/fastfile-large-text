@@ -1,4 +1,4 @@
-﻿program LanguageTests;
+program LanguageTests;
 
 {$APPTYPE CONSOLE}
 
@@ -148,7 +148,7 @@ var
   Button: TButton;
   Previous: TAppLanguage;
 begin
-  Check('language count', Ord(High(TAppLanguage)) + 1 = 28);
+  Check('language count', Ord(High(TAppLanguage)) + 1 = 30);
   Check('old ordinals preserved',
     (Ord(alEnglish) = 0) and (Ord(alArabic) = 14) and (Ord(alHebrew) = 15));
   Check('unknown code preserves English fallback', AppLanguageFromCode('unknown') = alEnglish);

@@ -1,0 +1,14 @@
+Finnish UI glossary for FastFile (keep product tokens unchanged: FastFile, Python, SQL, JSON, HTML, XML, CSV, UTF-8, DPI, GB, KB, MB, TB, Ctrl, Alt, Shift, Enter, Esc, Del, TAB, Windows, OK, AI):
+
+file=tiedosto; files=tiedostot; folder=kansio; line=rivi; lines=rivit; byte=tavu; bytes=tavua
+search=etsi; find=etsi; replace=korvaa; filter=suodata; export=vie; import=tuo; copy=kopioi; paste=liitä; cut=leikkaa
+delete=poista; remove=poista; clear=tyhjennä; save=tallenna; open=avaa; close=sulje; cancel=peruuta; apply=käytä
+read=lue; write=kirjoita; merge=yhdistä; split=jaa; compare=vertaa; preview=esikatselu; undo=kumoa; redo=tee uudelleen
+bookmark=kirjanmerkki; selection=valinta; selected=valitut; all=kaikki; none=ei mitään; error=virhe; warning=varoitus
+progress=edistyminen; loading=ladataan; done=valmis; yes=kyllä; no=ei; help=ohje; settings=asetukset; preferences=asetukset
+language=kieli; encoding=koodaus; regex=säännöllinen lauseke (or Regex when UI short); case sensitive=kirjainkoon erottelu
+whole word=koko sana; clipboard=leikepöytä; history=historia; session=istunto; agent=agentti; assistant=avustaja
+anonymize=anonymisoi; translate=käännä; insert=lisää; edit=muokkaa; view=näytä; tools=työkalut; batch=erä
+equal parts=yhtä suuret osat; next step=seuraava vaihe; guide=opas
+Use natural modern Finnish desktop UI tone. Prefer "rivi" for text lines. Keep \r\n sequences and Format tokens (%s %d etc.) exactly.
+Norwegian Bokmål reference style is NOT Finnish; do not copy Scandinavian wording.

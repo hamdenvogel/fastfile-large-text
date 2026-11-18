@@ -2094,6 +2094,8 @@ begin
       LightSpan := FSpanLineCount;
       if FWrittenLineCount > LightSpan then
         LightSpan := FWrittenLineCount;
+      { Bookmark temporario: apos recarregar, voltar a linha editada / proxima do delete. }
+      frmMain.SchedulePostEditLineRestore(FOperation, FTargetLine, LightSpan);
       if FFastMode = femInPlace then
         { Mesmo tamanho e mesmos inicios de linha: indices continuam validos. }
         frmMain.ApplyMetadataOnlyPostEdit(0)
@@ -3533,6 +3535,14 @@ begin
     Exit;
   end;
   TotalToExport := FToLine1 - FFromLine1 + 1;
+  { Limite de memoria/tamanho: ExportTailSessionLines ja valida; defesa em profundidade. }
+  if TotalToExport > ExportLineLimitForDestination(True) then
+  begin
+    FSuccess := False;
+    FCancelled := False;
+    Synchronize(SyncFinish);
+    Exit;
+  end;
   IndexFileName := ResolveWorkingLineIndexPath;
   try
     try
@@ -4674,6 +4684,18 @@ begin
     LayoutCancelButton;
     ApplyCancelButtonLook;
   end;
+  { Do NOT call CancelBgSearch synchronously: it HideLoading/FreeAndNil's this
+    form while btnCancelClick is still on the stack → ACCESS_VIOLATION.
+    Queue after the click returns; CancelBgSearch Terminates the find worker. }
+  TThread.ForceQueue(nil,
+    procedure
+    begin
+      if Assigned(frmMain) then
+      try
+        frmMain.CancelBgSearch;
+      except
+      end;
+    end);
 end;
 
 procedure TfrmSmoothLoadingForm.FormPaint(Sender: TObject);

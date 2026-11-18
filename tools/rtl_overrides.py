@@ -151,6 +151,28 @@ _AR = {
     "Select skin": "اختيار المظهر",
     "Random Skin": "مظهر عشوائي",
     "Total lines:": "إجمالي الأسطر:",
+    "First": "الأول",
+    "Last": "الأخير",
+    "Bookmarks": "الإشارات المرجعية",
+    "Page up": "صفحة لأعلى",
+    "Page down": "صفحة لأسفل",
+    "Go to line": "الانتقال إلى سطر",
+    "Go to the first line (Ctrl+Home)": "الانتقال إلى السطر الأول (Ctrl+Home)",
+    "Go to the last line (Ctrl+End)": "الانتقال إلى السطر الأخير (Ctrl+End)",
+    "Go up one page (Page Up)": "الانتقال صفحة واحدة لأعلى (Page Up)",
+    "Go down one page (Page Down)": "الانتقال صفحة واحدة لأسفل (Page Down)",
+    "Go to a specific line number (Ctrl+G)": "الانتقال إلى رقم سطر محدد (Ctrl+G)",
+    "Show or hide Find (Occurrences)": "إظهار أو إخفاء البحث (التطابقات)",
+    "Show or hide Filter / Grep": "إظهار أو إخفاء التصفية / Grep",
+    "Show or hide Bookmarks": "إظهار أو إخفاء الإشارات المرجعية",
+    "Preparing search tools...": "جارٍ تجهيز أدوات البحث...",
+    "Collapse": "طي",
+    "Expand": "توسيع",
+    "Export or copy the matches on this page, or all matches": "تصدير أو نسخ نتائج هذه الصفحة، أو جميع النتائج",
+    "Export this page (%d matches)...": "تصدير هذه الصفحة (%d نتيجة)...",
+    "Export all matches (%d)...": "تصدير جميع النتائج (%d)...",
+    "Copy this page (%d matches)": "نسخ هذه الصفحة (%d نتيجة)",
+    "Copy all matches (%d)": "نسخ جميع النتائج (%d)",
     "English": "الإنجليزية",
     "Portuguese (Brazil)": "البرتغالية (البرازيل)",
     "Spanish": "الإسبانية",
@@ -293,6 +315,28 @@ _HE = {
     "Select skin": "בחירת עיצוב",
     "Random Skin": "עיצוב אקראי",
     "Total lines:": "סך כל השורות:",
+    "First": "ראשון",
+    "Last": "אחרון",
+    "Bookmarks": "סימניות",
+    "Page up": "עמוד למעלה",
+    "Page down": "עמוד למטה",
+    "Go to line": "מעבר לשורה",
+    "Go to the first line (Ctrl+Home)": "מעבר לשורה הראשונה (Ctrl+Home)",
+    "Go to the last line (Ctrl+End)": "מעבר לשורה האחרונה (Ctrl+End)",
+    "Go up one page (Page Up)": "מעבר עמוד אחד למעלה (Page Up)",
+    "Go down one page (Page Down)": "מעבר עמוד אחד למטה (Page Down)",
+    "Go to a specific line number (Ctrl+G)": "מעבר למספר שורה מסוים (Ctrl+G)",
+    "Show or hide Find (Occurrences)": "הצגה או הסתרה של חיפוש (מופעים)",
+    "Show or hide Filter / Grep": "הצגה או הסתרה של סינון / Grep",
+    "Show or hide Bookmarks": "הצגה או הסתרה של סימניות",
+    "Preparing search tools...": "מכין את כלי החיפוש...",
+    "Collapse": "כיווץ",
+    "Expand": "הרחבה",
+    "Export or copy the matches on this page, or all matches": "ייצוא או העתקה של התוצאות בעמוד זה, או של כל התוצאות",
+    "Export this page (%d matches)...": "ייצוא עמוד זה (%d תוצאות)...",
+    "Export all matches (%d)...": "ייצוא כל התוצאות (%d)...",
+    "Copy this page (%d matches)": "העתקת עמוד זה (%d תוצאות)",
+    "Copy all matches (%d)": "העתקת כל התוצאות (%d)",
     "English": "אנגלית",
     "Portuguese (Brazil)": "פורטוגזית (ברזיל)",
     "Spanish": "ספרדית",
@@ -368,6 +412,25 @@ _AR.update({
         "  دليل الخطوات التالية أقصر، فتبقى قائمة الملف ظاهرة.\r\n"
         "  أيقونة قراءة داخل حقل المسار، إلى يسار علامة X للمسح.\r\n"
         "  تستخدم نفس رسم قراءة في شريط الأدوات وتحمّل ذلك المسار.\r\n"
+    ),
+    (
+        "RECENT UPDATES (v3.0.5.270 – v3.0.5.274)\r\n"
+        "---------------------------------------------------------------\r\n"
+        "  Find, Filter and Bookmarks stack as an accordion with a loading cover.\r\n"
+        "  F3 / Shift+F3 no longer flash that cover when Find is already open.\r\n"
+        "  While a search panel is open, overflowing list tools move into More.\r\n"
+        "  Confirmation dialogs stay clickable in right-to-left mode.\r\n"
+        "  After Last, First and page buttons keep working; the page status\r\n"
+        "    follows the UI language.\r\n"
+    ): (
+        "التحديثات الأخيرة (v3.0.5.270 – v3.0.5.274)\r\n"
+        "---------------------------------------------------------------\r\n"
+        "  البحث والتصفية والإشارات المرجعية تتكدس كأكورديون مع غطاء تحميل.\r\n"
+        "  F3 / Shift+F3 لم تعد تومض ذلك الغطاء عندما يكون البحث مفتوحًا بالفعل.\r\n"
+        "  أثناء فتح لوحة بحث، تنتقل أدوات القائمة الفائضة إلى المزيد.\r\n"
+        "  تظل حوارات التأكيد قابلة للنقر في وضع اليمين إلى اليسار.\r\n"
+        "  بعد الأخير، يظل الأول وأزرار الصفحة تعمل؛ حالة الصفحة\r\n"
+        "    تتبع لغة الواجهة.\r\n"
     ),
 })
 
@@ -448,6 +511,25 @@ _HE.update({
         "  מדריך השלבים הבאים קצר יותר, כך שרשימת הקובץ נשארת גלויה.\r\n"
         "  סמל קריאה בתוך שדה הנתיב, משמאל ל-X לניקוי.\r\n"
         "  משתמש באותו ציור כמו קריאה בסרגל הכלים וטוען את הנתיב הזה.\r\n"
+    ),
+    (
+        "RECENT UPDATES (v3.0.5.270 – v3.0.5.274)\r\n"
+        "---------------------------------------------------------------\r\n"
+        "  Find, Filter and Bookmarks stack as an accordion with a loading cover.\r\n"
+        "  F3 / Shift+F3 no longer flash that cover when Find is already open.\r\n"
+        "  While a search panel is open, overflowing list tools move into More.\r\n"
+        "  Confirmation dialogs stay clickable in right-to-left mode.\r\n"
+        "  After Last, First and page buttons keep working; the page status\r\n"
+        "    follows the UI language.\r\n"
+    ): (
+        "עדכונים אחרונים (v3.0.5.270 – v3.0.5.274)\r\n"
+        "---------------------------------------------------------------\r\n"
+        "  חיפוש, סינון וסימניות נערמים כאקורדיון עם כיסוי טעינה.\r\n"
+        "  F3 / Shift+F3 כבר לא מהבהבים את הכיסוי כשהחיפוש כבר פתוח.\r\n"
+        "  כשלוח חיפוש פתוח, כלי הרשימה העודפים עוברים אל עוד.\r\n"
+        "  דיאלוגי אישור נשארים לחיצים במצב ימין-לשמאל.\r\n"
+        "  אחרי אחרון, ראשון וכפתורי העמוד ממשיכים לעבוד; מצב העמוד\r\n"
+        "    עוקב אחר שפת הממשק.\r\n"
     ),
 })
 

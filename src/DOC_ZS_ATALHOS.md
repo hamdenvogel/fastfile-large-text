@@ -3,7 +3,7 @@
 **Nome curto deste ficheiro:** `DOC_ZS_ATALHOS.md` (alias de `DOC_ZERO_SCAN_ATALHOS_E_FUNCIONALIDADES.md`)
 
 **Documento de referência para utilizadores e QA**  
-Versão de referência: **`3.0.5.268`** (FastFile 3.0.5; guia mais baixo e ícone de Ler no campo do caminho **v3.0.5.266–268**; 28 idiomas e próximos passos conforme a atividade **v3.0.5.262–265**; 22 idiomas, divisão em partes iguais por blocos, menu localizado, guia de próximos passos e Preferências renovadas **v3.0.5.255–261**; layout RTL, árabe/hebraico, bandeiras e Partes iguais na barra **v3.0.5.250–254**; limites, prévia de Dividir por linhas, regex e idiomas recentes **v3.0.5.245–249**; glob/grep **v3.0.5.240–244**; diagnóstico IA, edição rápida, índice paralelo Win64 e validação de código **v3.0.5.233–239**; agente IA e anonimização **v3.0.5.226–232**; barras de ocorrências/marcadores e editor de linha **v3.0.5.211–225**; FilterBar v3.0.5.100, Zero Scan `2.1.7.25+`)
+Versão de referência: **`3.0.5.274`** (FastFile 3.0.5; Search Dock acordeão / Mais / RTL / navegação após Último **v3.0.5.270–274**; 30 idiomas **v3.0.5.269**; guia mais baixo e ícone de Ler **v3.0.5.266–268**; 28 idiomas e próximos passos **v3.0.5.262–265**; 22 idiomas e Preferências **v3.0.5.255–261**; RTL e Partes iguais **v3.0.5.250–254**; limites/regex **v3.0.5.245–249**; glob/grep **v3.0.5.240–244**; diagnóstico IA **v3.0.5.233–239**; agente IA **v3.0.5.226–232**; Find/Bookmarks **v3.0.5.211–225**; FilterBar v3.0.5.100, Zero Scan `2.1.7.25+`)
 Ambiente: Delphi 7 / Win32 · Delphi 10.4.2 / Win64  
 Código principal: `MainUnit.pas`, `uSmoothLoading.pas`, `uLineIndexScan.pas`, `uFastFileAssistant.pas`
 
@@ -692,6 +692,8 @@ Garantir que o modo indexado **não** regrediu (ver também §0).
 | 2026-09-09 | **v3.0.5.136–137:** §18 Validar fonte (Python/JS/JSX/TS/TSX); chat carregar/validar; `DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`; `CodeCheck.exe`. |
 | 2026-09-16 | **v3.0.5.210:** 14 idiomas UI (JA + zh-CN/zh-TW); lazy-load i18n; Version History / F1 / docs sync. |
 | 2026-10-22 | **v3.0.5.233–239:** §19.8 edição rápida + Extrair + índice paralelo Win64; §19.9 código-fonte, perfil/alvos/macro do agente, «O que posso fazer?», Diagnóstico IA (Ctrl+Alt+U); F1 `FF_HELP.RecentFeaturesBlock3`. |
+| 2026-11-18 | **v3.0.5.270–274:** Search Dock em acordeão; Mais só com painéis; diálogos RTL clicáveis; navegação First/página após Último; F1 `FF_HELP.RecentFeaturesBlock9` (30 idiomas). |
+| 2026-11-04 | **v3.0.5.269:** finlandês e vietnamita (30 idiomas). |
 | 2026-11-02 | **v3.0.5.266–268:** guia de próximos passos mais baixo; ícone de Ler no campo do caminho (à esquerda do X), com o desenho da barra; F1 `FF_HELP.RecentFeaturesBlock8`. |
 | 2026-11-01 | **v3.0.5.262–265:** 28 idiomas (tailandês, grego, norueguês, sueco, dinamarquês, islandês); botão à esquerda de Copiar reabre o guia; próximos passos conforme a atividade, com mais ações seguintes; F1 `FF_HELP.RecentFeaturesBlock7`. |
 | 2026-10-31 | **v3.0.5.255–261:** 22 idiomas; split por blocos MMF; guia de próximos passos, reabertura em Preferências e inicialização sem cintilação; F1 `FF_HELP.RecentFeaturesBlock6`. |

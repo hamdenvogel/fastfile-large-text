@@ -90,6 +90,7 @@ uses
   uFastFileExternalExe in 'uFastFileExternalExe.pas',
   uFileFormatConvert in 'uFileFormatConvert.pas',
   uEolPolicy in 'uEolPolicy.pas',
+  uSoftPanelButtons in 'uSoftPanelButtons.pas',
   uFilterBar in 'uFilterBar.pas',
   uFindOccurrencesBar in 'uFindOccurrencesBar.pas',
   uBookmarkBar in 'uBookmarkBar.pas',

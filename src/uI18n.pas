@@ -142,6 +142,8 @@ function PeekStartupLanguage: TAppLanguage; forward;
 procedure CreateTranslationTables; forward;
 procedure FillTranslationDataBody; forward;
 procedure AddActionLimitTranslations; forward;
+procedure AddListViewNavToolsTranslations; forward;
+procedure AddSearchDockTranslations; forward;
 
 function PutNVAllowed(Table: TStringList): Boolean;
 var
@@ -29532,6 +29534,38 @@ begin
     'モデルは非常に大きな応答を返しました。FastFileはここでファイルの内容を表示しません — 代わりに開いているファイルで実行アクションを使用してください。',
     '模型返回了一个非常大的回复。FastFile 不会在这里显示文件内容——请改为对打开的文件使用执行操作。',
     '模型返回了非常大的回覆。FastFile 不會在此處顯示檔案內容——請改為對已開啟的檔案執行操作。');
+  Set14(
+    'Toolbar.AIAssistant',
+    'AI Assistant (ON)',
+    'Assistente IA (ON)',
+    'Asistente IA (ON)',
+    'Assistant IA (ON)',
+    'KI-Assistent (AN)',
+    'Assistente IA (ON)',
+    'Asystent AI (WL.)',
+    'Assistente IA (ON)',
+    'Asistent IA (ON)',
+    'AI asszisztens (BE)',
+    'Asistent AI (ZAP)',
+    'AIアシスタント (ON)',
+    'AI 助手（开启）',
+    'AI 助手（開啟）');
+  Set14(
+    'Toolbar.AIAssistantHint',
+    'Show or hide the AI Assistant panel (Ctrl+Alt+A)',
+    'Mostrar ou ocultar o painel do Assistente IA (Ctrl+Alt+A)',
+    'Mostrar u ocultar el panel del Asistente IA (Ctrl+Alt+A)',
+    'Afficher ou masquer le panneau Assistant IA (Ctrl+Alt+A)',
+    'KI-Assistenten-Panel ein- oder ausblenden (Strg+Alt+A)',
+    'Mostra o nasconde il pannello Assistente IA (Ctrl+Alt+A)',
+    'Pokaż lub ukryj panel Asystenta AI (Ctrl+Alt+A)',
+    'Mostrar ou ocultar o painel do Assistente IA (Ctrl+Alt+A)',
+    'Afișează sau ascunde panoul Asistent IA (Ctrl+Alt+A)',
+    'AI asszisztens panel megjelenítése vagy elrejtése (Ctrl+Alt+A)',
+    'Zobrazit nebo skrýt panel Asistenta AI (Ctrl+Alt+A)',
+    'AIアシスタントパネルの表示/非表示 (Ctrl+Alt+A)',
+    '显示或隐藏 AI 助手面板 (Ctrl+Alt+A)',
+    '顯示或隱藏 AI 助手面板 (Ctrl+Alt+A)');
 end;
 
 procedure AddCommonTranslationsHelpAssistantBlock;
@@ -31991,6 +32025,204 @@ begin
     '宛先行の後にソースを挿入します。',
     '在目标行之后插入源。',
     '將源插入到目的地行之後。');
+end;
+
+procedure AddCommonTranslationsPanelSearchRecent;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14(
+    'FindOcc.Recent',
+    'Recent searches',
+    'Pesquisas recentes',
+    'B'#250'squedas recientes',
+    'Recherches r'#233'centes',
+    'Letzte Suchen',
+    'Ricerche recenti',
+    'Ostatnie wyszukiwania',
+    'Pesquisas recentes',
+    'C'#259'ut'#259'ri recente',
+    'Legut'#243'bbi keres'#233'sek',
+    'Ned'#225'vn'#233' hled'#225'n'#237,
+    '最近の検索',
+    '最近的搜索',
+    '最近的搜尋');
+  Set14(
+    'FindOcc.RecentHint',
+    'Open the dropdown for the last 20 searches.',
+    'Abra a lista das '#250'ltimas 20 pesquisas.',
+    'Abra la lista de las '#250'ltimas 20 b'#250'squedas.',
+    'Ouvrez la liste des 20 derni'#232'res recherches.',
+    'Dropdown der letzten 20 Suchen '#246'ffnen.',
+    'Apri l''elenco delle ultime 20 ricerche.',
+    'Otw'#243'rz list'#281' ostatnich 20 wyszukiwa'#324'.',
+    'Abra a lista das '#250'ltimas 20 pesquisas.',
+    'Deschide'#355'i lista ultimelor 20 c'#259'ut'#259'ri.',
+    'Nyissa meg az utols'#243' 20 keres'#233's list'#225'j'#225't.',
+    'Otev'#345'ete seznam posledn'#237'ch 20 hled'#225'n'#237'.',
+    '最後の20件の検索のドロップダウンを開きます。',
+    '打开最后 20 次搜索的下拉菜单。',
+    '打開最後 20 次搜尋的下拉選單。');
+  Set14(
+    'FindOcc.RecentEmpty',
+    '(no recent searches yet)',
+    '(ainda sem pesquisas recentes)',
+    '(a'#250'n no hay b'#250'squedas recientes)',
+    '(pas encore de recherches r'#233'centes)',
+    '(noch keine letzten Suchen)',
+    '(ancora nessuna ricerca recente)',
+    '(brak ostatnich wyszukiwa'#324')',
+    '(ainda sem pesquisas recentes)',
+    '('#238'nc'#259' nu exist'#259' c'#259'ut'#259'ri recente)',
+    '(m'#233'g nincsenek legut'#243'bbi keres'#233'sek)',
+    '(zat'#237'm '#382#225'dn'#225' ned'#225'vn'#225' hled'#225'n'#237')',
+    '（最近の検索はまだありません）',
+    '（尚无最近的搜索）',
+    '(尚未有近期搜尋)');
+  Set14(
+    'FindOcc.RecentMore',
+    'Show more',
+    'Mostrar mais',
+    'Mostrar m'#225's',
+    'Afficher plus',
+    'Mehr anzeigen',
+    'Mostra altro',
+    'Poka'#380' wi'#281'cej',
+    'Mostrar mais',
+    'Afi'#351'eaz'#259' mai multe',
+    'T'#246'bb megjelen'#237't'#233'se',
+    'Zobrazit v'#237'ce',
+    'もっと表示',
+    '显示更多',
+    '顯示更多');
+  Set14(
+    'FindOcc.RecentMoreHint',
+    'Show the remaining recent searches',
+    'Mostrar as demais pesquisas recentes',
+    'Mostrar las dem'#225's b'#250'squedas recientes',
+    'Afficher les autres recherches r'#233'centes',
+    'Weitere letzte Suchen anzeigen',
+    'Mostra le ricerche recenti restanti',
+    'Poka'#380' pozosta'#322'e ostatnie wyszukiwania',
+    'Mostrar as restantes pesquisas recentes',
+    'Afi'#351'eaz'#259' celelalte c'#259'ut'#259'ri recente',
+    'Tov'#225'bbi legut'#243'bbi keres'#233'sek megjelen'#237't'#233'se',
+    'Zobrazit zb'#253'vaj'#237'c'#237' ned'#225'vn'#225' hled'#225'n'#237,
+    '残りの最近の検索を表示',
+    '显示剩余的最近搜索',
+    '顯示剩餘的最近搜尋');
+  Set14(
+    'BookmarkBar.Recent',
+    'Recent filters',
+    'Filtros recentes',
+    'Filtros recientes',
+    'Filtres r'#233'cents',
+    'Letzte Filter',
+    'Filtri recenti',
+    'Ostatnie filtry',
+    'Filtros recentes',
+    'Filtre recente',
+    'Legut'#243'bbi sz'#369'r'#337'k',
+    'Ned'#225'vn'#233' filtry',
+    '最近のフィルター',
+    '最近的筛选',
+    '最近的過濾');
+  Set14(
+    'BookmarkBar.RecentHint',
+    'Open the dropdown for the last 20 bookmark filters.',
+    'Abra a lista dos '#250'ltimos 20 filtros de marcadores.',
+    'Abra la lista de los '#250'ltimos 20 filtros de marcadores.',
+    'Ouvrez la liste des 20 derniers filtres de signets.',
+    'Dropdown der letzten 20 Lesezeichen-Filter '#246'ffnen.',
+    'Apri l''elenco degli ultimi 20 filtri segnalibro.',
+    'Otw'#243'rz list'#281' ostatnich 20 filtr'#243'w zak'#322'adek.',
+    'Abra a lista dos '#250'ltimos 20 filtros de marcadores.',
+    'Deschide'#355'i lista ultimelor 20 filtre de marcaje.',
+    'Nyissa meg az utols'#243' 20 k'#246'nyvjelz'#337'-sz'#369'r'#337' list'#225'j'#225't.',
+    'Otev'#345'ete seznam posledn'#237'ch 20 filtr'#367' z'#225'lo'#382'ek.',
+    '最後の20件のブックマークフィルターを開きます。',
+    '打开最后 20 个书签筛选的下拉菜单。',
+    '打開最後 20 個書籤篩選的下拉選單。');
+  Set14(
+    'BookmarkBar.RecentEmpty',
+    '(no recent bookmark filters yet)',
+    '(ainda sem filtros de marcadores)',
+    '(a'#250'n no hay filtros de marcadores)',
+    '(pas encore de filtres de signets)',
+    '(noch keine Lesezeichen-Filter)',
+    '(ancora nessun filtro segnalibro)',
+    '(brak filtr'#243'w zak'#322'adek)',
+    '(ainda sem filtros de marcadores)',
+    '('#238'nc'#259' nu exist'#259' filtre de marcaje)',
+    '(m'#233'g nincsenek k'#246'nyvjelz'#337'-sz'#369'r'#337'k)',
+    '(zat'#237'm '#382#225'dn'#233' filtry z'#225'lo'#382'ek)',
+    '（ブックマークフィルターはまだありません）',
+    '（尚无书签筛选）',
+    '(尚未有書籤篩選)');
+  Set14(
+    'BookmarkBar.RecentMore',
+    'Show more',
+    'Mostrar mais',
+    'Mostrar m'#225's',
+    'Afficher plus',
+    'Mehr anzeigen',
+    'Mostra altro',
+    'Poka'#380' wi'#281'cej',
+    'Mostrar mais',
+    'Afi'#351'eaz'#259' mai multe',
+    'T'#246'bb megjelen'#237't'#233'se',
+    'Zobrazit v'#237'ce',
+    'もっと表示',
+    '显示更多',
+    '顯示更多');
+  Set14(
+    'BookmarkBar.RecentMoreHint',
+    'Show the remaining recent bookmark filters',
+    'Mostrar os demais filtros de marcadores',
+    'Mostrar los dem'#225's filtros de marcadores',
+    'Afficher les autres filtres de signets',
+    'Weitere Lesezeichen-Filter anzeigen',
+    'Mostra i filtri segnalibro restanti',
+    'Poka'#380' pozosta'#322'e filtry zak'#322'adek',
+    'Mostrar os restantes filtros de marcadores',
+    'Afi'#351'eaz'#259' celelalte filtre de marcaje',
+    'Tov'#225'bbi k'#246'nyvjelz'#337'-sz'#369'r'#337'k megjelen'#237't'#233'se',
+    'Zobrazit zb'#253'vaj'#237'c'#237' filtry z'#225'lo'#382'ek',
+    '残りのブックマークフィルターを表示',
+    '显示剩余的书签筛选',
+    '顯示剩餘的書籤篩選');
+  Set14(
+    'BookmarkBar.FilterHint',
+    'Filter bookmarks (Enter = apply, Esc = clear)',
+    'Filtrar marcadores (Enter = aplicar, Esc = limpar)',
+    'Filtrar marcadores (Enter = aplicar, Esc = limpiar)',
+    'Filtrer les signets (Entr'#233'e = appliquer, '#201'chap = effacer)',
+    'Lesezeichen filtern (Enter = anwenden, Esc = leeren)',
+    'Filtra segnalibri (Invio = applica, Esc = cancella)',
+    'Filtruj zak'#322'adki (Enter = zastosuj, Esc = wyczy'#347#263')',
+    'Filtrar marcadores (Enter = aplicar, Esc = limpar)',
+    'Filtreaz'#259' marcajele (Enter = aplic'#259', Esc = cur'#259#355#259')',
+    'K'#246'nyvjelz'#337'k sz'#369'r'#233'se (Enter = alkalmaz, Esc = t'#246'r'#246'l)',
+    'Filtrovat z'#225'lo'#382'ky (Enter = pou'#382#237't, Esc = vymazat)',
+    'ブックマークを絞り込み（Enter = 適用、Esc = クリア）',
+    '筛选书签（回车 = 应用，Esc = 清除）',
+    '篩選書籤（Enter = 套用，Esc = 清除）');
 end;
 
 procedure AddCommonTranslationsFilterBarRecent;
@@ -54205,6 +54437,130 @@ begin
     '近期更新 (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  後續步驟指南變矮，檔案清單仍可見。'#13#10 + '  讀取圖示在路徑欄內、清除 X 的左側。'#13#10 + '  與工具列「讀取」相同，並載入該路徑。'#13#10);
 end;
 
+procedure AddCommonTranslationsHelpRecentFeaturesBlock9;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+const
+  SEP = '---------------------------------------------------------------';
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock9',
+    'RECENT UPDATES (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Find, Filter and Bookmarks stack as an accordion with a loading cover.'#13#10 +
+    '  F3 / Shift+F3 no longer flash that cover when Find is already open.'#13#10 +
+    '  While a search panel is open, overflowing list tools move into More.'#13#10 +
+    '  Confirmation dialogs stay clickable in right-to-left mode.'#13#10 +
+    '  After Last, First and page buttons keep working; the page status'#13#10 +
+    '    follows the UI language.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Localizar, Filtro e Marcadores empilham em acordeão com capa de carga.'#13#10 +
+    '  F3 / Shift+F3 não piscam essa capa quando o Localizar já está aberto.'#13#10 +
+    '  Com um painel aberto, as ferramentas que não cabem vão para Mais.'#13#10 +
+    '  Diálogos de confirmação continuam clicáveis no modo da direita para a esquerda.'#13#10 +
+    '  Depois de Último, Primeiro e as páginas seguem a funcionar; o status'#13#10 +
+    '    da página acompanha o idioma da interface.'#13#10,
+    'ACTUALIZACIONES RECIENTES (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Buscar, Filtro y Marcadores se apilan en acordeón con cubierta de carga.'#13#10 +
+    '  F3 / Mayús+F3 ya no parpadean esa cubierta si Buscar ya está abierto.'#13#10 +
+    '  Con un panel abierto, las herramientas que no caben van a Más.'#13#10 +
+    '  Los diálogos de confirmación siguen clicables en modo de derecha a izquierda.'#13#10 +
+    '  Tras Último, Primero y las páginas siguen funcionando; el estado de'#13#10 +
+    '    página sigue el idioma de la interfaz.'#13#10,
+    'MISES À JOUR RÉCENTES (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Rechercher, Filtrer et Signets s''empilent en accordéon avec un cache de chargement.'#13#10 +
+    '  F3 / Maj+F3 ne font plus clignoter ce cache si Rechercher est déjà ouvert.'#13#10 +
+    '  Avec un panneau ouvert, les outils qui ne tiennent pas vont dans Plus.'#13#10 +
+    '  Les boîtes de confirmation restent cliquables en mode de droite à gauche.'#13#10 +
+    '  Après Dernier, Premier et les pages continuent de fonctionner ; l''état'#13#10 +
+    '    de page suit la langue de l''interface.'#13#10,
+    'AKTUELLE UPDATES (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Suchen, Filter und Lesezeichen stapeln sich als Akkordeon mit Ladeabdeckung.'#13#10 +
+    '  F3 / Umschalt+F3 lassen diese Abdeckung nicht mehr blinken, wenn Suchen offen ist.'#13#10 +
+    '  Bei offenem Suchpanel wandern nicht passende Listwerkzeuge nach Mehr.'#13#10 +
+    '  Bestätigungsdialoge bleiben im Rechts-nach-links-Modus klickbar.'#13#10 +
+    '  Nach Letzter funktionieren Erster und Seite weiter; der Seitenstatus'#13#10 +
+    '    folgt der Oberfläche.'#13#10,
+    'AGGIORNAMENTI RECENTI (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Trova, Filtro e Segnalibri si impilano a fisarmonica con copertura di caricamento.'#13#10 +
+    '  F3 / Maiusc+F3 non fanno più lampeggiare quella copertura se Trova è già aperto.'#13#10 +
+    '  Con un pannello aperto, gli strumenti che non entrano vanno in Altro.'#13#10 +
+    '  I dialoghi di conferma restano cliccabili in modalità da destra a sinistra.'#13#10 +
+    '  Dopo Ultimo, Primo e le pagine continuano a funzionare; lo stato pagina'#13#10 +
+    '    segue la lingua dell''interfaccia.'#13#10,
+    'OSTATNIE AKTUALIZACJE (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Znajdź, Filtr i Zakładki układają się w akordeon z osłoną ładowania.'#13#10 +
+    '  F3 / Shift+F3 nie migają już tą osłoną, gdy Znajdź jest otwarte.'#13#10 +
+    '  Przy otwartym panelu narzędzia, które nie mieszczą się, trafiają do Więcej.'#13#10 +
+    '  Okna potwierdzenia pozostają klikalne w trybie od prawej do lewej.'#13#10 +
+    '  Po Ostatni działają Dalej Pierwszy i strony; status strony'#13#10 +
+    '    podąża za językiem interfejsu.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Localizar, Filtro e Marcadores empilham em acordeão com capa de carga.'#13#10 +
+    '  F3 / Shift+F3 não piscam essa capa quando o Localizar já está aberto.'#13#10 +
+    '  Com um painel aberto, as ferramentas que não cabem vão para Mais.'#13#10 +
+    '  Diálogos de confirmação continuam clicáveis no modo da direita para a esquerda.'#13#10 +
+    '  Depois de Último, Primeiro e as páginas seguem a funcionar; o estado'#13#10 +
+    '    da página acompanha o idioma da interface.'#13#10,
+    'ACTUALIZĂRI RECENTE (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Găsire, Filtru și Marcaje se stivuiesc în acordeon cu acoperire de încărcare.'#13#10 +
+    '  F3 / Shift+F3 nu mai clipesc acea acoperire dacă Găsire este deja deschis.'#13#10 +
+    '  Cu un panou deschis, instrumentele care nu încap merg în Mai mult.'#13#10 +
+    '  Dialogurile de confirmare rămân clicabile în modul de la dreapta la stânga.'#13#10 +
+    '  După Ultimul, Primul și paginile continuă să funcționeze; starea paginii'#13#10 +
+    '    urmează limba interfeței.'#13#10,
+    'FRISSÍTÉSEK (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  A Keresés, Szűrő és Könyvjelzők harmonikaként rakódnak, betöltő fedéllel.'#13#10 +
+    '  F3 / Shift+F3 már nem villogtatja a fedelet, ha a Keresés nyitva van.'#13#10 +
+    '  Nyitott panel mellett a ki nem férő listaeszközök a Több menübe kerülnek.'#13#10 +
+    '  A megerősítő párbeszédek jobbról balra módban is kattinthatók maradnak.'#13#10 +
+    '  Az Utolsó után az Első és az oldalak tovább működnek; az oldalállapot'#13#10 +
+    '    követi a felület nyelvét.'#13#10,
+    'NOVÉ AKTUALIZACE (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  Hledat, Filtr a Záložky se skládají do harmoniky s krytem načítání.'#13#10 +
+    '  F3 / Shift+F3 už ten kryt nebliká, když je Hledat otevřené.'#13#10 +
+    '  Při otevřeném panelu nástroje, které se nevejdou, jdou do Více.'#13#10 +
+    '  Potvrzovací dialogy zůstávají klikací v režimu zprava doleva.'#13#10 +
+    '  Po Poslední fungují První a stránky dál; stav stránky'#13#10 +
+    '    sleduje jazyk rozhraní.'#13#10,
+    '最近の更新 (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  検索・フィルター・ブックマークは読み込みカバー付きのアコーディオンになります。'#13#10 +
+    '  検索が開いているとき、F3 / Shift+F3 はそのカバーを点滅させません。'#13#10 +
+    '  検索パネル表示中、収まらない一覧ツールは「その他」へ移ります。'#13#10 +
+    '  右から左モードでも確認ダイアログはクリックできます。'#13#10 +
+    '  「最後」のあとでも「最初」とページ移動は動き、ページ状態は'#13#10 +
+    '    画面の言語に従います。'#13#10,
+    '近期更新 (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  查找、筛选和书签以手风琴方式堆叠，并显示加载遮罩。'#13#10 +
+    '  查找已打开时，F3 / Shift+F3 不再闪烁该遮罩。'#13#10 +
+    '  搜索面板打开时，放不下的列表工具移入“更多”。'#13#10 +
+    '  从右到左模式下确认对话框仍可点击。'#13#10 +
+    '  点击“最后”后，“第一”和翻页仍可用；页状态跟随界面语言。'#13#10,
+    '近期更新 (v3.0.5.270 – v3.0.5.274)'#13#10 + SEP + #13#10 +
+    '  尋找、篩選和書籤以手風琴方式堆疊，並顯示載入遮罩。'#13#10 +
+    '  尋找已開啟時，F3 / Shift+F3 不再閃爍該遮罩。'#13#10 +
+    '  搜尋面板開啟時，放不下的清單工具移入「更多」。'#13#10 +
+    '  從右到左模式下確認對話框仍可點選。'#13#10 +
+    '  點「最後」後，「第一」與翻頁仍可用；頁狀態跟隨介面語言。'#13#10);
+end;
+
 procedure AddDelimSessionTranslations;
   procedure Set14(const K: string;
     const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
@@ -56216,6 +56572,7 @@ begin
   AddCommonTranslationsEmEditorFeatures;
   AddCommonTranslationsAssistant;
   AddCommonTranslationsFilterBarRecent;
+  AddCommonTranslationsPanelSearchRecent;
   AddCommonTranslationsLangSwitchFrame;
   AddCommonTranslationsHelpAssistantBlock;
   AddCommonTranslationsHelpEmEditorBlock;
@@ -57000,11 +57357,14 @@ begin
   AddCommonTranslationsHelpRecentFeaturesBlock6;
   AddCommonTranslationsHelpRecentFeaturesBlock7;
   AddCommonTranslationsHelpRecentFeaturesBlock8;
+  AddCommonTranslationsHelpRecentFeaturesBlock9;
   AddFileNameEmptyMruTranslations;
   AddDelimSessionTranslations;
   AddReadThreadCountTranslations;
   AddSplitByLinesPreviewTranslations;
   AddActionLimitTranslations;
+  AddListViewNavToolsTranslations;
+  AddSearchDockTranslations;
   AddRtlLanguageOptionTranslations;
   AddTranslationGapFill;
   { Arabic / Hebrew: generated by tools\gen_rtl_i18n.py into uI18nRtl.pas.
@@ -57483,6 +57843,310 @@ begin
     'Pokaż pozostałe języki', 'Mostrar os outros idiomas', 'Afișează celelalte limbi',
     'A többi nyelv megjelenítése', 'Zobrazit ostatní jazyky', '他の言語を表示',
     '显示其他语言', '顯示其他語言');
+end;
+
+procedure AddSearchDockTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('SearchDock.Loading',
+    'Preparing search tools...',
+    'Preparando as ferramentas de pesquisa...',
+    'Preparando las herramientas de búsqueda...',
+    'Préparation des outils de recherche...',
+    'Suchwerkzeuge werden vorbereitet...',
+    'Preparazione degli strumenti di ricerca...',
+    'Przygotowywanie narzędzi wyszukiwania...',
+    'A preparar as ferramentas de pesquisa...',
+    'Se pregătesc instrumentele de căutare...',
+    'Keresőeszközök előkészítése...',
+    'Příprava vyhledávacích nástrojů...',
+    '検索ツールを準備しています...',
+    '正在准备搜索工具...',
+    '正在準備搜尋工具...');
+  Set14('SearchDock.Collapse',
+    'Collapse', 'Recolher', 'Contraer', 'Réduire',
+    'Einklappen', 'Comprimi', 'Zwiń', 'Recolher',
+    'Restrânge', 'Összecsukás', 'Sbalit', '折りたたむ',
+    '折叠', '摺疊');
+  Set14('SearchDock.Expand',
+    'Expand', 'Expandir', 'Expandir', 'Développer',
+    'Ausklappen', 'Espandi', 'Rozwiń', 'Expandir',
+    'Extinde', 'Kibontás', 'Rozbalit', '展開',
+    '展开', '展開');
+  Set14('FindOcc.PageExportHint',
+    'Export or copy the matches on this page, or all matches',
+    'Exportar ou copiar as ocorrências desta página, ou todas as ocorrências',
+    'Exportar o copiar las coincidencias de esta página, o todas las coincidencias',
+    'Exporter ou copier les occurrences de cette page, ou toutes les occurrences',
+    'Treffer dieser Seite oder alle Treffer exportieren oder kopieren',
+    'Esporta o copia le occorrenze di questa pagina, o tutte le occorrenze',
+    'Eksportuj lub kopiuj wyniki z tej strony albo wszystkie wyniki',
+    'Exportar ou copiar as ocorrências desta página, ou todas as ocorrências',
+    'Exportă sau copiază potrivirile de pe această pagină sau toate potrivirile',
+    'Az oldal találatainak vagy az összes találatnak az exportálása vagy másolása',
+    'Exportovat nebo kopírovat výsledky této stránky, nebo všechny výsledky',
+    'このページの一致、またはすべての一致をエクスポート/コピー',
+    '导出或复制本页的匹配项，或全部匹配项',
+    '匯出或複製本頁的相符項目，或全部相符項目');
+  Set14('FindOcc.PageMenu.ExportPage',
+    'Export this page (%d matches)...',
+    'Exportar esta página (%d ocorrências)...',
+    'Exportar esta página (%d coincidencias)...',
+    'Exporter cette page (%d occurrences)...',
+    'Diese Seite exportieren (%d Treffer)...',
+    'Esporta questa pagina (%d occorrenze)...',
+    'Eksportuj tę stronę (%d wyników)...',
+    'Exportar esta página (%d ocorrências)...',
+    'Exportă această pagină (%d potriviri)...',
+    'Az oldal exportálása (%d találat)...',
+    'Exportovat tuto stránku (%d výsledků)...',
+    'このページをエクスポート (%d 件)...',
+    '导出本页（%d 个匹配项）...',
+    '匯出本頁（%d 個相符項目）...');
+  Set14('FindOcc.PageMenu.ExportAll',
+    'Export all matches (%d)...',
+    'Exportar todas as ocorrências (%d)...',
+    'Exportar todas las coincidencias (%d)...',
+    'Exporter toutes les occurrences (%d)...',
+    'Alle Treffer exportieren (%d)...',
+    'Esporta tutte le occorrenze (%d)...',
+    'Eksportuj wszystkie wyniki (%d)...',
+    'Exportar todas as ocorrências (%d)...',
+    'Exportă toate potrivirile (%d)...',
+    'Összes találat exportálása (%d)...',
+    'Exportovat všechny výsledky (%d)...',
+    'すべての一致をエクスポート (%d 件)...',
+    '导出全部匹配项（%d）...',
+    '匯出全部相符項目（%d）...');
+  Set14('FindOcc.PageMenu.CopyPage',
+    'Copy this page (%d matches)',
+    'Copiar esta página (%d ocorrências)',
+    'Copiar esta página (%d coincidencias)',
+    'Copier cette page (%d occurrences)',
+    'Diese Seite kopieren (%d Treffer)',
+    'Copia questa pagina (%d occorrenze)',
+    'Kopiuj tę stronę (%d wyników)',
+    'Copiar esta página (%d ocorrências)',
+    'Copiază această pagină (%d potriviri)',
+    'Az oldal másolása (%d találat)',
+    'Kopírovat tuto stránku (%d výsledků)',
+    'このページをコピー (%d 件)',
+    '复制本页（%d 个匹配项）',
+    '複製本頁（%d 個相符項目）');
+  Set14('FindOcc.PageMenu.CopyAll',
+    'Copy all matches (%d)',
+    'Copiar todas as ocorrências (%d)',
+    'Copiar todas las coincidencias (%d)',
+    'Copier toutes les occurrences (%d)',
+    'Alle Treffer kopieren (%d)',
+    'Copia tutte le occorrenze (%d)',
+    'Kopiuj wszystkie wyniki (%d)',
+    'Copiar todas as ocorrências (%d)',
+    'Copiază toate potrivirile (%d)',
+    'Összes találat másolása (%d)',
+    'Kopírovat všechny výsledky (%d)',
+    'すべての一致をコピー (%d 件)',
+    '复制全部匹配项（%d）',
+    '複製全部相符項目（%d）');
+end;
+
+procedure AddListViewNavToolsTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('ListView.ToolFirst',
+    'First', 'Primeiro', 'Primero', 'Premier',
+    'Erste', 'Prima', 'Pierwszy', 'Primeiro',
+    'Primul', 'Első', 'První', '先頭',
+    '第一行', '第一列');
+  Set14('ListView.ToolFirstHint',
+    'Go to the first line (Ctrl+Home)',
+    'Ir para a primeira linha (Ctrl+Home)',
+    'Ir a la primera línea (Ctrl+Home)',
+    'Aller à la première ligne (Ctrl+Home)',
+    'Zur ersten Zeile (Ctrl+Home)',
+    'Vai alla prima riga (Ctrl+Home)',
+    'Przejdź do pierwszego wiersza (Ctrl+Home)',
+    'Ir para a primeira linha (Ctrl+Home)',
+    'Du-te la prima linie (Ctrl+Home)',
+    'Ugrás az első sorra (Ctrl+Home)',
+    'Přejít na první řádek (Ctrl+Home)',
+    '先頭行へ移動 (Ctrl+Home)',
+    '转到第一行 (Ctrl+Home)',
+    '移至第一列 (Ctrl+Home)');
+  Set14('ListView.ToolPageUp',
+    'Page up', 'Página ant.', 'Pág. ant.', 'Page préc.',
+    'Seite hoch', 'Pag. prec.', 'Strona w górę', 'Página ant.',
+    'Pagină sus', 'Lapozás fel', 'Stránka nahoru', '前ページ',
+    '上一页', '上一頁');
+  Set14('ListView.ToolPageUpHint',
+    'Go up one page (Page Up)',
+    'Subir uma página (Page Up)',
+    'Subir una página (Re Pág)',
+    'Monter d''une page (Page préc.)',
+    'Eine Seite nach oben (Bild ↑)',
+    'Sali di una pagina (Pag Su)',
+    'Przejdź o stronę w górę (Page Up)',
+    'Subir uma página (Page Up)',
+    'Urcă o pagină (Page Up)',
+    'Egy oldallal fel (Page Up)',
+    'O stránku nahoru (Page Up)',
+    '1ページ上へ (Page Up)',
+    '向上翻一页 (Page Up)',
+    '向上翻一頁 (Page Up)');
+  Set14('ListView.ToolPageDown',
+    'Page down', 'Página seg.', 'Pág. sig.', 'Page suiv.',
+    'Seite runter', 'Pag. succ.', 'Strona w dół', 'Página seg.',
+    'Pagină jos', 'Lapozás le', 'Stránka dolů', '次ページ',
+    '下一页', '下一頁');
+  Set14('ListView.ToolPageDownHint',
+    'Go down one page (Page Down)',
+    'Descer uma página (Page Down)',
+    'Bajar una página (Av Pág)',
+    'Descendre d''une page (Page suiv.)',
+    'Eine Seite nach unten (Bild ↓)',
+    'Scendi di una pagina (Pag Giù)',
+    'Przejdź o stronę w dół (Page Down)',
+    'Descer uma página (Page Down)',
+    'Coboară o pagină (Page Down)',
+    'Egy oldallal le (Page Down)',
+    'O stránku dolů (Page Down)',
+    '1ページ下へ (Page Down)',
+    '向下翻一页 (Page Down)',
+    '向下翻一頁 (Page Down)');
+  Set14('ListView.ToolLast',
+    'Last', 'Último', 'Último', 'Dernier',
+    'Letzte', 'Ultima', 'Ostatni', 'Último',
+    'Ultimul', 'Utolsó', 'Poslední', '末尾',
+    '最后一行', '最後一列');
+  Set14('ListView.ToolLastHint',
+    'Go to the last line (Ctrl+End)',
+    'Ir para a última linha (Ctrl+End)',
+    'Ir a la última línea (Ctrl+End)',
+    'Aller à la dernière ligne (Ctrl+End)',
+    'Zur letzten Zeile (Ctrl+End)',
+    'Vai all''ultima riga (Ctrl+End)',
+    'Przejdź do ostatniego wiersza (Ctrl+End)',
+    'Ir para a última linha (Ctrl+End)',
+    'Du-te la ultima linie (Ctrl+End)',
+    'Ugrás az utolsó sorra (Ctrl+End)',
+    'Přejít na poslední řádek (Ctrl+End)',
+    '末尾行へ移動 (Ctrl+End)',
+    '转到最后一行 (Ctrl+End)',
+    '移至最後一列 (Ctrl+End)');
+  Set14('ListView.ToolGoto',
+    'Go to line', 'Ir para linha', 'Ir a línea', 'Aller à la ligne',
+    'Gehe zu Zeile', 'Vai a riga', 'Idź do wiersza', 'Ir para linha',
+    'Mergi la linie', 'Ugrás sorra', 'Přejít na řádek', '行へ移動',
+    '转到行', '移至列');
+  Set14('ListView.ToolGotoHint',
+    'Go to a specific line number (Ctrl+G)',
+    'Ir para um número de linha específico (Ctrl+G)',
+    'Ir a un número de línea concreto (Ctrl+G)',
+    'Aller à un numéro de ligne précis (Ctrl+G)',
+    'Zu einer bestimmten Zeilennummer gehen (Ctrl+G)',
+    'Vai a un numero di riga specifico (Ctrl+G)',
+    'Przejdź do wybranego numeru wiersza (Ctrl+G)',
+    'Ir para um número de linha específico (Ctrl+G)',
+    'Mergi la un număr de linie anume (Ctrl+G)',
+    'Ugrás egy megadott sorszámra (Ctrl+G)',
+    'Přejít na konkrétní číslo řádku (Ctrl+G)',
+    '指定の行番号へ移動 (Ctrl+G)',
+    '转到指定行号 (Ctrl+G)',
+    '移至指定列號 (Ctrl+G)');
+  Set14('ListView.ToolFind',
+    'Find', 'Localizar', 'Buscar', 'Rechercher',
+    'Suchen', 'Trova', 'Znajdź', 'Localizar',
+    'Caută', 'Keresés', 'Hledat', '検索',
+    '查找', '尋找');
+  Set14('ListView.ToolFindHint',
+    'Show or hide Find (Occurrences)',
+    'Mostrar ou ocultar Localizar (ocorrências)',
+    'Mostrar u ocultar Buscar (ocurrencias)',
+    'Afficher ou masquer Rechercher (occurrences)',
+    'Suchen (Treffer) ein- oder ausblenden',
+    'Mostra o nascondi Trova (occorrenze)',
+    'Pokaż lub ukryj Znajdź (wystąpienia)',
+    'Mostrar ou ocultar Localizar (ocorrências)',
+    'Afișează sau ascunde Caută (apariții)',
+    'Keresés (találatok) megjelenítése vagy elrejtése',
+    'Zobrazit nebo skrýt Hledat (výskyty)',
+    '検索（出現箇所）の表示/非表示',
+    '显示或隐藏查找（匹配项）',
+    '顯示或隱藏尋找（相符項目）');
+  Set14('ListView.ToolFilter',
+    'Filter', 'Filtro', 'Filtro', 'Filtre',
+    'Filter', 'Filtro', 'Filtr', 'Filtro',
+    'Filtru', 'Szűrő', 'Filtr', 'フィルター',
+    '筛选', '篩選');
+  Set14('ListView.ToolFilterHint',
+    'Show or hide Filter / Grep',
+    'Mostrar ou ocultar Filtro / Grep',
+    'Mostrar u ocultar Filtro / Grep',
+    'Afficher ou masquer Filtre / Grep',
+    'Filter / Grep ein- oder ausblenden',
+    'Mostra o nascondi Filtro / Grep',
+    'Pokaż lub ukryj Filtr / Grep',
+    'Mostrar ou ocultar Filtro / Grep',
+    'Afișează sau ascunde Filtru / Grep',
+    'Szűrő / Grep megjelenítése vagy elrejtése',
+    'Zobrazit nebo skrýt Filtr / Grep',
+    'Filter / Grep の表示/非表示',
+    '显示或隐藏 Filter / Grep',
+    '顯示或隱藏 Filter / Grep');
+  Set14('ListView.ToolBookmarks',
+    'Bookmarks', 'Marcadores', 'Marcadores', 'Signets',
+    'Lesezeichen', 'Segnalibri', 'Zakładki', 'Marcadores',
+    'Marcaje', 'Könyvjelzők', 'Záložky', 'ブックマーク',
+    '书签', '書籤');
+  Set14('ListView.ToolBookmarksHint',
+    'Show or hide Bookmarks',
+    'Mostrar ou ocultar Marcadores',
+    'Mostrar u ocultar Marcadores',
+    'Afficher ou masquer les signets',
+    'Lesezeichen ein- oder ausblenden',
+    'Mostra o nascondi Segnalibri',
+    'Pokaż lub ukryj Zakładki',
+    'Mostrar ou ocultar Marcadores',
+    'Afișează sau ascunde Marcaje',
+    'Könyvjelzők megjelenítése vagy elrejtése',
+    'Zobrazit nebo skrýt Záložky',
+    'ブックマークの表示/非表示',
+    '显示或隐藏书签',
+    '顯示或隱藏書籤');
 end;
 
 function PeekStartupLanguage: TAppLanguage;

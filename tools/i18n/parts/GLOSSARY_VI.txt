@@ -1,0 +1,13 @@
+Vietnamese UI glossary for FastFile (keep product tokens unchanged: FastFile, Python, SQL, JSON, HTML, XML, CSV, UTF-8, DPI, GB, KB, MB, TB, Ctrl, Alt, Shift, Enter, Esc, Del, TAB, Windows, OK, AI):
+
+file=tệp; files=các tệp; folder=thư mục; line=dòng; lines=các dòng; byte=byte; bytes=byte
+search=tìm; find=tìm; replace=thay thế; filter=lọc; export=xuất; import=nhập; copy=sao chép; paste=dán; cut=cắt
+delete=xóa; remove=xóa; clear=xóa sạch; save=lưu; open=mở; close=đóng; cancel=hủy; apply=áp dụng
+read=đọc; write=ghi; merge=gộp; split=tách; compare=so sánh; preview=xem trước; undo=hoàn tác; redo=làm lại
+bookmark=dấu trang; selection=vùng chọn; selected=đã chọn; all=tất cả; none=không có; error=lỗi; warning=cảnh báo
+progress=tiến trình; loading=đang tải; done=xong; yes=có; no=không; help=trợ giúp; settings=cài đặt; preferences=tùy chọn
+language=ngôn ngữ; encoding=bảng mã; regex=biểu thức chính quy (or Regex when UI short)
+case sensitive=phân biệt chữ hoa/thường; whole word=cả từ; clipboard=Clipboard; history=lịch sử; session=phiên
+agent=tác nhân; assistant=trợ lý; anonymize=ẩn danh hóa; translate=dịch; insert=chèn; edit=sửa; view=xem
+tools=công cụ; batch=hàng loạt; equal parts=các phần bằng nhau; next step=bước tiếp theo; guide=hướng dẫn
+Use natural modern Vietnamese desktop UI (northern/standard). Keep diacritics correct (ă â ê ô ơ ư đ, tones). Keep \r\n and Format tokens exactly.

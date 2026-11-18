@@ -10,7 +10,7 @@ const
   APPLICATION_NAME = 'FastFile';
   APPLICATION_EDITION = 'Professional';
   APPLICATION_DISPLAY_NAME = APPLICATION_NAME + ' ' + APPLICATION_EDITION;
-  APPLICATION_VERSION = '3.0.5.269';
+  APPLICATION_VERSION = '3.0.5.274';
   APPLICATION_FULLNAME = 'Professional editor for huge text files';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
@@ -434,7 +434,49 @@ const
     '*******************************************************'#13#10 +
     ''#13#10 +
     '-------------------------------------------------------'#13#10 +
-    '  v3.0.5.269  (2026-11-04)  (current)'#13#10 +
+    '  v3.0.5.274  (2026-11-18)  (current)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Search panels, list tools and RTL dialogs:'#13#10 +
+    '    Find / Filter / Bookmarks stack as an accordion with a loading'#13#10 +
+    '      cover; F3 no longer flashes that cover when Find is open.'#13#10 +
+    '    While a search panel is open, overflowing list buttons move'#13#10 +
+    '      into More; the strip restores when panels hide.'#13#10 +
+    '    Confirmation dialogs stay clickable in right-to-left mode;'#13#10 +
+    '      First / page buttons keep working after Last; page status'#13#10 +
+    '      follows the UI language.'#13#10 +
+    '    F1 and all 30 UI languages updated.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.273  (2026-11-18)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  List navigation after Last:'#13#10 +
+    '    First and page buttons no longer stick at the end of the file;'#13#10 +
+    '      the toolbar keeps First fully on screen; Occurrences page'#13#10 +
+    '      caption refreshes when the language changes.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.272  (2026-11-18)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  RTL dialogs and line column after language change:'#13#10 +
+    '    Yes/No and OK stay under the mouse in Arabic/Hebrew (and with'#13#10 +
+    '      bidi on). Leaving RTL resizes the Line # column again.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.271  (2026-11-18)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  F3 without Find loading flicker; More only with panels:'#13#10 +
+    '    F3 / Shift+F3 update status without rematerializing the dock.'#13#10 +
+    '    Overflow More appears only while Find/Filter/Bookmarks is open.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.270  (2026-11-18)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Search dock accordion:'#13#10 +
+    '    Two or more panels show a loading cover, then stack with one'#13#10 +
+    '      body open at a time; hiding all returns the normal layout.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.269  (2026-11-04)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  Two more interface languages:'#13#10 +
     '    Finnish and Vietnamese bring the application to 30 languages.'#13#10 +

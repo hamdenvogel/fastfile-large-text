@@ -426,7 +426,6 @@ object frmMain: TfrmMain
             SkinData.SkinSection = 'TOOLBUTTON'
             Blend = 20
             Reflected = True
-            ExplicitLeft = 243
           end
           object btnMainMergeFiles: TsSpeedButton
             Left = 121
@@ -444,7 +443,6 @@ object frmMain: TfrmMain
             SkinData.SkinSection = 'TOOLBUTTON'
             Blend = 20
             Reflected = True
-            ExplicitLeft = 121
           end
           object btnMainSplitFiles: TsSpeedButton
             Left = 361
@@ -4136,6 +4134,24 @@ object frmMain: TfrmMain
                   TabOrder = 1
                   OnClick = chkShowLineHintsClick
                 end
+                object chkShowAssistant: TsCheckBox
+                  Left = 270
+                  Top = 4
+                  Width = 123
+                  Height = 17
+                  Hint = 'Show or hide the AI Assistant panel (Ctrl+Alt+A)'
+                  Caption = 'AI Assistant (ON)'
+                  Font.Charset = DEFAULT_CHARSET
+                  Font.Color = clWindowText
+                  Font.Height = -11
+                  Font.Name = 'Tahoma'
+                  Font.Style = [fsBold]
+                  ParentFont = False
+                  ParentShowHint = False
+                  ShowHint = True
+                  TabOrder = 2
+                  OnClick = chkShowAssistantClick
+                end
               end
             end
           end
@@ -4147,9 +4163,9 @@ object frmMain: TfrmMain
       OnShow = tabSplitFileShow
       object pgcSplitFiles: TsPageControl
         Left = 0
-        Top = 104
+        Top = 76
         Width = 1030
-        Height = 279
+        Height = 307
         ActivePage = tabSplitByLines
         Align = alClient
         TabOrder = 0
@@ -4162,7 +4178,7 @@ object frmMain: TfrmMain
             Left = 0
             Top = 0
             Width = 1022
-            Height = 251
+            Height = 279
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 0
@@ -4273,14 +4289,14 @@ object frmMain: TfrmMain
             Left = 0
             Top = 0
             Width = 1022
-            Height = 251
+            Height = 279
             Align = alClient
             TabOrder = 0
             object gbxSplitByFiles: TsGroupBox
               Left = 1
               Top = 1
               Width = 1020
-              Height = 249
+              Height = 277
               Align = alClient
               Caption = 'Generating splitted files - max 100'
               TabOrder = 0
@@ -4297,14 +4313,14 @@ object frmMain: TfrmMain
                 Left = 2
                 Top = 75
                 Width = 1016
-                Height = 172
+                Height = 200
                 Align = alClient
                 TabOrder = 0
                 object dbgFiles: TDBGrid
                   Left = 1
                   Top = 1
                   Width = 1014
-                  Height = 170
+                  Height = 198
                   Align = alClient
                   DataSource = dsFiles
                   Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgCancelOnExit]
@@ -4356,7 +4372,7 @@ object frmMain: TfrmMain
                 Align = alTop
                 TabOrder = 1
                 object sSplitter23: TsSplitter
-                  Left = 879
+                  Left = 747
                   Top = 1
                   Width = 3
                   Height = 55
@@ -4366,14 +4382,14 @@ object frmMain: TfrmMain
                 object pnlTrackBarSplitFile: TsPanel
                   Left = 1
                   Top = 1
-                  Width = 878
+                  Width = 746
                   Height = 55
                   Align = alClient
                   TabOrder = 0
                   object trkFiles: TsTrackBar
                     Left = 1
                     Top = 1
-                    Width = 876
+                    Width = 744
                     Height = 34
                     Align = alTop
                     Max = 100
@@ -4387,7 +4403,7 @@ object frmMain: TfrmMain
                   object pnlTrackBarValueSplitFile: TsPanel
                     Left = 1
                     Top = 39
-                    Width = 876
+                    Width = 744
                     Height = 15
                     Align = alBottom
                     BevelOuter = bvNone
@@ -4409,7 +4425,7 @@ object frmMain: TfrmMain
                   end
                 end
                 object pnlExecuteButtonSplitFile: TsPanel
-                  Left = 882
+                  Left = 750
                   Top = 1
                   Width = 265
                   Height = 55
@@ -4462,7 +4478,7 @@ object frmMain: TfrmMain
           Left = 1
           Top = 1
           Width = 1028
-          Height = 102
+          Height = 74
           Align = alClient
           Caption = 'File Info'
           TabOrder = 0

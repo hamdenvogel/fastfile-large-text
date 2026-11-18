@@ -1,7 +1,7 @@
 # FastFile — Índice esparso, passo a passo (`PI121106.txt`)
 
-**Documento de referência** (22 de outubro de 2026)  
-Versão de referência: **`3.0.5.239`** (Delphi 10.4.2 Win64)  
+**Documento de referência** (16 de novembro de 2026)  
+Versão de referência: **`3.0.5.269`** (Delphi 10.4.2 Win64)  
 Exemplo real: leitura de `C:\Hamden\PI121106.txt`  
 Unidades: `uSmoothLoading.pas`, `uLineIndexScan.pas`, `uFastFilePaths.pas`, `MainUnit.pas`, `UnConsts.pas`
 
@@ -14,14 +14,88 @@ Este texto regista como o FastFile descobre as linhas e como salta para uma linh
 
 ---
 
+## 0. Confirmações rápidas — linha 5 do `temp_ckpt` = `1306380`
+
+Trecho real do checkpoint (os mesmos valores aparecem em `src\Output\temp_ckpt.txt` ou ao lado do `.exe`, conforme a pasta de execução):
+
+```text
+                 1     ← linha 1 do editor = registo k=0
+            326412     ← linha 2 = k=1
+            653068     ← linha 3 = k=2
+            979724     ← linha 4 = k=3
+           1306380     ← linha 5 = k=4   ← foco
+           1633036     ← linha 6 = k=5   ← próximo marcador
+```
+
+### Pergunta 1 — A linha 5 cobre as linhas 5120..6143 na ListView?
+
+**Não.** Com “linha 5” = 5.ª linha no editor do `temp_ckpt.txt`:
+
+| Contagem | Valor |
+|----------|--------|
+| Índice do registo **k** (0-based) | **4** (= linha do editor − 1) |
+| Offset guardado | **1306380** (byte **1-based** no ficheiro fonte) |
+| Linhas na ListView (**0-based** `LineIndex`) | **4096 .. 5119** |
+| Linhas no fonte (**1-based**) | **4097 .. 5120** |
+
+O intervalo **5120 .. 6143** (0-based) / **5121 .. 6144** (1-based) é o da **linha 6** do ckpt (`1633036`, k=5), não o da linha 5.
+
+Fórmula:
+
+```text
+k              = (linha_no_editor_do_ckpt) - 1
+LineIndex_ini  = k × 1024          (0-based; inclusivo)
+LineIndex_fim  = (k + 1) × 1024 - 1
+linha_fonte    = k × 1024 + 1      (1-based; início do bloco)
+```
+
+No `MainUnit` (ramo esparso da ListView):
+
+```text
+CkptIdx   := LineIndex div CKPT_INTERVAL;   // 0-based
+SkipCount := LineIndex mod CKPT_INTERVAL;
+```
+
+### Pergunta 2 — Lê a partir de `1306380` até ao próximo offset?
+
+**Sim, no sentido da fronteira de bytes do bloco**, com estes detalhes:
+
+| Ponto | Valor | Significado |
+|-------|------:|-------------|
+| Início deste bloco | **1306380** | Início da linha 4097 do fonte (1-based) |
+| Próximo registo no ckpt | **1633036** | Início da linha 5121 (já é o bloco seguinte) |
+| Último byte deste bloco | **1633035** | Byte imediatamente anterior a `1633036` |
+
+Ou seja: o conteúdo deste bloco no fonte ocupa **`1306380` .. `1633035`** (inclusive). O valor **`1633036` já está escrito** na linha 6 do `temp_ckpt`; não é “um depois do próximo”.
+
+**Importante para a ListView:** ela **não** lê as 1024 linhas de uma vez a partir desse intervalo. Para cada item visível:
+
+1. escolhe o registo `CkptIdx` (`LineIndex div 1024`);
+2. se `SkipCount > 0`, conta esse número de fins de linha no fonte a partir do offset do marcador;
+3. lê **só essa linha** até ao próximo fim de linha.
+
+O próximo marcador define a fronteira do bloco; não é o fim de uma única leitura em massa.
+
+### Armadilha comum (off-by-one)
+
+| Confusão | Correcção |
+|----------|-----------|
+| “Linha 5 do ckpt ⇒ 5 × 1024 = 5120” | No editor a linha 5 é **k=4** ⇒ 4 × 1024 = **4096** (0-based) |
+| “Próximo offset é 1633035” | **1633035** é o último byte do bloco; o **próximo marcador** é **1633036** |
+| “O ckpt é o índice completo” | Acima de 2 GB só existe o ckpt; até 2 GB o denso `temp.txt` (1 offset por linha) tem prioridade |
+
+Se existir `temp.txt` válido, `ResolveWorkingLineIndexPath` e o ramo `FIndexFileStream` preferem o denso: a ListView **não** usa este cálculo do ckpt.
+
+---
+
 ## 1. Os dois ficheiros desta leitura
 
-Correndo a partir do IDE, a pasta do executável é `src\Build\Win64\`. Os ficheiros de trabalho ficam ao lado do `.exe` (`FastFileExeDirPath` = `ExtractFilePath(ParamStr(0))`).
+Os ficheiros de trabalho ficam ao lado do `.exe` (`FastFileExeDirPath` = `ExtractFilePath(ParamStr(0))`). Conforme a pasta de execução, o mesmo conteúdo pode aparecer em `src\Build\Win64\`, `src\Output\`, etc.
 
-| Ficheiro | Caminho nesta leitura | Papel |
-|----------|------------------------|--------|
-| `temp_index.meta` | `src\Build\Win64\temp_index.meta` | Identifica o fonte e guarda o total de linhas |
-| `temp_ckpt.txt` | `src\Build\Win64\temp_ckpt.txt` | Marcadores: o byte onde começa 1 linha em cada 1024 |
+| Ficheiro | Exemplo de caminho | Papel |
+|----------|---------------------|--------|
+| `temp_index.meta` | `…\temp_index.meta` | Identifica o fonte e guarda o total de linhas |
+| `temp_ckpt.txt` | `…\temp_ckpt.txt` (ex.: `src\Output\temp_ckpt.txt`) | Marcadores: o byte onde começa 1 linha em cada 1024 |
 
 O `PI121106.txt` tem **2.959.579.235 bytes** (cerca de 2,96 GB), acima do corte de 2 GB (`DENSE_INDEX_MAX_BYTES`). Por isso **não** existe `temp.txt` denso. Um denso teria cerca de 9,2 milhões × 20 bytes ≈ 177 MB. O checkpoint ficou com **181.220 bytes**.
 
@@ -113,6 +187,8 @@ Cada bloco completo cobre 1024 linhas. O último bloco pode ficar incompleto: o 
 ---
 
 ## 5. Como saltar para uma linha
+
+(As confirmações com o valor `1306380` estão na [secção 0](#0-confirmações-rápidas--linha-5-do-temp_ckpt--1306380).)
 
 A fórmula, com a linha **1-based**:
 
