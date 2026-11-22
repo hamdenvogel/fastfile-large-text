@@ -26,6 +26,7 @@ function ShowScriptRunPreview(AOwner: TComponent; const ALineNos: array of Int64
 implementation
 
 uses
+  UnConsts,
   Windows, SysUtils, Math, Controls, Forms, StdCtrls, ExtCtrls, ComCtrls, Graphics,
   uI18n, uFastFileScale, uBidiLayout;
 
@@ -110,7 +111,7 @@ begin
   BorderStyle := bsSizeable;
   BorderIcons := [biSystemMenu, biMaximize];
   Position := poOwnerFormCenter;
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   Color := clBtnFace;
   KeyPreview := True;
@@ -228,14 +229,14 @@ begin
   MmOrig.ReadOnly := True;
   MmOrig.ScrollBars := ssVertical;
   MmOrig.Color := CLR_ORIG_BG;
-  MmOrig.Font.Name := 'Consolas';
+  MmOrig.Font.Name := FONT_CONSOLAS;
   MmOrig.Font.Size := 9;
   MmRes := TMemo.Create(Self);
   MmRes.Parent := PnlDetail;
   MmRes.ReadOnly := True;
   MmRes.ScrollBars := ssVertical;
   MmRes.Color := CLR_OK_BG;
-  MmRes.Font.Name := 'Consolas';
+  MmRes.Font.Name := FONT_CONSOLAS;
   MmRes.Font.Size := 9;
 
   Lv := TListView.Create(Self);
@@ -249,7 +250,7 @@ begin
   Lv.RowSelect := True;
   Lv.HideSelection := False;
   Lv.GridLines := True;
-  Lv.Font.Name := 'Consolas';
+  Lv.Font.Name := FONT_CONSOLAS;
   Lv.Font.Size := 9;
   Col := Lv.Columns.Add;
   Col.Caption := TrText('ScriptPreview.ColLine');

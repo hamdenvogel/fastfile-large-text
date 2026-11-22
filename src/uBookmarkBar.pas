@@ -183,6 +183,7 @@ const
 implementation
 
 uses
+  UnConsts,
   uI18n, uBidiLayout, uMruFind, UnitPopupMruList, uUserPrefs;
 
 const
@@ -199,10 +200,10 @@ const
 
 function PreferUiFont: string;
 begin
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    Result := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    Result := FONT_SEGOE_UI
   else
-    Result := 'Tahoma';
+    Result := FONT_TAHOMA;
 end;
 
 procedure TFastFileBookmarkBar.CreateParams(var Params: TCreateParams);

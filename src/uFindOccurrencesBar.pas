@@ -51,6 +51,7 @@ type
     FBtnExport: TsButton;
     FBtnCopy: TsButton;
     FBtnClear: TsButton;
+    FBtnToggleList: TsButton;
     FBtnClose: TsButton;
     FBtnHide: TsButton;
     FBtnFloat: TsButton;
@@ -240,6 +241,7 @@ const
 implementation
 
 uses
+  UnConsts,
   uI18n, uBidiLayout, uMruFind, UnitPopupMruList, uUserPrefs;
 
 const
@@ -258,10 +260,10 @@ const
 
 function PreferUiFont: string;
 begin
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    Result := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    Result := FONT_SEGOE_UI
   else
-    Result := 'Tahoma';
+    Result := FONT_TAHOMA;
 end;
 
 { TFastFileFindOccBar }
@@ -595,6 +597,14 @@ begin
   FBtnClear.OnClick := BtnClearClick;
   StyleBtn(FBtnClear, UiFont, spbrQuiet);
 
+  { Labeled toggle for the hit list only (keeps the Find panel open). The header
+    chevron (FBtnListToggle) stays as a compact shortcut for the same action. }
+  FBtnToggleList := TsButton.Create(Self);
+  FBtnToggleList.Parent := FBtnRow;
+  FBtnToggleList.OnClick := BtnListToggleClick;
+  FBtnToggleList.Visible := False;
+  StyleBtn(FBtnToggleList, UiFont, spbrQuiet);
+
   FBtnClose := TsButton.Create(Self);
   FBtnClose.Parent := FBtnRow;
   FBtnClose.OnClick := BtnHideClick;
@@ -805,7 +815,7 @@ begin
     end;
 
     FlowH := FlowSoftPanelButtons([FBtnPrev, FBtnNext, FBtnCollect, FBtnLoadMore,
-      FBtnExport, FBtnCopy, FBtnGrep, FBtnGlob, FBtnClear, FBtnClose],
+      FBtnExport, FBtnCopy, FBtnGrep, FBtnGlob, FBtnClear, FBtnToggleList, FBtnClose],
       MeasureBmp.Canvas, 0, 0, InnerW, FfPx(FIND_OCC_BTN_H), Gap, FfPx(52),
       FfPx(FIND_OCC_BTN_PAD_X) - FfPx(4));
     FBtnRow.Height := FlowH + Gap;
@@ -941,6 +951,8 @@ begin
   StyleBtn(FBtnExport, UiFont, spbrAction);
   StyleBtn(FBtnCopy, UiFont, spbrAction);
   StyleBtn(FBtnClear, UiFont, spbrQuiet);
+  if Assigned(FBtnToggleList) then
+    StyleBtn(FBtnToggleList, UiFont, spbrQuiet);
   StyleBtn(FBtnClose, UiFont, spbrQuiet);
   StyleFrameBtn(FBtnHide, UiFont);
   StyleFrameBtn(FBtnFloat, UiFont);
@@ -1199,6 +1211,8 @@ begin
   ShowCtl(FBtnNext);
   ShowCtl(FBtnCollect);
   ShowCtl(FBtnClear);
+  if Assigned(FBtnToggleList) then
+    ShowCtl(FBtnToggleList);
   ShowCtl(FBtnClose);
   ShowCtl(FBtnHide);
   ShowCtl(FBtnFloat);
@@ -1249,26 +1263,48 @@ end;
 procedure TFastFileFindOccBar.SyncListToggle;
 var
   HasHits: Boolean;
+  Cap, Hint: string;
 begin
-  if not Assigned(FBtnListToggle) then Exit;
   HasHits := Assigned(FHitList) and (FHitList.Items.Count > 0);
-  { Keep header chrome quiet while the card is accordion-collapsed. }
-  FBtnListToggle.Visible := HasHits and (not FCollapsed);
-  if not FBtnListToggle.Visible then Exit;
   if FExpanded then
   begin
-    FBtnListToggle.Caption := #$25B4;
-    FBtnListToggle.Hint := TrText('FindOcc.HideListHint');
+    Cap := TrText('FindOcc.HideList');
+    Hint := TrText('FindOcc.HideListHint');
   end
   else
   begin
-    FBtnListToggle.Caption := #$25BE;
-    FBtnListToggle.Hint := TrText('FindOcc.ShowListHint');
+    Cap := TrText('FindOcc.ShowList');
+    Hint := TrText('FindOcc.ShowListHint');
   end;
-  FBtnListToggle.ShowHint := True;
-  { Keep it left of the float / close buttons. }
-  if Assigned(FBtnFloat) then
-    FBtnListToggle.Left := FBtnFloat.Left - FBtnListToggle.Width;
+
+  { Header chevron: compact shortcut. }
+  if Assigned(FBtnListToggle) then
+  begin
+    FBtnListToggle.Visible := HasHits and (not FCollapsed);
+    if FBtnListToggle.Visible then
+    begin
+      if FExpanded then
+        FBtnListToggle.Caption := #$25B4
+      else
+        FBtnListToggle.Caption := #$25BE;
+      FBtnListToggle.Hint := Hint;
+      FBtnListToggle.ShowHint := True;
+      if Assigned(FBtnFloat) then
+        FBtnListToggle.Left := FBtnFloat.Left - FBtnListToggle.Width;
+    end;
+  end;
+
+  { Action-row button: clear on/off label for the list only. }
+  if Assigned(FBtnToggleList) then
+  begin
+    FBtnToggleList.Visible := HasHits and (not FCollapsed);
+    if FBtnToggleList.Visible then
+    begin
+      FBtnToggleList.Caption := Cap;
+      FBtnToggleList.Hint := Hint;
+      FBtnToggleList.ShowHint := True;
+    end;
+  end;
 end;
 
 procedure TFastFileFindOccBar.ToggleHitList;
@@ -1398,7 +1434,11 @@ begin
   if Assigned(FBtnPageExport) then
     FBtnPageExport.Enabled := ATotalHits > 0;
   if KeepListCollapsed then
+  begin
+    SyncListToggle;
+    LayoutFrame;
     Exit;
+  end;
   { Fresh Collect / Load more / paging opens the hit list. }
   FListCollapsed := False;
   SetExpanded(True);

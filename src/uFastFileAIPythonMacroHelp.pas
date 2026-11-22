@@ -755,7 +755,7 @@ begin
   BorderIcons := [biSystemMenu, biMaximize];
   Position := poScreenCenter;
   Scaled := False;
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   ClientWidth := FfPx(900);
   ClientHeight := FfPx(740);
@@ -778,7 +778,7 @@ begin
   MemoResp.ScrollBars := ssBoth;
   MemoResp.WordWrap := False;
   MemoResp.Color := PYAI_CLR_CODEBG;
-  MemoResp.Font.Name := 'Consolas';
+  MemoResp.Font.Name := FONT_CONSOLAS;
   MemoResp.Font.Size := 10;
 
   PopResp := TPopupMenu.Create(Self);
@@ -832,7 +832,7 @@ begin
   MemoCtx.Parent := PnlTop;
   MemoCtx.ReadOnly := True;
   MemoCtx.Color := PYAI_CLR_CODEBG;
-  MemoCtx.Font.Name := 'Consolas';
+  MemoCtx.Font.Name := FONT_CONSOLAS;
   MemoCtx.Font.Size := 9;
   MemoCtx.ScrollBars := ssBoth;
   MemoCtx.WordWrap := False;

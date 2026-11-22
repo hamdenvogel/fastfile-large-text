@@ -22,6 +22,7 @@ function AICapabilitiesText(AKind: TAICapsKind; AMarkdown: Boolean = False): str
 implementation
 
 uses
+  UnConsts,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Dialogs,
   Clipbrd, Math, uI18n, uFastFileScale, uSourceCodeHelpDlg, uBidiLayout;
 
@@ -260,10 +261,10 @@ constructor TCapsForm.CreateFor(AKind: TAICapsKind);
 begin
   inherited CreateNew(Application);
   FKind := AKind;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    FUiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    FUiFont := FONT_SEGOE_UI
   else
-    FUiFont := 'Tahoma';
+    FUiFont := FONT_TAHOMA;
   BorderStyle := bsSizeable;
   BorderIcons := [biSystemMenu, biMaximize];
   Position := poMainFormCenter;

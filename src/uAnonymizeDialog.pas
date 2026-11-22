@@ -567,7 +567,7 @@ begin
   MemoDetail.Height := S(78);
   MemoDetail.ReadOnly := True;
   MemoDetail.ScrollBars := ssVertical;
-  MemoDetail.Font.Name := 'Consolas';
+  MemoDetail.Font.Name := FONT_CONSOLAS;
   MemoDetail.Font.Size := 9;
   BidiKeepLtr(MemoDetail);
 
@@ -588,7 +588,7 @@ begin
   LvPreview.ReadOnly := True;
   LvPreview.RowSelect := True;
   LvPreview.HideSelection := False;
-  LvPreview.Font.Name := 'Consolas';
+  LvPreview.Font.Name := FONT_CONSOLAS;
   LvPreview.Font.Size := 9;
   BidiKeepLtr(LvPreview);
   Col := LvPreview.Columns.Add;

@@ -1507,6 +1507,7 @@ en|T|FindOcc.Export|Export
 en|T|FindOcc.ExportHint|Export collected occurrences to a file
 en|T|FindOcc.Go|Find
 en|T|FindOcc.GoHint|Find the next match (same as Ctrl+F)
+en|T|FindOcc.HideList|Hide list
 en|T|FindOcc.HideListHint|Hide the hit list (keeps the Find panel open)
 en|T|FindOcc.HitLimitReached|Occurrence limit reached (5,000,000). Narrow the search text or export what you have.
 en|T|FindOcc.HitLineFmt|Line %d: %s
@@ -1532,6 +1533,7 @@ en|T|FindOcc.RecentMore|Show more
 en|T|FindOcc.RecentMoreHint|Show the remaining recent searches
 en|T|FindOcc.ResizeHint|Drag to resize the occurrences list. Double-click toggles the default height and half the window.
 en|T|FindOcc.SearchHint|Type text to find (same as Ctrl+F), then Enter
+en|T|FindOcc.ShowList|Show list
 en|T|FindOcc.ShowListHint|Show the hit list
 en|T|FindOcc.Status.Collecting|Collecting matches for "%s"...
 en|T|FindOcc.Status.CollectingShort|Collecting matches...
@@ -2439,6 +2441,11 @@ en|T|Recent Folders|Recent Folders
 en|T|Recent tabs.Hint|Reopen a tab used recently, or restore the last session
 en|T|RecentFiles.More|Show more
 en|T|RecentFiles.MoreHint|Show the remaining recent files
+en|T|RecentFiles.SessionHint|This file has a saved session (cursor, bookmarks, filters). Open it to restore.
+en|T|RecentFiles.SessionNoneHint|No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).
+en|T|RecentFiles.SessionOpenHint|"%s" has a saved session. Open the file to restore cursor, bookmarks and filters.
+en|T|RecentFiles.SessionSaved|● Saved
+en|T|RecentFiles.SessionTip|Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file.
 en|T|red: removed (left)|red = removed (left)
 en|T|Redo|Redo
 en|T|Redo delete on line %d? The line will be deleted again.|Redo delete on line %d? The line will be deleted again.
@@ -2688,6 +2695,9 @@ en|T|Send|Send
 en|T|Session|Session
 en|T|Session history|Session history
 en|T|Session.AskAI|Ask the AI about this session
+en|T|Session.LoadedDetail|Cursor position, bookmarks, filters and view options were restored for this file.
+en|T|Session.NeedFile|Open and read a file first to save or load its session.
+en|T|Session.SavedDetail|Cursor position, bookmarks, filters and view options were saved for this file.
 en|T|Set how many files should be generated.|Set how many files should be generated.
 en|T|Shortcut: |Shortcut: 
 en|T|Show &marks (tab/space/CR/LF, etc.)|Show &marks (tab/space/CR/LF, etc.)
@@ -2884,16 +2894,24 @@ en|T|TAB|TAB
 en|T|Tab content.|Tab content.
 en|T|TabCtx.Close|Close tab
 en|T|TabCtx.CloseAll|Close all tabs
+en|T|TabCtx.CloseAllHint|Close all open tabs
+en|T|TabCtx.CloseAllShort|Close all
+en|T|TabCtx.ClosedAll|All tabs closed
+en|T|TabCtx.ClosedAllDetail|Use Session → Reopen closed tab or Restore last session tabs to bring them back.
 en|T|TabCtx.ClosedList|Recently closed tabs
 en|T|TabCtx.CloseLeft|Close tabs to the left
 en|T|TabCtx.CloseOthers|Close all but this tab
 en|T|TabCtx.CloseOthersActive|Close all but the active tab
 en|T|TabCtx.CloseRight|Close tabs to the right
+en|T|TabCtx.ConfirmCloseAll|Close all %d open tabs?
 en|T|TabCtx.MenuButtonHint|Tab options: open tabs, reopen closed tab, save / restore tabs, close tabs (also by right-clicking a tab)
 en|T|TabCtx.NoClosed|No closed tabs in this session
+en|T|TabCtx.NoSavedTabs|No saved open tabs were found for this session.
 en|T|TabCtx.OpenTabs|Open tabs
 en|T|TabCtx.Reopen|Reopen closed tab
 en|T|TabCtx.ReopenNamed|Reopen closed tab: %s
+en|T|TabCtx.RestoredTabs|Tabs restored
+en|T|TabCtx.RestoredTabsDetail|%d tab(s) from the last session were restored.
 en|T|TabCtx.SavedOpen|Open tabs saved
 en|T|TabCtx.SavedOpenDetail|%d tab(s). Use "Restore last session tabs" to reopen them.
 en|T|TabCtx.SaveOpen|Save open tabs
@@ -2995,6 +3013,7 @@ en|T|Toolbar.AIAssistant|AI Assistant (ON)
 en|T|Toolbar.AIAssistantHint|Show or hide the AI Assistant panel (Ctrl+Alt+A)
 en|T|Toolbar.PythonMacro|Python macro
 en|T|Toolbar.PythonMacroHint|Open the Python macros panel to transform the file lines with a script (Ctrl+Alt+E)
+en|T|Toolbar.RecentFiles|Recent files
 en|T|ToolsGallery.ClearSearch|Clear search
 en|T|ToolsGallery.GroupAppearance|Appearance
 en|T|ToolsGallery.GroupFind|Search
@@ -4751,6 +4770,7 @@ pt-BR|T|FindOcc.Export|Exportar
 pt-BR|T|FindOcc.ExportHint|Exportar ocorrências recolhidas para arquivo
 pt-BR|T|FindOcc.Go|Buscar
 pt-BR|T|FindOcc.GoHint|Buscar a próxima ocorrência (igual a Ctrl+F)
+pt-BR|T|FindOcc.HideList|Ocultar lista
 pt-BR|T|FindOcc.HideListHint|Ocultar a lista de ocorrências (mantém o painel de busca aberto)
 pt-BR|T|FindOcc.HitLimitReached|Limite de ocorrências atingido (5.000.000). Refine o texto de busca ou exporte o que já tem.
 pt-BR|T|FindOcc.HitLineFmt|Linha %d: %s
@@ -4776,6 +4796,7 @@ pt-BR|T|FindOcc.RecentMore|Mostrar mais
 pt-BR|T|FindOcc.RecentMoreHint|Mostrar as demais pesquisas recentes
 pt-BR|T|FindOcc.ResizeHint|Arraste para redimensionar a lista de ocorrências. Duplo clique alterna a altura padrão e metade da janela.
 pt-BR|T|FindOcc.SearchHint|Digite o texto a buscar (igual a Ctrl+F) e pressione Enter
+pt-BR|T|FindOcc.ShowList|Mostrar lista
 pt-BR|T|FindOcc.ShowListHint|Mostrar a lista de ocorrências
 pt-BR|T|FindOcc.Status.Collecting|A recolher ocorrências de "%s"...
 pt-BR|T|FindOcc.Status.CollectingShort|A recolher ocorrências...
@@ -5776,6 +5797,11 @@ pt-BR|T|Recent Folders|Pastas recentes
 pt-BR|T|Recent tabs.Hint|Reabrir uma aba usada recentemente, ou restaurar a última sessão
 pt-BR|T|RecentFiles.More|Mostrar mais
 pt-BR|T|RecentFiles.MoreHint|Mostrar os demais arquivos recentes
+pt-BR|T|RecentFiles.SessionHint|Este arquivo tem uma sessão salva (cursor, favoritos, filtros). Abra-o para restaurar.
+pt-BR|T|RecentFiles.SessionNoneHint|Ainda não há sessão salva para este arquivo. Depois de abri-lo, use Sessão → Salvar sessão agora (Ctrl+Alt+S).
+pt-BR|T|RecentFiles.SessionOpenHint|"%s" tem uma sessão salva. Abra o arquivo para restaurar cursor, favoritos e filtros.
+pt-BR|T|RecentFiles.SessionSaved|● Salva
+pt-BR|T|RecentFiles.SessionTip|Coluna Sessão: “Salva” significa que cursor, favoritos e filtros podem ser restaurados ao reabrir o arquivo.
 pt-BR|T|red: removed (left)|vermelho = removido (esquerda)
 pt-BR|T|Redo|Refazer
 pt-BR|T|Redo delete on line %d? The line will be deleted again.|Refazer exclusão na linha %d? A linha será excluida novamente.
@@ -6071,6 +6097,9 @@ pt-BR|T|Session history|Histórico de edição (sessão)
 pt-BR|T|Session loaded.|Sessão carregada.
 pt-BR|T|Session saved.|Sessão salva.
 pt-BR|T|Session.AskAI|Perguntar à IA sobre esta sessão
+pt-BR|T|Session.LoadedDetail|Posição do cursor, favoritos, filtros e opções de visualização foram restaurados para este arquivo.
+pt-BR|T|Session.NeedFile|Abra e leia um arquivo primeiro para salvar ou carregar a sessão dele.
+pt-BR|T|Session.SavedDetail|Posição do cursor, favoritos, filtros e opções de visualização foram salvos para este arquivo.
 pt-BR|T|Set how many files should be generated.|Defina quantos arquivos devem ser gerados.
 pt-BR|T|Short Overview|Visão geral
 pt-BR|T|Shortcut: |Atalho: 
@@ -6291,16 +6320,24 @@ pt-BR|T|TAB|Tabulador
 pt-BR|T|Tab content.|Conteúdo da aba.
 pt-BR|T|TabCtx.Close|Fechar aba
 pt-BR|T|TabCtx.CloseAll|Fechar todas as abas
+pt-BR|T|TabCtx.CloseAllHint|Fechar todas as abas abertas
+pt-BR|T|TabCtx.CloseAllShort|Fechar todas
+pt-BR|T|TabCtx.ClosedAll|Todas as abas foram fechadas
+pt-BR|T|TabCtx.ClosedAllDetail|Use Sessão → Reabrir aba fechada ou Restaurar abas da última sessão para recuperá-las.
 pt-BR|T|TabCtx.ClosedList|Abas fechadas recentemente
 pt-BR|T|TabCtx.CloseLeft|Fechar abas à esquerda
 pt-BR|T|TabCtx.CloseOthers|Fechar todas menos esta
 pt-BR|T|TabCtx.CloseOthersActive|Fechar todas menos a aba ativa
 pt-BR|T|TabCtx.CloseRight|Fechar abas à direita
+pt-BR|T|TabCtx.ConfirmCloseAll|Fechar todas as %d abas abertas?
 pt-BR|T|TabCtx.MenuButtonHint|Opções das abas: abas abertas, reabrir aba fechada, salvar / restaurar abas, fechar abas (também com o botão direito sobre uma aba)
 pt-BR|T|TabCtx.NoClosed|Nenhuma aba fechada nesta sessão
+pt-BR|T|TabCtx.NoSavedTabs|Nenhuma aba aberta salva foi encontrada para esta sessão.
 pt-BR|T|TabCtx.OpenTabs|Abas abertas
 pt-BR|T|TabCtx.Reopen|Reabrir aba fechada
 pt-BR|T|TabCtx.ReopenNamed|Reabrir aba fechada: %s
+pt-BR|T|TabCtx.RestoredTabs|Abas restauradas
+pt-BR|T|TabCtx.RestoredTabsDetail|%d aba(s) da última sessão foram restauradas.
 pt-BR|T|TabCtx.SavedOpen|Abas abertas salvas
 pt-BR|T|TabCtx.SavedOpenDetail|%d aba(s). Use "Restaurar abas da última sessão" para reabri-las.
 pt-BR|T|TabCtx.SaveOpen|Salvar abas abertas
@@ -6423,6 +6460,7 @@ pt-BR|T|Toolbar.AIAssistant|Assistente IA (ON)
 pt-BR|T|Toolbar.AIAssistantHint|Mostrar ou ocultar o painel do Assistente IA (Ctrl+Alt+A)
 pt-BR|T|Toolbar.PythonMacro|Macro Python
 pt-BR|T|Toolbar.PythonMacroHint|Abre o painel de macros Python para transformar as linhas do arquivo com um script (Ctrl+Alt+E)
+pt-BR|T|Toolbar.RecentFiles|Arquivos recentes
 pt-BR|T|Tools|Ferramentas
 pt-BR|T|ToolsGallery.ClearSearch|Limpar procura
 pt-BR|T|ToolsGallery.GroupAppearance|Aparência
@@ -8198,6 +8236,7 @@ es|T|FindOcc.Export|Exportar
 es|T|FindOcc.ExportHint|Exportar ocurrencias a un archivo
 es|T|FindOcc.Go|Buscar
 es|T|FindOcc.GoHint|Buscar la siguiente coincidencia (igual que Ctrl+F)
+es|T|FindOcc.HideList|Ocultar lista
 es|T|FindOcc.HideListHint|Ocultar la lista de coincidencias (mantiene abierto el panel de búsqueda)
 es|T|FindOcc.HitLimitReached|Límite de ocurrencias alcanzado (5.000.000). Refine el texto de búsqueda o exporte lo que tiene.
 es|T|FindOcc.HitLineFmt|Línea %d: %s
@@ -8223,6 +8262,7 @@ es|T|FindOcc.RecentMore|Mostrar más
 es|T|FindOcc.RecentMoreHint|Mostrar las demás búsquedas recientes
 es|T|FindOcc.ResizeHint|Arrastre para cambiar la lista de ocurrencias. Doble clic alterna la altura predeterminada y la mitad de la ventana.
 es|T|FindOcc.SearchHint|Escriba el texto a buscar (igual que Ctrl+F) y pulse Enter
+es|T|FindOcc.ShowList|Mostrar lista
 es|T|FindOcc.ShowListHint|Mostrar la lista de coincidencias
 es|T|FindOcc.Status.Collecting|Recopilando coincidencias de "%s"...
 es|T|FindOcc.Status.CollectingShort|Recopilando coincidencias...
@@ -9223,6 +9263,11 @@ es|T|Recent Folders|Carpetas recientes
 es|T|Recent tabs.Hint|Reabrir una pestaña usada recientemente, o restaurar la última sesión
 es|T|RecentFiles.More|Mostrar más
 es|T|RecentFiles.MoreHint|Mostrar los demás archivos recientes
+es|T|RecentFiles.SessionHint|Este archivo tiene una sesión guardada (cursor, marcadores, filtros). Ábralo para restaurar.
+es|T|RecentFiles.SessionNoneHint|Aún no hay sesión guardada para este archivo. Tras abrirlo, use Sesión → Guardar sesión ahora (Ctrl+Alt+S).
+es|T|RecentFiles.SessionOpenHint|"%s" tiene una sesión guardada. Abra el archivo para restaurar cursor, marcadores y filtros.
+es|T|RecentFiles.SessionSaved|● Guardada
+es|T|RecentFiles.SessionTip|Columna Sesión: “Guardada” significa que el cursor, marcadores y filtros se pueden restaurar al reabrir el archivo.
 es|T|red: removed (left)|rojo = eliminado (izquierda)
 es|T|Redo|Rehacer
 es|T|Redo delete on line %d? The line will be deleted again.|Rehacer eliminación en la línea %d? La línea se eliminara de nuevo.
@@ -9516,6 +9561,9 @@ es|T|Session history|Historial de edición (sesión)
 es|T|Session loaded.|Sesión cargada.
 es|T|Session saved.|Sesión guardada.
 es|T|Session.AskAI|Preguntar a la IA sobre esta sesión
+es|T|Session.LoadedDetail|Se restauraron la posición del cursor, marcadores, filtros y opciones de vista de este archivo.
+es|T|Session.NeedFile|Abra y lea un archivo primero para guardar o cargar su sesión.
+es|T|Session.SavedDetail|Se guardaron la posición del cursor, marcadores, filtros y opciones de vista de este archivo.
 es|T|Set how many files should be generated.|Indique cuántos archivos se generarán.
 es|T|Short Overview|Resumen
 es|T|Shortcut: |Atajo: 
@@ -9736,16 +9784,24 @@ es|T|TAB|Tabulacion
 es|T|Tab content.|Contenido de la pestaña.
 es|T|TabCtx.Close|Cerrar pestaña
 es|T|TabCtx.CloseAll|Cerrar todas las pestañas
+es|T|TabCtx.CloseAllHint|Cerrar todas las pestañas abiertas
+es|T|TabCtx.CloseAllShort|Cerrar todas
+es|T|TabCtx.ClosedAll|Todas las pestañas se cerraron
+es|T|TabCtx.ClosedAllDetail|Use Sesión → Reabrir pestaña cerrada o Restaurar pestañas de la última sesión para recuperarlas.
 es|T|TabCtx.ClosedList|Pestañas cerradas recientemente
 es|T|TabCtx.CloseLeft|Cerrar pestañas a la izquierda
 es|T|TabCtx.CloseOthers|Cerrar todas menos esta
 es|T|TabCtx.CloseOthersActive|Cerrar todas menos la pestaña activa
 es|T|TabCtx.CloseRight|Cerrar pestañas a la derecha
+es|T|TabCtx.ConfirmCloseAll|¿Cerrar las %d pestañas abiertas?
 es|T|TabCtx.MenuButtonHint|Opciones de pestañas: pestañas abiertas, reabrir pestaña cerrada, guardar / restaurar pestañas, cerrar pestañas (también con clic derecho sobre una pestaña)
 es|T|TabCtx.NoClosed|Ninguna pestaña cerrada en esta sesión
+es|T|TabCtx.NoSavedTabs|No se encontraron pestañas abiertas guardadas para esta sesión.
 es|T|TabCtx.OpenTabs|Pestañas abiertas
 es|T|TabCtx.Reopen|Reabrir pestaña cerrada
 es|T|TabCtx.ReopenNamed|Reabrir pestaña cerrada: %s
+es|T|TabCtx.RestoredTabs|Pestañas restauradas
+es|T|TabCtx.RestoredTabsDetail|Se restauraron %d pestaña(s) de la última sesión.
 es|T|TabCtx.SavedOpen|Pestañas abiertas guardadas
 es|T|TabCtx.SavedOpenDetail|%d pestaña(s). Use "Restaurar pestañas de la última sesión" para reabrirlas.
 es|T|TabCtx.SaveOpen|Guardar pestañas abiertas
@@ -9868,6 +9924,7 @@ es|T|Toolbar.AIAssistant|Asistente IA (ON)
 es|T|Toolbar.AIAssistantHint|Mostrar u ocultar el panel del Asistente IA (Ctrl+Alt+A)
 es|T|Toolbar.PythonMacro|Macro Python
 es|T|Toolbar.PythonMacroHint|Abre el panel de macros Python para transformar las líneas del archivo con un script (Ctrl+Alt+E)
+es|T|Toolbar.RecentFiles|Archivos recientes
 es|T|Tools|Herramientas
 es|T|ToolsGallery.ClearSearch|Borrar búsqueda
 es|T|ToolsGallery.GroupAppearance|Apariencia
@@ -11643,6 +11700,7 @@ fr|T|FindOcc.Export|Exporter
 fr|T|FindOcc.ExportHint|Exporter les occurrences vers un fichier
 fr|T|FindOcc.Go|Rechercher
 fr|T|FindOcc.GoHint|Rechercher la correspondance suivante (comme Ctrl+F)
+fr|T|FindOcc.HideList|Masquer la liste
 fr|T|FindOcc.HideListHint|Masquer la liste des résultats (le panneau de recherche reste ouvert)
 fr|T|FindOcc.HitLimitReached|Limite d'occurrences atteinte (5 000 000). Affinez le texte ou exportez ce que vous avez.
 fr|T|FindOcc.HitLineFmt|Ligne %d : %s
@@ -11668,6 +11726,7 @@ fr|T|FindOcc.RecentMore|Afficher plus
 fr|T|FindOcc.RecentMoreHint|Afficher les autres recherches récentes
 fr|T|FindOcc.ResizeHint|Glissez pour redimensionner la liste. Double-clic : hauteur par défaut ou moitié de la fenêtre.
 fr|T|FindOcc.SearchHint|Saisissez le texte à chercher (comme Ctrl+F), puis Entrée
+fr|T|FindOcc.ShowList|Afficher la liste
 fr|T|FindOcc.ShowListHint|Afficher la liste des résultats
 fr|T|FindOcc.Status.Collecting|Collecte des correspondances pour « %s »...
 fr|T|FindOcc.Status.CollectingShort|Collecte des correspondances...
@@ -12668,6 +12727,11 @@ fr|T|Recent Folders|Dossiers récents
 fr|T|Recent tabs.Hint|Réouvrir un onglet récent, ou restaurer la dernière session
 fr|T|RecentFiles.More|Afficher plus
 fr|T|RecentFiles.MoreHint|Afficher les autres fichiers récents
+fr|T|RecentFiles.SessionHint|Ce fichier a une session enregistrée (curseur, signets, filtres). Ouvrez-le pour restaurer.
+fr|T|RecentFiles.SessionNoneHint|Pas encore de session enregistrée pour ce fichier. Après l'ouverture, utilisez Session → Enregistrer la session (Ctrl+Alt+S).
+fr|T|RecentFiles.SessionOpenHint|"%s" a une session enregistrée. Ouvrez le fichier pour restaurer curseur, signets et filtres.
+fr|T|RecentFiles.SessionSaved|● Enregistrée
+fr|T|RecentFiles.SessionTip|Colonne Session : « Enregistrée » signifie que curseur, signets et filtres peuvent être restaurés à la réouverture.
 fr|T|red: removed (left)|rouge = supprimé (gauche)
 fr|T|Redo|Rétablir
 fr|T|Redo delete on line %d? The line will be deleted again.|Rétablir la suppression a la ligne %d ? La ligne sera supprimee a nouveau.
@@ -12961,6 +13025,9 @@ fr|T|Session history|Historique d'édition (session)
 fr|T|Session loaded.|Session chargée.
 fr|T|Session saved.|Session enregistrée.
 fr|T|Session.AskAI|Demander à l'IA cette session
+fr|T|Session.LoadedDetail|La position du curseur, les signets, les filtres et les options d'affichage ont été restaurés.
+fr|T|Session.NeedFile|Ouvrez et lisez d'abord un fichier pour enregistrer ou charger sa session.
+fr|T|Session.SavedDetail|La position du curseur, les signets, les filtres et les options d'affichage ont été enregistrés.
 fr|T|Set how many files should be generated.|Définissez le nombre de fichiers à générer.
 fr|T|Short Overview|Aperçu
 fr|T|Shortcut: |Raccourci: 
@@ -13181,16 +13248,24 @@ fr|T|TAB|Tabulation
 fr|T|Tab content.|Contenu de l'onglet.
 fr|T|TabCtx.Close|Fermer l'onglet
 fr|T|TabCtx.CloseAll|Fermer tous les onglets
+fr|T|TabCtx.CloseAllHint|Fermer tous les onglets ouverts
+fr|T|TabCtx.CloseAllShort|Tout fermer
+fr|T|TabCtx.ClosedAll|Tous les onglets ont été fermés
+fr|T|TabCtx.ClosedAllDetail|Utilisez Session → Rouvrir l'onglet fermé ou Restaurer les onglets de la dernière session.
 fr|T|TabCtx.ClosedList|Onglets récemment fermés
 fr|T|TabCtx.CloseLeft|Fermer les onglets à gauche
 fr|T|TabCtx.CloseOthers|Fermer tous les autres onglets
 fr|T|TabCtx.CloseOthersActive|Fermer tous les onglets sauf l'actif
 fr|T|TabCtx.CloseRight|Fermer les onglets à droite
+fr|T|TabCtx.ConfirmCloseAll|Fermer les %d onglets ouverts ?
 fr|T|TabCtx.MenuButtonHint|Options des onglets : onglets ouverts, rouvrir l'onglet fermé, enregistrer / restaurer les onglets, fermer des onglets (aussi par clic droit sur un onglet)
 fr|T|TabCtx.NoClosed|Aucun onglet fermé dans cette session
+fr|T|TabCtx.NoSavedTabs|Aucun onglet ouvert enregistré n'a été trouvé pour cette session.
 fr|T|TabCtx.OpenTabs|Onglets ouverts
 fr|T|TabCtx.Reopen|Rouvrir l'onglet fermé
 fr|T|TabCtx.ReopenNamed|Rouvrir l'onglet fermé : %s
+fr|T|TabCtx.RestoredTabs|Onglets restaurés
+fr|T|TabCtx.RestoredTabsDetail|%d onglet(s) de la dernière session ont été restaurés.
 fr|T|TabCtx.SavedOpen|Onglets ouverts enregistrés
 fr|T|TabCtx.SavedOpenDetail|%d onglet(s). Utilisez « Restaurer les onglets de la dernière session » pour les rouvrir.
 fr|T|TabCtx.SaveOpen|Enregistrer les onglets ouverts
@@ -13313,6 +13388,7 @@ fr|T|Toolbar.AIAssistant|Assistant IA (ON)
 fr|T|Toolbar.AIAssistantHint|Afficher ou masquer le panneau Assistant IA (Ctrl+Alt+A)
 fr|T|Toolbar.PythonMacro|Macro Python
 fr|T|Toolbar.PythonMacroHint|Ouvre le panneau des macros Python pour transformer les lignes du fichier avec un script (Ctrl+Alt+E)
+fr|T|Toolbar.RecentFiles|Fichiers récents
 fr|T|Tools|Outils
 fr|T|ToolsGallery.ClearSearch|Effacer la recherche
 fr|T|ToolsGallery.GroupAppearance|Apparence
@@ -15088,6 +15164,7 @@ de|T|FindOcc.Export|Exportieren
 de|T|FindOcc.ExportHint|Treffer in eine Datei exportieren
 de|T|FindOcc.Go|Suchen
 de|T|FindOcc.GoHint|Nächsten Treffer suchen (wie Ctrl+F)
+de|T|FindOcc.HideList|Liste ausblenden
 de|T|FindOcc.HideListHint|Trefferliste ausblenden (Suchbereich bleibt geöffnet)
 de|T|FindOcc.HitLimitReached|Treffergrenze erreicht (5.000.000). Suchtext eingrenzen oder bisherige Treffer exportieren.
 de|T|FindOcc.HitLineFmt|Zeile %d: %s
@@ -15113,6 +15190,7 @@ de|T|FindOcc.RecentMore|Mehr anzeigen
 de|T|FindOcc.RecentMoreHint|Weitere letzte Suchen anzeigen
 de|T|FindOcc.ResizeHint|Ziehen, um die Trefferliste anzupassen. Doppelklick: Standardhöhe oder halbes Fenster.
 de|T|FindOcc.SearchHint|Suchtext eingeben (wie Ctrl+F), dann Enter
+de|T|FindOcc.ShowList|Liste anzeigen
 de|T|FindOcc.ShowListHint|Trefferliste anzeigen
 de|T|FindOcc.Status.Collecting|Treffer für „%s“ werden gesammelt...
 de|T|FindOcc.Status.CollectingShort|Treffer werden gesammelt...
@@ -16113,6 +16191,11 @@ de|T|Recent Folders|Zuletzt geöffnete Ordner
 de|T|Recent tabs.Hint|Zuletzt verwendete Registerkarte erneut öffnen oder letzte Sitzung wiederherstellen
 de|T|RecentFiles.More|Mehr anzeigen
 de|T|RecentFiles.MoreHint|Weitere zuletzt verwendete Dateien anzeigen
+de|T|RecentFiles.SessionHint|Diese Datei hat eine gespeicherte Sitzung (Cursor, Lesezeichen, Filter). Öffnen Sie sie zum Wiederherstellen.
+de|T|RecentFiles.SessionNoneHint|Für diese Datei ist noch keine Sitzung gespeichert. Nach dem Öffnen: Sitzung → Sitzung jetzt speichern (Strg+Alt+S).
+de|T|RecentFiles.SessionOpenHint|"%s" hat eine gespeicherte Sitzung. Öffnen Sie die Datei, um Cursor, Lesezeichen und Filter wiederherzustellen.
+de|T|RecentFiles.SessionSaved|● Gespeichert
+de|T|RecentFiles.SessionTip|Spalte Sitzung: „Gespeichert“ heißt, dass Cursor, Lesezeichen und Filter beim erneuten Öffnen wiederhergestellt werden können.
 de|T|red: removed (left)|rot = entfernt (links)
 de|T|Redo|Wiederholen
 de|T|Redo delete on line %d? The line will be deleted again.|Löschung in Zeile %d wiederholen? Die Zeile wird erneut gelöscht.
@@ -16406,6 +16489,9 @@ de|T|Session history|Sitzungsverlauf (Bearbeitung)
 de|T|Session loaded.|Sitzung geladen.
 de|T|Session saved.|Sitzung gespeichert.
 de|T|Session.AskAI|Die KI zu dieser Sitzung fragen
+de|T|Session.LoadedDetail|Cursorposition, Lesezeichen, Filter und Ansichtsoptionen wurden für diese Datei wiederhergestellt.
+de|T|Session.NeedFile|Öffnen und lesen Sie zuerst eine Datei, um ihre Sitzung zu speichern oder zu laden.
+de|T|Session.SavedDetail|Cursorposition, Lesezeichen, Filter und Ansichtsoptionen wurden für diese Datei gespeichert.
 de|T|Set how many files should be generated.|Festlegen, wie viele Dateien erzeugt werden sollen.
 de|T|Short Overview|Kurzübersicht
 de|T|Shortcut: |Tastenkombination: 
@@ -16626,16 +16712,24 @@ de|T|TAB|Tabulator
 de|T|Tab content.|Tab-Inhalt.
 de|T|TabCtx.Close|Tab schließen
 de|T|TabCtx.CloseAll|Alle Tabs schließen
+de|T|TabCtx.CloseAllHint|Alle geöffneten Tabs schließen
+de|T|TabCtx.CloseAllShort|Alle schließen
+de|T|TabCtx.ClosedAll|Alle Tabs wurden geschlossen
+de|T|TabCtx.ClosedAllDetail|Über Sitzung → Geschlossenen Tab wieder öffnen oder Tabs der letzten Sitzung wiederherstellen.
 de|T|TabCtx.ClosedList|Kürzlich geschlossene Tabs
 de|T|TabCtx.CloseLeft|Tabs links schließen
 de|T|TabCtx.CloseOthers|Alle anderen Tabs schließen
 de|T|TabCtx.CloseOthersActive|Alle außer dem aktiven Tab schließen
 de|T|TabCtx.CloseRight|Tabs rechts schließen
+de|T|TabCtx.ConfirmCloseAll|Alle %d geöffneten Tabs schließen?
 de|T|TabCtx.MenuButtonHint|Tab-Optionen: geöffnete Tabs, geschlossenen Tab wieder öffnen, Tabs speichern / wiederherstellen, Tabs schließen (auch per Rechtsklick auf einen Tab)
 de|T|TabCtx.NoClosed|Keine geschlossenen Tabs in dieser Sitzung
+de|T|TabCtx.NoSavedTabs|Für diese Sitzung wurden keine gespeicherten geöffneten Tabs gefunden.
 de|T|TabCtx.OpenTabs|Geöffnete Tabs
 de|T|TabCtx.Reopen|Geschlossenen Tab wieder öffnen
 de|T|TabCtx.ReopenNamed|Geschlossenen Tab wieder öffnen: %s
+de|T|TabCtx.RestoredTabs|Tabs wiederhergestellt
+de|T|TabCtx.RestoredTabsDetail|%d Tab(s) der letzten Sitzung wurden wiederhergestellt.
 de|T|TabCtx.SavedOpen|Geöffnete Tabs gespeichert
 de|T|TabCtx.SavedOpenDetail|%d Tab(s). Mit „Tabs der letzten Sitzung wiederherstellen“ wieder öffnen.
 de|T|TabCtx.SaveOpen|Geöffnete Tabs speichern
@@ -16758,6 +16852,7 @@ de|T|Toolbar.AIAssistant|KI-Assistent (AN)
 de|T|Toolbar.AIAssistantHint|KI-Assistenten-Panel ein- oder ausblenden (Strg+Alt+A)
 de|T|Toolbar.PythonMacro|Python-Makro
 de|T|Toolbar.PythonMacroHint|Öffnet den Python-Makrobereich, um die Dateizeilen mit einem Skript umzuwandeln (Strg+Alt+E)
+de|T|Toolbar.RecentFiles|Zuletzt geöffnet
 de|T|Tools|Werkzeuge
 de|T|ToolsGallery.ClearSearch|Suche leeren
 de|T|ToolsGallery.GroupAppearance|Darstellung
@@ -18533,6 +18628,7 @@ it|T|FindOcc.Export|Esporta
 it|T|FindOcc.ExportHint|Esporta le occorrenze in un file
 it|T|FindOcc.Go|Cerca
 it|T|FindOcc.GoHint|Cerca la corrispondenza successiva (come Ctrl+F)
+it|T|FindOcc.HideList|Nascondi elenco
 it|T|FindOcc.HideListHint|Nascondi l'elenco dei risultati (il pannello di ricerca resta aperto)
 it|T|FindOcc.HitLimitReached|Limite di occorrenze raggiunto (5.000.000). Restringi il testo o esporta quanto già trovato.
 it|T|FindOcc.HitLineFmt|Riga %d: %s
@@ -18558,6 +18654,7 @@ it|T|FindOcc.RecentMore|Mostra altro
 it|T|FindOcc.RecentMoreHint|Mostra le ricerche recenti restanti
 it|T|FindOcc.ResizeHint|Trascina per ridimensionare l'elenco. Doppio clic: altezza predefinita o metà finestra.
 it|T|FindOcc.SearchHint|Digita il testo da cercare (come Ctrl+F), poi Invio
+it|T|FindOcc.ShowList|Mostra elenco
 it|T|FindOcc.ShowListHint|Mostra l'elenco dei risultati
 it|T|FindOcc.Status.Collecting|Raccolta corrispondenze per "%s"...
 it|T|FindOcc.Status.CollectingShort|Raccolta corrispondenze...
@@ -19558,6 +19655,11 @@ it|T|Recent Folders|Cartelle recenti
 it|T|Recent tabs.Hint|Riapri una scheda usata di recente, oppure ripristina l'ultima sessione
 it|T|RecentFiles.More|Mostra altro
 it|T|RecentFiles.MoreHint|Mostra i file recenti restanti
+it|T|RecentFiles.SessionHint|Questo file ha una sessione salvata (cursore, segnalibri, filtri). Aprilo per ripristinare.
+it|T|RecentFiles.SessionNoneHint|Nessuna sessione salvata ancora per questo file. Dopo averlo aperto, usa Sessione → Salva sessione ora (Ctrl+Alt+S).
+it|T|RecentFiles.SessionOpenHint|"%s" ha una sessione salvata. Apri il file per ripristinare cursore, segnalibri e filtri.
+it|T|RecentFiles.SessionSaved|● Salvata
+it|T|RecentFiles.SessionTip|Colonna Sessione: “Salvata” indica che cursore, segnalibri e filtri possono essere ripristinati alla riapertura.
 it|T|red: removed (left)|rosso = rimosso (sinistra)
 it|T|Redo|Ripeti
 it|T|Redo delete on line %d? The line will be deleted again.|Ripetere eliminazione alla riga %d? La riga sara eliminata di nuovo.
@@ -19851,6 +19953,9 @@ it|T|Session history|Cronologia modifica (sessione)
 it|T|Session loaded.|Sessione caricata.
 it|T|Session saved.|Sessione salvata.
 it|T|Session.AskAI|Chiedi all'IA di questa sessione
+it|T|Session.LoadedDetail|Posizione del cursore, segnalibri, filtri e opzioni di visualizzazione ripristinati per questo file.
+it|T|Session.NeedFile|Apri e leggi prima un file per salvare o caricare la relativa sessione.
+it|T|Session.SavedDetail|Posizione del cursore, segnalibri, filtri e opzioni di visualizzazione salvati per questo file.
 it|T|Set how many files should be generated.|Imposta quanti file devono essere generati.
 it|T|Short Overview|Panoramica
 it|T|Shortcut: |Scorciatoia: 
@@ -20071,16 +20176,24 @@ it|T|TAB|Tabulazione
 it|T|Tab content.|Contenuto della scheda.
 it|T|TabCtx.Close|Chiudi scheda
 it|T|TabCtx.CloseAll|Chiudi tutte le schede
+it|T|TabCtx.CloseAllHint|Chiudi tutte le schede aperte
+it|T|TabCtx.CloseAllShort|Chiudi tutte
+it|T|TabCtx.ClosedAll|Tutte le schede sono state chiuse
+it|T|TabCtx.ClosedAllDetail|Usa Sessione → Riapri scheda chiusa o Ripristina schede dell'ultima sessione.
 it|T|TabCtx.ClosedList|Schede chiuse di recente
 it|T|TabCtx.CloseLeft|Chiudi schede a sinistra
 it|T|TabCtx.CloseOthers|Chiudi tutte tranne questa
 it|T|TabCtx.CloseOthersActive|Chiudi tutte tranne la scheda attiva
 it|T|TabCtx.CloseRight|Chiudi schede a destra
+it|T|TabCtx.ConfirmCloseAll|Chiudere tutte le %d schede aperte?
 it|T|TabCtx.MenuButtonHint|Opzioni schede: schede aperte, riapri scheda chiusa, salva / ripristina schede, chiudi schede (anche con clic destro su una scheda)
 it|T|TabCtx.NoClosed|Nessuna scheda chiusa in questa sessione
+it|T|TabCtx.NoSavedTabs|Nessuna scheda aperta salvata trovata per questa sessione.
 it|T|TabCtx.OpenTabs|Schede aperte
 it|T|TabCtx.Reopen|Riapri scheda chiusa
 it|T|TabCtx.ReopenNamed|Riapri scheda chiusa: %s
+it|T|TabCtx.RestoredTabs|Schede ripristinate
+it|T|TabCtx.RestoredTabsDetail|Sono state ripristinate %d scheda/e dell'ultima sessione.
 it|T|TabCtx.SavedOpen|Schede aperte salvate
 it|T|TabCtx.SavedOpenDetail|%d scheda/e. Usa "Ripristina schede dell'ultima sessione" per riaprirle.
 it|T|TabCtx.SaveOpen|Salva schede aperte
@@ -20203,6 +20316,7 @@ it|T|Toolbar.AIAssistant|Assistente IA (ON)
 it|T|Toolbar.AIAssistantHint|Mostra o nasconde il pannello Assistente IA (Ctrl+Alt+A)
 it|T|Toolbar.PythonMacro|Macro Python
 it|T|Toolbar.PythonMacroHint|Apre il pannello delle macro Python per trasformare le righe del file con uno script (Ctrl+Alt+E)
+it|T|Toolbar.RecentFiles|File recenti
 it|T|Tools|Strumenti
 it|T|ToolsGallery.ClearSearch|Cancella ricerca
 it|T|ToolsGallery.GroupAppearance|Aspetto
@@ -21958,6 +22072,7 @@ pl|T|FindOcc.Export|Eksportuj
 pl|T|FindOcc.ExportHint|Eksportuj wystąpienia do pliku
 pl|T|FindOcc.Go|Szukaj
 pl|T|FindOcc.GoHint|Znajdź następne trafienie (jak Ctrl+F)
+pl|T|FindOcc.HideList|Ukryj listę
 pl|T|FindOcc.HideListHint|Ukryj listę wyników (panel wyszukiwania pozostaje otwarty)
 pl|T|FindOcc.HitLimitReached|Osiągnięto limit wystąpień (5.000.000). Zawęź tekst lub wyeksportuj dotychczasowe trafienia.
 pl|T|FindOcc.HitLineFmt|Linia %d: %s
@@ -21983,6 +22098,7 @@ pl|T|FindOcc.RecentMore|Pokaż więcej
 pl|T|FindOcc.RecentMoreHint|Pokaż pozostałe ostatnie wyszukiwania
 pl|T|FindOcc.ResizeHint|Przeciągnij, aby zmienić listę wystąpień. Dwuklik: wysokość domyślna lub połowa okna.
 pl|T|FindOcc.SearchHint|Wpisz tekst do znalezienia (jak Ctrl+F), potem Enter
+pl|T|FindOcc.ShowList|Pokaż listę
 pl|T|FindOcc.ShowListHint|Pokaż listę wyników
 pl|T|FindOcc.Status.Collecting|Zbieranie trafień dla "%s"...
 pl|T|FindOcc.Status.CollectingShort|Zbieranie trafień...
@@ -22982,6 +23098,11 @@ pl|T|Recent Folders|Ostatnie foldery
 pl|T|Recent tabs.Hint|Otwórz ostatnio używaną kartę, lub przywróć ostatnią sesję
 pl|T|RecentFiles.More|Pokaż więcej
 pl|T|RecentFiles.MoreHint|Pokaż pozostałe ostatnie pliki
+pl|T|RecentFiles.SessionHint|Ten plik ma zapisaną sesję (kursor, zakładki, filtry). Otwórz go, aby przywrócić.
+pl|T|RecentFiles.SessionNoneHint|Brak jeszcze zapisanej sesji dla tego pliku. Po otwarciu użyj Sesja → Zapisz sesję teraz (Ctrl+Alt+S).
+pl|T|RecentFiles.SessionOpenHint|"%s" ma zapisaną sesję. Otwórz plik, aby przywrócić kursor, zakładki i filtry.
+pl|T|RecentFiles.SessionSaved|● Zapisana
+pl|T|RecentFiles.SessionTip|Kolumna Sesja: „Zapisana” oznacza, że kursor, zakładki i filtry można przywrócić po ponownym otwarciu pliku.
 pl|T|red: removed (left)|czerwony = usunięty (lewa)
 pl|T|Redo|Ponów
 pl|T|Redo delete on line %d? The line will be deleted again.|Ponowic usuniecie w wierszu %d? Wiersz zostanie ponownie usuniety.
@@ -23275,6 +23396,9 @@ pl|T|Session history|Historia sesji (edycja)
 pl|T|Session loaded.|Sesja wczytana.
 pl|T|Session saved.|Sesja zapisana.
 pl|T|Session.AskAI|Zapytaj AI o tę sesję
+pl|T|Session.LoadedDetail|Przywrócono pozycję kursora, zakładki, filtry i opcje widoku dla tego pliku.
+pl|T|Session.NeedFile|Najpierw otwórz i odczytaj plik, aby zapisać lub wczytać jego sesję.
+pl|T|Session.SavedDetail|Zapisano pozycję kursora, zakładki, filtry i opcje widoku dla tego pliku.
 pl|T|Set how many files should be generated.|Ustaw, ile plików ma zostać wygenerowanych.
 pl|T|Short Overview|Krótki przegląd
 pl|T|Shortcut:|Skrot:
@@ -23497,16 +23621,24 @@ pl|T|TAB|Tabulator
 pl|T|Tab content.|Zawartość karty.
 pl|T|TabCtx.Close|Zamknij kartę
 pl|T|TabCtx.CloseAll|Zamknij wszystkie karty
+pl|T|TabCtx.CloseAllHint|Zamknij wszystkie otwarte karty
+pl|T|TabCtx.CloseAllShort|Zamknij wszystkie
+pl|T|TabCtx.ClosedAll|Wszystkie karty zostały zamknięte
+pl|T|TabCtx.ClosedAllDetail|Użyj Sesja → Otwórz ponownie zamkniętą kartę lub Przywróć karty z ostatniej sesji.
 pl|T|TabCtx.ClosedList|Ostatnio zamknięte karty
 pl|T|TabCtx.CloseLeft|Zamknij karty po lewej
 pl|T|TabCtx.CloseOthers|Zamknij wszystkie oprócz tej
 pl|T|TabCtx.CloseOthersActive|Zamknij wszystkie oprócz aktywnej karty
 pl|T|TabCtx.CloseRight|Zamknij karty po prawej
+pl|T|TabCtx.ConfirmCloseAll|Zamknąć wszystkie %d otwarte karty?
 pl|T|TabCtx.MenuButtonHint|Opcje kart: otwarte karty, ponowne otwarcie zamkniętej karty, zapis / przywracanie kart, zamykanie kart (także prawym przyciskiem na karcie)
 pl|T|TabCtx.NoClosed|Brak zamkniętych kart w tej sesji
+pl|T|TabCtx.NoSavedTabs|Nie znaleziono zapisanych otwartych kart dla tej sesji.
 pl|T|TabCtx.OpenTabs|Otwarte karty
 pl|T|TabCtx.Reopen|Otwórz ponownie zamkniętą kartę
 pl|T|TabCtx.ReopenNamed|Otwórz ponownie zamkniętą kartę: %s
+pl|T|TabCtx.RestoredTabs|Karty przywrócone
+pl|T|TabCtx.RestoredTabsDetail|Przywrócono %d kart(y) z ostatniej sesji.
 pl|T|TabCtx.SavedOpen|Otwarte karty zapisane
 pl|T|TabCtx.SavedOpenDetail|%d kart(y). Użyj „Przywróć karty z ostatniej sesji”, aby je ponownie otworzyć.
 pl|T|TabCtx.SaveOpen|Zapisz otwarte karty
@@ -23628,6 +23760,7 @@ pl|T|Toolbar.AIAssistant|Asystent AI (WL.)
 pl|T|Toolbar.AIAssistantHint|Pokaż lub ukryj panel Asystenta AI (Ctrl+Alt+A)
 pl|T|Toolbar.PythonMacro|Makro Python
 pl|T|Toolbar.PythonMacroHint|Otwiera panel makr Python, aby przekształcić wiersze pliku skryptem (Ctrl+Alt+E)
+pl|T|Toolbar.RecentFiles|Ostatnie pliki
 pl|T|Tools|Narzędzia
 pl|T|ToolsGallery.ClearSearch|Wyczyść wyszukiwanie
 pl|T|ToolsGallery.GroupAppearance|Wygląd
@@ -25378,6 +25511,7 @@ pt-PT|T|FindOcc.Export|Exportar
 pt-PT|T|FindOcc.ExportHint|Exportar ocorrências recolhidas para ficheiro
 pt-PT|T|FindOcc.Go|Pesquisar
 pt-PT|T|FindOcc.GoHint|Pesquisar a próxima ocorrência (igual a Ctrl+F)
+pt-PT|T|FindOcc.HideList|Ocultar lista
 pt-PT|T|FindOcc.HideListHint|Ocultar a lista de ocorrências (mantém o painel de pesquisa aberto)
 pt-PT|T|FindOcc.HitLimitReached|Limite de ocorrências atingido (5.000.000). Afine o texto de pesquisa ou exporte o que já tem.
 pt-PT|T|FindOcc.HitLineFmt|Linha %d: %s
@@ -25403,6 +25537,7 @@ pt-PT|T|FindOcc.RecentMore|Mostrar mais
 pt-PT|T|FindOcc.RecentMoreHint|Mostrar as restantes pesquisas recentes
 pt-PT|T|FindOcc.ResizeHint|Arraste para redimensionar a lista de ocorrências. Duplo clique alterna a altura predefinida e metade da janela.
 pt-PT|T|FindOcc.SearchHint|Digite o texto a pesquisar (igual a Ctrl+F) e prima Enter
+pt-PT|T|FindOcc.ShowList|Mostrar lista
 pt-PT|T|FindOcc.ShowListHint|Mostrar a lista de ocorrências
 pt-PT|T|FindOcc.Status.Collecting|A recolher ocorrências de "%s"...
 pt-PT|T|FindOcc.Status.CollectingShort|A recolher ocorrências...
@@ -26402,6 +26537,11 @@ pt-PT|T|Recent Folders|Pastas recentes
 pt-PT|T|Recent tabs.Hint|Reabrir um separador usado recentemente, ou restaurar a última sessão
 pt-PT|T|RecentFiles.More|Mostrar mais
 pt-PT|T|RecentFiles.MoreHint|Mostrar os restantes ficheiros recentes
+pt-PT|T|RecentFiles.SessionHint|Este ficheiro tem uma sessão guardada (cursor, favoritos, filtros). Abra-o para restaurar.
+pt-PT|T|RecentFiles.SessionNoneHint|Ainda não há sessão guardada para este ficheiro. Depois de o abrir, use Sessão → Guardar sessão agora (Ctrl+Alt+S).
+pt-PT|T|RecentFiles.SessionOpenHint|"%s" tem uma sessão guardada. Abra o ficheiro para restaurar cursor, favoritos e filtros.
+pt-PT|T|RecentFiles.SessionSaved|● Guardada
+pt-PT|T|RecentFiles.SessionTip|Coluna Sessão: “Guardada” significa que cursor, favoritos e filtros podem ser restaurados ao reabrir o ficheiro.
 pt-PT|T|red: removed (left)|vermelho = removido (esquerda)
 pt-PT|T|Redo|Refazer
 pt-PT|T|Redo delete on line %d? The line will be deleted again.|Refazer eliminacao na linha %d? A linha será eliminada novamente.
@@ -26694,6 +26834,9 @@ pt-PT|T|Session history|Histórico de edição (sessão)
 pt-PT|T|Session loaded.|Sessão carregada.
 pt-PT|T|Session saved.|Sessão guardada.
 pt-PT|T|Session.AskAI|Perguntar à IA sobre esta sessão
+pt-PT|T|Session.LoadedDetail|A posição do cursor, favoritos, filtros e opções de visualização foram restaurados para este ficheiro.
+pt-PT|T|Session.NeedFile|Abra e leia um ficheiro primeiro para guardar ou carregar a sessão dele.
+pt-PT|T|Session.SavedDetail|A posição do cursor, favoritos, filtros e opções de visualização foram guardados para este ficheiro.
 pt-PT|T|Set how many files should be generated.|Defina quantos ficheiros devem ser gerados.
 pt-PT|T|Short Overview|Visão geral
 pt-PT|T|Shortcut: |Atalho: 
@@ -26915,16 +27058,24 @@ pt-PT|T|TAB|Tabulador
 pt-PT|T|Tab content.|Conteúdo da aba.
 pt-PT|T|TabCtx.Close|Fechar separador
 pt-PT|T|TabCtx.CloseAll|Fechar todos os separadores
+pt-PT|T|TabCtx.CloseAllHint|Fechar todos os separadores abertos
+pt-PT|T|TabCtx.CloseAllShort|Fechar todos
+pt-PT|T|TabCtx.ClosedAll|Todos os separadores foram fechados
+pt-PT|T|TabCtx.ClosedAllDetail|Use Sessão → Reabrir separador fechado ou Restaurar separadores da última sessão.
 pt-PT|T|TabCtx.ClosedList|Separadores fechados recentemente
 pt-PT|T|TabCtx.CloseLeft|Fechar separadores à esquerda
 pt-PT|T|TabCtx.CloseOthers|Fechar todos menos este
 pt-PT|T|TabCtx.CloseOthersActive|Fechar todos menos o separador ativo
 pt-PT|T|TabCtx.CloseRight|Fechar separadores à direita
+pt-PT|T|TabCtx.ConfirmCloseAll|Fechar todos os %d separadores abertos?
 pt-PT|T|TabCtx.MenuButtonHint|Opções dos separadores: separadores abertos, reabrir separador fechado, guardar / restaurar separadores, fechar separadores (também com o botão direito sobre um separador)
 pt-PT|T|TabCtx.NoClosed|Nenhum separador fechado nesta sessão
+pt-PT|T|TabCtx.NoSavedTabs|Não foram encontrados separadores abertos guardados para esta sessão.
 pt-PT|T|TabCtx.OpenTabs|Separadores abertos
 pt-PT|T|TabCtx.Reopen|Reabrir separador fechado
 pt-PT|T|TabCtx.ReopenNamed|Reabrir separador fechado: %s
+pt-PT|T|TabCtx.RestoredTabs|Separadores restaurados
+pt-PT|T|TabCtx.RestoredTabsDetail|%d separador(es) da última sessão foram restaurados.
 pt-PT|T|TabCtx.SavedOpen|Separadores abertos guardados
 pt-PT|T|TabCtx.SavedOpenDetail|%d separador(es). Use "Restaurar separadores da última sessão" para os reabrir.
 pt-PT|T|TabCtx.SaveOpen|Guardar separadores abertos
@@ -27045,6 +27196,7 @@ pt-PT|T|Toolbar.AIAssistant|Assistente IA (ON)
 pt-PT|T|Toolbar.AIAssistantHint|Mostrar ou ocultar o painel do Assistente IA (Ctrl+Alt+A)
 pt-PT|T|Toolbar.PythonMacro|Macro Python
 pt-PT|T|Toolbar.PythonMacroHint|Abre o painel de macros Python para transformar as linhas do ficheiro com um script (Ctrl+Alt+E)
+pt-PT|T|Toolbar.RecentFiles|Ficheiros recentes
 pt-PT|T|Tools|Ferramentas
 pt-PT|T|ToolsGallery.ClearSearch|Limpar pesquisa
 pt-PT|T|ToolsGallery.GroupAppearance|Aparência
@@ -28800,6 +28952,7 @@ ro|T|FindOcc.Export|Exportă
 ro|T|FindOcc.ExportHint|Exportă aparițiile într-un fișier
 ro|T|FindOcc.Go|Caută
 ro|T|FindOcc.GoHint|Caută următoarea potrivire (ca Ctrl+F)
+ro|T|FindOcc.HideList|Ascunde lista
 ro|T|FindOcc.HideListHint|Ascunde lista de rezultate (panoul de căutare rămâne deschis)
 ro|T|FindOcc.HitLimitReached|Limita de apariții a fost atinsă (5.000.000). Restrângeți textul sau exportați ce aveți.
 ro|T|FindOcc.HitLineFmt|Linia %d: %s
@@ -28825,6 +28978,7 @@ ro|T|FindOcc.RecentMore|Afişează mai multe
 ro|T|FindOcc.RecentMoreHint|Afişează celelalte căutări recente
 ro|T|FindOcc.ResizeHint|Trageţi pentru a redimensiona lista. Dublu-clic: înălţime implicită sau jumătate din fereastră.
 ro|T|FindOcc.SearchHint|Introduceți textul de căutat (ca Ctrl+F), apoi Enter
+ro|T|FindOcc.ShowList|Afișează lista
 ro|T|FindOcc.ShowListHint|Afișează lista de rezultate
 ro|T|FindOcc.Status.Collecting|Se colectează potriviri pentru "%s"...
 ro|T|FindOcc.Status.CollectingShort|Se colectează potriviri...
@@ -29824,6 +29978,11 @@ ro|T|Recent Folders|Foldere recente
 ro|T|Recent tabs.Hint|Redeschide o filă recentă, sau restaurează ultima sesiune
 ro|T|RecentFiles.More|Afişează mai multe
 ro|T|RecentFiles.MoreHint|Afişează celelalte fişiere recente
+ro|T|RecentFiles.SessionHint|Acest fișier are o sesiune salvată (cursor, marcaje, filtre). Deschideți-l pentru a restaura.
+ro|T|RecentFiles.SessionNoneHint|Nu există încă o sesiune salvată pentru acest fișier. După deschidere, folosiți Sesiune → Salvează sesiunea acum (Ctrl+Alt+S).
+ro|T|RecentFiles.SessionOpenHint|"%s" are o sesiune salvată. Deschideți fișierul pentru a restaura cursorul, marcajele și filtrele.
+ro|T|RecentFiles.SessionSaved|● Salvată
+ro|T|RecentFiles.SessionTip|Coloana Sesiune: „Salvată” înseamnă că cursorul, marcajele și filtrele pot fi restaurate la redeschidere.
 ro|T|red: removed (left)|roșu = eliminat (stânga)
 ro|T|Redo|Refa
 ro|T|Redo delete on line %d? The line will be deleted again.|Refaci stergerea liniei %d? Linia va fi stearsa din nou.
@@ -30117,6 +30276,9 @@ ro|T|Session history|Istoric sesiune (editare)
 ro|T|Session loaded.|Sesiune încărcată.
 ro|T|Session saved.|Sesiune salvată.
 ro|T|Session.AskAI|Întrebați IA despre această sesiune
+ro|T|Session.LoadedDetail|Poziția cursorului, marcajele, filtrele și opțiunile de vizualizare au fost restaurate pentru acest fișier.
+ro|T|Session.NeedFile|Deschideți și citiți mai întâi un fișier pentru a salva sau încărca sesiunea lui.
+ro|T|Session.SavedDetail|Poziția cursorului, marcajele, filtrele și opțiunile de vizualizare au fost salvate pentru acest fișier.
 ro|T|Set how many files should be generated.|Setați câte fișiere trebuie generate.
 ro|T|Short Overview|Prezentare scurtă
 ro|T|Shortcut:|Scurtatura:
@@ -30339,16 +30501,24 @@ ro|T|TAB|Tabulator
 ro|T|Tab content.|Conținutul filei.
 ro|T|TabCtx.Close|Închide fila
 ro|T|TabCtx.CloseAll|Închide toate filele
+ro|T|TabCtx.CloseAllHint|Închide toate filele deschise
+ro|T|TabCtx.CloseAllShort|Închide toate
+ro|T|TabCtx.ClosedAll|Toate filele au fost închise
+ro|T|TabCtx.ClosedAllDetail|Folosiți Sesiune → Redeschide fila închisă sau Restaurează filele ultimei sesiuni.
 ro|T|TabCtx.ClosedList|File închise recent
 ro|T|TabCtx.CloseLeft|Închide filele din stânga
 ro|T|TabCtx.CloseOthers|Închide toate celelalte file
 ro|T|TabCtx.CloseOthersActive|Închide toate în afară de fila activă
 ro|T|TabCtx.CloseRight|Închide filele din dreapta
+ro|T|TabCtx.ConfirmCloseAll|Închideți toate cele %d file deschise?
 ro|T|TabCtx.MenuButtonHint|Opțiuni file: file deschise, redeschide fila închisă, salvează / restaurează filele, închide file (și cu clic dreapta pe o filă)
 ro|T|TabCtx.NoClosed|Nicio filă închisă în această sesiune
+ro|T|TabCtx.NoSavedTabs|Nu s-au găsit file deschise salvate pentru această sesiune.
 ro|T|TabCtx.OpenTabs|File deschise
 ro|T|TabCtx.Reopen|Redeschide fila închisă
 ro|T|TabCtx.ReopenNamed|Redeschide fila închisă: %s
+ro|T|TabCtx.RestoredTabs|File restaurate
+ro|T|TabCtx.RestoredTabsDetail|Au fost restaurate %d filă(e) din ultima sesiune.
 ro|T|TabCtx.SavedOpen|Filele deschise au fost salvate
 ro|T|TabCtx.SavedOpenDetail|%d filă(e). Folosiți „Restaurează filele ultimei sesiuni” pentru a le redeschide.
 ro|T|TabCtx.SaveOpen|Salvează filele deschise
@@ -30470,6 +30640,7 @@ ro|T|Toolbar.AIAssistant|Asistent IA (ON)
 ro|T|Toolbar.AIAssistantHint|Afișează sau ascunde panoul Asistent IA (Ctrl+Alt+A)
 ro|T|Toolbar.PythonMacro|Macro Python
 ro|T|Toolbar.PythonMacroHint|Deschide panoul de macro-uri Python pentru a transforma liniile fișierului cu un script (Ctrl+Alt+E)
+ro|T|Toolbar.RecentFiles|Fișiere recente
 ro|T|Tools|Instrumente
 ro|T|ToolsGallery.ClearSearch|Șterge căutarea
 ro|T|ToolsGallery.GroupAppearance|Aspect
@@ -32225,6 +32396,7 @@ hu|T|FindOcc.Export|Exportálás
 hu|T|FindOcc.ExportHint|Találatok exportálása fájlba
 hu|T|FindOcc.Go|Keresés
 hu|T|FindOcc.GoHint|Következő találat keresése (mint Ctrl+F)
+hu|T|FindOcc.HideList|Lista elrejtése
 hu|T|FindOcc.HideListHint|Találati lista elrejtése (a keresőpanel nyitva marad)
 hu|T|FindOcc.HitLimitReached|Elérte a találatok limitjét (5.000.000). Szűkítse a szöveget, vagy exportálja a meglevőket.
 hu|T|FindOcc.HitLineFmt|%d. sor: %s
@@ -32250,6 +32422,7 @@ hu|T|FindOcc.RecentMore|Több megjelenítése
 hu|T|FindOcc.RecentMoreHint|További legutóbbi keresések megjelenítése
 hu|T|FindOcc.ResizeHint|Húzza a találati lista méretéhez. Dupla kattintás: alapmagasság vagy az ablak fele.
 hu|T|FindOcc.SearchHint|Írja be a keresendő szöveget (mint Ctrl+F), majd Enter
+hu|T|FindOcc.ShowList|Lista megjelenítése
 hu|T|FindOcc.ShowListHint|Találati lista megjelenítése
 hu|T|FindOcc.Status.Collecting|Találatok gyűjtése: "%s"...
 hu|T|FindOcc.Status.CollectingShort|Találatok gyűjtése...
@@ -33249,6 +33422,11 @@ hu|T|Recent Folders|Legutóbbi mappak
 hu|T|Recent tabs.Hint|Újra megnyit egy nemrég használt lapot, vagy visszaállítja az utolsó munkamenetet
 hu|T|RecentFiles.More|Több megjelenítése
 hu|T|RecentFiles.MoreHint|További legutóbbi fájlok megjelenítése
+hu|T|RecentFiles.SessionHint|Ehhez a fájlhoz mentett munkamenet tartozik (kurzor, könyvjelzők, szűrők). Nyissa meg a visszaállításhoz.
+hu|T|RecentFiles.SessionNoneHint|Ehhez a fájlhoz még nincs mentett munkamenet. Megnyitás után: Munkamenet → Munkamenet mentése most (Ctrl+Alt+S).
+hu|T|RecentFiles.SessionOpenHint|"%s" mentett munkamenettel rendelkezik. Nyissa meg a fájlt a kurzor, könyvjelzők és szűrők visszaállításához.
+hu|T|RecentFiles.SessionSaved|● Mentve
+hu|T|RecentFiles.SessionTip|Munkamenet oszlop: a „Mentve” azt jelenti, hogy a kurzor, könyvjelzők és szűrők visszaállíthatók újranyitáskor.
 hu|T|red: removed (left)|piros = eltávolítva (bal)
 hu|T|Redo|Ismetles
 hu|T|Redo delete on line %d? The line will be deleted again.|Ismetli a torlest a %d. sorban? A sor újra törölve lesz.
@@ -33542,6 +33720,9 @@ hu|T|Session history|Munkamenet előzmények (szerkesztés)
 hu|T|Session loaded.|Munkamenet betöltve.
 hu|T|Session saved.|Munkamenet mentve.
 hu|T|Session.AskAI|Kérdezze a MI-t erről a munkamenetről
+hu|T|Session.LoadedDetail|A kurzorpozíció, könyvjelzők, szűrők és nézetbeállítások visszaállítva ehhez a fájlhoz.
+hu|T|Session.NeedFile|Először nyisson meg és olvasson be egy fájlt a munkamenet mentéséhez vagy betöltéséhez.
+hu|T|Session.SavedDetail|A kurzorpozíció, könyvjelzők, szűrők és nézetbeállítások mentve ehhez a fájlhoz.
 hu|T|Set how many files should be generated.|Adja meg, hány fájl jöjjön létre.
 hu|T|Short Overview|Rövid áttekintés
 hu|T|Shortcut:|Gyorsbillentyu:
@@ -33764,16 +33945,24 @@ hu|T|TAB|Tabulator
 hu|T|Tab content.|A lap tartalma.
 hu|T|TabCtx.Close|Lap bezárása
 hu|T|TabCtx.CloseAll|Az összes lap bezárása
+hu|T|TabCtx.CloseAllHint|Az összes megnyitott lap bezárása
+hu|T|TabCtx.CloseAllShort|Összes bezárása
+hu|T|TabCtx.ClosedAll|Az összes lap bezárva
+hu|T|TabCtx.ClosedAllDetail|A Munkamenet → Bezárt lap újranyitása vagy Utolsó munkamenet lapjainak visszaállítása menüponttal hozhatók vissza.
 hu|T|TabCtx.ClosedList|Nemrég bezárt lapok
 hu|T|TabCtx.CloseLeft|Bal oldali lapok bezárása
 hu|T|TabCtx.CloseOthers|Az összes többi lap bezárása
 hu|T|TabCtx.CloseOthersActive|Az aktív lap kivételével az összes bezárása
 hu|T|TabCtx.CloseRight|Jobb oldali lapok bezárása
+hu|T|TabCtx.ConfirmCloseAll|Bezárja mind a(z) %d megnyitott lapot?
 hu|T|TabCtx.MenuButtonHint|Lapbeállítások: megnyitott lapok, bezárt lap újranyitása, lapok mentése / visszaállítása, lapok bezárása (jobb kattintással is egy lapon)
 hu|T|TabCtx.NoClosed|Ebben a munkamenetben nincs bezárt lap
+hu|T|TabCtx.NoSavedTabs|Nem található mentett megnyitott lap ehhez a munkamenethez.
 hu|T|TabCtx.OpenTabs|Megnyitott lapok
 hu|T|TabCtx.Reopen|Bezárt lap újranyitása
 hu|T|TabCtx.ReopenNamed|Bezárt lap újranyitása: %s
+hu|T|TabCtx.RestoredTabs|Lapok visszaállítva
+hu|T|TabCtx.RestoredTabsDetail|Az utolsó munkamenet %d lapja visszaállítva.
 hu|T|TabCtx.SavedOpen|Megnyitott lapok mentve
 hu|T|TabCtx.SavedOpenDetail|%d lap. Az „Utolsó munkamenet lapjainak visszaállítása” paranccsal nyithatók meg újra.
 hu|T|TabCtx.SaveOpen|Megnyitott lapok mentése
@@ -33895,6 +34084,7 @@ hu|T|Toolbar.AIAssistant|AI asszisztens (BE)
 hu|T|Toolbar.AIAssistantHint|AI asszisztens panel megjelenítése vagy elrejtése (Ctrl+Alt+A)
 hu|T|Toolbar.PythonMacro|Python-makró
 hu|T|Toolbar.PythonMacroHint|Megnyitja a Python-makrók panelt, hogy szkripttel alakítsa át a fájl sorait (Ctrl+Alt+E)
+hu|T|Toolbar.RecentFiles|Legutóbbi fájlok
 hu|T|Tools|Eszközök
 hu|T|ToolsGallery.ClearSearch|Keresés törlése
 hu|T|ToolsGallery.GroupAppearance|Megjelenés
@@ -35650,6 +35840,7 @@ cs|T|FindOcc.Export|Exportovat
 cs|T|FindOcc.ExportHint|Exportovat výskyty do souboru
 cs|T|FindOcc.Go|Hledat
 cs|T|FindOcc.GoHint|Najít další výskyt (jako Ctrl+F)
+cs|T|FindOcc.HideList|Skrýt seznam
 cs|T|FindOcc.HideListHint|Skrýt seznam výsledků (panel hledání zůstane otevřený)
 cs|T|FindOcc.HitLimitReached|Dosažen limit výskytů (5.000.000). Upřesněte text nebo exportujte dosavadní výsledky.
 cs|T|FindOcc.HitLineFmt|Řádek %d: %s
@@ -35675,6 +35866,7 @@ cs|T|FindOcc.RecentMore|Zobrazit více
 cs|T|FindOcc.RecentMoreHint|Zobrazit zbývající nedávná hledání
 cs|T|FindOcc.ResizeHint|Táhněte pro změnu výšky seznamu. Poklepání: výchozí výška nebo polovina okna.
 cs|T|FindOcc.SearchHint|Zadejte text k vyhledání (jako Ctrl+F) a stiskněte Enter
+cs|T|FindOcc.ShowList|Zobrazit seznam
 cs|T|FindOcc.ShowListHint|Zobrazit seznam výsledků
 cs|T|FindOcc.Status.Collecting|Sbírání výskytů pro "%s"...
 cs|T|FindOcc.Status.CollectingShort|Sbírání výskytů...
@@ -36674,6 +36866,11 @@ cs|T|Recent Folders|Nedávné složky
 cs|T|Recent tabs.Hint|Znovu otevřít nedávno použitou kartu, nebo obnovit poslední relaci
 cs|T|RecentFiles.More|Zobrazit více
 cs|T|RecentFiles.MoreHint|Zobrazit zbývající nedávné soubory
+cs|T|RecentFiles.SessionHint|Tento soubor má uloženou relaci (kurzor, záložky, filtry). Otevřete jej pro obnovení.
+cs|T|RecentFiles.SessionNoneHint|Pro tento soubor zatím není uložena žádná relace. Po otevření použijte Relace → Uložit relaci nyní (Ctrl+Alt+S).
+cs|T|RecentFiles.SessionOpenHint|"%s" má uloženou relaci. Otevřete soubor pro obnovení kurzoru, záložek a filtrů.
+cs|T|RecentFiles.SessionSaved|● Uloženo
+cs|T|RecentFiles.SessionTip|Sloupec Relace: „Uloženo“ znamená, že kurzor, záložky a filtry lze obnovit při opětovném otevření.
 cs|T|red: removed (left)|červená = odebráno (vlevo)
 cs|T|Redo|Znovu
 cs|T|Redo delete on line %d? The line will be deleted again.|Opakovat smazani radku %d? Řádek bude znovu smazan.
@@ -36967,6 +37164,9 @@ cs|T|Session history|Historie relace (úpravy)
 cs|T|Session loaded.|Relace načtena.
 cs|T|Session saved.|Relace uložena.
 cs|T|Session.AskAI|Zeptejte se AI na tuto relaci
+cs|T|Session.LoadedDetail|Pozice kurzoru, záložky, filtry a možnosti zobrazení byly obnoveny pro tento soubor.
+cs|T|Session.NeedFile|Nejprve otevřete a načtěte soubor, abyste mohli uložit nebo načíst jeho relaci.
+cs|T|Session.SavedDetail|Pozice kurzoru, záložky, filtry a možnosti zobrazení byly uloženy pro tento soubor.
 cs|T|Set how many files should be generated.|Nastavte, kolik souborů se má vytvořit.
 cs|T|Short Overview|Stručný přehled
 cs|T|Shortcut:|Zkratka:
@@ -37189,16 +37389,24 @@ cs|T|TAB|Tabulator
 cs|T|Tab content.|Obsah karty.
 cs|T|TabCtx.Close|Zavřít kartu
 cs|T|TabCtx.CloseAll|Zavřít všechny karty
+cs|T|TabCtx.CloseAllHint|Zavřít všechny otevřené karty
+cs|T|TabCtx.CloseAllShort|Zavřít vše
+cs|T|TabCtx.ClosedAll|Všechny karty byly zavřeny
+cs|T|TabCtx.ClosedAllDetail|Použijte Relace → Znovu otevřít zavřenou kartu nebo Obnovit karty poslední relace.
 cs|T|TabCtx.ClosedList|Nedávno zavřené karty
 cs|T|TabCtx.CloseLeft|Zavřít karty vlevo
 cs|T|TabCtx.CloseOthers|Zavřít všechny kromě této
 cs|T|TabCtx.CloseOthersActive|Zavřít všechny kromě aktivní karty
 cs|T|TabCtx.CloseRight|Zavřít karty vpravo
+cs|T|TabCtx.ConfirmCloseAll|Zavřít všech %d otevřených karet?
 cs|T|TabCtx.MenuButtonHint|Možnosti karet: otevřené karty, znovu otevřít zavřenou kartu, uložit / obnovit karty, zavřít karty (také pravým tlačítkem na kartě)
 cs|T|TabCtx.NoClosed|V této relaci nejsou žádné zavřené karty
+cs|T|TabCtx.NoSavedTabs|Pro tuto relaci nebyly nalezeny žádné uložené otevřené karty.
 cs|T|TabCtx.OpenTabs|Otevřené karty
 cs|T|TabCtx.Reopen|Znovu otevřít zavřenou kartu
 cs|T|TabCtx.ReopenNamed|Znovu otevřít zavřenou kartu: %s
+cs|T|TabCtx.RestoredTabs|Karty obnoveny
+cs|T|TabCtx.RestoredTabsDetail|Bylo obnoveno %d karet z poslední relace.
 cs|T|TabCtx.SavedOpen|Otevřené karty uloženy
 cs|T|TabCtx.SavedOpenDetail|%d karet. Znovu je otevřete pomocí „Obnovit karty poslední relace“.
 cs|T|TabCtx.SaveOpen|Uložit otevřené karty
@@ -37320,6 +37528,7 @@ cs|T|Toolbar.AIAssistant|Asistent AI (ZAP)
 cs|T|Toolbar.AIAssistantHint|Zobrazit nebo skrýt panel Asistenta AI (Ctrl+Alt+A)
 cs|T|Toolbar.PythonMacro|Makro Python
 cs|T|Toolbar.PythonMacroHint|Otevře panel maker Python pro převod řádků souboru pomocí skriptu (Ctrl+Alt+E)
+cs|T|Toolbar.RecentFiles|Nedávné soubory
 cs|T|Tools|Nástroje
 cs|T|ToolsGallery.ClearSearch|Vymazat hledání
 cs|T|ToolsGallery.GroupAppearance|Vzhled
@@ -39042,6 +39251,7 @@ ja|T|FindOcc.Export|エクスポート
 ja|T|FindOcc.ExportHint|一致をファイルへ書き出し
 ja|T|FindOcc.Go|検索
 ja|T|FindOcc.GoHint|次の一致を検索（Ctrl+F と同じ）
+ja|T|FindOcc.HideList|一覧を隠す
 ja|T|FindOcc.HideListHint|ヒット一覧を隠す (検索パネルは開いたまま)
 ja|T|FindOcc.HitLimitReached|一致の上限（5,000,000）に達しました。検索文字を絞り込むか、取得済みをエクスポートしてください。
 ja|T|FindOcc.HitLineFmt|行 %d: %s
@@ -39067,6 +39277,7 @@ ja|T|FindOcc.RecentMore|もっと表示
 ja|T|FindOcc.RecentMoreHint|残りの最近の検索を表示
 ja|T|FindOcc.ResizeHint|ドラッグで検索結果の高さを変更。ダブルクリックで標準の高さと画面の半分を切り替えます。
 ja|T|FindOcc.SearchHint|検索文字列を入力（Ctrl+F と同じ）して Enter
+ja|T|FindOcc.ShowList|一覧を表示
 ja|T|FindOcc.ShowListHint|ヒット一覧を表示
 ja|T|FindOcc.Status.Collecting|"%s" の一致を収集中...
 ja|T|FindOcc.Status.CollectingShort|一致を収集中...
@@ -40061,6 +40272,11 @@ ja|T|Recent Folders|最近のフォルダー
 ja|T|Recent tabs.Hint|最近使用したタブを再度開く、または前回のセッションを復元する
 ja|T|RecentFiles.More|もっと表示
 ja|T|RecentFiles.MoreHint|残りの最近のファイルを表示する
+ja|T|RecentFiles.SessionHint|このファイルには保存済みセッション（カーソル、ブックマーク、フィルタ）があります。開いて復元できます。
+ja|T|RecentFiles.SessionNoneHint|このファイルにはまだセッションがありません。開いた後、「セッション → 今すぐセッションを保存」(Ctrl+Alt+S) を使います。
+ja|T|RecentFiles.SessionOpenHint|"%s" には保存済みセッションがあります。ファイルを開くとカーソル・ブックマーク・フィルタを復元できます。
+ja|T|RecentFiles.SessionSaved|● 保存済み
+ja|T|RecentFiles.SessionTip|セッション列:「保存済み」は、ファイルを再度開くとカーソル・ブックマーク・フィルタを復元できることを示します。
 ja|T|red: removed (left)|赤 = 削除（左）
 ja|T|Redo|やり直す
 ja|T|Redo delete on line %d? The line will be deleted again.|行 %d の削除をやり直しますか？その行は再度削除されます。
@@ -40353,6 +40569,9 @@ ja|T|Session history|セッション履歴
 ja|T|Session loaded.|セッションを読み込みました。
 ja|T|Session saved.|セッションを保存しました。
 ja|T|Session.AskAI|このセッションについて AI に質問
+ja|T|Session.LoadedDetail|このファイルのカーソル位置、ブックマーク、フィルタ、表示オプションを復元しました。
+ja|T|Session.NeedFile|セッションを保存または読み込むには、先にファイルを開いて読み込んでください。
+ja|T|Session.SavedDetail|このファイルのカーソル位置、ブックマーク、フィルタ、表示オプションを保存しました。
 ja|T|Set how many files should be generated.|生成するファイル数を設定します。
 ja|T|Short Overview|概要
 ja|T|Shortcut:|ショートカット：
@@ -40574,16 +40793,24 @@ ja|T|TAB|TAB
 ja|T|Tab content.|タブの内容。
 ja|T|TabCtx.Close|タブを閉じる
 ja|T|TabCtx.CloseAll|すべてのタブを閉じる
+ja|T|TabCtx.CloseAllHint|開いているタブをすべて閉じる
+ja|T|TabCtx.CloseAllShort|すべて閉じる
+ja|T|TabCtx.ClosedAll|すべてのタブを閉じました
+ja|T|TabCtx.ClosedAllDetail|「セッション → 閉じたタブを再度開く」または「前回のセッションのタブを復元」で戻せます。
 ja|T|TabCtx.ClosedList|最近閉じたタブ
 ja|T|TabCtx.CloseLeft|左側のタブを閉じる
 ja|T|TabCtx.CloseOthers|このタブ以外をすべて閉じる
 ja|T|TabCtx.CloseOthersActive|アクティブなタブ以外をすべて閉じる
 ja|T|TabCtx.CloseRight|右側のタブを閉じる
+ja|T|TabCtx.ConfirmCloseAll|開いている %d 個のタブをすべて閉じますか？
 ja|T|TabCtx.MenuButtonHint|タブのオプション: 開いているタブ、閉じたタブを再度開く、タブの保存 / 復元、タブを閉じる (タブの右クリックでも可)
 ja|T|TabCtx.NoClosed|このセッションで閉じたタブはありません
+ja|T|TabCtx.NoSavedTabs|このセッション用に保存された開いているタブは見つかりませんでした。
 ja|T|TabCtx.OpenTabs|開いているタブ
 ja|T|TabCtx.Reopen|閉じたタブを再度開く
 ja|T|TabCtx.ReopenNamed|閉じたタブを再度開く: %s
+ja|T|TabCtx.RestoredTabs|タブを復元しました
+ja|T|TabCtx.RestoredTabsDetail|前回のセッションから %d 個のタブを復元しました。
 ja|T|TabCtx.SavedOpen|開いているタブを保存しました
 ja|T|TabCtx.SavedOpenDetail|%d 個のタブ。「前回のセッションのタブを復元」で再度開けます。
 ja|T|TabCtx.SaveOpen|開いているタブを保存
@@ -40705,6 +40932,7 @@ ja|T|Toolbar.AIAssistant|AIアシスタント (ON)
 ja|T|Toolbar.AIAssistantHint|AIアシスタントパネルの表示/非表示 (Ctrl+Alt+A)
 ja|T|Toolbar.PythonMacro|Python マクロ
 ja|T|Toolbar.PythonMacroHint|Python マクロパネルを開き、スクリプトでファイルの行を変換します (Ctrl+Alt+E)
+ja|T|Toolbar.RecentFiles|最近のファイル
 ja|T|Tools|ツール
 ja|T|ToolsGallery.ClearSearch|検索結果をクリア
 ja|T|ToolsGallery.GroupAppearance|表示設定
@@ -42480,6 +42708,7 @@ zh-CN|T|FindOcc.Export|导出
 zh-CN|T|FindOcc.ExportHint|将匹配项导出到文件
 zh-CN|T|FindOcc.Go|查找
 zh-CN|T|FindOcc.GoHint|查找下一个匹配（同 Ctrl+F）
+zh-CN|T|FindOcc.HideList|隐藏列表
 zh-CN|T|FindOcc.HideListHint|隐藏匹配列表 (保持搜索面板打开)
 zh-CN|T|FindOcc.HitLimitReached|已达到匹配上限（5,000,000）。请缩小搜索文本，或导出已有结果。
 zh-CN|T|FindOcc.HitLineFmt|第 %d 行：%s
@@ -42505,6 +42734,7 @@ zh-CN|T|FindOcc.RecentMore|显示更多
 zh-CN|T|FindOcc.RecentMoreHint|显示剩余的最近搜索
 zh-CN|T|FindOcc.ResizeHint|拖动以调整匹配列表高度。双击在默认高度和窗口一半之间切换。
 zh-CN|T|FindOcc.SearchHint|输入要查找的文本（同 Ctrl+F），然后按 Enter
+zh-CN|T|FindOcc.ShowList|显示列表
 zh-CN|T|FindOcc.ShowListHint|显示匹配列表
 zh-CN|T|FindOcc.Status.Collecting|正在收集 "%s" 的匹配项...
 zh-CN|T|FindOcc.Status.CollectingShort|正在收集匹配项...
@@ -43505,6 +43735,11 @@ zh-CN|T|Recent Folders|最近的文件夹
 zh-CN|T|Recent tabs.Hint|重新打开最近使用的标签页，或恢复上一次会话
 zh-CN|T|RecentFiles.More|显示更多
 zh-CN|T|RecentFiles.MoreHint|显示剩余的最近文件
+zh-CN|T|RecentFiles.SessionHint|此文件有已保存的会话（光标、书签、筛选器）。打开即可恢复。
+zh-CN|T|RecentFiles.SessionNoneHint|此文件尚无已保存的会话。打开后请使用“会话 → 立即保存会话”(Ctrl+Alt+S)。
+zh-CN|T|RecentFiles.SessionOpenHint|"%s" 有已保存的会话。打开文件可恢复光标、书签和筛选器。
+zh-CN|T|RecentFiles.SessionSaved|● 已保存
+zh-CN|T|RecentFiles.SessionTip|会话列：“已保存”表示重新打开文件时可恢复光标、书签和筛选器。
 zh-CN|T|red: removed (left)|红色 = 删除（左侧）
 zh-CN|T|Redo|重做
 zh-CN|T|Redo delete on line %d? The line will be deleted again.|是否重新删除第 %d 行？该行将被再次删除。
@@ -43801,6 +44036,9 @@ zh-CN|T|Session history|会话历史
 zh-CN|T|Session loaded.|会话已加载。
 zh-CN|T|Session saved.|会话已保存。
 zh-CN|T|Session.AskAI|就这个会话询问 AI
+zh-CN|T|Session.LoadedDetail|已恢复此文件的光标位置、书签、筛选器和视图选项。
+zh-CN|T|Session.NeedFile|请先打开并读取文件，才能保存或加载其会话。
+zh-CN|T|Session.SavedDetail|已保存此文件的光标位置、书签、筛选器和视图选项。
 zh-CN|T|Set how many files should be generated.|设置应生成的文件数量。
 zh-CN|T|Short Overview|简要概述
 zh-CN|T|Shortcut:|快捷方式：
@@ -44022,16 +44260,24 @@ zh-CN|T|TAB|TAB
 zh-CN|T|Tab content.|标签内容。
 zh-CN|T|TabCtx.Close|关闭标签页
 zh-CN|T|TabCtx.CloseAll|关闭所有标签页
+zh-CN|T|TabCtx.CloseAllHint|关闭所有打开的标签页
+zh-CN|T|TabCtx.CloseAllShort|全部关闭
+zh-CN|T|TabCtx.ClosedAll|已关闭所有标签页
+zh-CN|T|TabCtx.ClosedAllDetail|可通过“会话 → 重新打开已关闭的标签页”或“恢复上次会话的标签页”找回。
 zh-CN|T|TabCtx.ClosedList|最近关闭的标签页
 zh-CN|T|TabCtx.CloseLeft|关闭左侧标签页
 zh-CN|T|TabCtx.CloseOthers|关闭其他所有标签页
 zh-CN|T|TabCtx.CloseOthersActive|关闭除当前标签页外的所有标签页
 zh-CN|T|TabCtx.CloseRight|关闭右侧标签页
+zh-CN|T|TabCtx.ConfirmCloseAll|关闭全部 %d 个打开的标签页？
 zh-CN|T|TabCtx.MenuButtonHint|标签页选项：打开的标签页、重新打开已关闭的标签页、保存 / 恢复标签页、关闭标签页（也可右键单击标签页）
 zh-CN|T|TabCtx.NoClosed|本次会话中没有已关闭的标签页
+zh-CN|T|TabCtx.NoSavedTabs|未找到此会话已保存的打开标签页。
 zh-CN|T|TabCtx.OpenTabs|打开的标签页
 zh-CN|T|TabCtx.Reopen|重新打开已关闭的标签页
 zh-CN|T|TabCtx.ReopenNamed|重新打开已关闭的标签页：%s
+zh-CN|T|TabCtx.RestoredTabs|已恢复标签页
+zh-CN|T|TabCtx.RestoredTabsDetail|已从上次会话恢复 %d 个标签页。
 zh-CN|T|TabCtx.SavedOpen|已保存打开的标签页
 zh-CN|T|TabCtx.SavedOpenDetail|%d 个标签页。使用“恢复上次会话的标签页”重新打开。
 zh-CN|T|TabCtx.SaveOpen|保存打开的标签页
@@ -44154,6 +44400,7 @@ zh-CN|T|Toolbar.AIAssistant|AI 助手（开启）
 zh-CN|T|Toolbar.AIAssistantHint|显示或隐藏 AI 助手面板 (Ctrl+Alt+A)
 zh-CN|T|Toolbar.PythonMacro|Python 宏
 zh-CN|T|Toolbar.PythonMacroHint|打开 Python 宏面板，用脚本转换文件中的行 (Ctrl+Alt+E)
+zh-CN|T|Toolbar.RecentFiles|最近的文件
 zh-CN|T|Tools|工具
 zh-CN|T|ToolsGallery.ClearSearch|清除搜索
 zh-CN|T|ToolsGallery.GroupAppearance|外观
@@ -45930,6 +46177,7 @@ zh-TW|T|FindOcc.Export|匯出
 zh-TW|T|FindOcc.ExportHint|將相符項目匯出到檔案
 zh-TW|T|FindOcc.Go|尋找
 zh-TW|T|FindOcc.GoHint|尋找下一個相符（同 Ctrl+F）
+zh-TW|T|FindOcc.HideList|隱藏清單
 zh-TW|T|FindOcc.HideListHint|隱藏符合清單 (保持搜尋面板開啟)
 zh-TW|T|FindOcc.HitLimitReached|已達到相符上限（5,000,000）。請縮小搜尋文字，或匯出既有結果。
 zh-TW|T|FindOcc.HitLineFmt|第 %d 行：%s
@@ -45955,6 +46203,7 @@ zh-TW|T|FindOcc.RecentMore|顯示更多
 zh-TW|T|FindOcc.RecentMoreHint|顯示剩餘的最近搜尋
 zh-TW|T|FindOcc.ResizeHint|拖動以調整相符清單高度。雙擊在預設高度與視窗一半之間切換。
 zh-TW|T|FindOcc.SearchHint|輸入要尋找的文字（同 Ctrl+F），然後按 Enter
+zh-TW|T|FindOcc.ShowList|顯示清單
 zh-TW|T|FindOcc.ShowListHint|顯示符合清單
 zh-TW|T|FindOcc.Status.Collecting|正在收集 "%s" 的相符項目...
 zh-TW|T|FindOcc.Status.CollectingShort|正在收集相符項目...
@@ -46955,6 +47204,11 @@ zh-TW|T|Recent Folders|最近的資料夾
 zh-TW|T|Recent tabs.Hint|重新打開最近使用的分頁，或恢復上一個工作階段
 zh-TW|T|RecentFiles.More|顯示更多
 zh-TW|T|RecentFiles.MoreHint|顯示剩餘的最近檔案
+zh-TW|T|RecentFiles.SessionHint|此檔案有已儲存的工作階段（游標、書籤、篩選器）。開啟即可還原。
+zh-TW|T|RecentFiles.SessionNoneHint|此檔案尚無已儲存的工作階段。開啟後請使用「工作階段 → 立即儲存工作階段」(Ctrl+Alt+S)。
+zh-TW|T|RecentFiles.SessionOpenHint|"%s" 有已儲存的工作階段。開啟檔案可還原游標、書籤與篩選器。
+zh-TW|T|RecentFiles.SessionSaved|● 已儲存
+zh-TW|T|RecentFiles.SessionTip|工作階段欄：「已儲存」表示重新開啟檔案時可還原游標、書籤與篩選器。
 zh-TW|T|red: removed (left)|紅色 = 刪除（左側）
 zh-TW|T|Redo|重做
 zh-TW|T|Redo delete on line %d? The line will be deleted again.|重新刪除第 %d 行嗎？該行將再次被刪除。
@@ -47251,6 +47505,9 @@ zh-TW|T|Session history|會話歷史
 zh-TW|T|Session loaded.|工作階段已載入。
 zh-TW|T|Session saved.|工作階段已儲存。
 zh-TW|T|Session.AskAI|就這個工作階段詢問 AI
+zh-TW|T|Session.LoadedDetail|已還原此檔案的游標位置、書籤、篩選器與檢視選項。
+zh-TW|T|Session.NeedFile|請先開啟並讀取檔案，才能儲存或載入其工作階段。
+zh-TW|T|Session.SavedDetail|已儲存此檔案的游標位置、書籤、篩選器與檢視選項。
 zh-TW|T|Set how many files should be generated.|設定應生成的檔案數量。
 zh-TW|T|Short Overview|簡要概述
 zh-TW|T|Shortcut:|捷徑：
@@ -47472,16 +47729,24 @@ zh-TW|T|TAB|TAB
 zh-TW|T|Tab content.|標籤內容。
 zh-TW|T|TabCtx.Close|關閉分頁
 zh-TW|T|TabCtx.CloseAll|關閉所有分頁
+zh-TW|T|TabCtx.CloseAllHint|關閉所有開啟的分頁
+zh-TW|T|TabCtx.CloseAllShort|全部關閉
+zh-TW|T|TabCtx.ClosedAll|已關閉所有分頁
+zh-TW|T|TabCtx.ClosedAllDetail|可透過「工作階段 → 重新開啟已關閉的分頁」或「還原上次工作階段的分頁」找回。
 zh-TW|T|TabCtx.ClosedList|最近關閉的分頁
 zh-TW|T|TabCtx.CloseLeft|關閉左側分頁
 zh-TW|T|TabCtx.CloseOthers|關閉其他所有分頁
 zh-TW|T|TabCtx.CloseOthersActive|關閉目前分頁以外的所有分頁
 zh-TW|T|TabCtx.CloseRight|關閉右側分頁
+zh-TW|T|TabCtx.ConfirmCloseAll|關閉全部 %d 個開啟的分頁？
 zh-TW|T|TabCtx.MenuButtonHint|分頁選項：開啟的分頁、重新開啟已關閉的分頁、儲存 / 還原分頁、關閉分頁（也可在分頁上按右鍵）
 zh-TW|T|TabCtx.NoClosed|本次工作階段中沒有已關閉的分頁
+zh-TW|T|TabCtx.NoSavedTabs|找不到此工作階段已儲存的開啟分頁。
 zh-TW|T|TabCtx.OpenTabs|開啟的分頁
 zh-TW|T|TabCtx.Reopen|重新開啟已關閉的分頁
 zh-TW|T|TabCtx.ReopenNamed|重新開啟已關閉的分頁：%s
+zh-TW|T|TabCtx.RestoredTabs|已還原分頁
+zh-TW|T|TabCtx.RestoredTabsDetail|已從上次工作階段還原 %d 個分頁。
 zh-TW|T|TabCtx.SavedOpen|已儲存開啟的分頁
 zh-TW|T|TabCtx.SavedOpenDetail|%d 個分頁。使用「還原上次工作階段的分頁」重新開啟。
 zh-TW|T|TabCtx.SaveOpen|儲存開啟的分頁
@@ -47604,6 +47869,7 @@ zh-TW|T|Toolbar.AIAssistant|AI 助手（開啟）
 zh-TW|T|Toolbar.AIAssistantHint|顯示或隱藏 AI 助手面板 (Ctrl+Alt+A)
 zh-TW|T|Toolbar.PythonMacro|Python 巨集
 zh-TW|T|Toolbar.PythonMacroHint|開啟 Python 巨集面板，用指令碼轉換檔案中的行 (Ctrl+Alt+E)
+zh-TW|T|Toolbar.RecentFiles|最近的檔案
 zh-TW|T|Tools|工具
 zh-TW|T|ToolsGallery.ClearSearch|清除搜尋
 zh-TW|T|ToolsGallery.GroupAppearance|外觀
@@ -48846,7 +49112,7 @@ ar|T|Cut|يقطع
 ar|T|D&uplicate line|خط مكرر (&u)
 ar|T|Date && Time|التاريخ والوقت
 ar|T|Date/Time|التاريخ/الوقت
-ar|T|Delete|حذف
+ar|T|delete|يمسح
 ar|T|Delete %d selected line(s) from the file?|هل تريد حذف %d سطرا (أسطرا) محددة من الملف؟
 ar|T|Delete confirmation|تأكيد الحذف
 ar|T|Delete Duplicate Lines...|حذف الأسطر المكررة...
@@ -49160,6 +49426,7 @@ ar|T|FF_HELP.RecentFeaturesBlock4|RECENT FEATURES (v3.0.5.245 – v3.0.5.249)\r\
 ar|T|FF_HELP.RecentFeaturesBlock6|التحديثات الأخيرة (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  أصبحت الواجهة متاحة بـ 22 لغة، منها الهندية والروسية والكورية،\r\n    والهولندية والتركية والأوكرانية. تستخدم الهندية تخطيطًا من اليسار إلى اليمين.\r\n  تعالج عملية التقسيم إلى أجزاء متساوية كتل MMF دون تحميل الملف بالكامل؛\r\n    وتظل علامة تبويب التقسيم مفتوحة عند الانتهاء.\r\n  بعد قراءة الملف، يقترح دليل الخطوات التالية إجراءات مفيدة.\r\n    يمكن إعادة فتحه أو تعطيله من التفضيلات.\r\n  تمت ترجمة قائمة سياق المحرر ومصطلحات محفوظات الجلسة.\r\n  أُعيد تصميم الدليل والتفضيلات؛ ويبدأ الدليل دون وميض\r\n    أو مقاطعة قراءة الملف.\r\n
 ar|T|FF_HELP.RecentFeaturesBlock7|التحديثات الأخيرة (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  التايلاندية واليونانية والنرويجية والسويدية والدنماركية والأيسلندية ترفع\r\n    الواجهة إلى 28 لغة. والست تقرأ من اليسار إلى اليمين.\r\n  الخطوات التالية تتبع النشاط الحالي، مثل البحث والتصفية\r\n    والتقسيم والدمج أو القراءة، بدلا من قائمة ثابتة واحدة.\r\n  كل نشاط يقدم المزيد من الإجراءات التالية.\r\n  زر على يسار نسخ يعيد فتح دليل الخطوات التالية.\r\n
 ar|T|FF_HELP.RecentFeaturesBlock8|التحديثات الأخيرة (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  دليل الخطوات التالية أقصر، فتبقى قائمة الملف ظاهرة.\r\n  أيقونة قراءة داخل حقل المسار، إلى يسار علامة X للمسح.\r\n  تستخدم نفس رسم قراءة في شريط الأدوات وتحمّل ذلك المسار.\r\n
+ar|T|FF_HELP.RecentFeaturesBlock9|التحديثات الأخيرة (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  البحث والتصفية والإشارات المرجعية تتكدس كأكورديون مع غطاء تحميل.\r\n  F3 / Shift+F3 لم تعد تومض ذلك الغطاء عندما يكون البحث مفتوحًا بالفعل.\r\n  أثناء فتح لوحة بحث، تنتقل أدوات القائمة الفائضة إلى المزيد.\r\n  تظل حوارات التأكيد قابلة للنقر في وضع اليمين إلى اليسار.\r\n  بعد الأخير، يظل الأول وأزرار الصفحة تعمل؛ حالة الصفحة\r\n    تتبع لغة الواجهة.\r\n
 ar|T|FF_HELP.Win64IndexBlock|WIN64 HOST & FAST INDEXING (الإصدار 3.0.3+)\r\n---------------------------------------------------------------\r\n  تم تصميم FastFile لنظامي Win32 (Delphi 7) وWin64 (Delphi 10.4.2+).\r\n  الإخراج: Build\\Win32\\ أو Build\\Win64\\ بجانب المشروع؛ جلود\r\n  تم نسخ المجلد لكل نظام أساسي عند الإنشاء.\r\n  F5 / القراءة: SWAR فحص تغذية الأسطر (كتل 8 بايت؛ مسار عريض 32 بايت\r\n  عندما يكون AVX2 متاحا). الملفات > 2 جيجابايت تستخدم temp_ckpt.txt متفرقا فقط.\r\n  يتم تحميل تحديثات تقدم التراكب بسلاسة (~22 هرتز) أثناء عمليات الفحص السريع.\r\n  يسرد سجل مؤقت العملية العلوي الأيمن كل إجراء مكتمل (اقرأ،\r\n  تقسيم، دمج، وما إلى ذلك) مع الوقت المنقضي؛ يستخدم Win64 ListBox القياسي.\r\n  راجع uLineIndexScan.pas وCHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 ar|T|Fil&ter / Grep|تصفية / Grep (&t)
 ar|T|File changed on disk|تم تغيير الملف على القرص
@@ -49365,6 +49632,7 @@ ar|T|FindOcc.Export|تصدير
 ar|T|FindOcc.ExportHint|تصدير الحوادث المجمعة إلى ملف
 ar|T|FindOcc.Go|بحث
 ar|T|FindOcc.GoHint|ابحث عن المطابقة التالية (مثل Ctrl+F)
+ar|T|FindOcc.HideList|إخفاء القائمة
 ar|T|FindOcc.HitLimitReached|تم الوصول إلى حد الحدوث (5,000,000). قم بتضييق نص البحث أو قم بتصدير ما لديك.
 ar|T|FindOcc.HitLineFmt|السطر %d: %s
 ar|T|FindOcc.ListPageNextHint|الصفحة التالية من قائمة الأحداث
@@ -49389,6 +49657,7 @@ ar|T|FindOcc.RecentMore|عرض المزيد
 ar|T|FindOcc.RecentMoreHint|إظهار عمليات البحث الحديثة المتبقية
 ar|T|FindOcc.ResizeHint|اسحب لتغيير حجم قائمة الحالات. النقر المزدوج يبدل الارتفاع الافتراضي ونصف النافذة.
 ar|T|FindOcc.SearchHint|اكتب نصا للبحث عنه (مثل Ctrl+F)، ثم أدخل
+ar|T|FindOcc.ShowList|إظهار القائمة
 ar|T|FindOcc.Status.Collecting|جار تجميع التطابقات لـ "%s"...
 ar|T|FindOcc.Status.CollectingShort|جمع المباريات...
 ar|T|FindOcc.Status.Idle|اكتب أدناه أو استخدم Ctrl+F، ثم السابق / التالي أو عرض الكل في القائمة
@@ -50063,13 +50332,13 @@ ar|T|Merge apply finished OK.|تم الانتهاء من تطبيق الدمج �
 ar|T|Merge completed in: %s millisecs.|اكتمل الدمج خلال: %s مللي ثانية.
 ar|T|Merge Delta Error: |خطأ دلتا في الدمج: 
 ar|T|Merge Error: |خطأ في الدمج: 
-ar|T|Merge files|دمج الملفات
+ar|T|Merge Files|دمج الملفات
 ar|T|Merge files\r\nCtrl+Shift+J|دمج الملفات\r\nCtrl+Shift+J
 ar|T|Merge files completed in: %s millisecs.|اكتمل دمج الملفات في: %s.
 ar|T|Merge files error: |خطأ في دمج الملفات: 
 ar|T|Merge files: %s — %s|دمج الملفات: %s — %s
 ar|T|Merge finished with %d error(s).|انتهى الدمج مع وجود %d خطأ (أخطاء).
-ar|T|Merge lines|دمج الأسطر
+ar|T|Merge Lines|دمج الخطوط
 ar|T|Merge lines\r\nCtrl+Shift+M|دمج الأسطر\r\nCtrl+Shift+M
 ar|T|Merge lines (delta)|دمج الخطوط (دلتا)
 ar|T|Merge lines (delta): %d line(s) from line %d|دمج الأسطر (دلتا): %d سطر (أسطر) من السطر %d
@@ -50389,6 +50658,9 @@ ar|T|Recent Folders|المجلدات الأخيرة
 ar|T|Recent tabs.Hint|أعد فتح علامة تبويب تم استخدامها مؤخرا، أو قم باستعادة الجلسة الأخيرة
 ar|T|RecentFiles.More|عرض المزيد
 ar|T|RecentFiles.MoreHint|إظهار الملفات الأخيرة المتبقية
+ar|T|RecentFiles.SessionHint|لهذا الملف جلسة محفوظة (المؤشر، الإشارات المرجعية، المرشحات). افتحه للاستعادة.
+ar|T|RecentFiles.SessionSaved|● محفوظة
+ar|T|RecentFiles.SessionTip|عمود الجلسة: «محفوظة» تعني أنه يمكن استعادة المؤشر والإشارات المرجعية والمرشحات عند إعادة فتح الملف.
 ar|T|red: removed (left)|أحمر = تمت إزالته (يسار)
 ar|T|Redo|إعادة
 ar|T|Redo delete on line %d? The line will be deleted again.|هل تريد إعادة الحذف على السطر %d؟ سيتم حذف السطر مرة أخرى.
@@ -50641,8 +50913,6 @@ ar|T|SearchCmd.WorkflowHelp|اكتب فقط grep/glob، أو استخدم الأ
 ar|T|SearchDock.Collapse|طي
 ar|T|SearchDock.Expand|توسيع
 ar|T|SearchDock.Loading|جارٍ تجهيز أدوات البحث...
-ar|T|SearchDock.PickerHint|اختر لوحة البحث التي تريد فتحها
-ar|T|SearchDock.Tools|أدوات البحث
 ar|T|Searching|البحث
 ar|T|Searching...|جار البحث...
 ar|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|النمط الثانوي (نفس الوضع): Regex: ^.*,%s,.*$
@@ -50675,6 +50945,9 @@ ar|T|Session history|تاريخ الجلسة
 ar|T|Session loaded.|تم تحميل الجلسة.
 ar|T|Session saved.|تم حفظ الجلسة.
 ar|T|Session.AskAI|اسأل الذكاء الاصطناعي عن هذه الجلسة
+ar|T|Session.LoadedDetail|تمت استعادة موضع المؤشر والإشارات المرجعية والمرشحات وخيارات العرض لهذا الملف.
+ar|T|Session.NeedFile|افتح ملفا واقرأه أولا لحفظ جلسته أو تحميلها.
+ar|T|Session.SavedDetail|تم حفظ موضع المؤشر والإشارات المرجعية والمرشحات وخيارات العرض لهذا الملف.
 ar|T|Set how many files should be generated.|قم بتعيين عدد الملفات التي يجب إنشاؤها.
 ar|T|Short Overview|نظرة عامة قصيرة
 ar|T|Shortcut:|الاختصار:
@@ -50898,6 +51171,10 @@ ar|T|TAB|TAB
 ar|T|Tab content.|محتوى علامة التبويب.
 ar|T|TabCtx.Close|إغلاق علامة التبويب
 ar|T|TabCtx.CloseAll|أغلق كافة علامات التبويب
+ar|T|TabCtx.CloseAllHint|إغلاق جميع علامات التبويب المفتوحة
+ar|T|TabCtx.CloseAllShort|إغلاق الكل
+ar|T|TabCtx.ClosedAll|تم إغلاق جميع علامات التبويب
+ar|T|TabCtx.ClosedAllDetail|استخدم الجلسة → إعادة فتح علامة التبويب المغلقة أو استعادة علامات تبويب آخر جلسة لاستعادتها.
 ar|T|TabCtx.ClosedList|الألسنة المغلقة مؤخرا
 ar|T|TabCtx.CloseLeft|إغلاق علامات التبويب على اليسار
 ar|T|TabCtx.CloseOthers|أغلق الكل ما عدا علامة التبويب هذه
@@ -50905,9 +51182,11 @@ ar|T|TabCtx.CloseOthersActive|أغلق الكل ما عدا علامة التب�
 ar|T|TabCtx.CloseRight|إغلاق علامات التبويب على اليمين
 ar|T|TabCtx.MenuButtonHint|خيارات علامة التبويب: فتح علامات التبويب، وإعادة فتح علامة التبويب المغلقة، وحفظ/استعادة علامات التبويب، وإغلاق علامات التبويب (أيضا عن طريق النقر بزر الماوس الأيمن فوق علامة التبويب)
 ar|T|TabCtx.NoClosed|لا توجد علامات تبويب مغلقة في هذه الجلسة
+ar|T|TabCtx.NoSavedTabs|لم يتم العثور على علامات تبويب مفتوحة محفوظة لهذه الجلسة.
 ar|T|TabCtx.OpenTabs|علامات التبويب المفتوحة
 ar|T|TabCtx.Reopen|إعادة فتح علامة التبويب المغلقة
 ar|T|TabCtx.ReopenNamed|إعادة فتح علامة التبويب المغلقة: %s
+ar|T|TabCtx.RestoredTabs|تمت استعادة علامات التبويب
 ar|T|TabCtx.SavedOpen|علامات التبويب المفتوحة المحفوظة
 ar|T|TabCtx.SavedOpenDetail|%d علامة تبويب (علامات تبويب). استخدم "استعادة علامات تبويب الجلسة الأخيرة" لإعادة فتحها.
 ar|T|TabCtx.SaveOpen|حفظ علامات التبويب المفتوحة
@@ -51030,6 +51309,7 @@ ar|T|Toolbar.AIAssistant|مساعد الذكاء الاصطناعي (تشغيل)
 ar|T|Toolbar.AIAssistantHint|إظهار أو إخفاء لوحة مساعد الذكاء الاصطناعي (Ctrl+Alt+A)
 ar|T|Toolbar.PythonMacro|Python ماكرو
 ar|T|Toolbar.PythonMacroHint|افتح لوحة وحدات الماكرو Python لتحويل خطوط الملف باستخدام برنامج نصي (Ctrl+Alt+E)
+ar|T|Toolbar.RecentFiles|الملفات الأخيرة
 ar|T|Tools|أدوات
 ar|T|ToolsGallery.ClearSearch|مسح البحث
 ar|T|ToolsGallery.GroupAppearance|المظهر
@@ -52271,7 +52551,7 @@ he|T|Cut|לחתוך
 he|T|D&uplicate line|שורה כפולה (&u)
 he|T|Date && Time|תאריך ושעה
 he|T|Date/Time|תאריך/שעה
-he|T|Delete|מחיקה
+he|T|delete|למחוק
 he|T|Delete %d selected line(s) from the file?|למחוק %d שורה/שורות שנבחרו מהקובץ?
 he|T|Delete confirmation|מחק אישור
 he|T|Delete Duplicate Lines...|מחק שורות כפולות...
@@ -52585,6 +52865,7 @@ he|T|FF_HELP.RecentFeaturesBlock4|RECENT FEATURES (v3.0.5.245 – v3.0.5.249)\r\
 he|T|FF_HELP.RecentFeaturesBlock6|עדכונים אחרונים (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  הממשק תומך כעת ב-22 שפות, כולל הינדית, רוסית וקוריאנית,\r\n    וגם הולנדית, טורקית ואוקראינית. פריסת ההינדית היא משמאל לימין.\r\n  חלוקה לחלקים שווים מעבדת מקטעי MMF בלי לטעון את הקובץ כולו;\r\n    לשונית החלוקה נשארת פתוחה כשהפעולה מסתיימת.\r\n  לאחר קריאת קובץ, מדריך השלבים הבאים מציע פעולות שימושיות.\r\n    אפשר לפתוח אותו מחדש או לכבות אותו בהעדפות.\r\n  תפריט ההקשר של העורך ומונחי היסטוריית ההפעלה תורגמו.\r\n  המדריך וההעדפות עוצבו מחדש; המדריך נפתח ללא הבהובים\r\n    וללא הפרעה לקריאת הקובץ.\r\n
 he|T|FF_HELP.RecentFeaturesBlock7|עדכונים אחרונים (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  תאית, יוונית, נורווגית, שוודית, דנית ואיסלנדית מביאות\r\n    את הממשק ל-28 שפות. ששתן נקראות משמאל לימין.\r\n  השלבים הבאים עוקבים אחר הפעולה הנוכחית, כגון חיפוש וסינון,\r\n    פיצול, מיזוג או קריאה, במקום רשימה קבועה אחת.\r\n  כל פעולה מציעה עוד פעולות המשך.\r\n  כפתור משמאל להעתקה פותח שוב את מדריך השלבים הבאים.\r\n
 he|T|FF_HELP.RecentFeaturesBlock8|עדכונים אחרונים (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  מדריך השלבים הבאים קצר יותר, כך שרשימת הקובץ נשארת גלויה.\r\n  סמל קריאה בתוך שדה הנתיב, משמאל ל-X לניקוי.\r\n  משתמש באותו ציור כמו קריאה בסרגל הכלים וטוען את הנתיב הזה.\r\n
+he|T|FF_HELP.RecentFeaturesBlock9|עדכונים אחרונים (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  חיפוש, סינון וסימניות נערמים כאקורדיון עם כיסוי טעינה.\r\n  F3 / Shift+F3 כבר לא מהבהבים את הכיסוי כשהחיפוש כבר פתוח.\r\n  כשלוח חיפוש פתוח, כלי הרשימה העודפים עוברים אל עוד.\r\n  דיאלוגי אישור נשארים לחיצים במצב ימין-לשמאל.\r\n  אחרי אחרון, ראשון וכפתורי העמוד ממשיכים לעבוד; מצב העמוד\r\n    עוקב אחר שפת הממשק.\r\n
 he|T|FF_HELP.Win64IndexBlock|WIN64 HOST ו-FAST INDEXING (גרסה 3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile בונה עבור Win32 (Delphi 7) ו-Win64 (Delphi 10.4.2+).\r\n  פלט: Build\\Win32\\ או Build\\Win64\\ לצד הפרויקט; עורות\r\n  תיקייה שהועתקה לכל פלטפורמה ב-build.\r\n  F5 / קריאה: SWAR סריקת הזנת שורה (בלוקים של 8 בתים; נתיב ברוחב של 32 בתים\r\n  כאשר AVX2 זמין). קבצים > 2 GB משתמשים ב-temp_ckpt.txt דל בלבד.\r\n  טעינת התקדמות שכבת העל מתעדכנת בצורה חלקה (~22 הרץ) במהלך סריקות מהירות.\r\n  יומן טיימר הפעלה מימין למעלה מפרט כל פעולה שהושלמה (קרא,\r\n  פיצול, מיזוג וכו') עם הזמן שחלף; Win64 משתמש ב-ListBox סטנדרטי.\r\n  ראה uLineIndexScan.pas ו-CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 he|T|Fil&ter / Grep|סינון / Grep (&t)
 he|T|File changed on disk|הקובץ שונה בדיסק
@@ -52790,6 +53071,7 @@ he|T|FindOcc.Export|ייצוא
 he|T|FindOcc.ExportHint|ייצא מופעים שנאספו לקובץ
 he|T|FindOcc.Go|חיפוש
 he|T|FindOcc.GoHint|מצא את ההתאמה הבאה (אותו דבר כמו Ctrl+F)
+he|T|FindOcc.HideList|הסתר רשימה
 he|T|FindOcc.HitLimitReached|הגיעו למגבלת ההתרחשות (5,000,000). צרו את טקסט החיפוש או ייצאו את מה שיש לכם.
 he|T|FindOcc.HitLineFmt|שורה %d: %s
 he|T|FindOcc.ListPageNextHint|הדף הבא ברשימת המופעים
@@ -52814,6 +53096,7 @@ he|T|FindOcc.RecentMore|הצג עוד
 he|T|FindOcc.RecentMoreHint|הצג את החיפושים האחרונים שנותרו
 he|T|FindOcc.ResizeHint|גרור כדי לשנות את גודל רשימת ההתרחשויות. לחיצה כפולה מחליפה את גובה ברירת המחדל ואת חצי החלון.
 he|T|FindOcc.SearchHint|הקלד טקסט לחיפוש (זהה ל-Ctrl+F), ולאחר מכן Enter
+he|T|FindOcc.ShowList|הצג רשימה
 he|T|FindOcc.Status.Collecting|איסוף תוצאות עבור "%s"...
 he|T|FindOcc.Status.CollectingShort|אוספים גפרורים...
 he|T|FindOcc.Status.Idle|הקלד למטה או השתמש ב-Ctrl+F, ואז הקודם / הבא או הצג הכל ברשימה
@@ -53488,13 +53771,13 @@ he|T|Merge apply finished OK.|מיזוג החלה הסתיים אישור.
 he|T|Merge completed in: %s millisecs.|המיזוג הושלם תוך: %s אלפיות שניות.
 he|T|Merge Delta Error: |שגיאת מיזוג דלתא: 
 he|T|Merge Error: |שגיאת מיזוג: 
-he|T|Merge files|מיזוג קבצים
+he|T|Merge Files|מיזוג קבצים
 he|T|Merge files\r\nCtrl+Shift+J|מיזוג קבצים\r\nCtrl+Shift+J
 he|T|Merge files completed in: %s millisecs.|מיזוג הקבצים הושלם ב: %s.
 he|T|Merge files error: |שגיאת מיזוג קבצים: 
 he|T|Merge files: %s — %s|מזג קבצים: %s — %s
 he|T|Merge finished with %d error(s).|המיזוג הושלם עם %d שגיאה(ות).
-he|T|Merge lines|מיזוג שורות
+he|T|Merge Lines|מיזוג שורות
 he|T|Merge lines\r\nCtrl+Shift+M|מיזוג שורות\r\nCtrl+Shift+M
 he|T|Merge lines (delta)|מיזוג קווים (דלתא)
 he|T|Merge lines (delta): %d line(s) from line %d|מזג שורות (דלתא): %d שורה(ות) משורה %d
@@ -53814,6 +54097,9 @@ he|T|Recent Folders|תיקיות אחרונות
 he|T|Recent tabs.Hint|לפתוח מחדש לשונית שהשתמשת בה לאחרונה, או לשחזר את הפעלה האחרונה
 he|T|RecentFiles.More|הצג עוד
 he|T|RecentFiles.MoreHint|הצג את הקבצים האחרונים שנשארו
+he|T|RecentFiles.SessionHint|לקובץ זה יש מפגש שמור (סמן, סימניות, מסננים). פתח אותו כדי לשחזר.
+he|T|RecentFiles.SessionSaved|● נשמר
+he|T|RecentFiles.SessionTip|עמודת מפגש: ״נשמר״ פירושו שניתן לשחזר סמן, סימניות ומסננים בפתיחה מחדש של הקובץ.
 he|T|red: removed (left)|אדום = הוסר (השאר)
 he|T|Redo|ביצוע חוזר
 he|T|Redo delete on line %d? The line will be deleted again.|לבצע מחדש מחיקה בשורה %d? השורה תימחק שוב.
@@ -54066,8 +54352,6 @@ he|T|SearchCmd.WorkflowHelp|הקלד רק grep/glob, או השתמש בכפתו�
 he|T|SearchDock.Collapse|כיווץ
 he|T|SearchDock.Expand|הרחבה
 he|T|SearchDock.Loading|מכין את כלי החיפוש...
-he|T|SearchDock.PickerHint|בחרו איזה לוח חיפוש לפתוח
-he|T|SearchDock.Tools|כלי חיפוש
 he|T|Searching|מחפש
 he|T|Searching...|מחפש...
 he|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|דפוס משני (אותו מצב): Regex: ^.*,%s,.*$
@@ -54100,6 +54384,9 @@ he|T|Session history|היסטוריית הפגישות
 he|T|Session loaded.|הפגישה נטענה.
 he|T|Session saved.|הפגישה נשמרה.
 he|T|Session.AskAI|שאל את הבינה המלאכותית על המפגש הזה
+he|T|Session.LoadedDetail|מיקום הסמן, הסימניות, המסננים ואפשרויות התצוגה שוחזרו עבור קובץ זה.
+he|T|Session.NeedFile|פתח וקרא קובץ תחילה כדי לשמור או לטעון את המפגש שלו.
+he|T|Session.SavedDetail|מיקום הסמן, הסימניות, המסננים ואפשרויות התצוגה נשמרו עבור קובץ זה.
 he|T|Set how many files should be generated.|הגדר כמה קבצים צריכים להיווצר.
 he|T|Short Overview|סקירה קצרה
 he|T|Shortcut:|קיצור דרך:
@@ -54323,6 +54610,10 @@ he|T|TAB|TAB
 he|T|Tab content.|תוכן הלשונית.
 he|T|TabCtx.Close|סגור לשונית
 he|T|TabCtx.CloseAll|סגור את כל הכרטיסיות
+he|T|TabCtx.CloseAllHint|סגור את כל הלשוניות הפתוחות
+he|T|TabCtx.CloseAllShort|סגור הכל
+he|T|TabCtx.ClosedAll|כל הלשוניות נסגרו
+he|T|TabCtx.ClosedAllDetail|השתמש ב״מפגש → פתח מחדש לשונית שנסגרה״ או ״שחזר לשוניות מהמפגש האחרון״ כדי להחזיר אותן.
 he|T|TabCtx.ClosedList|כרטיסיות שנסגרו לאחרונה
 he|T|TabCtx.CloseLeft|סגור לשוניות שמאלה
 he|T|TabCtx.CloseOthers|סגור הכל מלבד הכרטיסייה הזו
@@ -54330,9 +54621,11 @@ he|T|TabCtx.CloseOthersActive|סגור את כל הכרטיסיות חוץ מה�
 he|T|TabCtx.CloseRight|סגור כרטיסיות מימין
 he|T|TabCtx.MenuButtonHint|אפשרויות כרטיסיות: לפתוח כרטיסיות, לפתוח מחדש כרטיסיה שנסגרה, לשמור / לשחזר כרטיסיות, לסגור כרטיסיות (גם על ידי לחיצה ימנית על כרטיסיה)
 he|T|TabCtx.NoClosed|אין כרטיסיות סגורות בהפעלה זו
+he|T|TabCtx.NoSavedTabs|לא נמצאו לשוניות פתוחות שמורות למפגש זה.
 he|T|TabCtx.OpenTabs|כרטיסיות פתוחות
 he|T|TabCtx.Reopen|לפתוח מחדש כרטיסייה סגורה
 he|T|TabCtx.ReopenNamed|לפתוח מחדש כרטיסייה סגורה: %s
+he|T|TabCtx.RestoredTabs|הלשוניות שוחזרו
 he|T|TabCtx.SavedOpen|כרטיסיות פתוחות נשמרו
 he|T|TabCtx.SavedOpenDetail|%d כרטיסיות. השתמש ב"שחזור כרטיסיות הפגישה האחרונה" כדי לפתוח אותן מחדש.
 he|T|TabCtx.SaveOpen|שמור כרטיסיות פתוחות
@@ -54455,6 +54748,7 @@ he|T|Toolbar.AIAssistant|עוזר בינה מלאכותית (פועל)
 he|T|Toolbar.AIAssistantHint|הצג או הסתר את לוח עוזר הבינה המלאכותית (Ctrl+Alt+A)
 he|T|Toolbar.PythonMacro|Python מקורו
 he|T|Toolbar.PythonMacroHint|פתח את לוח המקרואים של Python כדי להמיר את שורות הקובץ עם סקריפט (Ctrl+Alt+E)
+he|T|Toolbar.RecentFiles|קבצים אחרונים
 he|T|Tools|כלים
 he|T|ToolsGallery.ClearSearch|נקה חיפוש
 he|T|ToolsGallery.GroupAppearance|מראה
@@ -56026,6 +56320,7 @@ hi|T|FF_HELP.RecentFeaturesBlock5|हाल की सुविधाएँ (v3.
 hi|T|FF_HELP.RecentFeaturesBlock6|हालिया अपडेट (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  अब इंटरफ़ेस में 22 भाषाएँ हैं, जिनमें हिंदी, रूसी और कोरियाई शामिल हैं,\r\n    साथ ही डच, तुर्की और यूक्रेनी। हिंदी का लेआउट बाएँ से दाएँ है।\r\n  बराबर भागों में बाँटना पूरी फ़ाइल लोड किए बिना MMF ब्लॉकों को पढ़ता है;\r\n    काम पूरा होने पर विभाजन टैब खुला रहता है।\r\n  फ़ाइल पढ़ने के बाद अगला-कदम मार्गदर्शक उपयोगी कार्रवाइयाँ सुझाता है।\r\n    इसे Preferences में फिर से दिखाएँ या बंद करें।\r\n  संपादन संदर्भ मेनू और सत्र-इतिहास के शब्दों का स्थानीयकरण किया गया है।\r\n  मार्गदर्शक और Preferences नए रूप में हैं; मार्गदर्शक बिना झिलमिलाहट\r\n    और फ़ाइल पढ़ने में बाधा डाले शुरू होता है।\r\n
 hi|T|FF_HELP.RecentFeaturesBlock7|हाल के अपडेट (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  थाई, यूनानी, नॉर्वेजियाई, स्वीडिश, डेनिश और आइसलैंडिक ले जाते हैं\r\n    इंटरफ़ेस को 28 भाषाओं तक। छहों बाएँ से दाएँ पढ़ी जाती हैं।\r\n  अगले चरण वर्तमान गतिविधि का अनुसरण करते हैं, जैसे खोज, फ़िल्टर,\r\n    विभाजन, मर्ज या पढ़ना, एक स्थिर सूची के बजाय।\r\n  प्रत्येक गतिविधि अधिक अगले कदम देती है।\r\n  कॉपी के बाईं ओर का बटन अगले-चरण गाइड को फिर से खोलता है।\r\n
 hi|T|FF_HELP.RecentFeaturesBlock8|हाल के अपडेट (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  अगले-चरण गाइड छोटा है, इसलिए फ़ाइल सूची दिखती रहती है।\r\n  पढ़ें आइकन पथ फ़ील्ड में, साफ़ करने वाले X के बाईं ओर है।\r\n  यह टूलबार के पढ़ें जैसा ही चिह्न है और उसी पथ को लोड करता है।\r\n
+hi|T|FF_HELP.RecentFeaturesBlock9|हाल के अपडेट (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  खोज, फ़िल्टर और बुकमार्क लोडिंग कवर के साथ एक एकॉर्डियन में स्टैक होते हैं।\r\n  F3 / Shift+F3 उस कवर को तब नहीं चमकाते जब खोज पहले से खुली हो।\r\n  खोज पैनल खुला होने पर, अतिरिक्त सूची उपकरण अधिक में जाते हैं।\r\n  पुष्टि संवाद दाएँ-से-बाएँ मोड में क्लिक करने योग्य रहते हैं।\r\n  अंतिम के बाद, प्रथम और पृष्ठ बटन काम करते रहते हैं; पृष्ठ स्थिति\r\n    UI भाषा का अनुसरण करती है।\r\n
 hi|T|FF_HELP.Win64IndexBlock|Win64 होस्ट और तेज़ इंडेक्सिंग (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile Win32 (Delphi 7) और Win64 (Delphi 10.4.2+) के लिए बिल्ड होता है।\r\n  आउटपुट: प्रोजेक्ट के पास Build\\Win32\\ या Build\\Win64\\; बिल्ड के समय\r\n  हर प्लेटफ़ॉर्म के लिए Skins फ़ोल्डर कॉपी होता है।\r\n  F5 / Read: SWAR लाइन-फ़ीड स्कैन (8-बाइट ब्लॉक; AVX2 उपलब्ध होने पर\r\n  32-बाइट चौड़ा पथ)। 2 GB से बड़ी फ़ाइलें केवल sparse temp_ckpt.txt इस्तेमाल करती हैं।\r\n  तेज़ स्कैन के दौरान लोडिंग ओवरले की प्रगति सहजता से अपडेट होती है (~22 Hz)।\r\n  ऊपर-दाएँ कार्रवाई टाइमर लॉग में पूरी हुई हर कार्रवाई (पढ़ना,\r\n  विभाजन, मर्ज आदि) और बीता समय दिखता है; Win64 में मानक ListBox है।\r\n  uLineIndexScan.pas और CHANGELOG_IMPLEMENTACOES.md (3.0.3.x) देखें।
 hi|T|Fil&ter / Grep|फ़िल्टर / Grep (&T)
 hi|T|File changed on disk|डिस्क पर फ़ाइल बदली गई
@@ -56231,6 +56526,7 @@ hi|T|FindOcc.Export|निर्यात
 hi|T|FindOcc.ExportHint|जुटाए गए मेल फ़ाइल में निर्यात करें
 hi|T|FindOcc.Go|खोजें
 hi|T|FindOcc.GoHint|अगला मेल खोजें (Ctrl+F जैसा)
+hi|T|FindOcc.HideList|सूची छिपाएँ
 hi|T|FindOcc.HideListHint|मेल सूची छिपाएँ (खोज पैनल खुला रहेगा)
 hi|T|FindOcc.HitLimitReached|मेल सीमा पूरी हुई (5,000,000)। खोज पाठ सीमित करें या अब तक मिले परिणाम निर्यात करें।
 hi|T|FindOcc.HitLineFmt|पंक्ति %d: %s
@@ -56256,6 +56552,7 @@ hi|T|FindOcc.RecentMore|और दिखाएँ
 hi|T|FindOcc.RecentMoreHint|बाकी हाल की खोजें दिखाएँ
 hi|T|FindOcc.ResizeHint|मेल सूची का आकार बदलने के लिए खींचें। डिफ़ॉल्ट ऊँचाई और आधी विंडो के बीच बदलने के लिए डबल-क्लिक करें।
 hi|T|FindOcc.SearchHint|खोजने के लिए पाठ टाइप करें (Ctrl+F जैसा), फिर Enter दबाएँ
+hi|T|FindOcc.ShowList|सूची दिखाएँ
 hi|T|FindOcc.ShowListHint|मेल सूची दिखाएँ
 hi|T|FindOcc.Status.Collecting|"%s" के मेल जुटाए जा रहे हैं...
 hi|T|FindOcc.Status.CollectingShort|मेल जुटाए जा रहे हैं...
@@ -57261,6 +57558,11 @@ hi|T|Recent Folders|हाल के फ़ोल्डर
 hi|T|Recent tabs.Hint|हाल में इस्तेमाल किया टैब फिर खोलें या पिछला सत्र बहाल करें
 hi|T|RecentFiles.More|और दिखाएँ
 hi|T|RecentFiles.MoreHint|बाकी हाल की फ़ाइलें दिखाएँ
+hi|T|RecentFiles.SessionHint|इस फ़ाइल का सेव किया हुआ सेशन है (कर्सर, बुकमार्क, फ़िल्टर)। पुनर्स्थापित करने के लिए खोलें।
+hi|T|RecentFiles.SessionNoneHint|इस फ़ाइल के लिए अभी कोई सेशन सेव नहीं है। खोलने के बाद Session → Save session now (Ctrl+Alt+S) उपयोग करें।
+hi|T|RecentFiles.SessionOpenHint|"%s" का सेव किया हुआ सेशन है। कर्सर, बुकमार्क और फ़िल्टर पुनर्स्थापित करने के लिए फ़ाइल खोलें।
+hi|T|RecentFiles.SessionSaved|● सेव
+hi|T|RecentFiles.SessionTip|सेशन कॉलम: "सेव" का मतलब है कि फ़ाइल दोबारा खोलने पर कर्सर, बुकमार्क और फ़िल्टर पुनर्स्थापित हो सकते हैं।
 hi|T|red: removed (left)|लाल = हटाया गया (बाईं ओर)
 hi|T|Redo|फिर से करें
 hi|T|Redo delete on line %d? The line will be deleted again.|क्या पंक्ति %d पर हटाना फिर से करें? पंक्ति फिर हटाई जाएगी।
@@ -57519,8 +57821,6 @@ hi|T|SearchCmd.WorkflowHelp|केवल grep/glob टाइप करें, �
 hi|T|SearchDock.Collapse|संक्षिप्त करें
 hi|T|SearchDock.Expand|विस्तृत करें
 hi|T|SearchDock.Loading|खोज टूल तैयार किए जा रहे हैं...
-hi|T|SearchDock.PickerHint|खोलने के लिए खोज पैनल चुनें
-hi|T|SearchDock.Tools|खोज उपकरण
 hi|T|Searching|खोज जारी है
 hi|T|Searching...|खोज हो रही है...
 hi|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|द्वितीयक पैटर्न (वही मोड): रेगेक्स: ^.*,%s,.*$
@@ -57559,6 +57859,9 @@ hi|T|Session history|सत्र इतिहास
 hi|T|Session loaded.|सत्र लोड किया गया।
 hi|T|Session saved.|सत्र सहेजा गया।
 hi|T|Session.AskAI|इस सत्र के बारे में AI से पूछें
+hi|T|Session.LoadedDetail|इस फ़ाइल के लिए कर्सर स्थिति, बुकमार्क, फ़िल्टर और दृश्य विकल्प पुनर्स्थापित किए गए।
+hi|T|Session.NeedFile|सेशन सेव या लोड करने के लिए पहले फ़ाइल खोलकर पढ़ें।
+hi|T|Session.SavedDetail|इस फ़ाइल के लिए कर्सर स्थिति, बुकमार्क, फ़िल्टर और दृश्य विकल्प सेव किए गए।
 hi|T|Set how many files should be generated.|तय करें कि कितनी फ़ाइलें बनाई जानी चाहिए।
 hi|T|Short Overview|संक्षिप्त अवलोकन
 hi|T|Shortcut:|शॉर्टकट:
@@ -57782,16 +58085,24 @@ hi|T|TAB|TAB
 hi|T|Tab content.|टैब सामग्री।
 hi|T|TabCtx.Close|टैब बंद करें
 hi|T|TabCtx.CloseAll|सभी टैब बंद करें
+hi|T|TabCtx.CloseAllHint|सभी खुली टैब बंद करें
+hi|T|TabCtx.CloseAllShort|सभी बंद करें
+hi|T|TabCtx.ClosedAll|सभी टैब बंद
+hi|T|TabCtx.ClosedAllDetail|वापस लाने के लिए Session → Reopen closed tab या Restore last session tabs उपयोग करें।
 hi|T|TabCtx.ClosedList|हाल में बंद किए गए टैब
 hi|T|TabCtx.CloseLeft|बाईं ओर के टैब बंद करें
 hi|T|TabCtx.CloseOthers|इस टैब को छोड़कर बाकी सभी बंद करें
 hi|T|TabCtx.CloseOthersActive|सक्रिय टैब को छोड़कर बाकी सभी बंद करें
 hi|T|TabCtx.CloseRight|दाईं ओर के टैब बंद करें
+hi|T|TabCtx.ConfirmCloseAll|सभी %d खुली टैब बंद करें?
 hi|T|TabCtx.MenuButtonHint|टैब विकल्प: खुले टैब, बंद टैब फिर खोलें, टैब सहेजें / बहाल करें, टैब बंद करें (टैब पर राइट-क्लिक से भी)
 hi|T|TabCtx.NoClosed|इस सत्र में कोई बंद टैब नहीं
+hi|T|TabCtx.NoSavedTabs|इस सेशन के लिए कोई सेव की गई खुली टैब नहीं मिली।
 hi|T|TabCtx.OpenTabs|खुले टैब
 hi|T|TabCtx.Reopen|बंद टैब फिर खोलें
 hi|T|TabCtx.ReopenNamed|बंद टैब फिर खोलें: %s
+hi|T|TabCtx.RestoredTabs|टैब पुनर्स्थापित
+hi|T|TabCtx.RestoredTabsDetail|पिछले सेशन से %d टैब पुनर्स्थापित की गईं।
 hi|T|TabCtx.SavedOpen|खुले टैब सहेजे गए
 hi|T|TabCtx.SavedOpenDetail|%d टैब। फिर खोलने के लिए "पिछले सत्र के टैब बहाल करें" इस्तेमाल करें।
 hi|T|TabCtx.SaveOpen|खुले टैब सहेजें
@@ -57914,6 +58225,7 @@ hi|T|Toolbar.AIAssistant|AI सहायक (ON)
 hi|T|Toolbar.AIAssistantHint|AI सहायक पैनल दिखाएँ या छिपाएँ (Ctrl+Alt+A)
 hi|T|Toolbar.PythonMacro|Python मैक्रो
 hi|T|Toolbar.PythonMacroHint|स्क्रिप्ट से फ़ाइल की पंक्तियाँ बदलने के लिए Python मैक्रो पैनल खोलें (Ctrl+Alt+E)
+hi|T|Toolbar.RecentFiles|हाल की फ़ाइलें
 hi|T|Tools|उपकरण
 hi|T|ToolsGallery.ClearSearch|खोज साफ़ करें
 hi|T|ToolsGallery.GroupAppearance|रूप-रंग
@@ -59487,6 +59799,7 @@ ru|T|FF_HELP.RecentFeaturesBlock5|ПОСЛЕДНИЕ ФУНКЦИИ (v3.0.5.250 
 ru|T|FF_HELP.RecentFeaturesBlock6|ПОСЛЕДНИЕ ОБНОВЛЕНИЯ (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Теперь интерфейс доступен на 22 языках, включая хинди, русский и корейский,\r\n    а также нидерландский, турецкий и украинский. Для хинди используется направление слева направо.\r\n  Разделение на равные части обрабатывает блоки MMF, не загружая весь файл;\r\n    после завершения вкладка разделения остается открытой.\r\n  После чтения файла руководство предлагает дальнейшие полезные действия.\r\n    Его можно снова открыть или отключить в настройках.\r\n  Контекстное меню редактора и термины истории сеанса переведены.\r\n  Руководство и настройки обновлены; оно запускается без мерцания\r\n    и не прерывает чтение файла.\r\n
 ru|T|FF_HELP.RecentFeaturesBlock7|НЕДАВНИЕ ОБНОВЛЕНИЯ (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Тайский, греческий, норвежский, шведский, датский и исландский доводят\r\n    интерфейс до 28 языков. Все шесть читаются слева направо.\r\n  Следующие шаги зависят от текущего действия, например поиск, фильтр,\r\n    разделение, слияние или чтение, а не от одного фиксированного списка.\r\n  Каждое действие предлагает больше последующих шагов.\r\n  Кнопка слева от Копировать снова открывает руководство.\r\n
 ru|T|FF_HELP.RecentFeaturesBlock8|НЕДАВНИЕ ОБНОВЛЕНИЯ (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Руководство следующих шагов ниже, поэтому список файла остаётся видимым.\r\n  Значок «Читать» в поле пути, слева от крестика очистки.\r\n  Тот же рисунок, что у «Читать» на панели, и загружает этот путь.\r\n
+ru|T|FF_HELP.RecentFeaturesBlock9|НЕДАВНИЕ ОБНОВЛЕНИЯ (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Поиск, фильтр и закладки складываются гармошкой с обложкой загрузки.\r\n  F3 / Shift+F3 больше не мигают этой обложкой, если Поиск уже открыт.\r\n  Пока открыта панель поиска, лишние инструменты списка уходят в Ещё.\r\n  Диалоги подтверждения остаются кликабельными в режиме справа налево.\r\n  После Последней кнопки Первая и страницы продолжают работать; статус\r\n    страницы следует языку интерфейса.\r\n
 ru|T|FF_HELP.Win64IndexBlock|ПЛАТФОРМА WIN64 И БЫСТРОЕ ИНДЕКСИРОВАНИЕ (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile собирается для Win32 (Delphi 7) и Win64 (Delphi 10.4.2+).\r\n  Выходные файлы: Build\\Win32\\ или Build\\Win64\\ рядом с проектом; папка Skins\r\n  копируется для каждой платформы при сборке.\r\n  F5 / «Чтение»: сканирование переводов строк SWAR (блоки по 8 байт; для AVX2\r\n  доступен 32-байтовый путь). Для файлов > 2 ГБ используется только разреженный temp_ckpt.txt.\r\n  Во время быстрого сканирования индикатор загрузки плавно обновляется (около 22 Гц).\r\n  Журнал таймера операций вверху справа отображает каждое завершенное действие (чтение,\r\n  разделение, слияние и т. д.) с длительностью; в Win64 используется стандартный ListBox.\r\n  См. uLineIndexScan.pas и CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 ru|T|Fil&ter / Grep|Фи&льтр / grep (&L)
 ru|T|File changed on disk|Файл изменен на диске
@@ -59692,6 +60005,7 @@ ru|T|FindOcc.Export|Экспорт
 ru|T|FindOcc.ExportHint|Экспортировать найденные вхождения в файл
 ru|T|FindOcc.Go|Найти
 ru|T|FindOcc.GoHint|Найти следующее совпадение (то же, что Ctrl+F)
+ru|T|FindOcc.HideList|Скрыть список
 ru|T|FindOcc.HideListHint|Скрыть список совпадений (панель поиска останется открытой)
 ru|T|FindOcc.HitLimitReached|Достигнут предел числа вхождений (5 000 000). Уточните текст поиска или экспортируйте найденное.
 ru|T|FindOcc.HitLineFmt|Строка %d: %s
@@ -59717,6 +60031,7 @@ ru|T|FindOcc.RecentMore|Показать еще
 ru|T|FindOcc.RecentMoreHint|Показать остальные недавние поиски
 ru|T|FindOcc.ResizeHint|Перетащите, чтобы изменить размер списка вхождений. Двойной щелчок переключает высоту по умолчанию и половину окна.
 ru|T|FindOcc.SearchHint|Введите текст для поиска (то же, что Ctrl+F), затем нажмите Enter
+ru|T|FindOcc.ShowList|Показать список
 ru|T|FindOcc.ShowListHint|Показать список совпадений
 ru|T|FindOcc.Status.Collecting|Сбор совпадений для «%s»...
 ru|T|FindOcc.Status.CollectingShort|Сбор совпадений...
@@ -60722,6 +61037,11 @@ ru|T|Recent Folders|Недавние папки
 ru|T|Recent tabs.Hint|Повторно открыть недавно использованную вкладку или восстановить последний сеанс
 ru|T|RecentFiles.More|Показать еще
 ru|T|RecentFiles.MoreHint|Показать остальные недавние файлы
+ru|T|RecentFiles.SessionHint|У этого файла есть сохранённый сеанс (курсор, закладки, фильтры). Откройте его, чтобы восстановить.
+ru|T|RecentFiles.SessionNoneHint|Для этого файла ещё нет сохранённого сеанса. После открытия: Сеанс → Сохранить сеанс сейчас (Ctrl+Alt+S).
+ru|T|RecentFiles.SessionOpenHint|У «%s» есть сохранённый сеанс. Откройте файл, чтобы восстановить курсор, закладки и фильтры.
+ru|T|RecentFiles.SessionSaved|● Сохранён
+ru|T|RecentFiles.SessionTip|Столбец «Сеанс»: «Сохранён» значит, что курсор, закладки и фильтры можно восстановить при повторном открытии.
 ru|T|red: removed (left)|красный = удалено (слева)
 ru|T|Redo|Повторить
 ru|T|Redo delete on line %d? The line will be deleted again.|Повторить удаление строки %d? Строка будет удалена еще раз.
@@ -60980,8 +61300,6 @@ ru|T|SearchCmd.WorkflowHelp|Введите только grep/glob или вос�
 ru|T|SearchDock.Collapse|Свернуть
 ru|T|SearchDock.Expand|Развернуть
 ru|T|SearchDock.Loading|Подготовка инструментов поиска...
-ru|T|SearchDock.PickerHint|Выберите панель поиска для открытия
-ru|T|SearchDock.Tools|Инструменты поиска
 ru|T|Searching|Поиск
 ru|T|Searching...|Поиск...
 ru|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Дополнительный шаблон (тот же режим): Regex: ^.*,%s,.*$
@@ -61020,6 +61338,9 @@ ru|T|Session history|История сеанса
 ru|T|Session loaded.|Сеанс загружен.
 ru|T|Session saved.|Сеанс сохранен.
 ru|T|Session.AskAI|Спросить ИИ об этом сеансе
+ru|T|Session.LoadedDetail|Позиция курсора, закладки, фильтры и параметры вида восстановлены для этого файла.
+ru|T|Session.NeedFile|Сначала откройте и прочитайте файл, чтобы сохранить или загрузить его сеанс.
+ru|T|Session.SavedDetail|Позиция курсора, закладки, фильтры и параметры вида сохранены для этого файла.
 ru|T|Set how many files should be generated.|Укажите, сколько файлов нужно создать.
 ru|T|Short Overview|Краткий обзор
 ru|T|Shortcut:|Сочетание клавиш:
@@ -61243,16 +61564,24 @@ ru|T|TAB|TAB
 ru|T|Tab content.|Содержимое вкладки.
 ru|T|TabCtx.Close|Закрыть вкладку
 ru|T|TabCtx.CloseAll|Закрыть все вкладки
+ru|T|TabCtx.CloseAllHint|Закрыть все открытые вкладки
+ru|T|TabCtx.CloseAllShort|Закрыть все
+ru|T|TabCtx.ClosedAll|Все вкладки закрыты
+ru|T|TabCtx.ClosedAllDetail|Используйте Сеанс → Открыть закрытую вкладку или Восстановить вкладки последнего сеанса.
 ru|T|TabCtx.ClosedList|Недавно закрытые вкладки
 ru|T|TabCtx.CloseLeft|Закрыть вкладки слева
 ru|T|TabCtx.CloseOthers|Закрыть все вкладки, кроме этой
 ru|T|TabCtx.CloseOthersActive|Закрыть все вкладки, кроме активной
 ru|T|TabCtx.CloseRight|Закрыть вкладки справа
+ru|T|TabCtx.ConfirmCloseAll|Закрыть все %d открытых вкладок?
 ru|T|TabCtx.MenuButtonHint|Параметры вкладок: открытые вкладки, повторное открытие закрытой вкладки, сохранение / восстановление вкладок, закрытие вкладок (также через контекстное меню вкладки)
 ru|T|TabCtx.NoClosed|В этом сеансе нет закрытых вкладок
+ru|T|TabCtx.NoSavedTabs|Для этого сеанса не найдены сохранённые открытые вкладки.
 ru|T|TabCtx.OpenTabs|Открытые вкладки
 ru|T|TabCtx.Reopen|Снова открыть закрытую вкладку
 ru|T|TabCtx.ReopenNamed|Снова открыть закрытую вкладку: %s
+ru|T|TabCtx.RestoredTabs|Вкладки восстановлены
+ru|T|TabCtx.RestoredTabsDetail|Восстановлено %d вкладка(ок) из последнего сеанса.
 ru|T|TabCtx.SavedOpen|Открытые вкладки сохранены
 ru|T|TabCtx.SavedOpenDetail|Вкладок: %d. Используйте команду «Восстановить вкладки последнего сеанса», чтобы открыть их снова.
 ru|T|TabCtx.SaveOpen|Сохранить открытые вкладки
@@ -61375,6 +61704,7 @@ ru|T|Toolbar.AIAssistant|ИИ-помощник (ВКЛ)
 ru|T|Toolbar.AIAssistantHint|Показать или скрыть панель ИИ-помощника (Ctrl+Alt+A)
 ru|T|Toolbar.PythonMacro|Макрос Python
 ru|T|Toolbar.PythonMacroHint|Открыть панель макросов Python для преобразования строк файла скриптом (Ctrl+Alt+E)
+ru|T|Toolbar.RecentFiles|Недавние файлы
 ru|T|Tools|Инструменты
 ru|T|ToolsGallery.ClearSearch|Очистить поиск
 ru|T|ToolsGallery.GroupAppearance|Внешний вид
@@ -62948,6 +63278,7 @@ ko|T|FF_HELP.RecentFeaturesBlock5|최근 기능(v3.0.5.250 – v3.0.5.254)\r\n--
 ko|T|FF_HELP.RecentFeaturesBlock6|최근 업데이트 (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  이제 인터페이스에서 힌디어, 러시아어, 한국어,\r\n    네덜란드어, 터키어, 우크라이나어를 포함한 22개 언어를 사용할 수 있습니다. 힌디어는 왼쪽에서 오른쪽으로 표시됩니다.\r\n  균등 분할은 전체 파일을 메모리에 올리지 않고 MMF 블록을 처리하며,\r\n    작업이 끝난 뒤에도 분할 탭이 열려 있습니다.\r\n  파일을 읽은 뒤 다음 단계 안내가 유용한 작업을 제안합니다.\r\n    설정에서 다시 열거나 끌 수 있습니다.\r\n  편집기 컨텍스트 메뉴와 세션 기록 용어를 현지화했습니다.\r\n  안내 패널과 설정 화면을 새롭게 디자인했으며, 패널은 깜박임 없이\r\n    파일 읽기를 방해하지 않고 초기화됩니다.\r\n
 ko|T|FF_HELP.RecentFeaturesBlock7|최근 업데이트 (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  태국어, 그리스어, 노르웨이어, 스웨덴어, 덴마크어, 아이슬란드어가 늘려\r\n    인터페이스를 28개 언어로 만듭니다. 여섯 언어 모두 왼쪽에서 오른쪽입니다.\r\n  다음 단계는 찾기, 필터처럼 현재 작업을 따릅니다,\r\n    나누기, 병합 또는 읽기이며, 고정된 목록이 아닙니다.\r\n  각 작업은 더 많은 후속 동작을 제공합니다.\r\n  복사 왼쪽의 단추는 다음 단계 안내를 다시 엽니다.\r\n
 ko|T|FF_HELP.RecentFeaturesBlock8|최근 업데이트 (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  다음 단계 안내가 더 낮아져 파일 목록이 계속 보입니다.\r\n  읽기 아이콘이 경로 필드 안, 지우기 X 왼쪽에 있습니다.\r\n  도구 모음의 읽기와 같은 그림이며 해당 경로를 불러옵니다.\r\n
+ko|T|FF_HELP.RecentFeaturesBlock9|최근 업데이트 (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  찾기·필터·책갈피가 로딩 커버와 함께 아코디언으로 쌓입니다.\r\n  찾기가 이미 열려 있으면 F3 / Shift+F3가 그 커버를 깜빡이지 않습니다.\r\n  검색 패널이 열려 있을 때 넘치는 목록 도구는 더보기로 이동합니다.\r\n  확인 대화상자는 오른쪽에서 왼쪽 모드에서도 클릭할 수 있습니다.\r\n  마지막 이후에도 처음과 페이지 버튼이 동작하며, 페이지 상태는\r\n    UI 언어를 따릅니다.\r\n
 ko|T|FF_HELP.Win64IndexBlock|WIN64 호스트 및 빠른 인덱싱(v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile은 Win32(Delphi 7)와 Win64(Delphi 10.4.2+)용으로 빌드됩니다.\r\n  출력: 프로젝트 옆의 Build\\Win32\\ 또는 Build\\Win64\\; Skins\r\n  폴더는 빌드 시 플랫폼별로 복사됩니다.\r\n  F5 / 읽기: SWAR 줄 바꿈 검사(8바이트 블록; AVX2 사용 가능 시\r\n  32바이트 폭 경로). 2 GB보다 큰 파일은 희소 temp_ckpt.txt만 사용합니다.\r\n  빠른 검사 중 로딩 오버레이 진행률이 부드럽게 업데이트됩니다(약 22 Hz).\r\n  오른쪽 위 작업 타이머 로그는 완료된 각 작업(읽기,\r\n  분할, 병합 등)과 경과 시간을 표시합니다. Win64는 표준 ListBox를 사용합니다.\r\n  uLineIndexScan.pas와 CHANGELOG_IMPLEMENTACOES.md(3.0.3.x)를 참조하세요.
 ko|T|Fil&ter / Grep|필터 / Grep(&T)
 ko|T|File changed on disk|디스크에서 파일 변경됨
@@ -63153,6 +63484,7 @@ ko|T|FindOcc.Export|내보내기
 ko|T|FindOcc.ExportHint|수집한 일치 항목을 파일로 내보내기
 ko|T|FindOcc.Go|찾기
 ko|T|FindOcc.GoHint|다음 일치 항목 찾기(Ctrl+F와 동일)
+ko|T|FindOcc.HideList|목록 숨기기
 ko|T|FindOcc.HideListHint|일치 목록 숨기기(찾기 패널은 열린 상태 유지)
 ko|T|FindOcc.HitLimitReached|일치 항목 한도에 도달했습니다(5,000,000). 검색 텍스트를 좁히거나 현재 결과를 내보내세요.
 ko|T|FindOcc.HitLineFmt|%d번 줄: %s
@@ -63178,6 +63510,7 @@ ko|T|FindOcc.RecentMore|더 보기
 ko|T|FindOcc.RecentMoreHint|나머지 최근 검색 표시
 ko|T|FindOcc.ResizeHint|끌어서 일치 항목 목록 크기를 조정합니다. 두 번 클릭하면 기본 높이와 창 높이의 절반 사이를 전환합니다.
 ko|T|FindOcc.SearchHint|찾을 텍스트를 입력하고(Ctrl+F와 동일) Enter 누르기
+ko|T|FindOcc.ShowList|목록 표시
 ko|T|FindOcc.ShowListHint|일치 목록 표시
 ko|T|FindOcc.Status.Collecting|"%s" 일치 항목 수집 중...
 ko|T|FindOcc.Status.CollectingShort|일치 항목 수집 중...
@@ -64183,6 +64516,11 @@ ko|T|Recent Folders|최근 폴더
 ko|T|Recent tabs.Hint|최근에 사용한 탭을 다시 열거나 마지막 세션 복원
 ko|T|RecentFiles.More|더 보기
 ko|T|RecentFiles.MoreHint|나머지 최근 파일 표시
+ko|T|RecentFiles.SessionHint|이 파일에는 저장된 세션(커서, 책갈피, 필터)이 있습니다. 복원하려면 여세요.
+ko|T|RecentFiles.SessionNoneHint|이 파일에는 아직 저장된 세션이 없습니다. 연 뒤 세션 → 지금 세션 저장(Ctrl+Alt+S)을 사용하세요.
+ko|T|RecentFiles.SessionOpenHint|"%s"에 저장된 세션이 있습니다. 커서, 책갈피, 필터를 복원하려면 파일을 여세요.
+ko|T|RecentFiles.SessionSaved|● 저장됨
+ko|T|RecentFiles.SessionTip|세션 열: "저장됨"은 파일을 다시 열 때 커서, 책갈피, 필터를 복원할 수 있음을 뜻합니다.
 ko|T|red: removed (left)|빨간색 = 제거됨(왼쪽)
 ko|T|Redo|다시 실행
 ko|T|Redo delete on line %d? The line will be deleted again.|%d번 줄 삭제를 다시 실행할까요? 줄이 다시 삭제됩니다.
@@ -64441,8 +64779,6 @@ ko|T|SearchCmd.WorkflowHelp|grep/glob만 입력하거나 찾기, 필터 및 북�
 ko|T|SearchDock.Collapse|접기
 ko|T|SearchDock.Expand|펼치기
 ko|T|SearchDock.Loading|검색 도구를 준비하는 중...
-ko|T|SearchDock.PickerHint|열 검색 패널 선택
-ko|T|SearchDock.Tools|검색 도구
 ko|T|Searching|검색 중
 ko|T|Searching...|검색 중...
 ko|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|보조 패턴(같은 모드): Regex: ^.*,%s,.*$
@@ -64481,6 +64817,9 @@ ko|T|Session history|세션 기록
 ko|T|Session loaded.|세션을 로드했습니다.
 ko|T|Session saved.|세션을 저장했습니다.
 ko|T|Session.AskAI|이 세션에 대해 AI에게 질문
+ko|T|Session.LoadedDetail|이 파일의 커서 위치, 책갈피, 필터 및 보기 옵션이 복원되었습니다.
+ko|T|Session.NeedFile|세션을 저장하거나 불러오려면 먼저 파일을 열고 읽으세요.
+ko|T|Session.SavedDetail|이 파일의 커서 위치, 책갈피, 필터 및 보기 옵션이 저장되었습니다.
 ko|T|Set how many files should be generated.|생성할 파일 수를 설정하세요.
 ko|T|Short Overview|간단한 개요
 ko|T|Shortcut:|바로 가기 키:
@@ -64704,16 +65043,24 @@ ko|T|TAB|TAB
 ko|T|Tab content.|탭 내용.
 ko|T|TabCtx.Close|탭 닫기
 ko|T|TabCtx.CloseAll|모든 탭 닫기
+ko|T|TabCtx.CloseAllHint|열린 탭 모두 닫기
+ko|T|TabCtx.CloseAllShort|모두 닫기
+ko|T|TabCtx.ClosedAll|모든 탭이 닫힘
+ko|T|TabCtx.ClosedAllDetail|세션 → 닫힌 탭 다시 열기 또는 마지막 세션 탭 복원으로 되돌릴 수 있습니다.
 ko|T|TabCtx.ClosedList|최근에 닫은 탭
 ko|T|TabCtx.CloseLeft|왼쪽 탭 닫기
 ko|T|TabCtx.CloseOthers|이 탭 외 모두 닫기
 ko|T|TabCtx.CloseOthersActive|활성 탭 외 모두 닫기
 ko|T|TabCtx.CloseRight|오른쪽 탭 닫기
+ko|T|TabCtx.ConfirmCloseAll|열린 탭 %d개를 모두 닫을까요?
 ko|T|TabCtx.MenuButtonHint|탭 옵션: 열린 탭, 닫은 탭 다시 열기, 탭 저장 / 복원, 탭 닫기(탭을 마우스 오른쪽 버튼으로 클릭해도 가능)
 ko|T|TabCtx.NoClosed|이 세션에서 닫은 탭이 없음
+ko|T|TabCtx.NoSavedTabs|이 세션에 저장된 열린 탭이 없습니다.
 ko|T|TabCtx.OpenTabs|열린 탭
 ko|T|TabCtx.Reopen|닫은 탭 다시 열기
 ko|T|TabCtx.ReopenNamed|닫은 탭 다시 열기: %s
+ko|T|TabCtx.RestoredTabs|탭이 복원됨
+ko|T|TabCtx.RestoredTabsDetail|마지막 세션에서 탭 %d개가 복원되었습니다.
 ko|T|TabCtx.SavedOpen|열린 탭 저장됨
 ko|T|TabCtx.SavedOpenDetail|탭 %d개. 다시 열려면 "마지막 세션 탭 복원"을 사용하세요.
 ko|T|TabCtx.SaveOpen|열린 탭 저장
@@ -64836,6 +65183,7 @@ ko|T|Toolbar.AIAssistant|AI 어시스턴트 (켜짐)
 ko|T|Toolbar.AIAssistantHint|AI 어시스턴트 패널 표시/숨기기 (Ctrl+Alt+A)
 ko|T|Toolbar.PythonMacro|Python 매크로
 ko|T|Toolbar.PythonMacroHint|파일 줄을 스크립트로 변환할 Python 매크로 패널 열기(Ctrl+Alt+E)
+ko|T|Toolbar.RecentFiles|최근 파일
 ko|T|Tools|도구
 ko|T|ToolsGallery.ClearSearch|검색 지우기
 ko|T|ToolsGallery.GroupAppearance|모양
@@ -66409,6 +66757,7 @@ nl|T|FF_HELP.RecentFeaturesBlock5|RECENTE FUNCTIES (v3.0.5.250 – v3.0.5.254)\r
 nl|T|FF_HELP.RecentFeaturesBlock6|RECENTE UPDATES (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  De interface is nu beschikbaar in 22 talen, waaronder Hindi, Russisch en Koreaans,\r\n    plus Nederlands, Turks en Oekraïens. Hindi gebruikt een indeling van links naar rechts.\r\n  Het opdelen in gelijke delen verwerkt MMF-blokken zonder het hele bestand te laden;\r\n    het tabblad voor splitsen blijft na afloop geopend.\r\n  Na het lezen van een bestand stelt de vervolgstappengids nuttige acties voor.\r\n    U kunt de gids opnieuw openen of uitschakelen via Opties.\r\n  Het contextmenu van de editor en de termen voor sessiegeschiedenis zijn vertaald.\r\n  De gids en Opties hebben een nieuw ontwerp; de gids start zonder flikkering\r\n    en onderbreekt het lezen van bestanden niet.\r\n
 nl|T|FF_HELP.RecentFeaturesBlock7|RECENTE UPDATES (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, Grieks, Noors, Zweeds, Deens en IJslands brengen\r\n    de interface naar 28 talen. Alle zes lopen van links naar rechts.\r\n  Volgende stappen volgen de huidige actie, zoals zoeken, filteren,\r\n    splitsen, samenvoegen of lezen, in plaats van één vaste lijst.\r\n  Elke actie biedt meer vervolgstappen.\r\n  Een knop links van Kopiëren opent de gids opnieuw.\r\n
 nl|T|FF_HELP.RecentFeaturesBlock8|RECENTE UPDATES (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  De gids voor volgende stappen is lager, zodat de bestandslijst zichtbaar blijft.\r\n  Een Lees-pictogram staat in het padveld, links van de wis-X.\r\n  Het gebruikt dezelfde tekening als Lees op de balk en laadt dat pad.\r\n
+nl|T|FF_HELP.RecentFeaturesBlock9|RECENTE UPDATES (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Zoeken, Filter en Bladwijzers stapelen als accordion met een laadcover.\r\n  F3 / Shift+F3 knipperen die cover niet meer als Zoeken al open is.\r\n  Met een zoekpaneel open gaan overlopende lijsttools naar Meer.\r\n  Bevestigingsdialogen blijven klikbaar in rechts-naar-links-modus.\r\n  Na Laatste blijven Eerste en paginaknoppen werken; de paginastatus\r\n    volgt de UI-taal.\r\n
 nl|T|FF_HELP.Win64IndexBlock|WIN64-HOST & SNEL INDEXEREN (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile wordt gebouwd voor Win32 (Delphi 7) en Win64 (Delphi 10.4.2+).\r\n  Uitvoer: Build\\Win32\\ of Build\\Win64\\ naast het project; map Skins\r\n  wordt per platform gekopieerd bij het bouwen.\r\n  F5 / Lezen: SWAR-scan op regeleinden (blokken van 8 bytes; 32 bytes breed pad\r\n  als AVX2 beschikbaar is). Bestanden > 2 GB gebruiken alleen sparse temp_ckpt.txt.\r\n  De voortgang van het laadvenster wordt vloeiend bijgewerkt (~22 Hz) tijdens snelle scans.\r\n  Het bewerkingstijdlogboek rechtsboven toont elke voltooide actie (lezen,\r\n  splitsen, samenvoegen enz.) met verstreken tijd; Win64 gebruikt een standaard-ListBox.\r\n  Zie uLineIndexScan.pas en CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 nl|T|Fil&ter / Grep|Fil&teren / Grep
 nl|T|File changed on disk|Bestand gewijzigd op schijf
@@ -66614,6 +66963,7 @@ nl|T|FindOcc.Export|Exporteren
 nl|T|FindOcc.ExportHint|Verzamelde treffers naar een bestand exporteren
 nl|T|FindOcc.Go|Zoeken
 nl|T|FindOcc.GoHint|De volgende treffer zoeken (zelfde als Ctrl+F)
+nl|T|FindOcc.HideList|Lijst verbergen
 nl|T|FindOcc.HideListHint|Trefferlijst verbergen (zoekpaneel blijft open)
 nl|T|FindOcc.HitLimitReached|Trefferlimiet bereikt (5.000.000). Verfijn de zoektekst of exporteer wat u hebt.
 nl|T|FindOcc.HitLineFmt|Regel %d: %s
@@ -66639,6 +66989,7 @@ nl|T|FindOcc.RecentMore|Meer tonen
 nl|T|FindOcc.RecentMoreHint|Toon de overige recente zoekopdrachten
 nl|T|FindOcc.ResizeHint|Sleep om de grootte van de trefferlijst te wijzigen. Dubbelklik wisselt tussen standaardhoogte en de helft van het venster.
 nl|T|FindOcc.SearchHint|Typ te zoeken tekst (zelfde als Ctrl+F) en druk op Enter
+nl|T|FindOcc.ShowList|Lijst tonen
 nl|T|FindOcc.ShowListHint|Trefferlijst tonen
 nl|T|FindOcc.Status.Collecting|Treffers voor "%s" verzamelen...
 nl|T|FindOcc.Status.CollectingShort|Treffers verzamelen...
@@ -67644,6 +67995,11 @@ nl|T|Recent Folders|Recente mappen
 nl|T|Recent tabs.Hint|Een recent gebruikt tabblad opnieuw openen of de laatste sessie herstellen
 nl|T|RecentFiles.More|Meer tonen
 nl|T|RecentFiles.MoreHint|De resterende recente bestanden tonen
+nl|T|RecentFiles.SessionHint|Dit bestand heeft een opgeslagen sessie (cursor, bladwijzers, filters). Open het om te herstellen.
+nl|T|RecentFiles.SessionNoneHint|Nog geen sessie opgeslagen voor dit bestand. Na openen: Sessie → Sessie nu opslaan (Ctrl+Alt+S).
+nl|T|RecentFiles.SessionOpenHint|"%s" heeft een opgeslagen sessie. Open het bestand om cursor, bladwijzers en filters te herstellen.
+nl|T|RecentFiles.SessionSaved|● Opgeslagen
+nl|T|RecentFiles.SessionTip|Kolom Sessie: "Opgeslagen" betekent dat cursor, bladwijzers en filters bij opnieuw openen hersteld kunnen worden.
 nl|T|red: removed (left)|rood = verwijderd (links)
 nl|T|Redo|Opnieuw
 nl|T|Redo delete on line %d? The line will be deleted again.|Verwijderen op regel %d opnieuw uitvoeren? De regel wordt opnieuw verwijderd.
@@ -67902,8 +68258,6 @@ nl|T|SearchCmd.WorkflowHelp|Typ alleen grep/glob of gebruik hun knoppen in Zoeke
 nl|T|SearchDock.Collapse|Samenvouwen
 nl|T|SearchDock.Expand|Uitvouwen
 nl|T|SearchDock.Loading|Zoekhulpmiddelen worden voorbereid...
-nl|T|SearchDock.PickerHint|Kies welk zoekvenster u wilt openen
-nl|T|SearchDock.Tools|Zoekhulpmiddelen
 nl|T|Searching|Zoeken
 nl|T|Searching...|Zoeken...
 nl|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Secundair patroon (zelfde modus): Regex: ^.*,%s,.*$
@@ -67942,6 +68296,9 @@ nl|T|Session history|Sessiegeschiedenis
 nl|T|Session loaded.|Sessie geladen.
 nl|T|Session saved.|Sessie opgeslagen.
 nl|T|Session.AskAI|Vraag de AI naar deze sessie
+nl|T|Session.LoadedDetail|Cursorpositie, bladwijzers, filters en weergaveopties zijn hersteld voor dit bestand.
+nl|T|Session.NeedFile|Open en lees eerst een bestand om de sessie op te slaan of te laden.
+nl|T|Session.SavedDetail|Cursorpositie, bladwijzers, filters en weergaveopties zijn opgeslagen voor dit bestand.
 nl|T|Set how many files should be generated.|Stel in hoeveel bestanden moeten worden gegenereerd.
 nl|T|Short Overview|Kort overzicht
 nl|T|Shortcut:|Sneltoets:
@@ -68165,16 +68522,24 @@ nl|T|TAB|TAB
 nl|T|Tab content.|Tabbladinhoud.
 nl|T|TabCtx.Close|Tabblad sluiten
 nl|T|TabCtx.CloseAll|Alle tabbladen sluiten
+nl|T|TabCtx.CloseAllHint|Alle open tabbladen sluiten
+nl|T|TabCtx.CloseAllShort|Alles sluiten
+nl|T|TabCtx.ClosedAll|Alle tabbladen gesloten
+nl|T|TabCtx.ClosedAllDetail|Gebruik Sessie → Gesloten tabblad heropenen of Tabbladen van laatste sessie herstellen.
 nl|T|TabCtx.ClosedList|Onlangs gesloten tabbladen
 nl|T|TabCtx.CloseLeft|Tabbladen links sluiten
 nl|T|TabCtx.CloseOthers|Alles behalve dit tabblad sluiten
 nl|T|TabCtx.CloseOthersActive|Alles behalve het actieve tabblad sluiten
 nl|T|TabCtx.CloseRight|Tabbladen rechts sluiten
+nl|T|TabCtx.ConfirmCloseAll|Alle %d open tabbladen sluiten?
 nl|T|TabCtx.MenuButtonHint|Tabbladopties: geopende tabbladen, gesloten tabblad opnieuw openen, tabbladen opslaan / herstellen, tabbladen sluiten (ook via rechtsklik op een tabblad)
 nl|T|TabCtx.NoClosed|Geen gesloten tabbladen in deze sessie
+nl|T|TabCtx.NoSavedTabs|Geen opgeslagen open tabbladen gevonden voor deze sessie.
 nl|T|TabCtx.OpenTabs|Geopende tabbladen
 nl|T|TabCtx.Reopen|Gesloten tabblad opnieuw openen
 nl|T|TabCtx.ReopenNamed|Gesloten tabblad opnieuw openen: %s
+nl|T|TabCtx.RestoredTabs|Tabbladen hersteld
+nl|T|TabCtx.RestoredTabsDetail|%d tabblad(en) van de laatste sessie zijn hersteld.
 nl|T|TabCtx.SavedOpen|Geopende tabbladen opgeslagen
 nl|T|TabCtx.SavedOpenDetail|%d tabblad(en). Gebruik "Tabbladen van laatste sessie herstellen" om ze opnieuw te openen.
 nl|T|TabCtx.SaveOpen|Geopende tabbladen opslaan
@@ -68297,6 +68662,7 @@ nl|T|Toolbar.AIAssistant|AI-assistent (AAN)
 nl|T|Toolbar.AIAssistantHint|AI-assistentvenster tonen of verbergen (Ctrl+Alt+A)
 nl|T|Toolbar.PythonMacro|Python-macro
 nl|T|Toolbar.PythonMacroHint|Het Python-macropaneel openen om bestandsregels met een script te transformeren (Ctrl+Alt+E)
+nl|T|Toolbar.RecentFiles|Recente bestanden
 nl|T|Tools|Hulpmiddelen
 nl|T|ToolsGallery.ClearSearch|Zoekopdracht wissen
 nl|T|ToolsGallery.GroupAppearance|Uiterlijk
@@ -69870,6 +70236,7 @@ tr|T|FF_HELP.RecentFeaturesBlock5|SON ÖZELLİKLER (v3.0.5.250 – v3.0.5.254)\r
 tr|T|FF_HELP.RecentFeaturesBlock6|SON GÜNCELLEMELER (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Arayüz artık Hintçe, Rusça ve Korece dahil 22 dili destekliyor;\r\n    ayrıca Felemenkçe, Türkçe ve Ukraynaca da var. Hintçe soldan sağa düzen kullanır.\r\n  Eşit parçalara bölme, dosyanın tamamını yüklemeden MMF bloklarını işler;\r\n    işlem bitince bölme sekmesi açık kalır.\r\n  Dosya okunduktan sonra sonraki adımlar kılavuzu yararlı işlemler önerir.\r\n    Tercihler'den yeniden açabilir veya kapatabilirsiniz.\r\n  Düzenleyicinin bağlam menüsü ve oturum geçmişi terimleri yerelleştirildi.\r\n  Kılavuz ve Tercihler yeniden tasarlandı; kılavuz titreme olmadan başlar\r\n    ve dosya okuma işlemini kesintiye uğratmaz.\r\n
 tr|T|FF_HELP.RecentFeaturesBlock7|SON GÜNCELLEMELER (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Tayca, Yunanca, Norveççe, İsveççe, Danca ve İzlandaca çıkarır\r\n    arayüzü 28 dile. Altısı da soldan sağa okunur.\r\n  Sonraki adımlar geçerli işleme uyar, örneğin bul, süz,\r\n    böl, birleştir veya oku; sabit bir liste değildir.\r\n  Her işlem daha fazla sonraki eylem sunar.\r\n  Kopyala düğmesinin solundaki düğme kılavuzu yeniden açar.\r\n
 tr|T|FF_HELP.RecentFeaturesBlock8|SON GÜNCELLEMELER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Sonraki adımlar kılavuzu daha alçak; dosya listesi görünür kalır.\r\n  Oku simgesi yol alanında, temizleme X'inin solundadır.\r\n  Araç çubuğundaki Oku ile aynı çizimi kullanır ve o yolu yükler.\r\n
+tr|T|FF_HELP.RecentFeaturesBlock9|SON GÜNCELLEMELER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Bul, Filtre ve Yer İmleri yükleme kapağıyla akordeon gibi üst üste biner.\r\n  Bul zaten açıksa F3 / Shift+F3 o kapağı artık yanıp söndürmez.\r\n  Bir arama paneli açıkken sığmayan liste araçları Daha Fazlası’na gider.\r\n  Onay diyalogları sağdan sola kipinde tıklanabilir kalır.\r\n  Son’dan sonra İlk ve sayfa düğmeleri çalışmaya devam eder; sayfa durumu\r\n    arayüz dilini izler.\r\n
 tr|T|FF_HELP.Win64IndexBlock|WIN64 ANA MAKİNESİ VE HIZLI DİZİNLEME (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile, Win32 (Delphi 7) ve Win64 (Delphi 10.4.2+) için derlenir.\r\n  Çıktı: projenin yanında Build\\Win32\\ veya Build\\Win64\\; derlemede\r\n  platforma özgü Skins klasörü kopyalanır.\r\n  F5 / Oku: SWAR satır sonu taraması (8 baytlık bloklar; AVX2 varsa\r\n  32 baytlık geniş yol). > 2 GB dosyalarda yalnızca seyrek temp_ckpt.txt kullanılır.\r\n  Hızlı taramalar sırasında yükleme katmanındaki ilerleme sorunsuz güncellenir (~22 Hz).\r\n  Sağ üstteki işlem zamanlayıcısı günlüğü her tamamlanan eylemi (oku,\r\n  böl, birleştir vb.) geçen süreyle listeler; Win64 standart ListBox kullanır.\r\n  uLineIndexScan.pas ve CHANGELOG_IMPLEMENTACOES.md (3.0.3.x) dosyalarına bakın.
 tr|T|Fil&ter / Grep|Fil&tre / Grep
 tr|T|File changed on disk|Dosya diskte değişti
@@ -70075,6 +70442,7 @@ tr|T|FindOcc.Export|Dışa aktar
 tr|T|FindOcc.ExportHint|Toplanan oluşumları dosyaya aktar
 tr|T|FindOcc.Go|Bul
 tr|T|FindOcc.GoHint|Sonraki eşleşmeyi bul (Ctrl+F ile aynı)
+tr|T|FindOcc.HideList|Listeyi gizle
 tr|T|FindOcc.HideListHint|Eşleşme listesini gizle (Bul paneli açık kalır)
 tr|T|FindOcc.HitLimitReached|Oluşum sınırına ulaşıldı (5.000.000). Arama metnini daraltın veya bulunanları dışa aktarın.
 tr|T|FindOcc.HitLineFmt|Satır %d: %s
@@ -70100,6 +70468,7 @@ tr|T|FindOcc.RecentMore|Daha fazlasını göster
 tr|T|FindOcc.RecentMoreHint|Kalan son aramaları göster
 tr|T|FindOcc.ResizeHint|Oluşum listesini yeniden boyutlandırmak için sürükleyin. Varsayılan yükseklik ile pencere yüksekliğinin yarısı arasında geçiş yapmak için çift tıklayın.
 tr|T|FindOcc.SearchHint|Bulunacak metni yazın (Ctrl+F ile aynı), ardından Enter'a basın
+tr|T|FindOcc.ShowList|Listeyi göster
 tr|T|FindOcc.ShowListHint|Eşleşme listesini göster
 tr|T|FindOcc.Status.Collecting|"%s" için eşleşmeler toplanıyor...
 tr|T|FindOcc.Status.CollectingShort|Eşleşmeler toplanıyor...
@@ -71105,6 +71474,11 @@ tr|T|Recent Folders|Son Kullanılan Klasörler
 tr|T|Recent tabs.Hint|Yakın zamanda kullanılan bir sekmeyi yeniden açın veya son oturumu geri yükleyin
 tr|T|RecentFiles.More|Daha fazlasını göster
 tr|T|RecentFiles.MoreHint|Kalan son kullanılan dosyaları göster
+tr|T|RecentFiles.SessionHint|Bu dosyanın kayıtlı bir oturumu var (imleç, yer imleri, filtreler). Geri yüklemek için açın.
+tr|T|RecentFiles.SessionNoneHint|Bu dosya için henüz kayıtlı oturum yok. Açtıktan sonra Oturum → Oturumu şimdi kaydet (Ctrl+Alt+S) kullanın.
+tr|T|RecentFiles.SessionOpenHint|"%s" için kayıtlı bir oturum var. İmleç, yer imleri ve filtreleri geri yüklemek için dosyayı açın.
+tr|T|RecentFiles.SessionSaved|● Kayıtlı
+tr|T|RecentFiles.SessionTip|Oturum sütunu: "Kayıtlı", dosyayı yeniden açtığınızda imleç, yer imleri ve filtrelerin geri yüklenebileceği anlamına gelir.
 tr|T|red: removed (left)|kırmızı = kaldırıldı (sol)
 tr|T|Redo|Yinele
 tr|T|Redo delete on line %d? The line will be deleted again.|%d. satırdaki silme yinelensin mi? Satır yeniden silinecek.
@@ -71363,8 +71737,6 @@ tr|T|SearchCmd.WorkflowHelp|Tarama yapmadan örnekleri açmak için yalnızca gr
 tr|T|SearchDock.Collapse|Daralt
 tr|T|SearchDock.Expand|Genişlet
 tr|T|SearchDock.Loading|Arama araçları hazırlanıyor...
-tr|T|SearchDock.PickerHint|Açılacak arama panelini seçin
-tr|T|SearchDock.Tools|Arama araçları
 tr|T|Searching|Aranıyor
 tr|T|Searching...|Aranıyor...
 tr|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|İkincil desen (aynı mod): Regex: ^.*,%s,.*$
@@ -71403,6 +71775,9 @@ tr|T|Session history|Oturum geçmişi
 tr|T|Session loaded.|Oturum yüklendi.
 tr|T|Session saved.|Oturum kaydedildi.
 tr|T|Session.AskAI|Bu oturum hakkında YZ'ye sor
+tr|T|Session.LoadedDetail|Bu dosya için imleç konumu, yer imleri, filtreler ve görünüm seçenekleri geri yüklendi.
+tr|T|Session.NeedFile|Oturumu kaydetmek veya yüklemek için önce bir dosya açıp okuyun.
+tr|T|Session.SavedDetail|Bu dosya için imleç konumu, yer imleri, filtreler ve görünüm seçenekleri kaydedildi.
 tr|T|Set how many files should be generated.|Kaç dosya oluşturulacağını ayarlayın.
 tr|T|Short Overview|Kısa Özet
 tr|T|Shortcut:|Kısayol:
@@ -71626,16 +72001,24 @@ tr|T|TAB|TAB
 tr|T|Tab content.|Sekme içeriği.
 tr|T|TabCtx.Close|Sekmeyi kapat
 tr|T|TabCtx.CloseAll|Tüm sekmeleri kapat
+tr|T|TabCtx.CloseAllHint|Tüm açık sekmeleri kapat
+tr|T|TabCtx.CloseAllShort|Tümünü kapat
+tr|T|TabCtx.ClosedAll|Tüm sekmeler kapatıldı
+tr|T|TabCtx.ClosedAllDetail|Geri getirmek için Oturum → Kapatılan sekmeyi yeniden aç veya Son oturum sekmelerini geri yükle kullanın.
 tr|T|TabCtx.ClosedList|Yakın zamanda kapatılan sekmeler
 tr|T|TabCtx.CloseLeft|Soldaki sekmeleri kapat
 tr|T|TabCtx.CloseOthers|Bu sekme dışındakileri kapat
 tr|T|TabCtx.CloseOthersActive|Etkin sekme dışındakileri kapat
 tr|T|TabCtx.CloseRight|Sağdaki sekmeleri kapat
+tr|T|TabCtx.ConfirmCloseAll|Açık %d sekmenin tümü kapatılsın mı?
 tr|T|TabCtx.MenuButtonHint|Sekme seçenekleri: açık sekmeler, kapatılan sekmeyi yeniden aç, sekmeleri kaydet/geri yükle, sekmeleri kapat (sekme üzerinde sağ tıklama da kullanılabilir)
 tr|T|TabCtx.NoClosed|Bu oturumda kapatılan sekme yok
+tr|T|TabCtx.NoSavedTabs|Bu oturum için kayıtlı açık sekme bulunamadı.
 tr|T|TabCtx.OpenTabs|Açık sekmeler
 tr|T|TabCtx.Reopen|Kapatılan sekmeyi yeniden aç
 tr|T|TabCtx.ReopenNamed|Kapatılan sekmeyi yeniden aç: %s
+tr|T|TabCtx.RestoredTabs|Sekmeler geri yüklendi
+tr|T|TabCtx.RestoredTabsDetail|Son oturumdan %d sekme geri yüklendi.
 tr|T|TabCtx.SavedOpen|Açık sekmeler kaydedildi
 tr|T|TabCtx.SavedOpenDetail|%d sekme. Yeniden açmak için "Son oturumun sekmelerini geri yükle"yi kullanın.
 tr|T|TabCtx.SaveOpen|Açık sekmeleri kaydet
@@ -71758,6 +72141,7 @@ tr|T|Toolbar.AIAssistant|AI Asistan (AÇIK)
 tr|T|Toolbar.AIAssistantHint|AI Asistan panelini göster veya gizle (Ctrl+Alt+A)
 tr|T|Toolbar.PythonMacro|Python makrosu
 tr|T|Toolbar.PythonMacroHint|Dosya satırlarını betikle dönüştürmek için Python makroları panelini aç (Ctrl+Alt+E)
+tr|T|Toolbar.RecentFiles|Son dosyalar
 tr|T|Tools|Araçlar
 tr|T|ToolsGallery.ClearSearch|Aramayı temizle
 tr|T|ToolsGallery.GroupAppearance|Görünüm
@@ -73331,6 +73715,7 @@ uk|T|FF_HELP.RecentFeaturesBlock5|НЕЩОДАВНІ ФУНКЦІЇ (v3.0.5.250 
 uk|T|FF_HELP.RecentFeaturesBlock6|ОСТАННІ ОНОВЛЕННЯ (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Інтерфейс тепер підтримує 22 мови, зокрема гінді, російську й корейську,\r\n    а також нідерландську, турецьку й українську. Для гінді використовується напрямок зліва направо.\r\n  Поділ на рівні частини обробляє блоки MMF без завантаження всього файла;\r\n    після завершення вкладка поділу залишається відкритою.\r\n  Після читання файла посібник пропонує корисні наступні дії.\r\n    Його можна знову відкрити або вимкнути в налаштуваннях.\r\n  Контекстне меню редактора та термінологію історії сеансу локалізовано.\r\n  Посібник і налаштування оновлено; посібник запускається без мерехтіння\r\n    та не перериває читання файла.\r\n
 uk|T|FF_HELP.RecentFeaturesBlock7|ОСТАННІ ОНОВЛЕННЯ (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Тайська, грецька, норвезька, шведська, данська та ісландська доводять\r\n    інтерфейс до 28 мов. Усі шість читаються зліва направо.\r\n  Наступні кроки відповідають поточній дії, як-от пошук, фільтр,\r\n    поділ, злиття або читання, а не одному сталому списку.\r\n  Кожна дія пропонує більше подальших кроків.\r\n  Кнопка ліворуч від Копіювати знову відкриває посібник.\r\n
 uk|T|FF_HELP.RecentFeaturesBlock8|ОСТАННІ ОНОВЛЕННЯ (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Посібник наступних кроків нижчий, тож список файлу лишається видимим.\r\n  Піктограма «Читати» в полі шляху, ліворуч від X очищення.\r\n  Той самий малюнок, що в «Читати» на панелі, і завантажує цей шлях.\r\n
+uk|T|FF_HELP.RecentFeaturesBlock9|ОСТАННІ ОНОВЛЕННЯ (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Пошук, фільтр і закладки складаються гармошкою з обкладинкою завантаження.\r\n  F3 / Shift+F3 більше не блимають цією обкладинкою, якщо Пошук уже відкрито.\r\n  Поки відкрита панель пошуку, зайві інструменти списку йдуть у Більше.\r\n  Діалоги підтвердження лишаються клікабельними в режимі справа наліво.\r\n  Після Останньої кнопки Перша і сторінки далі працюють; стан сторінки\r\n    відповідає мові інтерфейсу.\r\n
 uk|T|FF_HELP.Win64IndexBlock|WIN64 І ШВИДКА ІНДЕКСАЦІЯ (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile збирається для Win32 (Delphi 7) і Win64 (Delphi 10.4.2+).\r\n  Результат: Build\\Win32\\ або Build\\Win64\\ поруч із проєктом; папка Skins\r\n  копіюється для кожної платформи під час збірки.\r\n  F5 / Читання: сканування розривів рядків SWAR (8-байтові блоки; широкий шлях на 32 байти\r\n  за наявності AVX2). Файли > 2 ГБ використовують лише розріджений temp_ckpt.txt.\r\n  Поступ накладки завантаження оновлюється плавно (~22 Гц) під час швидких сканувань.\r\n  Журнал таймера операцій угорі справа показує кожну завершену дію (читання,\r\n  розділення, об’єднання тощо) із витраченим часом; Win64 використовує стандартний ListBox.\r\n  Див. uLineIndexScan.pas і CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 uk|T|Fil&ter / Grep|Фільтр / Grep (&t)
 uk|T|File changed on disk|Файл змінено на диску
@@ -73536,6 +73921,7 @@ uk|T|FindOcc.Export|Експортувати
 uk|T|FindOcc.ExportHint|Експортувати зібрані збіги до файлу
 uk|T|FindOcc.Go|Знайти
 uk|T|FindOcc.GoHint|Знайти наступний збіг (як Ctrl+F)
+uk|T|FindOcc.HideList|Приховати список
 uk|T|FindOcc.HideListHint|Приховати список збігів (залишає панель пошуку відкритою)
 uk|T|FindOcc.HitLimitReached|Досягнуто межі збігів (5,000,000). Звузьте текст пошуку чи експортуйте зібране.
 uk|T|FindOcc.HitLineFmt|Рядок %d: %s
@@ -73561,6 +73947,7 @@ uk|T|FindOcc.RecentMore|Показати більше
 uk|T|FindOcc.RecentMoreHint|Показати решту недавніх пошуків
 uk|T|FindOcc.ResizeHint|Перетягніть для зміни розміру списку збігів. Подвійне клацання перемикає типову висоту й половину вікна.
 uk|T|FindOcc.SearchHint|Введіть текст пошуку (як Ctrl+F), потім Enter
+uk|T|FindOcc.ShowList|Показати список
 uk|T|FindOcc.ShowListHint|Показати список збігів
 uk|T|FindOcc.Status.Collecting|Збирання збігів для «%s»...
 uk|T|FindOcc.Status.CollectingShort|Збирання збігів...
@@ -74566,6 +74953,11 @@ uk|T|Recent Folders|Нещодавні папки
 uk|T|Recent tabs.Hint|Повторно відкрити нещодавню вкладку чи відновити останній сеанс
 uk|T|RecentFiles.More|Показати більше
 uk|T|RecentFiles.MoreHint|Показати решту нещодавніх файлів
+uk|T|RecentFiles.SessionHint|У цього файлу є збережений сеанс (курсор, закладки, фільтри). Відкрийте його, щоб відновити.
+uk|T|RecentFiles.SessionNoneHint|Для цього файлу ще немає збереженого сеансу. Після відкриття: Сеанс → Зберегти сеанс зараз (Ctrl+Alt+S).
+uk|T|RecentFiles.SessionOpenHint|У «%s» є збережений сеанс. Відкрийте файл, щоб відновити курсор, закладки та фільтри.
+uk|T|RecentFiles.SessionSaved|● Збережено
+uk|T|RecentFiles.SessionTip|Стовпець «Сеанс»: «Збережено» означає, що курсор, закладки й фільтри можна відновити під час повторного відкриття.
 uk|T|red: removed (left)|червоний = вилучено (ліворуч)
 uk|T|Redo|Повторити
 uk|T|Redo delete on line %d? The line will be deleted again.|Повторити видалення рядка %d? Рядок буде знову видалено.
@@ -74824,8 +75216,6 @@ uk|T|SearchCmd.WorkflowHelp|Введіть лише grep/glob або скори�
 uk|T|SearchDock.Collapse|Згорнути
 uk|T|SearchDock.Expand|Розгорнути
 uk|T|SearchDock.Loading|Підготовка інструментів пошуку...
-uk|T|SearchDock.PickerHint|Виберіть панель пошуку для відкриття
-uk|T|SearchDock.Tools|Інструменти пошуку
 uk|T|Searching|Пошук
 uk|T|Searching...|Пошук...
 uk|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Другорядний шаблон (той самий режим): Regex: ^.*,%s,.*$
@@ -74864,6 +75254,9 @@ uk|T|Session history|Історія сеансу
 uk|T|Session loaded.|Сеанс завантажено.
 uk|T|Session saved.|Сеанс збережено.
 uk|T|Session.AskAI|Запитати ШІ про цей сеанс
+uk|T|Session.LoadedDetail|Позицію курсора, закладки, фільтри та параметри вигляду відновлено для цього файлу.
+uk|T|Session.NeedFile|Спочатку відкрийте й прочитайте файл, щоб зберегти або завантажити його сеанс.
+uk|T|Session.SavedDetail|Позицію курсора, закладки, фільтри та параметри вигляду збережено для цього файлу.
 uk|T|Set how many files should be generated.|Задайте кількість файлів для генерування.
 uk|T|Short Overview|Короткий огляд
 uk|T|Shortcut:|Сполучення клавіш:
@@ -75087,16 +75480,24 @@ uk|T|TAB|TAB
 uk|T|Tab content.|Вміст вкладки.
 uk|T|TabCtx.Close|Закрити вкладку
 uk|T|TabCtx.CloseAll|Закрити всі вкладки
+uk|T|TabCtx.CloseAllHint|Закрити всі відкриті вкладки
+uk|T|TabCtx.CloseAllShort|Закрити всі
+uk|T|TabCtx.ClosedAll|Усі вкладки закрито
+uk|T|TabCtx.ClosedAllDetail|Використайте Сеанс → Відкрити закриту вкладку або Відновити вкладки останнього сеансу.
 uk|T|TabCtx.ClosedList|Нещодавно закриті вкладки
 uk|T|TabCtx.CloseLeft|Закрити вкладки ліворуч
 uk|T|TabCtx.CloseOthers|Закрити всі, крім цієї вкладки
 uk|T|TabCtx.CloseOthersActive|Закрити всі, крім активної вкладки
 uk|T|TabCtx.CloseRight|Закрити вкладки праворуч
+uk|T|TabCtx.ConfirmCloseAll|Закрити всі %d відкритих вкладок?
 uk|T|TabCtx.MenuButtonHint|Параметри вкладок: відкриті, повторно відкрити закриту, зберегти / відновити, закрити (також правим клацанням вкладки)
 uk|T|TabCtx.NoClosed|У цьому сеансі немає закритих вкладок
+uk|T|TabCtx.NoSavedTabs|Для цього сеансу не знайдено збережених відкритих вкладок.
 uk|T|TabCtx.OpenTabs|Відкриті вкладки
 uk|T|TabCtx.Reopen|Повторно відкрити закриту вкладку
 uk|T|TabCtx.ReopenNamed|Повторно відкрити закриту вкладку: %s
+uk|T|TabCtx.RestoredTabs|Вкладки відновлено
+uk|T|TabCtx.RestoredTabsDetail|Відновлено %d вкладку(ок) з останнього сеансу.
 uk|T|TabCtx.SavedOpen|Відкриті вкладки збережено
 uk|T|TabCtx.SavedOpenDetail|%d вкладок. Використайте «Відновити вкладки останнього сеансу» для відкриття.
 uk|T|TabCtx.SaveOpen|Зберегти відкриті вкладки
@@ -75219,6 +75620,7 @@ uk|T|Toolbar.AIAssistant|AI-помічник (УВІМК)
 uk|T|Toolbar.AIAssistantHint|Показати або сховати панель AI-помічника (Ctrl+Alt+A)
 uk|T|Toolbar.PythonMacro|Макрос Python
 uk|T|Toolbar.PythonMacroHint|Відкрити панель макросів Python для перетворення рядків файлу скриптом (Ctrl+Alt+E)
+uk|T|Toolbar.RecentFiles|Нещодавні файли
 uk|T|Tools|Інструменти
 uk|T|ToolsGallery.ClearSearch|Очистити пошук
 uk|T|ToolsGallery.GroupAppearance|Оформлення
@@ -76792,6 +77194,7 @@ th|T|FF_HELP.RecentFeaturesBlock5|ความสามารถล่าสุ�
 th|T|FF_HELP.RecentFeaturesBlock6|อัปเดตล่าสุด (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  อินเทอร์เฟซมี 22 ภาษาแล้ว รวมถึงฮินดี รัสเซีย เกาหลี\r\n    ดัตช์ ตุรกี และยูเครน ฮินดีใช้การจัดวางจากซ้ายไปขวา\r\n  การแยกเป็นส่วนเท่าๆ กันอ่านชิ้นส่วนแบบแมปหน่วยความจำโดยไม่โหลด\r\n    ทั้งไฟล์ แท็บแยกไฟล์ยังเปิดอยู่เมื่องานเสร็จ\r\n  หลังจากอ่านไฟล์ คำแนะนำขั้นตอนถัดไปจะเสนอการทำงานที่มีประโยชน์\r\n    เปิดอีกครั้งได้ในค่ากำหนด หรือปิดได้ที่นั่น\r\n  เมนูคลิกขวาขณะแก้ไขและถ้อยคำของประวัติเซสชันได้รับการแปลแล้ว\r\n  คำแนะนำและค่ากำหนดได้รับการออกแบบใหม่ คำแนะนำเริ่มทำงาน\r\n    โดยไม่กระพริบและไม่รบกวนการอ่านไฟล์\r\n
 th|T|FF_HELP.RecentFeaturesBlock7|อัปเดตล่าสุด (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  ภาษาไทย กรีก นอร์เวย์ สวีเดน เดนมาร์ก และไอซ์แลนด์ ทำให้\r\n    ส่วนติดต่อมี 28 ภาษา ทั้งหกอ่านจากซ้ายไปขวา\r\n  ขั้นตอนถัดไปตามกิจกรรมปัจจุบัน เช่น ค้นหา กรอง\r\n    แบ่ง รวม หรืออ่าน แทนรายการคงที่รายการเดียว\r\n  แต่ละกิจกรรมมีขั้นตอนถัดไปมากขึ้น\r\n  ปุ่มทางซ้ายของคัดลอกเปิดคู่มือขั้นตอนถัดไปอีกครั้ง\r\n
 th|T|FF_HELP.RecentFeaturesBlock8|อัปเดตล่าสุด (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  คู่มือขั้นตอนถัดไปเตี้ยลง จึงยังเห็นรายการไฟล์\r\n  ไอคอนอ่านอยู่ในช่องพาธ ซ้ายของ X ล้าง\r\n  ใช้ภาพเดียวกับ อ่าน บนแถบเครื่องมือ และโหลดพาธนั้น\r\n
+th|T|FF_HELP.RecentFeaturesBlock9|อัปเดตล่าสุด (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  ค้นหา ตัวกรอง และบุ๊กมาร์กซ้อนแบบแอคคอร์เดียนพร้อมหน้าปกกำลังโหลด\r\n  F3 / Shift+F3 ไม่กะพริบหน้าปกนั้นเมื่อค้นหาเปิดอยู่แล้ว\r\n  เมื่อแผงค้นหาเปิดอยู่ เครื่องมือรายการที่ล้นจะไปที่ เพิ่มเติม\r\n  กล่องโต้ตอบยืนยันยังคลิกได้ในโหมดขวาไปซ้าย\r\n  หลัง สุดท้าย ปุ่ม แรก และหน้า ยังใช้ได้; สถานะหน้า\r\n    ตามภาษาของอินเทอร์เฟซ\r\n
 th|T|FF_HELP.Win64IndexBlock|โฮสต์ WIN64 และการทำดัชนีเร็ว (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile สร้างสำหรับ Win32 (Delphi 7) และ Win64 (Delphi 10.4.2+).\r\n  ผลลัพธ์: Build\\Win32\\ หรือ Build\\Win64\\ ข้างโปรเจกต์ โฟลเดอร์ Skins\r\n  ถูกคัดลอกตามแพลตฟอร์มตอนสร้าง.\r\n  F5 / อ่าน: สแกนตัวป้อนบรรทัดแบบ SWAR (บล็อก 8 ไบต์ เส้นทางกว้าง 32 ไบต์\r\n  เมื่อมี AVX2). ไฟล์ > 2 GB ใช้ temp_ckpt.txt แบบ sparse เท่านั้น.\r\n  ความคืบหน้าชั้นซ้อนขณะโหลดอัปเดตอย่างราบรื่น (~22 Hz) ระหว่างสแกนเร็ว.\r\n  บันทึกตัวจับเวลาการทำงานมุมขวาบนแสดงแต่ละการกระทำที่เสร็จ (อ่าน\r\n  แยก รวม ฯลฯ) พร้อมเวลาที่ใช้ Win64 ใช้ ListBox มาตรฐาน.\r\n  ดู uLineIndexScan.pas และ CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 th|T|Fil&ter / Grep|&ตัวกรอง / Grep
 th|T|File changed on disk|ไฟล์เปลี่ยนบนดิสก์
@@ -76997,6 +77400,7 @@ th|T|FindOcc.Export|ส่งออก
 th|T|FindOcc.ExportHint|ส่งออกรายการที่พบที่เก็บไว้เป็นไฟล์
 th|T|FindOcc.Go|ค้นหา
 th|T|FindOcc.GoHint|ค้นหารายการถัดไปที่ตรง (เหมือน Ctrl+F)
+th|T|FindOcc.HideList|ซ่อนรายการ
 th|T|FindOcc.HideListHint|ซ่อนรายการที่ตรง (เปิดแผงค้นหาไว้)
 th|T|FindOcc.HitLimitReached|ถึงขีดจำกัดรายการที่พบ (5,000,000). ทำให้ข้อความค้นหาแคบลงหรือส่งออกสิ่งที่มี.
 th|T|FindOcc.HitLineFmt|บรรทัด %d: %s
@@ -77022,6 +77426,7 @@ th|T|FindOcc.RecentMore|แสดงเพิ่ม
 th|T|FindOcc.RecentMoreHint|แสดงการค้นหาล่าสุดที่เหลือ
 th|T|FindOcc.ResizeHint|ลากเพื่อปรับขนาดรายการที่พบ. ดับเบิลคลิกสลับความสูงเริ่มต้นกับครึ่งหน้าต่าง.
 th|T|FindOcc.SearchHint|พิมพ์ข้อความที่จะค้นหา (เหมือน Ctrl+F) แล้วกด Enter
+th|T|FindOcc.ShowList|แสดงรายการ
 th|T|FindOcc.ShowListHint|แสดงรายการที่ตรง
 th|T|FindOcc.Status.Collecting|กำลังเก็บรายการที่ตรงของ "%s"...
 th|T|FindOcc.Status.CollectingShort|กำลังเก็บรายการที่ตรง...
@@ -78027,6 +78432,11 @@ th|T|Recent Folders|โฟลเดอร์ล่าสุด
 th|T|Recent tabs.Hint|เปิดแท็บที่ใช้ล่าสุดอีกครั้ง หรือคืนเซสชันล่าสุด
 th|T|RecentFiles.More|แสดงเพิ่มเติม
 th|T|RecentFiles.MoreHint|แสดงไฟล์ล่าสุดที่เหลือ
+th|T|RecentFiles.SessionHint|ไฟล์นี้มีเซสชันที่บันทึกไว้ (เคอร์เซอร์ ที่คั่นหน้า ตัวกรอง) เปิดเพื่อกู้คืน
+th|T|RecentFiles.SessionNoneHint|ยังไม่มีเซสชันที่บันทึกสำหรับไฟล์นี้ หลังเปิดใช้ Session → Save session now (Ctrl+Alt+S)
+th|T|RecentFiles.SessionOpenHint|"%s" มีเซสชันที่บันทึกไว้ เปิดไฟล์เพื่อกู้คืนเคอร์เซอร์ ที่คั่นหน้า และตัวกรอง
+th|T|RecentFiles.SessionSaved|● บันทึกแล้ว
+th|T|RecentFiles.SessionTip|คอลัมน์เซสชัน: "บันทึกแล้ว" หมายความว่าเคอร์เซอร์ ที่คั่นหน้า และตัวกรองสามารถกู้คืนได้เมื่อเปิดไฟล์อีกครั้ง
 th|T|red: removed (left)|แดง = เอาออก (ซ้าย)
 th|T|Redo|ทำซ้ำ
 th|T|Redo delete on line %d? The line will be deleted again.|ทำซ้ำการลบบนบรรทัด %d หรือไม่? บรรทัดจะถูกลบอีกครั้ง.
@@ -78285,8 +78695,6 @@ th|T|SearchCmd.WorkflowHelp|พิมพ์เพียง grep/glob หรื�
 th|T|SearchDock.Collapse|ยุบ
 th|T|SearchDock.Expand|ขยาย
 th|T|SearchDock.Loading|กำลังเตรียมเครื่องมือค้นหา...
-th|T|SearchDock.PickerHint|เลือกแผงค้นหาที่จะเปิด
-th|T|SearchDock.Tools|เครื่องมือค้นหา
 th|T|Searching|กำลังค้นหา
 th|T|Searching...|กำลังค้นหา...
 th|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|รูปแบบรอง (โหมดเดียวกัน): Regex: ^.*,%s,.*$
@@ -78325,6 +78733,9 @@ th|T|Session history|ประวัติเซสชัน
 th|T|Session loaded.|โหลดเซสชันแล้ว.
 th|T|Session saved.|บันทึกเซสชันแล้ว.
 th|T|Session.AskAI|ถาม AI เกี่ยวกับเซสชันนี้
+th|T|Session.LoadedDetail|กู้คืนตำแหน่งเคอร์เซอร์ ที่คั่นหน้า ตัวกรอง และตัวเลือกมุมมองสำหรับไฟล์นี้แล้ว
+th|T|Session.NeedFile|เปิดและอ่านไฟล์ก่อนเพื่อบันทึกหรือโหลดเซสชัน
+th|T|Session.SavedDetail|บันทึกตำแหน่งเคอร์เซอร์ ที่คั่นหน้า ตัวกรอง และตัวเลือกมุมมองสำหรับไฟล์นี้แล้ว
 th|T|Set how many files should be generated.|กำหนดจำนวนไฟล์ที่จะสร้าง.
 th|T|Short Overview|ภาพรวมสั้นๆ
 th|T|Shortcut:|แป้นพิมพ์ลัด:
@@ -78548,16 +78959,24 @@ th|T|TAB|TAB
 th|T|Tab content.|เนื้อหาแท็บ.
 th|T|TabCtx.Close|ปิดแท็บ
 th|T|TabCtx.CloseAll|ปิดแท็บทั้งหมด
+th|T|TabCtx.CloseAllHint|ปิดแท็บที่เปิดอยู่ทั้งหมด
+th|T|TabCtx.CloseAllShort|ปิดทั้งหมด
+th|T|TabCtx.ClosedAll|ปิดแท็บทั้งหมดแล้ว
+th|T|TabCtx.ClosedAllDetail|ใช้ Session → Reopen closed tab หรือ Restore last session tabs เพื่อนำกลับมา
 th|T|TabCtx.ClosedList|แท็บที่เพิ่งปิด
 th|T|TabCtx.CloseLeft|ปิดแท็บทางซ้าย
 th|T|TabCtx.CloseOthers|ปิดทั้งหมดยกเว้นแท็บนี้
 th|T|TabCtx.CloseOthersActive|ปิดทั้งหมดยกเว้นแท็บที่ใช้งาน
 th|T|TabCtx.CloseRight|ปิดแท็บทางขวา
+th|T|TabCtx.ConfirmCloseAll|ปิดแท็บที่เปิดอยู่ทั้ง %d แท็บหรือไม่?
 th|T|TabCtx.MenuButtonHint|ตัวเลือกแท็บ: แท็บที่เปิด เปิดแท็บที่ปิดอีกครั้ง บันทึก / คืนแท็บ ปิดแท็บ (คลิกขวาที่แท็บได้เช่นกัน)
 th|T|TabCtx.NoClosed|ไม่มีแท็บที่ปิดในเซสชันนี้
+th|T|TabCtx.NoSavedTabs|ไม่พบแท็บที่เปิดไว้ซึ่งบันทึกสำหรับเซสชันนี้
 th|T|TabCtx.OpenTabs|แท็บที่เปิด
 th|T|TabCtx.Reopen|เปิดแท็บที่ปิดอีกครั้ง
 th|T|TabCtx.ReopenNamed|เปิดแท็บที่ปิดอีกครั้ง: %s
+th|T|TabCtx.RestoredTabs|กู้คืนแท็บแล้ว
+th|T|TabCtx.RestoredTabsDetail|กู้คืน %d แท็บจากเซสชันล่าสุดแล้ว
 th|T|TabCtx.SavedOpen|บันทึกแท็บที่เปิดแล้ว
 th|T|TabCtx.SavedOpenDetail|%d แท็บ ใช้ "คืนแท็บของเซสชันล่าสุด" เพื่อเปิดอีกครั้ง.
 th|T|TabCtx.SaveOpen|บันทึกแท็บที่เปิด
@@ -78680,6 +79099,7 @@ th|T|Toolbar.AIAssistant|ผู้ช่วย AI (เปิด)
 th|T|Toolbar.AIAssistantHint|แสดงหรือซ่อนแผงผู้ช่วย AI (Ctrl+Alt+A)
 th|T|Toolbar.PythonMacro|แมโคร Python
 th|T|Toolbar.PythonMacroHint|เปิดแผงแมโคร Python เพื่อแปลงบรรทัดของไฟล์ด้วยสคริปต์ (Ctrl+Alt+E)
+th|T|Toolbar.RecentFiles|ไฟล์ล่าสุด
 th|T|Tools|เครื่องมือ
 th|T|ToolsGallery.ClearSearch|ล้างการค้นหา
 th|T|ToolsGallery.GroupAppearance|ลักษณะที่ปรากฏ
@@ -80253,6 +80673,7 @@ el|T|FF_HELP.RecentFeaturesBlock5|ΠΡΟΣΦΑΤΕΣ ΛΕΙΤΟΥΡΓΙΕΣ (v3.
 el|T|FF_HELP.RecentFeaturesBlock6|ΠΡΟΣΦΑΤΕΣ ΕΝΗΜΕΡΩΣΕΙΣ (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Η διεπαφή έχει πλέον 22 γλώσσες, μεταξύ άλλων χίντι, ρωσικά, κορεατικά,\r\n    ολλανδικά, τουρκικά και ουκρανικά. Τα χίντι χρησιμοποιούν διάταξη από αριστερά προς τα δεξιά.\r\n  Η επεξεργασία σε ίσα μέρη διαβάζει τμήματα αντιστοιχισμένα στη μνήμη χωρίς να φορτώνει\r\n    ολόκληρο το αρχείο· η καρτέλα διαχωρισμού μένει ανοιχτή όταν τελειώνει.\r\n  Μετά την ανάγνωση ενός αρχείου, ο οδηγός επόμενων βημάτων προτείνει χρήσιμες ενέργειες.\r\n    Ανοίξτε τον ξανά στις Προτιμήσεις ή απενεργοποιήστε τον εκεί.\r\n  Το μενού περιβάλλοντος της επεξεργασίας και οι διατυπώσεις του ιστορικού συνεδρίας μεταφράστηκαν.\r\n  Ο οδηγός και οι Προτιμήσεις επανασχεδιάστηκαν· ο οδηγός αρχικοποιείται\r\n    χωρίς τρεμόπαιγμα και χωρίς να διακόπτει την ανάγνωση του αρχείου.\r\n
 el|T|FF_HELP.RecentFeaturesBlock7|ΠΡΟΣΦΑΤΕΣ ΕΝΗΜΕΡΩΣΕΙΣ (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Τα ταϊλανδικά, ελληνικά, νορβηγικά, σουηδικά, δανικά και ισλανδικά φέρνουν\r\n    τη διεπαφή στις 28 γλώσσες. Και οι έξι διαβάζονται από αριστερά προς τα δεξιά.\r\n  Τα επόμενα βήματα ακολουθούν την τρέχουσα ενέργεια, όπως εύρεση, φίλτρο,\r\n    διαχωρισμό, συγχώνευση ή ανάγνωση, αντί για μία σταθερή λίστα.\r\n  Κάθε ενέργεια προσφέρει περισσότερες επόμενες ενέργειες.\r\n  Ένα κουμπί αριστερά από την Αντιγραφή ανοίγει ξανά τον οδηγό.\r\n
 el|T|FF_HELP.RecentFeaturesBlock8|ΠΡΟΣΦΑΤΕΣ ΕΝΗΜΕΡΩΣΕΙΣ (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Ο οδηγός επόμενων βημάτων είναι πιο χαμηλός, ώστε η λίστα αρχείου να φαίνεται.\r\n  Ένα εικονίδιο Ανάγνωση είναι στο πεδίο διαδρομής, αριστερά από το X.\r\n  Χρησιμοποιεί το ίδιο σχέδιο με το Ανάγνωση στη γραμμή και φορτώνει τη διαδρομή.\r\n
+el|T|FF_HELP.RecentFeaturesBlock9|ΠΡΟΣΦΑΤΕΣ ΕΝΗΜΕΡΩΣΕΙΣ (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Εύρεση, Φίλτρο και Σελιδοδείκτες στοιβάζονται σε ακορντεόν με κάλυμμα φόρτωσης.\r\n  Τα F3 / Shift+F3 δεν αναβοσβήνουν πλέον αυτό το κάλυμμα όταν η Εύρεση είναι ήδη ανοιχτή.\r\n  Με ανοιχτό πίνακα αναζήτησης, τα εργαλεία λίστας που περισσεύουν πάνε στο Περισσότερα.\r\n  Τα παράθυρα επιβεβαίωσης παραμένουν κλικαρίσιμα σε λειτουργία δεξιά προς αριστερά.\r\n  Μετά το Τελευταίο, το Πρώτο και τα κουμπιά σελίδας συνεχίζουν να λειτουργούν· η κατάσταση\r\n    σελίδας ακολουθεί τη γλώσσα του περιβάλλοντος.\r\n
 el|T|FF_HELP.Win64IndexBlock|ΚΕΝΤΡΙΚΟ WIN64 ΚΑΙ ΓΡΗΓΟΡΗ ΕΥΡΕΤΗΡΙΑΣΗ (v3.0.3+)\r\n---------------------------------------------------------------\r\n  Το FastFile χτίζεται για Win32 (Delphi 7) και Win64 (Delphi 10.4.2+).\r\n  Έξοδος: Build\\Win32\\ ή Build\\Win64\\ δίπλα στο έργο· ο φάκελος Skins\r\n  αντιγράφεται ανά πλατφόρμα κατά το χτίσιμο.\r\n  F5 / Ανάγνωση: σάρωση αλλαγής γραμμής SWAR (μπλοκ 8 byte· ευρεία διαδρομή 32 byte\r\n  όταν υπάρχει AVX2). Αρχεία > 2 GB χρησιμοποιούν μόνο αραιό temp_ckpt.txt.\r\n  Η πρόοδος της επικάλυψης φόρτωσης ενημερώνεται ομαλά (~22 Hz) στις γρήγορες σαρώσεις.\r\n  Το αρχείο καταγραφής χρονομέτρου λειτουργιών επάνω δεξιά απαριθμεί κάθε ολοκληρωμένη ενέργεια (ανάγνωση,\r\n  διαχωρισμός, συγχώνευση κ.λπ.) με τον χρόνο που πέρασε· το Win64 χρησιμοποιεί τυπικό ListBox.\r\n  Δείτε τα uLineIndexScan.pas και CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 el|T|Fil&ter / Grep|Φίλ&τρο / Grep
 el|T|File changed on disk|Το αρχείο άλλαξε στον δίσκο
@@ -80458,6 +80879,7 @@ el|T|FindOcc.Export|Εξαγωγή
 el|T|FindOcc.ExportHint|Εξαγωγή των συγκεντρωμένων εμφανίσεων σε αρχείο
 el|T|FindOcc.Go|Εύρεση
 el|T|FindOcc.GoHint|Εύρεση του επόμενου ταιριάσματος (όπως το Ctrl+F)
+el|T|FindOcc.HideList|Απόκρυψη λίστας
 el|T|FindOcc.HideListHint|Απόκρυψη της λίστας αποτελεσμάτων (ο πίνακας Εύρεσης μένει ανοιχτός)
 el|T|FindOcc.HitLimitReached|Συμπληρώθηκε το όριο εμφανίσεων (5.000.000). Στενέψτε το κείμενο αναζήτησης ή εξαγάγετε ό,τι έχετε.
 el|T|FindOcc.HitLineFmt|Γραμμή %d: %s
@@ -80483,6 +80905,7 @@ el|T|FindOcc.RecentMore|Εμφάνιση περισσότερων
 el|T|FindOcc.RecentMoreHint|Εμφάνιση των υπόλοιπων πρόσφατων αναζητήσεων
 el|T|FindOcc.ResizeHint|Σύρετε για αλλαγή μεγέθους της λίστας εμφανίσεων. Το διπλό κλικ εναλλάσσει το προεπιλεγμένο ύψος και το μισό παράθυρο.
 el|T|FindOcc.SearchHint|Πληκτρολογήστε κείμενο προς εύρεση (όπως το Ctrl+F) και έπειτα Enter
+el|T|FindOcc.ShowList|Εμφάνιση λίστας
 el|T|FindOcc.ShowListHint|Εμφάνιση της λίστας αποτελεσμάτων
 el|T|FindOcc.Status.Collecting|Συγκέντρωση ταιριασμάτων για "%s"...
 el|T|FindOcc.Status.CollectingShort|Συγκέντρωση ταιριασμάτων...
@@ -81488,6 +81911,11 @@ el|T|Recent Folders|Πρόσφατοι φάκελοι
 el|T|Recent tabs.Hint|Ανοίξτε ξανά μια καρτέλα που χρησιμοποιήθηκε πρόσφατα ή επαναφέρετε την τελευταία συνεδρία
 el|T|RecentFiles.More|Εμφάνιση περισσότερων
 el|T|RecentFiles.MoreHint|Εμφάνιση των υπόλοιπων πρόσφατων αρχείων
+el|T|RecentFiles.SessionHint|Αυτό το αρχείο έχει αποθηκευμένη συνεδρία (δρομέας, σελιδοδείκτες, φίλτρα). Ανοίξτε το για επαναφορά.
+el|T|RecentFiles.SessionNoneHint|Δεν υπάρχει ακόμη αποθηκευμένη συνεδρία για αυτό το αρχείο. Μετά το άνοιγμα: Συνεδρία → Αποθήκευση συνεδρίας τώρα (Ctrl+Alt+S).
+el|T|RecentFiles.SessionOpenHint|Το "%s" έχει αποθηκευμένη συνεδρία. Ανοίξτε το αρχείο για επαναφορά δρομέα, σελιδοδεικτών και φίλτρων.
+el|T|RecentFiles.SessionSaved|● Αποθηκευμένη
+el|T|RecentFiles.SessionTip|Στήλη Συνεδρία: το «Αποθηκευμένη» σημαίνει ότι δρομέας, σελιδοδείκτες και φίλτρα μπορούν να επανέλθουν όταν ξανανοίξετε το αρχείο.
 el|T|red: removed (left)|κόκκινο = αφαιρέθηκε (αριστερά)
 el|T|Redo|Επανάληψη
 el|T|Redo delete on line %d? The line will be deleted again.|Επανάληψη διαγραφής στη γραμμή %d; Η γραμμή θα διαγραφεί ξανά.
@@ -81746,8 +82174,6 @@ el|T|SearchCmd.WorkflowHelp|Πληκτρολογήστε απλώς grep/glob ή
 el|T|SearchDock.Collapse|Σύμπτυξη
 el|T|SearchDock.Expand|Ανάπτυξη
 el|T|SearchDock.Loading|Προετοιμασία εργαλείων αναζήτησης...
-el|T|SearchDock.PickerHint|Επιλέξτε ποιο πλαίσιο αναζήτησης θα ανοίξει
-el|T|SearchDock.Tools|Εργαλεία αναζήτησης
 el|T|Searching|Αναζήτηση
 el|T|Searching...|Αναζήτηση...
 el|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Δευτερεύον μοτίβο (ίδια λειτουργία): Regex: ^.*,%s,.*$
@@ -81786,6 +82212,9 @@ el|T|Session history|Ιστορικό συνεδρίας
 el|T|Session loaded.|Η συνεδρία φορτώθηκε.
 el|T|Session saved.|Η συνεδρία αποθηκεύτηκε.
 el|T|Session.AskAI|Ρωτήστε το AI για αυτή τη συνεδρία
+el|T|Session.LoadedDetail|Η θέση δρομέα, οι σελιδοδείκτες, τα φίλτρα και οι επιλογές προβολής επαναφέρθηκαν για αυτό το αρχείο.
+el|T|Session.NeedFile|Ανοίξτε και διαβάστε πρώτα ένα αρχείο για αποθήκευση ή φόρτωση της συνεδρίας του.
+el|T|Session.SavedDetail|Η θέση δρομέα, οι σελιδοδείκτες, τα φίλτρα και οι επιλογές προβολής αποθηκεύτηκαν για αυτό το αρχείο.
 el|T|Set how many files should be generated.|Ορίστε πόσα αρχεία θα δημιουργηθούν.
 el|T|Short Overview|Σύντομη επισκόπηση
 el|T|Shortcut:|Συντόμευση:
@@ -82009,16 +82438,24 @@ el|T|TAB|TAB
 el|T|Tab content.|Περιεχόμενο καρτέλας.
 el|T|TabCtx.Close|Κλείσιμο καρτέλας
 el|T|TabCtx.CloseAll|Κλείσιμο όλων των καρτελών
+el|T|TabCtx.CloseAllHint|Κλείσιμο όλων των ανοιχτών καρτελών
+el|T|TabCtx.CloseAllShort|Κλείσιμο όλων
+el|T|TabCtx.ClosedAll|Όλες οι καρτέλες έκλεισαν
+el|T|TabCtx.ClosedAllDetail|Χρησιμοποιήστε Συνεδρία → Επανανοιγμα κλειστής καρτέλας ή Επαναφορά καρτελών τελευταίας συνεδρίας.
 el|T|TabCtx.ClosedList|Πρόσφατα κλεισμένες καρτέλες
 el|T|TabCtx.CloseLeft|Κλείσιμο καρτελών στα αριστερά
 el|T|TabCtx.CloseOthers|Κλείσιμο όλων εκτός από αυτή την καρτέλα
 el|T|TabCtx.CloseOthersActive|Κλείσιμο όλων εκτός από την ενεργή καρτέλα
 el|T|TabCtx.CloseRight|Κλείσιμο καρτελών στα δεξιά
+el|T|TabCtx.ConfirmCloseAll|Να κλείσουν και οι %d ανοιχτές καρτέλες;
 el|T|TabCtx.MenuButtonHint|Επιλογές καρτελών: ανοιχτές καρτέλες, εκ νέου άνοιγμα κλεισμένης καρτέλας, αποθήκευση / επαναφορά καρτελών, κλείσιμο καρτελών (και με δεξί κλικ σε μια καρτέλα)
 el|T|TabCtx.NoClosed|Δεν υπάρχουν κλεισμένες καρτέλες σε αυτή τη συνεδρία
+el|T|TabCtx.NoSavedTabs|Δεν βρέθηκαν αποθηκευμένες ανοιχτές καρτέλες για αυτή τη συνεδρία.
 el|T|TabCtx.OpenTabs|Ανοιχτές καρτέλες
 el|T|TabCtx.Reopen|Εκ νέου άνοιγμα κλεισμένης καρτέλας
 el|T|TabCtx.ReopenNamed|Εκ νέου άνοιγμα κλεισμένης καρτέλας: %s
+el|T|TabCtx.RestoredTabs|Οι καρτέλες επαναφέρθηκαν
+el|T|TabCtx.RestoredTabsDetail|Επαναφέρθηκαν %d καρτέλα/ες από την τελευταία συνεδρία.
 el|T|TabCtx.SavedOpen|Οι ανοιχτές καρτέλες αποθηκεύτηκαν
 el|T|TabCtx.SavedOpenDetail|%d καρτέλα(ες). Χρησιμοποιήστε το "Επαναφορά καρτελών τελευταίας συνεδρίας" για να τις ξανανοίξετε.
 el|T|TabCtx.SaveOpen|Αποθήκευση ανοιχτών καρτελών
@@ -82141,6 +82578,7 @@ el|T|Toolbar.AIAssistant|Βοηθός AI (ΟΝ)
 el|T|Toolbar.AIAssistantHint|Εμφάνιση ή απόκρυψη του πίνακα Βοηθού AI (Ctrl+Alt+A)
 el|T|Toolbar.PythonMacro|Μακροεντολή Python
 el|T|Toolbar.PythonMacroHint|Άνοιγμα του πίνακα μακροεντολών Python για μετασχηματισμό των γραμμών του αρχείου με σενάριο (Ctrl+Alt+E)
+el|T|Toolbar.RecentFiles|Πρόσφατα αρχεία
 el|T|Tools|Εργαλεία
 el|T|ToolsGallery.ClearSearch|Εκκαθάριση αναζήτησης
 el|T|ToolsGallery.GroupAppearance|Εμφάνιση
@@ -83714,6 +84152,7 @@ nb|T|FF_HELP.RecentFeaturesBlock5|NYLIGE FUNKSJONER (v3.0.5.250 – v3.0.5.254)\
 nb|T|FF_HELP.RecentFeaturesBlock6|SISTE OPPDATERINGER (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Grensesnittet har nå 22 språk, blant annet hindi, russisk, koreansk,\r\n    nederlandsk, tyrkisk og ukrainsk. Hindi bruker venstre-mot-høyre.\r\n  Behandling i like deler leser minnetilordnede blokker uten å laste\r\n    hele filen; delingsfanen forblir åpen når den er ferdig.\r\n  Etter at en fil er lest, foreslår veiledningen for neste steg nyttige handlinger.\r\n    Åpne den igjen i Innstillinger, eller slå den av der.\r\n  Hurtigmenyen for redigering og ordlyden i økthistorikken er oversatt.\r\n  Veiledningen og Innstillinger er utformet på nytt; veiledningen starter\r\n    uten flimring og uten å avbryte fillesing.\r\n
 nb|T|FF_HELP.RecentFeaturesBlock7|SISTE OPPDATERINGER (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, gresk, norsk, svensk, dansk og islandsk bringer\r\n    grensesnittet til 28 språk. Alle seks leses fra venstre mot høyre.\r\n  Neste steg følger gjeldende handling, som søk, filter,\r\n    deling, fletting eller lesing, i stedet for én fast liste.\r\n  Hver handling tilbyr flere oppfølgingshandlinger.\r\n  En knapp til venstre for Kopier åpner veiledningen igjen.\r\n
 nb|T|FF_HELP.RecentFeaturesBlock8|NYLIGE OPPDATERINGER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Veilederen for neste steg er lavere, så fillisten forblir synlig.\r\n  Et Les-ikon står i banefeltet, til venstre for X for tømming.\r\n  Det bruker samme tegning som Les på verktøylinjen og laster den banen.\r\n
+nb|T|FF_HELP.RecentFeaturesBlock9|NYLIGE OPPDATERINGER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Finn, Filter og Bokmerker stables som et trekkspill med et lastecover.\r\n  F3 / Shift+F3 blinker ikke lenger det coveret når Finn allerede er åpen.\r\n  Mens et søkepanel er åpent, går overflødige listeverktøy til Mer.\r\n  Bekreftelsesdialoger forblir klikkbare i høyre-til-venstre-modus.\r\n  Etter Siste fortsetter Første og sideknappene å virke; sidestatusen\r\n    følger grensesnittspråket.\r\n
 nb|T|FF_HELP.Win64IndexBlock|WIN64-VERT OG RASK INDEKSERING (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile bygges for Win32 (Delphi 7) og Win64 (Delphi 10.4.2+).\r\n  Utdata: Build\\Win32\\ eller Build\\Win64\\ ved siden av prosjektet. Skins-\r\n  mappen kopieres per plattform ved bygging.\r\n  F5 / Les: SWAR-skann av linjeskift (blokker på 8 byte; bred bane på 32 byte\r\n  når AVX2 er tilgjengelig). Filer > 2 GB bruker bare glissen temp_ckpt.txt.\r\n  Fremdriften i lasteoverlegget oppdateres jevnt (~22 Hz) under raske skann.\r\n  Tidsloggen for operasjoner oppe til høyre viser hver fullførte handling (les,\r\n  del, slå sammen osv.) med medgått tid. Win64 bruker en vanlig ListBox.\r\n  Se uLineIndexScan.pas og CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 nb|T|Fil&ter / Grep|Fil&ter / Grep
 nb|T|File changed on disk|Fil endret på disk
@@ -83919,6 +84358,7 @@ nb|T|FindOcc.Export|Eksporter
 nb|T|FindOcc.ExportHint|Eksporter innsamlede forekomster til en fil
 nb|T|FindOcc.Go|Finn
 nb|T|FindOcc.GoHint|Finn neste treff (samme som Ctrl+F)
+nb|T|FindOcc.HideList|Skjul liste
 nb|T|FindOcc.HideListHint|Skjul trefflisten (holder Finn-panelet åpent)
 nb|T|FindOcc.HitLimitReached|Grense for forekomster nådd (5 000 000). Snevre inn søketeksten, eller eksporter det du har.
 nb|T|FindOcc.HitLineFmt|Linje %d: %s
@@ -83944,6 +84384,7 @@ nb|T|FindOcc.RecentMore|Vis mer
 nb|T|FindOcc.RecentMoreHint|Vis de resterende nylige søkene
 nb|T|FindOcc.ResizeHint|Dra for å endre størrelsen på forekomstlisten. Dobbeltklikk veksler mellom standardhøyde og halve vinduet.
 nb|T|FindOcc.SearchHint|Skriv tekst som skal finnes (samme som Ctrl+F), og trykk deretter Enter
+nb|T|FindOcc.ShowList|Vis liste
 nb|T|FindOcc.ShowListHint|Vis trefflisten
 nb|T|FindOcc.Status.Collecting|Samler treff for "%s"...
 nb|T|FindOcc.Status.CollectingShort|Samler treff...
@@ -84949,6 +85390,11 @@ nb|T|Recent Folders|Nylige mapper
 nb|T|Recent tabs.Hint|Åpne en nylig brukt fane igjen, eller gjenopprett siste økt
 nb|T|RecentFiles.More|Vis mer
 nb|T|RecentFiles.MoreHint|Vis de øvrige nylige filene
+nb|T|RecentFiles.SessionHint|Denne filen har en lagret økt (markør, bokmerker, filtre). Åpne den for å gjenopprette.
+nb|T|RecentFiles.SessionNoneHint|Ingen økt lagret for denne filen ennå. Etter åpning: Økt → Lagre økt nå (Ctrl+Alt+S).
+nb|T|RecentFiles.SessionOpenHint|"%s" har en lagret økt. Åpne filen for å gjenopprette markør, bokmerker og filtre.
+nb|T|RecentFiles.SessionSaved|● Lagret
+nb|T|RecentFiles.SessionTip|Økt-kolonnen: «Lagret» betyr at markør, bokmerker og filtre kan gjenopprettes når du åpner filen på nytt.
 nb|T|red: removed (left)|rød = fjernet (venstre)
 nb|T|Redo|Gjør om
 nb|T|Redo delete on line %d? The line will be deleted again.|Gjøre om sletting på linje %d? Linjen blir slettet igjen.
@@ -85207,8 +85653,6 @@ nb|T|SearchCmd.WorkflowHelp|Skriv bare grep/glob, eller bruk knappene deres i Fi
 nb|T|SearchDock.Collapse|Slå sammen
 nb|T|SearchDock.Expand|Utvid
 nb|T|SearchDock.Loading|Forbereder søkeverktøy...
-nb|T|SearchDock.PickerHint|Velg hvilket søkepanel som skal åpnes
-nb|T|SearchDock.Tools|Søkeverktøy
 nb|T|Searching|Søker
 nb|T|Searching...|Søker...
 nb|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Sekundært mønster (samme modus): Regex: ^.*,%s,.*$
@@ -85247,6 +85691,9 @@ nb|T|Session history|Økthistorikk
 nb|T|Session loaded.|Økt lastet.
 nb|T|Session saved.|Økt lagret.
 nb|T|Session.AskAI|Spør AI om denne økten
+nb|T|Session.LoadedDetail|Markørposisjon, bokmerker, filtre og visningsvalg ble gjenopprettet for denne filen.
+nb|T|Session.NeedFile|Åpne og les en fil først for å lagre eller laste økten.
+nb|T|Session.SavedDetail|Markørposisjon, bokmerker, filtre og visningsvalg ble lagret for denne filen.
 nb|T|Set how many files should be generated.|Angi hvor mange filer som skal genereres.
 nb|T|Short Overview|Kort oversikt
 nb|T|Shortcut:|Snarvei:
@@ -85470,16 +85917,24 @@ nb|T|TAB|TAB
 nb|T|Tab content.|Faneinnhold.
 nb|T|TabCtx.Close|Lukk fane
 nb|T|TabCtx.CloseAll|Lukk alle faner
+nb|T|TabCtx.CloseAllHint|Lukk alle åpne faner
+nb|T|TabCtx.CloseAllShort|Lukk alle
+nb|T|TabCtx.ClosedAll|Alle faner lukket
+nb|T|TabCtx.ClosedAllDetail|Bruk Økt → Åpne lukket fane på nytt eller Gjenopprett faner fra siste økt.
 nb|T|TabCtx.ClosedList|Nylig lukkede faner
 nb|T|TabCtx.CloseLeft|Lukk faner til venstre
 nb|T|TabCtx.CloseOthers|Lukk alle unntatt denne fanen
 nb|T|TabCtx.CloseOthersActive|Lukk alle unntatt den aktive fanen
 nb|T|TabCtx.CloseRight|Lukk faner til høyre
+nb|T|TabCtx.ConfirmCloseAll|Lukke alle %d åpne faner?
 nb|T|TabCtx.MenuButtonHint|Fanevalg: åpne faner, åpne lukket fane igjen, lagre / gjenopprett faner, lukk faner (også ved å høyreklikke en fane)
 nb|T|TabCtx.NoClosed|Ingen lukkede faner i denne økten
+nb|T|TabCtx.NoSavedTabs|Ingen lagrede åpne faner ble funnet for denne økten.
 nb|T|TabCtx.OpenTabs|Åpne faner
 nb|T|TabCtx.Reopen|Åpne lukket fane igjen
 nb|T|TabCtx.ReopenNamed|Åpne lukket fane igjen: %s
+nb|T|TabCtx.RestoredTabs|Faner gjenopprettet
+nb|T|TabCtx.RestoredTabsDetail|%d fane(r) fra siste økt ble gjenopprettet.
 nb|T|TabCtx.SavedOpen|Åpne faner lagret
 nb|T|TabCtx.SavedOpenDetail|%d fane(r). Bruk «Gjenopprett fanene fra siste økt» for å åpne dem igjen.
 nb|T|TabCtx.SaveOpen|Lagre åpne faner
@@ -85602,6 +86057,7 @@ nb|T|Toolbar.AIAssistant|AI-assistent (PÅ)
 nb|T|Toolbar.AIAssistantHint|Vis eller skjul AI-assistentpanelet (Ctrl+Alt+A)
 nb|T|Toolbar.PythonMacro|Python-makro
 nb|T|Toolbar.PythonMacroHint|Åpne panelet for Python-makroer for å transformere fillinjene med et skript (Ctrl+Alt+E)
+nb|T|Toolbar.RecentFiles|Nylige filer
 nb|T|Tools|Verktøy
 nb|T|ToolsGallery.ClearSearch|Tøm søk
 nb|T|ToolsGallery.GroupAppearance|Utseende
@@ -87175,6 +87631,7 @@ sv|T|FF_HELP.RecentFeaturesBlock5|NYA FUNKTIONER (v3.0.5.250 – v3.0.5.254)\r\n
 sv|T|FF_HELP.RecentFeaturesBlock6|SENASTE UPPDATERINGAR (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Gränssnittet har nu 22 språk, bland annat hindi, ryska, koreanska,\r\n    nederländska, turkiska och ukrainska. Hindi använder en vänster-till-höger-layout.\r\n  Bearbetning i lika delar läser minnesmappade block utan att läsa in\r\n    hela filen; delningsfliken förblir öppen när den är klar.\r\n  Efter att en fil har lästs föreslår guiden för nästa steg användbara åtgärder.\r\n    Öppna den igen i Inställningar eller stäng av den där.\r\n  Snabbmenyn för redigering och formuleringarna i sessionshistoriken har lokaliserats.\r\n  Guiden och Inställningar har gjorts om; guiden initieras\r\n    utan flimmer och utan att avbryta filläsningen.\r\n
 sv|T|FF_HELP.RecentFeaturesBlock7|SENASTE UPPDATERINGAR (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, grekiska, norska, svenska, danska och isländska tar\r\n    gränssnittet till 28 språk. Alla sex läses från vänster till höger.\r\n  Nästa steg följer den aktuella åtgärden, till exempel sök, filter,\r\n    dela, sammanfoga eller läs, i stället för en fast lista.\r\n  Varje åtgärd erbjuder fler uppföljningsåtgärder.\r\n  En knapp till vänster om Kopiera öppnar guiden igen.\r\n
 sv|T|FF_HELP.RecentFeaturesBlock8|SENASTE UPPDATERINGAR (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Guiden för nästa steg är lägre, så fillistan syns fortfarande.\r\n  En Läs-ikon sitter i sökvägsfältet, till vänster om rensa-X.\r\n  Den använder samma bild som Läs i verktygsfältet och laddar den sökvägen.\r\n
+sv|T|FF_HELP.RecentFeaturesBlock9|SENASTE UPPDATERINGAR (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Sök, Filter och Bokmärken staplas som ett dragspel med ett laddningsöverdrag.\r\n  F3 / Shift+F3 blinkar inte längre det överdraget när Sök redan är öppen.\r\n  När en sökpanel är öppen går överskridande listverktyg till Mer.\r\n  Bekräftelsedialoger förblir klickbara i höger-till-vänster-läge.\r\n  Efter Sista fortsätter Första och sidknapparna att fungera; sidstatusen\r\n    följer gränssnittsspråket.\r\n
 sv|T|FF_HELP.Win64IndexBlock|WIN64-VÄRD OCH SNABB INDEXERING (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile byggs för Win32 (Delphi 7) och Win64 (Delphi 10.4.2+).\r\n  Utdata: Build\\Win32\\ eller Build\\Win64\\ bredvid projektet. Mappen Skins\r\n  kopieras per plattform vid bygget.\r\n  F5 / Läs: SWAR-skanning av radmatning (8-byteblock; 32 byte bred väg\r\n  när AVX2 finns). Filer > 2 GB använder bara gles temp_ckpt.txt.\r\n  Förloppet i inläsningsöverlägget uppdateras jämnt (~22 Hz) under snabba skanningar.\r\n  Tidsloggen uppe till höger listar varje avslutad åtgärd (läs,\r\n  dela, sammanfoga o.s.v.) med förfluten tid. Win64 använder en vanlig ListBox.\r\n  Se uLineIndexScan.pas och CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 sv|T|Fil&ter / Grep|Fil&ter / Grep
 sv|T|File changed on disk|Filen ändrades på disk
@@ -87380,6 +87837,7 @@ sv|T|FindOcc.Export|Exportera
 sv|T|FindOcc.ExportHint|Exportera insamlade förekomster till en fil
 sv|T|FindOcc.Go|Sök
 sv|T|FindOcc.GoHint|Sök nästa träff (samma som Ctrl+F)
+sv|T|FindOcc.HideList|Dölj lista
 sv|T|FindOcc.HideListHint|Dölj träfflistan (håller Sök-panelen öppen)
 sv|T|FindOcc.HitLimitReached|Förekomstgränsen nådd (5 000 000). Snäva av söktexten eller exportera det du har.
 sv|T|FindOcc.HitLineFmt|Rad %d: %s
@@ -87405,6 +87863,7 @@ sv|T|FindOcc.RecentMore|Visa mer
 sv|T|FindOcc.RecentMoreHint|Visa återstående senaste sökningar
 sv|T|FindOcc.ResizeHint|Dra för att ändra storlek på förekomstlistan. Dubbelklick växlar mellan standardhöjd och halva fönstret.
 sv|T|FindOcc.SearchHint|Skriv text att söka (samma som Ctrl+F) och tryck sedan på Enter
+sv|T|FindOcc.ShowList|Visa lista
 sv|T|FindOcc.ShowListHint|Visa träfflistan
 sv|T|FindOcc.Status.Collecting|Samlar träffar för "%s"...
 sv|T|FindOcc.Status.CollectingShort|Samlar träffar...
@@ -88410,6 +88869,11 @@ sv|T|Recent Folders|Senaste mappar
 sv|T|Recent tabs.Hint|Öppna en nyligen använd flik igen, eller återställ den senaste sessionen
 sv|T|RecentFiles.More|Visa mer
 sv|T|RecentFiles.MoreHint|Visa de återstående senaste filerna
+sv|T|RecentFiles.SessionHint|Den här filen har en sparad session (markör, bokmärken, filter). Öppna den för att återställa.
+sv|T|RecentFiles.SessionNoneHint|Ingen session sparad för den här filen ännu. Efter öppning: Session → Spara session nu (Ctrl+Alt+S).
+sv|T|RecentFiles.SessionOpenHint|"%s" har en sparad session. Öppna filen för att återställa markör, bokmärken och filter.
+sv|T|RecentFiles.SessionSaved|● Sparad
+sv|T|RecentFiles.SessionTip|Sessionskolumnen: "Sparad" betyder att markör, bokmärken och filter kan återställas när du öppnar filen igen.
 sv|T|red: removed (left)|röd = borttagen (vänster)
 sv|T|Redo|Gör om
 sv|T|Redo delete on line %d? The line will be deleted again.|Göra om borttagning på rad %d? Raden tas bort igen.
@@ -88668,8 +89132,6 @@ sv|T|SearchCmd.WorkflowHelp|Skriv bara grep/glob, eller använd deras knappar i 
 sv|T|SearchDock.Collapse|Fäll ihop
 sv|T|SearchDock.Expand|Fäll ut
 sv|T|SearchDock.Loading|Förbereder sökverktyg...
-sv|T|SearchDock.PickerHint|Välj vilken sökpanel som ska öppnas
-sv|T|SearchDock.Tools|Sökverktyg
 sv|T|Searching|Söker
 sv|T|Searching...|Söker...
 sv|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Sekundärt mönster (samma läge): Regex: ^.*,%s,.*$
@@ -88708,6 +89170,9 @@ sv|T|Session history|Sessionshistorik
 sv|T|Session loaded.|Sessionen inläst.
 sv|T|Session saved.|Sessionen sparad.
 sv|T|Session.AskAI|Fråga AI om den här sessionen
+sv|T|Session.LoadedDetail|Markörposition, bokmärken, filter och visningsalternativ återställdes för den här filen.
+sv|T|Session.NeedFile|Öppna och läs en fil först för att spara eller läsa in dess session.
+sv|T|Session.SavedDetail|Markörposition, bokmärken, filter och visningsalternativ sparades för den här filen.
 sv|T|Set how many files should be generated.|Ange hur många filer som ska skapas.
 sv|T|Short Overview|Kort översikt
 sv|T|Shortcut:|Kortkommando:
@@ -88931,16 +89396,24 @@ sv|T|TAB|TAB
 sv|T|Tab content.|Flikinnehåll.
 sv|T|TabCtx.Close|Stäng flik
 sv|T|TabCtx.CloseAll|Stäng alla flikar
+sv|T|TabCtx.CloseAllHint|Stäng alla öppna flikar
+sv|T|TabCtx.CloseAllShort|Stäng alla
+sv|T|TabCtx.ClosedAll|Alla flikar stängda
+sv|T|TabCtx.ClosedAllDetail|Använd Session → Öppna stängd flik igen eller Återställ flikar från senaste sessionen.
 sv|T|TabCtx.ClosedList|Nyligen stängda flikar
 sv|T|TabCtx.CloseLeft|Stäng flikar till vänster
 sv|T|TabCtx.CloseOthers|Stäng alla utom den här fliken
 sv|T|TabCtx.CloseOthersActive|Stäng alla utom den aktiva fliken
 sv|T|TabCtx.CloseRight|Stäng flikar till höger
+sv|T|TabCtx.ConfirmCloseAll|Stänga alla %d öppna flikar?
 sv|T|TabCtx.MenuButtonHint|Flikalternativ: öppna flikar, öppna stängd flik igen, spara / återställ flikar, stäng flikar (även genom att högerklicka på en flik)
 sv|T|TabCtx.NoClosed|Inga stängda flikar i den här sessionen
+sv|T|TabCtx.NoSavedTabs|Inga sparade öppna flikar hittades för den här sessionen.
 sv|T|TabCtx.OpenTabs|Öppna flikar
 sv|T|TabCtx.Reopen|Öppna stängd flik igen
 sv|T|TabCtx.ReopenNamed|Öppna stängd flik igen: %s
+sv|T|TabCtx.RestoredTabs|Flikar återställda
+sv|T|TabCtx.RestoredTabsDetail|%d flik(ar) från senaste sessionen återställdes.
 sv|T|TabCtx.SavedOpen|Öppna flikar sparade
 sv|T|TabCtx.SavedOpenDetail|%d flikar. Använd "Återställ flikar från senaste sessionen" för att öppna dem igen.
 sv|T|TabCtx.SaveOpen|Spara öppna flikar
@@ -89063,6 +89536,7 @@ sv|T|Toolbar.AIAssistant|AI-assistent (PÅ)
 sv|T|Toolbar.AIAssistantHint|Visa eller dölj AI-assistentpanelen (Ctrl+Alt+A)
 sv|T|Toolbar.PythonMacro|Python-makro
 sv|T|Toolbar.PythonMacroHint|Öppna panelen för Python-makron för att omvandla filens rader med ett skript (Ctrl+Alt+E)
+sv|T|Toolbar.RecentFiles|Senaste filer
 sv|T|Tools|Verktyg
 sv|T|ToolsGallery.ClearSearch|Rensa sökning
 sv|T|ToolsGallery.GroupAppearance|Utseende
@@ -90636,6 +91110,7 @@ da|T|FF_HELP.RecentFeaturesBlock5|NYE FUNKTIONER (v3.0.5.250 – v3.0.5.254)\r\n
 da|T|FF_HELP.RecentFeaturesBlock6|SENESTE OPDATERINGER (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Grænsefladen har nu 22 sprog, herunder hindi, russisk, koreansk,\r\n    nederlandsk, tyrkisk og ukrainsk. Hindi bruger et layout fra venstre mod højre.\r\n  Behandling i lige store dele læser hukommelseskortlagte blokke uden at indlæse\r\n    hele filen; opdelingsfanen forbliver åben, når den er færdig.\r\n  Efter læsning af en fil foreslår vejledningen til næste trin nyttige handlinger.\r\n    Åbn den igen under Præferencer, eller slå den fra der.\r\n  Redigeringens genvejsmenu og ordlyden i sessionshistorikken er oversat.\r\n  Vejledningen og Præferencer er redesignet; vejledningen starter\r\n    uden flimmer og uden at afbryde fillæsningen.\r\n
 da|T|FF_HELP.RecentFeaturesBlock7|SENESTE OPDATERINGER (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, græsk, norsk, svensk, dansk og islandsk bringer\r\n    grænsefladen op på 28 sprog. Alle seks læses fra venstre mod højre.\r\n  Næste trin følger den aktuelle handling, såsom find, filter,\r\n    del, flet eller læs, i stedet for én fast liste.\r\n  Hver handling tilbyder flere opfølgende handlinger.\r\n  En knap til venstre for Kopiér åbner guiden igen.\r\n
 da|T|FF_HELP.RecentFeaturesBlock8|SENESTE OPDATERINGER (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Guiden til næste trin er lavere, så fillisten forbliver synlig.\r\n  Et Læs-ikon sidder i stifeltet, til venstre for ryd-X.\r\n  Det bruger samme tegning som Læs på værktøjslinjen og indlæser den sti.\r\n
+da|T|FF_HELP.RecentFeaturesBlock9|SENESTE OPDATERINGER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Find, Filter og Bogmærker stables som et harmonika med et indlæsningscover.\r\n  F3 / Shift+F3 blinker ikke længere det cover, når Find allerede er åben.\r\n  Mens et søgepanel er åbent, går overløbende listeværktøjer til Mere.\r\n  Bekræftelsesdialoger forbliver klikbare i højre-til-venstre-tilstand.\r\n  Efter Sidste bliver Første og sideknapper ved med at virke; sidestatus\r\n    følger grænsefladesproget.\r\n
 da|T|FF_HELP.Win64IndexBlock|WIN64-VÆRT & HURTIG INDEKSERING (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile bygges til Win32 (Delphi 7) og Win64 (Delphi 10.4.2+).\r\n  Output: Build\\Win32\\ eller Build\\Win64\\ ved siden af projektet; mappen Skins\r\n  kopieres pr. platform ved bygning.\r\n  F5 / Læs: SWAR-scanning efter linjeskift (8-byte-blokke; 32-byte bred sti\r\n  når AVX2 er tilgængelig). Filer > 2 GB bruger kun sparse temp_ckpt.txt.\r\n  Indlæsningsoverlejningens fremdrift opdateres jævnt (~22 Hz) under hurtige scanninger.\r\n  Loggen for handlingstimeren øverst til højre viser hver fuldført handling (læs,\r\n  opdel, flet osv.) med forløbet tid; Win64 bruger en standard-ListBox.\r\n  Se uLineIndexScan.pas og CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 da|T|Fil&ter / Grep|Fil&ter / Grep
 da|T|File changed on disk|Filen er ændret på disken
@@ -90841,6 +91316,7 @@ da|T|FindOcc.Export|Eksportér
 da|T|FindOcc.ExportHint|Eksportér samlede forekomster til en fil
 da|T|FindOcc.Go|Find
 da|T|FindOcc.GoHint|Find det næste match (samme som Ctrl+F)
+da|T|FindOcc.HideList|Skjul liste
 da|T|FindOcc.HideListHint|Skjul træfferlisten (holder Find-panelet åbent)
 da|T|FindOcc.HitLimitReached|Forekomstgrænse nået (5.000.000). Indsnævr søgeteksten, eller eksportér det, du har.
 da|T|FindOcc.HitLineFmt|Linje %d: %s
@@ -90866,6 +91342,7 @@ da|T|FindOcc.RecentMore|Vis mere
 da|T|FindOcc.RecentMoreHint|Vis de resterende seneste søgninger
 da|T|FindOcc.ResizeHint|Træk for at ændre størrelsen på forekomstlisten. Dobbeltklik skifter mellem standardhøjden og halvdelen af vinduet.
 da|T|FindOcc.SearchHint|Skriv tekst, der skal findes (samme som Ctrl+F), og tryk derefter på Enter
+da|T|FindOcc.ShowList|Vis liste
 da|T|FindOcc.ShowListHint|Vis træfferlisten
 da|T|FindOcc.Status.Collecting|Samler matches for "%s"...
 da|T|FindOcc.Status.CollectingShort|Samler matches...
@@ -91871,6 +92348,11 @@ da|T|Recent Folders|Seneste mapper
 da|T|Recent tabs.Hint|Genåbn en fane, der er brugt for nylig, eller gendan den seneste session
 da|T|RecentFiles.More|Vis flere
 da|T|RecentFiles.MoreHint|Vis de resterende seneste filer
+da|T|RecentFiles.SessionHint|Denne fil har en gemt session (markør, bogmærker, filtre). Åbn den for at gendanne.
+da|T|RecentFiles.SessionNoneHint|Ingen session gemt for denne fil endnu. Efter åbning: Session → Gem session nu (Ctrl+Alt+S).
+da|T|RecentFiles.SessionOpenHint|"%s" har en gemt session. Åbn filen for at gendanne markør, bogmærker og filtre.
+da|T|RecentFiles.SessionSaved|● Gemt
+da|T|RecentFiles.SessionTip|Sessionskolonnen: "Gemt" betyder, at markør, bogmærker og filtre kan gendannes, når du åbner filen igen.
 da|T|red: removed (left)|rød = fjernet (venstre)
 da|T|Redo|Gentag
 da|T|Redo delete on line %d? The line will be deleted again.|Gentag sletning på linje %d? Linjen slettes igen.
@@ -92129,8 +92611,6 @@ da|T|SearchCmd.WorkflowHelp|Skriv blot grep/glob, eller brug deres knapper i Fin
 da|T|SearchDock.Collapse|Fold sammen
 da|T|SearchDock.Expand|Udvid
 da|T|SearchDock.Loading|Forbereder søgeværktøjer...
-da|T|SearchDock.PickerHint|Vælg hvilket søgepanel der skal åbnes
-da|T|SearchDock.Tools|Søgeværktøjer
 da|T|Searching|Søger
 da|T|Searching...|Søger...
 da|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Sekundært mønster (samme tilstand): Regex: ^.*,%s,.*$
@@ -92169,6 +92649,9 @@ da|T|Session history|Sessionshistorik
 da|T|Session loaded.|Session indlæst.
 da|T|Session saved.|Session gemt.
 da|T|Session.AskAI|Spørg AI om denne session
+da|T|Session.LoadedDetail|Markørposition, bogmærker, filtre og visningsindstillinger blev gendannet for denne fil.
+da|T|Session.NeedFile|Åbn og læs først en fil for at gemme eller indlæse dens session.
+da|T|Session.SavedDetail|Markørposition, bogmærker, filtre og visningsindstillinger blev gemt for denne fil.
 da|T|Set how many files should be generated.|Angiv, hvor mange filer der skal oprettes.
 da|T|Short Overview|Kort oversigt
 da|T|Shortcut:|Genvej:
@@ -92392,16 +92875,24 @@ da|T|TAB|TAB
 da|T|Tab content.|Faneindhold.
 da|T|TabCtx.Close|Luk fane
 da|T|TabCtx.CloseAll|Luk alle faner
+da|T|TabCtx.CloseAllHint|Luk alle åbne faner
+da|T|TabCtx.CloseAllShort|Luk alle
+da|T|TabCtx.ClosedAll|Alle faner lukket
+da|T|TabCtx.ClosedAllDetail|Brug Session → Genåbn lukket fane eller Gendan faner fra sidste session.
 da|T|TabCtx.ClosedList|Senest lukkede faner
 da|T|TabCtx.CloseLeft|Luk faner til venstre
 da|T|TabCtx.CloseOthers|Luk alle undtagen denne fane
 da|T|TabCtx.CloseOthersActive|Luk alle undtagen den aktive fane
 da|T|TabCtx.CloseRight|Luk faner til højre
+da|T|TabCtx.ConfirmCloseAll|Lukke alle %d åbne faner?
 da|T|TabCtx.MenuButtonHint|Faneindstillinger: åbne faner, genåbn lukket fane, gem / gendan faner, luk faner (også ved at højreklikke på en fane)
 da|T|TabCtx.NoClosed|Ingen lukkede faner i denne session
+da|T|TabCtx.NoSavedTabs|Ingen gemte åbne faner blev fundet for denne session.
 da|T|TabCtx.OpenTabs|Åbne faner
 da|T|TabCtx.Reopen|Genåbn lukket fane
 da|T|TabCtx.ReopenNamed|Genåbn lukket fane: %s
+da|T|TabCtx.RestoredTabs|Faner gendannet
+da|T|TabCtx.RestoredTabsDetail|%d fane(r) fra sidste session blev gendannet.
 da|T|TabCtx.SavedOpen|Åbne faner gemt
 da|T|TabCtx.SavedOpenDetail|%d fane(r). Brug "Gendan faner fra seneste session" for at genåbne dem.
 da|T|TabCtx.SaveOpen|Gem åbne faner
@@ -92524,6 +93015,7 @@ da|T|Toolbar.AIAssistant|AI-assistent (TIL)
 da|T|Toolbar.AIAssistantHint|Vis eller skjul AI-assistentpanelet (Ctrl+Alt+A)
 da|T|Toolbar.PythonMacro|Python-makro
 da|T|Toolbar.PythonMacroHint|Åbn panelet Python-makroer for at omdanne fillinjerne med et script (Ctrl+Alt+E)
+da|T|Toolbar.RecentFiles|Seneste filer
 da|T|Tools|Værktøjer
 da|T|ToolsGallery.ClearSearch|Ryd søgning
 da|T|ToolsGallery.GroupAppearance|Udseende
@@ -94097,6 +94589,7 @@ is|T|FF_HELP.RecentFeaturesBlock5|NÝLEGIR EIGINLEIKAR (v3.0.5.250 – v3.0.5.25
 is|T|FF_HELP.RecentFeaturesBlock6|NÝLEGAR UPPFÆRSLUR (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Viðmótið hefur nú 22 tungumál, þar á meðal hindí, rússnesku, kóresku,\r\n    hollensku, tyrknesku og úkraínsku. Hindí notar uppsetningu frá vinstri til hægri.\r\n  Vinnsla jafnra hluta les minniskortlagða búta án þess að hlaða\r\n    allri skránni; skiptiflipinn helst opinn þegar henni lýkur.\r\n  Eftir lestur skrár stingur leiðsögn næstu skrefa upp á gagnlegum aðgerðum.\r\n    Opnaðu hana aftur í kjörstillingum eða slökktu á henni þar.\r\n  Orðalag breytingavalmyndar og lotusögu var staðfært.\r\n  Leiðsögnin og kjörstillingar voru endurhannaðar; leiðsögnin ræsist\r\n    án flökts og án þess að trufla lestur skrár.\r\n
 is|T|FF_HELP.RecentFeaturesBlock7|NÝJUSTU UPPFÆRSLUR (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Tælenska, gríska, norska, sænska, danska og íslenska færa\r\n    viðmótið í 28 tungumál. Öll sex lesast frá vinstri til hægri.\r\n  Næstu skref fylgja núverandi aðgerð, svo sem leit, sía,\r\n    skipting, sameining eða lestur, í stað eins fasts lista.\r\n  Hver aðgerð býður upp á fleiri framhaldsaðgerðir.\r\n  Hnappur vinstra megin við Afrita opnar leiðarvísinn aftur.\r\n
 is|T|FF_HELP.RecentFeaturesBlock8|NÝLEGA UPPFÆRSLUR (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Leiðarvísir næstu skrefa er lægri, svo skráarlistinn er áfram sýnilegur.\r\n  Lesa-tákn er í slóðarreitnum, vinstra megin við hreinsa-X.\r\n  Það notar sömu teikningu og Lesa á verkfærastikunni og hleður þeirri slóð.\r\n
+is|T|FF_HELP.RecentFeaturesBlock9|NÝLEGA UPPFÆRSLUR (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Finna, Sía og Bókamerki staflast sem harmonikka með hleðsluhulstri.\r\n  F3 / Shift+F3 blikka ekki lengur því hulstri þegar Finna er þegar opin.\r\n  Meðan leitarspjald er opið fara listaverkfæri sem passa ekki í Meira.\r\n  Staðfestingargluggar eru áfram smellanlegir í hægri-til-vinstri stillingu.\r\n  Eftir Síðasta halda Fyrsta og síðuhnappar áfram að virka; síðustaða\r\n    fylgir tungumáli viðmótsins.\r\n
 is|T|FF_HELP.Win64IndexBlock|WIN64-HÝSIL OG HRÖÐ ATRÍÐASKRÁ (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile er byggt fyrir Win32 (Delphi 7) og Win64 (Delphi 10.4.2+).\r\n  Úttak: Build\\Win32\\ eða Build\\Win64\\ við hliðina á verkefninu; Skins-\r\n  mappa afrituð fyrir hvert kerfi við byggingu.\r\n  F5 / Lesa: SWAR-skönnun línuskilja (8 bæta blokkir; 32 bæta breið slóð\r\n  þegar AVX2 er tiltækt). Skrár > 2 GB nota aðeins strjála temp_ckpt.txt.\r\n  Framvinda hleðsluyfirlagnar uppfærist mjúklega (~22 Hz) í hröðum skönnunum.\r\n  Tímamælisskrá aðgerða efst til hægri telur hverja lokna aðgerð (lesa,\r\n  skipta, sameina o.s.frv.) með liðnum tíma; Win64 notar venjulegan ListBox.\r\n  Sjá uLineIndexScan.pas og CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 is|T|Fil&ter / Grep|&Sía / grep
 is|T|File changed on disk|Skrá breyttist á diski
@@ -94302,6 +94795,7 @@ is|T|FindOcc.Export|Flytja út
 is|T|FindOcc.ExportHint|Flytja söfnuð tilvik út í skrá
 is|T|FindOcc.Go|Finna
 is|T|FindOcc.GoHint|Finna næstu samsvörun (sama og Ctrl+F)
+is|T|FindOcc.HideList|Fela lista
 is|T|FindOcc.HideListHint|Fela niðurstöðulistann (heldur Finna-spjaldinu opnu)
 is|T|FindOcc.HitLimitReached|Hámarki tilvika náð (5.000.000). Þrengdu leitartextann eða flyttu út það sem þú hefur.
 is|T|FindOcc.HitLineFmt|Lína %d: %s
@@ -94327,6 +94821,7 @@ is|T|FindOcc.RecentMore|Sýna meira
 is|T|FindOcc.RecentMoreHint|Sýna restina af nýlegum leitum
 is|T|FindOcc.ResizeHint|Dragðu til að breyta stærð tilvikalistans. Tvísmellur víxlar sjálfgefinni hæð og hálfum glugganum.
 is|T|FindOcc.SearchHint|Sláðu inn texta til að finna (sama og Ctrl+F) og ýttu svo á Enter
+is|T|FindOcc.ShowList|Sýna lista
 is|T|FindOcc.ShowListHint|Sýna niðurstöðulistann
 is|T|FindOcc.Status.Collecting|Safna samsvörunum fyrir "%s"...
 is|T|FindOcc.Status.CollectingShort|Safna samsvörunum...
@@ -95332,6 +95827,11 @@ is|T|Recent Folders|Nýlegar möppur
 is|T|Recent tabs.Hint|Opna aftur flipa sem var notaður nýlega, eða endurheimta síðustu lotu
 is|T|RecentFiles.More|Sýna meira
 is|T|RecentFiles.MoreHint|Sýna nýlegu skrárnar sem eftir eru
+is|T|RecentFiles.SessionHint|Þessi skrá hefur vistaða lotu (bendill, bókamerki, síur). Opnaðu hana til að endurheimta.
+is|T|RecentFiles.SessionNoneHint|Engin lota vistuð fyrir þessa skrá enn. Eftir opnun: Lota → Vista lotu núna (Ctrl+Alt+S).
+is|T|RecentFiles.SessionOpenHint|"%s" hefur vistaða lotu. Opnaðu skrána til að endurheimta bendil, bókamerki og síur.
+is|T|RecentFiles.SessionSaved|● Vistað
+is|T|RecentFiles.SessionTip|Lotudálkur: „Vistað“ þýðir að bendill, bókamerki og síur er hægt að endurheimta við enduropnun.
 is|T|red: removed (left)|rauður = fjarlægt (vinstri)
 is|T|Redo|Endurtaka
 is|T|Redo delete on line %d? The line will be deleted again.|Endurtaka eyðingu á línu %d? Línunni verður eytt aftur.
@@ -95590,8 +96090,6 @@ is|T|SearchCmd.WorkflowHelp|Sláðu bara inn grep/glob, eða notaðu hnappana þ
 is|T|SearchDock.Collapse|Fella saman
 is|T|SearchDock.Expand|Stækka
 is|T|SearchDock.Loading|Undirbý leitarverkfæri...
-is|T|SearchDock.PickerHint|Veldu hvaða leitarglugga á að opna
-is|T|SearchDock.Tools|Leitarverkfæri
 is|T|Searching|Leita
 is|T|Searching...|Leita...
 is|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Aukamynstur (sami hamur): Regex: ^.*,%s,.*$
@@ -95630,6 +96128,9 @@ is|T|Session history|Lotusaga
 is|T|Session loaded.|Lota hlaðin.
 is|T|Session saved.|Lota vistuð.
 is|T|Session.AskAI|Spyrja AI um þessa lotu
+is|T|Session.LoadedDetail|Staðsetning bendils, bókamerki, síur og sýnivalkostir voru endurheimt fyrir þessa skrá.
+is|T|Session.NeedFile|Opnaðu og lestu skrá fyrst til að vista eða hlaða lotunni.
+is|T|Session.SavedDetail|Staðsetning bendils, bókamerki, síur og sýnivalkostir voru vistaðir fyrir þessa skrá.
 is|T|Set how many files should be generated.|Stilltu hversu margar skrár á að búa til.
 is|T|Short Overview|Stutt yfirlit
 is|T|Shortcut:|Flýtileið:
@@ -95853,16 +96354,24 @@ is|T|TAB|TAB
 is|T|Tab content.|Efni flipa.
 is|T|TabCtx.Close|Loka flipa
 is|T|TabCtx.CloseAll|Loka öllum flipum
+is|T|TabCtx.CloseAllHint|Loka öllum opnum flipum
+is|T|TabCtx.CloseAllShort|Loka öllu
+is|T|TabCtx.ClosedAll|Öllum flipum lokað
+is|T|TabCtx.ClosedAllDetail|Notaðu Lota → Opna lokaðan flipa aftur eða Endurheimta flipa síðustu lotu.
 is|T|TabCtx.ClosedList|Nýlega lokaðir flipar
 is|T|TabCtx.CloseLeft|Loka flipum til vinstri
 is|T|TabCtx.CloseOthers|Loka öllum nema þessum flipa
 is|T|TabCtx.CloseOthersActive|Loka öllum nema virka flipanum
 is|T|TabCtx.CloseRight|Loka flipum til hægri
+is|T|TabCtx.ConfirmCloseAll|Loka öllum %d opnum flipum?
 is|T|TabCtx.MenuButtonHint|Flipavalkostir: opnir flipar, opna lokaðan flipa aftur, vista / endurheimta flipa, loka flipum (einnig með hægri smelli á flipa)
 is|T|TabCtx.NoClosed|Engir lokaðir flipar í þessari lotu
+is|T|TabCtx.NoSavedTabs|Engir vistaðir opnir flipar fundust fyrir þessa lotu.
 is|T|TabCtx.OpenTabs|Opnir flipar
 is|T|TabCtx.Reopen|Opna lokaðan flipa aftur
 is|T|TabCtx.ReopenNamed|Opna lokaðan flipa aftur: %s
+is|T|TabCtx.RestoredTabs|Flipar endurheimtir
+is|T|TabCtx.RestoredTabsDetail|%d flipi/flipar úr síðustu lotu voru endurheimtir.
 is|T|TabCtx.SavedOpen|Opnir flipar vistaðir
 is|T|TabCtx.SavedOpenDetail|%d flipar. Notaðu „Endurheimta flipa síðustu lotu“ til að opna þá aftur.
 is|T|TabCtx.SaveOpen|Vista opna flipa
@@ -95985,6 +96494,7 @@ is|T|Toolbar.AIAssistant|AI-aðstoðarmaður (KVEIKT)
 is|T|Toolbar.AIAssistantHint|Sýna eða fela AI-aðstoðarspjaldið (Ctrl+Alt+A)
 is|T|Toolbar.PythonMacro|Python-makró
 is|T|Toolbar.PythonMacroHint|Opna spjald Python-makróa til að umbreyta línum skrárinnar með skriftu (Ctrl+Alt+E)
+is|T|Toolbar.RecentFiles|Nýlegar skrár
 is|T|Tools|Verkfæri
 is|T|ToolsGallery.ClearSearch|Hreinsa leit
 is|T|ToolsGallery.GroupAppearance|Útlit
@@ -97558,6 +98068,7 @@ fi|T|FF_HELP.RecentFeaturesBlock5|UUSIMMAT OMINAISUUDET (v3.0.5.250 – v3.0.5.2
 fi|T|FF_HELP.RecentFeaturesBlock6|VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Käyttöliittymässä on nyt 22 kieltä, mukaan lukien hindi, venäjä, korea,\r\n    hollanti, turkki ja ukraina. Hindi käyttää vasemmalta oikealle etenevää asettelua.\r\n  Yhtä suurten osien käsittely lukee muistiin kartoitettuja lohkoja lataamatta\r\n    koko tiedostoa; jakovälilehti pysyy auki, kun työ valmistuu.\r\n  Tiedoston lukemisen jälkeen seuraavan vaiheen opas ehdottaa hyödyllisiä toimintoja.\r\n    Avaa se uudelleen Asetuksissa tai poista se käytöstä sieltä.\r\n  Muokkausvalikon ja istuntohistorian sanamuodot lokalisoitiin.\r\n  Opas ja Asetukset uudistettiin; opas alustuu\r\n    ilman välkkymistä tai tiedoston lukemisen keskeyttämistä.\r\n
 fi|T|FF_HELP.RecentFeaturesBlock7|VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thai, kreikka, norja, ruotsi, tanska ja islanti tuovat\r\n    käyttöliittymän 28 kieleen. Kaikki kuusi luetaan vasemmalta oikealle.\r\n  Seuraavat vaiheet seuraavat nykyistä toimintaa, kuten etsi, suodata,\r\n    jaa, yhdistä tai lue, eikä yhtä kiinteää listaa.\r\n  Jokainen toiminto tarjoaa enemmän jatkotoimia.\r\n  Kopioi-painikkeen vasemmalla oleva painike avaa seuraavan vaiheen oppaan uudelleen.\r\n
 fi|T|FF_HELP.RecentFeaturesBlock8|VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Seuraavan vaiheen opas on lyhyempi, joten tiedostolista pysyy näkyvissä.\r\n  Lue-kuvake on tiedostopolun kentässä, tyhjennys-X:n vasemmalla.\r\n  Se käyttää samaa merkkiä kuin työkalurivin Lue ja lataa kyseisen polun.\r\n
+fi|T|FF_HELP.RecentFeaturesBlock9|VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Etsi, Suodatin ja Kirjanmerkit pinoutuvat haitarina latauskannen kanssa.\r\n  F3 / Shift+F3 eivät enää vilkuta sitä kantta, kun Etsi on jo auki.\r\n  Kun hakupaneeli on auki, ylivuotavat luettelotyökalut siirtyvät kohtaan Lisää.\r\n  Vahvistusikkunat pysyvät napsautettavina oikealta vasemmalle -tilassa.\r\n  Viimeisen jälkeen Ensimmäinen ja sivupainikkeet toimivat edelleen; sivun tila\r\n    seuraa käyttöliittymän kieltä.\r\n
 fi|T|FF_HELP.Win64IndexBlock|WIN64-ISÄNTÄ JA NOPEA INDEKSOINTI (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile rakentuu Win32:lle (Delphi 7) ja Win64:lle (Delphi 10.4.2+).\r\n  Tuloste: Build\\Win32\\ tai Build\\Win64\\ projektin vieressä; Skins-\r\n  kansio kopioidaan per alusta käännöksessä.\r\n  F5 / Lue: SWAR-rivinvaihtoskannaus (8 tavun lohkot; 32 tavun leveä polku\r\n  kun AVX2 on käytettävissä). Tiedostot > 2 GB käyttävät vain harvaa temp_ckpt.txt:ää.\r\n  Latauspeitteen edistyminen päivittyy tasaisesti (~22 Hz) nopeissa skannauksissa.\r\n  Oikean yläkulman toimintojen aikaloki listaa kunkin valmistuneen toiminnon (luku,\r\n  jako, yhdistäminen jne.) kuluneella ajalla; Win64 käyttää tavallista ListBoxia.\r\n  Katso uLineIndexScan.pas ja CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 fi|T|Fil&ter / Grep|Suoda&tin / Grep
 fi|T|File changed on disk|Tiedosto muuttui levyllä
@@ -97763,6 +98274,7 @@ fi|T|FindOcc.Export|Vie
 fi|T|FindOcc.ExportHint|Vie kerätyt esiintymät tiedostoon
 fi|T|FindOcc.Go|Etsi
 fi|T|FindOcc.GoHint|Etsi seuraava osuma (sama kuin Ctrl+F)
+fi|T|FindOcc.HideList|Piilota luettelo
 fi|T|FindOcc.HideListHint|Piilota osumaluettelo (Etsi-paneeli jää auki)
 fi|T|FindOcc.HitLimitReached|Esiintymäraja saavutettu (5 000 000). Rajaa hakutekstiä tai vie jo kerätyt.
 fi|T|FindOcc.HitLineFmt|Rivi %d: %s
@@ -97788,6 +98300,7 @@ fi|T|FindOcc.RecentMore|Näytä lisää
 fi|T|FindOcc.RecentMoreHint|Näytä loput viimeisimmät haut
 fi|T|FindOcc.ResizeHint|Vedä muuttaaksesi esiintymäluettelon kokoa. Kaksoisnapsautus vaihtaa oletuskorkeuden ja puolen ikkunan välillä.
 fi|T|FindOcc.SearchHint|Kirjoita etsittävä teksti (sama kuin Ctrl+F) ja paina Enter
+fi|T|FindOcc.ShowList|Näytä luettelo
 fi|T|FindOcc.ShowListHint|Näytä osumaluettelo
 fi|T|FindOcc.Status.Collecting|Kerätään osumia haulle "%s"...
 fi|T|FindOcc.Status.CollectingShort|Kerätään osumia...
@@ -98793,6 +99306,11 @@ fi|T|Recent Folders|Viimeisimmät kansiot
 fi|T|Recent tabs.Hint|Avaa äskettäin käytetty välilehti uudelleen tai palauta viimeisin istunto
 fi|T|RecentFiles.More|Näytä lisää
 fi|T|RecentFiles.MoreHint|Näytä loput viimeisimmät tiedostot
+fi|T|RecentFiles.SessionHint|Tällä tiedostolla on tallennettu istunto (kursori, kirjanmerkit, suodattimet). Avaa se palauttaaksesi.
+fi|T|RecentFiles.SessionNoneHint|Tälle tiedostolle ei ole vielä tallennettua istuntoa. Avauksen jälkeen: Istunto → Tallenna istunto nyt (Ctrl+Alt+S).
+fi|T|RecentFiles.SessionOpenHint|Tiedostolla "%s" on tallennettu istunto. Avaa tiedosto palauttaaksesi kursorin, kirjanmerkit ja suodattimet.
+fi|T|RecentFiles.SessionSaved|● Tallennettu
+fi|T|RecentFiles.SessionTip|Istunto-sarake: "Tallennettu" tarkoittaa, että kursori, kirjanmerkit ja suodattimet voidaan palauttaa avattaessa uudelleen.
 fi|T|red: removed (left)|punainen = poistettu (vasen)
 fi|T|Redo|Tee uudelleen
 fi|T|Redo delete on line %d? The line will be deleted again.|Tehdäänkö uudelleen poisto rivillä %d? Rivi poistetaan uudelleen.
@@ -99051,8 +99569,6 @@ fi|T|SearchCmd.WorkflowHelp|Kirjoita vain grep/glob tai käytä niiden painikkei
 fi|T|SearchDock.Collapse|Kutista
 fi|T|SearchDock.Expand|Laajenna
 fi|T|SearchDock.Loading|Valmistellaan hakutyökaluja...
-fi|T|SearchDock.PickerHint|Valitse avattava hakupaneeli
-fi|T|SearchDock.Tools|Hakutyökalut
 fi|T|Searching|Etsitään
 fi|T|Searching...|Etsitään...
 fi|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Toissijainen malli (sama tila): Regex: ^.*,%s,.*$
@@ -99091,6 +99607,9 @@ fi|T|Session history|Istuntohistoria
 fi|T|Session loaded.|Istunto ladattu.
 fi|T|Session saved.|Istunto tallennettu.
 fi|T|Session.AskAI|Kysy AI:lta tästä istunnosta
+fi|T|Session.LoadedDetail|Kursorin sijainti, kirjanmerkit, suodattimet ja näkymäasetukset palautettiin tälle tiedostolle.
+fi|T|Session.NeedFile|Avaa ja lue tiedosto ensin tallentaaksesi tai ladataksesi sen istunnon.
+fi|T|Session.SavedDetail|Kursorin sijainti, kirjanmerkit, suodattimet ja näkymäasetukset tallennettiin tälle tiedostolle.
 fi|T|Set how many files should be generated.|Aseta, kuinka monta tiedostoa luodaan.
 fi|T|Short Overview|Lyhyt yleiskatsaus
 fi|T|Shortcut:|Pikanäppäin:
@@ -99314,16 +99833,24 @@ fi|T|TAB|TAB
 fi|T|Tab content.|Välilehden sisältö.
 fi|T|TabCtx.Close|Sulje välilehti
 fi|T|TabCtx.CloseAll|Sulje kaikki välilehdet
+fi|T|TabCtx.CloseAllHint|Sulje kaikki avoimet välilehdet
+fi|T|TabCtx.CloseAllShort|Sulje kaikki
+fi|T|TabCtx.ClosedAll|Kaikki välilehdet suljettu
+fi|T|TabCtx.ClosedAllDetail|Käytä Istunto → Avaa suljettu välilehti uudelleen tai Palauta viimeisimmän istunnon välilehdet.
 fi|T|TabCtx.ClosedList|Äskettäin suljetut välilehdet
 fi|T|TabCtx.CloseLeft|Sulje välilehdet vasemmalle
 fi|T|TabCtx.CloseOthers|Sulje kaikki paitsi tämä välilehti
 fi|T|TabCtx.CloseOthersActive|Sulje kaikki paitsi aktiivinen välilehti
 fi|T|TabCtx.CloseRight|Sulje välilehdet oikealle
+fi|T|TabCtx.ConfirmCloseAll|Suljetaanko kaikki %d avointa välilehteä?
 fi|T|TabCtx.MenuButtonHint|Välilehtivaihtoehdot: auki olevat välilehdet, avaa suljettu uudelleen, tallenna / palauta välilehdet, sulje välilehtiä (myös napsauttamalla välilehteä hiiren kakkospainikkeella)
 fi|T|TabCtx.NoClosed|Ei suljettuja välilehtiä tässä istunnossa
+fi|T|TabCtx.NoSavedTabs|Tälle istunnolle ei löytynyt tallennettuja avoimia välilehtiä.
 fi|T|TabCtx.OpenTabs|Avoimet välilehdet
 fi|T|TabCtx.Reopen|Avaa suljettu välilehti uudelleen
 fi|T|TabCtx.ReopenNamed|Avaa suljettu välilehti uudelleen: %s
+fi|T|TabCtx.RestoredTabs|Välilehdet palautettu
+fi|T|TabCtx.RestoredTabsDetail|%d välilehteä viimeisimmästä istunnosta palautettiin.
 fi|T|TabCtx.SavedOpen|Avoimet välilehdet tallennettu
 fi|T|TabCtx.SavedOpenDetail|%d välilehti(ä). Käytä "Palauta viimeisen istunnon välilehdet" avataksesi ne uudelleen.
 fi|T|TabCtx.SaveOpen|Tallenna avoimet välilehdet
@@ -99446,6 +99973,7 @@ fi|T|Toolbar.AIAssistant|AI-avustaja (PÄÄLLÄ)
 fi|T|Toolbar.AIAssistantHint|Näytä tai piilota AI-avustajapaneeli (Ctrl+Alt+A)
 fi|T|Toolbar.PythonMacro|Python-makro
 fi|T|Toolbar.PythonMacroHint|Avaa Python-makropaneeli muuntaaksesi tiedoston rivit skriptillä (Ctrl+Alt+E)
+fi|T|Toolbar.RecentFiles|Viimeaikaiset tiedostot
 fi|T|Tools|Työkalut
 fi|T|ToolsGallery.ClearSearch|Tyhjennä haku
 fi|T|ToolsGallery.GroupAppearance|Ulkoasu
@@ -101019,6 +101547,7 @@ vi|T|FF_HELP.RecentFeaturesBlock5|TÍNH NĂNG GẦN ĐÂY (v3.0.5.250 – v3.0.5
 vi|T|FF_HELP.RecentFeaturesBlock6|CẬP NHẬT GẦN ĐÂY (v3.0.5.255 – v3.0.5.261)\r\n---------------------------------------------------------------\r\n  Giao diện hiện có 22 ngôn ngữ, gồm Hindi, Nga, Hàn,\r\n    Hà Lan, Thổ Nhĩ Kỳ và Ukraina. Hindi dùng bố cục trái-sang-phải.\r\n  Xử lý phần bằng nhau đọc các khối ánh xạ bộ nhớ mà không tải\r\n    toàn bộ tệp; tab tách vẫn mở khi hoàn tất.\r\n  Sau khi đọc tệp, hướng dẫn bước tiếp theo gợi ý các hành động hữu ích.\r\n    Mở lại trong Tùy chọn hoặc tắt tại đó.\r\n  Menu ngữ cảnh chỉnh sửa và cách diễn đạt lịch sử phiên đã được địa phương hóa.\r\n  Hướng dẫn và Tùy chọn được thiết kế lại; hướng dẫn khởi tạo\r\n    không nhấp nháy và không làm gián đoạn việc đọc tệp.\r\n
 vi|T|FF_HELP.RecentFeaturesBlock7|CẬP NHẬT GẦN ĐÂY (v3.0.5.262 – v3.0.5.265)\r\n---------------------------------------------------------------\r\n  Thái, Hy Lạp, Na Uy, Thụy Điển, Đan Mạch và Iceland đưa\r\n    giao diện lên 28 ngôn ngữ. Cả sáu đều đọc trái sang phải.\r\n  Bước tiếp theo theo hoạt động hiện tại, như tìm, lọc,\r\n    tách, gộp hoặc đọc, thay vì một danh sách cố định.\r\n  Mỗi hoạt động cung cấp thêm hành động tiếp theo.\r\n  Một nút bên trái Sao chép mở lại hướng dẫn bước tiếp theo.\r\n
 vi|T|FF_HELP.RecentFeaturesBlock8|CẬP NHẬT GẦN ĐÂY (v3.0.5.266 – v3.0.5.268)\r\n---------------------------------------------------------------\r\n  Hướng dẫn bước tiếp theo ngắn hơn, nên danh sách tệp vẫn hiện.\r\n  Biểu tượng Đọc nằm trong trường đường dẫn tệp, bên trái dấu X xóa sạch.\r\n  Nó dùng cùng hình với Đọc trên thanh công cụ và tải đường dẫn đó.\r\n
+vi|T|FF_HELP.RecentFeaturesBlock9|CẬP NHẬT GẦN ĐÂY (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Tìm, Bộ lọc và Dấu trang xếp chồng dạng accordion với lớp phủ đang tải.\r\n  F3 / Shift+F3 không còn nháy lớp phủ đó khi Tìm đã mở.\r\n  Khi bảng tìm kiếm đang mở, công cụ danh sách thừa chuyển vào Thêm.\r\n  Hộp thoại xác nhận vẫn bấm được ở chế độ phải sang trái.\r\n  Sau Cuối, các nút Đầu và trang vẫn hoạt động; trạng thái trang\r\n    theo ngôn ngữ giao diện.\r\n
 vi|T|FF_HELP.Win64IndexBlock|HOST WIN64 & LẬP CHỈ MỤC NHANH (v3.0.3+)\r\n---------------------------------------------------------------\r\n  FastFile biên dịch cho Win32 (Delphi 7) và Win64 (Delphi 10.4.2+).\r\n  Đầu ra: Build\\Win32\\ hoặc Build\\Win64\\ cạnh dự án; thư mục Skins\r\n  được sao chép theo nền tảng khi biên dịch.\r\n  F5 / Đọc: quét line-feed SWAR (khối 8 byte; đường rộng 32 byte\r\n  khi có AVX2). Tệp > 2 GB chỉ dùng temp_ckpt.txt thưa.\r\n  Tiến trình lớp phủ tải cập nhật mượt (~22 Hz) khi quét nhanh.\r\n  Nhật ký bộ đếm thời gian thao tác góc trên phải liệt kê mỗi hành động xong (đọc,\r\n  tách, gộp, v.v.) kèm thời gian; Win64 dùng ListBox chuẩn.\r\n  Xem uLineIndexScan.pas và CHANGELOG_IMPLEMENTACOES.md (3.0.3.x).
 vi|T|Fil&ter / Grep|Lọ&c / Grep
 vi|T|File changed on disk|Tệp đã thay đổi trên đĩa
@@ -101224,6 +101753,7 @@ vi|T|FindOcc.Export|Xuất
 vi|T|FindOcc.ExportHint|Xuất các lần xuất hiện đã thu thập ra tệp
 vi|T|FindOcc.Go|Tìm
 vi|T|FindOcc.GoHint|Tìm khớp tiếp theo (giống Ctrl+F)
+vi|T|FindOcc.HideList|Ẩn danh sách
 vi|T|FindOcc.HideListHint|Ẩn danh sách kết quả (giữ bảng Tìm mở)
 vi|T|FindOcc.HitLimitReached|Đã đạt giới hạn lần xuất hiện (5.000.000). Thu hẹp văn bản tìm hoặc xuất những gì bạn có.
 vi|T|FindOcc.HitLineFmt|Dòng %d: %s
@@ -101249,6 +101779,7 @@ vi|T|FindOcc.RecentMore|Hiện thêm
 vi|T|FindOcc.RecentMoreHint|Hiện các tìm kiếm gần đây còn lại
 vi|T|FindOcc.ResizeHint|Kéo để đổi kích thước danh sách lần xuất hiện. Nhấp đúp chuyển giữa chiều cao mặc định và nửa cửa sổ.
 vi|T|FindOcc.SearchHint|Gõ văn bản để tìm (giống Ctrl+F), rồi Enter
+vi|T|FindOcc.ShowList|Hiện danh sách
 vi|T|FindOcc.ShowListHint|Hiện danh sách kết quả
 vi|T|FindOcc.Status.Collecting|Đang thu thập khớp cho "%s"...
 vi|T|FindOcc.Status.CollectingShort|Đang thu thập khớp...
@@ -102254,6 +102785,11 @@ vi|T|Recent Folders|Thư mục gần đây
 vi|T|Recent tabs.Hint|Mở lại thẻ dùng gần đây, hoặc khôi phục phiên cuối
 vi|T|RecentFiles.More|Hiện thêm
 vi|T|RecentFiles.MoreHint|Hiện các tệp gần đây còn lại
+vi|T|RecentFiles.SessionHint|Tệp này có phiên đã lưu (con trỏ, dấu trang, bộ lọc). Mở để khôi phục.
+vi|T|RecentFiles.SessionNoneHint|Chưa có phiên đã lưu cho tệp này. Sau khi mở, dùng Session → Save session now (Ctrl+Alt+S).
+vi|T|RecentFiles.SessionOpenHint|"%s" có phiên đã lưu. Mở tệp để khôi phục con trỏ, dấu trang và bộ lọc.
+vi|T|RecentFiles.SessionSaved|● Đã lưu
+vi|T|RecentFiles.SessionTip|Cột Session: "Đã lưu" nghĩa là có thể khôi phục con trỏ, dấu trang và bộ lọc khi mở lại tệp.
 vi|T|red: removed (left)|đỏ = đã gỡ (trái)
 vi|T|Redo|Làm lại
 vi|T|Redo delete on line %d? The line will be deleted again.|Làm lại xóa trên dòng %d? Dòng sẽ bị xóa lại.
@@ -102512,8 +103048,6 @@ vi|T|SearchCmd.WorkflowHelp|Chỉ gõ grep/glob, hoặc dùng nút tương ứng
 vi|T|SearchDock.Collapse|Thu gọn
 vi|T|SearchDock.Expand|Mở rộng
 vi|T|SearchDock.Loading|Đang chuẩn bị công cụ tìm kiếm...
-vi|T|SearchDock.PickerHint|Chọn bảng tìm kiếm cần mở
-vi|T|SearchDock.Tools|Công cụ tìm kiếm
 vi|T|Searching|Đang tìm
 vi|T|Searching...|Đang tìm...
 vi|T|Secondary pattern (same mode): Regex: ^.*,%s,.*$|Mẫu phụ (cùng chế độ): Regex: ^.*,%s,.*$
@@ -102552,6 +103086,9 @@ vi|T|Session history|Lịch sử phiên
 vi|T|Session loaded.|Đã tải phiên.
 vi|T|Session saved.|Đã lưu phiên.
 vi|T|Session.AskAI|Hỏi AI về phiên này
+vi|T|Session.LoadedDetail|Vị trí con trỏ, dấu trang, bộ lọc và tùy chọn xem đã được khôi phục cho tệp này.
+vi|T|Session.NeedFile|Hãy mở và đọc một tệp trước để lưu hoặc tải phiên của nó.
+vi|T|Session.SavedDetail|Vị trí con trỏ, dấu trang, bộ lọc và tùy chọn xem đã được lưu cho tệp này.
 vi|T|Set how many files should be generated.|Đặt số tệp cần tạo.
 vi|T|Short Overview|Tổng quan ngắn
 vi|T|Shortcut:|Phím tắt:
@@ -102775,16 +103312,24 @@ vi|T|TAB|TAB
 vi|T|Tab content.|Nội dung tab.
 vi|T|TabCtx.Close|Đóng tab
 vi|T|TabCtx.CloseAll|Đóng tất cả tab
+vi|T|TabCtx.CloseAllHint|Đóng tất cả các tab đang mở
+vi|T|TabCtx.CloseAllShort|Đóng tất cả
+vi|T|TabCtx.ClosedAll|Đã đóng tất cả các tab
+vi|T|TabCtx.ClosedAllDetail|Dùng Session → Reopen closed tab hoặc Restore last session tabs để lấy lại.
 vi|T|TabCtx.ClosedList|Các tab đóng gần đây
 vi|T|TabCtx.CloseLeft|Đóng các tab bên trái
 vi|T|TabCtx.CloseOthers|Đóng tất cả trừ tab này
 vi|T|TabCtx.CloseOthersActive|Đóng tất cả trừ tab đang hoạt động
 vi|T|TabCtx.CloseRight|Đóng các tab bên phải
+vi|T|TabCtx.ConfirmCloseAll|Đóng tất cả %d tab đang mở?
 vi|T|TabCtx.MenuButtonHint|Tùy chọn tab: mở tab, mở lại tab đã đóng, lưu / khôi phục tab, đóng tab (cũng bằng nhấp phải vào tab)
 vi|T|TabCtx.NoClosed|Không có tab đã đóng trong phiên này
+vi|T|TabCtx.NoSavedTabs|Không tìm thấy tab đang mở đã lưu cho phiên này.
 vi|T|TabCtx.OpenTabs|Mở các tab
 vi|T|TabCtx.Reopen|Mở lại tab đã đóng
 vi|T|TabCtx.ReopenNamed|Mở lại tab đã đóng: %s
+vi|T|TabCtx.RestoredTabs|Đã khôi phục tab
+vi|T|TabCtx.RestoredTabsDetail|Đã khôi phục %d tab từ phiên trước.
 vi|T|TabCtx.SavedOpen|Đã lưu các tab đang mở
 vi|T|TabCtx.SavedOpenDetail|%d tab. Dùng "Khôi phục tab phiên trước" để mở lại.
 vi|T|TabCtx.SaveOpen|Lưu các tab đang mở
@@ -102907,6 +103452,7 @@ vi|T|Toolbar.AIAssistant|Trợ lý AI (BẬT)
 vi|T|Toolbar.AIAssistantHint|Hiện hoặc ẩn bảng Trợ lý AI (Ctrl+Alt+A)
 vi|T|Toolbar.PythonMacro|Macro Python
 vi|T|Toolbar.PythonMacroHint|Mở bảng macro Python để biến đổi các dòng tệp bằng script (Ctrl+Alt+E)
+vi|T|Toolbar.RecentFiles|Tệp gần đây
 vi|T|Tools|Công cụ
 vi|T|ToolsGallery.ClearSearch|Xóa sạch tìm kiếm
 vi|T|ToolsGallery.GroupAppearance|Giao diện

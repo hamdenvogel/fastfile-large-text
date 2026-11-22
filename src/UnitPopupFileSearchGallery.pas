@@ -62,6 +62,7 @@ var
 implementation
 
 uses
+  UnConsts,
   uI18n, uBidiLayout;
 
 const
@@ -81,10 +82,10 @@ const
 
 function GalleryUIFontName: string;
 begin
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    Result := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    Result := FONT_SEGOE_UI
   else
-    Result := 'Tahoma';
+    Result := FONT_TAHOMA;
 end;
 
 procedure PaintSoftBlueGradient(ACanvas: TCanvas; const R: TRect; ASelected: Boolean);

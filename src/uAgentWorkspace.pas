@@ -350,6 +350,7 @@ type
 implementation
 
 uses
+  UnConsts,
   Types, Dialogs, Math, ShellAPI, Generics.Collections, Clipbrd,
   StrUtils, uI18n, uAgentLoop, uFastFileMsgDlg, uLineDiffCore, uFastFilePaths, uSearchCommands,
   uCompareMergeUI, uMergeApply, UnitPopupMruList, uMruFind, uAgentActions, uFastFileAssistantHost,
@@ -623,7 +624,7 @@ var
     Result.BevelOuter := bvNone;
     Result.ParentBackground := True;
     Result.ParentFont := False;
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 9;
     Result.Font.Style := [];
     Result.AlignWithMargins := True;
@@ -659,7 +660,7 @@ var
     Result.ScrollBars := ssVertical;
     Result.WordWrap := AWrap;
     Result.WantReturns := True;
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 10;
     Result.Align := alClient;
   end;
@@ -669,7 +670,7 @@ var
     Result := TsListBox.Create(Self);
     Result.Parent := AParent;
     Result.IntegralHeight := False;
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 9;
   end;
 
@@ -716,7 +717,7 @@ var
     Result.ParentShowHint := False;
     Result.Cursor := crHandPoint;
     Result.ParentFont := False;
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 8;
     Result.Font.Style := [fsBold];
     Result.Spacing := 6;
@@ -780,7 +781,7 @@ var
   end;
 
 begin
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   DoubleBuffered := True;
 
@@ -799,7 +800,7 @@ begin
   lblGuide.WordWrap := True;
   lblGuide.Margins.SetBounds(Dpi(44), Dpi(7), Dpi(14), Dpi(7));
   lblGuide.ParentFont := False;
-  lblGuide.Font.Name := 'Segoe UI';
+  lblGuide.Font.Name := FONT_SEGOE_UI;
   lblGuide.Font.Size := 10;
   lblGuide.Font.Color := GUIDE_TEXT;
 
@@ -870,7 +871,7 @@ begin
   end
   else
   begin
-    lblFindGlyph.Font.Name := 'Segoe UI Symbol';
+    lblFindGlyph.Font.Name := FONT_SEGOE_UI_SYMBOL;
     lblFindGlyph.Font.Size := 9;
     lblFindGlyph.Caption := #$2315;
   end;
@@ -884,7 +885,7 @@ begin
   btnRootFindClear.Layout := tlCenter;
   btnRootFindClear.Transparent := True;
   btnRootFindClear.ParentFont := False;
-  btnRootFindClear.Font.Name := 'Segoe UI';
+  btnRootFindClear.Font.Name := FONT_SEGOE_UI;
   btnRootFindClear.Font.Size := 11;
   btnRootFindClear.Font.Color := clGrayText;
   btnRootFindClear.Caption := #$00D7;
@@ -900,7 +901,7 @@ begin
   edtRootFind.ParentColor := False;
   edtRootFind.Color := clWindow;
   edtRootFind.ParentFont := False;
-  edtRootFind.Font.Name := 'Segoe UI';
+  edtRootFind.Font.Name := FONT_SEGOE_UI;
   edtRootFind.Font.Size := 9;
   edtRootFind.OnChange := RootFindChange;
   edtRootFind.OnEnter := RootFindFocusChange;
@@ -919,7 +920,7 @@ begin
   lblRootCount.Alignment := taRightJustify;
   lblRootCount.Transparent := True;
   lblRootCount.ParentFont := False;
-  lblRootCount.Font.Name := 'Segoe UI';
+  lblRootCount.Font.Name := FONT_SEGOE_UI;
   lblRootCount.Font.Size := 8;
   lblRootCount.Font.Color := clGrayText;
   lblRootCount.Align := alClient;
@@ -930,7 +931,7 @@ begin
   lblOptLink.Layout := tlCenter;
   lblOptLink.Transparent := True;
   lblOptLink.ParentFont := False;
-  lblOptLink.Font.Name := 'Segoe UI';
+  lblOptLink.Font.Name := FONT_SEGOE_UI;
   lblOptLink.Font.Size := 8;
   lblOptLink.Font.Color := $00D77800;
   lblOptLink.Font.Style := [fsUnderline];
@@ -1097,11 +1098,11 @@ begin
   pbExpire := TPaintBox.Create(Self);
   pbExpire.Parent := pnlActions;
   pbExpire.ParentFont := False;
-  if Screen.Fonts.IndexOf('Segoe UI Semibold') >= 0 then
-    pbExpire.Font.Name := 'Segoe UI Semibold'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI_SEMIBOLD) >= 0 then
+    pbExpire.Font.Name := FONT_SEGOE_UI_SEMIBOLD
   else
   begin
-    pbExpire.Font.Name := 'Segoe UI';
+    pbExpire.Font.Name := FONT_SEGOE_UI;
     pbExpire.Font.Style := [fsBold];
   end;
   pbExpire.Font.Size := 9;
@@ -1126,7 +1127,7 @@ begin
   lblEditsNote.OnClick := FullTextClick;
   lblEditsNote.Layout := tlCenter;
   lblEditsNote.ParentFont := False;
-  lblEditsNote.Font.Name := 'Segoe UI';
+  lblEditsNote.Font.Name := FONT_SEGOE_UI;
   lblEditsNote.Font.Size := 9;
   lblEditsNote.Font.Color := $00707070;
   lblEditsNote.AlignWithMargins := True;
@@ -1160,7 +1161,7 @@ begin
   lstPreview.IntegralHeight := False;
   lstPreview.TabStop := False;
   lstPreview.ParentFont := False;
-  lstPreview.Font.Name := 'Consolas';
+  lstPreview.Font.Name := FONT_CONSOLAS;
   lstPreview.Font.Size := 10;
   lstPreview.Color := clWhite;
   lstPreview.DoubleBuffered := True;
@@ -3341,6 +3342,8 @@ var
 begin
   Result := False;
   if (AWheelDelta = 0) or not HandleAllocated or not IsWindowVisible(Handle) then Exit;
+  { Ctrl+wheel zooms this tab only (MainUnit ScaleBy); plain wheel scrolls. }
+  if (GetKeyState(VK_CONTROL) and $8000) <> 0 then Exit;
   C := FindVCLWindow(AScreenPt);
   while Assigned(C) and (C <> Self) and
         not (C.HandleAllocated and ((GetWindowLong(C.Handle, GWL_STYLE) and WS_VSCROLL) <> 0)) do
@@ -4257,7 +4260,7 @@ begin
       C.Font.Assign(AList.Font);
       if Kind = PV_HEAD then
       begin
-        C.Font.Name := 'Segoe UI';
+        C.Font.Name := FONT_SEGOE_UI;
         C.Font.Style := [fsBold];
       end;
       if Kind in [PV_HEAD, PV_INFO] then
@@ -4345,7 +4348,7 @@ begin
     C.Brush.Style := bsClear;
     if Kind = PV_HEAD then
     begin
-      C.Font.Name := 'Segoe UI';
+      C.Font.Name := FONT_SEGOE_UI;
       C.Font.Style := [fsBold];
       C.Font.Color := $00703C1E;
     end
@@ -4430,7 +4433,7 @@ begin
     F.BorderIcons := [biSystemMenu, biMaximize];
     F.Width := Screen.WorkAreaWidth * 3 div 4;
     F.Height := Screen.WorkAreaHeight * 2 div 3;
-    F.Font.Name := 'Segoe UI';
+    F.Font.Name := FONT_SEGOE_UI;
     F.Font.Size := 9;
 
     Bar := TsPanel.Create(F);
@@ -4457,7 +4460,7 @@ begin
     L.IntegralHeight := False;
     L.TabStop := False;
     L.ParentFont := False;
-    L.Font.Name := 'Consolas';
+    L.Font.Name := FONT_CONSOLAS;
     L.Font.Size := 11;
     L.Color := clWhite;
     L.DoubleBuffered := True;
@@ -4511,7 +4514,7 @@ begin
     F.BorderIcons := [biSystemMenu, biMaximize];
     F.Width := Min(Dpi(640), Screen.WorkAreaWidth - Dpi(40));
     F.Height := Min(Dpi(360), Screen.WorkAreaHeight - Dpi(40));
-    F.Font.Name := 'Segoe UI';
+    F.Font.Name := FONT_SEGOE_UI;
     F.Font.Size := 9;
     Bar := TsPanel.Create(F);
     Bar.Parent := F;
@@ -4531,7 +4534,7 @@ begin
     M.ReadOnly := True;
     M.WordWrap := True;
     M.ScrollBars := ssVertical;
-    M.Font.Name := 'Segoe UI';
+    M.Font.Name := FONT_SEGOE_UI;
     M.Font.Size := 10;
     M.Text := MemoText(AText);
     if F.ShowModal = mrOk then
@@ -5384,10 +5387,11 @@ class function TfrmAgentWorkspace.ExecuteEmbedded(AOwner: TComponent; AHost: TWi
 begin
   { CreateNew skips the DFM resource. This form is built in code. }
   Result := TfrmAgentWorkspace.CreateNew(AOwner);
-  { Parent/BorderStyle BEFORE BuildUi — otherwise the first child Parent:=Self
-    allocates a top-level HWND that later paints through Ler Arquivo. }
-  Result.BorderStyle := bsNone;
+  { CreateNew defaults Visible=True. Hide BEFORE BorderStyle/Parent so the first
+    HWND is never a top-level window (that flashed ~fullscreen for ~1s). }
   Result.Visible := False;
+  Result.Position := poDesigned;
+  Result.BorderStyle := bsNone;
   if AHost <> nil then
   begin
     Result.Parent := AHost;

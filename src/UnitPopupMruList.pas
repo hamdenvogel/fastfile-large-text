@@ -6,6 +6,7 @@ unit UnitPopupMruList;
 interface
 
 uses
+  UnConsts,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, StdCtrls,
   Buttons, sSpeedButton, sPanel, sBevel, sLabel, sEdit, ExtCtrls,
   sSkinProvider, acAlphaImageList, System.ImageList, Vcl.ImgList;
@@ -336,12 +337,12 @@ end;
 
 function TFormPopupMruList.UiFontName: string;
 begin
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    Result := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    Result := FONT_SEGOE_UI
   else if Assigned(Application.MainForm) and (Trim(Application.MainForm.Font.Name) <> '') then
     Result := Application.MainForm.Font.Name
   else
-    Result := 'Tahoma';
+    Result := FONT_TAHOMA;
 end;
 
 function TFormPopupMruList.ScaledPx(ADesignPx: Integer): Integer;

@@ -4766,7 +4766,7 @@ begin
     Exit;
   { Estilo link: este TBitBtn (Delphi 7) n�o publica Color/Ctl3D/Flat � s� tipografia. }
   btnCancel.ParentFont := False;
-  btnCancel.Font.Name := 'Segoe UI Semibold';
+  btnCancel.Font.Name := FONT_SEGOE_UI_SEMIBOLD;
   btnCancel.Font.Height := -13;
   btnCancel.Font.Style := [];
   btnCancel.Invalidate;
@@ -4779,7 +4779,7 @@ begin
   lblDetail.ParentFont := False;
   lblDetail.ParentColor := False;
   lblDetail.Color := pnlContainer.Color;
-  lblDetail.Font.Name := 'Segoe UI';
+  lblDetail.Font.Name := FONT_SEGOE_UI;
   lblDetail.Font.Height := -11;
   lblDetail.Font.Style := [];
   { Legivel no painel azul-escuro (evita preto apos ApplyTranslationsToForm). }

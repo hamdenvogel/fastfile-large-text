@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "2": "Version is the same word in this Swedish product title.",
     "28": "A single hyphen has no translatable text.",
@@ -3537,8 +3537,25 @@
     "3465": "Exportera alla träffar (%d)...",
     "3464": "Kopiera den här sidan (%d träffar)",
     "3463": "Kopiera alla träffar (%d)",
-    "3468": "Sökverktyg",
-    "3467": "Välj vilken sökpanel som ska öppnas",
-    "3469": "SENASTE UPPDATERINGAR (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Sök, Filter och Bokmärken staplas som ett dragspel med ett laddningsöverdrag.\r\n  F3 / Shift+F3 blinkar inte längre det överdraget när Sök redan är öppen.\r\n  När en sökpanel är öppen går överskridande listverktyg till Mer.\r\n  Bekräftelsedialoger förblir klickbara i höger-till-vänster-läge.\r\n  Efter Sista fortsätter Första och sidknapparna att fungera; sidstatusen\r\n    följer gränssnittsspråket.\r\n"
+    "3468": "Dölj lista",
+    "3467": "SENASTE UPPDATERINGAR (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Sök, Filter och Bokmärken staplas som ett dragspel med ett laddningsöverdrag.\r\n  F3 / Shift+F3 blinkar inte längre det överdraget när Sök redan är öppen.\r\n  När en sökpanel är öppen går överskridande listverktyg till Mer.\r\n  Bekräftelsedialoger förblir klickbara i höger-till-vänster-läge.\r\n  Efter Sista fortsätter Första och sidknapparna att fungera; sidstatusen\r\n    följer gränssnittsspråket.\r\n",
+    "3469": "Visa lista",
+    "3470": "Den här filen har en sparad session (markör, bokmärken, filter). Öppna den för att återställa.",
+    "3471": "Ingen session sparad för den här filen ännu. Efter öppning: Session → Spara session nu (Ctrl+Alt+S).",
+    "3472": "\"%s\" har en sparad session. Öppna filen för att återställa markör, bokmärken och filter.",
+    "3473": "● Sparad",
+    "3474": "Sessionskolumnen: \"Sparad\" betyder att markör, bokmärken och filter kan återställas när du öppnar filen igen.",
+    "3475": "Markörposition, bokmärken, filter och visningsalternativ återställdes för den här filen.",
+    "3476": "Öppna och läs en fil först för att spara eller läsa in dess session.",
+    "3477": "Markörposition, bokmärken, filter och visningsalternativ sparades för den här filen.",
+    "3478": "Stäng alla öppna flikar",
+    "3479": "Stäng alla",
+    "3480": "Alla flikar stängda",
+    "3481": "Använd Session → Öppna stängd flik igen eller Återställ flikar från senaste sessionen.",
+    "3482": "Stänga alla %d öppna flikar?",
+    "3483": "Inga sparade öppna flikar hittades för den här sessionen.",
+    "3484": "Flikar återställda",
+    "3485": "%d flik(ar) från senaste sessionen återställdes.",
+    "3486": "Senaste filer"
   }
 }

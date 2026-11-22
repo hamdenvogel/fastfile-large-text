@@ -3567,6 +3567,8 @@ object frmMain: TfrmMain
             ItemHeight = 13
             ParentFont = False
             TabOrder = 0
+            ExplicitLeft = 4
+            ExplicitTop = -5
           end
         end
       end

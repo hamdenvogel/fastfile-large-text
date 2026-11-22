@@ -199,10 +199,10 @@ end;
 
 function UiFontName: string;
 begin
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    Result := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    Result := FONT_SEGOE_UI
   else
-    Result := 'Tahoma';
+    Result := FONT_TAHOMA;
 end;
 
 function SysImages: HIMAGELIST;

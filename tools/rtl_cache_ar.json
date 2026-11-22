@@ -3340,5 +3340,21 @@
   "Open the dropdown for the last 20 searches.": "افتح القائمة المنسدلة لآخر 20 عملية بحث.",
   "Show the remaining recent searches": "إظهار عمليات البحث الحديثة المتبقية",
   "AI Assistant (ON)": "مساعد الذكاء الاصطناعي (تشغيل)",
-  "Show or hide the AI Assistant panel ({1})": "إظهار أو إخفاء لوحة مساعد الذكاء الاصطناعي ({1})"
+  "Show or hide the AI Assistant panel ({1})": "إظهار أو إخفاء لوحة مساعد الذكاء الاصطناعي ({1})",
+  "Close all": "إغلاق الكل",
+  "Close all open tabs": "إغلاق جميع علامات التبويب المفتوحة",
+  "Close all %d open tabs?": "إغلاق جميع علامات التبويب المفتوحة البالغ عددها %d؟",
+  "All tabs closed": "تم إغلاق جميع علامات التبويب",
+  "Use Session → Reopen closed tab or Restore last session tabs to bring them back.": "استخدم الجلسة → إعادة فتح علامة التبويب المغلقة أو استعادة علامات تبويب آخر جلسة لاستعادتها.",
+  "Tabs restored": "تمت استعادة علامات التبويب",
+  "%d tab(s) from the last session were restored.": "تمت استعادة %d علامة/علامات تبويب من الجلسة الأخيرة.",
+  "No saved open tabs were found for this session.": "لم يتم العثور على علامات تبويب مفتوحة محفوظة لهذه الجلسة.",
+  "Open and read a file first to save or load its session.": "افتح ملفًا واقرأه أولاً لحفظ جلسته أو تحميلها.",
+  "Cursor position, bookmarks, filters and view options were saved for this file.": "تم حفظ موضع المؤشر والإشارات المرجعية والمرشحات وخيارات العرض لهذا الملف.",
+  "Cursor position, bookmarks, filters and view options were restored for this file.": "تمت استعادة موضع المؤشر والإشارات المرجعية والمرشحات وخيارات العرض لهذا الملف.",
+  "● Saved": "● محفوظة",
+  "Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file.": "عمود الجلسة: «محفوظة» تعني أنه يمكن استعادة المؤشر والإشارات المرجعية والمرشحات عند إعادة فتح الملف.",
+  "This file has a saved session (cursor, bookmarks, filters). Open it to restore.": "لهذا الملف جلسة محفوظة (المؤشر، الإشارات المرجعية، المرشحات). افتحه للاستعادة.",
+  "\"%s\" has a saved session. Open the file to restore cursor, bookmarks and filters.": "لـ «%s» جلسة محفوظة. افتح الملف لاستعادة المؤشر والإشارات المرجعية والمرشحات.",
+  "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).": "لا توجد جلسة محفوظة لهذا الملف بعد. بعد فتحه استخدم الجلسة → حفظ الجلسة الآن (Ctrl+Alt+S)."
 }

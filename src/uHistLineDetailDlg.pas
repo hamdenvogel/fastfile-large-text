@@ -34,6 +34,7 @@ procedure ShowHistLineDetailDialog(AOwner: TComponent; const ASourceFile: string
 implementation
 
 uses
+  UnConsts,
   Windows, Messages, SysUtils, Types, Controls, Forms, StdCtrls, ExtCtrls, ComCtrls,
   Graphics, Menus, Dialogs, Math, ClipBrd, uI18n, uFastFileScale, uFastFileMsgDlg, uExportDoneDlg,
   uBidiLayout;
@@ -314,7 +315,7 @@ begin
   BorderIcons := [biSystemMenu, biMaximize];
   Position := poDesigned;
   KeyPreview := True;
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   FfPrepareDialog(Self, 1000, 660);
   Constraints.MinWidth := S(680);
@@ -338,7 +339,7 @@ begin
   LbEvents.Parent := PnlHead;
   LbEvents.MultiSelect := True;
   LbEvents.ExtendedSelect := True;
-  LbEvents.Font.Name := 'Consolas';
+  LbEvents.Font.Name := FONT_CONSOLAS;
   LbEvents.Font.Size := 9;
   LbEvents.Hint := TrText('HistDetail.EventsHint');
   LbEvents.ShowHint := True;
@@ -407,7 +408,7 @@ begin
   MemoBefore.Parent := PnlLines;
   MemoBefore.ReadOnly := True;
   MemoBefore.HideSelection := False;
-  MemoBefore.Font.Name := 'Consolas';
+  MemoBefore.Font.Name := FONT_CONSOLAS;
   MemoBefore.Font.Size := 10;
   MemoBefore.Color := $00F0F0FF;
   LblAfter := NewLabel(PnlLines, '');
@@ -417,7 +418,7 @@ begin
   MemoAfter.Parent := PnlLines;
   MemoAfter.ReadOnly := True;
   MemoAfter.HideSelection := False;
-  MemoAfter.Font.Name := 'Consolas';
+  MemoAfter.Font.Name := FONT_CONSOLAS;
   MemoAfter.Font.Size := 10;
   MemoAfter.Color := $00EEF8EE;
 
@@ -464,7 +465,7 @@ begin
   LvFields.RowSelect := True;
   LvFields.MultiSelect := True;
   LvFields.HideSelection := False;
-  LvFields.Font.Name := 'Consolas';
+  LvFields.Font.Name := FONT_CONSOLAS;
   LvFields.Font.Size := 9;
   LvFields.OnCustomDrawItem := FieldsCustomDrawItem;
   LvFields.OnResize := FieldsResized;
@@ -491,7 +492,7 @@ begin
   MemoSummary.ReadOnly := True;
   MemoSummary.ScrollBars := ssBoth;
   MemoSummary.WordWrap := False;
-  MemoSummary.Font.Name := 'Consolas';
+  MemoSummary.Font.Name := FONT_CONSOLAS;
   MemoSummary.Font.Size := 9;
 
   { raw file content stays left-to-right }

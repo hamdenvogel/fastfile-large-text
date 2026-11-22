@@ -1708,10 +1708,10 @@ begin
       Btn.OnClick := JrnToolClick;
       Btn.ShowHint := True;
       Btn.ParentFont := False;
-      if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-        Btn.Font.Name := 'Segoe UI'
+      if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+        Btn.Font.Name := FONT_SEGOE_UI
       else
-        Btn.Font.Name := 'Tahoma';
+        Btn.Font.Name := FONT_TAHOMA;
       Btn.Font.Size := 8;
     end;
     CreateHistDateRow(FpnJrnTools, FdeJrnFrom, FdeJrnTo, FlblJrnFrom, FlblJrnTo,
@@ -2036,7 +2036,7 @@ begin
   FbtnChangedClear := TButton.Create(Self);
   FbtnChangedClear.Parent := TabSheetHistory;
   FbtnChangedClear.Name := 'btnChangedClear';
-  FbtnChangedClear.Font.Name := 'Segoe UI Symbol';
+  FbtnChangedClear.Font.Name := FONT_SEGOE_UI_SYMBOL;
   FbtnChangedClear.Caption := #$D83D#$DDD1;
   FbtnChangedClear.OnClick := btnChangedClearClick;
   FbtnChangedClear.ShowHint := True;
@@ -4313,15 +4313,15 @@ begin
   FlbChangedLines.Parent := TabSheetHistory;
   { Virtual: so' a contagem; o texto e' montado no desenho a partir do indice. }
   FlbChangedLines.Style := lbVirtualOwnerDraw;
-  FlbChangedLines.Font.Name := 'Consolas';
-  if FlbChangedLines.Font.Name <> 'Consolas' then
+  FlbChangedLines.Font.Name := FONT_CONSOLAS;
+  if FlbChangedLines.Font.Name <> FONT_CONSOLAS then
     FlbChangedLines.Font.Name := 'Courier New';
   FlbChangedLines.Font.Size := 9;
   Bmp := TBitmap.Create;
   try
     Bmp.Canvas.Font.Assign(FlbChangedLines.Font);
     th := Bmp.Canvas.TextHeight('Ag');
-    Bmp.Canvas.Font.Name := 'Segoe UI';
+    Bmp.Canvas.Font.Name := FONT_SEGOE_UI;
     Bmp.Canvas.Font.Size := 8;
     FChgWhenH := Bmp.Canvas.TextHeight('Ag');
   finally
@@ -4348,7 +4348,7 @@ begin
   for B in TArray<TButton>.Create(FbtnChgFirst, FbtnChgPrev, FbtnChgNext, FbtnChgLast) do
   begin
     B.Parent := TabSheetHistory;
-    B.Font.Name := 'Segoe UI Symbol';
+    B.Font.Name := FONT_SEGOE_UI_SYMBOL;
     B.OnClick := ChgPagerClick;
     B.ShowHint := True;
     B.Visible := False;
@@ -4389,10 +4389,10 @@ begin
     B.ShowHint := True;
     B.Visible := False;
     B.ParentFont := False;
-    if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-      B.Font.Name := 'Segoe UI'
+    if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+      B.Font.Name := FONT_SEGOE_UI
     else
-      B.Font.Name := 'Tahoma';
+      B.Font.Name := FONT_TAHOMA;
     B.Font.Size := 7;
   end;
   ApplyChgPagerCaptions;
@@ -5640,7 +5640,7 @@ begin
     Frm.BorderStyle := bsDialog;
     Frm.Position := poOwnerFormCenter;
     Frm.Caption := TrText('Hist.AskAI.GoalTitle');
-    Frm.Font.Name := 'Segoe UI';
+    Frm.Font.Name := FONT_SEGOE_UI;
     Frm.Font.Size := 9;
     Frm.Color := clBtnFace;
     FfPrepareDialog(Frm, 460, 240);
@@ -6766,7 +6766,7 @@ begin
     C.TextOut(xWhen, Rect.Top + 2, Txt);
   When := ChgFormatWhen(R.LastTs);
   if When = '' then Exit;
-  C.Font.Name := 'Segoe UI';
+  C.Font.Name := FONT_SEGOE_UI;
   C.Font.Size := 8;
   C.Font.Style := [];
   C.Font.Color := RGB(80, 80, 80);
@@ -7379,7 +7379,7 @@ begin
   h := TPaintBox(Sender).ClientHeight;
   C.Brush.Color := clBtnFace;
   C.FillRect(TPaintBox(Sender).ClientRect);
-  C.Font.Name := 'Segoe UI';
+  C.Font.Name := FONT_SEGOE_UI;
   C.Font.Size := 8;
   C.Font.Color := clWindowText;
   PW := TPaintBox(Sender).Width;
@@ -7844,8 +7844,8 @@ begin
   FsgJournal.Options := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine,
     goRowSelect, goThumbTracking];
   FsgJournal.DefaultDrawing := False;
-  FsgJournal.Font.Name := 'Consolas';
-  if FsgJournal.Font.Name <> 'Consolas' then
+  FsgJournal.Font.Name := FONT_CONSOLAS;
+  if FsgJournal.Font.Name <> FONT_CONSOLAS then
     FsgJournal.Font.Name := 'Courier New';
   FsgJournal.Font.Size := 9;
   FsgJournal.Font.Color := clBlack;
@@ -8105,7 +8105,7 @@ begin
   FsgHist.Options := [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine,
     goRowSelect, goThumbTracking, goColSizing];
   FsgHist.DefaultDrawing := False;
-  FsgHist.Font.Name := 'Segoe UI';
+  FsgHist.Font.Name := FONT_SEGOE_UI;
   FsgHist.Font.Size := 9;
   FsgHist.Font.Color := clBlack;
   FsgHist.Font.Charset := DEFAULT_CHARSET;
@@ -8420,10 +8420,10 @@ begin
   ABtn.ParentShowHint := False;
   ABtn.Cursor := crHandPoint;
   ABtn.ParentFont := False;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    ABtn.Font.Name := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    ABtn.Font.Name := FONT_SEGOE_UI
   else
-    ABtn.Font.Name := 'Tahoma';
+    ABtn.Font.Name := FONT_TAHOMA;
   ABtn.Font.Size := 8;
   ABtn.Font.Style := [fsBold];
   ABtn.Spacing := 6;
@@ -9661,8 +9661,8 @@ begin
   BidiKeepLtr(edtRightFile);
   mmoJournal.Visible := False;
   mmoJournal.Font.Charset := DEFAULT_CHARSET;
-  mmoJournal.Font.Name := 'Consolas';
-  if mmoJournal.Font.Name <> 'Consolas' then
+  mmoJournal.Font.Name := FONT_CONSOLAS;
+  if mmoJournal.Font.Name <> FONT_CONSOLAS then
     mmoJournal.Font.Name := 'Courier New';
   mmoJournal.Font.Color := clBlack;
   EnsureHistShowAllCheckBox;
@@ -9756,10 +9756,10 @@ function TfrmCompareMerge.TryScrollWheelAt(const ScreenPt: TPoint; WheelDelta: I
 var
   C: TWinControl;
 begin
-  { Ctrl+roda: o frmMain consome a mensagem para zoom da ListView principal.
-    Sobre o preview do historico a mesma roda desloca as linhas. }
+  { Plain wheel scrolls. Ctrl+wheel zooms this tab only (MainUnit via AppMessage). }
   Result := False;
   if FClosing or (WheelDelta = 0) or (not Visible) then Exit;
+  if (GetKeyState(VK_CONTROL) and $8000) <> 0 then Exit;
   if not Assigned(PageControl1) then Exit;
 
   if PageControl1.ActivePage = TabSheetDiff then
@@ -11139,11 +11139,15 @@ class function TfrmCompareMerge.ExecuteEmbedded(AOwner: TComponent; AHost: TWinC
   const ADefaultLeftPath, AMainOpenPath: string): TfrmCompareMerge;
 begin
   Result := TfrmCompareMerge.Create(AOwner);
+  { Hide before BorderStyle/Parent: DFM forms start Visible=True and would briefly
+    allocate a top-level HWND that the layout manager fits to the work area. }
+  Result.Visible := False;
   Result.FEmbeddedMode := True;
   Result.ResetContext(ADefaultLeftPath, AMainOpenPath);
 
   if Assigned(AHost) then
   begin
+    Result.Position := poDesigned;
     Result.BorderStyle := bsNone;
     Result.Parent := AHost;
     Result.Align := alClient;

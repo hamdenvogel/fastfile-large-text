@@ -18,6 +18,7 @@ function SourceCodeHelpText: string;
 implementation
 
 uses
+  UnConsts,
   Windows, SysUtils, Classes, Graphics, Controls, Forms, StdCtrls, ExtCtrls, Clipbrd, Math,
   uI18n, uFastFileScale, uSourceValidators, uBidiLayout;
 
@@ -229,10 +230,10 @@ end;
 constructor TSourceHelpForm.CreateHelp;
 begin
   inherited CreateNew(Application);
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    FUiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    FUiFont := FONT_SEGOE_UI
   else
-    FUiFont := 'Tahoma';
+    FUiFont := FONT_TAHOMA;
   BorderStyle := bsSizeable;
   BorderIcons := [biSystemMenu, biMaximize];
   Position := poMainFormCenter;

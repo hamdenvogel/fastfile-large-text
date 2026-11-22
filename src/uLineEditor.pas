@@ -242,6 +242,7 @@ var
 implementation
 
 uses
+  UnConsts,
   Math, StrUtils, Character, RegularExpressions,
   uTextEncoding, uI18n, uFastFileMsgDlg, uFastFileAIClient, uFastFileScale,
   uAnonymize, uAnonymizeDialog, uLineExtract, uLinesChangePreview, uBidiLayout;
@@ -2480,7 +2481,7 @@ begin
     Frm.BorderStyle := bsDialog;
     Frm.Position := poOwnerFormCenter;
     Frm.Caption := TrText('ListView.AskAI');
-    Frm.Font.Name := 'Segoe UI';
+    Frm.Font.Name := FONT_SEGOE_UI;
     Frm.Font.Size := 9;
     Frm.Color := clBtnFace;
     FfPrepareDialog(Frm, 480, 280);

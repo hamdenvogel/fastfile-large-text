@@ -23,7 +23,7 @@ uses
   uTailExportDialog,
   uFindReplace, sListView, RichEdit, uFastFilePaths, uFileFormatConvert, uEolPolicy,
   uFastFileAssistantHost, uFilterBar, uFindOccurrencesBar, uBookmarkBar, uFastFileNotice, uFastFileMsgDlg, uFastFileFloatHost, uFastFileAppGuard, uFastFileWatchdog, System.ImageList, System.Actions,
-  uAnonymize, uAnonymizeDialog, uBidiLayout;
+  uAnonymize, uAnonymizeDialog, uBidiLayout, System.Generics.Collections;
 
 type
   PAnsiCharMap = ^TAnsiCharMap;
@@ -1159,14 +1159,25 @@ type
     FListViewZoomBaseFontSize: Integer;
     FListViewZoomPct: Integer;
     FSystemDpiApplied: Boolean;
+    { True while first FormShow runs DPI/tabs — suppress paint flash and defer heavy work. }
+    FStartupFormShow: Boolean;
     { Skin PPI the ListView zoom base refers to; 0 until FormShow finishes DPI setup. }
     FUIScalePPI: Integer;
     FUIScaleRestoring: Boolean;
+    FUIScaleApplying: Boolean;
+    FUIScalePendingListZoom: Boolean;
+    { Per-tab/form content zoom % for Ctrl+wheel (not global Custom PPI). }
+    FTabContentZoomPct: TDictionary<string, Integer>;
     FRibbonFitBusy: Boolean;
+    { Shared side (px) of the square main toolbar tiles; 0 until measured. }
+    FMainTileSide: Integer;
     FUIScaleBoundsTimer: TTimer;
     { Deferred read-tab layout: OnChange runs before the page ClientHeight is final. }
     FReadTabLayoutTimer: TTimer;
     FReadTabLayoutTries: Integer;
+    { Rebuild pgMain skin cache after parent BG is ready (avoids sticky magenta). }
+    FTabStripSkinTimer: TTimer;
+    FTabStripSkinTries: Integer;
     FUpdatingZoomCombo: Boolean;
     { Historico curto de zoom via roda (mostra no combo sem apagar itens existentes). }
     FZoomWheelHistory: TStringList;
@@ -1261,6 +1272,9 @@ type
     FTabCtxPage: TTabSheet;
     FTabCtxTick: DWORD;
     FTabMenuBtn: TsButton;
+    FTabCloseAllBtn: TsButton;
+    FTabChromeBusy: Boolean;
+    FUIScaleSettlePending: Boolean;
     FClosedTabs: TStringList;
     FToolsExtrasTailMacroReprocess: TMenuItem;
     FMenuTailMacroReprocessItem: TMenuItem;
@@ -1579,6 +1593,10 @@ type
     FRecentTabPopupMenu: TPopupMenu;
     FRecentTabRemoveItem: TMenuItem;
     FRecentFilesTabWired: Boolean;
+    FRecentFilesChromeReady: Boolean;
+    FRecentFilesVisualReady: Boolean;
+    { True while startup/restore is still laying out Recent Files off-screen. }
+    FRecentFilesLayoutPending: Boolean;
     FRecentFilesSortColumn: Integer;
     FRecentFilesSortAsc: Boolean;
     FRecentFilesListPage: Integer;
@@ -1586,6 +1604,7 @@ type
     FRecentFilesTypeImages: TImageList;
     FRecentFilesExtToImage: TStringList;
     FRecentFilesHead: TPanel;
+    FRecentSessionTip: TLabel;
     FRecentFilesPager: TPanel;
     FRecentFilesBtnPrev: TButton;
     FRecentFilesBtnNext: TButton;
@@ -1633,6 +1652,7 @@ type
     btnReadInFileName: TPanel;
     btnMainAskFiles: TsSpeedButton;
     btnMainAgentHub: TsSpeedButton;
+    btnMainRecentFiles: TsSpeedButton;
     FMenuIconIndexByName: TStringList;
     FFileNameBarLayingOut: Boolean;
     { Dynamic AI side panel shown beside the ListView. }
@@ -1839,6 +1859,8 @@ type
     FCenterToolLayoutDepth: Integer;
     FQueuedWheelZoomDelta: Integer;
     FQueuedWheelZoomPosted: Boolean;
+    FQueuedUIScaleWheelDelta: Integer;
+    FQueuedUIScaleWheelPosted: Boolean;
     FSuppressScrollBarChange: Boolean;
     { Scroll Select: desenho rapido (sem marcas) + refresh via PostMessage. }
     FCheckListFastScrollPaint: Boolean;
@@ -1896,6 +1918,15 @@ type
     { Ctrl + roda do rato sobre a ListView: zoom da fonte (menos = scroll up, mais = scroll down). }
     procedure ApplyListViewWheelZoom(const WheelDelta: Integer);
     procedure QueueListViewWheelZoom(const WheelDelta: Integer);
+    { Ctrl+wheel on non-Read tabs: ScaleBy only the active tab/hosted form (no global PPI). }
+    procedure ApplyUIScaleWheelZoom(const WheelDelta: Integer);
+    procedure QueueUIScaleWheelZoom(const WheelDelta: Integer);
+    function TabContentZoomKey(ARoot: TWinControl): string;
+    function GetTabContentZoomPct(const AKey: string): Integer;
+    procedure SetTabContentZoomPct(const AKey: string; APct: Integer);
+    function TryGetActiveTabZoomRoot(out ARoot: TWinControl; out AKey: string): Boolean;
+    procedure ApplyTabContentZoomPercent(ARoot: TWinControl; const AKey: string; APct: Integer);
+    procedure ApplyActiveTabContentWheelZoom(const WheelDelta: Integer);
     procedure RememberWheelZoomInCombo(const APct: Integer; const AForce: Boolean = False);
     procedure DrawSelectionRect;
     procedure GetFindMatchHighlightColors(const LineIdx: Int64;
@@ -1952,6 +1983,8 @@ type
       out REdit, RDel, RChip: TRect): Boolean;
     function HitTestLineActionButton(X, Y: Integer;
       out ARow, ABtn: Integer): Boolean;
+    { OwnerData fills the viewport; rows past totalLines are empty padding. }
+    function ListRowIsPastFileEof(const ARow: Integer): Boolean;
     procedure InvalidateLineActionRow(ARow: Integer);
     procedure SetLineActionHover(ARow, ABtn: Integer);
     procedure ClearLineActionHover;
@@ -2021,6 +2054,12 @@ type
     procedure ListEditKeyPress(Sender: TObject; var Key: Char); 
     procedure ShowTab(const tabSheet: TsTabSheet(*; const showOtherTabs: Boolean = False*));
     procedure HideTabs(const showOtherTabs: Boolean = False);
+    { Toolbar toggle: if ATab is visible and active, close it (True); else open (False). }
+    function TryToggleCloseMainTab(ATab: TsTabSheet): Boolean;
+    procedure SetupMainToolbarToggleButton(ABtn: TsSpeedButton; AGroupIndex: Integer);
+    function MainToolbarToggleIsOn(ABtn: TObject): Boolean;
+    procedure MainToolbarTogglePaint(Sender: TObject; Bmp: TBitmap);
+    procedure SyncMainToolbarTabChecks;
     procedure SaveOpenTabsToIni;
     procedure RestoreEdtFileNameFromIni;
     function RestoreOpenTabsFromIni: Boolean;
@@ -2044,6 +2083,14 @@ type
     procedure EnsureTabMenuButton;
     procedure LayoutTabMenuButton;
     procedure TabMenuBtnClick(Sender: TObject);
+    procedure TabCloseAllBtnClick(Sender: TObject);
+    procedure RefreshMainTabStripSkin;
+    procedure HoldMainTabStripSkinPaint;
+    function  MainTabStripParentBgReady: Boolean;
+    procedure BeginRecentFilesSilentLayout;
+    procedure EndRecentFilesSilentLayout;
+    procedure ScheduleMainTabStripSkinRefresh;
+    procedure TabStripSkinTimerTick(Sender: TObject);
     procedure pgMainResizeTabs(Sender: TObject);
     procedure miTabCtxGoToClick(Sender: TObject);
     function MainTabStripHit(const AClientPt: TPoint; out APage: TTabSheet): Boolean;
@@ -2061,6 +2108,8 @@ type
     procedure BeginMergeLinesTab;
     procedure CloseMergeLinesTab;
     procedure EnsureMergeLinesTab;
+    procedure PrepareEmbeddedHostedForm(AForm: TForm; AHost: TWinControl);
+    procedure ReleaseEmbeddedHostedForm(var AHosted: TObject);
     procedure EnsureMergeFilesTab;
     procedure EnsureSplitByPatternTab;
     procedure ApplySplitPatternHostedMetrics;
@@ -2339,6 +2388,7 @@ type
     function DefaultUIScalePPI: Integer;
     function DefaultUIScaleCaption: string;
     procedure ApplyUIScalePPI(APPI: Integer; AAnimate: Boolean);
+    procedure ApplyUIScalePPIFromPopup(APPI: Integer);
     procedure RestoreDefaultUIScale(Sender: TObject);
     procedure UpdateInfoPanels;
     procedure EnsureWorkflowNextSteps;
@@ -2467,6 +2517,7 @@ type
     procedure WMCheckListEndFastScroll(var Msg: TMessage); message WM_USER + 205;
     procedure WMCheckListScrollRefresh(var Msg: TMessage); message WM_USER + 206;
     procedure WMListViewWheelZoom(var Msg: TMessage); message WM_USER + 207;
+    procedure WMUIScaleWheelZoom(var Msg: TMessage); message WM_USER + 210;
     procedure WMFindOccHitJump(var Msg: TMessage); message WM_USER + 208;
     procedure WMListViewNavPaint(var Msg: TMessage); message WM_USER + 209;
     procedure WMShowAssistant(var Msg: TMessage); message WM_USER + 430;
@@ -2902,6 +2953,7 @@ type
     procedure LayoutListViewLineToolBtns;
     procedure LvToolsResize(Sender: TObject);
     procedure WMLvToolsLayout(var Msg: TMessage); message WM_USER + 444;
+    procedure WMPopulateRecentFilesDeferred(var Msg: TMessage); message WM_USER + 445;
     procedure WMReleaseListOffset(var Msg: TMessage); message WM_USER + 446;
     procedure LvOverflowBtnClick(Sender: TObject);
     procedure LvOverflowItemClick(Sender: TObject);
@@ -2924,6 +2976,9 @@ type
     procedure RestoreFilterBarVisiblePref;
     function IsFilterBarFrameVisible: Boolean;
     procedure RefreshFilterBarState;
+    { Drop Find-Occurrences ownership of the shared filter stream so Apply /
+      assistant filter remaps the ListView instead of reopening the Find panel. }
+    procedure ReleaseFindOccFilterDriver;
     procedure ApplyFilterFromPattern(const ARaw: string);
     procedure FilterBarApply(Sender: TObject; const APattern: string);
     procedure FilterBarClear(Sender: TObject);
@@ -3113,6 +3168,8 @@ type
     { Dicas de teclado nos botoes da barra Read / pnlButtons (atalhos em FormKeyDown). }
     procedure SetupToolbarKeyboardHints;
     procedure FitRibbonToClient(AScroller: TsPageScroller; APanel: TsPanel);
+    function IsMainRibbonSquareTile(ABtn: TsSpeedButton): Boolean;
+    procedure FitMainRibbonSquareTiles;
     procedure FitMainRibbons;
     function BuildSimpleComponentHint(const AControl: TControl): string;
     function BuildLineContentHoverHint(const Line1Based: Int64; const Content: string): string;
@@ -3497,7 +3554,6 @@ uses
   uFastFileExternalExe, UnBufferedTextWriter,
   uMruFind, UnitPopupMruList, uFastFileScale, uAgentWorkspace, uAgentHubWorkspace,
   uAgentLoop, uAgentBridge, uAgentActions, uAgentPrefs, uSearchCommands,
-  System.Generics.Collections,
   uSearchCommandDialog, uDelimOrder;
 
 {$R *.DFM}
@@ -8610,7 +8666,8 @@ var
   Ctl: TControl;
   BL: IInterface;
 
-  procedure PlaceBtn(var ABtn: TsSpeedButton; ALeft: Integer; AOnClick: TNotifyEvent);
+  procedure PlaceBtn(var ABtn: TsSpeedButton; ALeft, AGroupIndex: Integer;
+    AOnClick: TNotifyEvent);
   begin
     if not Assigned(ABtn) then
     begin
@@ -8621,20 +8678,35 @@ var
       ABtn.Top := 0;
       ABtn.Width := BTN_W;
       ABtn.Height := 71;
-      ABtn.AllowAllUp := True;
-      ABtn.Flat := True;
-      ABtn.Spacing := 8;
       ABtn.Images := ImageList32;
       ABtn.ImageIndex := -1;
       ABtn.ShowHint := True;
-      ABtn.SkinData.SkinSection := 'TOOLBUTTON';
       ABtn.Blend := 20;
       ABtn.Reflected := True;
     end;
+    SetupMainToolbarToggleButton(ABtn, AGroupIndex);
     ABtn.OnClick := AOnClick;
   end;
 begin
   BL := BidiLayoutScope([PanelToolButtons]);
+  if Assigned(PanelToolButtons) and (not Assigned(btnMainRecentFiles)) then
+  begin
+    btnMainRecentFiles := TsSpeedButton.Create(Self);
+    btnMainRecentFiles.Name := 'btnMainRecentFiles';
+    btnMainRecentFiles.Parent := PanelToolButtons;
+    btnMainRecentFiles.Align := alLeft;
+    btnMainRecentFiles.Left := 0;
+    btnMainRecentFiles.Top := 0;
+    btnMainRecentFiles.Width := BTN_W;
+    btnMainRecentFiles.Height := 71;
+    btnMainRecentFiles.Images := ImageList32;
+    btnMainRecentFiles.ImageIndex := -1;
+    btnMainRecentFiles.ShowHint := True;
+    btnMainRecentFiles.Blend := 20;
+    btnMainRecentFiles.Reflected := True;
+    btnMainRecentFiles.OnClick := miShowRecentFilesTabClick;
+  end;
+  SetupMainToolbarToggleButton(btnMainRecentFiles, 100);
   if Assigned(PanelToolButtons) and (not Assigned(btnMainAskFiles)) then
   begin
     btnMainAskFiles := TsSpeedButton.Create(Self);
@@ -8645,17 +8717,14 @@ begin
     btnMainAskFiles.Top := 0;
     btnMainAskFiles.Width := BTN_W;
     btnMainAskFiles.Height := 71;
-    btnMainAskFiles.AllowAllUp := True;
-    btnMainAskFiles.Flat := True;
-    btnMainAskFiles.Spacing := 8;
     btnMainAskFiles.Images := ImageList32;
     btnMainAskFiles.ImageIndex := -1;
     btnMainAskFiles.ShowHint := True;
-    btnMainAskFiles.SkinData.SkinSection := 'TOOLBUTTON';
     btnMainAskFiles.Blend := 20;
     btnMainAskFiles.Reflected := True;
     btnMainAskFiles.OnClick := miAskFilesClick;
   end;
+  SetupMainToolbarToggleButton(btnMainAskFiles, 110);
   if Assigned(PanelToolButtons) and (not Assigned(btnMainAgentHub)) then
   begin
     btnMainAgentHub := TsSpeedButton.Create(Self);
@@ -8666,29 +8735,27 @@ begin
     btnMainAgentHub.Top := 0;
     btnMainAgentHub.Width := BTN_W;
     btnMainAgentHub.Height := 71;
-    btnMainAgentHub.AllowAllUp := True;
-    btnMainAgentHub.Flat := True;
-    btnMainAgentHub.Spacing := 8;
     btnMainAgentHub.Images := ImageList32;
     btnMainAgentHub.ImageIndex := -1;
     btnMainAgentHub.ShowHint := True;
-    btnMainAgentHub.SkinData.SkinSection := 'TOOLBUTTON';
     btnMainAgentHub.Blend := 20;
     btnMainAgentHub.Reflected := True;
     btnMainAgentHub.OnClick := miAgentHubClick;
   end;
+  SetupMainToolbarToggleButton(btnMainAgentHub, 111);
   if not Assigned(PanelToolButtons) or not Assigned(btnShowTabReadFile) then Exit;
+  SetupMainToolbarToggleButton(btnShowTabReadFile, 101);
 
   { DFM already has the 7 buttons: only wire OnClick (mi* handlers are private). }
   if Assigned(btnMainSplitFiles) then
   begin
-    PlaceBtn(btnMainSplitFiles, 0, miSplitFilesClick);
-    PlaceBtn(btnMainMergeLines, 0, miMergeLinesClick);
-    PlaceBtn(btnMainMergeFiles, 0, miMergeFilesClick);
-    PlaceBtn(btnMainCompareMerge, 0, miCompareMergeHistoryClick);
-    PlaceBtn(btnMainSplitByPattern, 0, miSplitByPatternClick);
-    PlaceBtn(btnMainSplitEqualParts, 0, miSplitEqualPartsClick);
-    PlaceBtn(btnMainExtractParts, 0, miSplitFileFractionClick);
+    PlaceBtn(btnMainSplitFiles, 0, 104, miSplitFilesClick);
+    PlaceBtn(btnMainMergeLines, 0, 105, miMergeLinesClick);
+    PlaceBtn(btnMainMergeFiles, 0, 102, miMergeFilesClick);
+    PlaceBtn(btnMainCompareMerge, 0, 106, miCompareMergeHistoryClick);
+    PlaceBtn(btnMainSplitByPattern, 0, 107, miSplitByPatternClick);
+    PlaceBtn(btnMainSplitEqualParts, 0, 103, miSplitEqualPartsClick);
+    PlaceBtn(btnMainExtractParts, 0, 108, miSplitFileFractionClick);
     Exit;
   end;
 
@@ -8704,13 +8771,13 @@ begin
         Ctl.Left := Ctl.Left + Extra;
     end;
 
-    PlaceBtn(btnMainMergeFiles, InsertAt, miMergeFilesClick);
-    PlaceBtn(btnMainSplitEqualParts, InsertAt + BTN_W, miSplitEqualPartsClick);
-    PlaceBtn(btnMainSplitFiles, InsertAt + BTN_W * 2, miSplitFilesClick);
-    PlaceBtn(btnMainMergeLines, InsertAt + BTN_W * 3, miMergeLinesClick);
-    PlaceBtn(btnMainCompareMerge, InsertAt + BTN_W * 4, miCompareMergeHistoryClick);
-    PlaceBtn(btnMainSplitByPattern, InsertAt + BTN_W * 5, miSplitByPatternClick);
-    PlaceBtn(btnMainExtractParts, InsertAt + BTN_W * 6, miSplitFileFractionClick);
+    PlaceBtn(btnMainMergeFiles, InsertAt, 102, miMergeFilesClick);
+    PlaceBtn(btnMainSplitEqualParts, InsertAt + BTN_W, 103, miSplitEqualPartsClick);
+    PlaceBtn(btnMainSplitFiles, InsertAt + BTN_W * 2, 104, miSplitFilesClick);
+    PlaceBtn(btnMainMergeLines, InsertAt + BTN_W * 3, 105, miMergeLinesClick);
+    PlaceBtn(btnMainCompareMerge, InsertAt + BTN_W * 4, 106, miCompareMergeHistoryClick);
+    PlaceBtn(btnMainSplitByPattern, InsertAt + BTN_W * 5, 107, miSplitByPatternClick);
+    PlaceBtn(btnMainExtractParts, InsertAt + BTN_W * 6, 108, miSplitFileFractionClick);
 
     PanelToolButtons.Width := PanelToolButtons.Width + Extra;
   finally
@@ -8719,86 +8786,9 @@ begin
 end;
 
 procedure TfrmMain.EnsureMainToolbarExitButtonLast;
-var
-  I, MaxRight, L: Integer;
-  Ctl: TControl;
-  BL: IInterface;
 begin
+  { Order, square size and Close-last live in FitMainRibbons. }
   if not Assigned(PanelToolButtons) or not Assigned(btnClose) then Exit;
-  BL := BidiLayoutScope([PanelToolButtons]);
-  { Ordem final: ... Mais ferramentas | Agente IA | Hub | Sobre | Fechar. }
-  if Assigned(btnMainAskFiles) and Assigned(btnMainAgentHub) and btnMainAskFiles.Visible and
-     btnMainAgentHub.Visible then
-  begin
-    PanelToolButtons.DisableAlign;
-    try
-      if btnMainAgentHub.Left < btnMainAskFiles.Left then
-      begin
-        L := btnMainAgentHub.Left;
-        btnMainAgentHub.Left := btnMainAskFiles.Left;
-        btnMainAskFiles.Left := L;
-      end;
-    finally
-      PanelToolButtons.EnableAlign;
-    end;
-  end;
-  if Assigned(btnMainAskFiles) and Assigned(btnSplash) and btnMainAskFiles.Visible and
-     (btnMainAskFiles.Left > btnSplash.Left) then
-  begin
-    PanelToolButtons.DisableAlign;
-    try
-      L := btnSplash.Left;
-      if Assigned(btnMainAgentHub) and btnMainAgentHub.Visible then
-      begin
-        btnSplash.Left := L + btnMainAskFiles.Width + btnMainAgentHub.Width + 2;
-        btnMainAskFiles.Left := L;
-        btnMainAgentHub.Left := L + btnMainAskFiles.Width + 1;
-      end
-      else
-      begin
-        btnSplash.Left := L + btnMainAskFiles.Width + 1;
-        btnMainAskFiles.Left := L;
-      end;
-    finally
-      PanelToolButtons.EnableAlign;
-    end;
-  end
-  else if Assigned(btnMainAgentHub) and Assigned(btnSplash) and btnMainAgentHub.Visible and
-     (btnMainAgentHub.Left > btnSplash.Left) then
-  begin
-    PanelToolButtons.DisableAlign;
-    try
-      L := btnSplash.Left;
-      btnSplash.Left := L + btnMainAgentHub.Width + 1;
-      btnMainAgentHub.Left := L;
-    finally
-      PanelToolButtons.EnableAlign;
-    end;
-  end;
-  MaxRight := 0;
-  for I := 0 to PanelToolButtons.ControlCount - 1 do
-  begin
-    Ctl := PanelToolButtons.Controls[I];
-    if (Ctl = nil) or (Ctl = btnClose) then Continue;
-    if Assigned(sSpeedButton2) and (Ctl = sSpeedButton2) then Continue;
-    if not Ctl.Visible then Continue;
-    if Ctl.Align <> alLeft then Continue;
-    if Ctl.Left + Ctl.Width > MaxRight then
-      MaxRight := Ctl.Left + Ctl.Width;
-  end;
-  PanelToolButtons.DisableAlign;
-  try
-    if Assigned(sSpeedButton2) then
-    begin
-      sSpeedButton2.Left := MaxRight;
-      Inc(MaxRight, sSpeedButton2.Width);
-    end;
-    btnClose.Left := MaxRight + 2;
-    if btnClose.Left + btnClose.Width > PanelToolButtons.Width then
-      PanelToolButtons.Width := btnClose.Left + btnClose.Width + 8;
-  finally
-    PanelToolButtons.EnableAlign;
-  end;
   FitMainRibbons;
 end;
 
@@ -8825,7 +8815,9 @@ begin
   btnMainToolsGallery.Height := 71;
   btnMainToolsGallery.AllowAllUp := True;
   btnMainToolsGallery.Flat := True;
-  btnMainToolsGallery.Spacing := 8;
+  btnMainToolsGallery.Layout := blGlyphTop;
+  btnMainToolsGallery.Spacing := 2;
+  btnMainToolsGallery.Margin := 4;
   btnMainToolsGallery.ButtonStyle := tbsDropDown;
   btnMainToolsGallery.Images := ImageList32;
   btnMainToolsGallery.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_TOOLS_GALLERY, btnMainSplitByPattern.ImageIndex);
@@ -8852,20 +8844,17 @@ begin
     btnMainPythonMacro.Top := 0;
     btnMainPythonMacro.Width := 118;
     btnMainPythonMacro.Height := 71;
-    btnMainPythonMacro.AllowAllUp := True;
-    btnMainPythonMacro.Flat := True;
-    btnMainPythonMacro.Spacing := 8;
     btnMainPythonMacro.Images := ImageList32;
     btnMainPythonMacro.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_PYTHON_MACRO,
       btnMainToolsGallery.ImageIndex);
     btnMainPythonMacro.ShowHint := True;
     btnMainPythonMacro.Caption := TrText('Toolbar.PythonMacro') + #13#10 + 'Ctrl+Alt+E';
     btnMainPythonMacro.Hint := TrText('Toolbar.PythonMacroHint');
-    btnMainPythonMacro.SkinData.SkinSection := 'TOOLBUTTON';
     btnMainPythonMacro.Blend := 20;
     btnMainPythonMacro.Reflected := True;
     btnMainPythonMacro.OnClick := miScriptEngineClick;
   end;
+  SetupMainToolbarToggleButton(btnMainPythonMacro, 112);
 end;
 
 { Screen position for a popup form shown under AAnchor: its left edge, or (right-to-left
@@ -8966,6 +8955,9 @@ begin
     btnMainSplitEqualParts.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_SPLIT_EQUAL, 19);
   if Assigned(btnMainExtractParts) then
     btnMainExtractParts.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_EXTRACT_PARTS, 19);
+  if Assigned(btnMainRecentFiles) then
+    btnMainRecentFiles.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_RECENT_FILES,
+      AddImageList32Glyph('history.bmp', 18));
   if Assigned(btnMainAskFiles) then
     btnMainAskFiles.ImageIndex := AddImageList32Glyph(MAIN_TB_ICON_FILE_AGENT, -1);
   if Assigned(btnMainAgentHub) then
@@ -9266,7 +9258,7 @@ begin
     FConsumerAITitleLabel.Caption := TrText('AI Chat (SQL)');
     FConsumerAITitleLabel.Layout := tlCenter;
     FConsumerAITitleLabel.Transparent := True;
-    FConsumerAITitleLabel.Font.Name := 'Tahoma';
+    FConsumerAITitleLabel.Font.Name := FONT_TAHOMA;
     FConsumerAITitleLabel.Font.Size := 9;
     FConsumerAITitleLabel.Font.Style := [fsBold];
 
@@ -9279,7 +9271,7 @@ begin
     FConsumerAIMemo.HideScrollBars := False;
     FConsumerAIMemo.WantReturns := False;
     FConsumerAIMemo.WantTabs := False;
-    FConsumerAIMemo.Font.Name := 'Consolas';
+    FConsumerAIMemo.Font.Name := FONT_CONSOLAS;
     FConsumerAIMemo.Font.Size := 9;
     FConsumerAIMemo.Color := clWhite;
     FConsumerAIMemo.HideSelection := False;
@@ -9325,7 +9317,7 @@ begin
     FConsumerAIStatusLabel.Height := 20;
     FConsumerAIStatusLabel.Caption := TrText('Disconnected');
     FConsumerAIStatusLabel.Layout := tlCenter;
-    FConsumerAIStatusLabel.Font.Name := 'Tahoma';
+    FConsumerAIStatusLabel.Font.Name := FONT_TAHOMA;
     FConsumerAIStatusLabel.Font.Size := 8;
     FConsumerAIStatusLabel.Font.Style := [fsBold];
 
@@ -9480,7 +9472,7 @@ begin
     FConsumerRAGTitleLabel.Caption := TrText('Advanced AI Chat (file)');
     FConsumerRAGTitleLabel.Layout := tlCenter;
     FConsumerRAGTitleLabel.Transparent := True;
-    FConsumerRAGTitleLabel.Font.Name := 'Tahoma';
+    FConsumerRAGTitleLabel.Font.Name := FONT_TAHOMA;
     FConsumerRAGTitleLabel.Font.Size := 9;
     FConsumerRAGTitleLabel.Font.Style := [fsBold];
     { Disabled so the label never steals mouse clicks from Close/Cancel. }
@@ -9498,7 +9490,7 @@ begin
     FConsumerRAGMemo.HideScrollBars := False;
     FConsumerRAGMemo.WantReturns := False;
     FConsumerRAGMemo.WantTabs := False;
-    FConsumerRAGMemo.Font.Name := 'Consolas';
+    FConsumerRAGMemo.Font.Name := FONT_CONSOLAS;
     FConsumerRAGMemo.Font.Size := 9;
     FConsumerRAGMemo.Color := clWhite;
     FConsumerRAGMemo.HideSelection := False;
@@ -9544,7 +9536,7 @@ begin
     FConsumerRAGStatusLabel.Height := 20;
     FConsumerRAGStatusLabel.Caption := TrText('Disconnected');
     FConsumerRAGStatusLabel.Layout := tlCenter;
-    FConsumerRAGStatusLabel.Font.Name := 'Tahoma';
+    FConsumerRAGStatusLabel.Font.Name := FONT_TAHOMA;
     FConsumerRAGStatusLabel.Font.Size := 8;
     FConsumerRAGStatusLabel.Font.Style := [fsBold];
 
@@ -12271,7 +12263,7 @@ begin
     FScriptTitleLabel.Alignment := taCenter;
     FScriptTitleLabel.Layout := tlCenter;
     FScriptTitleLabel.Transparent := True;
-    FScriptTitleLabel.Font.Name := 'Tahoma';
+    FScriptTitleLabel.Font.Name := FONT_TAHOMA;
     FScriptTitleLabel.Font.Size := 9;
     FScriptTitleLabel.Font.Style := [fsBold];
 
@@ -12360,7 +12352,7 @@ begin
     FScriptStatusLabel.Layout := tlTop;
     FScriptStatusLabel.WordWrap := True;
     FScriptStatusLabel.ShowHint := True;
-    FScriptStatusLabel.Font.Name := 'Tahoma';
+    FScriptStatusLabel.Font.Name := FONT_TAHOMA;
     FScriptStatusLabel.Font.Size := 8;
     FScriptStatusLabel.Font.Style := [fsBold];
 
@@ -12371,7 +12363,7 @@ begin
     FScriptScopeLabel.Caption := TrText('Apply to:');
     FScriptScopeLabel.Layout := tlCenter;
     FScriptScopeLabel.Transparent := True;
-    FScriptScopeLabel.Font.Name := 'Tahoma';
+    FScriptScopeLabel.Font.Name := FONT_TAHOMA;
     FScriptScopeLabel.Font.Size := 8;
 
     FScriptScopeAllRB := TRadioButton.Create(Self);
@@ -12423,7 +12415,7 @@ begin
       Caption := TrText('Script Examples');
       Layout := tlCenter;
       Transparent := True;
-      Font.Name := 'Tahoma';
+      Font.Name := FONT_TAHOMA;
       Font.Size := 9;
       Font.Style := [fsBold];
     end;
@@ -12464,7 +12456,7 @@ begin
     FScriptSuggestionsMemo.ReadOnly := True;
     FScriptSuggestionsMemo.ScrollBars := ssBoth;
     FScriptSuggestionsMemo.WordWrap := False;
-    FScriptSuggestionsMemo.Font.Name := 'Consolas';
+    FScriptSuggestionsMemo.Font.Name := FONT_CONSOLAS;
     FScriptSuggestionsMemo.Font.Size := 9;
     FScriptSuggestionsMemo.Color := clWhite;
     FScriptSuggestionsMemo.HideScrollBars := False;
@@ -12493,7 +12485,7 @@ begin
     OutputLabel.Caption := TrText('Output:');
     OutputLabel.Layout := tlCenter;
     OutputLabel.Transparent := True;
-    OutputLabel.Font.Name := 'Tahoma';
+    OutputLabel.Font.Name := FONT_TAHOMA;
     OutputLabel.Font.Size := 8;
     OutputLabel.Font.Style := [fsBold];
     FScriptOutputLabel := OutputLabel;
@@ -12507,7 +12499,7 @@ begin
     FScriptOutputMemo.HideScrollBars := False;
     FScriptOutputMemo.WantReturns := False;
     FScriptOutputMemo.WantTabs := False;
-    FScriptOutputMemo.Font.Name := 'Consolas';
+    FScriptOutputMemo.Font.Name := FONT_CONSOLAS;
     FScriptOutputMemo.Font.Size := 9;
     FScriptOutputMemo.Color := clWhite;
     FScriptOutputMemo.HideSelection := False;
@@ -12546,7 +12538,7 @@ begin
     EditorLabel.Caption := TrText('Script (define transform(line, ctx) -> str | None):');
     EditorLabel.Layout := tlCenter;
     EditorLabel.Transparent := True;
-    EditorLabel.Font.Name := 'Tahoma';
+    EditorLabel.Font.Name := FONT_TAHOMA;
     EditorLabel.Font.Size := 8;
     EditorLabel.Font.Style := [fsBold];
     FScriptEditorLabel := EditorLabel;
@@ -12559,7 +12551,7 @@ begin
     FScriptEditorMemo.WordWrap := False;
     FScriptEditorMemo.WantReturns := True;
     FScriptEditorMemo.WantTabs := True;
-    FScriptEditorMemo.Font.Name := 'Consolas';
+    FScriptEditorMemo.Font.Name := FONT_CONSOLAS;
     FScriptEditorMemo.Font.Size := 9;
     FScriptEditorMemo.Color := clWhite;
     FScriptEditorMemo.OnKeyDown := ScriptPanelMemoKeyDown;
@@ -12765,6 +12757,7 @@ begin
     FScriptSuggestionsPanel.Visible := False;
   if Assigned(splListview) then
     splListview.Visible := False;
+  SyncMainToolbarTabChecks;
 end;
 
 procedure TfrmMain.ScriptEngineCloseClick(Sender: TObject);
@@ -12846,7 +12839,7 @@ begin
     Caption := TrText('Tail / Follow mode');
     Layout := tlCenter;
     Transparent := True;
-    Font.Name := 'Tahoma';
+    Font.Name := FONT_TAHOMA;
     Font.Size := 9;
     Font.Style := [fsBold];
   end;
@@ -12994,7 +12987,7 @@ begin
   FTailMacroOutputMemo.Align := alClient;
   FTailMacroOutputMemo.ReadOnly := True;
   FTailMacroOutputMemo.ScrollBars := ssVertical;
-  FTailMacroOutputMemo.Font.Name := 'Consolas';
+  FTailMacroOutputMemo.Font.Name := FONT_CONSOLAS;
   FTailMacroOutputMemo.Font.Size := 9;
 
   EdLbl := TsLabel.Create(Self);
@@ -13010,7 +13003,7 @@ begin
   FTailMacroEditorMemo.Height := 140;
   FTailMacroEditorMemo.ScrollBars := ssBoth;
   FTailMacroEditorMemo.WordWrap := False;
-  FTailMacroEditorMemo.Font.Name := 'Consolas';
+  FTailMacroEditorMemo.Font.Name := FONT_CONSOLAS;
   FTailMacroEditorMemo.Font.Size := 9;
   FTailMacroEditorMemo.Lines.Text :=
     'def transform(line, ctx):' + sLineBreak +
@@ -13042,7 +13035,7 @@ begin
     Caption := TrText('Tail macro examples');
     Layout := tlCenter;
     Transparent := True;
-    Font.Name := 'Tahoma';
+    Font.Name := FONT_TAHOMA;
     Font.Size := 9;
     Font.Style := [fsBold];
   end;
@@ -13086,7 +13079,7 @@ begin
   FTailMacroSuggestionsMemo.ReadOnly := True;
   FTailMacroSuggestionsMemo.ScrollBars := ssBoth;
   FTailMacroSuggestionsMemo.WordWrap := False;
-  FTailMacroSuggestionsMemo.Font.Name := 'Consolas';
+  FTailMacroSuggestionsMemo.Font.Name := FONT_CONSOLAS;
   FTailMacroSuggestionsMemo.Font.Size := 9;
   FTailMacroSuggestionsMemo.Color := clWhite;
   FTailMacroSuggestionsMemo.HideScrollBars := False;
@@ -13248,7 +13241,7 @@ begin
   FScriptExportTitleLabel.Align := alTop;
   FScriptExportTitleLabel.Height := 18;
   FScriptExportTitleLabel.Layout := tlCenter;
-  FScriptExportTitleLabel.Font.Name := 'Tahoma';
+  FScriptExportTitleLabel.Font.Name := FONT_TAHOMA;
   FScriptExportTitleLabel.Font.Size := 9;
   FScriptExportTitleLabel.Font.Style := [fsBold];
   FScriptExportTitleLabel.Transparent := True;
@@ -13262,7 +13255,7 @@ begin
   FScriptExportFileLabel.WordWrap := False;
   FScriptExportFileLabel.EllipsisPosition := epEndEllipsis;
   FScriptExportFileLabel.Layout := tlCenter;
-  FScriptExportFileLabel.Font.Name := 'Tahoma';
+  FScriptExportFileLabel.Font.Name := FONT_TAHOMA;
   FScriptExportFileLabel.Font.Size := 8;
   FScriptExportFileLabel.Transparent := True;
   FScriptExportFileLabel.ShowHint := True;
@@ -13274,7 +13267,7 @@ begin
   FScriptExportDirLabel.WordWrap := False;
   FScriptExportDirLabel.EllipsisPosition := epPathEllipsis;
   FScriptExportDirLabel.Layout := tlTop;
-  FScriptExportDirLabel.Font.Name := 'Tahoma';
+  FScriptExportDirLabel.Font.Name := FONT_TAHOMA;
   FScriptExportDirLabel.Font.Size := 8;
   FScriptExportDirLabel.Transparent := True;
   FScriptExportDirLabel.ShowHint := True;
@@ -16179,7 +16172,7 @@ var
   WheelDelta: SmallInt;
   ScreenPt: TPoint;
   TabPage: TTabSheet;
-begin                                    
+begin
   { Faixa das abas do pgMain: botao direito = menu de abas, meio = fechar. Aqui, antes
     da VCL/skin (o skin pode consumir o clique ou trata-lo como nao-cliente). }
   if ((Msg.message = WM_RBUTTONUP) or (Msg.message = WM_NCRBUTTONUP) or
@@ -16214,7 +16207,21 @@ begin                                    
     IsCtrl := (GetKeyState(VK_CONTROL) and $8000) <> 0;
     IsAlt := (GetKeyState(VK_MENU) and $8000) <> 0;
 
-    { Chat sidebars: scroll the transcript, never zoom/scroll the main ListView. }
+    { Ctrl+wheel: zoom only the active screen —
+      Read → ListView font %; other tabs → ScaleBy on that tab/hosted form.
+      Never change global Custom PPI here (that AVs AlphaControls mid-resize). }
+    if IsCtrl and not IsAlt and (WheelDelta <> 0) then
+    begin
+      if Assigned(pgMain) and Assigned(pgMain.ActivePage) and
+         (pgMain.ActivePage = tabReadFile) and Assigned(ListView1) then
+        ApplyListViewWheelZoom(WheelDelta)
+      else
+        QueueUIScaleWheelZoom(WheelDelta);
+      Handled := True;
+      Exit;
+    end;
+
+    { Chat sidebars: plain wheel scrolls the transcript. }
     if (WheelDelta <> 0) and
        (HwndInSideChatPanels(H) or HwndInSideChatPanels(HUnder) or PointInSideChatPanels(ScreenPt)) then
     begin
@@ -16226,7 +16233,6 @@ begin                                    
       Exit;
     end;
 
-    { Preview do historico / diff: Ctrl+roda desloca essa lista, nao faz zoom da ListView principal. }
     if Assigned(FCompareMergeHosted) and (FCompareMergeHosted is TfrmCompareMerge) and
        TfrmCompareMerge(FCompareMergeHosted).TryScrollWheelAt(ScreenPt, WheelDelta) then
     begin
@@ -16239,30 +16245,6 @@ begin                                    
     begin
       Handled := True;
       Exit;
-    end;
-
-    if IsCtrl and not IsAlt and Assigned(ListView1) then
-    begin
-      if WheelDelta <> 0 then
-      begin
-        { Checklist Select: zoom aqui (DoMouseWheel nem sempre recebe WM_MOUSEWHEEL no D10.4). }
-        if isChecked and Assigned(FCheckListBox) and FCheckListBox.HandleAllocated
-           and ((H = FCheckListBox.Handle) or IsChild(FCheckListBox.Handle, H)) then
-        begin
-          ApplyListViewWheelZoom(WheelDelta);
-          Handled := True;
-          Exit;
-        end;
-        { ListView: hook WM_MOUSEWHEEL ja trata. }
-        if (not ListView1.HandleAllocated)
-           or (H = ListView1.Handle) or IsChild(ListView1.Handle, H) then
-          { pass through }
-        else
-        begin
-          ApplyListViewWheelZoom(WheelDelta);
-          Handled := True;
-        end;
-      end;
     end;
     Exit;
   end;
@@ -17582,7 +17564,14 @@ end;
 
 procedure TfrmMain.miScriptEngineClick(Sender: TObject);
 begin
+  if Assigned(FScriptEnginePanel) and FScriptEnginePanel.Visible then
+  begin
+    HideScriptEnginePanel;
+    SyncMainToolbarTabChecks;
+    Exit;
+  end;
   ShowScriptEnginePanel;
+  SyncMainToolbarTabChecks;
   if Assigned(FScriptEditorMemo) and FScriptEditorMemo.Visible and
      FScriptEditorMemo.Enabled and FScriptEditorMemo.CanFocus then
     FScriptEditorMemo.SetFocus
@@ -19269,56 +19258,69 @@ begin
     Exit;
   end;
   StartupMark('FormShow: enter');
-  UpdateStatusBar(Tr('status.system_ready', 'System Ready'), iaRight);
-  FormResize(Self);
-  LayoutLanguageCombo;
-  LayoutViewEncodingCombo;
-  LayoutZoomCombo;
-  StartupMark('FormShow: resize + combos');
-  if Assigned(chkWordWrap) then
-  begin
-    FFastVisualWordWrap := chkWordWrap.Checked;
-    FastWordWrapAtivo := False;
-    UpdateListViewWordWrapUi;
-  end;
-  UpdateInfoPanels;
-  StartupMark('FormShow: wordwrap + info panels');
-  begin
-    with TIniFile.Create(IniName) do
-    try
-      FTailMacroEnabled := ReadBool('TailMacro', 'Enabled', False);
-      FTailMacroShowInPanel := ReadBool('TailMacro', 'ShowInPanel', True);
-      FTailMacroIncludeInExport := ReadBool('TailMacro', 'IncludeInExport', False);
-      FTailMacroSaveResultsToFile := ReadBool('TailMacro', 'SaveToFile', False);
-      FTailMacroResultsPath := ReadString('TailMacro', 'ResultsPath', '');
-    finally
-      Free;
+  { FStartupFormShow: skip SkinScaleChanged settle-timer. Keep pgMain visible so
+    Recent Files lays out with real ClientWidth (hiding it caused wrong sizes + magenta). }
+  FStartupFormShow := True;
+  FRecentFilesLayoutPending := False;
+  try
+    UpdateStatusBar(Tr('status.system_ready', 'System Ready'), iaRight);
+    FormResize(Self);
+    LayoutLanguageCombo;
+    LayoutViewEncodingCombo;
+    LayoutZoomCombo;
+    StartupMark('FormShow: resize + combos');
+    if Assigned(chkWordWrap) then
+    begin
+      FFastVisualWordWrap := chkWordWrap.Checked;
+      FastWordWrapAtivo := False;
+      UpdateListViewWordWrapUi;
     end;
-  end;
-  if IniName <> '' then
-  begin
-    FForceSegmentHeavyOps :=
-      sStoreUtils.ReadIniInteger(APPLICATION_NAME, 'SegmentHeavyOps', 0, IniName) = 1;
-    ApplySegmentHeavyOpsUiState;
-  end;
-  LoadSmartSearchPrefs;
-  StartupMark('FormShow: ini prefs');
-  SetupReadToolbarQuickButtons;
-  StartupMark('FormShow: SetupReadToolbarQuickButtons');
-  ApplySystemDpiScaleOnce;
-  StartupMark('FormShow: ApplySystemDpiScaleOnce');
-  LoadListViewZoomFromIni;
-  if FUIScalePPI <= 0 then
-  begin
-    FUIScalePPI := GetPPI(sSkinProvider1.SkinData);
-    RestoreUIScaleFromIni;
-  end;
-  UpdateListViewZoomStatusPanel;
-  StartupMark('FormShow: listview zoom');
-  { Show Recent Files startup tab on first launch when no file was supplied on
-    the command line and none was already loaded (e.g. from a previous session). }
-  if not FormShowed then
-  begin
+    UpdateInfoPanels;
+    StartupMark('FormShow: wordwrap + info panels');
+    begin
+      with TIniFile.Create(IniName) do
+      try
+        FTailMacroEnabled := ReadBool('TailMacro', 'Enabled', False);
+        FTailMacroShowInPanel := ReadBool('TailMacro', 'ShowInPanel', True);
+        FTailMacroIncludeInExport := ReadBool('TailMacro', 'IncludeInExport', False);
+        FTailMacroSaveResultsToFile := ReadBool('TailMacro', 'SaveToFile', False);
+        FTailMacroResultsPath := ReadString('TailMacro', 'ResultsPath', '');
+      finally
+        Free;
+      end;
+    end;
+    if IniName <> '' then
+    begin
+      FForceSegmentHeavyOps :=
+        sStoreUtils.ReadIniInteger(APPLICATION_NAME, 'SegmentHeavyOps', 0, IniName) = 1;
+      ApplySegmentHeavyOpsUiState;
+    end;
+    LoadSmartSearchPrefs;
+    StartupMark('FormShow: ini prefs');
+    SetupReadToolbarQuickButtons;
+    StartupMark('FormShow: SetupReadToolbarQuickButtons');
+    { DPI/zoom already applied in FormCreate when possible; only fill gaps here. }
+    ApplySystemDpiScaleOnce;
+    StartupMark('FormShow: ApplySystemDpiScaleOnce');
+    if FUIScalePPI <= 0 then
+    begin
+      if Assigned(sSkinProvider1) then
+      try
+        FUIScalePPI := GetPPI(sSkinProvider1.SkinData);
+      except
+        FUIScalePPI := Screen.PixelsPerInch;
+      end
+      else
+        FUIScalePPI := Screen.PixelsPerInch;
+      if FUIScalePPI <= 0 then
+        FUIScalePPI := 96;
+      RestoreUIScaleFromIni;
+      LoadListViewZoomFromIni;
+    end;
+    UpdateListViewZoomStatusPanel;
+    StartupMark('FormShow: listview zoom');
+    { Show Recent Files startup tab on first launch when no file was supplied on
+      the command line and none was already loaded (e.g. from a previous session). }
     FormShowed := True;
     { The AI chat lives inside the AI agent tab and is created with it (lazy). }
     if SessionReopensOnOtherTab then
@@ -19338,18 +19340,36 @@ begin
         ShowRecentFilesTabIfNeeded;
     end;
     StartupMark('FormShow: RestoreOpenTabsFromIni');
+    ApplyUiHintsEnabled;
+    if AdaptUiSignature <> FLastAdaptUiSig then
+    begin
+      AdaptUiToDisplay(True);
+      FLastAdaptUiSig := AdaptUiSignature;
+    end;
+    StartupMark('FormShow: hints + AdaptUiToDisplay');
+    FastFileWatchdogSetCancelProc(FastFileMainWatchdogCancelWorkers);
+    FastFileWatchdogClearCancelRequest;
+    FastFileWatchdogPulse;
+    ApplyBidiContentViews;
+  finally
+    FStartupFormShow := False;
+    FRecentFilesLayoutPending := False;
+    if Screen.Cursor <> crDefault then
+      Screen.Cursor := crDefault;
+    if FUIScaleSettlePending then
+    begin
+      FUIScaleSettlePending := False;
+      FUIScaleApplying := False;
+      try
+        Realign;
+        FormResize(Self);
+        SyncHostedTabFormsVisibility;
+      except
+      end;
+    end;
+    { One click-equivalent strip rebuild after sizes/skin are settled. }
+    RefreshMainTabStripSkin;
   end;
-  ApplyUiHintsEnabled;
-  if AdaptUiSignature <> FLastAdaptUiSig then
-  begin
-    AdaptUiToDisplay(True);
-    FLastAdaptUiSig := AdaptUiSignature;
-  end;
-  StartupMark('FormShow: hints + AdaptUiToDisplay');
-  FastFileWatchdogSetCancelProc(FastFileMainWatchdogCancelWorkers);
-  FastFileWatchdogClearCancelRequest;
-  FastFileWatchdogPulse;
-  ApplyBidiContentViews;
   PostMessage(Handle, WM_USER + 434, 0, 0);
 end;
 
@@ -19403,6 +19423,7 @@ begin
   PopupScalingAppAnimated := Animated;
   PopupScalingCaptionChanged := SkinScaleChanged;
   PopupScalingRestoreDefault := RestoreDefaultUIScale;
+  PopupScalingApplyPPI := ApplyUIScalePPIFromPopup;
   if Assigned(DataModule1) and Assigned(DataModule1.sSkinManager1) then
     DataModule1.sSkinManager1.OnScaleChanged := SkinScaleChanged;
   KeyPreview := True;
@@ -19441,6 +19462,13 @@ begin
   FPendingTabBuild.CaseSensitive := False;
   if Assigned(pgMain) then
   begin
+    try
+      { Match long-standing DFM: BUTTON + opaque TabsLineSkin (avoids fuchsia gap). }
+      pgMain.SkinData.SkinSection := 'BUTTON';
+      if Trim(string(pgMain.TabsLineSkin)) = '' then
+        pgMain.TabsLineSkin := 'PANEL';
+    except
+    end;
     pgMain.OnChange := pgMainPageChange;
     pgMain.OnMouseDown := pgMainTabMouseDown;
     pgMain.OnMouseMove := pgMainTabMouseMove;
@@ -19479,6 +19507,7 @@ begin
   ApplyMainSplitMergeToolbarIcons;
   CreateMainToolsGalleryButton;
   EnsureMainToolbarExitButtonLast;
+  SyncMainToolbarTabChecks;
   StartupMark('FormCreate: toolbar icons/gallery');
   { EnsureFileSearchGalleryButton: only after FBtnFileSearchGallery init below. }
 
@@ -19610,6 +19639,8 @@ begin
       ListView1.Font.Size := 10;
     FListViewZoomBaseFontSize := Max(1, ListView1.Font.Size);
     FListViewZoomPct := 100;
+    if not Assigned(FTabContentZoomPct) then
+      FTabContentZoomPct := TDictionary<string, Integer>.Create;
     ListView1.ShowHint := True;
     ListView1.ParentShowHint := False;
     ListView1.OnInfoTip := ListView1InfoTip;
@@ -19694,6 +19725,8 @@ begin
     FListViewZoomDeferScrollSync := False;
     FQueuedWheelZoomDelta := 0;
     FQueuedWheelZoomPosted := False;
+    FQueuedUIScaleWheelDelta := 0;
+    FQueuedUIScaleWheelPosted := False;
     FSuppressScrollBarChange := False;
     FCheckListFastScrollPaint := False;
     FCheckListScrollRefreshQueued := False;
@@ -19927,7 +19960,13 @@ begin
   FRecentFiles := TStringList.Create;
   FRecentFilesLastOpened := TStringList.Create;
   FRecentFilesTabWired := False;
-  
+  FRecentFilesChromeReady := False;
+  FRecentFilesVisualReady := False;
+  FRecentFilesLayoutPending := False;
+  FUIScaleSettlePending := False;
+  FTabStripSkinTimer := nil;
+  FTabStripSkinTries := 0;
+
   FRecentFilesSortColumn := 4; { Default sort by Last loaded }
   FRecentFilesSortAsc := False;
   FRecentFilesListPage := 0;
@@ -19936,6 +19975,8 @@ begin
   FRecentTabRemoveItem := nil;
   FRecentFilesTypeImages := nil;
   FRecentFilesHead := nil;
+  FRecentSessionTip := nil;
+  FStartupFormShow := False;
   FRecentFilesPager := nil;
   FRecentFilesBtnPrev := nil;
   FRecentFilesBtnNext := nil;
@@ -19955,10 +19996,8 @@ begin
   FpmRecentFiles := TPopupMenu.Create(Self);
   LoadRecentFiles;
   StartupMark('FormCreate: LoadRecentFiles');
-  WireRecentFilesTabEvents;
-  LocalizeRecentFilesTab;
-  PopulateRecentFilesTab;
-  StartupMark('FormCreate: recent files tab');
+  { Do not Wire/Localize/Populate here — chrome/align while the form is still
+    invisible (and again in FormShow) makes Recent Files "breathe" into place. }
 
   CalculateFontMetrics;
   ApplyConfigs;
@@ -19972,6 +20011,28 @@ begin
   RestoreEdtFileNameFromIni;
   EnsureReadViewHost;
   StartupMark('FormCreate: combos/edtFileName/read host');
+  { DPI/skin scale before the form is shown — avoids FormShow flash (empty shell,
+    busy cursor, minimize/restore look) when AlphaControls refreshes skins. }
+  if HandleAllocated then
+  begin
+    ApplySystemDpiScaleOnce;
+    if FUIScalePPI <= 0 then
+    begin
+      if Assigned(sSkinProvider1) then
+      try
+        FUIScalePPI := GetPPI(sSkinProvider1.SkinData);
+      except
+        FUIScalePPI := Screen.PixelsPerInch;
+      end
+      else
+        FUIScalePPI := Screen.PixelsPerInch;
+      if FUIScalePPI <= 0 then
+        FUIScalePPI := 96;
+    end;
+    RestoreUIScaleFromIni;
+    LoadListViewZoomFromIni;
+    StartupMark('FormCreate: DPI + zoom');
+  end;
 end;
 
 procedure TfrmMain.SetupToolbarKeyboardHints;
@@ -19985,22 +20046,40 @@ procedure TfrmMain.SetupToolbarKeyboardHints;
     if not Assigned(ABtn) then Exit;
     Tail := TrText('Shortcut: ') + AShortcut;
     Base := TrText(ABaseCaption);
-    ABtn.Caption := Base + #13#10 + AShortcut;
     ABtn.ShowHint := True;
-    ABtn.Hint := Tail;
-    { Main ribbon buttons are alLeft: grow so long translations are not cut with "...". }
-    if (Pos('btnMain', ABtn.Name) = 1) and (ABtn.Align in [alLeft, alRight]) then
+    { Main ribbon toggles: title + shortcut inside a compact square (width set in FitMainRibbons). }
+    if ((Pos('btnMain', ABtn.Name) = 1) or SameText(ABtn.Name, 'btnShowTabReadFile')) and
+       (not SameText(ABtn.Name, 'btnMainToolsGallery')) then
     begin
-      GlyphW := 0;
-      if Assigned(ABtn.Images) then
-        GlyphW := ABtn.Images.Width + ABtn.Spacing;
-      Need := Max(FFMeasureTextWidth(ABtn.Font, Base), FFMeasureTextWidth(ABtn.Font, AShortcut)) +
-        GlyphW + 24;
-      if Need > ABtn.Width then
-        ABtn.Width := Need;
+      if AShortcut <> '' then
+        ABtn.Caption := Base + #13#10 + AShortcut
+      else
+        ABtn.Caption := Base;
+      ABtn.Hint := Tail;
+      ABtn.Layout := blGlyphTop;
+      ABtn.WordWrap := True;
+      ABtn.Margin := 0;
+      ABtn.Spacing := 0;
+    end
+    else
+    begin
+      ABtn.Caption := Base + #13#10 + AShortcut;
+      ABtn.Hint := Tail;
+      { Other alLeft buttons: grow so long translations are not cut with "...". }
+      if (Pos('btnMain', ABtn.Name) = 1) and (ABtn.Align in [alLeft, alRight]) then
+      begin
+        GlyphW := 0;
+        if (ABtn.Layout <> blGlyphTop) and Assigned(ABtn.Images) then
+          GlyphW := ABtn.Images.Width + ABtn.Spacing;
+        Need := Max(FFMeasureTextWidth(ABtn.Font, Base), FFMeasureTextWidth(ABtn.Font, AShortcut)) +
+          GlyphW + 24;
+        if Need > ABtn.Width then
+          ABtn.Width := Need;
+      end;
     end;
   end;
 begin
+  SetBtn(btnMainRecentFiles, 'Toolbar.RecentFiles', 'Alt+R');
   SetBtn(btnShowTabReadFile, 'Read', 'Ctrl+1');
   SetBtn(btnMainSplitEqualParts, 'Equal parts', 'Ctrl+Shift+P');
   SetBtn(btnMainMergeFiles, 'Merge files', 'Ctrl+Shift+J');
@@ -20033,6 +20112,8 @@ begin
   if Assigned(btnHelp) then
     SetBtn(btnHelp, 'Help', 'F1');
   RefreshTopFileQuickActionCaptions;
+  { After captions: ON face + ✓, then measure ribbon widths. }
+  SyncMainToolbarTabChecks;
   FitMainRibbons;
 end;
 
@@ -20070,8 +20151,15 @@ begin
        (TsSpeedButton(Ctl).Caption <> '') then
     begin
       Btn := TsSpeedButton(Ctl);
+      if (FMainTileSide > 0) and IsMainRibbonSquareTile(Btn) then
+      begin
+        Btn.Width := FMainTileSide;
+        Inc(Sum, FMainTileSide);
+        Continue;
+      end;
       GlyphW := 0;
-      if Assigned(Btn.Images) and (Btn.ImageIndex >= 0) then
+      { GlyphTop: icon sits above text — do not inflate width with glyph size. }
+      if (Btn.Layout <> blGlyphTop) and Assigned(Btn.Images) and (Btn.ImageIndex >= 0) then
         GlyphW := Btn.Images.Width + Btn.Spacing;
       Extra := 28;
       if Btn.ButtonStyle = tbsDropDown then
@@ -20155,12 +20243,286 @@ begin
   end;
 end;
 
+function TfrmMain.IsMainRibbonSquareTile(ABtn: TsSpeedButton): Boolean;
+begin
+  Result := Assigned(ABtn) and (ABtn.Parent = PanelToolButtons) and ABtn.Visible and
+    (ABtn.ButtonStyle <> tbsDivider) and (ABtn.ButtonStyle <> tbsSeparator) and
+    ((Pos('btnMain', ABtn.Name) = 1) or (ABtn = btnShowTabReadFile) or
+     (ABtn = btnClose) or (ABtn = btnSplash));
+end;
+
+{ Compact square side from glyph + caption. Cap hard so the ribbon stays near
+  the original ~71 design px — never a tall empty face that "floats". }
+procedure TfrmMain.FitMainRibbonSquareTiles;
+var
+  I, S, Side, GH, TextW, NeedH, NeedW, MaxLine, Ppi, Arrow, Sp, P: Integer;
+  MinS, MaxS: Integer;
+  Ctl: TControl;
+  Btn: TsSpeedButton;
+  Bmp: TBitmap;
+  R: TRect;
+  Cap, Line, Rest: string;
+begin
+  FMainTileSide := 0;
+  if not Assigned(PanelToolButtons) then Exit;
+
+  Ppi := 96;
+  if Assigned(sSkinProvider1) then
+    Ppi := GetPPI(sSkinProvider1.SkinData);
+  if Ppi < 96 then
+    Ppi := 96;
+
+  MinS := FfPx(68);
+  MaxS := FfPx(76);
+  Side := MinS;
+  Bmp := TBitmap.Create;
+  try
+    Bmp.SetSize(8, 8);
+    for I := 0 to PanelToolButtons.ControlCount - 1 do
+    begin
+      Ctl := PanelToolButtons.Controls[I];
+      if not (Ctl is TsSpeedButton) then Continue;
+      Btn := TsSpeedButton(Ctl);
+      if not IsMainRibbonSquareTile(Btn) then Continue;
+      Btn.Layout := blGlyphTop;
+      Btn.WordWrap := True;
+      Btn.UseEllipsis := False;
+      Btn.Margin := 2;
+      Btn.Spacing := 1;
+      Btn.ShowCaption := True;
+
+      GH := 0;
+      if Assigned(Btn.Images) and (Btn.ImageIndex >= 0) then
+        GH := MulDiv(Btn.Images.Height, Ppi, 96)
+      else if (Btn.Glyph <> nil) and (Btn.Glyph.Height > 0) then
+        GH := MulDiv(Btn.Glyph.Height, Ppi, 96);
+      if Btn.Reflected and (GH > 0) then
+        Inc(GH, GH div 6);
+      Arrow := 0;
+      if Btn.ButtonStyle = tbsDropDown then
+        Arrow := FfPx(12);
+      Sp := 0;
+      if (GH > 0) and (Btn.Caption <> '') then
+        Sp := FfPx(1);
+
+      Bmp.Canvas.Font.Assign(Btn.Font);
+      Cap := Btn.Caption;
+      MaxLine := 0;
+      Rest := Cap;
+      while Rest <> '' do
+      begin
+        P := Pos(#10, Rest);
+        if P = 0 then
+        begin
+          Line := Rest;
+          Rest := '';
+        end
+        else
+        begin
+          Line := Copy(Rest, 1, P - 1);
+          Delete(Rest, 1, P);
+        end;
+        if (Line <> '') and (Line[Length(Line)] = #13) then
+          Delete(Line, Length(Line), 1);
+        MaxLine := Max(MaxLine, Bmp.Canvas.TextWidth(Line));
+      end;
+      NeedW := MaxLine + Arrow + FfPx(6);
+
+      S := Max(MinS, NeedW);
+      if S > MaxS then
+        S := MaxS;
+      TextW := Max(8, S - Arrow - FfPx(2));
+      R := Rect(0, 0, TextW, 0);
+      DrawText(Bmp.Canvas.Handle, PChar(Cap), -1, R,
+        DT_CALCRECT or DT_WORDBREAK or DT_CENTER or DT_EXPANDTABS);
+      { GenMargin = ScaleInt(Margin+3) on the top; keep a little bottom slack. }
+      NeedH := FfPx(Btn.Margin + 3) + GH + Sp + Max(R.Bottom, 0) + FfPx(4);
+      if NeedH > S then
+      begin
+        S := NeedH;
+        if S > MaxS then
+          S := MaxS;
+      end;
+      if S > Side then
+        Side := S;
+    end;
+  finally
+    Bmp.Free;
+  end;
+  FMainTileSide := Side;
+end;
+
 procedure TfrmMain.FitMainRibbons;
+var
+  I, Side, X, Chrome, Band: Integer;
+  Ctl: TControl;
+  SL: TStringList;
+  BL: IInterface;
+  BeforeClose: array[0..11] of TsSpeedButton;
+
+  procedure HideSplitters;
+  var
+    J: Integer;
+    SpBtn: TsSpeedButton;
+  begin
+    for J := 0 to PanelToolButtons.ControlCount - 1 do
+    begin
+      if not (PanelToolButtons.Controls[J] is TsSpeedButton) then Continue;
+      SpBtn := TsSpeedButton(PanelToolButtons.Controls[J]);
+      if not (SpBtn.ButtonStyle in [tbsDivider, tbsSeparator]) then Continue;
+      SpBtn.Visible := False;
+      SpBtn.Align := alNone;
+      SpBtn.Anchors := [akLeft, akTop];
+      SpBtn.SetBounds(-2000, 0, 0, 0);
+    end;
+    if Assigned(sPanel6) then
+    begin
+      sPanel6.Visible := False;
+      sPanel6.Align := alNone;
+      sPanel6.SetBounds(-2000, 0, 0, 0);
+    end;
+  end;
+
+  procedure AddBtn(ABtn: TsSpeedButton);
+  begin
+    if Assigned(ABtn) and ABtn.Visible and (SL.IndexOfObject(ABtn) < 0) then
+      SL.AddObject(ABtn.Name, ABtn);
+  end;
+
+  { alLeft makes Height = panel height. Panel height is forced to Side, so
+    Width=Side yields a true square flush with the band (no float). }
+  procedure PackAlLeft;
+  var
+    K: Integer;
+    Btn: TsSpeedButton;
+  begin
+    X := 0;
+    for K := 0 to SL.Count - 1 do
+    begin
+      Btn := TsSpeedButton(SL.Objects[K]);
+      Btn.Constraints.MinWidth := 0;
+      Btn.Constraints.MaxWidth := 0;
+      Btn.Constraints.MinHeight := 0;
+      Btn.Constraints.MaxHeight := 0;
+      Btn.Layout := blGlyphTop;
+      Btn.WordWrap := True;
+      Btn.UseEllipsis := False;
+      Btn.Margin := 2;
+      Btn.Spacing := 1;
+      { Reflection draws under the glyph and reads as extra empty height. }
+      Btn.Reflected := False;
+      Btn.Align := alLeft;
+      Btn.Left := X;
+      Btn.Top := 0;
+      Btn.Width := Side;
+      Inc(X, Side);
+    end;
+    PanelToolButtons.Width := Max(X + FfPx(4), Side);
+    PanelToolButtons.Height := Side;
+  end;
+
 begin
   if FRibbonFitBusy or (csDestroying in ComponentState) then Exit;
   FRibbonFitBusy := True;
   try
-    FitRibbonToClient(sPageScroller1, PanelToolButtons);
+    if not Assigned(PanelToolButtons) then Exit;
+
+    { Fixed tab chrome (design page 107 − scroller 71). Measuring a bloated
+      scroller as "chrome" was locking the band too tall. }
+    Chrome := FfPx(36);
+    if Assigned(sPageControl1) and (sPageControl1.TabHeight > 0) then
+      Chrome := Max(Chrome, sPageControl1.TabHeight + FfPx(10));
+
+    PanelToolButtons.DisableAlign;
+    try
+      HideSplitters;
+    finally
+      PanelToolButtons.EnableAlign;
+    end;
+
+    FitMainRibbonSquareTiles;
+    Side := FMainTileSide;
+    if Side <= 0 then
+    begin
+      FitRibbonToClient(sPageScroller1, PanelToolButtons);
+      FitRibbonToClient(sPageScroller2, pnlButtons);
+      Exit;
+    end;
+
+    BeforeClose[0] := btnMainRecentFiles;
+    BeforeClose[1] := btnShowTabReadFile;
+    BeforeClose[2] := btnMainMergeFiles;
+    BeforeClose[3] := btnMainSplitEqualParts;
+    BeforeClose[4] := btnMainSplitFiles;
+    BeforeClose[5] := btnMainMergeLines;
+    BeforeClose[6] := btnMainCompareMerge;
+    BeforeClose[7] := btnMainToolsGallery;
+    BeforeClose[8] := btnMainPythonMacro;
+    BeforeClose[9] := btnMainAskFiles;
+    BeforeClose[10] := btnMainAgentHub;
+    BeforeClose[11] := btnSplash;
+    BL := BidiLayoutScope([PanelToolButtons]);
+    SL := TStringList.Create;
+    try
+      for I := Low(BeforeClose) to High(BeforeClose) do
+        AddBtn(BeforeClose[I]);
+      for I := 0 to PanelToolButtons.ControlCount - 1 do
+      begin
+        Ctl := PanelToolButtons.Controls[I];
+        if (Ctl = nil) or not Ctl.Visible or (Ctl = btnClose) then Continue;
+        if not (Ctl is TsSpeedButton) then Continue;
+        if TsSpeedButton(Ctl).ButtonStyle in [tbsDivider, tbsSeparator] then Continue;
+        if SL.IndexOfObject(Ctl) < 0 then
+          SL.AddObject(Ctl.Name, Ctl);
+      end;
+      AddBtn(btnClose);
+
+      if Assigned(sPageScroller1) then
+        sPageScroller1.Margin := 0;
+
+      if Assigned(sPageControl1) then
+      begin
+        sPageControl1.Height := Chrome + Side;
+        sPageControl1.Realign;
+      end;
+
+      PanelToolButtons.DisableAlign;
+      try
+        PackAlLeft;
+      finally
+        PanelToolButtons.EnableAlign;
+      end;
+
+      if Assigned(sPageScroller1) then
+        sPageScroller1.RecalcSize;
+
+      { If RecalcSize left the band taller than the tile, shrink again. }
+      if Assigned(sPageControl1) and Assigned(sPageScroller1) then
+      begin
+        Band := sPageScroller1.Height;
+        if Band > Side + 2 then
+        begin
+          sPageControl1.Height := sPageControl1.Height - (Band - Side);
+          sPageControl1.Realign;
+          sPageScroller1.RecalcSize;
+        end;
+      end;
+
+      { Lock W=H to the live panel height so alLeft cannot leave a 100×85 float. }
+      if PanelToolButtons.Height > FfPx(40) then
+        Side := PanelToolButtons.Height;
+      FMainTileSide := Side;
+
+      PanelToolButtons.DisableAlign;
+      try
+        PackAlLeft;
+      finally
+        PanelToolButtons.EnableAlign;
+      end;
+    finally
+      SL.Free;
+    end;
+
     FitRibbonToClient(sPageScroller2, pnlButtons);
   finally
     FRibbonFitBusy := False;
@@ -20187,12 +20549,13 @@ end;
 procedure TfrmMain.EnsureReadTabVisible;
 begin
   if (not Assigned(pgMain)) or (not Assigned(tabReadFile)) then Exit;
-  { Se a aba Read foi fechada (pgMainCloseBtnClick/HideTabs), reabrir e tornar visivel.
-    So evita recarregar quando ja esta efetivamente ativa e visivel. }
+  { Reopen/focus Read when needed. Never call DoShowPanelReadFile here: that
+    toggles close when TabVisible, so opening Equal parts / Merge / etc. would
+    uncheck and hide Read. }
   if (not pgMain.Visible)
     or (pgMain.ActivePage <> tabReadFile)
     or (not tabReadFile.TabVisible) then
-    DoShowPanelReadFile;
+    ShowTab(tabReadFile);
 end;
 
 procedure TfrmMain.DoF5ReadOrShowTab;
@@ -20453,7 +20816,7 @@ var
       Frm.BorderStyle := bsDialog;
       Frm.BorderIcons := [biSystemMenu];
       Frm.Position := poMainFormCenter;
-      Frm.Font.Name := 'Segoe UI';
+      Frm.Font.Name := FONT_SEGOE_UI;
       Frm.Font.Size := 9;
       Frm.KeyPreview := True;
       FfPrepareDialog(Frm, 620, 250);
@@ -20565,7 +20928,7 @@ var
       Frm.BorderStyle := bsDialog;
       Frm.BorderIcons := [biSystemMenu];
       Frm.Position := poMainFormCenter;
-      Frm.Font.Name := 'Segoe UI';
+      Frm.Font.Name := FONT_SEGOE_UI;
       Frm.Font.Size := 9;
       FfPrepareDialog(Frm, 480, 440);
 
@@ -20605,7 +20968,7 @@ var
       SelectedList := TListBox.Create(Frm);
       SelectedList.Parent := Frm;
       SelectedList.Align := alClient;
-      SelectedList.Font.Name := 'Consolas';
+      SelectedList.Font.Name := FONT_CONSOLAS;
       SelectedList.Font.Size := 9;
       SelectedList.OnClick := SelectRangeResultLineClick;
       if AAllLines then
@@ -20819,16 +21182,19 @@ end;
 
 procedure TfrmMain.miSplitFilesClick(Sender: TObject);
 begin
+  if TryToggleCloseMainTab(tabSplitFile) then Exit;
   EnsureReadTabVisible;
-  if Assigned(btnSplitFiles) and btnSplitFiles.Enabled then
-    btnSplitFilesClick(btnSplitFiles);
+  { Do not gate on btnSplitFiles.Enabled — that file-toolbar control is often
+    disabled / moved to overflow; the main ribbon toggle must still open/close. }
+  ActionSplitFileExecute(Sender);
 end;
 
 procedure TfrmMain.miMergeLinesClick(Sender: TObject);
 begin
+  if TryToggleCloseMainTab(tabMergeLines) then Exit;
   EnsureReadTabVisible;
-  if Assigned(btnMergeMultipleLines) and btnMergeMultipleLines.Enabled then
-    btnMergeMultipleLinesClick(btnMergeMultipleLines);
+  { Same as Split files: ignore btnMergeMultipleLines.Enabled. }
+  BeginMergeLinesTab;
 end;
 
 function StackCompareTop(Item1, Item2: Pointer): Integer;
@@ -22136,23 +22502,26 @@ end;
 
 procedure TfrmMain.miSplitByPatternClick(Sender: TObject);
 begin
+  if TryToggleCloseMainTab(tabSplitByPatternTab) then Exit;
   EnsureReadTabVisible;
-  ShowTab(tabSplitByPatternTab);
   EnsureSplitByPatternTab;
+  ShowTab(tabSplitByPatternTab);
 end;
 
 procedure TfrmMain.miSplitEqualPartsClick(Sender: TObject);
 begin
+  if TryToggleCloseMainTab(tabSplitEqualPartsTab) then Exit;
   EnsureReadTabVisible;
-  ShowTab(tabSplitEqualPartsTab);
   EnsureSplitEqualPartsTab;
+  ShowTab(tabSplitEqualPartsTab);
 end;
 
 procedure TfrmMain.miSplitFileFractionClick(Sender: TObject);
 begin
+  if TryToggleCloseMainTab(tabSplitFractionTab) then Exit;
   EnsureReadTabVisible;
-  ShowTab(tabSplitFractionTab);
   EnsureSplitFractionTab;
+  ShowTab(tabSplitFractionTab);
 end;
 
 function TfrmMain.TryGetLineStartOffset(const ALine1Based: Int64;
@@ -22195,6 +22564,7 @@ var
   CurPath: string;
   MergeFrm: TfrmCompareMerge;
 begin
+  if TryToggleCloseMainTab(tabMerge) then Exit;
   CurPath := Trim(edtFileName.Text);
   ShowTab(tabMerge);
 
@@ -22611,8 +22981,9 @@ procedure TfrmMain.miAskFilesClick(Sender: TObject);
 var
   WasHosted: Boolean;
 begin
-  WasHosted := Assigned(FAgentHosted);
   EnsureAskFilesTab;
+  if TryToggleCloseMainTab(FAgentTab) then Exit;
+  WasHosted := Assigned(FAgentHosted);
   if not Assigned(FAgentTab) then Exit;
   EnsureAgentWorkspace;
   ShowTab(FAgentTab);
@@ -22651,8 +23022,9 @@ procedure TfrmMain.miAgentHubClick(Sender: TObject);
 var
   WasHosted: Boolean;
 begin
-  WasHosted := Assigned(FAgentHubHosted);
   EnsureAgentHubTab;
+  if TryToggleCloseMainTab(FAgentHubTab) then Exit;
+  WasHosted := Assigned(FAgentHubHosted);
   if not Assigned(FAgentHubTab) then Exit;
   EnsureAgentHubWorkspace;
   ShowTab(FAgentHubTab);
@@ -22790,8 +23162,10 @@ begin
     end;
   end;
 
-  ShowTab(tabMergeFiles);
+  { Build the hosted form while the tab is still off-screen, then show the tab.
+    Show-then-create left an empty sheet and let CreateNew flash a top-level HWND. }
   EnsureMergeFilesTab;
+  ShowTab(tabMergeFiles);
   if not Assigned(FMergeFilesHosted) then Exit;
   Frm := TMergeFilesDialogForm(FMergeFilesHosted);
   Frm.Hint := DestFileName;
@@ -22818,6 +23192,7 @@ end;
 
 procedure TfrmMain.miMergeFilesClick(Sender: TObject);
 begin
+  if TryToggleCloseMainTab(tabMergeFiles) then Exit;
   OpenMergeFilesTab('', -1, 1);
 end;
 
@@ -23540,7 +23915,7 @@ begin
   FSearchDockCoverLbl.Alignment := taCenter;
   FSearchDockCoverLbl.Transparent := True;
   FSearchDockCoverLbl.ParentFont := False;
-  FSearchDockCoverLbl.Font.Name := 'Segoe UI';
+  FSearchDockCoverLbl.Font.Name := FONT_SEGOE_UI;
   FSearchDockCoverLbl.Font.Size := 9;
   FSearchDockCoverLbl.Font.Color := TColor($006B6158);
   FSearchDockCoverLbl.Caption := TrText('SearchDock.Loading');
@@ -24842,10 +25217,10 @@ begin
   end;
   if not Assigned(pnlCenter) or not Assigned(ListView1) then Exit;
 
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    UiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    UiFont := FONT_SEGOE_UI
   else
-    UiFont := 'Tahoma';
+    UiFont := FONT_TAHOMA;
 
   pnlCenter.DisableAlign;
   try
@@ -24979,10 +25354,10 @@ var
   UiFont: string;
   WantSize, Pct: Integer;
 begin
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    UiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    UiFont := FONT_SEGOE_UI
   else
-    UiFont := 'Tahoma';
+    UiFont := FONT_TAHOMA;
 
   if Assigned(FReadViewTitle) then
   begin
@@ -25577,7 +25952,7 @@ begin
   if SameText(AStep.ActionId, 'split_files') then
   begin
     EnsureReadTabVisible;
-    if Assigned(btnSplitFiles) and btnSplitFiles.Enabled then btnSplitFilesClick(btnSplitFiles);
+    miSplitFilesClick(Self);
     Exit;
   end;
   if SameText(AStep.ActionId, 'split_equal_parts') then
@@ -26165,6 +26540,7 @@ begin
   St.FilterText := S;
   St.CaseSensitive := ACaseSensitive;
   if AssistantCbTryDeferUntilLoaded(St) then Exit;
+  ReleaseFindOccFilterDriver;
   FFilterText := S;
   if not HasLineSearchIndex then
   begin
@@ -26283,6 +26659,12 @@ end;
 procedure TfrmMain.AssistantCbContinueFilter;
 begin
   EnsureReadTabVisible;
+  if not FFilterActive then
+  begin
+    FastFileMessageBox(PChar(TrText('No active filter. Press Ctrl+L first.')),
+      PChar(TrText('Assistant.Title')), MB_OK or MB_ICONWARNING);
+    Exit;
+  end;
   ContinueFilterStream;
 end;
 
@@ -29183,8 +29565,16 @@ end;
 
 procedure TfrmMain.DoShowPanelReadFile;
 begin
+  if (csDestroying in ComponentState) then Exit;
+  if not Assigned(tabReadFile) or not Assigned(pgMain) then Exit;
+  if TryToggleCloseMainTab(tabReadFile) then Exit;
   ShowTab(tabReadFile);
-  edtFileName.SetFocus;
+  try
+    if Assigned(edtFileName) and edtFileName.HandleAllocated and edtFileName.CanFocus then
+      edtFileName.SetFocus;
+  except
+    { Focus can fail while AlphaControls is still rebuilding after PPI scale. }
+  end;
 end;
 
 procedure TfrmMain.ActionSelectSkinExecute(Sender: TObject);
@@ -29273,10 +29663,12 @@ procedure TfrmMain.ShowTab(const tabSheet: TsTabSheet(*; const showOtherTabs: Bo
 var
   I: Integer;
 begin
+  if (csDestroying in ComponentState) or not Assigned(pgMain) or not Assigned(tabSheet) then
+    Exit;
   { Mantem abas ja abertas; apenas garante visibilidade/foco da nova aba. }
   if (tabSheet <> tabReadFile) then
     ClearFileLineHoverHint;
-  if Assigned(tabSheet) and Assigned(FPendingTabBuild) then
+  if Assigned(FPendingTabBuild) then
   begin
     I := FPendingTabBuild.IndexOf(tabSheet.Name);
     if I >= 0 then
@@ -29303,9 +29695,13 @@ begin
   SyncAllMainTabPageBounds;
   if tabSheet = tabReadFile then
   begin
-    RunPendingFilterBarRestore;
-    ForceWorkspaceLayoutRefresh;
-    ScheduleReadTabLayoutRefresh;
+    try
+      RunPendingFilterBarRestore;
+      ForceWorkspaceLayoutRefresh;
+      ScheduleReadTabLayoutRefresh;
+    except
+      { Layout can fail while AlphaControls is still rebuilding after PPI scale. }
+    end;
   end
   else if ((tabSheet = FAgentTab) and Assigned(FAgentHosted)) or
           ((tabSheet = FAgentHubTab) and Assigned(FAgentHubHosted)) then
@@ -29314,6 +29710,7 @@ begin
       PostMessage(Handle, WM_USER + 441, 0, 0);
   end;
   LayoutTabMenuButton;
+  SyncMainToolbarTabChecks;
 end;
 
 procedure TfrmMain.HideTabs(const showOtherTabs: Boolean = False);
@@ -29335,6 +29732,201 @@ begin
   if showOtherTabs then
     pgMainPageChange(pgMain);
   LayoutTabMenuButton;
+  SyncMainToolbarTabChecks;
+end;
+
+function TfrmMain.TryToggleCloseMainTab(ATab: TsTabSheet): Boolean;
+begin
+  Result := False;
+  if not Assigned(ATab) or not Assigned(pgMain) then Exit;
+  { Toolbar checked = tab open AND pgMain showing. If pgMain is hidden (idle
+    logo), TabVisible may still be True — do not treat that as "open" or the
+    click would no-op inside CloseMainTabPage and leave the button stuck ON. }
+  if ATab.TabVisible and pgMain.Visible then
+  begin
+    CloseMainTabPage(ATab);
+    Result := True;
+  end;
+end;
+
+procedure TfrmMain.SetupMainToolbarToggleButton(ABtn: TsSpeedButton; AGroupIndex: Integer);
+begin
+  if not Assigned(ABtn) then Exit;
+  { GroupIndex/Down = skin's strong blue selected face. ON is painted in OnPaint. }
+  ABtn.GroupIndex := 0;
+  ABtn.Down := False;
+  ABtn.AllowAllUp := True;
+  ABtn.Layout := blGlyphTop;
+  ABtn.Spacing := 1;
+  { Fixed top margin (not -1): -1 vertically centers, so 2-line vs 3-line
+    captions shift the glyph and look like floating icons. }
+  ABtn.Margin := 2;
+  ABtn.WordWrap := True;
+  ABtn.UseEllipsis := False;
+  ABtn.ShowCaption := True;
+  ABtn.Flat := True;
+  ABtn.SkinData.SkinSection := 'TOOLBUTTON';
+  ABtn.SkinData.ColorTone := clNone;
+  ABtn.OnPaint := MainToolbarTogglePaint;
+end;
+
+function TfrmMain.MainToolbarToggleIsOn(ABtn: TObject): Boolean;
+var
+  RecentTab: TsTabSheet;
+
+  function TabOpen(ATab: TsTabSheet): Boolean;
+  begin
+    { HideTabs leaves TabVisible True while pgMain is hidden (idle logo). }
+    Result := Assigned(pgMain) and pgMain.Visible and Assigned(ATab) and ATab.TabVisible;
+  end;
+
+begin
+  Result := False;
+  if ABtn = nil then Exit;
+  if ABtn = btnMainRecentFiles then
+  begin
+    RecentTab := FindRecentFilesTab;
+    Result := TabOpen(RecentTab);
+  end
+  else if ABtn = btnShowTabReadFile then
+    Result := TabOpen(tabReadFile)
+  else if ABtn = btnMainMergeFiles then
+    Result := TabOpen(tabMergeFiles)
+  else if ABtn = btnMainSplitEqualParts then
+    Result := TabOpen(tabSplitEqualPartsTab)
+  else if ABtn = btnMainSplitFiles then
+    Result := TabOpen(tabSplitFile)
+  else if ABtn = btnMainMergeLines then
+    Result := TabOpen(tabMergeLines)
+  else if ABtn = btnMainCompareMerge then
+    Result := TabOpen(tabMerge)
+  else if ABtn = btnMainSplitByPattern then
+    Result := TabOpen(tabSplitByPatternTab)
+  else if ABtn = btnMainExtractParts then
+    Result := TabOpen(tabSplitFractionTab)
+  else if ABtn = btnShowTabFindFile then
+    Result := TabOpen(tabFindFiles)
+  else if ABtn = btnMainAskFiles then
+    Result := TabOpen(FAgentTab)
+  else if ABtn = btnMainAgentHub then
+    Result := TabOpen(FAgentHubTab)
+  else if ABtn = btnMainPythonMacro then
+    Result := Assigned(FScriptEnginePanel) and FScriptEnginePanel.Visible;
+end;
+
+{ ON look drawn over the finished tile: light background pixels get a soft
+  cream wash (glyph and text stay untouched), thin warm frame, ✔ badge in the
+  top-right corner. Caption and size never change, so nothing is clipped. }
+procedure TfrmMain.MainToolbarTogglePaint(Sender: TObject; Bmp: TBitmap);
+const
+  WASH_A = 210; { 0..256 toward FF_TB_TOGGLE_ON_FACE }
+var
+  X, Y, W, H, Lo, Hi, Sz: Integer;
+  P: PRGBQuad;
+  FR, FG, FB: Integer;
+  Mark: string;
+  TS: TSize;
+begin
+  if not (Sender is TsSpeedButton) or (Bmp = nil) then Exit;
+  if not MainToolbarToggleIsOn(Sender) then Exit;
+  W := Min(Bmp.Width, TsSpeedButton(Sender).Width);
+  H := Min(Bmp.Height, TsSpeedButton(Sender).Height);
+  if (W < 8) or (H < 8) or (Bmp.PixelFormat <> pf32bit) then Exit;
+
+  FR := GetRValue(FF_TB_TOGGLE_ON_FACE);
+  FG := GetGValue(FF_TB_TOGGLE_ON_FACE);
+  FB := GetBValue(FF_TB_TOGGLE_ON_FACE);
+  for Y := 0 to H - 1 do
+  begin
+    P := Bmp.ScanLine[Y];
+    for X := 0 to W - 1 do
+    begin
+      Lo := Min(P^.rgbRed, Min(P^.rgbGreen, P^.rgbBlue));
+      Hi := Max(P^.rgbRed, Max(P^.rgbGreen, P^.rgbBlue));
+      if (Lo >= 205) and (Hi - Lo <= 28) then
+      begin
+        P^.rgbRed   := P^.rgbRed   + ((FR - P^.rgbRed)   * WASH_A) div 256;
+        P^.rgbGreen := P^.rgbGreen + ((FG - P^.rgbGreen) * WASH_A) div 256;
+        P^.rgbBlue  := P^.rgbBlue  + ((FB - P^.rgbBlue)  * WASH_A) div 256;
+      end;
+      Inc(P);
+    end;
+  end;
+
+  Bmp.Canvas.Brush.Style := bsClear;
+  Bmp.Canvas.Pen.Style := psSolid;
+  Bmp.Canvas.Pen.Width := 1;
+  Bmp.Canvas.Pen.Color := FF_TB_TOGGLE_ON_FRAME;
+  Bmp.Canvas.RoundRect(1, 1, W - 1, H - 1, 8, 8);
+
+  Mark := FF_TB_TOGGLE_MARK;
+  Sz := Max(12, H div 5);
+  Bmp.Canvas.Font.Name := FONT_SEGOE_UI_SYMBOL;
+  Bmp.Canvas.Font.Height := -Sz;
+  Bmp.Canvas.Font.Style := [fsBold];
+  Bmp.Canvas.Font.Color := FF_TB_TOGGLE_ON_MARK;
+  SetBkMode(Bmp.Canvas.Handle, TRANSPARENT);
+  TS := Bmp.Canvas.TextExtent(Mark);
+  if BidiIsRtl then
+    Bmp.Canvas.TextOut(5, 3, Mark)
+  else
+    Bmp.Canvas.TextOut(W - TS.cx - 5, 3, Mark);
+end;
+
+procedure TfrmMain.SyncMainToolbarTabChecks;
+
+  procedure StripToggleMark(var Cap: string);
+  begin
+    if (Cap = '') or (Cap[1] <> FF_TB_TOGGLE_MARK) then Exit;
+    Delete(Cap, 1, 1);
+    if (Cap <> '') and (Cap[1] = ' ') then
+      Delete(Cap, 1, 1);
+    { Legacy: check alone on first line (✔ + CRLF + rest). }
+    if (Length(Cap) >= 2) and (Cap[1] = #13) and (Cap[2] = #10) then
+      Delete(Cap, 1, 2)
+    else if (Cap <> '') and (Cap[1] = #10) then
+      Delete(Cap, 1, 1);
+  end;
+
+  procedure SetDown(ABtn: TsSpeedButton; AGroupIndex: Integer);
+  var
+    Cap: string;
+  begin
+    if not Assigned(ABtn) then Exit;
+    SetupMainToolbarToggleButton(ABtn, AGroupIndex);
+    Cap := ABtn.Caption;
+    StripToggleMark(Cap);
+    if ABtn.Caption <> Cap then
+      ABtn.Caption := Cap;
+    try
+      ABtn.SkinData.CustomColor := False;
+      ABtn.SkinData.CustomFont := False;
+      ABtn.Font.Style := [];
+      if MainToolbarToggleIsOn(ABtn) then
+        ABtn.Blend := 0
+      else
+        ABtn.Blend := 20;
+      ABtn.SkinData.BGChanged := True;
+    except
+    end;
+    if ABtn.Visible then
+      ABtn.Invalidate;
+  end;
+
+begin
+  SetDown(btnMainRecentFiles, 100);
+  SetDown(btnShowTabReadFile, 101);
+  SetDown(btnMainMergeFiles, 102);
+  SetDown(btnMainSplitEqualParts, 103);
+  SetDown(btnMainSplitFiles, 104);
+  SetDown(btnMainMergeLines, 105);
+  SetDown(btnMainCompareMerge, 106);
+  SetDown(btnMainSplitByPattern, 107);
+  SetDown(btnMainExtractParts, 108);
+  SetDown(btnShowTabFindFile, 109);
+  SetDown(btnMainAskFiles, 110);
+  SetDown(btnMainAgentHub, 111);
+  SetDown(btnMainPythonMacro, 112);
 end;
 
 procedure TfrmMain.SaveOpenTabsToIni;
@@ -29568,8 +30160,26 @@ begin
 end;
 
 procedure TfrmMain.miRestoreLastSessionTabsClick(Sender: TObject);
+var
+  N: Integer;
 begin
-  RestoreOpenTabsFromIni;
+  if not RestoreOpenTabsFromIni then
+  begin
+    ShowFastFileAppNotice(frmMain, fnkWarning, TrText('Restore last session tabs'),
+      TrText('TabCtx.NoSavedTabs'));
+    Exit;
+  end;
+  N := VisibleMainTabCount;
+  if N <= 0 then
+  begin
+    ShowFastFileAppNotice(frmMain, fnkWarning, TrText('Restore last session tabs'),
+      TrText('TabCtx.NoSavedTabs'));
+    Exit;
+  end;
+  ShowFastFileAppNotice(frmMain, fnkSuccess, TrText('TabCtx.RestoredTabs'),
+    Format(TrText('TabCtx.RestoredTabsDetail'), [N]));
+  LayoutTabMenuButton;
+  SyncMainToolbarTabChecks;
 end;
 
 procedure TfrmMain.RestoreOneOpenTab(const ATabName: string);
@@ -29586,10 +30196,15 @@ begin
   begin
     Tab := FindRecentFilesTab;
     if not Assigned(Tab) then Exit;
-    ShowTab(Tab);
-    WireRecentFilesTabEvents;
-    LocalizeRecentFilesTab;
-    PopulateRecentFilesTab;
+    ShowTab(Tab); { visible first so ClientWidth is real }
+    BeginRecentFilesSilentLayout;
+    try
+      WireRecentFilesTabEvents;
+      LocalizeRecentFilesTab;
+      PopulateRecentFilesTab;
+    finally
+      EndRecentFilesSilentLayout;
+    end;
     Exit;
   end;
 
@@ -29624,32 +30239,32 @@ begin
   if SameText(Id, 'tabMergeFiles') then
   begin
     if not Assigned(tabMergeFiles) then Exit;
-    ShowTab(tabMergeFiles);
     EnsureMergeFilesTab;
+    ShowTab(tabMergeFiles);
     Exit;
   end;
 
   if SameText(Id, 'tabSplitByPatternTab') then
   begin
     if not Assigned(tabSplitByPatternTab) then Exit;
-    ShowTab(tabSplitByPatternTab);
     EnsureSplitByPatternTab;
+    ShowTab(tabSplitByPatternTab);
     Exit;
   end;
 
   if SameText(Id, 'tabSplitEqualPartsTab') then
   begin
     if not Assigned(tabSplitEqualPartsTab) then Exit;
-    ShowTab(tabSplitEqualPartsTab);
     EnsureSplitEqualPartsTab;
+    ShowTab(tabSplitEqualPartsTab);
     Exit;
   end;
 
   if SameText(Id, 'tabSplitFractionTab') then
   begin
     if not Assigned(tabSplitFractionTab) then Exit;
-    ShowTab(tabSplitFractionTab);
     EnsureSplitFractionTab;
+    ShowTab(tabSplitFractionTab);
     Exit;
   end;
 
@@ -30361,6 +30976,7 @@ begin
   HideMainTabPage(APage);
   UpdateIdleLogoVisibility;
   pgMainPageChange(pgMain);
+  SyncMainToolbarTabChecks;
 end;
 
 procedure TfrmMain.CloseMainTabsWhere(AKeep: TTabSheet; AMode: Integer);
@@ -30433,68 +31049,277 @@ begin
 end;
 
 procedure TfrmMain.EnsureTabMenuButton;
+var
+  Host: TWinControl;
 begin
-  if Assigned(FTabMenuBtn) or not Assigned(pgMain) then Exit;
-  FTabMenuBtn := TsButton.Create(Self);
-  FTabMenuBtn.Parent := pgMain;
-  FTabMenuBtn.Caption := #$2630;
-  FTabMenuBtn.TabStop := False;
-  FTabMenuBtn.ParentFont := False;
-  if Screen.Fonts.IndexOf('Segoe UI Symbol') >= 0 then
-    FTabMenuBtn.Font.Name := 'Segoe UI Symbol'
-  else
-    FTabMenuBtn.Font.Name := 'Segoe UI';
-  FTabMenuBtn.Font.Size := 9;
-  FTabMenuBtn.ShowHint := True;
-  FTabMenuBtn.Anchors := [akTop, akRight];
-  FTabMenuBtn.OnClick := TabMenuBtnClick;
-  try
-    FTabMenuBtn.SkinData.SkinSection := 'TOOLBUTTON';
-  except
+  if not Assigned(pgMain) then Exit;
+  Host := pgMain.Parent;
+  if not Assigned(Host) then
+    Host := Self;
+  if not Assigned(FTabMenuBtn) then
+  begin
+    FTabMenuBtn := TsButton.Create(Self);
+    { Sibling of pgMain — never a child: skinned children corrupt the tab strip. }
+    FTabMenuBtn.Parent := Host;
+    FTabMenuBtn.Caption := #$2630;
+    FTabMenuBtn.TabStop := False;
+    FTabMenuBtn.ParentFont := False;
+    if Screen.Fonts.IndexOf(FONT_SEGOE_UI_SYMBOL) >= 0 then
+      FTabMenuBtn.Font.Name := FONT_SEGOE_UI_SYMBOL
+    else
+      FTabMenuBtn.Font.Name := FONT_SEGOE_UI;
+    FTabMenuBtn.Font.Size := 9;
+    FTabMenuBtn.ShowHint := True;
+    FTabMenuBtn.Hint := TrText('TabCtx.MenuButtonHint');
+    FTabMenuBtn.Anchors := [akTop, akRight];
+    FTabMenuBtn.OnClick := TabMenuBtnClick;
+    try
+      FTabMenuBtn.SkinData.SkinSection := 'TOOLBUTTON';
+    except
+    end;
+    pgMain.OnResize := pgMainResizeTabs;
   end;
-  pgMain.OnResize := pgMainResizeTabs;
   LayoutTabMenuButton;
 end;
 
-{ Botao "☰" no fim da faixa das abas: mesmo menu do botao direito. }
+{ Botoes no fim da faixa das abas: "Close all" + "☰" (mesmo menu do botao direito).
+  Guard against WM_SIZE re-entry: SetBounds/Caption on children of pgMain fires
+  OnResize again and used to stall FormShow (~2s blank form). }
 procedure TfrmMain.LayoutTabMenuButton;
 var
   R: TRect;
-  StripH, BH, BW: Integer;
+  StripH, BH, BWMenu, BWClose, Gap, Y, MenuX, CloseX: Integer;
+  Cap, HintClose, HintMenu: string;
+  Vis: Boolean;
+  Host: TWinControl;
+  Pt: TPoint;
+
+  procedure PlaceBtn(ABtn: TsButton; AX, AY, AW, AH: Integer; AAnchors: TAnchors);
+  begin
+    if not Assigned(ABtn) then Exit;
+    if (ABtn.Left <> AX) or (ABtn.Top <> AY) or (ABtn.Width <> AW) or (ABtn.Height <> AH) then
+      ABtn.SetBounds(AX, AY, AW, AH);
+    if ABtn.Anchors <> AAnchors then
+      ABtn.Anchors := AAnchors;
+    if not ABtn.Visible then
+      ABtn.Visible := True;
+  end;
+
 begin
-  if not Assigned(FTabMenuBtn) or not Assigned(pgMain) or not pgMain.HandleAllocated then Exit;
-  FTabMenuBtn.Hint := TrText('TabCtx.MenuButtonHint');
-  if VisibleMainTabCount = 0 then
-  begin
-    FTabMenuBtn.Visible := False;
-    Exit;
+  { Never call SkinTabRect here — it reads SkinManager.gd and AVs during Custom
+    PPI / Auto scaling (LayoutTabMenuButton ← pgMainResize ← WM_SIZE). }
+  if FTabChromeBusy or FUIScaleApplying or (csDestroying in ComponentState) then Exit;
+  if not Assigned(pgMain) or not pgMain.HandleAllocated then Exit;
+  if not Assigned(FTabMenuBtn) then Exit;
+
+  Host := pgMain.Parent;
+  if not Assigned(Host) then
+    Host := Self;
+
+  FTabChromeBusy := True;
+  try
+    Vis := VisibleMainTabCount > 0;
+    if not Vis then
+    begin
+      if FTabMenuBtn.Visible then
+        FTabMenuBtn.Visible := False;
+      if Assigned(FTabCloseAllBtn) and FTabCloseAllBtn.Visible then
+        FTabCloseAllBtn.Visible := False;
+      Exit;
+    end;
+
+    { Create Close all only when tabs exist — avoid skinned child during FormCreate DPI. }
+    if not Assigned(FTabCloseAllBtn) then
+    begin
+      FTabCloseAllBtn := TsButton.Create(Self);
+      FTabCloseAllBtn.Parent := Host;
+      FTabCloseAllBtn.TabStop := False;
+      FTabCloseAllBtn.ParentFont := False;
+      FTabCloseAllBtn.Font.Name := FONT_SEGOE_UI;
+      FTabCloseAllBtn.Font.Size := 8;
+      FTabCloseAllBtn.Font.Style := [fsBold];
+      FTabCloseAllBtn.ShowHint := True;
+      FTabCloseAllBtn.Anchors := [akTop, akRight];
+      FTabCloseAllBtn.OnClick := TabCloseAllBtnClick;
+      try
+        FTabCloseAllBtn.SkinData.SkinSection := 'TOOLBUTTON';
+      except
+      end;
+    end
+    else if FTabCloseAllBtn.Parent <> Host then
+      FTabCloseAllBtn.Parent := Host;
+    if FTabMenuBtn.Parent <> Host then
+      FTabMenuBtn.Parent := Host;
+
+    Cap := TrText('TabCtx.CloseAllShort');
+    HintClose := TrText('TabCtx.CloseAllHint');
+    HintMenu := TrText('TabCtx.MenuButtonHint');
+    if FTabMenuBtn.Hint <> HintMenu then
+      FTabMenuBtn.Hint := HintMenu;
+    if FTabCloseAllBtn.Caption <> Cap then
+      FTabCloseAllBtn.Caption := Cap;
+    if FTabCloseAllBtn.Hint <> HintClose then
+      FTabCloseAllBtn.Hint := HintClose;
+
+    StripH := FfPx(22);
+    try
+      R := TsPageControlTabAccess(pgMain).DisplayRect;
+      if R.Top > FfPx(8) then
+        StripH := R.Top;
+    except
+    end;
+    BH := Max(FfPx(18), StripH - FfPx(4));
+    BWMenu := BH + FfPx(8);
+    Gap := FfPx(2);
+    Y := Max(0, (StripH - BH) div 2);
+    BWClose := Max(FfPx(56), FFMeasureTextWidth(FTabCloseAllBtn.Font, Cap) + FfPx(16));
+    { Overlay on the form (sibling of pgMain): map strip coords → Host. }
+    if BidiIsRtl then
+    begin
+      MenuX := FfPx(2);
+      CloseX := MenuX + BWMenu + Gap;
+      Pt := pgMain.ClientToParent(Point(CloseX, Y), Host);
+      PlaceBtn(FTabCloseAllBtn, Pt.X, Pt.Y, BWClose, BH, [akTop, akLeft]);
+      Pt := pgMain.ClientToParent(Point(MenuX, Y), Host);
+      PlaceBtn(FTabMenuBtn, Pt.X, Pt.Y, BWMenu, BH, [akTop, akLeft]);
+    end
+    else
+    begin
+      MenuX := pgMain.ClientWidth - BWMenu - FfPx(2);
+      CloseX := MenuX - Gap - BWClose;
+      Pt := pgMain.ClientToParent(Point(CloseX, Y), Host);
+      PlaceBtn(FTabCloseAllBtn, Pt.X, Pt.Y, BWClose, BH, [akTop, akRight]);
+      Pt := pgMain.ClientToParent(Point(MenuX, Y), Host);
+      PlaceBtn(FTabMenuBtn, Pt.X, Pt.Y, BWMenu, BH, [akTop, akRight]);
+    end;
+    FTabCloseAllBtn.BringToFront;
+    FTabMenuBtn.BringToFront;
+  finally
+    FTabChromeBusy := False;
   end;
-  StripH := FfPx(22);
-  if Assigned(pgMain.ActivePage) and pgMain.ActivePage.TabVisible then
-  begin
-    R := TsPageControlTabAccess(pgMain).SkinTabRect(pgMain.ActivePage.TabIndex, True);
-    if R.Bottom > FfPx(8) then
-      StripH := R.Bottom;
-  end;
-  BH := Max(FfPx(18), StripH - FfPx(4));
-  BW := BH + FfPx(8);
-  { The tab strip is mirrored in right-to-left mode (the page control places its own
-    children, the layout engine does not flip them): the button sits at the left end. }
-  FTabMenuBtn.SetBounds(
-    BidiLeft(pgMain.ClientWidth, pgMain.ClientWidth - BW - FfPx(2), BW),
-    Max(0, (StripH - BH) div 2), BW, BH);
-  if BidiIsRtl then
-    FTabMenuBtn.Anchors := [akTop, akLeft]
-  else
-    FTabMenuBtn.Anchors := [akTop, akRight];
-  FTabMenuBtn.Visible := True;
-  FTabMenuBtn.BringToFront;
 end;
 
 procedure TfrmMain.pgMainResizeTabs(Sender: TObject);
 begin
-  SyncAllMainTabPageBounds;
+  { Nested WM_SIZE from PlaceBtn/SetBounds must not re-enter Sync+Layout. }
+  if FTabChromeBusy or FUIScaleApplying or (csDestroying in ComponentState) then Exit;
+  FTabChromeBusy := True;
+  try
+    SyncAllMainTabPageBounds;
+  finally
+    FTabChromeBusy := False;
+  end;
   LayoutTabMenuButton;
+end;
+
+procedure TfrmMain.TabCloseAllBtnClick(Sender: TObject);
+begin
+  miTabCtxCloseAllClick(Sender);
+end;
+
+procedure TfrmMain.HoldMainTabStripSkinPaint;
+begin
+  { No-op kept for call sites: locking Updating made the fuchsia cache linger. }
+end;
+
+function TfrmMain.MainTabStripParentBgReady: Boolean;
+begin
+  Result := Assigned(pgMain) and pgMain.HandleAllocated and pgMain.Visible;
+end;
+
+procedure TfrmMain.BeginRecentFilesSilentLayout;
+var
+  Tab: TsTabSheet;
+begin
+  FRecentFilesLayoutPending := True;
+  { Allow chrome to rebuild with the now-visible ClientWidth. }
+  FRecentFilesChromeReady := False;
+  FRecentFilesVisualReady := False;
+  Tab := FindRecentFilesTab;
+  if not Assigned(Tab) then Exit;
+  try
+    if not Tab.HandleAllocated and Assigned(pgMain) and pgMain.HandleAllocated then
+      Tab.HandleNeeded;
+    { Freeze only the page content — never WM_SETREDRAW on pgMain/form. }
+    if Tab.HandleAllocated then
+      SendMessage(Tab.Handle, WM_SETREDRAW, 0, 0);
+  except
+  end;
+end;
+
+procedure TfrmMain.EndRecentFilesSilentLayout;
+var
+  Tab: TsTabSheet;
+begin
+  Tab := FindRecentFilesTab;
+  try
+    if Assigned(Tab) and Tab.HandleAllocated then
+    begin
+      SendMessage(Tab.Handle, WM_SETREDRAW, 1, 0);
+      RedrawWindow(Tab.Handle, nil, 0,
+        RDW_ERASE or RDW_INVALIDATE or RDW_ALLCHILDREN or RDW_UPDATENOW);
+    end;
+  except
+  end;
+  FRecentFilesLayoutPending := False;
+  RefreshMainTabStripSkin;
+end;
+
+procedure TfrmMain.ScheduleMainTabStripSkinRefresh;
+begin
+  if (csDestroying in ComponentState) or not HandleAllocated then Exit;
+  if not Assigned(FTabStripSkinTimer) then
+  begin
+    FTabStripSkinTimer := TTimer.Create(Self);
+    FTabStripSkinTimer.Enabled := False;
+    FTabStripSkinTimer.OnTimer := TabStripSkinTimerTick;
+  end;
+  FTabStripSkinTries := 0;
+  FTabStripSkinTimer.Interval := 50;
+  FTabStripSkinTimer.Enabled := False;
+  FTabStripSkinTimer.Enabled := True;
+end;
+
+procedure TfrmMain.TabStripSkinTimerTick(Sender: TObject);
+begin
+  if Assigned(FTabStripSkinTimer) then
+    FTabStripSkinTimer.Enabled := False;
+  if csDestroying in ComponentState then Exit;
+  if FStartupFormShow or FUIScaleApplying or FRecentFilesLayoutPending then
+  begin
+    if Assigned(FTabStripSkinTimer) then
+    begin
+      FTabStripSkinTimer.Interval := 50;
+      FTabStripSkinTimer.Enabled := True;
+    end;
+    Exit;
+  end;
+  RefreshMainTabStripSkin;
+end;
+
+procedure TfrmMain.RefreshMainTabStripSkin;
+begin
+  if not Assigned(pgMain) or not pgMain.HandleAllocated then Exit;
+  if csDestroying in ComponentState then Exit;
+  if FStartupFormShow or FUIScaleApplying or FRecentFilesLayoutPending then
+  begin
+    ScheduleMainTabStripSkinRefresh;
+    Exit;
+  end;
+  try
+    pgMain.SkinData.SkinSection := 'BUTTON';
+    if Trim(string(pgMain.TabsLineSkin)) = '' then
+      pgMain.TabsLineSkin := 'PANEL';
+    pgMain.SkinData.Updating := False;
+    pgMain.SkinData.BGChanged := True;
+    if HandleAllocated then
+      Perform(SM_ALPHACMD, AC_ENDPARENTUPDATE_HI, 0);
+    pgMain.Perform(SM_ALPHACMD, AC_ENDPARENTUPDATE_HI, 0);
+    LayoutTabMenuButton;
+    RedrawWindow(pgMain.Handle, nil, 0,
+      RDW_INVALIDATE or RDW_ERASE or RDW_FRAME or RDW_ALLCHILDREN or RDW_UPDATENOW);
+  except
+  end;
 end;
 
 procedure TfrmMain.TabMenuBtnClick(Sender: TObject);
@@ -30682,8 +31507,24 @@ begin
 end;
 
 procedure TfrmMain.miTabCtxCloseAllClick(Sender: TObject);
+var
+  N: Integer;
 begin
+  N := VisibleMainTabCount;
+  if N <= 0 then Exit;
+  if N >= 2 then
+  begin
+    if FastFileMessageBox(
+      PChar(Format(TrText('TabCtx.ConfirmCloseAll'), [N])),
+      PChar(TrText('TabCtx.CloseAll')),
+      MB_YESNO or MB_ICONQUESTION) <> IDYES then
+      Exit;
+  end;
   CloseMainTabsWhere(nil, TAB_CLOSE_ALL);
+  ShowFastFileAppNotice(frmMain, fnkInfo, TrText('TabCtx.ClosedAll'),
+    TrText('TabCtx.ClosedAllDetail'));
+  LayoutTabMenuButton;
+  SyncMainToolbarTabChecks;
 end;
 
 procedure TfrmMain.miTabCtxReopenClick(Sender: TObject);
@@ -30722,6 +31563,7 @@ begin
     ShowTab(Back);
   if Assigned(tabMergeLines) then
     tabMergeLines.TabVisible := False;
+  SyncMainToolbarTabChecks;
 end;
 
 procedure TfrmMain.HostedTabCancel(Sender: TObject);
@@ -30877,6 +31719,36 @@ begin
   end;
 end;
 
+procedure TfrmMain.PrepareEmbeddedHostedForm(AForm: TForm; AHost: TWinControl);
+begin
+  if (AForm = nil) or (AHost = nil) then Exit;
+  { CreateNew/Create default to Visible=True. If BorderStyle/Parent allocate the
+    HWND while still Visible, Windows shows a top-level window; the layout manager
+    then fits it to the work area (~fullscreen) until Align=alClient settles (~1s). }
+  AForm.Visible := False;
+  AForm.Position := poDesigned;
+  AForm.BorderIcons := [];
+  AForm.BorderStyle := Forms.bsNone;
+  AForm.Parent := AHost;
+  AForm.Align := alClient;
+end;
+
+procedure TfrmMain.ReleaseEmbeddedHostedForm(var AHosted: TObject);
+var
+  F: TForm;
+begin
+  if not Assigned(AHosted) then Exit;
+  if AHosted is TForm then
+  begin
+    F := TForm(AHosted);
+    F.Visible := False;
+    if F.HandleAllocated then
+      ShowWindow(F.Handle, SW_HIDE);
+    F.Parent := nil;
+  end;
+  FreeAndNil(AHosted);
+end;
+
 procedure TfrmMain.EnsureMergeFilesTab;
 var
   Frm: TMergeFilesDialogForm;
@@ -30915,11 +31787,7 @@ var
     Frm.BtnAskAI.SetBounds(XBtn, YBtn, WAsk, FfPx(26));
   end;
 begin
-  if Assigned(FMergeFilesHosted) then
-  begin
-    TMergeFilesDialogForm(FMergeFilesHosted).Parent := nil;
-    FreeAndNil(FMergeFilesHosted);
-  end;
+  ReleaseEmbeddedHostedForm(FMergeFilesHosted);
   ClearMergeTabChildren;
 
   if Assigned(tabMergeFiles) then
@@ -30929,9 +31797,7 @@ begin
   FMergeFilesHosted := Frm;
   Frm.Kind := mdkMergeFiles;
   Frm.Caption := TrText('Merge files');
-  Frm.BorderStyle := Forms.bsNone;
-  Frm.Parent := tabMergeFiles;
-  Frm.Align := alClient;
+  PrepareEmbeddedHostedForm(Frm, tabMergeFiles);
   Frm.KeyPreview := True;
   Frm.OnKeyDown := HostedEmbeddedTabKeyDown;
 
@@ -31522,8 +32388,7 @@ var
   Y: Integer;
   LblSource, LblParts, LblHeader, LblFooter, LblHint: TLabel;
 begin
-  if Assigned(FSplitEqualPartsHosted) then
-    FreeAndNil(FSplitEqualPartsHosted);
+  ReleaseEmbeddedHostedForm(FSplitEqualPartsHosted);
 
   if Assigned(tabSplitEqualPartsTab) then
     tabSplitEqualPartsTab.Caption := TrText('Split file into equal parts');
@@ -31532,9 +32397,7 @@ begin
   FSplitEqualPartsHosted := Frm;
   Frm.Kind := mdkSplitEqualParts;
   Frm.Caption := TrText('Split file into equal parts');
-  Frm.BorderStyle := Forms.bsNone;
-  Frm.Parent := tabSplitEqualPartsTab;
-  Frm.Align := alClient;
+  PrepareEmbeddedHostedForm(Frm, tabSplitEqualPartsTab);
   Frm.KeyPreview := True;
   Frm.OnKeyDown := HostedEmbeddedTabKeyDown;
 
@@ -31812,8 +32675,7 @@ var
   Y: Integer;
   LblSource, LblTotal, LblFrom, LblTo, LblHeader, LblFooter, LblHint: TLabel;
 begin
-  if Assigned(FSplitFractionHosted) then
-    FreeAndNil(FSplitFractionHosted);
+  ReleaseEmbeddedHostedForm(FSplitFractionHosted);
 
   if Assigned(tabSplitFractionTab) then
     tabSplitFractionTab.Caption := TrText('Extract file parts from file');
@@ -31822,9 +32684,7 @@ begin
   FSplitFractionHosted := Frm;
   Frm.Kind := mdkSplitFileFraction;
   Frm.Caption := TrText('Extract file parts from file');
-  Frm.BorderStyle := Forms.bsNone;
-  Frm.Parent := tabSplitFractionTab;
-  Frm.Align := alClient;
+  PrepareEmbeddedHostedForm(Frm, tabSplitFractionTab);
   Frm.KeyPreview := True;
   Frm.OnKeyDown := HostedEmbeddedTabKeyDown;
 
@@ -32259,7 +33119,7 @@ begin
     Frm := TMergeFilesDialogForm(FSplitByPatternHosted);
     if Assigned(Frm.MemoRegexGuide) then
       Frm.MemoRegexGuide.WindowProc := FSplitPatternMemoRegexGuideOldWnd;
-    FreeAndNil(FSplitByPatternHosted);
+    ReleaseEmbeddedHostedForm(FSplitByPatternHosted);
   end;
   FSplitPatternScrollBox := nil;
   FSplitPatternMemoGuideDefH := 0;
@@ -32276,9 +33136,7 @@ begin
   Frm.FSplitPatternMemoAnchorY := -1;
   Frm.Kind := mdkSplitByPattern;
   Frm.Caption := TrText('Split file by Pattern/Regex');
-  Frm.BorderStyle := Forms.bsNone;
-  Frm.Parent := tabSplitByPatternTab;
-  Frm.Align := alClient;
+  PrepareEmbeddedHostedForm(Frm, tabSplitByPatternTab);
   Frm.KeyPreview := True;
   Frm.OnKeyDown := HostedEmbeddedTabKeyDown;
   Frm.OnResize := SplitPatternHostedFormResize;
@@ -33824,6 +34682,26 @@ begin
   end;
 end;
 
+{ Pale wash for a selected file row. Bookmark, tail and the find row keep
+  their own colors. The vertical block is a frame drawn after WM_PAINT. }
+function ListRowSoftSelection(AOwner: TfrmMain; Item: TListItem;
+  const ALineIdx: Int64; out Bk, Fg: TColor): Boolean;
+begin
+  Bk := clWindow;
+  Fg := clWindowText;
+  Result := False;
+  if (AOwner = nil) or (Item = nil) or (ALineIdx < 0) then Exit;
+  if AOwner.ListRowIsPastFileEof(Item.Index) then Exit;
+  if AOwner.FFindMatchSelection and (ALineIdx = AOwner.FLastFoundLine) then Exit;
+  if AOwner.IsBookmarked(ALineIdx) then Exit;
+  if AOwner.FTailActive and (AOwner.FTailHighlightFromLine > 0) and
+     (ALineIdx >= AOwner.FTailHighlightFromLine) then Exit;
+  if not AOwner.ListViewItemIndexIsSelected(AOwner.ListView1, Item.Index) then Exit;
+  Bk := FF_ROW_SEL_BG;
+  Fg := clWindowText;
+  Result := True;
+end;
+
 procedure TfrmMain.PaintListViewContentCellForced(ACanvas: TCanvas; Item: TListItem;
   const ALineIdx: Int64);
 var
@@ -33831,6 +34709,7 @@ var
   S: string;
   Col0W, Col1W: Integer;
   DrawFlags: UINT;
+  Bk, Fg: TColor;
 begin
   if (ACanvas = nil) or (Item = nil) or (not Assigned(ListView1)) then Exit;
   if ALineIdx < 0 then Exit;
@@ -33866,6 +34745,11 @@ begin
   ACanvas.Font.Color := clWindowText;
   ACanvas.Brush.Style := bsSolid;
   ACanvas.Brush.Color := clWindow;
+  if ListRowSoftSelection(Self, Item, ALineIdx, Bk, Fg) then
+  begin
+    ACanvas.Brush.Color := Bk;
+    ACanvas.Font.Color := Fg;
+  end;
   ACanvas.FillRect(R);
   InflateRect(R, -3, -2);
   DrawFlags := DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS;
@@ -33881,6 +34765,7 @@ var
   Cap, LinePrefix: string;
   DrawFlags: UINT;
   ItemR: TRect;
+  Bk, Fg: TColor;
 begin
   if (ACanvas = nil) or (Item = nil) or (not Assigned(ListView1)) then Exit;
   if ALineIdx < 0 then Exit;
@@ -33895,6 +34780,14 @@ begin
   LinePrefix := FTrLinePrefix;
   if LinePrefix = '' then
     LinePrefix := TrText('Line:');
+  { Do not invent "Line: N" for OwnerData padding past EOF (OnData left Caption blank). }
+  if ListRowIsPastFileEof(Item.Index) then
+  begin
+    ACanvas.Brush.Style := bsSolid;
+    ACanvas.Brush.Color := clWindow;
+    ACanvas.FillRect(R);
+    Exit;
+  end;
   Cap := Item.Caption;
   if Trim(Cap) = '' then
     Cap := LinePrefix + ' ' + FormatFloat('#,', ALineIdx + 1);
@@ -33903,7 +34796,12 @@ begin
   ACanvas.Brush.Style := bsSolid;
   ACanvas.Brush.Color := clWindow;
   if FFindMatchSelection and (ALineIdx = FLastFoundLine) then
-    ACanvas.Brush.Color := TColor($00FFF4E8);
+    ACanvas.Brush.Color := TColor($00FFF4E8)
+  else if ListRowSoftSelection(Self, Item, ALineIdx, Bk, Fg) then
+  begin
+    ACanvas.Brush.Color := Bk;
+    ACanvas.Font.Color := Fg;
+  end;
   ACanvas.FillRect(R);
   InflateRect(R, -2, -1);
   DrawFlags := DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS;
@@ -34622,6 +35520,7 @@ end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
+  FreeAndNil(FTabContentZoomPct);
   FreeAndNil(FWorkflowActionIds);
   FreeAndNil(FSplitLinesSampleLines);
   FreeAndNil(FSplitLinesForcedLines);
@@ -34632,6 +35531,7 @@ begin
   PopupScalingSpeedBtnPPI := nil;
   PopupScalingCaptionChanged := nil;
   PopupScalingRestoreDefault := nil;
+  PopupScalingApplyPPI := nil;
   if Assigned(DataModule1) and Assigned(DataModule1.sSkinManager1) then
     DataModule1.sSkinManager1.OnScaleChanged := nil;
   if Assigned(FUIScaleBoundsTimer) then
@@ -35933,7 +36833,7 @@ begin
       MSG.Top := MSG.Top + 5;
       MSG.Alignment := Classes.taCenter;
       MSG.Font.Style := [fsBold];
-      MSG.Font.Name := 'Tahoma';
+      MSG.Font.Name := FONT_TAHOMA;
       MSG.Font.Size := 10;
       Msg.Caption := TrText('Exporting');
 
@@ -36497,7 +37397,7 @@ begin
 
     if IsItemSel then
     begin
-      CLB.Canvas.Brush.Color := clHighlight;
+      CLB.Canvas.Brush.Color := FF_ROW_SEL_BG;
       CLB.Canvas.FillRect(Classes.Rect(0, Rect.Top, CheckRect.Right + CHECKBOX_TEXT_GAP, Rect.Bottom));
     end;
 
@@ -36537,9 +37437,9 @@ begin
 
     if IsItemSel then
     begin
-      CLB.Canvas.Brush.Color := clHighlight;
+      CLB.Canvas.Brush.Color := FF_ROW_SEL_BG;
       CLB.Canvas.FillRect(PrefixR);
-      CLB.Canvas.Font.Color := clHighlightText;
+      CLB.Canvas.Font.Color := clWindowText;
     end
     else
       CLB.Canvas.Font.Color := Fg;
@@ -36595,8 +37495,8 @@ begin
 
   if odSelected in DrawState then
   begin
-    Bk := clHighlight;
-    Fg := clHighlightText;
+    Bk := FF_ROW_SEL_BG;
+    Fg := clWindowText;
   end
   else
   begin
@@ -38073,7 +38973,7 @@ begin
     MSG.Top := MSG.Top + 5;
     MSG.Alignment := Classes.taCenter;
     MSG.Font.Style := [fsBold];
-    MSG.Font.Name := 'Tahoma';
+    MSG.Font.Name := FONT_TAHOMA;
     MSG.Font.Size := 10;
     Msg.Caption := TrText('Writing');
 
@@ -38320,7 +39220,7 @@ begin
     MSG.Top := MSG.Top + 5;
     MSG.Alignment := Classes.taCenter;
     MSG.Font.Style := [fsBold];
-    MSG.Font.Name := 'Tahoma';
+    MSG.Font.Name := FONT_TAHOMA;
     MSG.Font.Size := 10;
     Msg.Caption := TrText('Preparing editing');
 
@@ -38485,7 +39385,7 @@ begin
     MSG.Top := MSG.Top + 20;
     MSG.Alignment := Classes.taCenter;
     MSG.Font.Style := [fsBold];
-    MSG.Font.Name := 'Tahoma';
+    MSG.Font.Name := FONT_TAHOMA;
     MSG.Font.Size := 12;
     if (splittedFileName <> '') then
       MSG.Caption := splittedFileName
@@ -39083,6 +39983,7 @@ var
   lastAccessTime,
   lastModificationTime: TDateTime;
 begin
+  if TryToggleCloseMainTab(tabSplitFile) then Exit;
   if fileIsEmpty then DoRead;
   ShowTab(tabSplitFile);
   lblFileNameValue.Caption := edtFileName.Text;
@@ -41179,6 +42080,7 @@ procedure TfrmMain.btnShowTabFindFileClick(Sender: TObject);
 const
   showOtherTabs: Boolean = False;
 begin
+  if TryToggleCloseMainTab(tabFindFiles) then Exit;
   ShowTab(tabFindFiles);
   pgFindFiles.ActivePageIndex := TAB_FINDFILE_INDEX;
 end;
@@ -41467,7 +42369,8 @@ begin
   UpdateWhitespaceMarksLegendHint;
 
   // Panel 6: Line / Col
-  if Assigned(ListView1) and (ListView1.ItemIndex >= 0) then
+  if Assigned(ListView1) and (ListView1.ItemIndex >= 0) and
+     (not ListRowIsPastFileEof(ListView1.ItemIndex)) then
   begin
     R := FileLineIndexFromListRow(ListView1.ItemIndex);
     if R >= 0 then SelLine := R + 1 else SelLine := 0;
@@ -41530,7 +42433,7 @@ begin
   end;
   if not Assigned(mmTimer) then Exit;
   mmTimer.ParentFont := False;
-  mmTimer.Font.Name := 'Tahoma';
+  mmTimer.Font.Name := FONT_TAHOMA;
   mmTimer.Font.Size := -11;
   mmTimer.Font.Color := clNavy;
   mmTimer.Color := clWindow;
@@ -42333,10 +43236,10 @@ procedure TfrmMain.ApplyStatusBarComboFrame;
     if not Assigned(C) then Exit;
     C.Style := csDropDownList;
     C.ParentFont := False;
-    if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-      C.Font.Name := 'Segoe UI'
+    if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+      C.Font.Name := FONT_SEGOE_UI
     else
-      C.Font.Name := 'Tahoma';
+      C.Font.Name := FONT_TAHOMA;
     C.Font.Size := 8;
     C.Font.Color := clWindowText;
     C.Font.Style := [];
@@ -42778,6 +43681,8 @@ begin
       InvalidateLineCache;
       FCheckListBox.HandleNeeded;
       ApplyCheckListZoomRefresh(OldVI);
+      { Font size changed — digit-ceiling cache must not keep the old width. }
+      FLineColWidthSampleCached := -1;
       if Assigned(ListView1) and (not FReadContentColumnExpanded) then
       begin
         UpdateListViewLineColumnAutoWidth;
@@ -42796,13 +43701,14 @@ begin
       begin
         ListView1Resize(ListView1);
         InvalidateLineCache;
-        if ListView1.HandleAllocated and ListView1.Visible then
+        { Defer recreate during first FormShow — CM_RECREATEWND flashes the shell. }
+        if FStartupFormShow or not (ListView1.HandleAllocated and ListView1.Visible) then
+          FDeferredListViewRecreateForRowHeight := True
+        else
         begin
           ListView1.Perform(CM_RECREATEWND, 0, 0);
           FDeferredListViewRecreateForRowHeight := False;
-        end
-        else
-          FDeferredListViewRecreateForRowHeight := True;
+        end;
       end;
       UpdateInfoPanels;
       UpdateListViewZoomStatusPanel;
@@ -42810,6 +43716,13 @@ begin
   finally
     EndListViewZoomVisualBatch;
   end;
+  { After recreate/batch: digit cache ignores font size — force remeasure so
+    "Line: N" is not clipped to "Li...". }
+  FLineColWidthSampleCached := -1;
+  if not FReadContentColumnExpanded then
+    UpdateListViewLineColumnAutoWidth;
+  if isChecked then
+    UpdateCheckListLinePrefixAutoWidth;
   SaveListViewZoomToIni;
 end;
 
@@ -42859,9 +43772,19 @@ end;
 procedure TfrmMain.SkinScaleChanged(Sender: TObject);
 begin
   LayoutPPIPanel;
+  { During first FormShow / FormCreate (not Visible yet) skip the 400ms settle
+    timer — remmaximize flash. Arm FUIScaleSettlePending so FormShow finishes
+    with one quiet Realign + tab-strip skin refresh (avoids magenta clFuchsia). }
+  if FStartupFormShow or not Visible then
+  begin
+    FUIScaleSettlePending := True;
+    if FUIScalePPI > 0 then
+      SyncListViewZoomToUIScale;
+    Exit;
+  end;
   { Skin rescaling resizes the form (and its constraints) even when maximized,
     leaving the window larger than the monitor; fix it once the rescale settles. }
-  if HandleAllocated and Visible then
+  if HandleAllocated then
   begin
     if not Assigned(FUIScaleBoundsTimer) then
     begin
@@ -42882,15 +43805,21 @@ procedure TfrmMain.UIScaleBoundsTimerTick(Sender: TObject);
 var
   WR: TRect;
   Origin, Extent: TPoint;
+  Pct: Integer;
 begin
   FUIScaleBoundsTimer.Enabled := False;
+  if (csDestroying in ComponentState) or not HandleAllocated then
+  begin
+    FUIScaleApplying := False;
+    Exit;
+  end;
   { Do not remmaximize here — wsNormal/wsMaximized flashes the window on startup.
     WM_GETMINMAXINFO keeps the skinned title inside the work area; only clamp
     non-maximized forms. If PPI left the maximized frame on the taskbar or with
     the caption above the screen, ask Windows to reapply that limit. }
   if WindowState <> wsMaximized then
     FixWindowBoundsAfterScale
-  else if HandleAllocated then
+  else
   begin
     MaximizedWorkFrame(Origin, Extent);
     GetWindowRect(Handle, WR);
@@ -42900,19 +43829,33 @@ begin
       SetWindowPos(Handle, 0, 0, 0, 0, 0,
         SWP_NOMOVE or SWP_NOSIZE or SWP_NOZORDER or SWP_NOACTIVATE or SWP_FRAMECHANGED);
   end;
-  FitMainRibbons;
-  if HandleAllocated then
+  { Skin settled — allow FormResize / SkinTabRect again, then rebuild layout. }
+  FUIScaleApplying := False;
+  try
     Realign;
-  RelayoutMainPages(False);
-  SyncHostedTabFormsVisibility;
-  if IsReadFileTabActive then
-    RefreshReadViewLayout
-  else if Assigned(pgMain) and (pgMain.ActivePage = FAgentTab) and
-    Assigned(FAgentHosted) and (FAgentHosted is TfrmAgentWorkspace) then
-    TfrmAgentWorkspace(FAgentHosted).FitTexts
-  else if Assigned(pgMain) and (pgMain.ActivePage = FAgentHubTab) and
-    Assigned(FAgentHubHosted) and (FAgentHubHosted is TfrmAgentHubWorkspace) then
-    TfrmAgentHubWorkspace(FAgentHubHosted).FitTexts;
+    FormResize(Self);
+    SyncHostedTabFormsVisibility;
+    ScheduleMainTabStripSkinRefresh;
+    if FUIScalePendingListZoom and Assigned(ListView1) then
+    begin
+      FUIScalePendingListZoom := False;
+      Pct := FListViewZoomPct;
+      if Pct <= 0 then
+        Pct := 100;
+      ApplyListViewZoomPercent(Pct);
+      RememberWheelZoomInCombo(Pct, True);
+    end;
+    if IsReadFileTabActive then
+      RefreshReadViewLayout
+    else if Assigned(pgMain) and (pgMain.ActivePage = FAgentTab) and
+      Assigned(FAgentHosted) and (FAgentHosted is TfrmAgentWorkspace) then
+      TfrmAgentWorkspace(FAgentHosted).FitTexts
+    else if Assigned(pgMain) and (pgMain.ActivePage = FAgentHubTab) and
+      Assigned(FAgentHubHosted) and (FAgentHubHosted is TfrmAgentHubWorkspace) then
+      TfrmAgentHubWorkspace(FAgentHubHosted).FitTexts;
+  except
+    FUIScaleApplying := False;
+  end;
 end;
 
 procedure TfrmMain.FixWindowBoundsAfterScale;
@@ -42926,21 +43869,24 @@ end;
 
 procedure TfrmMain.SyncListViewZoomToUIScale;
 var
-  NewPPI, Pct: Integer;
+  NewPPI: Integer;
 begin
   { Keep the zoom % stable across skin PPI changes: rescale the 100% base font
-    by the PPI ratio, then reapply the same % so content follows the UI scale. }
-  NewPPI := GetPPI(sSkinProvider1.SkinData);
+    by the PPI ratio. Do NOT ApplyListViewZoomPercent here — recreating the
+    ListView while AlphaControls is mid-scale causes ACCESS_VIOLATION. The
+    pending apply runs from UIScaleBoundsTimerTick after the skin settles. }
+  if (csDestroying in ComponentState) or not Assigned(sSkinProvider1) then Exit;
+  try
+    NewPPI := GetPPI(sSkinProvider1.SkinData);
+  except
+    Exit;
+  end;
   if (NewPPI <= 0) or (FUIScalePPI <= 0) or (NewPPI = FUIScalePPI) then Exit;
   if Assigned(ListView1) and (FListViewZoomBaseFontSize > 0) then
   begin
-    Pct := FListViewZoomPct;
-    if Pct <= 0 then
-      Pct := 100;
     FListViewZoomBaseFontSize := Max(1, MulDiv(FListViewZoomBaseFontSize, NewPPI, FUIScalePPI));
     FUIScalePPI := NewPPI;
-    ApplyListViewZoomPercent(Pct);
-    RememberWheelZoomInCombo(Pct, True);
+    FUIScalePendingListZoom := True;
   end
   else
     FUIScalePPI := NewPPI;
@@ -42997,21 +43943,42 @@ procedure TfrmMain.ApplyUIScalePPI(APPI: Integer; AAnimate: Boolean);
 var
   SM: TsSkinManager;
 begin
+  if (csDestroying in ComponentState) then Exit;
   if not Assigned(DataModule1) or not Assigned(DataModule1.sSkinManager1) then Exit;
-  SM := DataModule1.sSkinManager1;
-  if SM.Options.ScaleMode <> smCustomPPI then
-  begin
-    { Assign PPI while still non-custom, then switch mode (see ApplySystemDpiScaleOnce). }
-    SM.Options.PixelsPerInch := APPI;
-    SM.Options.ScaleMode := smCustomPPI;
-  end
-  else if AAnimate and Animated then
-    SetPPIAnimated(APPI)
-  else
-    SM.Options.PixelsPerInch := APPI;
-  if Assigned(SpeedBtnPPI) then
-    SpeedBtnPPI.Caption := TrText('Custom PPI: ') + IntToStr(APPI);
-  SkinScaleChanged(Self);
+  if FUIScaleApplying then Exit;
+  { Stay busy until UIScaleBoundsTimerTick — not just for this call. Sync
+    FormResize during PixelsPerInch assignment must see FUIScaleApplying. }
+  FUIScaleApplying := True;
+  try
+    SM := DataModule1.sSkinManager1;
+    if SM.Options.ScaleMode <> smCustomPPI then
+    begin
+      { Assign PPI while still non-custom, then switch mode (see ApplySystemDpiScaleOnce). }
+      SM.Options.PixelsPerInch := APPI;
+      SM.Options.ScaleMode := smCustomPPI;
+    end
+    else if AAnimate and Animated then
+      SetPPIAnimated(APPI)
+    else
+      SM.Options.PixelsPerInch := APPI;
+    if Assigned(SpeedBtnPPI) then
+      SpeedBtnPPI.Caption := TrText('Custom PPI: ') + IntToStr(APPI);
+    SkinScaleChanged(Self);
+  except
+    FUIScaleApplying := False;
+    raise;
+  end;
+  { If the settle timer did not arm (hidden / no handle), clear immediately. }
+  if not (Assigned(FUIScaleBoundsTimer) and FUIScaleBoundsTimer.Enabled) then
+    FUIScaleApplying := False;
+end;
+
+procedure TfrmMain.ApplyUIScalePPIFromPopup(APPI: Integer);
+begin
+  { Trackbar / Custom PPI popup: never animate (SetPPIAnimated + message pump
+    was freezing the UI ~50s after SkinTabRect AVs). }
+  ApplyUIScalePPI(APPI, False);
+  SaveUIScaleToIni;
 end;
 
 procedure TfrmMain.RestoreDefaultUIScale(Sender: TObject);
@@ -43049,7 +44016,8 @@ end;
 
 procedure TfrmMain.ApplySystemDpiScaleOnce;
 var
-  SysPPI: Integer;
+  SysPPI, SavedPPI: Integer;
+  SkipSkinBaseline: Boolean;
 begin
   { Root cause: Scaled=False + PerMonitorV2 @ 125% keeps design 96px sizes (~20% small).
     SetPPIAnimated(120) was a no-op under smVCL because Options.PixelsPerInch was
@@ -43060,19 +44028,39 @@ begin
   if csDesigning in ComponentState then Exit;
 
   SysPPI := SystemUIScalePPI;
-  if SysPPI <= 96 then Exit;
+  if SysPPI <= 96 then
+  begin
+    StartupMark('  DPI: ScaleForPPI');
+    StartupMark('  DPI: skin PPI');
+    Exit;
+  end;
 
   Scaled := True;
   if CurrentPPI <> SysPPI then
     ScaleForPPI(SysPPI);
   StartupMark('  DPI: ScaleForPPI');
 
-  if Assigned(DataModule1) and Assigned(DataModule1.sSkinManager1) then
+  { If INI already has a Custom PPI, RestoreUIScaleFromIni will apply it once —
+    do not assign SysPPI here or the user sees two full skin rescales (flash). }
+  SkipSkinBaseline := False;
+  if IniName <> '' then
   begin
+    SavedPPI := sStoreUtils.ReadIniInteger(APPLICATION_NAME, 'UIScalePPI', 0, IniName);
+    if SavedPPI = 0 then
+      SavedPPI := PrefDefaultUIScalePPI;
+    if (SavedPPI >= MIN_UI_SCALE_PPI) and (SavedPPI <= MAX_UI_SCALE_PPI) and
+       (SavedPPI <> SysPPI) then
+      SkipSkinBaseline := True;
+  end;
+
+  if (not SkipSkinBaseline) and Assigned(DataModule1) and Assigned(DataModule1.sSkinManager1) then
+  begin
+    { Never SetPPIAnimated here: ProcessMessages makes the main window look
+      minimized/restored and leaves a busy cursor during FormShow. }
     if DataModule1.sSkinManager1.Options.ScaleMode = smCustomPPI then
     begin
-      if DataModule1.sSkinManager1.Options.PixelsPerInch < SysPPI then
-        SetPPIAnimated(SysPPI);
+      if DataModule1.sSkinManager1.Options.PixelsPerInch <> SysPPI then
+        DataModule1.sSkinManager1.Options.PixelsPerInch := SysPPI;
     end
     else
     begin
@@ -44588,38 +45576,45 @@ begin
     end;
   end;
 
-  { Ctrl + roda: zoom na fonte da lista (comportamento D7). }
+  { Ctrl + roda: zoom na fonte da lista — so na tab Read (outras abas: AppMessage). }
   if (((ssCtrl in Shift) or (GetKeyState(VK_CONTROL) < 0)) and
       not ((ssAlt in Shift) or (GetKeyState(VK_MENU) < 0))) then
   begin
-    { ListView: hook WM_MOUSEWHEEL ja trata — evitar fila duplicada / flicker. }
-    if Assigned(ListView1) and ListView1.HandleAllocated then
+    if Assigned(pgMain) and Assigned(pgMain.ActivePage) and
+       (pgMain.ActivePage = tabReadFile) then
     begin
-      P := ListView1.ScreenToClient(MousePos);
-      if PtInRect(ListView1.ClientRect, P) then
+      { ListView: hook WM_MOUSEWHEEL ja trata — evitar fila duplicada / flicker. }
+      if Assigned(ListView1) and ListView1.HandleAllocated then
       begin
-        Handled := True;
-        Exit;
+        P := ListView1.ScreenToClient(MousePos);
+        if PtInRect(ListView1.ClientRect, P) then
+        begin
+          Handled := True;
+          Exit;
+        end;
       end;
-    end;
-    { Checklist Select: zoom via fila (DoMouseWheel pode nao ser chamado). }
-    if isChecked and Assigned(FCheckListBox) and FCheckListBox.Visible and FCheckListBox.HandleAllocated then
-    begin
-      P := FCheckListBox.ScreenToClient(MousePos);
-      if PtInRect(FCheckListBox.ClientRect, P) then
+      { Checklist Select: zoom via fila (DoMouseWheel pode nao ser chamado). }
+      if isChecked and Assigned(FCheckListBox) and FCheckListBox.Visible and
+         FCheckListBox.HandleAllocated then
+      begin
+        P := FCheckListBox.ScreenToClient(MousePos);
+        if PtInRect(FCheckListBox.ClientRect, P) then
+        begin
+          ApplyListViewWheelZoom(WheelDelta);
+          Handled := True;
+          Exit;
+        end;
+      end;
+      if Assigned(ListView1) then
       begin
         ApplyListViewWheelZoom(WheelDelta);
         Handled := True;
         Exit;
       end;
     end;
-    { Ctrl+wheel noutra area da tab Read: zoom (ex. margem ao lado da lista). }
-    if Assigned(ListView1) then
-    begin
-      ApplyListViewWheelZoom(WheelDelta);
-      Handled := True;
-      Exit;
-    end;
+    { Non-Read tabs: ScriptMemoAppMessage steps Custom PPI uniformly. }
+    Handled := False;
+    Exit;
   end;
 
   { Select mode: allow wheel even when ListView Items.Count is stale/zero. }
@@ -45492,6 +46487,160 @@ begin
   QueueListViewWheelZoom(WheelDelta);
 end;
 
+procedure TfrmMain.QueueUIScaleWheelZoom(const WheelDelta: Integer);
+begin
+  if WheelDelta = 0 then Exit;
+  Inc(FQueuedUIScaleWheelDelta, WheelDelta);
+  if FQueuedUIScaleWheelPosted then Exit;
+  FQueuedUIScaleWheelPosted := True;
+  PostMessage(Handle, WM_USER + 210, 0, 0);
+end;
+
+procedure TfrmMain.ApplyUIScaleWheelZoom(const WheelDelta: Integer);
+begin
+  QueueUIScaleWheelZoom(WheelDelta);
+end;
+
+function TfrmMain.TabContentZoomKey(ARoot: TWinControl): string;
+begin
+  Result := '';
+  if ARoot = nil then Exit;
+  if ARoot.Name <> '' then
+    Result := ARoot.Name
+  else
+    Result := ARoot.ClassName;
+end;
+
+function TfrmMain.GetTabContentZoomPct(const AKey: string): Integer;
+begin
+  Result := 100;
+  if (AKey = '') or not Assigned(FTabContentZoomPct) then Exit;
+  if not FTabContentZoomPct.TryGetValue(AKey, Result) then
+    Result := 100;
+  if Result <= 0 then
+    Result := 100;
+end;
+
+procedure TfrmMain.SetTabContentZoomPct(const AKey: string; APct: Integer);
+begin
+  if (AKey = '') or not Assigned(FTabContentZoomPct) then Exit;
+  FTabContentZoomPct.AddOrSetValue(AKey, APct);
+end;
+
+function TfrmMain.TryGetActiveTabZoomRoot(out ARoot: TWinControl; out AKey: string): Boolean;
+var
+  Page: TTabSheet;
+  I: Integer;
+
+  function UseHosted(AObj: TObject): Boolean;
+  begin
+    Result := (AObj is TForm) and (TForm(AObj).Parent = Page);
+    if Result then
+    begin
+      ARoot := TForm(AObj);
+      AKey := TabContentZoomKey(ARoot);
+      if AKey = '' then
+        AKey := Page.Name;
+    end;
+  end;
+
+begin
+  Result := False;
+  ARoot := nil;
+  AKey := '';
+  if not Assigned(pgMain) or not Assigned(pgMain.ActivePage) then Exit;
+  Page := pgMain.ActivePage;
+  if Page = tabReadFile then Exit;
+
+  if UseHosted(FAgentHosted) or UseHosted(FAgentHubHosted) or
+     UseHosted(FCompareMergeHosted) or UseHosted(FDeltaEditorHosted) or
+     UseHosted(FMergeFilesHosted) or UseHosted(FSplitByPatternHosted) or
+     UseHosted(FSplitEqualPartsHosted) or UseHosted(FSplitFractionHosted) then
+  begin
+    Result := True;
+    Exit;
+  end;
+
+  for I := 0 to Page.ControlCount - 1 do
+    if Page.Controls[I] is TForm then
+    begin
+      ARoot := TWinControl(Page.Controls[I]);
+      AKey := TabContentZoomKey(ARoot);
+      if AKey = '' then
+        AKey := Page.Name;
+      Result := True;
+      Exit;
+    end;
+
+  ARoot := Page;
+  AKey := Page.Name;
+  if AKey = '' then
+    AKey := Page.ClassName + IntToStr(Page.PageIndex);
+  Result := True;
+end;
+
+procedure TfrmMain.ApplyTabContentZoomPercent(ARoot: TWinControl; const AKey: string;
+  APct: Integer);
+var
+  OldPct: Integer;
+begin
+  if (ARoot = nil) or (AKey = '') or (csDestroying in ComponentState) then Exit;
+  if FUIScaleApplying then Exit;
+  OldPct := GetTabContentZoomPct(AKey);
+  if APct < ZOOM_MIN_PERCENT then
+    APct := ZOOM_MIN_PERCENT;
+  if APct > ZOOM_MAX_PERCENT then
+    APct := ZOOM_MAX_PERCENT;
+  if APct = OldPct then Exit;
+
+  ARoot.DisableAlign;
+  try
+    ARoot.ScaleBy(APct, OldPct);
+  finally
+    ARoot.EnableAlign;
+  end;
+
+  { alClient hosted forms: ScaleBy changes Width/Height; pin back to the tab. }
+  if (ARoot.Parent <> nil) and (ARoot.Align = alClient) and ARoot.Parent.HandleAllocated then
+    ARoot.SetBounds(0, 0, ARoot.Parent.ClientWidth, ARoot.Parent.ClientHeight);
+
+  SetTabContentZoomPct(AKey, APct);
+  RememberWheelZoomInCombo(APct, True);
+
+  if ARoot is TfrmAgentWorkspace then
+    TfrmAgentWorkspace(ARoot).FitTexts
+  else if ARoot is TfrmAgentHubWorkspace then
+    TfrmAgentHubWorkspace(ARoot).FitTexts;
+end;
+
+procedure TfrmMain.ApplyActiveTabContentWheelZoom(const WheelDelta: Integer);
+var
+  Root: TWinControl;
+  Key: string;
+  Step, Pct: Integer;
+begin
+  if WheelDelta = 0 then Exit;
+  if not TryGetActiveTabZoomRoot(Root, Key) then Exit;
+  Step := WheelDelta div WHEEL_ONE_NOTCH;
+  if Step = 0 then
+    Step := Sign(WheelDelta);
+  Pct := GetTabContentZoomPct(Key) - (Step * 5);
+  ApplyTabContentZoomPercent(Root, Key, Pct);
+end;
+
+procedure TfrmMain.WMUIScaleWheelZoom(var Msg: TMessage);
+var
+  Delta: Integer;
+begin
+  FQueuedUIScaleWheelPosted := False;
+  Delta := FQueuedUIScaleWheelDelta;
+  FQueuedUIScaleWheelDelta := 0;
+  if Delta = 0 then Exit;
+  if (csDestroying in ComponentState) or FUIScaleRestoring then Exit;
+  { Active tab/form only — never touch Custom PPI from the wheel. }
+  ApplyActiveTabContentWheelZoom(Delta);
+end;
+
 procedure TfrmMain.HookedListViewWndProc(var Message: TMessage);
 var
   WheelDelta: Integer;
@@ -45723,7 +46872,7 @@ begin
      and CanStartLineAutofill then
   begin
     HitRow := GetRowIndexAt(X, Y);
-    if HitRow >= 0 then
+    if (HitRow >= 0) and (not ListRowIsPastFileEof(HitRow)) then
     begin
       if ssCtrl in Shift then
       begin
@@ -45931,6 +47080,7 @@ procedure TfrmMain.RelayoutMainPages(AAllPages: Boolean);
 var
   I: Integer;
 begin
+  if FUIScaleApplying or (csDestroying in ComponentState) then Exit;
   if not Assigned(pgMain) then Exit;
   pgMain.Realign;
   if AAllPages then
@@ -46021,6 +47171,10 @@ end;
 
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
+  { Changing Custom PPI fires WM_SIZE while AlphaControls SkinManager.gd is
+    still rebuilding — RelayoutMainPages → SkinTabRect AVs. Defer to the
+    UIScaleBoundsTimer tick (clears FUIScaleApplying then runs FormResize). }
+  if FUIScaleApplying or (csDestroying in ComponentState) then Exit;
   FitMainRibbons;
   AdaptSidePanelsToClient;
   RelayoutMainPages(False);
@@ -46208,9 +47362,27 @@ var
 begin
   if not Assigned(ListView1) or (ListView1.Columns.Count < 1) then Exit;
   if FReadContentColumnExpanded then Exit;
-  { Fast path no scroll: so recalcula quando o teto de digitos muda. }
+  { Fast path no scroll: so remede quando o teto de digitos muda. Se a coluna
+    foi recriada (Width=200) com o mesmo teto, reaplica a largura guardada. }
   Sample := LineColumnWidthSampleLine;
-  if Sample = FLineColWidthSampleCached then Exit;
+  if Sample = FLineColWidthSampleCached then
+  begin
+    if (FReadCol0SavedWidth > 0) and
+       (ListView1.Columns[0].Width <> FReadCol0SavedWidth) then
+    begin
+      ListView1.Columns[0].Width := FReadCol0SavedWidth;
+      FLvLineActionPaintCacheValid := False;
+      if (not FCsvMode) and (ListView1.Columns.Count >= 2) then
+      begin
+        ContentW := ListView1.ClientWidth - FReadCol0SavedWidth - COL_EDGE_MARGIN;
+        if ContentW < 1 then
+          ContentW := 1;
+        if ListView1.Columns[1].Width <> ContentW then
+          ListView1.Columns[1].Width := ContentW;
+      end;
+    end;
+    Exit;
+  end;
   FLineColWidthSampleCached := Sample;
   NeedW := CalcListViewLineColumnWidth;
   if ListView1.Columns[0].Width <> NeedW then
@@ -46536,6 +47708,10 @@ begin
       Col := ListView1.Columns.Add;
       Col.Caption := TrText('Content');
       Col.Width := 1200;
+      { Same as below: recreating columns resets Width; invalidate digit-width
+        cache so AdjustListViewColumnsWidth remeasures "Linha: N" + Edit/Delete. }
+      FLineColWidthSampleCached := -1;
+      AdjustListViewColumnsWidth;
       Exit;
     end;
 
@@ -46555,6 +47731,10 @@ begin
     ListView1.Columns.EndUpdate;
   end;
 
+  { Post-edit / CSV restore rebuilds columns at Width=200. The auto-width cache
+    keys only on digit ceiling — same totalLines → early Exit left "Linha: ..."
+    ellipsis once Edit/Delete chips clipped the label. }
+  FLineColWidthSampleCached := -1;
   AdjustListViewColumnsWidth;
   ApplyCsvSortHeader;
   ApplyReadListViewColumnOrder(ListView1);
@@ -47299,18 +48479,32 @@ end;
 
 procedure TfrmMain.miSaveSessionClick(Sender: TObject);
 begin
-  if totalLines <= 0 then Exit;
+  if totalLines <= 0 then
+  begin
+    ShowFastFileAppNotice(frmMain, fnkWarning, TrText('Session'),
+      TrText('Session.NeedFile'));
+    Exit;
+  end;
   SaveCurrentSession;
   UpdateStatusBar(TrText('Session saved.'), iaRight);
+  ShowFastFileAppNotice(frmMain, fnkSuccess, TrText('Session saved.'),
+    TrText('Session.SavedDetail'));
   AssistantOfferAfterActivity('session', TrText('Session saved.'));
 end;
 
 procedure TfrmMain.miLoadSessionClick(Sender: TObject);
 begin
-  if totalLines <= 0 then Exit;
+  if totalLines <= 0 then
+  begin
+    ShowFastFileAppNotice(frmMain, fnkWarning, TrText('Session'),
+      TrText('Session.NeedFile'));
+    Exit;
+  end;
   LoadCurrentSession;
   UpdateInfoPanels;
   UpdateStatusBar(TrText('Session loaded.'), iaRight);
+  ShowFastFileAppNotice(frmMain, fnkSuccess, TrText('Session loaded.'),
+    TrText('Session.LoadedDetail'));
   AssistantOfferAfterActivity('session', TrText('Session loaded.'));
 end;
 
@@ -47434,17 +48628,8 @@ begin
     MaxPhys := DiscoverZeroScanLastPhysicalLine1Based;
   if MaxPhys < 1 then MaxPhys := 1;
 
-  { Linha em branco apos o ultimo conteudo (EOF ou so CRLF final) -> preencher/inserir. }
-  if (not isChecked) and (LineNum = MaxPhys + 1) then
-  begin
-    AppendAfterEof := True;
-    Op := otInsert;
-    LineNum := MaxPhys + 1;
-    OriginalContent := '';
-    CurrentContent := '';
-    InsertAfter := False;
-  end
-  else if (LineNum < 1) or (LineNum > MaxPhys) then
+  { Viewport padding past EOF is not a file line. Append = Insert after last real line. }
+  if (LineNum < 1) or (LineNum > MaxPhys) then
   begin
     FastFileMessageBox(
       PChar(Format(TrText('Line %d does not exist in the file. Valid range: 1..%d.'),
@@ -48437,6 +49622,33 @@ begin
   Result := True;
 end;
 
+function TfrmMain.ListRowIsPastFileEof(const ARow: Integer): Boolean;
+var
+  Line0: Int64;
+begin
+  Result := False;
+  if ARow < 0 then
+  begin
+    Result := True;
+    Exit;
+  end;
+  { Zero Scan proportional scroll may not know the true last line yet. }
+  if UsesProportionalZeroScanScroll then Exit;
+  if FFilterActive then Exit;
+  if totalLines <= 0 then
+  begin
+    Result := True;
+    Exit;
+  end;
+  Line0 := FileLineIndexFromListRow(ARow);
+  if Line0 < 0 then
+  begin
+    Result := True;
+    Exit;
+  end;
+  Result := Line0 >= totalLines;
+end;
+
 function TfrmMain.HitTestLineActionButton(X, Y: Integer;
   out ARow, ABtn: Integer): Boolean;
 var
@@ -48451,6 +49663,11 @@ begin
   if not IsClickInFirstColumn(X) then Exit;
   ARow := GetRowIndexAt(X, Y);
   if ARow < 0 then Exit;
+  if ListRowIsPastFileEof(ARow) then
+  begin
+    ARow := -1;
+    Exit;
+  end;
   if not GetLineActionItemRect(ARow, ItemR) then Exit;
   if not GetLineActionButtonRects(ItemR, REdit, RDel, RChip) then Exit;
   Pt := Point(X, Y);
@@ -48530,6 +49747,7 @@ var
 begin
   if (ACanvas = nil) or (ARow < 0) then Exit;
   if ListviewIsEmpty or isChecked then Exit;
+  if ListRowIsPastFileEof(ARow) then Exit;
   if FLineAutofillDragging then Exit;
   { Durante arraste do thumb: pular TransparentBlt em todas as linhas. }
   if FLvScrollThumbDragging or FLvNavPaintQueued then Exit;
@@ -53653,7 +54871,8 @@ begin
       DefaultDraw := True;
       Exit;
     end;
-    IsSel := ListViewItemIndexIsSelected(Sender, Item.Index);
+    IsSel := ListViewItemIndexIsSelected(Sender, Item.Index) and
+      (not ListRowIsPastFileEof(Item.Index));
     { RowSelect pinta a linha inteira; na busca por substring so a coluna Linha fica azul. }
     if FFindMatchSelection and (LineIdx = FLastFoundLine) then
       IsSel := False;
@@ -53671,8 +54890,8 @@ begin
     end
     else if IsSel then
     begin
-      Bk := clHighlight;
-      Fg := clHighlightText;
+      Bk := FF_ROW_SEL_BG;
+      Fg := clWindowText;
     end;
     Sender.Canvas.Font.Assign(ListView1.Font);
     Sender.Canvas.Brush.Style := bsSolid;
@@ -53721,6 +54940,13 @@ begin
   if Stage = cdPostPaint then
   begin
     RealLine := FileLineIndexFromListRow(Item.Index);
+    { Viewport padding past EOF: no invented Line # and no Edit/Delete chips. }
+    if ListRowIsPastFileEof(Item.Index) then
+    begin
+      if RealLine >= 0 then
+        PaintListViewLineCaptionForced(Sender.Canvas, Item, RealLine);
+      Exit;
+    end;
     { Repaint Line # after skin (Notes Plastic etc. often leaves Caption invisible). }
     if RealLine >= 0 then
       PaintListViewLineCaptionForced(Sender.Canvas, Item, RealLine);
@@ -55029,8 +56255,8 @@ begin
   end
   else if IsSel then
   begin
-    Bk := clHighlight;
-    Fg := clHighlightText;
+    Bk := FF_ROW_SEL_BG;
+    Fg := clWindowText;
   end;
 
   RawLine := BuildLineTextForMarksDisplay(LineIdx);
@@ -55209,24 +56435,24 @@ function TfrmMain.IdleLogoPickTitleFontName: string;
 var
   F: TFont;
 begin
-  Result := 'Tahoma';
+  Result := FONT_TAHOMA;
   F := TFont.Create;
   try
-    F.Name := 'Candara';
-    if SameText(F.Name, 'Candara') then
+    F.Name := FONT_CANDARA;
+    if SameText(F.Name, FONT_CANDARA) then
     begin
-      Result := 'Candara';
+      Result := FONT_CANDARA;
       Exit;
     end;
-    F.Name := 'Century Gothic';
-    if SameText(F.Name, 'Century Gothic') then
+    F.Name := FONT_CENTURY_GOTHIC;
+    if SameText(F.Name, FONT_CENTURY_GOTHIC) then
     begin
-      Result := 'Century Gothic';
+      Result := FONT_CENTURY_GOTHIC;
       Exit;
     end;
-    F.Name := 'Segoe UI Semibold';
-    if SameText(F.Name, 'Segoe UI Semibold') then
-      Result := 'Segoe UI Semibold';
+    F.Name := FONT_SEGOE_UI_SEMIBOLD;
+    if SameText(F.Name, FONT_SEGOE_UI_SEMIBOLD) then
+      Result := FONT_SEGOE_UI_SEMIBOLD;
   finally
     F.Free;
   end;
@@ -55268,7 +56494,7 @@ begin
   if (AreaW < 1) or (AreaH < 1) then Exit;
 
   TitleName := IdleLogoPickTitleFontName;
-  SubName := PickUIFont('Segoe UI', 'Tahoma');
+  SubName := PickUIFont(FONT_SEGOE_UI, FONT_TAHOMA);
   TitleFontH := Max(IDLE_LOGO_TITLE_FONT_MIN,
     Min(IDLE_LOGO_TITLE_FONT_MAX, AreaW div IDLE_LOGO_TITLE_FONT_DIV));
   FullFontH := Max(11, Min(20, AreaW div 32));
@@ -55729,7 +56955,7 @@ begin
   if (BlockW < 1) or (BlockH < 1) then Exit;
 
   TitleName := IdleLogoPickTitleFontName;
-  SubName := PickUIFont('Segoe UI', 'Tahoma');
+  SubName := PickUIFont(FONT_SEGOE_UI, FONT_TAHOMA);
   TitleFontH := Max(IDLE_LOGO_TITLE_FONT_MIN,
     Min(IDLE_LOGO_TITLE_FONT_MAX, BlockW div IDLE_LOGO_TITLE_FONT_DIV));
   FullFontH := Max(11, Min(20, BlockW div 32));
@@ -58384,10 +59610,10 @@ var
   UiFont: string;
 begin
   if not Assigned(ABtn) then Exit;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    UiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    UiFont := FONT_SEGOE_UI
   else
-    UiFont := 'Tahoma';
+    UiFont := FONT_TAHOMA;
   ABtn.Flat := True;
   ABtn.ShowCaption := True;
   ABtn.ShowHint := True;
@@ -58400,7 +59626,8 @@ begin
   ABtn.Spacing := 4;
   ABtn.Margin := 2;
   ABtn.Layout := blGlyphLeft;
-  ABtn.Height := 24;
+  { Scale with PPI so captions are not clipped vertically on HiDPI. }
+  ABtn.Height := FfPx(24);
   try
     ABtn.SkinData.SkinSection := 'TOOLBUTTON';
   except
@@ -58494,7 +59721,10 @@ procedure TfrmMain.ApplyListViewLineToolCaptions;
     GlyphW := 0;
     if Assigned(ABtn.Images) and (ABtn.ImageIndex >= 0) then
       GlyphW := ABtn.Images.Width + ABtn.Spacing;
-    ABtn.Width := Max(AMinWidth, FFMeasureTextWidth(ABtn.Font, ABtn.Caption) + GlyphW + 24);
+    { Caption + glyph + pad must fully fit — never leave a truncated last button. }
+    ABtn.Width := Max(FfPx(AMinWidth),
+      FFMeasureTextWidth(ABtn.Font, ABtn.Caption) + GlyphW + FfPx(24));
+    ABtn.Height := FfPx(24);
   end;
 
 begin
@@ -58632,6 +59862,19 @@ begin
   LayoutListViewLineToolBtns;
 end;
 
+procedure TfrmMain.WMPopulateRecentFilesDeferred(var Msg: TMessage);
+begin
+  { Kept for any late PostMessage(445); startup path fills synchronously now. }
+  if csDestroying in ComponentState then Exit;
+  try
+    WireRecentFilesTabEvents;
+    LocalizeRecentFilesTab;
+    PopulateRecentFilesTab;
+    ScheduleMainTabStripSkinRefresh;
+  except
+  end;
+end;
+
 procedure TfrmMain.LvToolsResize(Sender: TObject);
 begin
   if not Assigned(FLvTools) then Exit;
@@ -58700,7 +59943,7 @@ end;
 procedure TfrmMain.LayoutListViewLineToolBtns;
 var
   Btns: array[0..16] of TsSpeedButton;
-  I, X, Avail, Need, NHide, OvW, MinX: Integer;
+  I, X, Avail, Need, NHide, OvW, MinX, BtnTop: Integer;
   BL: IInterface;
   Lbl: TControl;
   UseOverflow: Boolean;
@@ -58771,24 +60014,24 @@ begin
     FBtnLvOverflow.Caption) + 24;
   OvW := FBtnLvOverflow.Width + 4;
 
-  { "More" only while Find/Filter/Bookmarks column is open — original rule. }
-  UseOverflow := Assigned(FSearchDock) and FSearchDock.Visible and
-    (Avail > 0) and (Need > Avail);
+  { Always overflow when captions/resolution do not fit — never clip the last
+    button (e.g. "Perguntar à IA"). Hide from the right so First/Last/Find stay. }
+  UseOverflow := (Avail > 0) and (Need > Avail);
   NHide := 0;
   if UseOverflow then
   begin
-    I := Low(Btns);
-    while (I <= High(Btns)) and (Need + OvW > Avail) do
+    I := High(Btns);
+    while (I >= Low(Btns)) and (Need + OvW > Avail) do
     begin
       if Assigned(Btns[I]) then
         Dec(Need, Btns[I].Width + 4);
       Inc(NHide);
-      Inc(I);
+      Dec(I);
     end;
   end;
   SetLength(FLvOverflowBtns, 0);
-  for I := 0 to NHide - 1 do
-    if Assigned(Btns[I]) then
+  for I := High(Btns) - NHide + 1 to High(Btns) do
+    if (I >= Low(Btns)) and Assigned(Btns[I]) then
     begin
       SetLength(FLvOverflowBtns, Length(FLvOverflowBtns) + 1);
       FLvOverflowBtns[High(FLvOverflowBtns)] := Btns[I];
@@ -58797,8 +60040,8 @@ begin
   Need := 0;
   if Length(FLvOverflowBtns) > 0 then
     Inc(Need, FBtnLvOverflow.Width + 4);
-  for I := NHide to High(Btns) do
-    if Assigned(Btns[I]) then
+  for I := Low(Btns) to High(Btns) - NHide do
+    if (I >= Low(Btns)) and Assigned(Btns[I]) then
       Inc(Need, Btns[I].Width + 4);
   { Pack from the right, but never push First past the left edge (alRight did). }
   X := FLvTools.ClientWidth - FLvTools.Padding.Right - Need;
@@ -58808,15 +60051,19 @@ begin
   FBtnLvOverflow.Anchors := [akTop];
   FBtnLvOverflow.AlignWithMargins := False;
   FBtnLvOverflow.Visible := UseOverflow and (Length(FLvOverflowBtns) > 0);
+  { Vertically center in the strip so captions are not clipped by padding. }
+  BtnTop := FLvTools.Padding.Top;
+  if FLvTools.ClientHeight > FBtnLvOverflow.Height then
+    BtnTop := (FLvTools.ClientHeight - FBtnLvOverflow.Height) div 2;
   if FBtnLvOverflow.Visible then
   begin
-    FBtnLvOverflow.SetBounds(X, FLvTools.Padding.Top, FBtnLvOverflow.Width,
+    FBtnLvOverflow.SetBounds(X, BtnTop, FBtnLvOverflow.Width,
       FBtnLvOverflow.Height);
     FBtnLvOverflow.BringToFront;
     Inc(X, FBtnLvOverflow.Width + 4);
   end
   else
-    FBtnLvOverflow.SetBounds(-32000, FLvTools.Padding.Top, FBtnLvOverflow.Width,
+    FBtnLvOverflow.SetBounds(-32000, BtnTop, FBtnLvOverflow.Width,
       FBtnLvOverflow.Height);
   for I := Low(Btns) to High(Btns) do
   begin
@@ -58825,13 +60072,13 @@ begin
     Btns[I].Anchors := [akTop];
     Btns[I].AlignWithMargins := False;
     Btns[I].Margins.SetBounds(0, 0, 0, 0);
-    Btns[I].Visible := (not UseOverflow) or (I >= NHide);
+    Btns[I].Visible := (not UseOverflow) or (I <= High(Btns) - NHide);
     if not Btns[I].Visible then
     begin
-      Btns[I].SetBounds(-32000, FLvTools.Padding.Top, Btns[I].Width, Btns[I].Height);
+      Btns[I].SetBounds(-32000, BtnTop, Btns[I].Width, Btns[I].Height);
       Continue;
     end;
-    Btns[I].SetBounds(X, FLvTools.Padding.Top, Btns[I].Width, Btns[I].Height);
+    Btns[I].SetBounds(X, BtnTop, Btns[I].Width, Btns[I].Height);
     Btns[I].BringToFront;
     Inc(X, Btns[I].Width + 4);
   end;
@@ -60150,7 +61397,7 @@ begin
   BorderStyle := bsDialog;
   Position := poOwnerFormCenter;
   Caption := TrText('ListView.AskAI');
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   Color := clBtnFace;
   KeyPreview := True;
@@ -60752,7 +61999,8 @@ var
   Pat: string;
 begin
   if not Assigned(FFilterBar) then Exit;
-  Busy := Assigned(FFilterThread);
+  { Find Occurrences Collect reuses FFilterThread — do not paint Filter as busy. }
+  Busy := Assigned(FFilterThread) and (not FFindOccDroveFilter);
   Pat := FFilterBar.GetPattern;
   if Pat = '' then
     Pat := Trim(FFilterText);
@@ -60777,6 +62025,17 @@ begin
   FFilterBar.SetResultsActionsVisible(FFilterActive and (FFilteredCount > 0) and (not Busy));
   if Assigned(FFilterPeek) and FFilterBarFrameHidden then
     FFilterPeek.Visible := FFilterActive;
+end;
+
+procedure TfrmMain.ReleaseFindOccFilterDriver;
+begin
+  if not (FFindOccDroveFilter or FFindOccKeepHits) then Exit;
+  FFindOccDroveFilter := False;
+  FFindOccKeepHits := False;
+  FFindOccFilterOffered := False;
+  if Assigned(FFindOccBar) then
+    FFindOccBar.ClearHitList;
+  RefreshFindOccBarState;
 end;
 
 procedure TfrmMain.ApplyFilterFromPattern(const ARaw: string);
@@ -60808,6 +62067,10 @@ begin
     if FCsvMode then
       ConfigureListViewColumnsForMode;
   end;
+  { A prior Find "Show all in list" leaves FFindOccDroveFilter set. Filter
+    Apply reuses StartFilterStream; without clearing that flag, FilterThreadDone
+    treats the run as Find Occurrences and jumps to the Find panel. }
+  ReleaseFindOccFilterDriver;
   FAssistantPendingExportFiltered := False;
   FAssistantPendingExportToFile := False;
   FAssistantPendingFilterCaseSensitive := False;
@@ -60868,6 +62131,7 @@ end;
 
 procedure TfrmMain.FilterBarContinue(Sender: TObject);
 begin
+  if not FFilterActive then Exit;
   ContinueFilterStream;
   RefreshFilterBarState;
 end;
@@ -61286,13 +62550,23 @@ begin
 end;
 
 procedure TfrmMain.UpdateFilterStreamProgress(const BytesDone, TotalBytes: Int64);
+var
+  Prefix: string;
 begin
+  if FFindOccDroveFilter then
+    Prefix := TrText('FindOcc.Status.CollectingShort')
+  else
+    Prefix := TrText('Filtering');
   if TotalBytes > 0 then
-    UpdateStatusBar(TrText('Filtering') + ' ' + UnUtils.FormatNumber(BytesDone) + ' / ' +
+    UpdateStatusBar(Prefix + ' ' + UnUtils.FormatNumber(BytesDone) + ' / ' +
       UnUtils.FormatNumber(TotalBytes) + ' B', iaRight)
+  else if FFindOccDroveFilter then
+    UpdateStatusBar(Prefix, iaRight)
   else
     UpdateStatusBar(TrText('Filtering...'), iaRight);
-  RefreshFilterBarState;
+  if not FFindOccDroveFilter then
+    RefreshFilterBarState;
+  RefreshFindOccBarState;
   if TotalBytes > 0 then
     BgLoadProgress(BytesDone, TotalBytes, False);
 end;
@@ -61419,6 +62693,9 @@ begin
     if Assigned(ListView1) and ListView1.Visible and (not isChecked) then
       ForceListViewOwnerDataRepaint;
     OfferAssistantAfterFilter;
+    if Assigned(FMenuFilterContinue) then
+      FMenuFilterContinue.Enabled := False;
+    RefreshFilterBarState;
     Exit;
   end;
 
@@ -61493,6 +62770,7 @@ begin
     and hand FBits to FFilterBits after we FreeMem below. }
   StopOwnedBackgroundThread(FFilterThread);
   FFilterActive := False;
+  FFindOccDroveFilter := False;
   FFindOccKeepHits := False;
   FFilterStreamPartial := False;
   FFilterStreamResumeByte := 0;
@@ -61717,14 +62995,12 @@ procedure TfrmMain.OfferFindOccurrencesAfterHit;
 begin
   if Trim(FFindText) = '' then Exit;
   FFindOccOfferShown := True;
-  { F3/Shift+F3: panel already open — status only; never rematerialize the dock. }
+  { F3/Shift+F3: if Find chrome is already open, refresh status only — do not
+    steal the accordion from Filter / Bookmarks. }
   if FindOccChromeOpen(FFindOccBar, FFindOccFrameHidden, FindOccBarIsFloating,
        Assigned(FFindOccFloat) and FFindOccFloat.Visible) then
   begin
     RefreshFindOccBarState;
-    if (not FindOccBarIsFloating) and
-       ((FSearchDockActive <> FFindOccBar) or FSearchDockAllCollapsed) then
-      SearchDockActivate(FFindOccBar);
     Exit;
   end;
   ShowFindOccBar;
@@ -61804,14 +63080,15 @@ begin
   FFindOccFilterOffered := False;
   FFindOccListPage := 0;
   FFindOccKeepHits := False;
-  if IsFilterBarFrameVisible then
-    HideFilterBarFrame;
+  { Keep Filter / Bookmarks chrome open — Collect owns the shared hit stream
+    only; it must not hide the other panels. }
   if Assigned(FFindOccBar) then
   begin
     FFindOccBar.ClearHitList;
     FFindOccBar.SetSearchText(Needle);
     FFindOccBar.RememberSearch(Needle);
   end;
+  { Stream needle for Continue/Load more; Filter bar keeps its own edit text. }
   FFilterText := Needle;
   UpdateStatusBar(TrText('FindOcc.Status.CollectingShort'), iaRight);
   ShowFindOccBar;
@@ -61855,11 +63132,13 @@ begin
     Exit;
   end;
 
-  { New panel search must drop stale hits from the previous needle so the
-    occurrences list / Export / Copiar / pagination match the edit text. }
-  StopOwnedBackgroundThread(FFilterThread);
-  if FFindOccKeepHits or FFindOccDroveFilter or FFilterActive or (FFilteredCount > 0) then
+  { Drop only a prior Find Occurrences collect. An active ListView Filter remap
+    (FFilterActive) stays — Find first-hit cooperates via filter skips. }
+  if FFindOccKeepHits or FFindOccDroveFilter then
+  begin
+    StopOwnedBackgroundThread(FFilterThread);
     ClearFilter;
+  end;
   FFindOccDroveFilter := False;
   FFindOccKeepHits := False;
   FFindOccListPage := 0;
@@ -63638,6 +64917,7 @@ end;
 procedure TfrmMain.EnsureRecentFilesChrome;
 var
   LblFiles, LblFolders: TLabel;
+  WantFoldersW, WantSplitW: Integer;
 
   procedure SoftPanel(APnl: TPanel; AColor: TColor);
   begin
@@ -63647,36 +64927,76 @@ var
       APnl.Caption := '';
       APnl.ParentBackground := False;
       APnl.ParentColor := False;
-      APnl.Color := AColor;
+      if APnl.Color <> AColor then
+        APnl.Color := AColor;
     except
     end;
   end;
 
-  procedure MakeHead(AParent: TWinControl; var AHead: TPanel; ALabel: TLabel);
+  procedure MakeHead(AParent: TWinControl; var AHead: TPanel; ALabel: TLabel;
+    AWithSessionTip: Boolean);
+  var
+    WantH: Integer;
   begin
     if not Assigned(AParent) then Exit;
+    if AWithSessionTip then
+      WantH := FfPx(48)
+    else
+      WantH := FfPx(30);
     if not Assigned(AHead) then
     begin
       AHead := TPanel.Create(Self);
       AHead.Parent := AParent;
       AHead.Align := alTop;
-      AHead.Height := FfPx(30);
-    end;
+      AHead.Height := WantH;
+    end
+    else if AHead.Height <> WantH then
+      AHead.Height := WantH;
     SoftPanel(AHead, $00F0F0F0);
     if not Assigned(ALabel) then Exit;
     try
       if ALabel.Parent <> AHead then
         ALabel.Parent := AHead;
       ALabel.Align := alNone;
-      ALabel.Left := FfPx(10);
-      ALabel.Top := FfPx(6);
+      if ALabel.Left <> FfPx(10) then ALabel.Left := FfPx(10);
+      if ALabel.Top <> FfPx(4) then ALabel.Top := FfPx(4);
       ALabel.AutoSize := True;
       ALabel.Transparent := True;
-      ALabel.Font.Name := 'Segoe UI';
+      ALabel.Font.Name := FONT_SEGOE_UI;
       ALabel.Font.Style := [fsBold];
       ALabel.Font.Height := -MulDiv(12, Screen.PixelsPerInch, 96);
       ALabel.Font.Color := $00333333;
     except
+    end;
+    if AWithSessionTip then
+    begin
+      if not Assigned(FRecentSessionTip) then
+      begin
+        FRecentSessionTip := TLabel.Create(Self);
+        FRecentSessionTip.Parent := AHead;
+        FRecentSessionTip.Name := 'lblRecentSessionTip';
+      end;
+      try
+        if FRecentSessionTip.Parent <> AHead then
+          FRecentSessionTip.Parent := AHead;
+        FRecentSessionTip.Align := alNone;
+        if FRecentSessionTip.Left <> FfPx(10) then FRecentSessionTip.Left := FfPx(10);
+        if FRecentSessionTip.Top <> FfPx(24) then FRecentSessionTip.Top := FfPx(24);
+        FRecentSessionTip.AutoSize := True;
+        FRecentSessionTip.Transparent := True;
+        FRecentSessionTip.WordWrap := False;
+        FRecentSessionTip.Font.Name := FONT_SEGOE_UI;
+        FRecentSessionTip.Font.Style := [];
+        FRecentSessionTip.Font.Height := -MulDiv(10, Screen.PixelsPerInch, 96);
+        FRecentSessionTip.Font.Color := $004A7A58;
+        { Captions localized in LocalizeRecentFilesTab — avoid TrText on every chrome pass. }
+        if FRecentSessionTip.Caption = '' then
+          FRecentSessionTip.Caption := TrText('RecentFiles.SessionTip');
+        FRecentSessionTip.ShowHint := True;
+        if FRecentSessionTip.Hint = '' then
+          FRecentSessionTip.Hint := TrText('RecentFiles.SessionHint');
+      except
+      end;
     end;
   end;
 
@@ -63711,9 +65031,11 @@ var
       ALbl.SetBounds(FfPx(86), FfPx(8), FfPx(160), FfPx(18));
       ALbl.AutoSize := True;
       ALbl.Transparent := True;
-      ALbl.Font.Name := 'Segoe UI';
+      ALbl.Font.Name := FONT_SEGOE_UI;
       ALbl.Font.Height := -MulDiv(11, Screen.PixelsPerInch, 96);
-    end;
+    end
+    else if APager.Height <> FfPx(34) then
+      APager.Height := FfPx(34);
     SoftPanel(APager, $00F5F5F5);
     if Assigned(APrev) then
       APrev.Hint := TrText('BookmarkBar.PagePrevHint');
@@ -63727,18 +65049,19 @@ var
   begin
     if not Assigned(ALV) or not Assigned(AParent) then Exit;
     try
-      ALV.Align := alNone;
       if ALV.Parent <> AParent then
         ALV.Parent := AParent;
-      ALV.Align := alClient;
+      if ALV.Align <> alClient then
+        ALV.Align := alClient;
     except
     end;
   end;
 begin
   if csLoading in ComponentState then Exit;
   if csDestroying in ComponentState then Exit;
-  { FormCreate still wires/localizes; chrome/align only after FormShow. }
+  { Chrome/align only after FormShow — avoids breathing while the form sizes up. }
   if not FormShowed then Exit;
+  if FRecentFilesChromeReady then Exit;
   if not Assigned(pnlRecentFiles) or not Assigned(pnlRecentFolders) then Exit;
   if not Assigned(tabRecentFiles) then Exit;
   { Avoid AlphaSkins/align work before the tab host has a window. }
@@ -63752,18 +65075,23 @@ begin
     end;
     if not tabRecentFiles.HandleAllocated then Exit;
   end;
+  { Layout with a real width — chrome while ClientWidth~0 sticks wrong sizes. }
+  if tabRecentFiles.ClientWidth < FfPx(200) then Exit;
 
   SoftPanel(pnlRecentFiles, clWindow);
   SoftPanel(pnlRecentFolders, $00FAFAFA);
+  WantFoldersW := FfPx(248);
   try
-    if pnlRecentFolders.Align = alRight then
-      pnlRecentFolders.Width := FfPx(248);
+    if (pnlRecentFolders.Align = alRight) and (pnlRecentFolders.Width <> WantFoldersW) then
+      pnlRecentFolders.Width := WantFoldersW;
   except
   end;
   SoftPanel(Panel1, $00F0F0F0);
+  WantSplitW := FfPx(5);
   if Assigned(Splitter2) then
   try
-    Splitter2.Width := FfPx(5);
+    if Splitter2.Width <> WantSplitW then
+      Splitter2.Width := WantSplitW;
   except
   end;
 
@@ -63782,14 +65110,15 @@ begin
   LblFiles := lblRecentFiles;
   LblFolders := lblRecentFolders;
   try
-    MakeHead(pnlRecentFiles, FRecentFilesHead, LblFiles);
+    MakeHead(pnlRecentFiles, FRecentFilesHead, LblFiles, True);
     MakePager(pnlRecentFiles, FRecentFilesPager, FRecentFilesBtnPrev, FRecentFilesBtnNext,
       FRecentFilesLblPage, RecentFilesPagePrevClick, RecentFilesPageNextClick);
-    MakeHead(pnlRecentFolders, FRecentFoldersHead, LblFolders);
+    MakeHead(pnlRecentFolders, FRecentFoldersHead, LblFolders, False);
     MakePager(pnlRecentFolders, FRecentFoldersPager, FRecentFoldersBtnPrev, FRecentFoldersBtnNext,
       FRecentFoldersLblPage, RecentFoldersPagePrevClick, RecentFoldersPageNextClick);
     PlaceList(lvRecentFiles, pnlRecentFiles);
     PlaceList(lvRecentFolders, pnlRecentFolders);
+    FRecentFilesChromeReady := True;
   except
     { Chrome is cosmetic; never abort tab init on skin/align glitches. }
   end;
@@ -63802,16 +65131,23 @@ begin
   if not Assigned(ALV) then Exit;
   while ALV.Columns.Count < 7 do
     ALV.Columns.Add;
+  { ClientWidth 0/tiny during early show — wait for a real size to avoid thrash. }
+  if ALV.ClientWidth < FfPx(200) then Exit;
   Avail := Max(FfPx(420), ALV.ClientWidth - 4);
   W6 := Max(FfPx(44), FFMeasureTextWidth(ALV.Font, ALV.Columns[6].Caption) + FfPx(16));
   W2 := FfPx(72);
   W3 := FfPx(118);
   W4 := FfPx(118);
-  W5 := FfPx(72);
+  W5 := Max(FfPx(72), FFMeasureTextWidth(ALV.Font, TrText('RecentFiles.SessionSaved')) + FfPx(20));
   W0 := MulDiv(Avail - W2 - W3 - W4 - W5 - W6, 34, 100);
   W1 := Avail - W0 - W2 - W3 - W4 - W5 - W6;
   if W0 < FfPx(120) then W0 := FfPx(120);
   if W1 < FfPx(120) then W1 := FfPx(120);
+  if (ALV.Columns[0].Width = W0) and (ALV.Columns[1].Width = W1) and
+     (ALV.Columns[2].Width = W2) and (ALV.Columns[3].Width = W3) and
+     (ALV.Columns[4].Width = W4) and (ALV.Columns[5].Width = W5) and
+     (ALV.Columns[6].Width = W6) then
+    Exit;
   ALV.Columns.BeginUpdate;
   try
     ALV.Columns[0].Width := W0;
@@ -63833,19 +65169,31 @@ var
   Pnl: TPanel;
   Chk: TCheckBox;
   B1, B2, B3: TButton;
-  Gap, Y, X, W1, W2, W3, Total: Integer;
+  Gap, Y, X, W1, W2, W3, Total, WantH, BtnH: Integer;
+
+  procedure PlaceIfChanged(ACtrl: TControl; AX, AY, AW, AH: Integer);
+  begin
+    if not Assigned(ACtrl) then Exit;
+    if (ACtrl.Left <> AX) or (ACtrl.Top <> AY) or (ACtrl.Width <> AW) or (ACtrl.Height <> AH) then
+      ACtrl.SetBounds(AX, AY, AW, AH);
+  end;
 begin
   if not (Assigned(RecentFilesTabFind('pnlBottom')) and (RecentFilesTabFind('pnlBottom') is TPanel)) then Exit;
   Pnl := RecentFilesTabFind('pnlBottom') as TPanel;
-  Pnl.Height := FfPx(56);
+  if Pnl.ClientWidth < FfPx(120) then Exit;
+  WantH := FfPx(56);
+  if Pnl.Height <> WantH then
+    Pnl.Height := WantH;
   try
     Pnl.ParentBackground := False;
     Pnl.ParentColor := False;
-    Pnl.Color := $00F0F0F0;
+    if Pnl.Color <> $00F0F0F0 then
+      Pnl.Color := $00F0F0F0;
   except
   end;
   Gap := FfPx(10);
   Y := FfPx(14);
+  BtnH := FfPx(28);
   B1 := nil; B2 := nil; B3 := nil; Chk := nil;
   if Assigned(RecentFilesTabFind('btnOpenFile')) and (RecentFilesTabFind('btnOpenFile') is TButton) then
     B1 := RecentFilesTabFind('btnOpenFile') as TButton;
@@ -63865,11 +65213,11 @@ begin
     W3 := Max(W3, FFMeasureTextWidth(B3.Font, B3.Caption) + FfPx(28));
   Total := W1 + Gap + W2 + Gap + W3;
   X := Max(FfPx(12), (Pnl.ClientWidth - Total) div 2);
-  if Assigned(B1) then B1.SetBounds(X, Y, W1, FfPx(28));
+  PlaceIfChanged(B1, X, Y, W1, BtnH);
   Inc(X, W1 + Gap);
-  if Assigned(B2) then B2.SetBounds(X, Y, W2, FfPx(28));
+  PlaceIfChanged(B2, X, Y, W2, BtnH);
   Inc(X, W2 + Gap);
-  if Assigned(B3) then B3.SetBounds(X, Y, W3, FfPx(28));
+  PlaceIfChanged(B3, X, Y, W3, BtnH);
   if Assigned(Chk) then
   begin
     Chk.Left := FfPx(12);
@@ -64022,12 +65370,20 @@ begin
     if LV.Columns.Count > 2 then LV.Columns[2].Caption := TrText('Size');
     if LV.Columns.Count > 3 then LV.Columns[3].Caption := TrText('Modified');
     if LV.Columns.Count > 4 then LV.Columns[4].Caption := TrText('Last loaded');
-    if LV.Columns.Count > 5 then LV.Columns[5].Caption := TrText('Session');
+    if LV.Columns.Count > 5 then
+      LV.Columns[5].Caption := TrText('Session');
     if LV.Columns.Count > 6 then
     begin
       LV.Columns[6].Caption := TrText('Remove');
       LV.Columns[6].Alignment := taCenter;
     end;
+    LV.ShowHint := True;
+    LV.Hint := TrText('RecentFiles.SessionTip');
+  end;
+  if Assigned(FRecentSessionTip) then
+  begin
+    FRecentSessionTip.Caption := TrText('RecentFiles.SessionTip');
+    FRecentSessionTip.Visible := True;
   end;
 
   if Assigned(RecentFilesTabFind('lvRecentFolders')) and (RecentFilesTabFind('lvRecentFolders') is TListView) then
@@ -64040,7 +65396,12 @@ begin
   if Assigned(FRecentTabRemoveItem) then
     FRecentTabRemoveItem.Caption := TrText('Remove from recent list');
 
-  ApplyRecentFilesTabVisualStyle;
+  { Full chrome/heights once (no visible thrash). Later localizes: captions +
+    bottom bar widths only (language switch). }
+  if not FRecentFilesVisualReady then
+    ApplyRecentFilesTabVisualStyle
+  else
+    LayoutRecentFilesBottomBar;
 end;
 
 procedure TfrmMain.ApplyRecentFilesTabVisualStyle;
@@ -64052,12 +65413,14 @@ var
   Lbl: TLabel;
   PnlHead: TPanel;
   TitleTop, TitleFontH, TagFontH, GapTitleTag, TagH, PadL: Integer;
+  WantW, WantH, WantTop: Integer;
   Comp: TComponent;
 begin
   { After Arabic BiDi + language switches, FormCloseQuery of hosted tabs pumps
     messages; never restyle while shutting down (AV at SmallImages / chrome). }
   if FApplicationClosing or (csDestroying in ComponentState) then Exit;
   if not FormShowed then Exit;
+  if FRecentFilesVisualReady then Exit;
   Tab := FindRecentFilesTab;
   if not Assigned(Tab) or (csDestroying in Tab.ComponentState) then Exit;
 
@@ -64085,7 +65448,7 @@ begin
     end;
     LV.Align := alClient;
     LV.Color := clWindow;
-    LV.Font.Name := 'Segoe UI';
+    LV.Font.Name := FONT_SEGOE_UI;
     LV.Font.Color := $00444444;
     LV.Font.Height := -MulDiv(11, Screen.PixelsPerInch, 96);
     LV.ReadOnly := True;
@@ -64103,7 +65466,7 @@ begin
     LV := RecentFilesTabFind('lvRecentFolders') as TListView;
     LV.Align := alClient;
     LV.Color := clWindow;
-    LV.Font.Name := 'Segoe UI';
+    LV.Font.Name := FONT_SEGOE_UI;
     LV.Font.Color := $00444444;
     LV.Font.Height := -MulDiv(11, Screen.PixelsPerInch, 96);
     LV.ReadOnly := True;
@@ -64138,7 +65501,7 @@ begin
     if Assigned(RecentFilesTabFind('lblTitle')) and (RecentFilesTabFind('lblTitle') is TLabel) then
     begin
       Lbl := RecentFilesTabFind('lblTitle') as TLabel;
-      Lbl.Font.Name := 'Segoe UI';
+      Lbl.Font.Name := FONT_SEGOE_UI;
       Lbl.Font.Style := [fsBold];
       Lbl.Font.Color := $00333333;
       Lbl.Font.Height := -TitleFontH;
@@ -64152,7 +65515,7 @@ begin
     begin
       Lbl := RecentFilesTabFind('lblVersion') as TLabel;
       Lbl.Caption := 'v' + APPLICATION_VERSION;
-      Lbl.Font.Name := 'Segoe UI';
+      Lbl.Font.Name := FONT_SEGOE_UI;
       Lbl.Font.Style := [];
       Lbl.Font.Color := $00888888;
       Lbl.Font.Height := -FfPx(11);
@@ -64166,47 +65529,51 @@ begin
     if Assigned(RecentFilesTabFind('lblTagline')) and (RecentFilesTabFind('lblTagline') is TLabel) then
     begin
       Lbl := RecentFilesTabFind('lblTagline') as TLabel;
-      Lbl.Font.Name := 'Segoe UI';
+      Lbl.Font.Name := FONT_SEGOE_UI;
       Lbl.Font.Style := [];
       Lbl.Font.Color := $005A5A5A;
       Lbl.Font.Height := -TagFontH;
       Lbl.WordWrap := True;
       Lbl.AutoSize := False;
       Lbl.Transparent := True;
-      Lbl.Left := PadL;
-      Lbl.Width := Max(200, Tab.ClientWidth - PadL * 2);
-      Lbl.Height := TagH;
+      if Lbl.Left <> PadL then Lbl.Left := PadL;
+      WantW := Max(200, Tab.ClientWidth - PadL * 2);
+      if Lbl.Width <> WantW then Lbl.Width := WantW;
+      if Lbl.Height <> TagH then Lbl.Height := TagH;
       if Assigned(RecentFilesTabFind('lblTitle')) and (RecentFilesTabFind('lblTitle') is TLabel) then
-        Lbl.Top := (RecentFilesTabFind('lblTitle') as TLabel).Top +
+        WantTop := (RecentFilesTabFind('lblTitle') as TLabel).Top +
           (RecentFilesTabFind('lblTitle') as TLabel).Height + GapTitleTag
       else
-        Lbl.Top := TitleTop + TitleFontH + GapTitleTag;
-      PnlHead.Height := Lbl.Top + Lbl.Height + FfPx(14);
+        WantTop := TitleTop + TitleFontH + GapTitleTag;
+      if Lbl.Top <> WantTop then Lbl.Top := WantTop;
+      WantH := Lbl.Top + Lbl.Height + FfPx(14);
+      if PnlHead.Height <> WantH then
+        PnlHead.Height := WantH;
     end
-    else
+    else if PnlHead.Height <> FfPx(96) then
       PnlHead.Height := FfPx(96);
   end;
 
   if Assigned(RecentFilesTabFind('btnOpenFile')) and (RecentFilesTabFind('btnOpenFile') is TButton) then
   begin
     Btn := RecentFilesTabFind('btnOpenFile') as TButton;
-    Btn.Font.Name := 'Segoe UI';
+    Btn.Font.Name := FONT_SEGOE_UI;
   end;
   if Assigned(RecentFilesTabFind('btnOpenSelected')) and (RecentFilesTabFind('btnOpenSelected') is TButton) then
   begin
     Btn := RecentFilesTabFind('btnOpenSelected') as TButton;
     Btn.Default := True;
-    Btn.Font.Name := 'Segoe UI';
+    Btn.Font.Name := FONT_SEGOE_UI;
   end;
   if Assigned(RecentFilesTabFind('Button4')) and (RecentFilesTabFind('Button4') is TButton) then
   begin
     Btn := RecentFilesTabFind('Button4') as TButton;
-    Btn.Font.Name := 'Segoe UI';
+    Btn.Font.Name := FONT_SEGOE_UI;
   end;
   if Assigned(RecentFilesTabFind('chkDontShow')) and (RecentFilesTabFind('chkDontShow') is TCheckBox) then
   begin
     Chk := RecentFilesTabFind('chkDontShow') as TCheckBox;
-    Chk.Font.Name := 'Segoe UI';
+    Chk.Font.Name := FONT_SEGOE_UI;
   end;
   if Assigned(FRecentFilesBtnPrev) then
     FRecentFilesBtnPrev.Hint := TrText('BookmarkBar.PagePrevHint');
@@ -64218,6 +65585,7 @@ begin
     FRecentFoldersBtnNext.Hint := TrText('BookmarkBar.PageNextHint');
 
   LayoutRecentFilesBottomBar;
+  FRecentFilesVisualReady := True;
 end;
 
 procedure TfrmMain.UpdateRecentFilesTabEmptyState;
@@ -64417,7 +65785,7 @@ var
           Result := Trim(FRecentFilesLastOpened[AIdx]);
       5:
         if SessionFileExistsFor(P) then
-          Result := '* ' + TrText('saved');
+          Result := TrText('RecentFiles.SessionSaved');
     end;
   end;
 
@@ -64489,7 +65857,7 @@ var
     else
       Item.SubItems.Add('-');
     if SessionFileExistsFor(FilePath) then
-      SessionStr := '* ' + TrText('saved')
+      SessionStr := TrText('RecentFiles.SessionSaved')
     else
       SessionStr := '';
     Item.SubItems.Add(SessionStr);
@@ -64821,7 +66189,10 @@ begin
     4: { Session }
       begin
         if HasSession then
-          Sender.Canvas.Font.Color := $004A7A58
+        begin
+          Sender.Canvas.Font.Color := $004A7A58;
+          Sender.Canvas.Font.Style := [fsBold];
+        end
         else
           Sender.Canvas.Font.Color := $00A0A0A0;
       end;
@@ -64877,10 +66248,16 @@ begin
   HitInfo.pt.Y := Y;
   SendMessage(LV.Handle, LVM_SUBITEMHITTEST, 0, LPARAM(@HitInfo));
 
-  if (HitInfo.iItem >= 0) and (HitInfo.iSubItem = 6) then
+  if (HitInfo.iItem >= 0) and ((HitInfo.iSubItem = 5) or (HitInfo.iSubItem = 6)) then
     LV.Cursor := crHandPoint
   else
     LV.Cursor := crDefault;
+  if (HitInfo.iItem >= 0) and (HitInfo.iSubItem = 5) then
+    LV.Hint := TrText('RecentFiles.SessionHint')
+  else if (HitInfo.iItem >= 0) and (HitInfo.iSubItem = 6) then
+    LV.Hint := TrText('Remove from recent list')
+  else
+    LV.Hint := TrText('RecentFiles.SessionTip');
 end;
 
 procedure TfrmMain.RecentTabFilesMouseDown(Sender: TObject; Button: TMouseButton;
@@ -64907,13 +66284,26 @@ begin
   HitInfo.pt.Y := Y;
   SendMessage(LV.Handle, LVM_SUBITEMHITTEST, 0, LPARAM(@HitInfo));
 
-  if (HitInfo.iItem < 0) or (HitInfo.iSubItem <> 6) then Exit;
-
+  if HitInfo.iItem < 0 then Exit;
   Item := LV.Items[HitInfo.iItem];
   if not Assigned(Item) then Exit;
   if Item.SubItems.Count < 1 then Exit;
 
   FilePath := IncludeTrailingPathDelimiter(Item.SubItems[0]) + Item.Caption;
+
+  if HitInfo.iSubItem = 5 then
+  begin
+    if (Item.SubItems.Count > 4) and (Trim(Item.SubItems[4]) <> '') then
+      ShowFastFileAppNotice(frmMain, fnkInfo, TrText('Session'),
+        Format(TrText('RecentFiles.SessionOpenHint'), [ExtractFileName(FilePath)]))
+    else
+      ShowFastFileAppNotice(frmMain, fnkInfo, TrText('Session'),
+        TrText('RecentFiles.SessionNoneHint'));
+    Exit;
+  end;
+
+  if HitInfo.iSubItem <> 6 then Exit;
+
   if FastFileMessageBox(
     PChar(TrText('Remove selected file from recent list?') + #13#10 + FilePath),
     APPLICATION_NAME, MB_ICONQUESTION or MB_YESNO) <> IDYES then
@@ -65070,12 +66460,16 @@ begin
   if ShowEnabled then
   begin
     EnsureRecentFilesTabFirstWhenEnabled;
-    ShowTab(Tab); { allocate page handle before chrome/align }
+    ShowTab(Tab); { visible first so ClientWidth is real }
   end;
-
-  WireRecentFilesTabEvents;
-  LocalizeRecentFilesTab;
-  PopulateRecentFilesTab;
+  BeginRecentFilesSilentLayout;
+  try
+    WireRecentFilesTabEvents;
+    LocalizeRecentFilesTab;
+    PopulateRecentFilesTab;
+  finally
+    EndRecentFilesSilentLayout;
+  end;
 
   if Assigned(RecentFilesTabFind('chkDontShow')) and (RecentFilesTabFind('chkDontShow') is TCheckBox) then
   begin
@@ -65125,6 +66519,7 @@ begin
   end;
   Tab := FindRecentFilesTab;
   if not Assigned(Tab) then Exit;
+  if TryToggleCloseMainTab(Tab) then Exit;
 
   EnsureRecentFilesTabFirstWhenEnabled;
   ShowTab(Tab); { handle first — chrome/align needs the page HWND }
@@ -65627,7 +67022,7 @@ begin
     Frm.BorderStyle := bsDialog;
     Frm.KeyPreview := True;
     Frm.Color := clWhite;
-    Frm.Font.Name := 'Segoe UI';
+    Frm.Font.Name := FONT_SEGOE_UI;
     Frm.Font.Size := 9;
     Memo := TMemo.Create(Frm);
     Memo.Parent := Frm;
@@ -65638,7 +67033,7 @@ begin
     Memo.Anchors := [akLeft, akTop, akRight, akBottom];
     Memo.ReadOnly := True;
     Memo.ScrollBars := ssVertical;
-    Memo.Font.Name := 'Consolas';
+    Memo.Font.Name := FONT_CONSOLAS;
     Memo.Font.Size := 9;
     Memo.Font.Color := clBlack;
     Memo.Color := $00FAFAFA;
@@ -65991,12 +67386,12 @@ begin
         end;
       Ord('K'), Ord('k'):
         begin
-          if Assigned(btnSplitFiles) and btnSplitFiles.Enabled then btnSplitFilesClick(btnSplitFiles);
+          miSplitFilesClick(Self);
           Key := 0; Exit;
         end;
       Ord('M'), Ord('m'):
         begin
-          if Assigned(btnMergeMultipleLines) and btnMergeMultipleLines.Enabled then btnMergeMultipleLinesClick(btnMergeMultipleLines);
+          miMergeLinesClick(Self);
           Key := 0; Exit;
         end;
       Ord('J'), Ord('j'):
@@ -67030,6 +68425,11 @@ end;
 procedure TfrmMain.miFilterContinueClick(Sender: TObject);
 begin
   EnsureReadTabVisible;
+  if not FFilterActive then
+  begin
+    ShowAppMessage(TrText('No active filter. Press Ctrl+L first.'));
+    Exit;
+  end;
   ContinueFilterStream;
 end;
 

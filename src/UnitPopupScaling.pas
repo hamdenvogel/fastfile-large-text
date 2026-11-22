@@ -32,6 +32,10 @@ type
   public
   end;
 
+type
+  { Main form applies PPI with FUIScaleApplying / settle timer (no SkinTabRect AV). }
+  TPopupScalingApplyPPI = procedure(APPI: Integer) of object;
+
 var
   FormPopupScaling: TFormPopupScaling;
   { Definido em TfrmMain.FormCreate — sem uses MainUnit (evita ciclo D7). }
@@ -41,6 +45,7 @@ var
   PopupScalingAppAnimated: Boolean;
   PopupScalingCaptionChanged: TNotifyEvent;
   PopupScalingRestoreDefault: TNotifyEvent;
+  PopupScalingApplyPPI: TPopupScalingApplyPPI;
   { Caption for sSpeedButton4, set by the main form before showing the popup. }
   PopupScalingRestoreCaption: string;
 
@@ -60,7 +65,8 @@ begin
     sSkinProvider1.AllowAnimation := False; // Quick hiding
     Close;
     sSkinProvider1.AllowAnimation := True;
-    Application.ProcessMessages;
+    { Do NOT ProcessMessages here — reentrancy during the following PPI change
+      hits TsPageControl.SkinTabRect while SkinManager.gd is rebuilding (AV). }
   end
   else
     Close;
@@ -108,29 +114,24 @@ begin
   Mode := TsSpeedButton(Sender).Tag;
   case Mode of
     0: begin // Use Delphi VCL auto scaling
-      // Hiding of popup window
       ClosePopup;
       DataModule1.sSkinManager1.Options.ScaleMode := smVCL;
       if Assigned(PopupScalingSpeedBtnPPI) then
         PopupScalingSpeedBtnPPI.Caption := TrText('Auto PPI: ') + IntToStr(GetPPI(PopupScalingSkinData));
     end;
-    2: begin // Custom
+    2: begin // Custom — go through main-form apply (busy flag + deferred layout)
       sTrackBar1.Position := GetPPI(PopupScalingSkinData);
-      DataModule1.sSkinManager1.Options.PixelsPerInch := sTrackBar1.Position;
+      if Assigned(PopupScalingApplyPPI) then
+        PopupScalingApplyPPI(sTrackBar1.Position)
+      else
+      begin
+        DataModule1.sSkinManager1.Options.PixelsPerInch := sTrackBar1.Position;
+        DataModule1.sSkinManager1.Options.ScaleMode := smCustomPPI;
+      end;
       if Assigned(PopupScalingSpeedBtnPPI) then
         PopupScalingSpeedBtnPPI.Caption := TrText('Custom PPI: ') + IntToStr(sTrackBar1.Position);
-{      if Win32MajorVersion >= 10 then begin
-//        ClosePopup;
-//        Application.ProcessMessages;
-        DataModule1.sSkinManager1.Options.ScaleMode := smCustomPPI;
-//        Visible := True;
-      end
-      else}
-        DataModule1.sSkinManager1.Options.ScaleMode := smCustomPPI;
     end;
   end;
-//  if Win32MajorVersion >= 10 then
-//    sTrackBar1.Enabled := (Mode <> 0);
 
   MakeSelected(sSpeedButton1, Mode = 0);
   MakeSelected(sSpeedButton3, Mode = 2);
@@ -191,24 +192,27 @@ end;
 
 procedure TFormPopupScaling.sTrackBar1UserChanged(Sender: TObject);
 begin
-  // Hiding of popup window
   ClosePopup;
-  if DataModule1.sSkinManager1.Options.ScaleMode <> smCustomPPI then begin
-    DataModule1.sSkinManager1.Options.PixelsPerInch := GetPPI(PopupScalingSkinData);
-    DataModule1.sSkinManager1.Options.ScaleMode := smCustomPPI;
-    Application.ProcessMessages;
-  end;
   MakeSelected(sSpeedButton1, False);
   MakeSelected(sSpeedButton3, True);
   if Assigned(PopupScalingSpeedBtnPPI) then
     PopupScalingSpeedBtnPPI.Caption := TrText('Custom PPI: ') + IntToStr(sTrackBar1.Position);
   sSpeedButton3.Caption := TrText('Custom PixelsPerInch value') + ': ' + IntToStr(sTrackBar1.Position);
-  if PopupScalingAppAnimated then
-    SetPPIAnimated(sTrackBar1.Position)
+  { Prefer main-form apply: sets FUIScaleApplying, skips SkinTabRect mid-scale,
+    no SetPPIAnimated (animated multi-step + ProcessMessages caused ~50s freeze). }
+  if Assigned(PopupScalingApplyPPI) then
+    PopupScalingApplyPPI(sTrackBar1.Position) { already runs SkinScaleChanged }
   else
+  begin
+    if DataModule1.sSkinManager1.Options.ScaleMode <> smCustomPPI then
+    begin
+      DataModule1.sSkinManager1.Options.PixelsPerInch := GetPPI(PopupScalingSkinData);
+      DataModule1.sSkinManager1.Options.ScaleMode := smCustomPPI;
+    end;
     DataModule1.sSkinManager1.Options.PixelsPerInch := sTrackBar1.Position;
-  if Assigned(PopupScalingCaptionChanged) then
-    PopupScalingCaptionChanged(Self);
+    if Assigned(PopupScalingCaptionChanged) then
+      PopupScalingCaptionChanged(Self);
+  end;
 end;
 
 end.

@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "28": "Symbol/punctuation-only source kept as-is.",
     "81": "Menu accelerator keeps AI (Consumer) product label.",
@@ -3511,8 +3511,25 @@
     "3465": "Vie kaikki osumat (%d)...",
     "3464": "Kopioi tämä sivu (%d osumaa)",
     "3463": "Kopioi kaikki osumat (%d)",
-    "3468": "Hakutyökalut",
-    "3467": "Valitse avattava hakupaneeli",
-    "3469": "VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Etsi, Suodatin ja Kirjanmerkit pinoutuvat haitarina latauskannen kanssa.\r\n  F3 / Shift+F3 eivät enää vilkuta sitä kantta, kun Etsi on jo auki.\r\n  Kun hakupaneeli on auki, ylivuotavat luettelotyökalut siirtyvät kohtaan Lisää.\r\n  Vahvistusikkunat pysyvät napsautettavina oikealta vasemmalle -tilassa.\r\n  Viimeisen jälkeen Ensimmäinen ja sivupainikkeet toimivat edelleen; sivun tila\r\n    seuraa käyttöliittymän kieltä.\r\n"
+    "3468": "Piilota luettelo",
+    "3467": "VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Etsi, Suodatin ja Kirjanmerkit pinoutuvat haitarina latauskannen kanssa.\r\n  F3 / Shift+F3 eivät enää vilkuta sitä kantta, kun Etsi on jo auki.\r\n  Kun hakupaneeli on auki, ylivuotavat luettelotyökalut siirtyvät kohtaan Lisää.\r\n  Vahvistusikkunat pysyvät napsautettavina oikealta vasemmalle -tilassa.\r\n  Viimeisen jälkeen Ensimmäinen ja sivupainikkeet toimivat edelleen; sivun tila\r\n    seuraa käyttöliittymän kieltä.\r\n",
+    "3469": "Näytä luettelo",
+    "3470": "Tällä tiedostolla on tallennettu istunto (kursori, kirjanmerkit, suodattimet). Avaa se palauttaaksesi.",
+    "3471": "Tälle tiedostolle ei ole vielä tallennettua istuntoa. Avauksen jälkeen: Istunto → Tallenna istunto nyt (Ctrl+Alt+S).",
+    "3472": "Tiedostolla \"%s\" on tallennettu istunto. Avaa tiedosto palauttaaksesi kursorin, kirjanmerkit ja suodattimet.",
+    "3473": "● Tallennettu",
+    "3474": "Istunto-sarake: \"Tallennettu\" tarkoittaa, että kursori, kirjanmerkit ja suodattimet voidaan palauttaa avattaessa uudelleen.",
+    "3475": "Kursorin sijainti, kirjanmerkit, suodattimet ja näkymäasetukset palautettiin tälle tiedostolle.",
+    "3476": "Avaa ja lue tiedosto ensin tallentaaksesi tai ladataksesi sen istunnon.",
+    "3477": "Kursorin sijainti, kirjanmerkit, suodattimet ja näkymäasetukset tallennettiin tälle tiedostolle.",
+    "3478": "Sulje kaikki avoimet välilehdet",
+    "3479": "Sulje kaikki",
+    "3480": "Kaikki välilehdet suljettu",
+    "3481": "Käytä Istunto → Avaa suljettu välilehti uudelleen tai Palauta viimeisimmän istunnon välilehdet.",
+    "3482": "Suljetaanko kaikki %d avointa välilehteä?",
+    "3483": "Tälle istunnolle ei löytynyt tallennettuja avoimia välilehtiä.",
+    "3484": "Välilehdet palautettu",
+    "3485": "%d välilehteä viimeisimmästä istunnosta palautettiin.",
+    "3486": "Viimeaikaiset tiedostot"
   }
 }

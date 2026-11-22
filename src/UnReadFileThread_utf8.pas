@@ -3153,7 +3153,7 @@ begin
 
     MSG.Font.Style := [fsBold];
 
-    MSG.Font.Name := 'Tahoma';
+    MSG.Font.Name := FONT_TAHOMA;
 
     MSG.Font.Size := 12;
 

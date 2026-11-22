@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "28": "The hyphen is a separator glyph, not a word.",
     "149": "AI stays as the product token.",
@@ -3531,8 +3531,25 @@
     "3465": "Eksporter alle treff (%d)...",
     "3464": "Kopier denne siden (%d treff)",
     "3463": "Kopier alle treff (%d)",
-    "3468": "Søkeverktøy",
-    "3467": "Velg hvilket søkepanel som skal åpnes",
-    "3469": "NYLIGE OPPDATERINGER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Finn, Filter og Bokmerker stables som et trekkspill med et lastecover.\r\n  F3 / Shift+F3 blinker ikke lenger det coveret når Finn allerede er åpen.\r\n  Mens et søkepanel er åpent, går overflødige listeverktøy til Mer.\r\n  Bekreftelsesdialoger forblir klikkbare i høyre-til-venstre-modus.\r\n  Etter Siste fortsetter Første og sideknappene å virke; sidestatusen\r\n    følger grensesnittspråket.\r\n"
+    "3468": "Skjul liste",
+    "3467": "NYLIGE OPPDATERINGER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Finn, Filter og Bokmerker stables som et trekkspill med et lastecover.\r\n  F3 / Shift+F3 blinker ikke lenger det coveret når Finn allerede er åpen.\r\n  Mens et søkepanel er åpent, går overflødige listeverktøy til Mer.\r\n  Bekreftelsesdialoger forblir klikkbare i høyre-til-venstre-modus.\r\n  Etter Siste fortsetter Første og sideknappene å virke; sidestatusen\r\n    følger grensesnittspråket.\r\n",
+    "3469": "Vis liste",
+    "3470": "Denne filen har en lagret økt (markør, bokmerker, filtre). Åpne den for å gjenopprette.",
+    "3471": "Ingen økt lagret for denne filen ennå. Etter åpning: Økt → Lagre økt nå (Ctrl+Alt+S).",
+    "3472": "\"%s\" har en lagret økt. Åpne filen for å gjenopprette markør, bokmerker og filtre.",
+    "3473": "● Lagret",
+    "3474": "Økt-kolonnen: «Lagret» betyr at markør, bokmerker og filtre kan gjenopprettes når du åpner filen på nytt.",
+    "3475": "Markørposisjon, bokmerker, filtre og visningsvalg ble gjenopprettet for denne filen.",
+    "3476": "Åpne og les en fil først for å lagre eller laste økten.",
+    "3477": "Markørposisjon, bokmerker, filtre og visningsvalg ble lagret for denne filen.",
+    "3478": "Lukk alle åpne faner",
+    "3479": "Lukk alle",
+    "3480": "Alle faner lukket",
+    "3481": "Bruk Økt → Åpne lukket fane på nytt eller Gjenopprett faner fra siste økt.",
+    "3482": "Lukke alle %d åpne faner?",
+    "3483": "Ingen lagrede åpne faner ble funnet for denne økten.",
+    "3484": "Faner gjenopprettet",
+    "3485": "%d fane(r) fra siste økt ble gjenopprettet.",
+    "3486": "Nylige filer"
   }
 }

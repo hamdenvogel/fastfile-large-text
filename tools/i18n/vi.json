@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "28": "Dash separator unchanged.",
     "81": "Menu label keeps AI and Consumer product names.",
@@ -3517,8 +3517,25 @@
     "3465": "Xuất tất cả kết quả (%d)...",
     "3464": "Sao chép trang này (%d kết quả)",
     "3463": "Sao chép tất cả kết quả (%d)",
-    "3468": "Công cụ tìm kiếm",
-    "3467": "Chọn bảng tìm kiếm cần mở",
-    "3469": "CẬP NHẬT GẦN ĐÂY (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Tìm, Bộ lọc và Dấu trang xếp chồng dạng accordion với lớp phủ đang tải.\r\n  F3 / Shift+F3 không còn nháy lớp phủ đó khi Tìm đã mở.\r\n  Khi bảng tìm kiếm đang mở, công cụ danh sách thừa chuyển vào Thêm.\r\n  Hộp thoại xác nhận vẫn bấm được ở chế độ phải sang trái.\r\n  Sau Cuối, các nút Đầu và trang vẫn hoạt động; trạng thái trang\r\n    theo ngôn ngữ giao diện.\r\n"
+    "3468": "Ẩn danh sách",
+    "3467": "CẬP NHẬT GẦN ĐÂY (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Tìm, Bộ lọc và Dấu trang xếp chồng dạng accordion với lớp phủ đang tải.\r\n  F3 / Shift+F3 không còn nháy lớp phủ đó khi Tìm đã mở.\r\n  Khi bảng tìm kiếm đang mở, công cụ danh sách thừa chuyển vào Thêm.\r\n  Hộp thoại xác nhận vẫn bấm được ở chế độ phải sang trái.\r\n  Sau Cuối, các nút Đầu và trang vẫn hoạt động; trạng thái trang\r\n    theo ngôn ngữ giao diện.\r\n",
+    "3469": "Hiện danh sách",
+    "3470": "Tệp này có phiên đã lưu (con trỏ, dấu trang, bộ lọc). Mở để khôi phục.",
+    "3471": "Chưa có phiên đã lưu cho tệp này. Sau khi mở, dùng Session → Save session now (Ctrl+Alt+S).",
+    "3472": "\"%s\" có phiên đã lưu. Mở tệp để khôi phục con trỏ, dấu trang và bộ lọc.",
+    "3473": "● Đã lưu",
+    "3474": "Cột Session: \"Đã lưu\" nghĩa là có thể khôi phục con trỏ, dấu trang và bộ lọc khi mở lại tệp.",
+    "3475": "Vị trí con trỏ, dấu trang, bộ lọc và tùy chọn xem đã được khôi phục cho tệp này.",
+    "3476": "Hãy mở và đọc một tệp trước để lưu hoặc tải phiên của nó.",
+    "3477": "Vị trí con trỏ, dấu trang, bộ lọc và tùy chọn xem đã được lưu cho tệp này.",
+    "3478": "Đóng tất cả các tab đang mở",
+    "3479": "Đóng tất cả",
+    "3480": "Đã đóng tất cả các tab",
+    "3481": "Dùng Session → Reopen closed tab hoặc Restore last session tabs để lấy lại.",
+    "3482": "Đóng tất cả %d tab đang mở?",
+    "3483": "Không tìm thấy tab đang mở đã lưu cho phiên này.",
+    "3484": "Đã khôi phục tab",
+    "3485": "Đã khôi phục %d tab từ phiên trước.",
+    "3486": "Tệp gần đây"
   }
 }

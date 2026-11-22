@@ -3340,5 +3340,21 @@
   "Open the dropdown for the last 20 searches.": "פתח את התפריט הנפתח עבור 20 החיפושים האחרונים.",
   "Show the remaining recent searches": "הצג את החיפושים האחרונים שנותרו",
   "AI Assistant (ON)": "עוזר בינה מלאכותית (פועל)",
-  "Show or hide the AI Assistant panel ({1})": "הצג או הסתר את לוח עוזר הבינה המלאכותית ({1})"
+  "Show or hide the AI Assistant panel ({1})": "הצג או הסתר את לוח עוזר הבינה המלאכותית ({1})",
+  "Close all": "סגור הכל",
+  "Close all open tabs": "סגור את כל הלשוניות הפתוחות",
+  "Close all %d open tabs?": "לסגור את כל %d הלשוניות הפתוחות?",
+  "All tabs closed": "כל הלשוניות נסגרו",
+  "Use Session → Reopen closed tab or Restore last session tabs to bring them back.": "השתמש ב״מפגש → פתח מחדש לשונית שנסגרה״ או ״שחזר לשוניות מהמפגש האחרון״ כדי להחזיר אותן.",
+  "Tabs restored": "הלשוניות שוחזרו",
+  "%d tab(s) from the last session were restored.": "%d לשוניות מהמפגש האחרון שוחזרו.",
+  "No saved open tabs were found for this session.": "לא נמצאו לשוניות פתוחות שמורות למפגש זה.",
+  "Open and read a file first to save or load its session.": "פתח וקרא קובץ תחילה כדי לשמור או לטעון את המפגש שלו.",
+  "Cursor position, bookmarks, filters and view options were saved for this file.": "מיקום הסמן, הסימניות, המסננים ואפשרויות התצוגה נשמרו עבור קובץ זה.",
+  "Cursor position, bookmarks, filters and view options were restored for this file.": "מיקום הסמן, הסימניות, המסננים ואפשרויות התצוגה שוחזרו עבור קובץ זה.",
+  "● Saved": "● נשמר",
+  "Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file.": "עמודת מפגש: ״נשמר״ פירושו שניתן לשחזר סמן, סימניות ומסננים בפתיחה מחדש של הקובץ.",
+  "This file has a saved session (cursor, bookmarks, filters). Open it to restore.": "לקובץ זה יש מפגש שמור (סמן, סימניות, מסננים). פתח אותו כדי לשחזר.",
+  "\"%s\" has a saved session. Open the file to restore cursor, bookmarks and filters.": "ל־\"%s\" יש מפגש שמור. פתח את הקובץ כדי לשחזר סמן, סימניות ומסננים.",
+  "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).": "עדיין אין מפגש שמור לקובץ זה. אחרי הפתיחה השתמש ב״מפגש → שמור מפגש עכשיו״ (Ctrl+Alt+S)."
 }

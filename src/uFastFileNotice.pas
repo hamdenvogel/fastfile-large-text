@@ -52,6 +52,7 @@ procedure HideFastFileAppNotice;
 implementation
 
 uses
+  UnConsts,
   uI18n, uBidiLayout;
 
 type
@@ -164,7 +165,7 @@ begin
     FLblCount.Alignment := taCenter;
     FLblCount.Layout := tlCenter;
     FLblCount.Transparent := True;
-    FLblCount.Font.Name := 'Segoe UI';
+    FLblCount.Font.Name := FONT_SEGOE_UI;
     FLblCount.Font.Size := 8;
     FLblCount.Font.Color := TColor($00665C52);
     FLblCount.Caption := IntToStr(FASTFILE_NOTICE_SECONDS);
@@ -406,7 +407,7 @@ begin
   GAppNotice.LblTitle.Align := alClient;
   GAppNotice.LblTitle.Layout := tlCenter;
   GAppNotice.LblTitle.Transparent := True;
-  GAppNotice.LblTitle.Font.Name := 'Segoe UI';
+  GAppNotice.LblTitle.Font.Name := FONT_SEGOE_UI;
   GAppNotice.LblTitle.Font.Size := 9;
   GAppNotice.LblTitle.Font.Style := [fsBold];
   GAppNotice.LblTitle.EllipsisPosition := epEndEllipsis;
@@ -416,7 +417,7 @@ begin
   GAppNotice.LblDetail.Align := alClient;
   GAppNotice.LblDetail.Transparent := True;
   GAppNotice.LblDetail.WordWrap := True;
-  GAppNotice.LblDetail.Font.Name := 'Segoe UI';
+  GAppNotice.LblDetail.Font.Name := FONT_SEGOE_UI;
   GAppNotice.LblDetail.Font.Size := 8;
   GAppNotice.LblDetail.Font.Color := TColor($00403830);
 

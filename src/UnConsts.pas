@@ -215,6 +215,14 @@ const
   FF_BOOKMARK_ROW_FG = clWhite;
   FF_BOOKMARK_STRIPE = $006E3700;
   FF_TAIL_NEW_ROW_BG = $00C8FFC8;
+  { Selected file row: pale blue, normal text. Not clHighlight. }
+  FF_ROW_SEL_BG = TColor($00F2DCC4);
+  { Main ribbon toggle ON (TColor is BGR): soft cream wash RGB(253,247,236),
+    warm frame RGB(228,212,186), dark green check RGB(46,125,50). }
+  FF_TB_TOGGLE_ON_FACE = TColor($00ECF7FD);
+  FF_TB_TOGGLE_ON_FRAME = TColor($00BAD4E4);
+  FF_TB_TOGGLE_ON_MARK = TColor($00327D2E);
+  FF_TB_TOGGLE_MARK = #$2714; { ✔ }
   FF_CL_MARK_TAB = TColor($0000A0FF);
   FF_CL_MARK_SPACE = TColor($00808080);
   FF_CL_MARK_CR = TColor($00FF6000);
@@ -237,6 +245,7 @@ const
   MAIN_TB_ICON_FILE_AGENT = 'wizard.bmp';
   MAIN_TB_ICON_AGENT_HUB = 'report.bmp';
   MAIN_TB_ICON_PYTHON_MACRO = 'command prompt.bmp';
+  MAIN_TB_ICON_RECENT_FILES = 'clock.bmp';
   FILEBAR_ICON_READ_F5 = 'insert file-2.bmp';
 
   { Read toolbar quick buttons (16x16 glyphs, ~30px hit target) }
@@ -371,6 +380,16 @@ const
   IDLE_LOGO_TITLE_FONT_MIN = 18;
   IDLE_LOGO_TITLE_FONT_MAX = 34;
   IDLE_LOGO_TITLE_FONT_DIV = 24;
+
+  { UI / monospace font names (use these instead of string literals) }
+  FONT_SEGOE_UI = 'Segoe UI';
+  FONT_SEGOE_UI_SYMBOL = 'Segoe UI Symbol';
+  FONT_SEGOE_UI_SEMIBOLD = 'Segoe UI Semibold';
+  FONT_SEGOE_UI_SEMILIGHT = 'Segoe UI Semilight';
+  FONT_TAHOMA = 'Tahoma';
+  FONT_CONSOLAS = 'Consolas';
+  FONT_CANDARA = 'Candara';
+  FONT_CENTURY_GOTHIC = 'Century Gothic';
   IDLE_WORKSPACE_GRAD_LEFT = TColor($00FFF8F5);
   IDLE_WORKSPACE_GRAD_RIGHT = TColor($00E8D4B8);
   IDLE_WORKSPACE_BG_ALPHA = 255;

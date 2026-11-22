@@ -181,6 +181,7 @@ type
 implementation
 
 uses
+  UnConsts,
   Types, Math, uI18n, uAgentHub, uFastFileMsgDlg, uFastFileAIClient,
   uFastFileAssistant, uAICapabilitiesDlg, UnitPopupMruList, uMruFind,
   uFastFileAssistantHost, uFolderPickDlg, uSearchCommands, uSearchCommandDialog,
@@ -441,7 +442,7 @@ var
     Result.BevelOuter := bvNone;
     Result.ParentBackground := True;
     Result.ParentFont := False;
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 9;
     Result.Font.Style := [];
     Result.AlignWithMargins := True;
@@ -485,7 +486,7 @@ var
     Result.ScrollBars := ssBoth;
     Result.WordWrap := True;
     Result.ReadOnly := AReadOnly;
-    Result.Font.Name := 'Consolas';
+    Result.Font.Name := FONT_CONSOLAS;
     Result.Font.Size := 10;
     Result.AlignWithMargins := True;
     Result.Margins.SetBounds(Dpi(4), Dpi(4), Dpi(4), Dpi(4));
@@ -501,7 +502,7 @@ var
     Result.ParentShowHint := False;
     Result.Cursor := crHandPoint;
     Result.ParentFont := False;
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 8;
     Result.Font.Style := [fsBold];
     Result.Spacing := 6;
@@ -529,7 +530,7 @@ var
 
 begin
   Color := clBtnFace;
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   DoubleBuffered := True;
   FRoots := TObjectList.Create(True);
@@ -555,7 +556,7 @@ begin
   lblGuide.AutoSize := False;
   lblGuide.WordWrap := True;
   lblGuide.ParentFont := False;
-  lblGuide.Font.Name := 'Segoe UI';
+  lblGuide.Font.Name := FONT_SEGOE_UI;
   lblGuide.Font.Size := 9;
   lblGuide.Font.Color := $00603A1E;
 
@@ -747,7 +748,7 @@ begin
   memPrompt.Align := alClient;
   memPrompt.ScrollBars := ssVertical;
   memPrompt.WantReturns := True;
-  memPrompt.Font.Name := 'Segoe UI';
+  memPrompt.Font.Name := FONT_SEGOE_UI;
   memPrompt.Font.Size := 10;
   memPrompt.Name := 'memPrompt';
   { SetName copies the name into Text while the memo is still empty. }
@@ -2215,11 +2216,12 @@ class function TfrmAgentHubWorkspace.ExecuteEmbedded(AOwner: TComponent;
   AHost: TWinControl): TfrmAgentHubWorkspace;
 begin
   Result := TfrmAgentHubWorkspace.CreateNew(AOwner);
-  { Parent/BorderStyle BEFORE BuildUi — otherwise the first child Parent:=Self
-    allocates a top-level HWND that later paints through Ler Arquivo. }
+  { CreateNew defaults Visible=True. Hide BEFORE BorderStyle/Parent so the first
+    HWND is never a top-level window (that flashed ~fullscreen for ~1s). }
+  Result.Visible := False;
+  Result.Position := poDesigned;
   Result.BorderStyle := bsNone;
   Result.AutoScroll := False;
-  Result.Visible := False;
   if AHost <> nil then
   begin
     Result.Parent := AHost;

@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "entries": [
     {"kind": "K", "key": "consumer_ai.connected", "source": "FastFile AI connected"},
     {"kind": "K", "key": "consumer_ai.initializing", "source": "Initializing FastFile AI..."},
@@ -3468,8 +3468,25 @@
     {"kind": "T", "key": "FindOcc.PageMenu.CopyPage", "source": "Copy this page (%d matches)"},
     {"kind": "T", "key": "FindOcc.PageMenu.ExportAll", "source": "Export all matches (%d)..."},
     {"kind": "T", "key": "FindOcc.PageMenu.ExportPage", "source": "Export this page (%d matches)..."},
-    {"kind": "T", "key": "SearchDock.PickerHint", "source": "SearchDock.PickerHint"},
-    {"kind": "T", "key": "SearchDock.Tools", "source": "SearchDock.Tools"},
-    {"kind": "T", "key": "FF_HELP.RecentFeaturesBlock9", "source": "RECENT UPDATES (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Find, Filter and Bookmarks stack as an accordion with a loading cover.\r\n  F3 / Shift+F3 no longer flash that cover when Find is already open.\r\n  While a search panel is open, overflowing list tools move into More.\r\n  Confirmation dialogs stay clickable in right-to-left mode.\r\n  After Last, First and page buttons keep working; the page status\r\n    follows the UI language.\r\n"}
+    {"kind": "T", "key": "FF_HELP.RecentFeaturesBlock9", "source": "RECENT UPDATES (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Find, Filter and Bookmarks stack as an accordion with a loading cover.\r\n  F3 / Shift+F3 no longer flash that cover when Find is already open.\r\n  While a search panel is open, overflowing list tools move into More.\r\n  Confirmation dialogs stay clickable in right-to-left mode.\r\n  After Last, First and page buttons keep working; the page status\r\n    follows the UI language.\r\n"},
+    {"kind": "T", "key": "FindOcc.HideList", "source": "Hide list"},
+    {"kind": "T", "key": "FindOcc.ShowList", "source": "Show list"},
+    {"kind": "T", "key": "RecentFiles.SessionHint", "source": "This file has a saved session (cursor, bookmarks, filters). Open it to restore."},
+    {"kind": "T", "key": "RecentFiles.SessionNoneHint", "source": "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S)."},
+    {"kind": "T", "key": "RecentFiles.SessionOpenHint", "source": "\"%s\" has a saved session. Open the file to restore cursor, bookmarks and filters."},
+    {"kind": "T", "key": "RecentFiles.SessionSaved", "source": "● Saved"},
+    {"kind": "T", "key": "RecentFiles.SessionTip", "source": "Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file."},
+    {"kind": "T", "key": "Session.LoadedDetail", "source": "Cursor position, bookmarks, filters and view options were restored for this file."},
+    {"kind": "T", "key": "Session.NeedFile", "source": "Open and read a file first to save or load its session."},
+    {"kind": "T", "key": "Session.SavedDetail", "source": "Cursor position, bookmarks, filters and view options were saved for this file."},
+    {"kind": "T", "key": "TabCtx.CloseAllHint", "source": "Close all open tabs"},
+    {"kind": "T", "key": "TabCtx.CloseAllShort", "source": "Close all"},
+    {"kind": "T", "key": "TabCtx.ClosedAll", "source": "All tabs closed"},
+    {"kind": "T", "key": "TabCtx.ClosedAllDetail", "source": "Use Session → Reopen closed tab or Restore last session tabs to bring them back."},
+    {"kind": "T", "key": "TabCtx.ConfirmCloseAll", "source": "Close all %d open tabs?"},
+    {"kind": "T", "key": "TabCtx.NoSavedTabs", "source": "No saved open tabs were found for this session."},
+    {"kind": "T", "key": "TabCtx.RestoredTabs", "source": "Tabs restored"},
+    {"kind": "T", "key": "TabCtx.RestoredTabsDetail", "source": "%d tab(s) from the last session were restored."},
+    {"kind": "T", "key": "Toolbar.RecentFiles", "source": "Recent files"}
   ]
 }

@@ -15,6 +15,7 @@ function ShowLineExtractDialog(AOwner: TComponent; const ASource: string;
 implementation
 
 uses
+  UnConsts,
   Windows, Types, SysUtils, Math, Controls, Forms, StdCtrls, ExtCtrls, Graphics, Clipbrd,
   Character, RegularExpressions, Generics.Collections, uI18n, uFastFileScale,
   uFastFileAIClient, uFastFilePaths, uUserPrefs, uMruFind, UnitPopupMruList,
@@ -932,7 +933,7 @@ begin
   edtRegex.Parent := Self;
   edtRegex.SetBounds(FfPx(150), FfPx(66), FfPx(498), edtRegex.Height);
   edtRegex.Anchors := [akLeft, akTop, akRight];
-  edtRegex.Font.Name := 'Consolas';
+  edtRegex.Font.Name := FONT_CONSOLAS;
   edtRegex.OnChange := RegexChanged;
   btnCopyRegex := TButton.Create(Self);
   btnCopyRegex.Parent := Self;
@@ -1024,7 +1025,7 @@ begin
   mmResult.ReadOnly := True;
   mmResult.ScrollBars := ssVertical;
   mmResult.WordWrap := True;
-  mmResult.Font.Name := 'Consolas';
+  mmResult.Font.Name := FONT_CONSOLAS;
   mmResult.Color := clBtnFace;
   { extracted text and the regex stay left-to-right }
   BidiKeepLtr(mmResult);

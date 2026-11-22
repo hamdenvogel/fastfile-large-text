@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "95": "Help is the standard Dutch menu label; its mnemonic remains functional.",
     "149": "AI is the established technical abbreviation for artificial intelligence.",
@@ -3536,8 +3536,25 @@
     "3465": "Alle treffers exporteren (%d)...",
     "3464": "Deze pagina kopiëren (%d treffers)",
     "3463": "Alle treffers kopiëren (%d)",
-    "3468": "Zoekhulpmiddelen",
-    "3467": "Kies welk zoekvenster u wilt openen",
-    "3469": "RECENTE UPDATES (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Zoeken, Filter en Bladwijzers stapelen als accordion met een laadcover.\r\n  F3 / Shift+F3 knipperen die cover niet meer als Zoeken al open is.\r\n  Met een zoekpaneel open gaan overlopende lijsttools naar Meer.\r\n  Bevestigingsdialogen blijven klikbaar in rechts-naar-links-modus.\r\n  Na Laatste blijven Eerste en paginaknoppen werken; de paginastatus\r\n    volgt de UI-taal.\r\n"
+    "3468": "Lijst verbergen",
+    "3467": "RECENTE UPDATES (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Zoeken, Filter en Bladwijzers stapelen als accordion met een laadcover.\r\n  F3 / Shift+F3 knipperen die cover niet meer als Zoeken al open is.\r\n  Met een zoekpaneel open gaan overlopende lijsttools naar Meer.\r\n  Bevestigingsdialogen blijven klikbaar in rechts-naar-links-modus.\r\n  Na Laatste blijven Eerste en paginaknoppen werken; de paginastatus\r\n    volgt de UI-taal.\r\n",
+    "3469": "Lijst tonen",
+    "3470": "Dit bestand heeft een opgeslagen sessie (cursor, bladwijzers, filters). Open het om te herstellen.",
+    "3471": "Nog geen sessie opgeslagen voor dit bestand. Na openen: Sessie → Sessie nu opslaan (Ctrl+Alt+S).",
+    "3472": "\"%s\" heeft een opgeslagen sessie. Open het bestand om cursor, bladwijzers en filters te herstellen.",
+    "3473": "● Opgeslagen",
+    "3474": "Kolom Sessie: \"Opgeslagen\" betekent dat cursor, bladwijzers en filters bij opnieuw openen hersteld kunnen worden.",
+    "3475": "Cursorpositie, bladwijzers, filters en weergaveopties zijn hersteld voor dit bestand.",
+    "3476": "Open en lees eerst een bestand om de sessie op te slaan of te laden.",
+    "3477": "Cursorpositie, bladwijzers, filters en weergaveopties zijn opgeslagen voor dit bestand.",
+    "3478": "Alle open tabbladen sluiten",
+    "3479": "Alles sluiten",
+    "3480": "Alle tabbladen gesloten",
+    "3481": "Gebruik Sessie → Gesloten tabblad heropenen of Tabbladen van laatste sessie herstellen.",
+    "3482": "Alle %d open tabbladen sluiten?",
+    "3483": "Geen opgeslagen open tabbladen gevonden voor deze sessie.",
+    "3484": "Tabbladen hersteld",
+    "3485": "%d tabblad(en) van de laatste sessie zijn hersteld.",
+    "3486": "Recente bestanden"
   }
 }

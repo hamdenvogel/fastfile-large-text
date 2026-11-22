@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "736": "Python is the proper name of the programming language and is used as a technical label.",
     "962": "Unicode is the formal name of the character-encoding standard; U+ is its canonical notation.",
@@ -3496,8 +3496,25 @@
     "3465": "Tüm eşleşmeleri dışa aktar (%d)...",
     "3464": "Bu sayfayı kopyala (%d eşleşme)",
     "3463": "Tüm eşleşmeleri kopyala (%d)",
-    "3468": "Arama araçları",
-    "3467": "Açılacak arama panelini seçin",
-    "3469": "SON GÜNCELLEMELER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Bul, Filtre ve Yer İmleri yükleme kapağıyla akordeon gibi üst üste biner.\r\n  Bul zaten açıksa F3 / Shift+F3 o kapağı artık yanıp söndürmez.\r\n  Bir arama paneli açıkken sığmayan liste araçları Daha Fazlası’na gider.\r\n  Onay diyalogları sağdan sola kipinde tıklanabilir kalır.\r\n  Son’dan sonra İlk ve sayfa düğmeleri çalışmaya devam eder; sayfa durumu\r\n    arayüz dilini izler.\r\n"
+    "3468": "Listeyi gizle",
+    "3467": "SON GÜNCELLEMELER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Bul, Filtre ve Yer İmleri yükleme kapağıyla akordeon gibi üst üste biner.\r\n  Bul zaten açıksa F3 / Shift+F3 o kapağı artık yanıp söndürmez.\r\n  Bir arama paneli açıkken sığmayan liste araçları Daha Fazlası’na gider.\r\n  Onay diyalogları sağdan sola kipinde tıklanabilir kalır.\r\n  Son’dan sonra İlk ve sayfa düğmeleri çalışmaya devam eder; sayfa durumu\r\n    arayüz dilini izler.\r\n",
+    "3469": "Listeyi göster",
+    "3470": "Bu dosyanın kayıtlı bir oturumu var (imleç, yer imleri, filtreler). Geri yüklemek için açın.",
+    "3471": "Bu dosya için henüz kayıtlı oturum yok. Açtıktan sonra Oturum → Oturumu şimdi kaydet (Ctrl+Alt+S) kullanın.",
+    "3472": "\"%s\" için kayıtlı bir oturum var. İmleç, yer imleri ve filtreleri geri yüklemek için dosyayı açın.",
+    "3473": "● Kayıtlı",
+    "3474": "Oturum sütunu: \"Kayıtlı\", dosyayı yeniden açtığınızda imleç, yer imleri ve filtrelerin geri yüklenebileceği anlamına gelir.",
+    "3475": "Bu dosya için imleç konumu, yer imleri, filtreler ve görünüm seçenekleri geri yüklendi.",
+    "3476": "Oturumu kaydetmek veya yüklemek için önce bir dosya açıp okuyun.",
+    "3477": "Bu dosya için imleç konumu, yer imleri, filtreler ve görünüm seçenekleri kaydedildi.",
+    "3478": "Tüm açık sekmeleri kapat",
+    "3479": "Tümünü kapat",
+    "3480": "Tüm sekmeler kapatıldı",
+    "3481": "Geri getirmek için Oturum → Kapatılan sekmeyi yeniden aç veya Son oturum sekmelerini geri yükle kullanın.",
+    "3482": "Açık %d sekmenin tümü kapatılsın mı?",
+    "3483": "Bu oturum için kayıtlı açık sekme bulunamadı.",
+    "3484": "Sekmeler geri yüklendi",
+    "3485": "Son oturumdan %d sekme geri yüklendi.",
+    "3486": "Son dosyalar"
   }
 }

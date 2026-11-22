@@ -37,6 +37,7 @@ type
 implementation
 
 uses
+  UnConsts,
   GDIPAPI, GDIPOBJ;
 
 constructor TFfOverlayButton.Create(AOwner: TComponent);
@@ -46,7 +47,7 @@ begin
   Width := 132;
   Height := 32;
   ParentFont := False;
-  Font.Name := 'Segoe UI Semibold';
+  Font.Name := FONT_SEGOE_UI_SEMIBOLD;
   Font.Height := -13;
 end;
 

@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "2": "Version is the same word in Danish, and FastFile and AI stay as tokens.",
     "91": "Find is the same word in Danish.",
@@ -3549,8 +3549,25 @@
     "3465": "Eksportér alle resultater (%d)...",
     "3464": "Kopiér denne side (%d resultater)",
     "3463": "Kopiér alle resultater (%d)",
-    "3468": "Søgeværktøjer",
-    "3467": "Vælg hvilket søgepanel der skal åbnes",
-    "3469": "SENESTE OPDATERINGER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Find, Filter og Bogmærker stables som et harmonika med et indlæsningscover.\r\n  F3 / Shift+F3 blinker ikke længere det cover, når Find allerede er åben.\r\n  Mens et søgepanel er åbent, går overløbende listeværktøjer til Mere.\r\n  Bekræftelsesdialoger forbliver klikbare i højre-til-venstre-tilstand.\r\n  Efter Sidste bliver Første og sideknapper ved med at virke; sidestatus\r\n    følger grænsefladesproget.\r\n"
+    "3468": "Skjul liste",
+    "3467": "SENESTE OPDATERINGER (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Find, Filter og Bogmærker stables som et harmonika med et indlæsningscover.\r\n  F3 / Shift+F3 blinker ikke længere det cover, når Find allerede er åben.\r\n  Mens et søgepanel er åbent, går overløbende listeværktøjer til Mere.\r\n  Bekræftelsesdialoger forbliver klikbare i højre-til-venstre-tilstand.\r\n  Efter Sidste bliver Første og sideknapper ved med at virke; sidestatus\r\n    følger grænsefladesproget.\r\n",
+    "3469": "Vis liste",
+    "3470": "Denne fil har en gemt session (markør, bogmærker, filtre). Åbn den for at gendanne.",
+    "3471": "Ingen session gemt for denne fil endnu. Efter åbning: Session → Gem session nu (Ctrl+Alt+S).",
+    "3472": "\"%s\" har en gemt session. Åbn filen for at gendanne markør, bogmærker og filtre.",
+    "3473": "● Gemt",
+    "3474": "Sessionskolonnen: \"Gemt\" betyder, at markør, bogmærker og filtre kan gendannes, når du åbner filen igen.",
+    "3475": "Markørposition, bogmærker, filtre og visningsindstillinger blev gendannet for denne fil.",
+    "3476": "Åbn og læs først en fil for at gemme eller indlæse dens session.",
+    "3477": "Markørposition, bogmærker, filtre og visningsindstillinger blev gemt for denne fil.",
+    "3478": "Luk alle åbne faner",
+    "3479": "Luk alle",
+    "3480": "Alle faner lukket",
+    "3481": "Brug Session → Genåbn lukket fane eller Gendan faner fra sidste session.",
+    "3482": "Lukke alle %d åbne faner?",
+    "3483": "Ingen gemte åbne faner blev fundet for denne session.",
+    "3484": "Faner gendannet",
+    "3485": "%d fane(r) fra sidste session blev gendannet.",
+    "3486": "Seneste filer"
   }
 }

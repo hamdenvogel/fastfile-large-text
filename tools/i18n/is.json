@@ -1,5 +1,5 @@
 {
-  "sha256": "d339a42c3b128d6dfeac43d7b7de5e39516f4f069a2a18e64967eaddfb8508a3",
+  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
   "unchanged": {
     "28": "No translatable words.",
     "149": "The token AI is kept unchanged.",
@@ -3503,8 +3503,25 @@
     "3465": "Flytja út allar niðurstöður (%d)...",
     "3464": "Afrita þessa síðu (%d niðurstöður)",
     "3463": "Afrita allar niðurstöður (%d)",
-    "3468": "Leitarverkfæri",
-    "3467": "Veldu hvaða leitarglugga á að opna",
-    "3469": "NÝLEGA UPPFÆRSLUR (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Finna, Sía og Bókamerki staflast sem harmonikka með hleðsluhulstri.\r\n  F3 / Shift+F3 blikka ekki lengur því hulstri þegar Finna er þegar opin.\r\n  Meðan leitarspjald er opið fara listaverkfæri sem passa ekki í Meira.\r\n  Staðfestingargluggar eru áfram smellanlegir í hægri-til-vinstri stillingu.\r\n  Eftir Síðasta halda Fyrsta og síðuhnappar áfram að virka; síðustaða\r\n    fylgir tungumáli viðmótsins.\r\n"
+    "3468": "Fela lista",
+    "3467": "NÝLEGA UPPFÆRSLUR (v3.0.5.270 – v3.0.5.274)\r\n---------------------------------------------------------------\r\n  Finna, Sía og Bókamerki staflast sem harmonikka með hleðsluhulstri.\r\n  F3 / Shift+F3 blikka ekki lengur því hulstri þegar Finna er þegar opin.\r\n  Meðan leitarspjald er opið fara listaverkfæri sem passa ekki í Meira.\r\n  Staðfestingargluggar eru áfram smellanlegir í hægri-til-vinstri stillingu.\r\n  Eftir Síðasta halda Fyrsta og síðuhnappar áfram að virka; síðustaða\r\n    fylgir tungumáli viðmótsins.\r\n",
+    "3469": "Sýna lista",
+    "3470": "Þessi skrá hefur vistaða lotu (bendill, bókamerki, síur). Opnaðu hana til að endurheimta.",
+    "3471": "Engin lota vistuð fyrir þessa skrá enn. Eftir opnun: Lota → Vista lotu núna (Ctrl+Alt+S).",
+    "3472": "\"%s\" hefur vistaða lotu. Opnaðu skrána til að endurheimta bendil, bókamerki og síur.",
+    "3473": "● Vistað",
+    "3474": "Lotudálkur: „Vistað“ þýðir að bendill, bókamerki og síur er hægt að endurheimta við enduropnun.",
+    "3475": "Staðsetning bendils, bókamerki, síur og sýnivalkostir voru endurheimt fyrir þessa skrá.",
+    "3476": "Opnaðu og lestu skrá fyrst til að vista eða hlaða lotunni.",
+    "3477": "Staðsetning bendils, bókamerki, síur og sýnivalkostir voru vistaðir fyrir þessa skrá.",
+    "3478": "Loka öllum opnum flipum",
+    "3479": "Loka öllu",
+    "3480": "Öllum flipum lokað",
+    "3481": "Notaðu Lota → Opna lokaðan flipa aftur eða Endurheimta flipa síðustu lotu.",
+    "3482": "Loka öllum %d opnum flipum?",
+    "3483": "Engir vistaðir opnir flipar fundust fyrir þessa lotu.",
+    "3484": "Flipar endurheimtir",
+    "3485": "%d flipi/flipar úr síðustu lotu voru endurheimtir.",
+    "3486": "Nýlegar skrár"
   }
 }

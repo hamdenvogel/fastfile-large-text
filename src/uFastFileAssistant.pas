@@ -5681,10 +5681,10 @@ var
   HdrTop, HdrBot: TColor;
 begin
   if not FLayoutBuilt then Exit;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    UiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    UiFont := FONT_SEGOE_UI
   else
-    UiFont := 'Tahoma';
+    UiFont := FONT_TAHOMA;
 
   { Match main window: toolbar greys (sel 1–2) + idle workspace blue (sel 3). }
   FFrameSurf := ColorToRGB(ASSISTANT_TOOLBAR_MID);
@@ -7105,10 +7105,10 @@ var
   UiFont: string;
 begin
   if Assigned(PnlOfferNext) then Exit;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    UiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    UiFont := FONT_SEGOE_UI
   else
-    UiFont := 'Tahoma';
+    UiFont := FONT_TAHOMA;
 
   PnlOfferNext := TsPanel.Create(Self);
   PnlOfferNext.Parent := Self;
@@ -7615,7 +7615,7 @@ begin
       Dlg.Position := poOwnerFormCenter;
       Dlg.ClientWidth := 460;
       Dlg.ClientHeight := 300;
-      Dlg.Font.Name := 'Segoe UI';
+      Dlg.Font.Name := FONT_SEGOE_UI;
       Dlg.Font.Size := 9;
 
       Memo := TMemo.Create(Dlg);
@@ -8075,7 +8075,7 @@ begin
   if FLayoutBuilt then Exit;
   FLayoutBuilt := True;
 
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   Color := ASSISTANT_TOOLBAR_MID;
   ParentBackground := False;
@@ -8995,10 +8995,10 @@ var
   UiFont: string;
 begin
   if not Assigned(ABtn) then Exit;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    UiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    UiFont := FONT_SEGOE_UI
   else
-    UiFont := 'Tahoma';
+    UiFont := FONT_TAHOMA;
   ABtn.Flat := True;
   ABtn.ShowCaption := True;
   ABtn.ShowHint := True;
@@ -9620,7 +9620,7 @@ begin
     F.Position := poOwnerFormCenter;
     F.ClientWidth := 420;
     F.ClientHeight := 360;
-    F.Font.Name := 'Segoe UI';
+    F.Font.Name := FONT_SEGOE_UI;
     F.Font.Size := 9;
     Memo := TMemo.Create(F);
     Memo.Parent := F;
@@ -10676,7 +10676,7 @@ begin
     Dlg.Position := poScreenCenter;
     Dlg.ClientWidth := 480;
     Dlg.ClientHeight := 400;
-    Dlg.Font.Name := 'Segoe UI';
+    Dlg.Font.Name := FONT_SEGOE_UI;
     Dlg.Font.Size := 9;
 
     { AutoSize=True (TLabel default) shrinks width to one word and stacks

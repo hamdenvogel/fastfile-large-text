@@ -40,6 +40,7 @@ procedure HookListWheel(AList: TCustomListBox);
 implementation
 
 uses
+  UnConsts,
   Windows, Messages, Math, Forms, uFastFileScale, uI18n, uBidiLayout;
 
 type
@@ -194,7 +195,7 @@ begin
   end
   else
   begin
-    Result.Font.Name := 'Segoe UI';
+    Result.Font.Name := FONT_SEGOE_UI;
     Result.Font.Size := 9;
   end;
   Result.Font.Color := SoftBtnTextMuted;

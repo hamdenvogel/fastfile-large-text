@@ -211,10 +211,10 @@ begin
     FPath := FPaths[0];
   FRecords := ARecords;
   FDetail := ADetail;
-  if Screen.Fonts.IndexOf('Segoe UI') >= 0 then
-    FUiFont := 'Segoe UI'
+  if Screen.Fonts.IndexOf(FONT_SEGOE_UI) >= 0 then
+    FUiFont := FONT_SEGOE_UI
   else
-    FUiFont := 'Tahoma';
+    FUiFont := FONT_TAHOMA;
   BorderStyle := bsNone;
   BorderIcons := [];
   Position := poMainFormCenter;

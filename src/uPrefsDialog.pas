@@ -125,7 +125,7 @@ begin
   Position := poScreenCenter;
   ClientWidth := 684;
   ClientHeight := 500;
-  Font.Name := 'Segoe UI';
+  Font.Name := FONT_SEGOE_UI;
   Font.Size := 9;
   Color := $00F1F4F8;
 

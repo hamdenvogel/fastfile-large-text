@@ -144,6 +144,7 @@ procedure FillTranslationDataBody; forward;
 procedure AddActionLimitTranslations; forward;
 procedure AddListViewNavToolsTranslations; forward;
 procedure AddSearchDockTranslations; forward;
+procedure AddSessionTabsUiTranslations; forward;
 
 function PutNVAllowed(Table: TStringList): Boolean;
 var
@@ -55984,6 +55985,11 @@ begin
     'Anulează căutarea / filtrarea în curs (Esc)', 'A folyamatban lévő keresés / szűrés megszakítása (Esc)',
     'Zrušit probíhající hledání / filtrování (Esc)', '実行中の検索 / フィルターをキャンセル (Esc)',
     '取消正在进行的搜索 / 筛选 (Esc)', '取消正在進行的搜尋 / 篩選 (Esc)']);
+  Set14('FindOcc.HideList', [
+    'Hide list', 'Ocultar lista', 'Ocultar lista', 'Masquer la liste',
+    'Liste ausblenden', 'Nascondi elenco', 'Ukryj listę', 'Ocultar lista',
+    'Ascunde lista', 'Lista elrejtése', 'Skrýt seznam', '一覧を隠す',
+    '隐藏列表', '隱藏清單']);
   Set14('FindOcc.HideListHint', [
     'Hide the hit list (keeps the Find panel open)', 'Ocultar a lista de ocorrências (mantém o painel de busca aberto)',
     'Ocultar la lista de coincidencias (mantiene abierto el panel de búsqueda)', 'Masquer la liste des résultats (le panneau de recherche reste ouvert)',
@@ -55992,6 +55998,11 @@ begin
     'Ascunde lista de rezultate (panoul de căutare rămâne deschis)', 'Találati lista elrejtése (a keresőpanel nyitva marad)',
     'Skrýt seznam výsledků (panel hledání zůstane otevřený)', 'ヒット一覧を隠す (検索パネルは開いたまま)',
     '隐藏匹配列表 (保持搜索面板打开)', '隱藏符合清單 (保持搜尋面板開啟)']);
+  Set14('FindOcc.ShowList', [
+    'Show list', 'Mostrar lista', 'Mostrar lista', 'Afficher la liste',
+    'Liste anzeigen', 'Mostra elenco', 'Pokaż listę', 'Mostrar lista',
+    'Afișează lista', 'Lista megjelenítése', 'Zobrazit seznam', '一覧を表示',
+    '显示列表', '顯示清單']);
   Set14('FindOcc.ShowListHint', [
     'Show the hit list', 'Mostrar a lista de ocorrências',
     'Mostrar la lista de coincidencias', 'Afficher la liste des résultats',
@@ -56534,6 +56545,215 @@ begin
   Set16('language.option.vietnamese',
     'Vietnamese', 'Vietnamita', 'Vietnamita', 'Vietnamien', 'Vietnamesisch', 'Vietnamita', 'Wietnamski',
     'Vietnamita', 'Vietnameză', 'Vietnámi', 'Vietnamština', 'ベトナム語', '越南语', '越南語', 'الفيتنامية', 'וייטנאמית');
+end;
+
+procedure AddSessionTabsUiTranslations;
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+begin
+  Set14('Toolbar.RecentFiles',
+    'Recent files', 'Arquivos recentes', 'Archivos recientes', 'Fichiers récents',
+    'Zuletzt geöffnet', 'File recenti', 'Ostatnie pliki', 'Ficheiros recentes',
+    'Fișiere recente', 'Legutóbbi fájlok', 'Nedávné soubory', '最近のファイル',
+    '最近的文件', '最近的檔案');
+  Set14('TabCtx.CloseAllShort',
+    'Close all', 'Fechar todas', 'Cerrar todas', 'Tout fermer',
+    'Alle schließen', 'Chiudi tutte', 'Zamknij wszystkie', 'Fechar todos',
+    'Închide toate', 'Összes bezárása', 'Zavřít vše', 'すべて閉じる',
+    '全部关闭', '全部關閉');
+  Set14('TabCtx.CloseAllHint',
+    'Close all open tabs', 'Fechar todas as abas abertas', 'Cerrar todas las pestañas abiertas',
+    'Fermer tous les onglets ouverts', 'Alle geöffneten Tabs schließen',
+    'Chiudi tutte le schede aperte', 'Zamknij wszystkie otwarte karty',
+    'Fechar todos os separadores abertos', 'Închide toate filele deschise',
+    'Az összes megnyitott lap bezárása', 'Zavřít všechny otevřené karty',
+    '開いているタブをすべて閉じる', '关闭所有打开的标签页', '關閉所有開啟的分頁');
+  Set14('TabCtx.ConfirmCloseAll',
+    'Close all %d open tabs?', 'Fechar todas as %d abas abertas?',
+    '¿Cerrar las %d pestañas abiertas?', 'Fermer les %d onglets ouverts ?',
+    'Alle %d geöffneten Tabs schließen?', 'Chiudere tutte le %d schede aperte?',
+    'Zamknąć wszystkie %d otwarte karty?', 'Fechar todos os %d separadores abertos?',
+    'Închideți toate cele %d file deschise?', 'Bezárja mind a(z) %d megnyitott lapot?',
+    'Zavřít všech %d otevřených karet?', '開いている %d 個のタブをすべて閉じますか？',
+    '关闭全部 %d 个打开的标签页？', '關閉全部 %d 個開啟的分頁？');
+  Set14('TabCtx.ClosedAll',
+    'All tabs closed', 'Todas as abas foram fechadas', 'Todas las pestañas se cerraron',
+    'Tous les onglets ont été fermés', 'Alle Tabs wurden geschlossen',
+    'Tutte le schede sono state chiuse', 'Wszystkie karty zostały zamknięte',
+    'Todos os separadores foram fechados', 'Toate filele au fost închise',
+    'Az összes lap bezárva', 'Všechny karty byly zavřeny', 'すべてのタブを閉じました',
+    '已关闭所有标签页', '已關閉所有分頁');
+  Set14('TabCtx.ClosedAllDetail',
+    'Use Session → Reopen closed tab or Restore last session tabs to bring them back.',
+    'Use Sessão → Reabrir aba fechada ou Restaurar abas da última sessão para recuperá-las.',
+    'Use Sesión → Reabrir pestaña cerrada o Restaurar pestañas de la última sesión para recuperarlas.',
+    'Utilisez Session → Rouvrir l''onglet fermé ou Restaurer les onglets de la dernière session.',
+    'Über Sitzung → Geschlossenen Tab wieder öffnen oder Tabs der letzten Sitzung wiederherstellen.',
+    'Usa Sessione → Riapri scheda chiusa o Ripristina schede dell''ultima sessione.',
+    'Użyj Sesja → Otwórz ponownie zamkniętą kartę lub Przywróć karty z ostatniej sesji.',
+    'Use Sessão → Reabrir separador fechado ou Restaurar separadores da última sessão.',
+    'Folosiți Sesiune → Redeschide fila închisă sau Restaurează filele ultimei sesiuni.',
+    'A Munkamenet → Bezárt lap újranyitása vagy Utolsó munkamenet lapjainak visszaállítása menüponttal hozhatók vissza.',
+    'Použijte Relace → Znovu otevřít zavřenou kartu nebo Obnovit karty poslední relace.',
+    '「セッション → 閉じたタブを再度開く」または「前回のセッションのタブを復元」で戻せます。',
+    '可通过“会话 → 重新打开已关闭的标签页”或“恢复上次会话的标签页”找回。',
+    '可透過「工作階段 → 重新開啟已關閉的分頁」或「還原上次工作階段的分頁」找回。');
+  Set14('TabCtx.RestoredTabs',
+    'Tabs restored', 'Abas restauradas', 'Pestañas restauradas', 'Onglets restaurés',
+    'Tabs wiederhergestellt', 'Schede ripristinate', 'Karty przywrócone',
+    'Separadores restaurados', 'File restaurate', 'Lapok visszaállítva',
+    'Karty obnoveny', 'タブを復元しました', '已恢复标签页', '已還原分頁');
+  Set14('TabCtx.RestoredTabsDetail',
+    '%d tab(s) from the last session were restored.',
+    '%d aba(s) da última sessão foram restauradas.',
+    'Se restauraron %d pestaña(s) de la última sesión.',
+    '%d onglet(s) de la dernière session ont été restaurés.',
+    '%d Tab(s) der letzten Sitzung wurden wiederhergestellt.',
+    'Sono state ripristinate %d scheda/e dell''ultima sessione.',
+    'Przywrócono %d kart(y) z ostatniej sesji.',
+    '%d separador(es) da última sessão foram restaurados.',
+    'Au fost restaurate %d filă(e) din ultima sesiune.',
+    'Az utolsó munkamenet %d lapja visszaállítva.',
+    'Bylo obnoveno %d karet z poslední relace.',
+    '前回のセッションから %d 個のタブを復元しました。',
+    '已从上次会话恢复 %d 个标签页。', '已從上次工作階段還原 %d 個分頁。');
+  Set14('TabCtx.NoSavedTabs',
+    'No saved open tabs were found for this session.',
+    'Nenhuma aba aberta salva foi encontrada para esta sessão.',
+    'No se encontraron pestañas abiertas guardadas para esta sesión.',
+    'Aucun onglet ouvert enregistré n''a été trouvé pour cette session.',
+    'Für diese Sitzung wurden keine gespeicherten geöffneten Tabs gefunden.',
+    'Nessuna scheda aperta salvata trovata per questa sessione.',
+    'Nie znaleziono zapisanych otwartych kart dla tej sesji.',
+    'Não foram encontrados separadores abertos guardados para esta sessão.',
+    'Nu s-au găsit file deschise salvate pentru această sesiune.',
+    'Nem található mentett megnyitott lap ehhez a munkamenethez.',
+    'Pro tuto relaci nebyly nalezeny žádné uložené otevřené karty.',
+    'このセッション用に保存された開いているタブは見つかりませんでした。',
+    '未找到此会话已保存的打开标签页。', '找不到此工作階段已儲存的開啟分頁。');
+  Set14('Session.NeedFile',
+    'Open and read a file first to save or load its session.',
+    'Abra e leia um arquivo primeiro para salvar ou carregar a sessão dele.',
+    'Abra y lea un archivo primero para guardar o cargar su sesión.',
+    'Ouvrez et lisez d''abord un fichier pour enregistrer ou charger sa session.',
+    'Öffnen und lesen Sie zuerst eine Datei, um ihre Sitzung zu speichern oder zu laden.',
+    'Apri e leggi prima un file per salvare o caricare la relativa sessione.',
+    'Najpierw otwórz i odczytaj plik, aby zapisać lub wczytać jego sesję.',
+    'Abra e leia um ficheiro primeiro para guardar ou carregar a sessão dele.',
+    'Deschideți și citiți mai întâi un fișier pentru a salva sau încărca sesiunea lui.',
+    'Először nyisson meg és olvasson be egy fájlt a munkamenet mentéséhez vagy betöltéséhez.',
+    'Nejprve otevřete a načtěte soubor, abyste mohli uložit nebo načíst jeho relaci.',
+    'セッションを保存または読み込むには、先にファイルを開いて読み込んでください。',
+    '请先打开并读取文件，才能保存或加载其会话。', '請先開啟並讀取檔案，才能儲存或載入其工作階段。');
+  Set14('Session.SavedDetail',
+    'Cursor position, bookmarks, filters and view options were saved for this file.',
+    'Posição do cursor, favoritos, filtros e opções de visualização foram salvos para este arquivo.',
+    'Se guardaron la posición del cursor, marcadores, filtros y opciones de vista de este archivo.',
+    'La position du curseur, les signets, les filtres et les options d''affichage ont été enregistrés.',
+    'Cursorposition, Lesezeichen, Filter und Ansichtsoptionen wurden für diese Datei gespeichert.',
+    'Posizione del cursore, segnalibri, filtri e opzioni di visualizzazione salvati per questo file.',
+    'Zapisano pozycję kursora, zakładki, filtry i opcje widoku dla tego pliku.',
+    'A posição do cursor, favoritos, filtros e opções de visualização foram guardados para este ficheiro.',
+    'Poziția cursorului, marcajele, filtrele și opțiunile de vizualizare au fost salvate pentru acest fișier.',
+    'A kurzorpozíció, könyvjelzők, szűrők és nézetbeállítások mentve ehhez a fájlhoz.',
+    'Pozice kurzoru, záložky, filtry a možnosti zobrazení byly uloženy pro tento soubor.',
+    'このファイルのカーソル位置、ブックマーク、フィルタ、表示オプションを保存しました。',
+    '已保存此文件的光标位置、书签、筛选器和视图选项。', '已儲存此檔案的游標位置、書籤、篩選器與檢視選項。');
+  Set14('Session.LoadedDetail',
+    'Cursor position, bookmarks, filters and view options were restored for this file.',
+    'Posição do cursor, favoritos, filtros e opções de visualização foram restaurados para este arquivo.',
+    'Se restauraron la posición del cursor, marcadores, filtros y opciones de vista de este archivo.',
+    'La position du curseur, les signets, les filtres et les options d''affichage ont été restaurés.',
+    'Cursorposition, Lesezeichen, Filter und Ansichtsoptionen wurden für diese Datei wiederhergestellt.',
+    'Posizione del cursore, segnalibri, filtri e opzioni di visualizzazione ripristinati per questo file.',
+    'Przywrócono pozycję kursora, zakładki, filtry i opcje widoku dla tego pliku.',
+    'A posição do cursor, favoritos, filtros e opções de visualização foram restaurados para este ficheiro.',
+    'Poziția cursorului, marcajele, filtrele și opțiunile de vizualizare au fost restaurate pentru acest fișier.',
+    'A kurzorpozíció, könyvjelzők, szűrők és nézetbeállítások visszaállítva ehhez a fájlhoz.',
+    'Pozice kurzoru, záložky, filtry a možnosti zobrazení byly obnoveny pro tento soubor.',
+    'このファイルのカーソル位置、ブックマーク、フィルタ、表示オプションを復元しました。',
+    '已恢复此文件的光标位置、书签、筛选器和视图选项。', '已還原此檔案的游標位置、書籤、篩選器與檢視選項。');
+  Set14('RecentFiles.SessionSaved',
+    '● Saved', '● Salva', '● Guardada', '● Enregistrée',
+    '● Gespeichert', '● Salvata', '● Zapisana', '● Guardada',
+    '● Salvată', '● Mentve', '● Uloženo', '● 保存済み',
+    '● 已保存', '● 已儲存');
+  Set14('RecentFiles.SessionTip',
+    'Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file.',
+    'Coluna Sessão: “Salva” significa que cursor, favoritos e filtros podem ser restaurados ao reabrir o arquivo.',
+    'Columna Sesión: “Guardada” significa que el cursor, marcadores y filtros se pueden restaurar al reabrir el archivo.',
+    'Colonne Session : « Enregistrée » signifie que curseur, signets et filtres peuvent être restaurés à la réouverture.',
+    'Spalte Sitzung: „Gespeichert“ heißt, dass Cursor, Lesezeichen und Filter beim erneuten Öffnen wiederhergestellt werden können.',
+    'Colonna Sessione: “Salvata” indica che cursore, segnalibri e filtri possono essere ripristinati alla riapertura.',
+    'Kolumna Sesja: „Zapisana” oznacza, że kursor, zakładki i filtry można przywrócić po ponownym otwarciu pliku.',
+    'Coluna Sessão: “Guardada” significa que cursor, favoritos e filtros podem ser restaurados ao reabrir o ficheiro.',
+    'Coloana Sesiune: „Salvată” înseamnă că cursorul, marcajele și filtrele pot fi restaurate la redeschidere.',
+    'Munkamenet oszlop: a „Mentve” azt jelenti, hogy a kurzor, könyvjelzők és szűrők visszaállíthatók újranyitáskor.',
+    'Sloupec Relace: „Uloženo“ znamená, že kurzor, záložky a filtry lze obnovit při opětovném otevření.',
+    'セッション列:「保存済み」は、ファイルを再度開くとカーソル・ブックマーク・フィルタを復元できることを示します。',
+    '会话列：“已保存”表示重新打开文件时可恢复光标、书签和筛选器。',
+    '工作階段欄：「已儲存」表示重新開啟檔案時可還原游標、書籤與篩選器。');
+  Set14('RecentFiles.SessionHint',
+    'This file has a saved session (cursor, bookmarks, filters). Open it to restore.',
+    'Este arquivo tem uma sessão salva (cursor, favoritos, filtros). Abra-o para restaurar.',
+    'Este archivo tiene una sesión guardada (cursor, marcadores, filtros). Ábralo para restaurar.',
+    'Ce fichier a une session enregistrée (curseur, signets, filtres). Ouvrez-le pour restaurer.',
+    'Diese Datei hat eine gespeicherte Sitzung (Cursor, Lesezeichen, Filter). Öffnen Sie sie zum Wiederherstellen.',
+    'Questo file ha una sessione salvata (cursore, segnalibri, filtri). Aprilo per ripristinare.',
+    'Ten plik ma zapisaną sesję (kursor, zakładki, filtry). Otwórz go, aby przywrócić.',
+    'Este ficheiro tem uma sessão guardada (cursor, favoritos, filtros). Abra-o para restaurar.',
+    'Acest fișier are o sesiune salvată (cursor, marcaje, filtre). Deschideți-l pentru a restaura.',
+    'Ehhez a fájlhoz mentett munkamenet tartozik (kurzor, könyvjelzők, szűrők). Nyissa meg a visszaállításhoz.',
+    'Tento soubor má uloženou relaci (kurzor, záložky, filtry). Otevřete jej pro obnovení.',
+    'このファイルには保存済みセッション（カーソル、ブックマーク、フィルタ）があります。開いて復元できます。',
+    '此文件有已保存的会话（光标、书签、筛选器）。打开即可恢复。',
+    '此檔案有已儲存的工作階段（游標、書籤、篩選器）。開啟即可還原。');
+  Set14('RecentFiles.SessionOpenHint',
+    '"%s" has a saved session. Open the file to restore cursor, bookmarks and filters.',
+    '"%s" tem uma sessão salva. Abra o arquivo para restaurar cursor, favoritos e filtros.',
+    '"%s" tiene una sesión guardada. Abra el archivo para restaurar cursor, marcadores y filtros.',
+    '"%s" a une session enregistrée. Ouvrez le fichier pour restaurer curseur, signets et filtres.',
+    '"%s" hat eine gespeicherte Sitzung. Öffnen Sie die Datei, um Cursor, Lesezeichen und Filter wiederherzustellen.',
+    '"%s" ha una sessione salvata. Apri il file per ripristinare cursore, segnalibri e filtri.',
+    '"%s" ma zapisaną sesję. Otwórz plik, aby przywrócić kursor, zakładki i filtry.',
+    '"%s" tem uma sessão guardada. Abra o ficheiro para restaurar cursor, favoritos e filtros.',
+    '"%s" are o sesiune salvată. Deschideți fișierul pentru a restaura cursorul, marcajele și filtrele.',
+    '"%s" mentett munkamenettel rendelkezik. Nyissa meg a fájlt a kurzor, könyvjelzők és szűrők visszaállításához.',
+    '"%s" má uloženou relaci. Otevřete soubor pro obnovení kurzoru, záložek a filtrů.',
+    '"%s" には保存済みセッションがあります。ファイルを開くとカーソル・ブックマーク・フィルタを復元できます。',
+    '"%s" 有已保存的会话。打开文件可恢复光标、书签和筛选器。',
+    '"%s" 有已儲存的工作階段。開啟檔案可還原游標、書籤與篩選器。');
+  Set14('RecentFiles.SessionNoneHint',
+    'No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).',
+    'Ainda não há sessão salva para este arquivo. Depois de abri-lo, use Sessão → Salvar sessão agora (Ctrl+Alt+S).',
+    'Aún no hay sesión guardada para este archivo. Tras abrirlo, use Sesión → Guardar sesión ahora (Ctrl+Alt+S).',
+    'Pas encore de session enregistrée pour ce fichier. Après l''ouverture, utilisez Session → Enregistrer la session (Ctrl+Alt+S).',
+    'Für diese Datei ist noch keine Sitzung gespeichert. Nach dem Öffnen: Sitzung → Sitzung jetzt speichern (Strg+Alt+S).',
+    'Nessuna sessione salvata ancora per questo file. Dopo averlo aperto, usa Sessione → Salva sessione ora (Ctrl+Alt+S).',
+    'Brak jeszcze zapisanej sesji dla tego pliku. Po otwarciu użyj Sesja → Zapisz sesję teraz (Ctrl+Alt+S).',
+    'Ainda não há sessão guardada para este ficheiro. Depois de o abrir, use Sessão → Guardar sessão agora (Ctrl+Alt+S).',
+    'Nu există încă o sesiune salvată pentru acest fișier. După deschidere, folosiți Sesiune → Salvează sesiunea acum (Ctrl+Alt+S).',
+    'Ehhez a fájlhoz még nincs mentett munkamenet. Megnyitás után: Munkamenet → Munkamenet mentése most (Ctrl+Alt+S).',
+    'Pro tento soubor zatím není uložena žádná relace. Po otevření použijte Relace → Uložit relaci nyní (Ctrl+Alt+S).',
+    'このファイルにはまだセッションがありません。開いた後、「セッション → 今すぐセッションを保存」(Ctrl+Alt+S) を使います。',
+    '此文件尚无已保存的会话。打开后请使用“会话 → 立即保存会话”(Ctrl+Alt+S)。',
+    '此檔案尚無已儲存的工作階段。開啟後請使用「工作階段 → 立即儲存工作階段」(Ctrl+Alt+S)。');
 end;
 
 procedure FillTranslationDataBody;
@@ -57366,6 +57586,7 @@ begin
   AddListViewNavToolsTranslations;
   AddSearchDockTranslations;
   AddRtlLanguageOptionTranslations;
+  AddSessionTabsUiTranslations;
   AddTranslationGapFill;
   { Arabic / Hebrew: generated by tools\gen_rtl_i18n.py into uI18nRtl.pas.
     Missing keys fall back to English (Tr / TrText). }
