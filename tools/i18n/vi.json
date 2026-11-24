@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "28": "Dash separator unchanged.",
     "81": "Menu label keeps AI and Consumer product names.",
@@ -3536,6 +3536,7 @@
     "3483": "Không tìm thấy tab đang mở đã lưu cho phiên này.",
     "3484": "Đã khôi phục tab",
     "3485": "Đã khôi phục %d tab từ phiên trước.",
-    "3486": "Tệp gần đây"
+    "3486": "Tệp gần đây",
+    "3487": "CẬP NHẬT GẦN ĐÂY (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  Tệp UTF-16 LE hiển thị và lưu với ngắt dòng đúng;\r\n    dòng trống cuối vẫn chỉnh sửa được và dán không bị nhân đôi.\r\n  Nút bật/tắt dải băng dùng mặt ON mềm với dấu kiểm;\r\n    nhấp lại sẽ đóng tab; ô vẫn hình vuông.\r\n  Tệp gần đây hiện cột Phiên đã lưu và mở từ thanh công cụ.\r\n  Đóng tất cả nằm trong menu tab; chọn mềm và dấu trang giữ chữ dễ đọc.\r\n  Ctrl+bánh xe chỉ phóng to tab đang mở; Shift+nhấp chọn một khoảng\r\n    trong danh sách và danh sách chọn.\r\n"
   }
 }

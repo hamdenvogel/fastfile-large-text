@@ -4,12 +4,27 @@
 
 > **Guia Cursor (limpeza AppData):** `GuiaLimpezaCursorAppData.md` nesta pasta, ou `Documentos\GuiaLimpezaCursorAppData.md`. Use `Ctrl+P` e digite `GuiaLimpeza`. Evite abrir `CURSOR_APPDATA_LIMPEZA.md` por link do chat (erro "Unable to resolve resource").
 
-**Data:** 18 de novembro de 2026  
+**Data:** 24 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64) — editor de arquivos de texto enormes (GB+)  
-**Versão atual:** **3.0.5.274** — Search Dock em acordeão, **Mais** só com painel aberto, diálogos RTL clicáveis e navegação First/página estável; interface em **30 idiomas**.  
+**Versão atual:** **3.0.5.280** — UTF-16 LE fiável, ribbon ON suave, Recent Files com sessão, Fechar todas, seleção/marcadores suaves, zoom por aba e Shift+intervalo; interface em **30 idiomas**.  
 **Objetivo deste documento:** consolidar sugestões técnicas, de UX e de negócio para tornar o FastFile um produto comercialmente competitivo.
 
 ---
+
+## ★ Actualização 3.0.5.280 (24/11/2026)
+
+Entrega incremental após **3.0.5.274**. Search Dock, Mais e os 30 idiomas permanecem como estavam.
+
+| Trilha interna | Entrega |
+|---|---|
+| **3.0.5.275** | UTF-16 LE: exibição/gravação com quebras reais; linha em branco final; sem colar duas vezes. |
+| **3.0.5.276** | Toggles da ribbon com face ON creme + ✓; clique de novo fecha a aba; tiles quadrados. |
+| **3.0.5.277** | Recent Files: coluna Sessão salva e botão na barra. |
+| **3.0.5.278** | Fechar todas; seleção azul suave; zoom Ctrl+roda só na aba activa; refresh da faixa sem magenta. |
+| **3.0.5.279** | Marcadores pêssego; Shift+clique com intervalo na lista/checklist; pintura RTL das colunas. |
+| **3.0.5.280** | Sync de versão, F1 (`FF_HELP.RecentFeaturesBlock10`) e documentação. |
+
+**Internacionalização:** o bloco F1 novo está traduzido nos **30 idiomas**. Não há modelo de IA novo.
 
 ## ★ Actualização 3.0.5.274 (18/11/2026)
 

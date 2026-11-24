@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "entries": [
     {"kind": "K", "key": "consumer_ai.connected", "source": "FastFile AI connected"},
     {"kind": "K", "key": "consumer_ai.initializing", "source": "Initializing FastFile AI..."},
@@ -3487,6 +3487,7 @@
     {"kind": "T", "key": "TabCtx.NoSavedTabs", "source": "No saved open tabs were found for this session."},
     {"kind": "T", "key": "TabCtx.RestoredTabs", "source": "Tabs restored"},
     {"kind": "T", "key": "TabCtx.RestoredTabsDetail", "source": "%d tab(s) from the last session were restored."},
-    {"kind": "T", "key": "Toolbar.RecentFiles", "source": "Recent files"}
+    {"kind": "T", "key": "Toolbar.RecentFiles", "source": "Recent files"},
+    {"kind": "T", "key": "FF_HELP.RecentFeaturesBlock10", "source": "RECENT UPDATES (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE files display and save with correct line breaks;\r\n    the trailing blank line stays editable and paste is not doubled.\r\n  Main ribbon toggles use a soft ON face with a check mark;\r\n    click again closes that tab; tiles stay square.\r\n  Recent Files shows a Saved session column and opens from the toolbar.\r\n  Close all is on the tab menu; soft selection and soft bookmarks keep readable text.\r\n  Ctrl+wheel zooms only the active tab; Shift+click selects a range\r\n    in the list and the checklist.\r\n"}
   ]
 }

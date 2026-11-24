@@ -39,7 +39,7 @@ scrolls as smoothly as a 10 KB one.
 - **Unicode localization** – Hindi, Russian, Korean, Dutch, Turkish, Ukrainian, Thai, Greek, Norwegian, Swedish, Danish and Icelandic use left-to-right layouts. Translation catalogs are generated offline with checks for missing entries, format parameters and separators.
 - **Skinnable UI** – AlphaSkins themes and adjustable UI scaling (PPI) for high-DPI monitors.
 
-Current version: **FastFile Professional 3.0.5.274** (2026-11-18) — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
+Current version: **FastFile Professional 3.0.5.280** (2026-11-24) — see [src/CHANGELOG_IMPLEMENTACOES.md](src/CHANGELOG_IMPLEMENTACOES.md).
 
 ## glob / grep quick start
 
@@ -65,7 +65,7 @@ Open—not full-file throughput. The existing opening policy is preserved:
 choose **Instant Open** to avoid initial indexing of giant files.
 
 See the [full command guide](src/README.md#internal-glob--grep-commands)
-and general **F1** help (28 languages). Internal history entries **.240–.244**
+and general **F1** help (30 languages). Internal history entries **.240–.244**
 separate commands, modal AI, launchers, optional-file validation and column
 sort. Entries **.245–.249** add compact bars, command history, split preview,
 visible line limits, regex examples and recent languages. Entries **.250–.254**
@@ -76,6 +76,9 @@ menu, and add a polished, reusable next-steps guide with improved Preferences.
 Entries **.262–.265** add Thai, Greek, Norwegian, Swedish, Danish and Icelandic
 (28 languages), a button to the left of Copy that reopens the next-steps guide,
 and next steps that follow the current activity, with more follow-up actions.
+Entries **.275–.280** cover UTF-16 LE round-trips, soft ribbon toggles, Recent
+Files session column, Close all tabs, soft selection/bookmarks, per-tab
+Ctrl+wheel zoom and Shift+click range selection.
 
 ## Requirements
 

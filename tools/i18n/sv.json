@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "2": "Version is the same word in this Swedish product title.",
     "28": "A single hyphen has no translatable text.",
@@ -3556,6 +3556,7 @@
     "3483": "Inga sparade öppna flikar hittades för den här sessionen.",
     "3484": "Flikar återställda",
     "3485": "%d flik(ar) från senaste sessionen återställdes.",
-    "3486": "Senaste filer"
+    "3486": "Senaste filer",
+    "3487": "SENASTE UPPDATERINGAR (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE-filer visas och sparas med korrekta radbrytningar;\r\n    den avslutande tomma raden förblir redigerbar och inklistring dubbleras inte.\r\n  Bandreglage använder en mjuk ON-yta med bock;\r\n    nytt klick stänger fliken; brickorna förblir kvadratiska.\r\n  Senaste filer visar kolumnen Sparad session och öppnas från verktygsfältet.\r\n  Stäng alla finns i flikmenyn; mjuk markering och bokmärken håller texten läsbar.\r\n  Ctrl+hjul zoomar bara den aktiva fliken; Shift+klick markerar ett intervall\r\n    i listan och checklistan.\r\n"
   }
 }

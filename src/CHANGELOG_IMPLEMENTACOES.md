@@ -1,13 +1,41 @@
 ﻿# FastFile — Relatório de Implementações
 
-**Data:** 18 de novembro de 2026  
+**Data:** 24 de novembro de 2026  
 **Projeto:** FastFile (Delphi 7 / Delphi 10.4.2 Win64)  
 **Pasta:** `FileReadThread-2\Src` (host D10: `delphi10_4_2\FastFile\src`)  
-**Versão publicada actual:** **`3.0.5.274`** — painéis de pesquisa em acordeão, **Mais** só com painel aberto, diálogos RTL clicáveis e navegação First/página estável após Último. As entregas **3.0.5.269** (30 idiomas), **3.0.5.266–268** (guia / ícone de Ler), **3.0.5.262–265** e **3.0.5.245–261** permanecem no histórico, sem repetição.
+**Versão publicada actual:** **`3.0.5.280`** — UTF-16 LE fiável, ribbon com ON suave, Recent Files com sessão, Fechar todas, seleção/marcadores suaves, zoom por aba e Shift+intervalo. As entregas **3.0.5.270–274** (Search Dock / Mais / RTL), **3.0.5.269** (30 idiomas) e anteriores permanecem no histórico, sem repetição.
 
 ---
 
-## ★ FastFile 3.0.5.274 (atual) — Search dock, Mais e RTL (18/11/2026)
+## ★ FastFile 3.0.5.280 (atual) — Ribbon, sessão, seleção suave e UTF-16 (24/11/2026)
+
+- UTF-16 LE: exibição e gravação com quebras reais; linha em branco final editável; Ctrl+V sem colar duas vezes.
+- Ribbon: face ON creme + ✓; clique de novo fecha a aba; tiles quadrados.
+- Recent Files: coluna **Salva**, botão na barra; **Fechar todas** no menu das abas.
+- Seleção azul suave e marcadores pêssego (texto escuro); Ctrl+roda faz zoom só na aba activa; Shift+clique marca intervalo na lista e na checklist; pintura RTL das colunas corrigida.
+- **Sync:** `APPLICATION_VERSION` **3.0.5.280**, `HISTORY`, F1 (`FF_HELP.RecentFeaturesBlock10`) nos **30 idiomas** e metadados de `FastFile.dproj`.
+
+## ★ FastFile 3.0.5.279 (interno) — Marcadores suaves e Shift+intervalo (24/11/2026)
+
+- Linhas marcadas com lavagem pêssego e texto escuro; Shift+clique selecciona um intervalo na ListView e na checklist; em RTL, chips Edit/Delete e rótulo da linha ficam na fatia correcta da coluna.
+
+## ★ FastFile 3.0.5.278 (interno) — Fechar todas, seleção suave e zoom por aba (22/11/2026)
+
+- Menu das abas com **Fechar todas** e dicas de restauro; selecção azul suave em vez do destaque do sistema; Ctrl+roda faz zoom só na aba activa; refresh da faixa de abas sem magenta preso.
+
+## ★ FastFile 3.0.5.277 (interno) — Coluna de sessão em Recent Files (22/11/2026)
+
+- Botão **Arquivos recentes** na barra; marcador **Salva** quando cursor/marcadores/filtros podem ser restaurados; hints para abrir / ainda sem sessão.
+
+## ★ FastFile 3.0.5.276 (interno) — Toggles da ribbon (22/11/2026)
+
+- Face ON creme, moldura quente e ✓ verde; clique num toggle ON fecha a aba; tiles quadrados mantêm as legendas legíveis.
+
+## ★ FastFile 3.0.5.275 (interno) — UTF-16 LE round-trip (18/11/2026)
+
+- Detecção correcta de encodings wide e EOL; gravação com quebras UTF-16 reais; linha em branco final editável; Ctrl+V no editor de linha deixa de colar duas vezes.
+
+## ★ FastFile 3.0.5.274 — Search dock, Mais e RTL (18/11/2026)
 
 - Find / Filter / Bookmarks empilham em acordeão com capa de carga; F3 não pisca a capa quando o Find já está aberto.
 - Com painel aberto, botões da lista que não cabem vão para **Mais**; ao fechar os painéis a faixa volta ao normal.

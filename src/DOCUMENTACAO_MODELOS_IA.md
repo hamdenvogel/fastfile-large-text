@@ -18,10 +18,11 @@ Para o guia detalhado dos EXEs Python (ConsumerAI / ConsumerRAG / parâmetros CL
 
 O editor **FastFile.exe** não executa estes modelos Python directamente; serve como **host** para integrações (`ConsumerAI.exe` / `ConsumerRAG.exe` / `ScriptEngine.exe`) e para o **Assistente IA** (`uFastFileAssistant*.pas`, `uFastFileAIClient.pas`).
 
-**Versão publicada do EXE:** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.274`** (18/11/2026).
+**Versão publicada do EXE:** **`UnConsts.APPLICATION_VERSION`** **`3.0.5.280`** (24/11/2026).
 
 Trilhos recentes no host Delphi (IA / i18n / arranque):
 
+- **★ v3.0.5.275–280:** UTF-16 LE fiável; ribbon com ON suave; Recent Files com sessão; Fechar todas; seleção/marcadores suaves; zoom por aba; Shift+intervalo; F1 `FF_HELP.RecentFeaturesBlock10` nos 30 idiomas. **Sem modelo novo:** a IA continua no gateway existente.
 - **★ v3.0.5.270–274:** Search Dock em acordeão com capa de carga; **Mais** só com painéis Find/Filter/Marcadores; diálogos RTL clicáveis; navegação First/página estável após Último; F1 `FF_HELP.RecentFeaturesBlock9` nos 30 idiomas. **Sem modelo novo:** a IA continua no gateway existente.
 - **★ v3.0.5.266–268:** o guia de próximos passos fica mais baixo; um ícone de **Ler** no campo do caminho (à esquerda do X) carrega esse ficheiro com o mesmo desenho da barra. **Sem modelo novo:** a IA continua no gateway existente.
 - **★ v3.0.5.262–265:** a interface chega a **28 idiomas** (tailandês, grego, norueguês, sueco, dinamarquês e islandês, todos da esquerda para a direita). O guia de próximos passos acompanha a atividade atual e oferece mais ações seguintes; um botão à esquerda de **Copiar** reabre o mesmo guia. **Sem modelo novo:** a IA continua no gateway existente.

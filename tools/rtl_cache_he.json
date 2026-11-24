@@ -3356,5 +3356,16 @@
   "Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file.": "עמודת מפגש: ״נשמר״ פירושו שניתן לשחזר סמן, סימניות ומסננים בפתיחה מחדש של הקובץ.",
   "This file has a saved session (cursor, bookmarks, filters). Open it to restore.": "לקובץ זה יש מפגש שמור (סמן, סימניות, מסננים). פתח אותו כדי לשחזר.",
   "\"%s\" has a saved session. Open the file to restore cursor, bookmarks and filters.": "ל־\"%s\" יש מפגש שמור. פתח את הקובץ כדי לשחזר סמן, סימניות ומסננים.",
-  "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).": "עדיין אין מפגש שמור לקובץ זה. אחרי הפתיחה השתמש ב״מפגש → שמור מפגש עכשיו״ (Ctrl+Alt+S)."
+  "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).": "עדיין אין מפגש שמור לקובץ זה. אחרי הפתיחה השתמש ב״מפגש → שמור מפגש עכשיו״ (Ctrl+Alt+S).",
+  "RECENT UPDATES (v3.0.5.275 – v3.0.5.280)": "עדכונים אחרונים (v3.0.5.275 – v3.0.5.280)",
+  "---------------------------------------------------------------": "---------------------------------------------------------------",
+  "  UTF-16 LE files display and save with correct line breaks;": "  קובצי UTF-16 LE מוצגים ונשמרים עם מעברי שורה נכונים;",
+  "    the trailing blank line stays editable and paste is not doubled.": "    שורת הריק בסוף נשארת לעריכה, והדבקה אינה מוכפלת.",
+  "  Main ribbon toggles use a soft ON face with a check mark;": "  מתגי הסרט משתמשים בפני ON רכים עם סימן וי;",
+  "    click again closes that tab; tiles stay square.": "    לחיצה נוספת סוגרת את הלשונית; האריחים נשארים מרובעים.",
+  "  Recent Files shows a Saved session column and opens from the toolbar.": "  קבצים אחרונים מציגים עמודת הפעלה שמורה ונפתחים מסרגל הכלים.",
+  "  Close all is on the tab menu; soft selection and soft bookmarks keep readable text.": "  סגור הכל נמצא בתפריט הלשוניות; בחירה רכה וסימניות שומרות על טקסט קריא.",
+  "  Ctrl+wheel zooms only the active tab; Shift+click selects a range": "  Ctrl+גלגל מגדיל רק את הלשונית הפעילה; Shift+לחיצה בוחרת טווח",
+  "    in the list and the checklist.": "    ברשימה וברשימת הסימון.",
+  "RECENT UPDATES (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE files display and save with correct line breaks;\r\n    the trailing blank line stays editable and paste is not doubled.\r\n  Main ribbon toggles use a soft ON face with a check mark;\r\n    click again closes that tab; tiles stay square.\r\n  Recent Files shows a Saved session column and opens from the toolbar.\r\n  Close all is on the tab menu; soft selection and soft bookmarks keep readable text.\r\n  Ctrl+wheel zooms only the active tab; Shift+click selects a range\r\n    in the list and the checklist.": "עדכונים אחרונים (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  קובצי UTF-16 LE מוצגים ונשמרים עם מעברי שורה נכונים;\r\n    שורת הריק בסוף נשארת לעריכה, והדבקה אינה מוכפלת.\r\n  מתגי הסרט משתמשים בפני ON רכים עם סימן וי;\r\n    לחיצה נוספת סוגרת את הלשונית; האריחים נשארים מרובעים.\r\n  קבצים אחרונים מציגים עמודת הפעלה שמורה ונפתחים מסרגל הכלים.\r\n  סגור הכל נמצא בתפריט הלשוניות; בחירה רכה וסימניות שומרות על טקסט קריא.\r\n  Ctrl+גלגל מגדיל רק את הלשונית הפעילה; Shift+לחיצה בוחרת טווח\r\n    ברשימה וברשימת הסימון."
 }

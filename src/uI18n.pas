@@ -54438,6 +54438,172 @@ begin
     '近期更新 (v3.0.5.266 – v3.0.5.268)'#13#10 + SEP + #13#10 + '  後續步驟指南變矮，檔案清單仍可見。'#13#10 + '  讀取圖示在路徑欄內、清除 X 的左側。'#13#10 + '  與工具列「讀取」相同，並載入該路徑。'#13#10);
 end;
 
+procedure AddCommonTranslationsHelpRecentFeaturesBlock10;
+
+  procedure Set14(const K: string;
+    const EN, PT, ES, FR, DE, IT, PL, PTPT, RO, HU, CZ, JA, ZHCN, ZHTW: string);
+  begin
+    PutNV(GTextEnglish, K, EN);
+    PutNV(GTextPortuguese, K, PT);
+    PutNV(GTextSpanish, K, ES);
+    PutNV(GTextFrench, K, FR);
+    PutNV(GTextGerman, K, DE);
+    PutNV(GTextItalian, K, IT);
+    PutNV(GTextPolish, K, PL);
+    PutNV(GTextPortuguesePT, K, PTPT);
+    PutNV(GTextRomanian, K, RO);
+    PutNV(GTextHungarian, K, HU);
+    PutNV(GTextCzech, K, CZ);
+    PutNV(GTextJapanese, K, JA);
+    PutNV(GTextChineseSimplified, K, ZHCN);
+    PutNV(GTextChineseTraditional, K, ZHTW);
+  end;
+
+begin
+  Set14(
+    'FF_HELP.RecentFeaturesBlock10',
+    'RECENT UPDATES (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  UTF-16 LE files display and save with correct line breaks;'#13#10 +
+    '    the trailing blank line stays editable and paste is not doubled.'#13#10 +
+    '  Main ribbon toggles use a soft ON face with a check mark;'#13#10 +
+    '    click again closes that tab; tiles stay square.'#13#10 +
+    '  Recent Files shows a Saved session column and opens from the toolbar.'#13#10 +
+    '  Close all is on the tab menu; soft selection and soft bookmarks keep readable text.'#13#10 +
+    '  Ctrl+wheel zooms only the active tab; Shift+click selects a range'#13#10 +
+    '    in the list and the checklist.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Arquivos UTF-16 LE exibem e gravam com quebras de linha corretas;'#13#10 +
+    '    a linha em branco final continua editável e a colagem não duplica.'#13#10 +
+    '  Os toggles da ribbon usam face ON suave com marca de verificação;'#13#10 +
+    '    clique de novo fecha a aba; os tiles permanecem quadrados.'#13#10 +
+    '  Arquivos recentes mostram a coluna Sessão salva e abrem pela barra.'#13#10 +
+    '  Fechar todas fica no menu das abas; seleção e marcadores suaves mantêm o texto legível.'#13#10 +
+    '  Ctrl+roda faz zoom só na aba ativa; Shift+clique seleciona um intervalo'#13#10 +
+    '    na lista e na checklist.'#13#10,
+    'ACTUALIZACIONES RECIENTES (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Los archivos UTF-16 LE se muestran y guardan con saltos de línea correctos;'#13#10 +
+    '    la línea en blanco final sigue editable y el pegado no se duplica.'#13#10 +
+    '  Los conmutadores de la cinta usan una cara ON suave con marca de verificación;'#13#10 +
+    '    pulse otra vez para cerrar la pestaña; los mosaicos siguen cuadrados.'#13#10 +
+    '  Archivos recientes muestra la columna Sesión guardada y se abre desde la barra.'#13#10 +
+    '  Cerrar todas está en el menú de pestañas; la selección y los marcadores suaves mantienen el texto legible.'#13#10 +
+    '  Ctrl+rueda hace zoom solo en la pestaña activa; Mayús+clic selecciona un intervalo'#13#10 +
+    '    en la lista y en la checklist.'#13#10,
+    'MISES À JOUR RÉCENTES (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Les fichiers UTF-16 LE s''affichent et s''enregistrent avec les bons sauts de ligne ;'#13#10 +
+    '    la ligne vide finale reste modifiable et le collage n''est pas doublé.'#13#10 +
+    '  Les bascules du ruban ont une face ON douce avec une coche ;'#13#10 +
+    '    recliquer ferme l''onglet ; les tuiles restent carrées.'#13#10 +
+    '  Fichiers récents affiche la colonne Session enregistrée et s''ouvre depuis la barre.'#13#10 +
+    '  Tout fermer est dans le menu des onglets ; sélection et signets doux gardent le texte lisible.'#13#10 +
+    '  Ctrl+molette zoome uniquement l''onglet actif ; Maj+clic sélectionne une plage'#13#10 +
+    '    dans la liste et la checklist.'#13#10,
+    'AKTUELLE UPDATES (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  UTF-16-LE-Dateien werden mit korrekten Zeilenumbrüchen angezeigt und gespeichert;'#13#10 +
+    '    die abschließende Leerzeile bleibt editierbar und Einfügen verdoppelt nicht.'#13#10 +
+    '  Ribbon-Schalter nutzen eine weiche ON-Fläche mit Häkchen;'#13#10 +
+    '    erneutes Klicken schließt die Registerkarte; Kacheln bleiben quadratisch.'#13#10 +
+    '  Zuletzt verwendete Dateien zeigen die Spalte Gespeicherte Sitzung und öffnen von der Leiste.'#13#10 +
+    '  Alle schließen liegt im Registermenü; weiche Auswahl und Lesezeichen halten Text lesbar.'#13#10 +
+    '  Strg+Rad zoomt nur die aktive Registerkarte; Umschalt+Klick wählt einen Bereich'#13#10 +
+    '    in Liste und Checkliste.'#13#10,
+    'AGGIORNAMENTI RECENTI (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  I file UTF-16 LE vengono mostrati e salvati con interruzioni di riga corrette;'#13#10 +
+    '    la riga vuota finale resta modificabile e l''incolla non si duplica.'#13#10 +
+    '  I toggle della barra usano una faccia ON morbida con segno di spunta;'#13#10 +
+    '    un altro clic chiude la scheda; le tessere restano quadrate.'#13#10 +
+    '  File recenti mostra la colonna Sessione salvata e si apre dalla barra.'#13#10 +
+    '  Chiudi tutte è nel menu schede; selezione e segnalibri soft mantengono il testo leggibile.'#13#10 +
+    '  Ctrl+rotella ingrandisce solo la scheda attiva; Maiusc+clic seleziona un intervallo'#13#10 +
+    '    nell''elenco e nella checklist.'#13#10,
+    'OSTATNIE AKTUALIZACJE (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Pliki UTF-16 LE wyświetlają się i zapisują z poprawnymi podziałami wierszy;'#13#10 +
+    '    końcowy pusty wiersz pozostaje edytowalny, a wklejanie nie jest podwajane.'#13#10 +
+    '  Przełączniki wstążki mają miękką twarz ON ze znacznikiem;'#13#10 +
+    '    ponowne kliknięcie zamyka kartę; kafelki pozostają kwadratowe.'#13#10 +
+    '  Ostatnie pliki pokazują kolumnę Zapisana sesja i otwierają się z paska.'#13#10 +
+    '  Zamknij wszystkie jest w menu kart; miękki wybór i zakładki zachowują czytelny tekst.'#13#10 +
+    '  Ctrl+kółko powiększa tylko aktywną kartę; Shift+klik zaznacza zakres'#13#10 +
+    '    na liście i na liście wyboru.'#13#10,
+    'ATUALIZAÇÕES RECENTES (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Ficheiros UTF-16 LE mostram e gravam com quebras de linha corretas;'#13#10 +
+    '    a linha em branco final continua editável e a colagem não duplica.'#13#10 +
+    '  Os botões da faixa usam face ON suave com marca de verificação;'#13#10 +
+    '    clique de novo fecha o separador; os mosaicos mantêm-se quadrados.'#13#10 +
+    '  Ficheiros recentes mostram a coluna Sessão guardada e abrem pela barra.'#13#10 +
+    '  Fechar todos fica no menu dos separadores; seleção e marcadores suaves mantêm o texto legível.'#13#10 +
+    '  Ctrl+roda faz zoom só no separador ativo; Shift+clique seleciona um intervalo'#13#10 +
+    '    na lista e na checklist.'#13#10,
+    'ACTUALIZĂRI RECENTE (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Fișierele UTF-16 LE se afișează și se salvează cu întreruperi de linie corecte;'#13#10 +
+    '    linia goală finală rămâne editabilă și lipirea nu se dublează.'#13#10 +
+    '  Comutatoarele panglicii folosesc o față ON blândă cu bifă;'#13#10 +
+    '    un nou clic închide fila; dalele rămân pătrate.'#13#10 +
+    '  Fișiere recente arată coloana Sesiune salvată și se deschid din bară.'#13#10 +
+    '  Închide toate este în meniul de file; selecția și marcajele blânde păstrează textul lizibil.'#13#10 +
+    '  Ctrl+rotiță mărește doar fila activă; Shift+clic selectează un interval'#13#10 +
+    '    în listă și în checklist.'#13#10,
+    'FRISSÍTÉSEK (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Az UTF-16 LE fájlok helyes sortörésekkel jelennek meg és mentődnek;'#13#10 +
+    '    a záró üres sor szerkeszthető marad, és a beillesztés nem duplázódik.'#13#10 +
+    '  A szalagkapcsolók lágy ON felületet használnak pipával;'#13#10 +
+    '    újabb kattintás bezárja a lapot; a csempék négyzetesek maradnak.'#13#10 +
+    '  A Legutóbbi fájlok mutatja a Mentett munkamenet oszlopot, és a sávról nyílik.'#13#10 +
+    '  Az Összes bezárása a lapmenüben van; a lágy kijelölés és könyvjelzők olvasható szöveget tartanak.'#13#10 +
+    '  A Ctrl+görgő csak az aktív lapot nagyítja; a Shift+kattintás tartományt jelöl'#13#10 +
+    '    a listában és a jelölőlistában.'#13#10,
+    'NOVÉ AKTUALIZACE (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  Soubory UTF-16 LE se zobrazují a ukládají se správnými konci řádků;'#13#10 +
+    '    koncový prázdný řádek zůstává upravitelný a vložení se neduplikuje.'#13#10 +
+    '  Přepínače pásu mají měkkou ON plochu se zaškrtnutím;'#13#10 +
+    '    další kliknutí kartu zavře; dlaždice zůstávají čtvercové.'#13#10 +
+    '  Nedávné soubory ukazují sloupec Uložená relace a otevírají se z panelu.'#13#10 +
+    '  Zavřít vše je v nabídce karet; měkký výběr a záložky udržují čitelný text.'#13#10 +
+    '  Ctrl+kolečko přibližuje jen aktivní kartu; Shift+klik vybere rozsah'#13#10 +
+    '    v seznamu i v checklistu.'#13#10,
+    '最近の更新 (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  UTF-16 LE ファイルは正しい改行で表示・保存されます。'#13#10 +
+    '    末尾の空行は編集でき、貼り付けは二重になりません。'#13#10 +
+    '  メインリボンのトグルは柔らかい ON 面とチェック印を使い、'#13#10 +
+    '    再クリックでタブを閉じます。タイルは正方形のままです。'#13#10 +
+    '  最近使ったファイルは「保存済みセッション」列を示し、ツールバーから開けます。'#13#10 +
+    '  「すべて閉じる」はタブメニューにあり、柔らかい選択とブックマークで文字が読みやすいです。'#13#10 +
+    '  Ctrl+ホイールはアクティブなタブだけ拡大し、Shift+クリックは一覧と'#13#10 +
+    '    チェックリストで範囲を選びます。'#13#10,
+    '近期更新 (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  UTF-16 LE 文件以正确换行显示和保存；'#13#10 +
+    '    末尾空行仍可编辑，粘贴不会重复。'#13#10 +
+    '  主功能区开关使用柔和的 ON 面和勾选标记；'#13#10 +
+    '    再点一次关闭该选项卡；磁贴保持方形。'#13#10 +
+    '  “最近文件”显示已保存会话列，并可从工具栏打开。'#13#10 +
+    '  “全部关闭”在选项卡菜单中；柔和选中与书签保持文字可读。'#13#10 +
+    '  Ctrl+滚轮只缩放当前选项卡；Shift+单击在列表和'#13#10 +
+    '    复选列表中选择范围。'#13#10,
+    '近期更新 (v3.0.5.275 – v3.0.5.280)'#13#10 +
+    '---------------------------------------------------------------'#13#10 +
+    '  UTF-16 LE 檔案以正確換行顯示與儲存；'#13#10 +
+    '    末尾空白列仍可編輯，貼上不會重複。'#13#10 +
+    '  主功能區開關使用柔和的 ON 面與勾選標記；'#13#10 +
+    '    再按一次關閉該分頁；圖磚保持方形。'#13#10 +
+    '  「最近檔案」顯示已儲存工作階段欄，並可從工具列開啟。'#13#10 +
+    '  「全部關閉」在分頁功能表中；柔和選取與書籤保持文字可讀。'#13#10 +
+    '  Ctrl+滾輪只縮放目前分頁；Shift+按一下在清單與'#13#10 +
+    '    核取清單中選取範圍。'#13#10);
+end;
+
 procedure AddCommonTranslationsHelpRecentFeaturesBlock9;
 
   procedure Set14(const K: string;
@@ -57578,6 +57744,7 @@ begin
   AddCommonTranslationsHelpRecentFeaturesBlock7;
   AddCommonTranslationsHelpRecentFeaturesBlock8;
   AddCommonTranslationsHelpRecentFeaturesBlock9;
+  AddCommonTranslationsHelpRecentFeaturesBlock10;
   AddFileNameEmptyMruTranslations;
   AddDelimSessionTranslations;
   AddReadThreadCountTranslations;

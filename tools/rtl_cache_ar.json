@@ -3356,5 +3356,16 @@
   "Session column: “Saved” means cursor, bookmarks and filters can be restored when you reopen the file.": "عمود الجلسة: «محفوظة» تعني أنه يمكن استعادة المؤشر والإشارات المرجعية والمرشحات عند إعادة فتح الملف.",
   "This file has a saved session (cursor, bookmarks, filters). Open it to restore.": "لهذا الملف جلسة محفوظة (المؤشر، الإشارات المرجعية، المرشحات). افتحه للاستعادة.",
   "\"%s\" has a saved session. Open the file to restore cursor, bookmarks and filters.": "لـ «%s» جلسة محفوظة. افتح الملف لاستعادة المؤشر والإشارات المرجعية والمرشحات.",
-  "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).": "لا توجد جلسة محفوظة لهذا الملف بعد. بعد فتحه استخدم الجلسة → حفظ الجلسة الآن (Ctrl+Alt+S)."
+  "No session saved for this file yet. After you open it, use Session → Save session now (Ctrl+Alt+S).": "لا توجد جلسة محفوظة لهذا الملف بعد. بعد فتحه استخدم الجلسة → حفظ الجلسة الآن (Ctrl+Alt+S).",
+  "RECENT UPDATES (v3.0.5.275 – v3.0.5.280)": "التحديثات الأخيرة (v3.0.5.275 – v3.0.5.280)",
+  "---------------------------------------------------------------": "---------------------------------------------------------------",
+  "  UTF-16 LE files display and save with correct line breaks;": "  تُعرض ملفات UTF-16 LE وتُحفظ بفواصل أسطر صحيحة؛",
+  "    the trailing blank line stays editable and paste is not doubled.": "    يبقى السطر الفارغ الأخير قابلاً للتحرير ولا يُضاعف اللصق.",
+  "  Main ribbon toggles use a soft ON face with a check mark;": "  تستخدم مفاتيح الشريط وجه ON ناعماً مع علامة صح؛",
+  "    click again closes that tab; tiles stay square.": "    النقر مرة أخرى يغلق علامة التبويب؛ وتبقى البلاطات مربعة.",
+  "  Recent Files shows a Saved session column and opens from the toolbar.": "  تُظهر الملفات الحديثة عمود الجلسة المحفوظة وتُفتح من شريط الأدوات.",
+  "  Close all is on the tab menu; soft selection and soft bookmarks keep readable text.": "  إغلاق الكل في قائمة علامات التبويب؛ الإبراز اللطيف والإشارات المرجعية تبقي النص مقروءاً.",
+  "  Ctrl+wheel zooms only the active tab; Shift+click selects a range": "  Ctrl+العجلة يكبّر علامة التبويب النشطة فقط؛ Shift+نقرة يحدد نطاقاً",
+  "    in the list and the checklist.": "    في القائمة وقائمة الاختيار.",
+  "RECENT UPDATES (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE files display and save with correct line breaks;\r\n    the trailing blank line stays editable and paste is not doubled.\r\n  Main ribbon toggles use a soft ON face with a check mark;\r\n    click again closes that tab; tiles stay square.\r\n  Recent Files shows a Saved session column and opens from the toolbar.\r\n  Close all is on the tab menu; soft selection and soft bookmarks keep readable text.\r\n  Ctrl+wheel zooms only the active tab; Shift+click selects a range\r\n    in the list and the checklist.": "التحديثات الأخيرة (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  تُعرض ملفات UTF-16 LE وتُحفظ بفواصل أسطر صحيحة؛\r\n    يبقى السطر الفارغ الأخير قابلاً للتحرير ولا يُضاعف اللصق.\r\n  تستخدم مفاتيح الشريط وجه ON ناعماً مع علامة صح؛\r\n    النقر مرة أخرى يغلق علامة التبويب؛ وتبقى البلاطات مربعة.\r\n  تُظهر الملفات الحديثة عمود الجلسة المحفوظة وتُفتح من شريط الأدوات.\r\n  إغلاق الكل في قائمة علامات التبويب؛ الإبراز اللطيف والإشارات المرجعية تبقي النص مقروءاً.\r\n  Ctrl+العجلة يكبّر علامة التبويب النشطة فقط؛ Shift+نقرة يحدد نطاقاً\r\n    في القائمة وقائمة الاختيار."
 }

@@ -10,7 +10,7 @@ const
   APPLICATION_NAME = 'FastFile';
   APPLICATION_EDITION = 'Professional';
   APPLICATION_DISPLAY_NAME = APPLICATION_NAME + ' ' + APPLICATION_EDITION;
-  APPLICATION_VERSION = '3.0.5.274';
+  APPLICATION_VERSION = '3.0.5.280';
   APPLICATION_FULLNAME = 'Professional editor for huge text files';
   APPLICATION_DEVELOPER = 'Copyright (c) 2025 - 2026, Hamden Vogel.' + #13#10 + 'All rights reserved.';
   ASKIN_INI = 'ASkin.ini';
@@ -211,9 +211,11 @@ const
   { Bookmarks, marks, menu bitmaps }
   IMAGELIST_IDX_ZOOM_LIST = 91;
   FF_MENU_BMP_ZOOM_LIST = '__ff_zoom_list.bmp';
-  FF_BOOKMARK_ROW_BG = $00A05000;
-  FF_BOOKMARK_ROW_FG = clWhite;
-  FF_BOOKMARK_STRIPE = $006E3700;
+  { Soft bookmark wash: peach cream + dark text. Distinct from FF_ROW_SEL_BG
+    (pale blue) and FF_TAIL_NEW_ROW_BG (green). Not clHighlight. TColor is BGR. }
+  FF_BOOKMARK_ROW_BG = TColor($00DDF4FF); { RGB(255,244,221) soft peach }
+  FF_BOOKMARK_ROW_FG = clWindowText;
+  FF_BOOKMARK_STRIPE = TColor($005898C8); { RGB(200,152,88) soft caramel }
   FF_TAIL_NEW_ROW_BG = $00C8FFC8;
   { Selected file row: pale blue, normal text. Not clHighlight. }
   FF_ROW_SEL_BG = TColor($00F2DCC4);
@@ -453,7 +455,60 @@ const
     '*******************************************************'#13#10 +
     ''#13#10 +
     '-------------------------------------------------------'#13#10 +
-    '  v3.0.5.274  (2026-11-18)  (current)'#13#10 +
+    '  v3.0.5.280  (2026-11-24)  (current)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Ribbon, Recent Files, tabs, soft selection and UTF-16:'#13#10 +
+    '    UTF-16 LE files display and save with correct line breaks;'#13#10 +
+    '      trailing blank lines stay editable; paste is not doubled.'#13#10 +
+    '    Main ribbon toggles use a soft ON face with a check mark;'#13#10 +
+    '      click again closes the open tab; tiles stay square.'#13#10 +
+    '    Recent Files shows a Saved session column and opens from the'#13#10 +
+    '      toolbar; Close all is on the tab menu.'#13#10 +
+    '    Soft row selection and soft bookmarks keep dark readable text;'#13#10 +
+    '      Ctrl+wheel zooms only the active tab; Shift+click selects a'#13#10 +
+    '      range in the list and the checklist; RTL column paint is fixed.'#13#10 +
+    '    F1 and all 30 UI languages updated.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.279  (2026-11-24)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Soft bookmarks and Shift+range selection:'#13#10 +
+    '    Bookmarked rows use a peach wash with dark text; Shift+click'#13#10 +
+    '      selects a range in the file list and the checklist; RTL keeps'#13#10 +
+    '      Edit/Delete chips and line labels in the right column slice.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.278  (2026-11-22)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Close all, soft selection and per-tab zoom:'#13#10 +
+    '    Tab menu Close all (with restore hints); pale-blue soft'#13#10 +
+    '      selection instead of system highlight; Ctrl+wheel zooms only'#13#10 +
+    '      the active tab; tab-strip skin refresh no longer sticks magenta.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.277  (2026-11-22)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Recent Files session column:'#13#10 +
+    '    Toolbar Recent Files; Saved marker when cursor/bookmarks/filters'#13#10 +
+    '      can be restored; hints for open / no session yet.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.276  (2026-11-22)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  Main ribbon toggle polish:'#13#10 +
+    '    Soft cream ON face, warm frame and green check; click an ON'#13#10 +
+    '      toggle to close that tab; square tiles keep captions readable.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.275  (2026-11-18)  (internal)'#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  UTF-16 LE display and edit round-trips:'#13#10 +
+    '    Detect wide encodings and EOL correctly; write real UTF-16'#13#10 +
+    '      line breaks on save; keep the trailing blank line editable;'#13#10 +
+    '      stop Ctrl+V from pasting twice in the line editor.'#13#10 +
+    ''#13#10 +
+    '-------------------------------------------------------'#13#10 +
+    '  v3.0.5.274  (2026-11-18)'#13#10 +
     '-------------------------------------------------------'#13#10 +
     '  Search panels, list tools and RTL dialogs:'#13#10 +
     '    Find / Filter / Bookmarks stack as an accordion with a loading'#13#10 +

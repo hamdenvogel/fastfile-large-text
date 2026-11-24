@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "736": "Python is the proper name of the programming language and is used as a technical label.",
     "962": "Unicode is the formal name of the character-encoding standard; U+ is its canonical notation.",
@@ -3515,6 +3515,7 @@
     "3483": "Bu oturum için kayıtlı açık sekme bulunamadı.",
     "3484": "Sekmeler geri yüklendi",
     "3485": "Son oturumdan %d sekme geri yüklendi.",
-    "3486": "Son dosyalar"
+    "3486": "Son dosyalar",
+    "3487": "SON GÜNCELLEMELER (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE dosyaları doğru satır sonlarıyla görüntülenir ve kaydedilir;\r\n    sondaki boş satır düzenlenebilir kalır ve yapıştırma ikiye katlanmaz.\r\n  Ana şerit düğmeleri yumuşak bir ON yüzü ve onay işareti kullanır;\r\n    tekrar tıklamak sekmeyi kapatır; döşemeler kare kalır.\r\n  Son dosyalar Kaydedilmiş oturum sütununu gösterir ve araç çubuğundan açılır.\r\n  Tümünü kapat sekme menüsündedir; yumuşak seçim ve yer imleri metni okunaklı tutar.\r\n  Ctrl+tekerlek yalnızca etkin sekmeyi yakınlaştırır; Shift+tıklama listede ve\r\n    denetim listesinde bir aralık seçer.\r\n"
   }
 }

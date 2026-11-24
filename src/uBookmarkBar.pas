@@ -92,6 +92,8 @@ type
     procedure BtnPageNextClick(Sender: TObject);
     procedure ListClick(Sender: TObject);
     procedure ListDblClick(Sender: TObject);
+    procedure ListDrawItem(Control: TWinControl; Index: Integer; Rect: TRect;
+      State: TOwnerDrawState);
     procedure FireJump;
     procedure TitleMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -571,13 +573,17 @@ begin
   FList.Parent := FListInner;
   FList.Align := alClient;
   FList.BorderStyle := bsNone;
+  FList.Style := lbOwnerDrawFixed;
+  FList.ItemHeight := FfPx(18);
   FList.ParentFont := False;
   FList.Font.Name := UiFont;
   FList.Font.Size := 9;
   FList.Font.Color := CTitle;
   FList.Color := CWindow;
+  FList.DoubleBuffered := True;
   FList.OnClick := ListClick;
   FList.OnDblClick := ListDblClick;
+  FList.OnDrawItem := ListDrawItem;
   BidiKeepLtr(FList); { bookmark entries show raw file lines }
   HookListWheel(FList);
 end;
@@ -745,7 +751,12 @@ begin
     FEdtFilter.Font.Color := CTitle;
   end;
   if Assigned(FList) then
+  begin
     FList.Color := CWindow;
+    FList.Font.Name := UiFont;
+    FList.Font.Color := CTitle;
+    FList.ItemHeight := FfPx(18);
+  end;
   StyleBtn(FBtnPrev, UiFont, spbrAction);
   StyleBtn(FBtnNext, UiFont, spbrPrimary);
   StyleBtn(FBtnRemove, UiFont, spbrQuiet);
@@ -1140,6 +1151,45 @@ end;
 procedure TFastFileBookmarkBar.ListDblClick(Sender: TObject);
 begin
   FireJump;
+end;
+
+procedure TFastFileBookmarkBar.ListDrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+var
+  LB: TListBox;
+  C: TCanvas;
+  TR, Bar: TRect;
+  S: string;
+  Sel: Boolean;
+  Flags: UINT;
+begin
+  if not (Control is TListBox) then Exit;
+  LB := TListBox(Control);
+  C := LB.Canvas;
+  Sel := odSelected in State;
+  if Sel then
+    C.Brush.Color := FF_ROW_SEL_BG
+  else
+    C.Brush.Color := CWindow;
+  C.FillRect(Rect);
+  if Sel then
+  begin
+    Bar := Rect;
+    Bar.Right := Bar.Left + FfPx(3);
+    Bar := BidiRect(Bar, LB.ClientWidth);
+    C.Brush.Color := FF_BOOKMARK_STRIPE;
+    C.FillRect(Bar);
+  end;
+  if (Index < 0) or (Index >= LB.Items.Count) then Exit;
+  S := LB.Items[Index];
+  TR := Rect;
+  InflateRect(TR, -FfPx(6), 0);
+  C.Font.Assign(LB.Font);
+  C.Font.Color := CTitle;
+  C.Brush.Style := bsClear;
+  Flags := DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS;
+  Flags := UINT(LB.DrawTextBiDiModeFlags(Longint(Flags)));
+  Windows.DrawText(C.Handle, PChar(S), Length(S), TR, Flags);
 end;
 
 procedure TFastFileBookmarkBar.BtnPrevClick(Sender: TObject);

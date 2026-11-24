@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "2": "Version is the same word in Danish, and FastFile and AI stay as tokens.",
     "91": "Find is the same word in Danish.",
@@ -3568,6 +3568,7 @@
     "3483": "Ingen gemte åbne faner blev fundet for denne session.",
     "3484": "Faner gendannet",
     "3485": "%d fane(r) fra sidste session blev gendannet.",
-    "3486": "Seneste filer"
+    "3486": "Seneste filer",
+    "3487": "SENESTE OPDATERINGER (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE-filer vises og gemmes med korrekte linjeskift;\r\n    den afsluttende tomme linje forbliver redigerbar, og indsættelse fordobles ikke.\r\n  Båndkontakter bruger en blød ON-flade med flueben;\r\n    nyt klik lukker fanen; fliserne forbliver kvadratiske.\r\n  Seneste filer viser kolonnen Gemt session og åbnes fra værktøjslinjen.\r\n  Luk alle er i fanemenuen; blød markering og bogmærker holder teksten læsbar.\r\n  Ctrl+hjul zoomer kun den aktive fane; Shift+klik vælger et interval\r\n    i listen og tjeklisten.\r\n"
   }
 }

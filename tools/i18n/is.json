@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "28": "No translatable words.",
     "149": "The token AI is kept unchanged.",
@@ -3522,6 +3522,7 @@
     "3483": "Engir vistaðir opnir flipar fundust fyrir þessa lotu.",
     "3484": "Flipar endurheimtir",
     "3485": "%d flipi/flipar úr síðustu lotu voru endurheimtir.",
-    "3486": "Nýlegar skrár"
+    "3486": "Nýlegar skrár",
+    "3487": "NÝLEGAR UPPFÆRSLUR (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE skrár birtast og vista með réttum línuskilum;\r\n    lokatóm línan er áfram breytanleg og líming tvöfaldast ekki.\r\n  Aðalborðarrofar nota mjúkt ON-yfirborð með hak;\r\n    ný smellir lokar flipanum; flísar haldast ferningslaga.\r\n  Nýlegar skrár sýna dálkinn Vistað setu og opnast af verkfærastikunni.\r\n  Loka öllu er í flipavalmyndinni; mjúk val og bókamerki halda texta læsilegum.\r\n  Ctrl+hjól aðdráttar aðeins virka flipann; Shift+smellur velur bil\r\n    á listanum og gátreitlistanum.\r\n"
   }
 }

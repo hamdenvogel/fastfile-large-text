@@ -38,8 +38,8 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
         <VerInfo_Release>5</VerInfo_Release>
-        <VerInfo_Build>274</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.5.274;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.5.274;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
+        <VerInfo_Build>280</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=Hamden Vogel;FileDescription=FastFile Professional;FileVersion=3.0.5.280;InternalName=FastFile;LegalCopyright=Copyright (c) 2025-2026;OriginalFilename=FastFile.exe;ProductName=FastFile Professional;ProductVersion=3.0.5.280;Comments=Professional high-performance editor for huge text files</VerInfo_Keys>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <Icon_MainIcon>FastFile.ico</Icon_MainIcon>
     </PropertyGroup>

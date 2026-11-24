@@ -1,236 +1,379 @@
 # FastFile Professional
 
-**Version 3.0.5.274**
+**Version 3.0.5.274** · **Professional editor for huge text files**
 
-FastFile Professional is a viewer and line editor for very large plain-text files. It does not load the whole file into memory. On open, it builds a compact line-offset index and reads only the windows it needs. Heavy work runs in the background, and changes are written to a temporary file before they replace the original.
+## Built for files that stall ordinary editors
 
-The screenshots below were taken with the English (United States) interface and the Notes Plastic skin. Several views use a 165,062-line CSV that opened in about 144 milliseconds on one read thread. The interface is available in 30 languages.
+**FastFile Professional** is a native Windows desktop product for multi-gigabyte logs, CSV/TSV exports, SQL dumps, and other production extracts. It does not load the whole file into RAM. A compact **line-offset index** and **memory-mapped I/O (MMF)** let you open, scroll, search, and edit only the windows you need — so a very large file can stay responsive on a normal workstation.
 
-Each section below is a title, a screenshot, and a short description you can place on the product site.
+It is aimed at **analysts, DBAs, developers, and support teams**: **atomic writes** (temp file, then swap), a full **session history**, **Python macros**, an **AI agent that writes only after you accept**, **AI diagnosis** that only reads, **data anonymization** with preview and undo, and a **30-language** UI with **RTL** for Arabic and Hebrew.
+
+In the gallery below, a **165,062-line** CSV opens in about **131–144 ms** on one read thread — the same path that scales well past what fits in memory.
 
 ---
 
-## Main form — ready for a huge file
+## Key product topics
+
+Site-ready chips / hero badges (short labels). Use as-is on cards, comparison rows, or the feature strip.
+
+| Topic | One-line meaning |
+|---|---|
+| **TB / GB Files — Full Edition** | Open, scroll, search, and edit multi-gigabyte (and larger) text without loading the whole file into RAM |
+| **Strong AI Support** | AI diagnosis (read-only) + AI agent (proposals first; write only after you accept) |
+| **Full Python Integration** | `transform(line, ctx)` macros, Script Examples, preview, Tail macros on growing files |
+| **30 Languages — Fully Translated** | Complete UI in 30 languages, including Arabic and Hebrew with RTL chrome |
+| **MMF + Line Index Engine** | Memory-mapped I/O and a compact line-offset index for the visible window only |
+| **Zero Scan / Instant Open** | Open huge files fast when a full pre-scan is too costly |
+| **Review Before Write** | Previews and proposals first; disk updates use temp file + atomic swap |
+| **Atomic Safe Edits** | Background work, undo / session log, recoverable mid-edit path |
+| **Anonymize with Preview** | Same-shaped fakes for numbers, dates, emails, codes, names — side by side before commit |
+| **Session History** | Save / load, read-only session, before/after on changes, exportable history |
+| **CSV / Column Mode** | Delimited files as a grid; optional AI help on column layout |
+| **Split · Merge · Compare** | Equal parts, split by lines/pattern, merge files/lines, compare + history apply |
+| **Search Suite Built In** | Find, Occurrences, Filter, Bookmarks, and glob/grep — no external shell required |
+| **Select (Checkbox) Mode** | Tick lines for export, translate, anonymize, edit, merge, Ask AI, and Python macros |
+| **Native Windows Desktop** | Delphi / Win32–Win64 app with AlphaSkins and Custom PPI (not a web wrapper) |
+| **Skins + Custom PPI** | AlphaSkins (e.g. Notes Plastic) and per-app UI scale for high-DPI monitors |
+
+**Suggested hero chip strip (short):**  
+`TB/GB Files` · `Strong AI` · `Full Python` · `30 Languages` · `Review Before Write` · `Native Windows`
+
+---
+
+## What you get in practice
+
+| Need | How FastFile helps |
+|---|---|
+| Open a large file without waiting forever | Line index + MMF; **Zero Scan / Instant Open** when a full pre-scan is too costly |
+| Edit without risking a half-written original | Background work, **atomic rewrite**, undo / session log, recoverable mid-edit path |
+| Search and narrow the view | Find, Filter, Bookmarks, built-in **glob/grep**, segmented heavy ops for large replaces |
+| Split, merge, compare | Equal parts, Split by lines / pattern, Merge files, Merge lines, Compare / merge + history |
+| Automate and ask | Python `transform(line, ctx)`, Tail macros, **AI agent** (proposals first), **AI diagnosis** (read-only) |
+| Prepare shareable data | **Anonymize** with consistent keys, header options, column rules, estimated undo size |
+| Work in your language | **30 UI languages**, recent-language picker with flags, **RTL chrome** with LTR file text |
+
+Most editors try to own the entire buffer. FastFile owns the **index and the visible window**, then builds the rest of the suite on that foundation.
+
+---
+
+## Strengths worth highlighting
+
+- **Large files without a full RAM load** — Index by line; map what is on screen. Instant Open / Zero Scan when a dense first pass is not practical.
+- **Review before write** — Splits, anonymize, Python preview, and AI proposals show the plan first. Disk updates use temp + swap; equal rows stay untouched on apply.
+- **Search in one place** — Occurrences, Filter, Bookmarks, and glob/grep stay inside the app; grep can mark hits or search only marked lines.
+- **Toolbar file tools** — Merge files, Equal parts, Split files, Merge lines, Pattern/Regex, Extract Frequent Strings, Delete Duplicate Lines.
+- **Python on the open lines** — Script Examples beside the editor; all visible or selected/checked lines; Tail can transform new lines as they arrive.
+- **Clear AI roles** — Diagnosis explains; the agent proposes. You choose the sources; nothing is written until you accept.
+- **Anonymize with a preview** — Numbers, dates, emails, codes, and names, side by side, before commit.
+- **Session and history** — Save/load, read-only session, before/after on changes, exportable history.
+- **CSV / Column mode** — Delimited files as a grid; optional AI help on column layout.
+- **Skins, scale, locale** — AlphaSkins (e.g. Notes Plastic), Custom PPI, 30 languages, RTL for Arabic and Hebrew.
+
+---
+
+## Screenshot gallery
+
+Screenshots use the **English (United States)** UI and the **Notes Plastic** skin. Each section is a title, an image, and a short description for the product site.
+
+---
+
+## 01 — Main form
 
 ![Main form idle workspace with top toolbar](images/01-main-workspace.png)
 
-The main form is the home screen when no file is open yet. The center shows the FastFile Professional mark and tagline. The top toolbar keeps the daily actions in one place: Recent files, Read, Merge files, Equal parts, Split files, Merge lines, Compare / merge, More tools, Python macro, AI agent, AI diagnose, and About.
-
-The status bar reports system ready state, the UI language, mode (TEXT), wrap, tail, filter, bookmarks, reading mode, line and column, line count, view encoding, and zoom. Skin and custom PPI sit on the right of the toolbar so you can match the look to your monitor before you open a file.
+The home screen before a file is open: product mark, tagline, and the **top toolbar** (Recent files, Read, Merge files, Equal parts, Split files, Merge lines, Compare / merge, More tools, Python macro, AI agent, AI diagnose, About). The status bar shows language, mode, wrap, tail, filter, bookmarks, line/column, encoding, and zoom. Skin and Custom PPI sit on the right so you can set look and scale first.
 
 ---
 
-## Recent files tab — pick up where you left off
+## 02 — Recent files
 
-![Recent Files / Folders tab with session column](images/18-recent-files.png)
+![Recent Files / Folders tab with session column](images/02-recent-files.png)
 
-**Recent files (Alt+R)** opens a welcome-style tab with two lists: recent files on the left and recent folders on the right. Each file row shows name, folder, size, modified time, last loaded time, and a Session column. **Saved** means cursor position, bookmarks, and filters can be restored when you reopen that file. Use the **X** on a row to remove it from the list.
-
-From here you can **Open File…**, **Open Selected**, or **Close** the tab. Check **Don't show this screen on startup** if you prefer to land on the idle main form instead. The same top toolbar stays available so you can jump straight into Read, merge, split, Python macro, or the AI tools.
+**Recent files (Alt+R)** lists recent files and folders. Columns cover name, folder, size, modified, last loaded, and **Session** — **Saved** means cursor, bookmarks, and filters can restore on reopen. Open File…, Open Selected, or Close; optionally hide this screen on startup.
 
 ---
 
-## Read file tab — browse a huge file without loading it all
+## 03 — Read file
 
-![Read File tab with a large CSV open](images/19-read-file.png)
+![Read File tab with a large CSV open](images/03-read-file.png)
 
-**Read** opens the **Read File** tab around the file you chose. The path bar, read time, total line count, and read-thread count sit above the list. In this shot a 165,062-line CSV opened in 144 milliseconds on one thread.
-
-The **File toolbar** keeps the day-to-day line tools close: Read (F5), Select, Export, Search tools, Help, plus Word Wrap, Line Hints, and AI Assistant. The line list shows numbered rows you can select, copy, export, translate, anonymize, or edit without pulling the whole file into memory. Find and thread controls stay on the same strip so you can search and retune the read without leaving the tab.
+**Read** opens the file in **Read File**: path, read time, line count, and thread count above the list. This 165,062-line CSV opened in **144 ms** on one thread. The File toolbar keeps Read (F5), Select, Export, Search tools, Help, Word Wrap, Line Hints, and AI Assistant next to the numbered lines — without loading the whole file into memory.
 
 ---
 
-## Help and feature reference, inside the application
+## 04 — Word Wrap
 
-![Help and Feature Reference dialog](images/02-help-reference.png)
+![Read File with Word Wrap ON and wrapped CSV rows](images/04-word-wrap.png)
 
-Help (F1) opens a built-in reference for the current version. It lists the menu shortcuts and the commands you use every day: open a file, reopen recent files, switch to a read-only session, find and replace, go to a line or a byte offset, and undo.
-
-The same dialog can be copied or exported, so a team can keep the shortcut list next to the product.
+**Word Wrap (Ctrl+W)** folds long lines inside each row so wide CSV cells and URLs stay readable. The toolbar shows **Word Wrap (ON)**; the status bar shows **Wrap: ON**. One logical line still maps to one line number. Turn wrap off for a single horizontal line per row.
 
 ---
 
-## Search tools in one menu
+## 05 — Select (checkbox list)
 
-![Search tools menu](images/03-search-tools.png)
+![Select mode with checkboxes on lines 5, 10, and 15](images/05-select-checkbox.png)
 
-Search tools gathers the three ways to look through an open file:
-
-- **Find (Occurrences)** lists every match, page by page.
-- **Filter / Grep** narrows the line list to the rows you care about.
-- **Bookmarks** keeps the lines you want to return to.
-
-Each tool also opens the built-in glob and grep command window.
+**Select (Ctrl+Shift+S)** adds a checkbox per row (**Reading: CHECK**). Tick the lines you need (here 5, 10, and 15); Export, Translate, Anonymize, Edit lines, Merge lines, Ask AI, and Python macros can target that set. Available on the File toolbar and under **View › Select (checkbox list)**.
 
 ---
 
-## Read file tab with Find (Occurrences) panel
+## 06 — Context menu
 
-![Read File tab with Occurrences find panel open](images/04-find-occurrences.png)
+![Read File context menu with edit, search, and AI commands](images/06-context-menu.png)
 
-On the **Read File** tab, **Find** opens the **Occurrences** panel beside the line list. Type a term, click **Find**, then use **Previous (Shift+F3)** and **Next (F3)** to walk the hits. **Show all in list** builds the full match list; **grep** and **glob** jump to the command window; **Clear** and **Close** reset or dismiss the panel.
-
-In this shot a search for `allyne` lands on line 13, with the match highlighted in the row while the surrounding CSV lines stay visible. The status bar echoes the same “Found at line …” message so you can keep reading without leaving the file.
+Right-click a row for the **context menu**: insert/edit/delete lines, export, anonymize, find/replace, go to line or offset, wrap, Select, bookmarks, CSV mode, Tail, Filter, Compare / merge, and AI commands — with shortcuts listed. Useful when focus is already on the list.
 
 ---
 
-## Filter — keep only the lines that match
+## 07 — UI scale (PPI)
 
-![Filter applied on Read File for “ana paula”](images/13-filter.png)
+![Auto scaling popup with Custom PPI slider](images/07-ui-scale-ppi.png)
 
-**Filter** narrows the **Read File** line list to rows that contain the text you typed. The funnel control stays active while a filter is on; line numbers in the list stay the original file indices, so you still know where each hit lives. The rest of the file stays on disk.
-
-In this example the filter is `ana paula`. Only matching CSV rows remain visible (for example lines 8, 839, 977, …), each containing that name. Clear the filter to restore the full 165,062-line list. Export and the other line tools still apply to the filtered view.
+**Auto scaling** next to the skin sets **Custom PPI** (72–288; here 105) or restores Windows DPI. Preferences can store the same default (0 = system DPI). Adjust FastFile alone when the UI feels too small or large on a high-DPI monitor.
 
 ---
 
-## Built-in glob and grep, without a command shell
+## 08 — 30 UI languages
 
-![glob and grep command window](images/05-grep-glob.png)
+![Recent languages picker with flags and partial search](images/08-ui-languages.png)
 
-The glob / grep window is FastFile’s own search language. It does not start a shell or an external program. You describe the search in plain language, or you type a command such as a case-insensitive grep, a path glob, or a regular expression.
-
-The window includes ready-made examples: literal text, whole words, inverted matches, searches limited to bookmarked lines, and globs that stay inside one folder or walk subfolders when the source settings allow it. Generate with AI drafts a command from the description. Nothing runs until you choose Run command, and the scan can be cancelled. Results are paged, and Open jumps back to the original line.
+The status-bar language control opens **Recent languages** — searchable, with flags. FastFile ships **30 UI languages** (including English, Portuguese BR/PT, Spanish, French, German, Italian, Polish, Romanian, Hungarian, Czech, Japanese, Simplified/Traditional Chinese, Arabic, Hebrew, Hindi, Russian, Korean, Dutch, Turkish, Ukrainian, Thai, Greek, Norwegian, Swedish, Danish, Icelandic, Finnish, Vietnamese). Arabic and Hebrew use RTL chrome; file text stays LTR. The list closes while the language loads.
 
 ---
 
-## Bookmarks for the lines you will need again
+## 09 — Right-to-left (RTL) UI
 
-![Bookmarks panel with one saved line](images/14-bookmarks.png)
+![Read File list mirrored for Arabic (RTL) layout](images/09-rtl-ui.png)
 
-Ctrl+B toggles a bookmark on the current line. The Bookmarks panel lists every saved line, and Prev and Next move between them (F2 and Shift+F2). You can remove one bookmark, clear the set, copy the list, or export it.
-
-Bookmarks also work with grep: a search can mark its hits, or it can search only the lines you have already marked. The open file must already have its line index, and a file can hold up to 10,000 bookmarks.
+In **Arabic** or **Hebrew**, forms and chrome mirror (RTL / BiDi). Headers and line labels sit on the right; in this Arabic view, **السطر** / **محتوى** mark line and content. **File text stays left to right** so CSV and URLs remain readable. Switch to any LTR language to restore the default layout.
 
 ---
 
-## Compare / merge tab — session history and apply
+## 10 — Help, About, and license
 
-![Compare / merge tab with session history](images/06-compare-session-history.png)
+![Help and Feature Reference dialog for v3.0.5.274](images/10-help-reference.png)
 
-**Compare / merge (Ctrl+Shift+H)** opens the **Compare / merge + session history** tab. Pick the file, **Reload** or **Clear history**, and optionally show all session log entries or **Changed lines only**. A color legend marks Inserted, Deleted, Edited, Undo/Redo, and Equal.
+**Help (F1)** opens **Help & Feature Reference** for the current build (**3.0.5.274**): shortcuts for open, recent files, read-only session, wrap, find/replace, go to line/offset, undo/redo, and more. **Copy** and **Export…** keep a team copy of the list.
 
-The left list is **Changed lines**; the right list is **Session events** for the selected line (with a date filter). Below that, **History file preview** colors the surrounding rows so you can see edits in context. Export filters (Inserted, Deleted, Edited, Undo/Redo, equal) sit under the preview. Nothing is written back to disk until you use the **Apply** actions; green (equal) rows are ignored.
+![About window with GPL license text](images/11-about-license.png)
 
----
+The branded **About** view shows the mark, copyright, and the full **GNU GPL v3** text, plus registered edition notes, Windows XP–11, and Win32/Win64.
 
-## Split a large file into line ranges
+![About FastFile Professional with version and build time](images/12-about-fastfile.png)
 
-![Split by files planner](images/07-split-files.png)
-
-Split by files plans how a large file will be divided before anything is written. The planner shows the source size (here, 165,062 lines and 28,706,014 characters), the output folder, and each planned piece with its line range and name.
-
-You choose how many output files to create, then adjust each piece before anything is written. Confirm is a separate step. Until you take it, the original file is unchanged.
+**About FastFile Professional** states **v3.0.5.274 (64-bit)**, build time, developer, and contact, with a short GPL notice and the same Copy / Export / Close actions.
 
 ---
 
-## Split files tab — copy a line range into a new file
+## 11 — Search tools menu
 
-![Split File tab, Split by Lines with from-and-to range](images/15-split-by-lines.png)
+![Search tools dropdown on the File toolbar](images/13-search-tools.png)
 
-**Split files (Ctrl+Shift+K)** opens the **Split File** tab. **Split by Lines** copies one continuous range out of the open file into a new file. File Info shows the source path, total lines, total characters, and creation date. You set **From**, **To**, and the output file name. In this shot the range is lines 1 through 20,000 of the 165,062-line CSV (about 12% of the file), written beside the source as a `-copy` file. A preview lists the first lines of that range, with the same line tools as elsewhere (Copy, Clear, Export, Translate, Anonymize, Edit lines, Merge lines, Ask AI).
-
-From must be at least 1, To must be at least From, and To cannot pass the last line of the file. The output file must have a name, and it must be a different file from the source. If you type only a file name, FastFile saves it in the source folder. **Ask AI** can review the current range and the output path before you run anything.
-
-**Execute** does not load the whole file. It reads the existing line-offset index, maps only the byte range those lines occupy, and writes that slice through a buffered writer on a background thread, with a progress window. The source file is left unchanged. When the write finishes, the same confirmation used by other generated files opens for this one file.
+**Search tools** on the File toolbar opens Find (Occurrences), Filter / Grep, and Bookmarks in one menu (plus a quick find field). The same three actions also sit on the bottom strip of Read File.
 
 ---
 
-## Confirmation after a file is written
+## 12 — Find (Occurrences)
 
-![File created successfully](images/16-file-created.png)
+![Read File tab with Occurrences find panel open](images/14-find-occurrences.png)
 
-File created successfully is the shared result window for a generated file: a split, an export, or another write that produces a new path. It reports the size and the elapsed time. This run wrote an 865-byte copy in 355 milliseconds.
-
-The file is shown as a card. Click the card, or “Click here to open the generated file,” to open it in FastFile. Open with the default Windows program hands it to the associated application. Open folder shows the containing folder, and Copy path puts the full path on the clipboard (the button then reads Copied). FastFile remembers the last generated file for the session, so you can open this window again from Last generated file. If that file has since been removed, the window says so.
-
-When an operation writes several files, such as the parts of a split, the same window lists them. The title becomes “N files created successfully,” the subtitle shows the total size and the time, and each row can be opened in FastFile. Up to eight files are listed; the rest are counted as additional files in the folder.
+**Find** opens the **Occurrences** panel: type a term, Find, then Previous (Shift+F3) / Next (F3). Show all in list builds the full hit list; grep/glob open the command window. Here `allyne` lands on line 13 with the match highlighted; the status bar repeats the find message.
 
 ---
 
-## Merge files tab — join parts or insert a source
+## 13 — Filter
 
-![Merge files tab with destination and source paths](images/17-merge-files.png)
+![Filter applied on Read File for “ana paula”](images/15-filter.png)
 
-**Merge files (Ctrl+Shift+J)** opens its own tab. Set a **Destination file** and a **Source file** (type the path, use the picker, or drag the source onto the window). Esc closes the tab without writing.
-
-Three insert modes are available: at the beginning (first line), after a destination line, or at the end of the destination. “After a line” uses the destination’s line index, so the destination must already be open and must have at least two lines. The line you choose must fall between 1 and the last line minus one. **Merge the file into itself** uses the destination as the source and locks the source field. **Copy only a specific range of lines** takes a From and To on the source; both ends are checked against that file’s real line count, and the range is what gets inserted.
-
-To reunite equal-split files, pick any `.part001` / `.part002` file as Source and set Destination. Confirm then finds the consecutive siblings in the same folder, joins them in order, and writes the result. If that destination already exists, FastFile asks before replacing it. A single leftover part is not treated as a set.
-
-A normal merge checks that both files exist and can be opened, estimates the disk space the write will need, and keeps an undo backup before the background merge starts. Inserting at the end can append directly. Any other position is written to a temporary file and then replaces the destination. When it finishes, FastFile refreshes the open file and offers a short summary. **Ask AI**, **Confirm**, and **Cancel** sit on the tab so you can review the plan before anything is written.
+**Filter** keeps only rows that contain your text. Line numbers stay the original file indices. Example: `ana paula` leaves matching rows (8, 839, 977, …) visible; clear restores all 165,062 lines. Export and other line tools still apply to the filtered view.
 
 ---
 
-## Merge lines tab — stage line replacements, then write
+## 14 — Built-in glob and grep
 
-![Merge lines tab with staged line numbers and content](images/20-merge-lines.png)
+![glob and grep command window](images/16-grep-glob.png)
 
-**Merge lines (Ctrl+Shift+M)** opens a tab where you stage replacements by line number before anything hits disk. The note at the top states the working limit (default **1000** lines). Enter a **Line Number** and the new **Content**, then **Add/Update** to put the row in the list. Select a row to edit it again. **Copy** and **Remove** manage the staged rows; **Merge** applies them to the open file; **Cancel** discards the tab work without writing.
-
-In this shot three CSV rows are staged (lines 5, 6, and 9) with full replacement text ready. Use this when you already know which line numbers must change and want a clear review list before the write.
+FastFile’s glob/grep window runs **inside the app** — no external shell. Type a command or describe the search; examples cover literals, whole words, inverted matches, bookmarked lines, and folder globs. **Generate with AI** drafts a command; nothing runs until you choose Run. Scans are cancellable; results are paged; Open returns to the line.
 
 ---
 
-## Split when a line matches a pattern
+## 15 — Bookmarks
 
-![Split by pattern or regular expression](images/12-pattern-regex.png)
+![Bookmarks panel with several saved lines on Read File](images/17-bookmarks.png)
 
-Split by Pattern/Regex starts a new output file whenever a line matches a delimiter or a regular expression. FastFile samples the file (the first 1,000 non-empty lines in this view), detects a comma-separated layout, and names the engine it will use (VBScript.RegExp, without lookbehind).
-
-Suggest elements with AI can propose the pattern. Preview shows the planned split. Confirm is required before any file is created.
+**Bookmarks** lists marked lines (Ctrl+B toggles; star in the margin). Prev/Next, Remove, Clear all, Export, Copy, grep/glob, and a filter box. Here lines 9, 26, 30, and 44 are marked. Grep can mark hits or search only marked lines (up to 10,000 bookmarks per indexed file).
 
 ---
 
-## More tools for splitting, extracting, and finding files
+## 16 — Compare / merge
 
-![More tools gallery](images/11-more-tools.png)
+![Compare / merge tab with session history](images/18-compare-session-history.png)
 
-More tools groups the operations that sit beside the main toolbar:
-
-- **Pattern / Regex, Equal parts, and Extract parts** divide or pull sections out of a large file.
-- **Find Files** searches folders by name.
-- **Select skin** changes the visual theme. The screenshots on this page use Notes Plastic.
+**Compare / merge (Ctrl+Shift+H)** shows session history: Inserted, Deleted, Edited, Undo/Redo, Equal. Changed lines and session events sit side by side; the preview colors context. **Apply** writes; equal rows are skipped.
 
 ---
 
-## Python macros on the lines you can see
+## 17 — Equal parts
 
-![Python macro integration and script examples](images/08-python-macro.png)
+![Extract file parts / Equal parts tab](images/19-equal-parts.png)
 
-Python Macro Integration runs a `transform(line, ctx)` function over the open file. `line` is the current text. `ctx` carries state from one line to the next, including the 1-based line number. Return a string to keep the transformed line, or return nothing to drop it.
-
-Script Examples shows the contract next to the editor. You choose whether the script applies to every visible line or only to the lines you selected. Talk with AI can help you write the script. Run script is a separate action, and the output can be saved when you are ready.
+**Equal parts (Ctrl+Shift+P)** divides a source into N parts (2–1000) with optional header/footer. Boundaries are LF-safe; names follow `basename.part_N_of_M.ext`. Example: 8 parts, export part 1 of 8. Confirm writes; Cancel leaves the source alone.
 
 ---
 
-## AI diagnosis tab — read-only review of files and folders
+## 18 — Split by lines
 
-![AI diagnosis tab with sources, specialists, and Answer](images/09-ai-diagnosis.png)
+![Split File tab, Split by Lines with from-and-to range](images/20-split-by-lines.png)
 
-**AI diagnosis (Ctrl+Alt+U)** follows three steps: **1)** choose files or folders, **2)** describe what to diagnose and **Send**, **3)** review the answer. Sources sit on the left with mask, depth, max files, and include-subfolders. **Specialists** (Inventory, Content, Structure, SQL / tabular, and related checks) focus the review. The prompt area keeps recent requests, **Stop** / **Send**, and shortcuts such as Translate, Suggest, and **What can I do?**.
-
-Results use **Answer**, **Proposed edits**, **Revised prompt**, and **Files found**. Diagnosis itself does not change those files. Applying an edit belongs to the **AI agent**, and only after you accept the proposal.
+**Split files (Ctrl+Shift+K) › Split by Lines** copies a From–To range to a new file (here lines 1–20,000 ≈ 12% of the CSV). Preview uses the same line tools as the main list. **Execute** uses the line index and a background write — it does not load the whole file. Source stays unchanged.
 
 ---
 
-## AI agent tab — ask, review, then accept edits
+## 19 — File created
 
-![AI agent tab with sources, prompt, and Answer](images/10-ai-agent.png)
+![File created successfully](images/21-file-created.png)
 
-**AI agent (Ctrl+Alt+G)** follows three steps on one tab: **1)** add files or folders, **2)** describe what you want and **Send**, **3)** read the answer and review edits. Sources sit on the left (Add files/folder, filter, Recent, include subfolders, file mask, max depth, max files). The prompt area keeps recent requests, **Stop** / **Chat** / **Send**, and shortcuts such as Translate, Suggest, and **What can I do?**.
+Shared success dialog after a split, export, or similar write: size, elapsed time, open in FastFile, open with Windows default, open folder, copy path. Multi-file runs list up to eight paths. Last generated file is remembered for the session.
 
-Results use four panes: **Answer**, **Proposed edits**, **Revised prompt**, and **Files found**. In this shot the agent explains a Doctoralia Brazil CSV export without changing the file. Proposed edits stay proposals until you accept them. Access follows the sources you selected; naming a file in the command can narrow that list. It does not open files you did not authorize.
+---
+
+## 20 — Merge files
+
+![Merge files tab with destination and source paths](images/22-merge-files.png)
+
+**Merge files (Ctrl+Shift+J)** inserts a source into a destination (start, after a line, or end). Optional self-merge and source line range. Numbered `.part001`/`.part002` sets can be reunited in order. Checks existence and disk space, keeps an undo backup, then merges in the background. Ask AI / Confirm / Cancel before write.
+
+---
+
+## 21 — Merge lines
+
+![Merge lines tab with staged line numbers and content](images/23-merge-lines.png)
+
+**Merge lines (Ctrl+Shift+M)** stages replacements by line number (default limit 1000). Add/Update builds the list; Merge applies; Cancel discards. Use when you know the line numbers and want a clear review list first.
+
+---
+
+## 22 — Split by Pattern / Regex
+
+![Split file by Pattern/Regex with AI suggestions](images/24-pattern-regex.png)
+
+Starts a new output file when a line matches a pattern or regex. Samples the first 1,000 non-empty lines (here: comma, 13 fields); engine is **VBScript.RegExp** (no lookbehind). Suggest / Talk with AI can propose patterns; Preview then Confirm.
+
+---
+
+## 23 — More tools
+
+![More tools gallery](images/25-more-tools.png)
+
+**More tools** gathers Pattern/Regex, Equal parts, Extract parts, Find Files, and **Select skin** (these screenshots use Notes Plastic).
+
+---
+
+## 24 — Python macros
+
+![Python Macro Integration beside Script Examples on Read File](images/26-python-macro.png)
+
+**Python macro** on Read File: lines, Script Examples, and the editor. Write `transform(line, ctx)` — return a string to keep the line, or nothing to drop it. Scope: all visible or selected/checked lines. Examples, Talk with AI, Run script, Save output. Example: three selected lines with `return line.upper()`.
+
+![Script result preview wizard with Original vs Result](images/27-python-preview.png)
+
+**Script result preview** samples the run (here 3 OK), shows Original vs Result, then Generate output or Back. Full output goes to the script panel.
+
+---
+
+## 25 — Tail mode
+
+![Read File in Tail mode with Tail macro examples and Talk with AI](images/28-tail-macro.png)
+
+With **Tail** on, Read File follows a growing file. Tail macro examples and Talk with AI sit beside the list; optionally apply Python to new lines and reprocess. Same `transform` contract as the macro panel, on lines that arrive while you follow.
+
+---
+
+## 26 — AI diagnosis
+
+![AI diagnosis tab with sources, specialists, and Answer](images/29-ai-diagnosis.png)
+
+**AI diagnosis (Ctrl+Alt+U)** — choose sources, describe the question, review the answer. Specialists (Inventory, Content, Structure, SQL / tabular, …) focus the review. **Diagnosis does not change files**; edits go through the AI agent after accept.
+
+---
+
+## 27 — AI agent
+
+![AI agent tab with sources, prompt, and Answer](images/30-ai-agent.png)
+
+**AI agent (Ctrl+Alt+G)** — add sources, send a request, review Answer / Proposed edits / Revised prompt / Files found. Proposals stay proposals until you accept. Only selected sources are in scope.
+
+---
+
+## 28 — Extract Frequent Strings
+
+![Extract Frequent Strings dialog with count mode](images/31-extract-frequent-strings.png)
+
+**Tools › Filter and analysis › Extract Frequent Strings…** writes `string,count` for Lines, Words, or CSV cells, with a minimum count. Uses an MMF line scan (in-memory map or bucket spill) so large files need not load fully into RAM.
+
+---
+
+## 29 — Delete Duplicate Lines
+
+![Delete Duplicate Lines dialog with whole-line mode](images/32-delete-duplicate-lines.png)
+
+**Delete Duplicate Lines…** keeps the first copy of each key (**Whole line** or **CSV column**). Progress shows size, throughput, and ETA; disk space is checked before rewrite.
+
+---
+
+## 30 — Anonymize data
+
+![Anonymize data dialog with Original vs Anonymized preview](images/33-anonymize.png)
+
+**Anonymize (Ctrl+Alt+D)** replaces sensitive values with same-shaped fakes. Scope: selection, range, or whole file. Options: numbers, dates, emails, codes, names; consistent mapping; undo data. Preview Original vs Anonymized before **Anonymize…**.
+
+---
+
+## 31 — Insert multiple lines
+
+![Insert multiple lines dialog](images/34-insert-multiple-lines.png)
+
+Insert at a 1-based start line: blank lines, one repeated text, or different text per line (up to the configured default, e.g. 2000). Confirm writes; Cancel does not.
+
+---
+
+## 32 — CSV / Column mode
+
+![CSV / Column mode with View menu and column grid](images/35-csv-column-mode.png)
+
+**View › CSV / Column mode (Ctrl+Alt+V)** shows delimited files as a grid (headers as columns). Status: **Mode: CSV**. Related: show header as data, Ask the AI about these columns, Open / Zero Scan policy.
+
+---
+
+## 33 — Preferences
+
+![Preferences dialog with defaults and ranges](images/36-preferences.png)
+
+**Preferences** exposes MRU sizes, line hints, session history length, display PPI, AI agent timeouts/samples, and line limits for copy/export/edit/Ask AI/anonymize — each with range and default. Blank values fall back to defaults. Restore defaults / OK / Cancel.
+
+---
+
+## 34 — Session menu
+
+![Session menu open over Read File](images/37-session-menu.png)
+
+**Session**: read-only (Ctrl+Alt+R), save/load now, ask the AI about the session, and close tabs. Keeps browse/search safe when disk writes should stay blocked.
 
 ---
 
 ## Also on the main toolbar
 
-These actions are on the same workspace and use the same rule: plan and review first, then write.
+Same rule everywhere: **review the plan, then write.**
 
 | Action | What it is for |
 |---|---|
 | Export | Copy the current view or a result list out of FastFile. |
-| Anonymize | Mask sensitive values in the lines you choose. |
-| Read-only session | Browse and search with disk writes blocked (Ctrl+Alt+R). |
-| Skins and languages | Notes Plastic is one of the skins. The interface ships in 30 languages. |
+| Skins | Notes Plastic and other AlphaSkins from the toolbar list. |
+
+---
+
+## Summary
+
+FastFile Professional combines a **big-file engine** (index + MMF, optional Instant Open) with **safe edits**, **search and reshape tools**, **Python**, and **AI that stays under your review**. It is built for people who open production-size text every day and need the machine to stay usable.
+
+**FastFile Professional 3.0.5.274** — native Windows · 30 languages · skins and PPI · production-size text.

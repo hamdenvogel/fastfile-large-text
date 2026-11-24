@@ -692,6 +692,7 @@ Garantir que o modo indexado **não** regrediu (ver também §0).
 | 2026-09-09 | **v3.0.5.136–137:** §18 Validar fonte (Python/JS/JSX/TS/TSX); chat carregar/validar; `DOC_ASSISTENTE_IA_VALIDAR_FONTE.md`; `CodeCheck.exe`. |
 | 2026-09-16 | **v3.0.5.210:** 14 idiomas UI (JA + zh-CN/zh-TW); lazy-load i18n; Version History / F1 / docs sync. |
 | 2026-10-22 | **v3.0.5.233–239:** §19.8 edição rápida + Extrair + índice paralelo Win64; §19.9 código-fonte, perfil/alvos/macro do agente, «O que posso fazer?», Diagnóstico IA (Ctrl+Alt+U); F1 `FF_HELP.RecentFeaturesBlock3`. |
+| 2026-11-24 | **v3.0.5.275–280:** UTF-16 LE round-trip; ribbon ON suave; Recent Files com sessão; Fechar todas; seleção/marcadores suaves; zoom por aba; Shift+intervalo; F1 `FF_HELP.RecentFeaturesBlock10` (30 idiomas). |
 | 2026-11-18 | **v3.0.5.270–274:** Search Dock em acordeão; Mais só com painéis; diálogos RTL clicáveis; navegação First/página após Último; F1 `FF_HELP.RecentFeaturesBlock9` (30 idiomas). |
 | 2026-11-04 | **v3.0.5.269:** finlandês e vietnamita (30 idiomas). |
 | 2026-11-02 | **v3.0.5.266–268:** guia de próximos passos mais baixo; ícone de Ler no campo do caminho (à esquerda do X), com o desenho da barra; F1 `FF_HELP.RecentFeaturesBlock8`. |

@@ -1059,10 +1059,16 @@ type
     FLineAutofillStartY: Integer;
     FLineAutofillInsertCount: Integer;
     FLineAutofillDeferCtrl: Boolean;
+    { True = ao soltar sem arrastar aplica Shift+intervalo (ListView/checklist). }
+    FLineAutofillDeferShiftRange: Boolean;
     FLineAutofillDeferRow: Integer;
     FLineAutofillDeferX: Integer;
     FLineAutofillDeferY: Integer;
     FLineAutofillOnCheckList: Boolean;
+    { Ancora do ultimo clique simples na ListView (Shift+clique estende a partir daqui). }
+    FListViewAnchorIndex: Integer;
+    FLvShiftRangePending: Boolean;
+    FLvShiftRangeRow: Integer;
     { Icones Edit/Delete no canto direito da coluna Line # (hover / selecao). }
     FLvLineActionHoverRow: Integer;
     FLvLineActionHoverBtn: Integer; { 0=nenhum, 1=edit, 2=delete }
@@ -1077,6 +1083,7 @@ type
     { Cache por ciclo de WM_PAINT (evita GetScrollPos/ColWidth por linha). }
     FLvLineActionPaintCacheValid: Boolean;
     FLvLineActionPaintScrollOff: Integer;
+    FLvLineActionPaintCol0Left: Integer;
     FLvLineActionPaintCol0W: Integer;
     FLvScrollThumbDragging: Boolean; { scTrack: paint leve sem icones Edit/Delete }
     FLvNavPaintQueued: Boolean; { First/Last/Page: coalescer paint (1 I/O no fim) }
@@ -1185,6 +1192,9 @@ type
     { Shift+click na checklist: ancora da ultima linha marcada (1-based em Items.Objects). }
     FChecklistAnchorLine: Int64;
     FUpdatingChecklistChecks: Boolean;
+    { Shift+clique fora do checkbox: aplica intervalo no MouseUp se ClickCheck nao rodou. }
+    FChecklistShiftRangePending: Boolean;
+    FChecklistShiftRangeRow: Integer;
 
     { Encoding Detection }
     FDetectedEncoding: String;
@@ -1946,6 +1956,10 @@ type
       State: TCustomDrawState; const SubItemIndex: Integer): Boolean;
     // Helpers
     procedure SelectListViewItem(const Idx: Integer);
+    procedure ApplyListViewShiftRange(const HitRow: Integer);
+    procedure ApplyChecklistShiftRange(const CurLine1Based: Int64;
+      const WantChecked: Boolean);
+    procedure ApplyChecklistShiftClickAtRow(const HitRow: Integer);
     procedure OpenFileStreams(const AFileName: String; const AOpenLineIndexFiles: Boolean = True);
     procedure ReopenFileStreamsOnly(const AFileName: String; const AOpenLineIndexFiles: Boolean = True);
 
@@ -3567,6 +3581,12 @@ procedure FileStreamSeek64(const AStream: TFileStream; const AOffset: Int64; Ori
 procedure FastFileMainWatchdogCancelWorkers; forward;
 procedure ApplyReadListViewColumnOrder(LV: TListView); forward;
 function ReadListViewContentRect(LV: TListView; out R: TRect): Boolean; forward;
+{ Visual X of a report column (header item rect). RTL reorders the line
+  column to the right; LVM_GETSUBITEMRECT still reports the LTR slice. }
+function ReadListViewHeaderColumnX(LV: TListView; ACol: Integer;
+  out ALeft, AWidth: Integer): Boolean; forward;
+function RtlListViewColumnRect(LV: TListView; ARow, ACol: Integer;
+  out R: TRect): Boolean; forward;
 
 type
   { Worker dedicated to multi-line MMF delete so the main thread remains responsive
@@ -19661,6 +19681,7 @@ begin
     FLvLineActionSoftBakeVer := 0;
     FLvLineActionPaintCacheValid := False;
     FLvLineActionPaintScrollOff := 0;
+    FLvLineActionPaintCol0Left := 0;
     FLvLineActionPaintCol0W := 0;
     FLvScrollThumbDragging := False;
     FLvNavPaintQueued := False;
@@ -19798,6 +19819,12 @@ begin
   FUpdatingZoomCombo := False;
   FChecklistAnchorLine := -1;
   FUpdatingChecklistChecks := False;
+  FChecklistShiftRangePending := False;
+  FChecklistShiftRangeRow := -1;
+  FLineAutofillDeferShiftRange := False;
+  FListViewAnchorIndex := -1;
+  FLvShiftRangePending := False;
+  FLvShiftRangeRow := -1;
   FZoomWheelHistory := TStringList.Create;
   FLastZoomComboUpdateTick := 0;
   FApplicationClosing := False;
@@ -34713,6 +34740,7 @@ var
 begin
   if (ACanvas = nil) or (Item = nil) or (not Assigned(ListView1)) then Exit;
   if ALineIdx < 0 then Exit;
+  if not RtlListViewColumnRect(ListView1, Item.Index, 1, R) then
   if not ListView_GetSubItemRect(ListView1.Handle, Item.Index, 1, LVIR_LABEL, @R) then
   begin
     R := Item.DisplayRect(drBounds);
@@ -34745,7 +34773,14 @@ begin
   ACanvas.Font.Color := clWindowText;
   ACanvas.Brush.Style := bsSolid;
   ACanvas.Brush.Color := clWindow;
-  if ListRowSoftSelection(Self, Item, ALineIdx, Bk, Fg) then
+  { Bookmark / soft-sel in PostPaint so PrePaint navy wash cannot leave a gutter scrap.
+    SoftSelection already skips bookmarks; paint them explicitly here. }
+  if IsBookmarked(ALineIdx) then
+  begin
+    ACanvas.Brush.Color := FF_BOOKMARK_ROW_BG;
+    ACanvas.Font.Color := FF_BOOKMARK_ROW_FG;
+  end
+  else if ListRowSoftSelection(Self, Item, ALineIdx, Bk, Fg) then
   begin
     ACanvas.Brush.Color := Bk;
     ACanvas.Font.Color := Fg;
@@ -34769,14 +34804,24 @@ var
 begin
   if (ACanvas = nil) or (Item = nil) or (not Assigned(ListView1)) then Exit;
   if ALineIdx < 0 then Exit;
-  if not ListView_GetSubItemRect(ListView1.Handle, Item.Index, 0, LVIR_LABEL, @R) then
-    R := Item.DisplayRect(drLabel);
+  SetRectEmpty(ItemR);
+  if not RtlListViewColumnRect(ListView1, Item.Index, 0, R) then
+    if not ListView_GetSubItemRect(ListView1.Handle, Item.Index, 0, LVIR_LABEL, @R) then
+      R := Item.DisplayRect(drLabel);
   if R.Right <= R.Left + 2 then Exit;
-  { Keep clear of Edit/Delete chip on the right of Line #. }
+  { Keep the line label clear of the Edit/Delete chip. LTR: chip on the right.
+    RTL: chip on the inner edge (toward the file text). }
   if ClipLineActionItemRect(Item.DisplayRect(drBounds), ItemR) and
      GetLineActionButtonRects(ItemR, REdit, RDel, RChip) then
-    if R.Right > REdit.Left - 4 then
+  begin
+    if BidiIsRtl then
+    begin
+      if R.Left < RDel.Right + 4 then
+        R.Left := RDel.Right + 4;
+    end
+    else if R.Right > REdit.Left - 4 then
       R.Right := REdit.Left - 4;
+  end;
   LinePrefix := FTrLinePrefix;
   if LinePrefix = '' then
     LinePrefix := TrText('Line:');
@@ -34797,11 +34842,18 @@ begin
   ACanvas.Brush.Color := clWindow;
   if FFindMatchSelection and (ALineIdx = FLastFoundLine) then
     ACanvas.Brush.Color := TColor($00FFF4E8)
+  else if IsBookmarked(ALineIdx) then
+  begin
+    ACanvas.Brush.Color := FF_BOOKMARK_ROW_BG;
+    ACanvas.Font.Color := FF_BOOKMARK_ROW_FG;
+  end
   else if ListRowSoftSelection(Self, Item, ALineIdx, Bk, Fg) then
   begin
     ACanvas.Brush.Color := Bk;
     ACanvas.Font.Color := Fg;
   end;
+  if BidiIsRtl and (ItemR.Right > ItemR.Left) then
+    ACanvas.FillRect(ItemR);
   ACanvas.FillRect(R);
   InflateRect(R, -2, -1);
   DrawFlags := DT_LEFT or DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS;
@@ -36233,10 +36285,7 @@ end;
 
 procedure TfrmMain.CheckListBox1ClickCheck(Sender: TObject);
 var
-  itemChecked: Int64;
-  I: Integer;
   CurLine1Based: Int64;
-  A64, B64, T64, L64: Int64;
   IsNowChecked, ShiftDown: Boolean;
 begin
   if not Assigned(FCheckListBox) then Exit;
@@ -36247,57 +36296,85 @@ begin
   if CurLine1Based <= 0 then Exit;
   IsNowChecked := FCheckListBox.Checked[FCheckListBox.ItemIndex];
   ShiftDown := GetKeyState(VK_SHIFT) < 0;
+  { ClickCheck no checkbox ja cobriu o Shift+intervalo — cancela pending do MouseUp. }
+  FChecklistShiftRangePending := False;
 
-  FUpdatingChecklistChecks := True;
-  try
-    if ShiftDown and (FChecklistAnchorLine > 0) then
-    begin
-      A64 := FChecklistAnchorLine;
-      B64 := CurLine1Based;
-      if A64 > B64 then
-      begin
-        T64 := A64; A64 := B64; B64 := T64;
-      end;
-      if A64 < 1 then A64 := 1;
-      if (totalLines > 0) and (B64 > totalLines) then B64 := totalLines;
-      for L64 := A64 to B64 do
-      begin
-        if IsNowChecked then
-          setCheckedLines(L64)
-        else
-          setUnCheckedLines(L64);
-      end;
-      { Re-sincroniza checks visiveis com o estado global FCheckedLines. }
-      for I := 0 to FCheckListBox.Items.Count - 1 do
-      begin
-        itemChecked := NativeInt(FCheckListBox.Items.Objects[I]);
-        FCheckListBox.Checked[I] := checkedLineExists(itemChecked);
-      end;
-    end
+  if ShiftDown then
+    ApplyChecklistShiftRange(CurLine1Based, IsNowChecked)
+  else
+  begin
+    if IsNowChecked then
+      setCheckedLines(CurLine1Based)
     else
-    begin
-      if IsNowChecked then
-        setCheckedLines(CurLine1Based)
-      else
-        setUnCheckedLines(CurLine1Based);
-    end;
-  finally
-    FUpdatingChecklistChecks := False;
+      setUnCheckedLines(CurLine1Based);
+    FChecklistAnchorLine := CurLine1Based;
+    UpdateScriptScopeRBFromChecks;
+    UpdateListViewLineToolsEnabled;
   end;
-
-  FChecklistAnchorLine := CurLine1Based;
-  UpdateScriptScopeRBFromChecks;
-  UpdateListViewLineToolsEnabled;
 end;
 
 procedure TfrmMain.CheckListBox1MouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   CheckAreaRight, HitRow: Integer;
+  InCheckArea: Boolean;
+  CurLine1Based: Int64;
 begin
   if not Assigned(FCheckListBox) then Exit;
   CheckAreaRight := GetSystemMetrics(SM_CXMENUCHECK) + 8;
   FLineAutofillDeferCtrl := False;
+  FLineAutofillDeferShiftRange := False;
+  FChecklistShiftRangePending := False;
+
+  { Shift+clique: intervalo de checks (checkbox via ClickCheck; linha/conteudo aqui).
+     Shift+arrastar na coluna Line # continua como autofill (defer). }
+  if (Button = mbLeft) and (ssShift in Shift) and not (ssCtrl in Shift) and
+     not (ssAlt in Shift) then
+  begin
+    CancelLineAutofillDrag;
+    if FHasSelection then
+    begin
+      FHasSelection := False;
+      FFindMatchSelection := False;
+      FIsDragging := False;
+      if GetCapture = FCheckListBox.Handle then
+        ReleaseCapture;
+      FCheckListBox.Invalidate;
+    end;
+    { Ancora a partir do ItemIndex atual se ainda nao houver (antes do clique mudar). }
+    if (FChecklistAnchorLine <= 0) and (FCheckListBox.ItemIndex >= 0) and
+       (FCheckListBox.ItemIndex < FCheckListBox.Items.Count) then
+    begin
+      CurLine1Based := NativeInt(FCheckListBox.Items.Objects[FCheckListBox.ItemIndex]);
+      if CurLine1Based > 0 then
+        FChecklistAnchorLine := CurLine1Based;
+    end;
+    HitRow := GetCheckListRowIndexAt(Y);
+    if HitRow >= 0 then
+    begin
+      InCheckArea := X < CheckListTextStartX;
+      if (not InCheckArea) and IsClickInCheckListLineColumn(X, Y) and
+         CanStartLineAutofill then
+      begin
+        FLineAutofillDeferCtrl := True;
+        FLineAutofillDeferShiftRange := True;
+        FLineAutofillDeferRow := HitRow;
+        FLineAutofillDeferX := X;
+        FLineAutofillDeferY := Y;
+        FChecklistShiftRangePending := True;
+        FChecklistShiftRangeRow := HitRow;
+        Exit;
+      end;
+      if InCheckArea then
+      begin
+        { ClickCheck (apos este handler) aplica o intervalo com o novo estado do check. }
+        Exit;
+      end;
+      { Clique no conteudo da linha: marca o intervalo imediatamente. }
+      ApplyChecklistShiftClickAtRow(HitRow);
+      Exit;
+    end;
+  end;
 
   { Autofill na zona checkbox + prefixo Line #: arrastar para baixo insere linhas em branco. }
   if (Button = mbLeft) and (not (ssAlt in Shift)) and IsClickInCheckListLineColumn(X, Y)
@@ -36309,6 +36386,7 @@ begin
       if ssCtrl in Shift then
       begin
         FLineAutofillDeferCtrl := True;
+        FLineAutofillDeferShiftRange := False;
         FLineAutofillDeferRow := HitRow;
         FLineAutofillDeferX := X;
         FLineAutofillDeferY := Y;
@@ -36349,6 +36427,17 @@ begin
         ReleaseCapture;
       FCheckListBox.Invalidate;
     end;
+    { Clique simples: ancora do proximo Shift+intervalo (mesmo sem marcar o check). }
+    if (Button = mbLeft) and not (ssCtrl in Shift) and not (ssAlt in Shift) then
+    begin
+      HitRow := GetCheckListRowIndexAt(Y);
+      if (HitRow >= 0) and (HitRow < FCheckListBox.Items.Count) then
+      begin
+        CurLine1Based := NativeInt(FCheckListBox.Items.Objects[HitRow]);
+        if CurLine1Based > 0 then
+          FChecklistAnchorLine := CurLine1Based;
+      end;
+    end;
   end;
 end;
 
@@ -36362,6 +36451,8 @@ begin
     if (Abs(Y - FLineAutofillDeferY) >= 5) or (Abs(X - FLineAutofillDeferX) >= 5) then
     begin
       FLineAutofillDeferCtrl := False;
+      FLineAutofillDeferShiftRange := False;
+      FChecklistShiftRangePending := False;
       StartLineAutofillDrag(FLineAutofillDeferRow, FLineAutofillDeferY);
     end
     else
@@ -36403,10 +36494,19 @@ procedure TfrmMain.CheckListBox1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
   CX, CY: Integer;
+  DoShiftRange: Boolean;
+  ShiftRow: Integer;
 begin
   if FLineAutofillDeferCtrl then
   begin
+    DoShiftRange := FLineAutofillDeferShiftRange and FChecklistShiftRangePending;
+    ShiftRow := FChecklistShiftRangeRow;
     FLineAutofillDeferCtrl := False;
+    FLineAutofillDeferShiftRange := False;
+    FChecklistShiftRangePending := False;
+    { Clique (sem arrastar) com Shift na coluna Line #: marca o intervalo. }
+    if DoShiftRange then
+      ApplyChecklistShiftClickAtRow(ShiftRow);
     Exit;
   end;
   if FLineAutofillDragging and FLineAutofillOnCheckList then
@@ -39634,11 +39734,127 @@ begin
   begin
     ListView1.ItemIndex := Idx;
     ListView_SetItemState(ListView1.Handle, Idx, LVIS_SELECTED or LVIS_FOCUSED, LVIS_SELECTED or LVIS_FOCUSED);
+    FListViewAnchorIndex := Idx;
     { Filtro: lista nativa longa precisa de EnsureVisible. Modo pagina (Count=VisibleItems):
       EnsureVisible e no-op util; se Count estiver errado (=totalLines) destrói o paint. }
     if FFilterActive then
       ListView_EnsureVisible(ListView1.Handle, Idx, False);
+  end
+  else
+    FListViewAnchorIndex := -1;
+end;
+
+procedure TfrmMain.ApplyListViewShiftRange(const HitRow: Integer);
+var
+  Anchor, A, B, I: Integer;
+begin
+  if not Assigned(ListView1) or (not ListView1.HandleAllocated) then Exit;
+  if (HitRow < 0) or (HitRow >= ListView1.Items.Count) then Exit;
+  if ListRowIsPastFileEof(HitRow) then Exit;
+
+  Anchor := FListViewAnchorIndex;
+  if (Anchor < 0) or (Anchor >= ListView1.Items.Count) then
+    Anchor := ListView1.ItemIndex;
+  if (Anchor < 0) or (Anchor >= ListView1.Items.Count) then
+    Anchor := HitRow;
+
+  if Anchor <= HitRow then
+  begin
+    A := Anchor;
+    B := HitRow;
+  end
+  else
+  begin
+    A := HitRow;
+    B := Anchor;
   end;
+
+  ListView_SetItemState(ListView1.Handle, -1, 0, LVIS_SELECTED or LVIS_FOCUSED);
+  for I := A to B do
+  begin
+    if ListRowIsPastFileEof(I) then
+      Continue;
+    ListView_SetItemState(ListView1.Handle, I, LVIS_SELECTED, LVIS_SELECTED);
+  end;
+  ListView_SetItemState(ListView1.Handle, HitRow, LVIS_SELECTED or LVIS_FOCUSED,
+    LVIS_SELECTED or LVIS_FOCUSED);
+  ListView1.ItemIndex := HitRow;
+  { Ancora permanece no clique simples anterior (padrao Windows). }
+  if FListViewAnchorIndex < 0 then
+    FListViewAnchorIndex := Anchor;
+  UpdateInfoPanels;
+  UpdateListViewLineToolsEnabled;
+end;
+
+procedure TfrmMain.ApplyChecklistShiftRange(const CurLine1Based: Int64;
+  const WantChecked: Boolean);
+var
+  I: Integer;
+  itemChecked: Int64;
+  A64, B64, T64, L64: Int64;
+begin
+  if not Assigned(FCheckListBox) then Exit;
+  if CurLine1Based <= 0 then Exit;
+
+  FUpdatingChecklistChecks := True;
+  try
+    if FChecklistAnchorLine > 0 then
+    begin
+      A64 := FChecklistAnchorLine;
+      B64 := CurLine1Based;
+      if A64 > B64 then
+      begin
+        T64 := A64;
+        A64 := B64;
+        B64 := T64;
+      end;
+      if A64 < 1 then A64 := 1;
+      if (totalLines > 0) and (B64 > totalLines) then B64 := totalLines;
+      for L64 := A64 to B64 do
+      begin
+        if WantChecked then
+          setCheckedLines(L64)
+        else
+          setUnCheckedLines(L64);
+      end;
+    end
+    else
+    begin
+      if WantChecked then
+        setCheckedLines(CurLine1Based)
+      else
+        setUnCheckedLines(CurLine1Based);
+    end;
+
+    for I := 0 to FCheckListBox.Items.Count - 1 do
+    begin
+      itemChecked := NativeInt(FCheckListBox.Items.Objects[I]);
+      FCheckListBox.Checked[I] := checkedLineExists(itemChecked);
+    end;
+  finally
+    FUpdatingChecklistChecks := False;
+  end;
+
+  FChecklistAnchorLine := CurLine1Based;
+  UpdateScriptScopeRBFromChecks;
+  UpdateListViewLineToolsEnabled;
+end;
+
+procedure TfrmMain.ApplyChecklistShiftClickAtRow(const HitRow: Integer);
+var
+  CurLine1Based: Int64;
+  WantChecked: Boolean;
+begin
+  if not Assigned(FCheckListBox) then Exit;
+  if (HitRow < 0) or (HitRow >= FCheckListBox.Items.Count) then Exit;
+
+  CurLine1Based := NativeInt(FCheckListBox.Items.Objects[HitRow]);
+  if CurLine1Based <= 0 then Exit;
+
+  { Clique na linha (nao no checkbox): selecionar/marcar o intervalo. }
+  WantChecked := True;
+  FCheckListBox.ItemIndex := HitRow;
+  ApplyChecklistShiftRange(CurLine1Based, WantChecked);
 end;
 
 function TfrmMain.ListViewHorizTextSkipChars: Integer;
@@ -45895,6 +46111,7 @@ begin
   if MatchLen <= 0 then Exit;
 
   R := Rect(0, 0, 0, 0);
+  if not RtlListViewColumnRect(ListView1, RowIdx, 1, R) then
   if not ListView_GetSubItemRect(ListView1.Handle, RowIdx, 1, LVIR_LABEL, @R) then
   begin
     if RowIdx >= ListView1.Items.Count then Exit;
@@ -46719,6 +46936,8 @@ begin
     if (Abs(Y - FLineAutofillDeferY) >= 5) or (Abs(X - FLineAutofillDeferX) >= 5) then
     begin
       FLineAutofillDeferCtrl := False;
+      FLineAutofillDeferShiftRange := False;
+      FLvShiftRangePending := False;
       StartLineAutofillDrag(FLineAutofillDeferRow, FLineAutofillDeferY);
     end
     else
@@ -46793,10 +47012,26 @@ end;
 //vertical selection
 procedure TfrmMain.ListView1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var
+  DoShiftRange: Boolean;
+  ShiftRow: Integer;
 begin
   if FLineAutofillDeferCtrl then
   begin
+    DoShiftRange := FLineAutofillDeferShiftRange and FLvShiftRangePending;
+    ShiftRow := FLvShiftRangeRow;
     FLineAutofillDeferCtrl := False;
+    FLineAutofillDeferShiftRange := False;
+    FLvShiftRangePending := False;
+    if DoShiftRange then
+      ApplyListViewShiftRange(ShiftRow);
+    Exit;
+  end;
+  if FLvShiftRangePending then
+  begin
+    ShiftRow := FLvShiftRangeRow;
+    FLvShiftRangePending := False;
+    ApplyListViewShiftRange(ShiftRow);
     Exit;
   end;
   if FLvCtrlDefer then
@@ -46855,6 +47090,8 @@ var
   HitRow, HitBtn: Integer;
 begin
   FLineAutofillDeferCtrl := False;
+  FLineAutofillDeferShiftRange := False;
+  FLvShiftRangePending := False;
   { 0) Clique no chip Edit/Delete da coluna Line #. }
   if (Button = mbLeft) and HitTestLineActionButton(X, Y, HitRow, HitBtn) then
   begin
@@ -46866,6 +47103,45 @@ begin
     end;
     Exit;
   end;
+
+  { 0b) Shift+clique: seleciona o intervalo de linhas (ListView multi-select).
+     Shift+arrastar na coluna Line # continua como autofill (defer). }
+  if (Button = mbLeft) and (ssShift in Shift) and not (ssCtrl in Shift) and
+     not (ssAlt in Shift) then
+  begin
+    CancelLineAutofillDrag;
+    if FHasSelection then
+    begin
+      FHasSelection := False;
+      FFindMatchSelection := False;
+      FIsDragging := False;
+      if GetCapture = ListView1.Handle then ReleaseCapture;
+      ListView1.Repaint;
+    end;
+    { Captura ancora antes do ListView nativo mudar ItemIndex no mesmo clique. }
+    if (FListViewAnchorIndex < 0) and (ListView1.ItemIndex >= 0) and
+       (not ListRowIsPastFileEof(ListView1.ItemIndex)) then
+      FListViewAnchorIndex := ListView1.ItemIndex;
+    HitRow := GetRowIndexAt(X, Y);
+    if (HitRow >= 0) and (not ListRowIsPastFileEof(HitRow)) then
+    begin
+      if IsClickInFirstColumn(X) and CanStartLineAutofill then
+      begin
+        FLineAutofillDeferCtrl := True;
+        FLineAutofillDeferShiftRange := True;
+        FLineAutofillDeferRow := HitRow;
+        FLineAutofillDeferX := X;
+        FLineAutofillDeferY := Y;
+        FLvShiftRangePending := True;
+        FLvShiftRangeRow := HitRow;
+        Exit;
+      end;
+      FLvShiftRangePending := True;
+      FLvShiftRangeRow := HitRow;
+      Exit;
+    end;
+  end;
+
   { 1) Autofill na coluna Line #: arrastar para baixo insere linhas em branco
      (sem modificador, Shift+arrastar ou Ctrl+arrastar). Ctrl+clique mantem selecao multipla. }
   if (Button = mbLeft) and (not (ssAlt in Shift)) and IsClickInFirstColumn(X)
@@ -46877,6 +47153,7 @@ begin
       if ssCtrl in Shift then
       begin
         FLineAutofillDeferCtrl := True;
+        FLineAutofillDeferShiftRange := False;
         FLineAutofillDeferRow := HitRow;
         FLineAutofillDeferX := X;
         FLineAutofillDeferY := Y;
@@ -46934,6 +47211,13 @@ begin
       FIsDragging := False;
       if GetCapture = ListView1.Handle then ReleaseCapture;
       ListView1.Repaint;
+    end;
+    { Clique simples: ancora para o proximo Shift+intervalo. }
+    if (Button = mbLeft) and not (ssCtrl in Shift) and not (ssAlt in Shift) then
+    begin
+      HitRow := GetRowIndexAt(X, Y);
+      if (HitRow >= 0) and (not ListRowIsPastFileEof(HitRow)) then
+        FListViewAnchorIndex := HitRow;
     end;
   end;
 end;
@@ -47641,6 +47925,83 @@ begin
   end;
 end;
 
+function ReadListViewHeaderColumnX(LV: TListView; ACol: Integer;
+  out ALeft, AWidth: Integer): Boolean;
+var
+  Header: HWND;
+  ColR: TRect;
+  N, I, X, W, ScrollOff: Integer;
+  Order: array of Integer;
+begin
+  Result := False;
+  ALeft := 0;
+  AWidth := 0;
+  if (LV = nil) or (not LV.HandleAllocated) then Exit;
+  if (ACol < 0) or (ACol >= LV.Columns.Count) then Exit;
+  Header := ListView_GetHeader(LV.Handle);
+  if Header <> 0 then
+  begin
+    SetRectEmpty(ColR);
+    if SendMessage(Header, HDM_GETITEMRECT, WPARAM(ACol), LPARAM(@ColR)) <> 0 then
+    begin
+      ALeft := ColR.Left;
+      AWidth := ColR.Right - ColR.Left;
+      if AWidth > 1 then
+      begin
+        Result := True;
+        Exit;
+      end;
+    end;
+  end;
+  N := LV.Columns.Count;
+  SetLength(Order, N);
+  for I := 0 to N - 1 do
+    Order[I] := I;
+  if N > 0 then
+    ListView_GetColumnOrderArray(LV.Handle, N, @Order[0]);
+  ScrollOff := GetScrollPos(LV.Handle, SB_HORZ);
+  X := -ScrollOff;
+  for I := 0 to N - 1 do
+  begin
+    W := LV.Columns[Order[I]].Width;
+    if Order[I] = ACol then
+    begin
+      ALeft := X;
+      AWidth := W;
+      Result := AWidth > 1;
+      Exit;
+    end;
+    Inc(X, W);
+  end;
+end;
+
+function RtlListViewColumnRect(LV: TListView; ARow, ACol: Integer; out R: TRect): Boolean;
+var
+  RowR: TRect;
+  L, W, LineL, LineW: Integer;
+begin
+  Result := False;
+  SetRectEmpty(R);
+  if not BidiIsRtl then Exit;
+  if (LV = nil) or (ARow < 0) then Exit;
+  if not ReadListViewHeaderColumnX(LV, ACol, L, W) then Exit;
+  if not ListView_GetItemRect(LV.Handle, ARow, RowR, LVIR_BOUNDS) then Exit;
+  { Two columns (line + file text): the text runs up to the line column.
+    A short sub-item rect was ellipsizing the line and leaving the
+    Edit/Delete chips on that short slice instead of beside the line number. }
+  if (ACol = 1) and (LV.Columns.Count = 2) and
+     ReadListViewHeaderColumnX(LV, 0, LineL, LineW) and (LineL > L + 2) then
+    W := LineL - L;
+  R := RowR;
+  R.Left := L;
+  R.Right := L + W;
+  { A scrolled column starts off the left edge. Keep the beginning of the
+    line on screen and run it to the line-number column. }
+  if (ACol = 1) and (R.Left < 2) and (R.Right > 16) then
+    R.Left := 2;
+  Result := R.Right > R.Left + 1;
+end;
+
 function ReadListViewContentRect(LV: TListView; out R: TRect): Boolean;
 var
   Row: Integer;
@@ -47652,6 +48013,11 @@ begin
   Row := 0;
   if (LV.Items.Count > 0) and (LV.TopItem <> nil) then
     Row := LV.TopItem.Index;
+  if RtlListViewColumnRect(LV, Row, 1, R) then
+  begin
+    Result := True;
+    Exit;
+  end;
   Result := ListView_GetSubItemRect(LV.Handle, Row, 1, LVIR_LABEL, @R);
 end;
 
@@ -47712,6 +48078,7 @@ begin
         cache so AdjustListViewColumnsWidth remeasures "Linha: N" + Edit/Delete. }
       FLineColWidthSampleCached := -1;
       AdjustListViewColumnsWidth;
+      ApplyReadListViewColumnOrder(ListView1);
       Exit;
     end;
 
@@ -49450,6 +49817,13 @@ begin
     Exit;
   end;
 
+  if BidiIsRtl and
+     ReadListViewHeaderColumnX(ListView1, 0, ScrollOffset, Col0Width) then
+  begin
+    Result := (X >= ScrollOffset) and (X < ScrollOffset + Col0Width);
+    Exit;
+  end;
+
   ScrollOffset := GetScrollPos(ListView1.Handle, SB_HORZ);
   AbsX := X + ScrollOffset;
   Col0Width := ListView1.Columns[0].Width;
@@ -49564,6 +49938,10 @@ begin
   if ListView1.Columns.Count < 1 then Exit;
   FLvLineActionPaintScrollOff := GetScrollPos(ListView1.Handle, SB_HORZ);
   FLvLineActionPaintCol0W := ListView1.Columns[0].Width;
+  FLvLineActionPaintCol0Left := -FLvLineActionPaintScrollOff;
+  if BidiIsRtl then
+    ReadListViewHeaderColumnX(ListView1, 0, FLvLineActionPaintCol0Left,
+      FLvLineActionPaintCol0W);
   FLvLineActionPaintCacheValid := FLvLineActionPaintCol0W >= LineActionStripWidth;
 end;
 
@@ -49576,11 +49954,19 @@ begin
     BeginLineActionPaintCache;
   if not FLvLineActionPaintCacheValid then Exit;
   AItemR := ARowBounds;
-  AItemR.Left := -FLvLineActionPaintScrollOff;
-  AItemR.Right := AItemR.Left + FLvLineActionPaintCol0W;
+  if BidiIsRtl then
+  begin
+    AItemR.Left := FLvLineActionPaintCol0Left;
+    AItemR.Right := AItemR.Left + FLvLineActionPaintCol0W;
+  end
+  else
+  begin
+    AItemR.Left := -FLvLineActionPaintScrollOff;
+    AItemR.Right := AItemR.Left + FLvLineActionPaintCol0W;
+    if AItemR.Left < 0 then
+      AItemR.Left := 0;
+  end;
   if AItemR.Right <= 0 then Exit;
-  if AItemR.Left < 0 then
-    AItemR.Left := 0;
   Result := (AItemR.Right > AItemR.Left) and (AItemR.Bottom > AItemR.Top);
 end;
 
@@ -49613,11 +49999,23 @@ begin
   { Preferir alinhar ao topo da linha (texto "Line: N") quando a linha e alta (word wrap). }
   if (AItemR.Bottom - AItemR.Top) > IconSz + 10 then
     MidY := AItemR.Top + 2 + (IconSz div 2);
-  XRight := AItemR.Right - Edge;
-  RDel := Rect(XRight - IconSz, MidY - IconSz div 2,
-    XRight, MidY - IconSz div 2 + IconSz);
-  REdit := Rect(RDel.Left - Gap - IconSz, RDel.Top,
-    RDel.Left - Gap, RDel.Bottom);
+  if BidiIsRtl then
+  begin
+    { Inner edge of the line column, against the file text. }
+    XRight := AItemR.Left + Edge;
+    REdit := Rect(XRight, MidY - IconSz div 2,
+      XRight + IconSz, MidY - IconSz div 2 + IconSz);
+    RDel := Rect(REdit.Right + Gap, REdit.Top,
+      REdit.Right + Gap + IconSz, REdit.Bottom);
+  end
+  else
+  begin
+    XRight := AItemR.Right - Edge;
+    RDel := Rect(XRight - IconSz, MidY - IconSz div 2,
+      XRight, MidY - IconSz div 2 + IconSz);
+    REdit := Rect(RDel.Left - Gap - IconSz, RDel.Top,
+      RDel.Left - Gap, RDel.Bottom);
+  end;
   RChip := Rect(REdit.Left - 3, REdit.Top - 2, RDel.Right + 3, RDel.Bottom + 2);
   Result := True;
 end;
@@ -49890,6 +50288,7 @@ end;
 procedure TfrmMain.CancelLineAutofillDrag;
 begin
   FLineAutofillDeferCtrl := False;
+  FLineAutofillDeferShiftRange := False;
   if not FLineAutofillDragging then Exit;
   FLineAutofillDragging := False;
   FLineAutofillInsertCount := 0;
@@ -54651,6 +55050,7 @@ begin
   if LineIdx < 0 then Exit;
   if LineIdx <> FLastFoundLine then Exit;
   R := Rect(0, 0, 0, 0);
+  if not RtlListViewColumnRect(ListView1, Item.Index, SubItemIndex, R) then
   if not ListView_GetSubItemRect(LV.Handle, Item.Index, SubItemIndex, LVIR_LABEL, @R) then
   begin
     R := Item.DisplayRect(drBounds);
@@ -54822,6 +55222,7 @@ begin
   begin
     { Retangulo real da subcelula (como no highlight). DisplayRect+Columns[1].Width
       usa largura da coluna (ex. 1200px) e o wrap quase nao quebra - parece uma linha so. }
+    if not RtlListViewColumnRect(ListView1, Item.Index, 1, R) then
     if not ListView_GetSubItemRect(Sender.Handle, Item.Index, 1, LVIR_LABEL, @R) then
     begin
       R := Item.DisplayRect(drBounds);
@@ -56219,6 +56620,7 @@ begin
   if FFindMatchSelection and (FLastFoundMatchLen > 0) and (LineIdx = FLastFoundLine) then
     Exit;
 
+  if not RtlListViewColumnRect(ListView1, Item.Index, SubItemIndex, R) then
   if not ListView_GetSubItemRect(Sender.Handle, Item.Index, SubItemIndex, LVIR_LABEL, @R) then
   begin
     R := Item.DisplayRect(drBounds);
@@ -63852,9 +64254,33 @@ end;
 function TfrmMain.BookmarkIndexOf(RealLineIndex: Int64): Integer;
 var
   Lo, Hi, Mid: Integer;
-  Val: Int64;
+  Val, Start1, EndEx1: Int64;
 begin
   Result := -1;
+  if UsesProportionalZeroScanScroll then
+  begin
+    if Length(FBookmarkBytes) = 0 then Exit;
+    if not ResolveLineByteBounds(RealLineIndex, Start1, EndEx1) then Exit;
+    if Start1 < 1 then Start1 := 1;
+    if EndEx1 <= Start1 then EndEx1 := Start1 + 1;
+    Lo := 0;
+    Hi := High(FBookmarkBytes);
+    while Lo <= Hi do
+    begin
+      Mid := (Lo + Hi) div 2;
+      Val := FBookmarkBytes[Mid];
+      if Val < Start1 then
+        Lo := Mid + 1
+      else if Val >= EndEx1 then
+        Hi := Mid - 1
+      else
+      begin
+        Result := Mid;
+        Exit;
+      end;
+    end;
+    Exit;
+  end;
   if not Assigned(FBookmarks) then Exit;
   Lo := 0;
   Hi := FBookmarks.Count - 1;
@@ -63876,28 +64302,36 @@ procedure TfrmMain.ToggleBookmark(RealLineIndex: Int64);
 var
   Idx, Lo, Hi, Mid: Integer;
   Val: Int64;
-  Byte1, CurByte: Int64;
-  BLo, BHi, BMid: Integer;
+  Byte1, EndEx1: Int64;
+  BMid: Integer;
 begin
   if UsesProportionalZeroScanScroll then
   begin
-    Byte1 := GetLineStartOffset(RealLineIndex);
+    { Prefer exact line bounds (physical / Zero Scan), not proportional
+      GetLineStartOffset alone — that drifts and never matches paint. }
+    if not ResolveLineByteBounds(RealLineIndex, Byte1, EndEx1) then
+    begin
+      Byte1 := GetLineStartOffset(RealLineIndex);
+      EndEx1 := Byte1 + 1;
+    end;
     if Byte1 < 1 then Byte1 := 1;
+    if EndEx1 <= Byte1 then EndEx1 := Byte1 + 1;
     Lo := 0;
     Hi := High(FBookmarkBytes);
     Idx := -1;
     while Lo <= Hi do
     begin
       BMid := (Lo + Hi) div 2;
-      if FBookmarkBytes[BMid] = Byte1 then
+      Val := FBookmarkBytes[BMid];
+      if Val < Byte1 then
+        Lo := BMid + 1
+      else if Val >= EndEx1 then
+        Hi := BMid - 1
+      else
       begin
         Idx := BMid;
         Break;
       end;
-      if FBookmarkBytes[BMid] < Byte1 then
-        Lo := BMid + 1
-      else
-        Hi := BMid - 1;
     end;
     if Idx >= 0 then
     begin
@@ -63931,6 +64365,8 @@ begin
       FBookmarkBytes[Lo] := Byte1;
     end;
     ListView1.Invalidate;
+    if Assigned(ListView1) then
+      ListView1.Update;
     if BookmarkCount > 0 then
       ShowBookmarkBar
     else
@@ -63960,6 +64396,8 @@ begin
     FBookmarks.Insert(Lo, Pointer(NativeInt(RealLineIndex)));
   end;
   ListView1.Invalidate;
+  if Assigned(ListView1) then
+    ListView1.Update;
   if BookmarkCount > 0 then
     ShowBookmarkBar
   else
@@ -63975,9 +64413,9 @@ var
   CurIdx, RealLine, BkLine, TryBk: Int64;
   AnchorFromTop, TargetVisibleIdx: Integer;
   MaxOff, ScrollExtent: Int64;
-  FIdx, CurByte: Int64;
+  FIdx, CurByte, Start1, EndEx1: Int64;
 begin
-  if not Assigned(FBookmarks) or (FBookmarks.Count = 0) then begin
+  if BookmarkCount = 0 then begin
     FastFileMessageBox(PChar(TrText('No bookmarks set.')), APPLICATION_NAME, MB_OK or MB_ICONINFORMATION);
     Exit;
   end;
@@ -63992,6 +64430,31 @@ begin
   else
     CurIdx := ListView1.ItemIndex;
   BkLine := -1;
+  if UsesProportionalZeroScanScroll then
+  begin
+    if CurIdx < 0 then CurIdx := 0;
+    RealLine := FileLineIndexFromListRow(Integer(CurIdx));
+    if (RealLine >= 0) and ResolveLineByteBounds(RealLine, Start1, EndEx1) then
+      CurByte := Start1
+    else
+    begin
+      CurByte := GetLineStartOffset(Offset + CurIdx);
+      if CurByte < 1 then CurByte := 1;
+    end;
+    for I := 0 to High(FBookmarkBytes) do
+      if FBookmarkBytes[I] > CurByte then
+      begin
+        ScrollToFileBytePos(FBookmarkBytes[I] - 1, -1);
+        Exit;
+      end;
+    if High(FBookmarkBytes) >= 0 then
+      ScrollToFileBytePos(FBookmarkBytes[0] - 1, -1);
+    Exit;
+  end;
+  if not Assigned(FBookmarks) or (FBookmarks.Count = 0) then begin
+    FastFileMessageBox(PChar(TrText('No bookmarks set.')), APPLICATION_NAME, MB_OK or MB_ICONINFORMATION);
+    Exit;
+  end;
   if FFilterActive then
   begin
     if CurIdx >= 0 then
@@ -64051,21 +64514,6 @@ begin
       ListView1.SetFocus;
     Exit;
   end;
-  if Length(FBookmarkBytes) > 0 then
-  begin
-    CurByte := GetLineStartOffset(Offset + CurIdx);
-    if CurByte < 1 then CurByte := 1;
-    BkLine := -1;
-    for I := 0 to High(FBookmarkBytes) do
-      if FBookmarkBytes[I] > CurByte then
-      begin
-        ScrollToFileBytePos(FBookmarkBytes[I] - 1, -1);
-        Exit;
-      end;
-    if High(FBookmarkBytes) >= 0 then
-      ScrollToFileBytePos(FBookmarkBytes[0] - 1, -1);
-    Exit;
-  end;
   if CurIdx < 0 then CurIdx := -1;
   RealLine := Offset + CurIdx;
   for I := 0 to FBookmarks.Count - 1 do
@@ -64088,9 +64536,9 @@ var
   CurIdx, RealLine, BkLine, TryBk: Int64;
   AnchorFromTop, TargetVisibleIdx: Integer;
   MaxOff, ScrollExtent: Int64;
-  FIdx: Int64;
+  FIdx, CurByte, Start1, EndEx1: Int64;
 begin
-  if not Assigned(FBookmarks) or (FBookmarks.Count = 0) then begin
+  if BookmarkCount = 0 then begin
     FastFileMessageBox(PChar(TrText('No bookmarks set.')), APPLICATION_NAME, MB_OK or MB_ICONINFORMATION);
     Exit;
   end;
@@ -64105,6 +64553,31 @@ begin
   else
     CurIdx := ListView1.ItemIndex;
   BkLine := -1;
+  if UsesProportionalZeroScanScroll then
+  begin
+    if CurIdx < 0 then CurIdx := 0;
+    RealLine := FileLineIndexFromListRow(Integer(CurIdx));
+    if (RealLine >= 0) and ResolveLineByteBounds(RealLine, Start1, EndEx1) then
+      CurByte := Start1
+    else
+    begin
+      CurByte := GetLineStartOffset(Offset + CurIdx);
+      if CurByte < 1 then CurByte := 1;
+    end;
+    for I := High(FBookmarkBytes) downto 0 do
+      if FBookmarkBytes[I] < CurByte then
+      begin
+        ScrollToFileBytePos(FBookmarkBytes[I] - 1, -1);
+        Exit;
+      end;
+    if High(FBookmarkBytes) >= 0 then
+      ScrollToFileBytePos(FBookmarkBytes[High(FBookmarkBytes)] - 1, -1);
+    Exit;
+  end;
+  if not Assigned(FBookmarks) or (FBookmarks.Count = 0) then begin
+    FastFileMessageBox(PChar(TrText('No bookmarks set.')), APPLICATION_NAME, MB_OK or MB_ICONINFORMATION);
+    Exit;
+  end;
   if FFilterActive then
   begin
     if CurIdx >= 0 then
@@ -67084,6 +67557,7 @@ begin
     HelpBody := StringReplace(HelpBody, MK_HELP_VERSION,
       'Version ' + APPLICATION_VERSION, [rfReplaceAll]);
     HelpBody := StringReplace(HelpBody, MK_HELP_RECENT,
+      TrText('FF_HELP.RecentFeaturesBlock10') + #13#10 +
       TrText('FF_HELP.RecentFeaturesBlock9') + #13#10 +
       TrText('FF_HELP.RecentFeaturesBlock8') + #13#10 +
       TrText('FF_HELP.RecentFeaturesBlock7') + #13#10 +

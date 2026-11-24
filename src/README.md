@@ -3,7 +3,7 @@
 **Professional high-performance text file editor for large files — Delphi 7 / Win32**
 
 > Edition: **Professional** — FastFile is a professional-grade product for production-size data.  
-> Version: **`3.0.5.274`** — **FastFile Professional 3.0.5** (search-dock accordion and More overflow; RTL dialogs clickable; First/page navigation after Last; 30 UI languages including Finnish and Vietnamese; shorter next-steps guide; Read icon in the path field; Arabic and Hebrew right-to-left; Equal parts on the main toolbar; refreshed Preferences; visible line limits; split-by-lines preview; regex examples with AI; recent languages; CSV column sort; grep named groups; internal glob/grep; read-only AI diagnosis)  
+> Version: **`3.0.5.280`** — **FastFile Professional 3.0.5** (UTF-16 LE round-trips; soft ribbon toggles; Recent Files session column; Close all tabs; soft selection/bookmarks; per-tab Ctrl+wheel zoom; Shift+click ranges; search-dock accordion and More overflow; RTL dialogs clickable; First/page navigation after Last; 30 UI languages including Finnish and Vietnamese; shorter next-steps guide; Read icon in the path field; Arabic and Hebrew right-to-left; Equal parts on the main toolbar; refreshed Preferences; visible line limits; split-by-lines preview; regex examples with AI; recent languages; CSV column sort; grep named groups; internal glob/grep; read-only AI diagnosis)  
 > Developer: Hamden Vogel  
 > Copyright © 2025–2026. All rights reserved.
 
@@ -193,9 +193,10 @@ policy explicitly selected, path-only glob and an early-limit grep. The existing
 automatic/indexed opening policy may build a full line index before running
 the command; this change does not silently override that user preference.
 
-### Latest releases (**3.0.5.274** · 3.0.5.269 · 3.0.5.268 · 3.0.5.265 · 3.0.5.261 · 3.0.5.254 · 3.0.5.249 · 3.0.5.244 · 3.0.5.243 · 3.0.5.239 · 3.0.5.232 · 3.0.5.225 · 3.0.5.210 · 3.0.5.100 · 3.0.5.0 · 3.0.4.0 · 3.0.3.0 · 3.0.2.0 · 3.0.1.0 · 3.0.0.0 · 2.1.7.31 · 2.1.7.30 · 2.1.7.29 · 2.1.7.25 · 2.1.7.21 · 2.1.7.17 · 2.1.7.13 · 2.1.7.11 · 2.1.7.9 · 2.1.7.7)
+### Latest releases (**3.0.5.280** · 3.0.5.274 · 3.0.5.269 · 3.0.5.268 · 3.0.5.265 · 3.0.5.261 · 3.0.5.254 · 3.0.5.249 · 3.0.5.244 · 3.0.5.243 · 3.0.5.239 · 3.0.5.232 · 3.0.5.225 · 3.0.5.210 · 3.0.5.100 · 3.0.5.0 · 3.0.4.0 · 3.0.3.0 · 3.0.2.0 · 3.0.1.0 · 3.0.0.0 · 2.1.7.31 · 2.1.7.30 · 2.1.7.29 · 2.1.7.25 · 2.1.7.21 · 2.1.7.17 · 2.1.7.13 · 2.1.7.11 · 2.1.7.9 · 2.1.7.7)
 
-- **★ 3.0.5.274 (current) — search dock accordion, More overflow, RTL dialogs, list navigation:** internal tracks **.270** (Find/Filter/Bookmarks accordion with loading cover), **.271** (F3 without Find cover flicker; More only while panels are open), **.272** (clickable RTL confirmation dialogs; Line # column after language/bidi change), **.273** (First/page keep working after Last; Occurrences page caption follows the UI language), **.274** (docs/F1 sync). F1 `FF_HELP.RecentFeaturesBlock9`. EXE metadata and `APPLICATION_VERSION` are **3.0.5.274**.
+- **★ 3.0.5.280 (current) — UTF-16 LE, soft ribbon, Recent Files session, Close all, soft selection:** internal tracks **.275** (UTF-16 LE display/save round-trips; trailing blank line; no double paste), **.276** (soft ON ribbon toggles with check; click closes tab; square tiles), **.277** (Recent Files Saved session column and toolbar button), **.278** (Close all tabs; pale soft selection; per-tab Ctrl+wheel zoom; tab-strip skin refresh), **.279** (soft peach bookmarks; Shift+click range in list/checklist; RTL column paint), **.280** (docs/F1 sync). F1 `FF_HELP.RecentFeaturesBlock10`. EXE metadata and `APPLICATION_VERSION` are **3.0.5.280**.
+- **★ 3.0.5.274 — search dock accordion, More overflow, RTL dialogs, list navigation:** internal tracks **.270** (Find/Filter/Bookmarks accordion with loading cover), **.271** (F3 without Find cover flicker; More only while panels are open), **.272** (clickable RTL confirmation dialogs; Line # column after language/bidi change), **.273** (First/page keep working after Last; Occurrences page caption follows the UI language), **.274** (docs/F1 sync). F1 `FF_HELP.RecentFeaturesBlock9`. EXE metadata and `APPLICATION_VERSION` were **3.0.5.274**.
 - **★ 3.0.5.269 — 30 UI languages:** Finnish and Vietnamese (left to right) bring the interface to 30 languages.
 - **★ 3.0.5.268 — shorter next-steps guide and Read in the path field:** internal tracks **.266** (the guide stays on one shorter row so the file list stays visible), **.267** (a Read icon inside the path field, left of the clear X), **.268** (same Read glyph as the toolbar, hosted so it stays visible). F1 `FF_HELP.RecentFeaturesBlock8`. EXE metadata and `APPLICATION_VERSION` were **3.0.5.268**.
 - **★ 3.0.5.265 — 28 languages and activity-based next steps:** internal tracks **.262** (Thai, Greek, Norwegian, Swedish, Danish and Icelandic; 28 UI languages, all left to right), **.263** (a file-list button to the left of Copy reopens the next-steps guide), **.264** (next steps follow the current activity instead of one fixed list), **.265** (each activity offers more follow-up actions). F1 `FF_HELP.RecentFeaturesBlock7`. EXE metadata and `APPLICATION_VERSION` were **3.0.5.265**.
@@ -798,7 +799,7 @@ Requires `GROQ_API_KEY` (and optional `GROQ_MODEL`, `EMBEDDING_MODEL`) via `.env
 APPLICATION_NAME              = 'FastFile'                 // also the [FastFile] INI section
 APPLICATION_EDITION           = 'Professional'
 APPLICATION_DISPLAY_NAME      = 'FastFile Professional'    // window title, About, idle logo
-APPLICATION_VERSION           = '3.0.5.274'
+APPLICATION_VERSION           = '3.0.5.280'
 ASKIN_INI                     = 'ASkin.ini'
 XMLFOLDERS                    = 'folders.xml'
 XMLFILES                      = 'files.xml'

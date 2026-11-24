@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "28": "Symbol/punctuation-only source kept as-is.",
     "81": "Menu accelerator keeps AI (Consumer) product label.",
@@ -3530,6 +3530,7 @@
     "3483": "Tälle istunnolle ei löytynyt tallennettuja avoimia välilehtiä.",
     "3484": "Välilehdet palautettu",
     "3485": "%d välilehteä viimeisimmästä istunnosta palautettiin.",
-    "3486": "Viimeaikaiset tiedostot"
+    "3486": "Viimeaikaiset tiedostot",
+    "3487": "VIIMEISIMMÄT PÄIVITYKSET (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE -tiedostot näytetään ja tallennetaan oikeilla rivinvaihdoilla;\r\n    lopun tyhjä rivi pysyy muokattavana eikä liittäminen kaksoistu.\r\n  Nauhakytkimet käyttävät pehmeää ON-pintaa ja valintamerkkiä;\r\n    uusi napsautus sulkee välilehden; ruudut pysyvät neliöinä.\r\n  Viimeisimmät tiedostot näyttävät Tallennettu istunto -sarakkeen ja avautuvat työkaluriviltä.\r\n  Sulje kaikki on välilehtivalikossa; pehmeä valinta ja kirjanmerkit pitävät tekstin luettavana.\r\n  Ctrl+rulla zoomaa vain aktiivista välilehteä; Shift+napsautus valitsee välin\r\n    luettelossa ja valintaluettelossa.\r\n"
   }
 }

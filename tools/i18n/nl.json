@@ -1,5 +1,5 @@
 {
-  "sha256": "738acd99ccda208ab70cbeeca4cdc996fe4ea61d08f59d75724ce384feafac49",
+  "sha256": "f5064d2fabf22d84c28789c3cca89bed5aa0d7499e6540ae53b5173f74ed7e73",
   "unchanged": {
     "95": "Help is the standard Dutch menu label; its mnemonic remains functional.",
     "149": "AI is the established technical abbreviation for artificial intelligence.",
@@ -3555,6 +3555,7 @@
     "3483": "Geen opgeslagen open tabbladen gevonden voor deze sessie.",
     "3484": "Tabbladen hersteld",
     "3485": "%d tabblad(en) van de laatste sessie zijn hersteld.",
-    "3486": "Recente bestanden"
+    "3486": "Recente bestanden",
+    "3487": "RECENTE UPDATES (v3.0.5.275 – v3.0.5.280)\r\n---------------------------------------------------------------\r\n  UTF-16 LE-bestanden worden met juiste regeleinden weergegeven en opgeslagen;\r\n    de afsluitende lege regel blijft bewerkbaar en plakken verdubbelt niet.\r\n  Lintknoppen gebruiken een zachte ON-vlak met vinkje;\r\n    opnieuw klikken sluit het tabblad; tegels blijven vierkant.\r\n  Recente bestanden toont de kolom Opgeslagen sessie en opent vanaf de werkbalk.\r\n  Alles sluiten staat in het tabbladmenu; zachte selectie en bladwijzers houden tekst leesbaar.\r\n  Ctrl+wiel zoomt alleen het actieve tabblad; Shift+klik selecteert een bereik\r\n    in de lijst en de checklist.\r\n"
   }
 }
